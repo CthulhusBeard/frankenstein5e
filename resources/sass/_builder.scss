@@ -1,0 +1,102 @@
+.popup-overlay {
+    border: 1px black solid;
+    border-radius: 7px;
+    background-color: bisque;
+    z-index: 1000;
+    padding: 10px;
+    margin: 4px;
+    box-shadow: 5px 5px rgba(0, 0, 0, 0.5);
+}
+
+.cr-controller {
+    position: fixed;
+    color: black;
+    top: 0;
+    right: 0;
+    width: 300px;
+    //height: 150px;
+    border: 1px black solid;
+    border-radius: 7px;
+    background-color: bisque;
+    z-index: 1000;
+    padding: 3px;
+    margin: 4px;
+    box-shadow: 5px 5px rgba(0, 0, 0, 0.5);
+}
+
+.creature-options {
+
+    .option-label {
+        font-weight: bold;
+        color: black;
+    }
+
+    .option {
+        margin-bottom: 10px;
+
+        &.options-row {
+            flex-direction: row;
+            display: flex;
+            flex-wrap: wrap;
+
+            .option-box {
+                border: 1px black solid;
+                border-radius: 7px;
+                padding: 4px;
+                background: #5a5a5a;
+                color: white;
+                margin: 2px;
+            }
+        }
+    }
+}
+
+.add-feature {
+    display: none;
+    position: fixed;
+    width: 50%;
+    height: 60%;
+    top: 50%;
+    left: 50%;
+    margin-top: -15%; /* Negative half of height. */
+    margin-left: -25%; /* Negative half of width. */
+    color: black;
+
+    .feature-section {
+        margin-top: 2%;
+    }
+
+    .columns {
+        display: flex;
+        flex-direction: row;
+        .column {
+            flex: 1;
+        }
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    &.show {
+        display: block;
+    }
+
+    .feature-text {
+        margin-top: 2%;
+        height: 25%;
+
+        textarea {
+            height: 75%;
+            width: 100%;
+        }
+    }
+
+    .feature-specifics {
+        padding-left: 15px;
+    }
+
+    .add-feature-button {
+        font-size: 1.3em;
+    }
+}

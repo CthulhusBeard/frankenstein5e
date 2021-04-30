@@ -1,0 +1,43 @@
+html, body {
+    background-color: #fff;
+    color: #636b6f;
+    font-family: sans-serif;
+    font-weight: 200;
+    font-size: 16px;
+    height: 100vh;
+    margin: 0;
+}
+
+.full-height {
+    height: 100vh;
+}
+
+.main-content {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.creature-options {
+    position: relative;
+    width: 60%;    
+    padding: 10px;
+}
+
+.stat-block-container {
+    position: relative;
+    width: 40%;
+    padding: 10%;
+}
+
+.title-size {
+    font-size: 1.3em;
+}
+
+.i {
+    font-style: italic;
+}
+
+@import 'builder';
+@import 'statblock';

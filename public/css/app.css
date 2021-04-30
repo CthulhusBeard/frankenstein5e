@@ -1,0 +1,248 @@
+html,
+body {
+  background-color: #fff;
+  color: #636b6f;
+  font-family: sans-serif;
+  font-weight: 200;
+  font-size: 16px;
+  height: 100vh;
+  margin: 0;
+}
+
+.full-height {
+  height: 100vh;
+}
+
+.main-content {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.creature-options {
+  position: relative;
+  width: 60%;
+  padding: 10px;
+}
+
+.stat-block-container {
+  position: relative;
+  width: 40%;
+  padding: 10%;
+}
+
+.title-size {
+  font-size: 1.3em;
+}
+
+.i {
+  font-style: italic;
+}
+
+.popup-overlay {
+  border: 1px black solid;
+  border-radius: 7px;
+  background-color: bisque;
+  z-index: 1000;
+  padding: 10px;
+  margin: 4px;
+  box-shadow: 5px 5px rgba(0, 0, 0, 0.5);
+}
+
+.cr-controller {
+  position: fixed;
+  color: black;
+  top: 0;
+  right: 0;
+  width: 300px;
+  border: 1px black solid;
+  border-radius: 7px;
+  background-color: bisque;
+  z-index: 1000;
+  padding: 3px;
+  margin: 4px;
+  box-shadow: 5px 5px rgba(0, 0, 0, 0.5);
+}
+
+.creature-options .option-label {
+  font-weight: bold;
+  color: black;
+}
+
+.creature-options .option {
+  margin-bottom: 10px;
+}
+
+.creature-options .option.options-row {
+  flex-direction: row;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.creature-options .option.options-row .option-box {
+  border: 1px black solid;
+  border-radius: 7px;
+  padding: 4px;
+  background: #5a5a5a;
+  color: white;
+  margin: 2px;
+}
+
+.add-feature {
+  display: none;
+  position: fixed;
+  width: 50%;
+  height: 60%;
+  top: 50%;
+  left: 50%;
+  margin-top: -15%;
+  /* Negative half of height. */
+  margin-left: -25%;
+  /* Negative half of width. */
+  color: black;
+}
+
+.add-feature .feature-section {
+  margin-top: 2%;
+}
+
+.add-feature .columns {
+  display: flex;
+  flex-direction: row;
+}
+
+.add-feature .columns .column {
+  flex: 1;
+}
+
+.add-feature label {
+  font-weight: bold;
+}
+
+.add-feature.show {
+  display: block;
+}
+
+.add-feature .feature-text {
+  margin-top: 2%;
+  height: 25%;
+}
+
+.add-feature .feature-text textarea {
+  height: 75%;
+  width: 100%;
+}
+
+.add-feature .feature-specifics {
+  padding-left: 15px;
+}
+
+.add-feature .add-feature-button {
+  font-size: 1.3em;
+}
+
+.stat-block {
+  position: relative;
+  width: 100%;
+  min-width: 350px;
+  min-height: 200px;
+  font-family: Roboto, Helvetica, sans-serif;
+  font-size: 15px;
+  font-weight: normal;
+  padding: 7px;
+  box-sizing: border-box;
+  color: #822000;
+  border: 1px solid #d8d4d1;
+  box-shadow: 0 0 5px #a5a6ad;
+  background: url("/images/statblock/top.png"), url("/images/statblock/bg.png");
+  background-size: 100% auto;
+  background-position: top center;
+  background-repeat: no-repeat, repeat;
+  -moz-column-count: 1;
+       column-count: 1;
+}
+
+.stat-block:before,
+.stat-block:after {
+  content: "";
+  display: block;
+  background: url("/images/statblock/border.png") center;
+  background-size: 100% 100%;
+  height: 6px;
+  position: absolute;
+  left: -3px;
+  right: -3px;
+}
+
+.stat-block:before {
+  top: -3px;
+}
+
+.stat-block:after {
+  bottom: -3px;
+}
+
+.stat-block .stat-block__title {
+  font-weight: bold;
+  font-size: 2em;
+  margin-bottom: -3px;
+}
+
+.stat-block .stat-block__subtitle {
+  font-size: 1.2em;
+  width: 100%;
+  border-bottom: 1px solid #822000;
+  margin: 20px 0 12px 0;
+  padding-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.stat-block .stat-block__subtitle span {
+  font-size: 1.3em;
+}
+
+.stat-block .stat-block__size-alignment {
+  color: black;
+  font-style: italic;
+  font-size: 0.9em;
+}
+
+.stat-block .stat-block__ability-scores {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  text-align: left;
+}
+
+.stat-block .stat-block__ability-scores .stat-block__ability {
+  flex: 1 1 0px;
+  text-align: center;
+}
+
+.stat-block .stat-block__ability-scores .stat-block__ability .stat-block__ability-name {
+  font-weight: bold;
+}
+
+.stat-block .stat-block__attributes .stat-block__attribute span {
+  font-weight: bold;
+}
+
+.stat-block .stat-block__line-break {
+  background-image: url("/images/statblock/separator-bar.svg");
+  padding-bottom: 0.7%;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: 11px 0;
+}
+
+.stat-block .stat-block__feature {
+  margin-bottom: 4px;
+}
+
+.stat-block .stat-block__feature span {
+  font-weight: bold;
+  font-style: italic;
+}
+
