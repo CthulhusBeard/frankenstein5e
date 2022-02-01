@@ -3,7 +3,7 @@
 return [
     'cantrip' => 'Cantrip|Cantrips',
     'at_will' => '(at will)',
-    'slots' => '(\|SLOT-QUANTITY\| slot)|(\|SLOT-QUANTITY\| slots)',
+    'slots' => '(:slot_quantity slot)|(:slot_quantity slots)',
     'level_1' => '1st Level',
     'level_2' => '2nd Level',
     'level_3' => '3rd Level',

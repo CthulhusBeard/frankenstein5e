@@ -14,4 +14,5 @@ return [
     'unaligned' => 'Unaligned',
 
     'title_alignments' => 'Alignments',
+    'typically' => 'Typically :alignment'
 ];

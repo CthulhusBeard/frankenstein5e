@@ -73,16 +73,16 @@
                     </select>
                 </div>
 
-                <label class="option-label" v-if="typeOptionList.length > 0" for="options__typeOption">Type Option</label>
-                <div class="option options__type-option" v-if="typeOptionList.length > 0">
-                    <select id="options__type-option" name="options__typeOption" v-model="options.typeOption">
+                <label class="option-label" v-if="typeCategoryList.length > 0" for="options__typeCategory">Type Category</label>
+                <div class="option options__type-option" v-if="typeCategoryList.length > 0">
+                    <select id="options__type-option" name="options__typeCategory" v-model="options.typeCategory">
                         <option value="">None</option>
-                        <option v-for="item in typeOptionList" :value="item.id">@{{item.name}}</option>
+                        <option v-for="item in typeCategoryList" :value="item.id">@{{item.name}}</option>
                     </select>
-                    <input type="checkbox" v-model="options.showTypeOption">
+                    <input type="checkbox" v-model="options.showtypeCategory">
                 </div>
 
-                <label class="option-label" for="options__alignments">Alignment</label>
+                <label class="option-label" for="options__alignments">Default Alignment</label>
                 <div class="option options__alignments">
                     <select id="options__alignment" name="options__alignment" v-model="options.alignment">
                         <option value="">None</option>
@@ -112,16 +112,19 @@
                     </span>           
                 </div>
 
-                <label class="option-label" for="options__hitpoints">@{{f5.misc.title_hit_dice}}</label>
+                <label class="option-label" for="options__hitpoints">@{{f5.misc.title_hit_points}}</label>
                 <div class="option options__hitpoints">
-                    <label>@{{f5.misc.amount}}:</label>
-                    <select id="options__hitdice-amount" name="options__hitdice-amount" v-model="options.hitDice.amount">
+                    <label>@{{f5.misc.hit_dice_amount}}:</label>
+                    <select id="options__hitdice-amount" name="options__hitdice-amount" v-model="options.hitPoints.diceAmount">
                         <option v-for="i in 30" :value="i" >@{{i}}</option>
                     </select>
-                    <label>@{{f5.misc.type}}:</label>
-                    <select id="options__hitdice-type" name="options__hitdice-type" v-model="options.hitDice.type">
+                    <label>@{{f5.misc.hit_dice_type}}:</label>
+                    <select id="options__hitdice-type" name="options__hitdice-type" v-model="options.hitPoints.diceType">
                         <option v-for="i in f5.hitdice" :value="i" >@{{i}}</option>
                     </select>
+                    </select>
+                    <label>@{{f5.misc.additional}}:</label>
+                    <input type="number" min="0" pattern="[0-9]" id="options__hitpoints-additional" name="options__hitpoints-additional" v-model="options.hitPoints.additional" value="0">
                 </div>
 
                 <label class="option-label" for="options__abilities">@{{f5.misc.title_abilities}}</label>
@@ -220,6 +223,7 @@
 
         <script>
             let f5data = JSON.parse({!! json_encode($translatedData) !!}) ;
+            console.log(f5data);
             initVue(f5data);
 
             $('.add-feature-btn').click(function() {

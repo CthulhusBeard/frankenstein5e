@@ -103,4 +103,11 @@ return [
     'hill_giant' => 'Hill Giant',
     'stone_giant' => 'Stone Giant',
     'storm_giant' => 'Storm Giant',
+    
+    //Beast Options
+    'mammal' => 'Mammal',
+    'reptile' => 'Reptile',
+    'avian' => 'Avian',
+    'aquatic' => 'Aquatic',
+    'amphibian' => 'Amphibian',
 ];

@@ -14,4 +14,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/', ['uses' => 'Controller@builder', 'as' => 'builder']);
+Route::get('/', ['uses' => 'FrankensteinController@builder', 'as' => 'builder']);

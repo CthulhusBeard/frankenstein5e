@@ -8,8 +8,8 @@ function initVue(f5data) {
             size: '',
             type: '',
             subtype: '',
-            typeOption: '',
-            showTypeOption: true,
+            typeCategory: '',
+            showtypeCategory: true,
             alignment: '',
             armorClass: {
                 type: '',
@@ -18,9 +18,10 @@ function initVue(f5data) {
                 bonus: '0',
                 stealthDis: false,
             },
-            hitDice: {
+            hitPoints: {
                 type: 4,
                 amount: 1,
+                additional: 0,
             },
             abilities: {},
             damageResistances: {},
@@ -185,24 +186,23 @@ function initVue(f5data) {
                 let str = '';
                 if(this.options.size) {
                     str += this.getProp(this.f5.creaturesizes[this.options.size]);
-                    this.options.hitDice.type = this.f5.creaturesizes[this.options.size].hit_dice;
+                    this.options.hitPoints.diceType = this.f5.creaturesizes[this.options.size].hit_dice;
                 }
                 if(this.options.type) {
                     if(str != '') str += ' '; 
                     str += this.getProp(this.f5.creaturetypes[this.options.type]);
                 }
-                if(this.options.subtype || (this.options.showTypeOption && this.options.typeOption)) { 
+                if(this.options.subtype || (this.options.showtypeCategory && this.options.typeCategory)) { 
                     if(str != '') str += ' '; 
                     str += '('
                     if(this.options.subtype) {
                         str += this.getProp(this.f5.creaturesubtypes[this.options.subtype]);
                     }
-                    if(this.options.subtype && (this.options.showTypeOption && this.options.typeOption)) { 
+                    /* Do something with category?
+                    if(this.options.subtype && (this.options.showtypeCategory && this.options.typeCategory)) { 
                         str += ', ';
                     }
-                    if(this.options.showTypeOption && this.options.typeOption) {
-                        str += this.getProp(this.f5.creaturesubtypes[this.options.subtype].options[this.options.typeOption]);
-                    }
+                    */
                     str += ')';
                 }
 
@@ -346,32 +346,42 @@ function initVue(f5data) {
 
             //Hit Points
             getHP: function() {
-                let type = this.options.hitDice.type;
-                let amount = this.options.hitDice.amount;
+                let type = this.options.hitPoints.diceType;
+                let amount = this.options.hitPoints.diceAmount;
+                let additionalHP = this.options.hitPoints.additional > 0 ? Math.floor(this.options.hitPoints.additional) : 0;
                 let conMod = this.getAbilityMod('con');
                 let conHP = 0;
                 if(conMod > 0) {
                     conHP = conMod * amount;
                 }
-                let hp = (Math.round((type / 2 + .5) * amount) + conHP);
+                let hp = (Math.round((type / 2 + .5) * amount) + conHP) + additionalHP;
                 return hp;
             },
 
             hitPointsText: function() {
-                let type = this.options.hitDice.type;
-                let amount = this.options.hitDice.amount;
+                let type = this.options.hitPoints.diceType;
+                let amount = this.options.hitPoints.diceAmount;
+                let additionalHP = this.options.hitPoints.additional > 0 ? Math.floor(this.options.hitPoints.additional) : 0;
                 let conMod = this.getAbilityMod('con');
                 let conHP = 0;
                 if(conMod > 0) {
                     conHP = conMod * amount;
                 }
 
-                let hp = (Math.round((type / 2 + .5) * amount) + conHP);
+                let hp = (Math.round((type / 2 + .5) * amount) + conHP) + additionalHP;
+                if(isNaN(hp)) {
+                    return this.f5.misc.undefined_health; 
+                }
                 let conText = '';
                 if(conHP > 0) {
                     conText = ' + '+conHP;
                 }
-                return hp+' ('+amount+this.f5.misc.die_symbol+type+conText+')';
+                let hpText = hp+' ('+amount+this.f5.misc.die_symbol+type+conText;
+                if(additionalHP > 0) {
+                    hpText += ' + '+additionalHP;
+                }
+                hpText += ')';
+                return hpText;
             },
 
             //Damages
@@ -461,7 +471,7 @@ function initVue(f5data) {
             },
 
             //Type Options
-            typeOptionList: function() {
+            typeCategoryList: function() {
                 let optionsList = [];
 
                 if(this.$data.f5.creaturetypes.hasOwnProperty(this.options.type) && this.$data.f5.creaturetypes[this.options.type].hasOwnProperty('options')) {

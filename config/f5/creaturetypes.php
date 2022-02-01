@@ -4,8 +4,17 @@ return [
     'aberration' => [
         'name' => 'f5/types.aberration',
         'subtypes' => [
-            'beholderkin',
-            'shapechanger',
+            'beholderkin'=> [
+                'name' => 'f5/subtypes.beholderkin',
+                'tags' => [
+
+                ],
+            ],
+            'shapechanger'=> [
+                'name' => 'f5/subtypes.shapechanger',
+                'tags' => [
+                ],
+            ],
         ],
         'tags' => [
             'language_deep_speech' => 'common',
@@ -18,28 +27,33 @@ return [
         ],
         'options' => [
             'mammal' => [
+                'name' => 'f5/subtypes.mammal',
                 'tags' => [
                     'claws'
                 ]
             ],
             'reptile' => [
+                'name' => 'f5/subtypes.reptile',
                 'tags' => [
                     'claws'
                 ]
             ],
             'avian' => [
+                'name' => 'f5/subtypes.avian',
                 'tags' => [
                     'speed_fly',
                     'wings'
                 ]
             ],
             'aquatic' => [
+                'name' => 'f5/subtypes.aquatic',
                 'tags' => [
                     'speed_swim',
                     'feature_breath_water'
                 ]
             ],
             'amphibian' => [
+                'name' => 'f5/subtypes.amphibian',
                 'tags' => [
                     'speed_swim',
                     'feature_amphibious'

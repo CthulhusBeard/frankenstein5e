@@ -14,8 +14,8 @@ return [
     'bonus_action_desc' => 'As a bonus action, ',
     'reaction_desc' => 'As a reaction, ',
     'free_action_desc' => 'Free Action',
-    'legendary_action_desc' => 'Costs |COST| Legendary Action',
+    'legendary_action_desc' => 'Costs :cost Legendary Action',
     'lair_action_desc' => 'Lair Action',
 
-    'recharge' => 'Recharge (|RECHARGE|)',
+    'recharge' => 'Recharge (:recharge)',
 ];
