@@ -11,6 +11,8 @@
     </head>
     <body ng-app="f5App" ng-controller="f5Ctrl">
         <div id="f5" class="main-content full-height">
+            @include('partials.statblock')
+            
             <div class="cr-controller popup-overlay">
                 <strong>Challenge Rating Manager</strong>
                 <div>
@@ -124,7 +126,7 @@
                     </select>
                     </select>
                     <label>@{{f5.misc.additional}}:</label>
-                    <input type="number" min="0" pattern="[0-9]" id="options__hitpoints-additional" name="options__hitpoints-additional" v-model="options.hitPoints.additional" value="0">
+                    <input type="number" min="0" max="9999" id="options__hitpoints-additional" name="options__hitpoints-additional" v-model="options.hitPoints.additional" value="0" />
                 </div>
 
                 <label class="option-label" for="options__abilities">@{{f5.misc.title_abilities}}</label>
@@ -214,7 +216,6 @@
 
             @include('partials.featurebuilder')
 
-            @include('partials.statblock')
 
         </div>
         

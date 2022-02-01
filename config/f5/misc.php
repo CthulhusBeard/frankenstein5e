@@ -4,12 +4,20 @@ return [
     'max' => 'f5/misc.max',
     'count' => 'f5/misc.count',
     'amount' => 'f5/misc.amount',
+    'additional' => 'f5/misc.additional',
     'type' => 'f5/misc.type',
     'die_symbol' => 'f5/misc.die_symbol',
+    
+    'hit_dice_amount' => 'f5/misc.hit_dice_amount',
+    'hit_dice_type' => 'f5/misc.hit_dice_type',
 
-    'title_hit_points' => 'Hit Points',
-    'title_challenge_rating' => 'Challenge Rating',
-    'title_hit_dice' => 'Hit Dice',
+    'title_hit_points' => 'f5/misc.title_hit_points',
+    'title_challenge_rating' => 'f5/misc.title_challenge_rating',
+    'title_hit_dice' => 'f5/misc.title_hit_dice',
+
+    'undefined_health' => 'f5/misc.undefined_health',
+
+    //---
 
     'stealth_dis' => 'f5/armor.stealth_dis',
 

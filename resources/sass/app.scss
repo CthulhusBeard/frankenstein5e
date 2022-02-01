@@ -14,8 +14,6 @@ html, body {
 
 .main-content {
     position: relative;
-    display: flex;
-    flex-direction: row;
     width: 100%;
 }
 
@@ -27,7 +25,7 @@ html, body {
 
 .stat-block-container {
     position: relative;
-    width: 40%;
+    width: 80%;
     padding: 10%;
 }
 

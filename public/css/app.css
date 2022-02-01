@@ -15,8 +15,6 @@ body {
 
 .main-content {
   position: relative;
-  display: flex;
-  flex-direction: row;
   width: 100%;
 }
 
@@ -28,7 +26,7 @@ body {
 
 .stat-block-container {
   position: relative;
-  width: 40%;
+  width: 80%;
   padding: 10%;
 }
 
@@ -159,8 +157,9 @@ body {
   background-size: 100% auto;
   background-position: top center;
   background-repeat: no-repeat, repeat;
-  -moz-column-count: 1;
-       column-count: 1;
+  display: grid;
+  grid-template-columns: 48% 48%;
+  gap: 2%;
 }
 
 .stat-block:before,
@@ -183,13 +182,13 @@ body {
   bottom: -3px;
 }
 
-.stat-block .stat-block__title {
+.stat-block .stat-block__column .stat-block__title {
   font-weight: bold;
   font-size: 2em;
   margin-bottom: -3px;
 }
 
-.stat-block .stat-block__subtitle {
+.stat-block .stat-block__column .stat-block__subtitle {
   font-size: 1.2em;
   width: 100%;
   border-bottom: 1px solid #822000;
@@ -198,37 +197,37 @@ body {
   text-transform: uppercase;
 }
 
-.stat-block .stat-block__subtitle span {
+.stat-block .stat-block__column .stat-block__subtitle span {
   font-size: 1.3em;
 }
 
-.stat-block .stat-block__size-alignment {
+.stat-block .stat-block__column .stat-block__size-alignment {
   color: black;
   font-style: italic;
   font-size: 0.9em;
 }
 
-.stat-block .stat-block__ability-scores {
+.stat-block .stat-block__column .stat-block__ability-scores {
   display: flex;
   flex-direction: row;
   width: 100%;
   text-align: left;
 }
 
-.stat-block .stat-block__ability-scores .stat-block__ability {
+.stat-block .stat-block__column .stat-block__ability-scores .stat-block__ability {
   flex: 1 1 0px;
   text-align: center;
 }
 
-.stat-block .stat-block__ability-scores .stat-block__ability .stat-block__ability-name {
+.stat-block .stat-block__column .stat-block__ability-scores .stat-block__ability .stat-block__ability-name {
   font-weight: bold;
 }
 
-.stat-block .stat-block__attributes .stat-block__attribute span {
+.stat-block .stat-block__column .stat-block__attributes .stat-block__attribute span {
   font-weight: bold;
 }
 
-.stat-block .stat-block__line-break {
+.stat-block .stat-block__column .stat-block__line-break {
   background-image: url("/images/statblock/separator-bar.svg");
   padding-bottom: 0.7%;
   width: 100%;
@@ -237,11 +236,11 @@ body {
   margin: 11px 0;
 }
 
-.stat-block .stat-block__feature {
+.stat-block .stat-block__column .stat-block__feature {
   margin-bottom: 4px;
 }
 
-.stat-block .stat-block__feature span {
+.stat-block .stat-block__column .stat-block__feature span {
   font-weight: bold;
   font-style: italic;
 }

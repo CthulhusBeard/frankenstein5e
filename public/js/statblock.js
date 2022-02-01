@@ -349,6 +349,9 @@ function initVue(f5data) {
                 let type = this.options.hitPoints.diceType;
                 let amount = this.options.hitPoints.diceAmount;
                 let additionalHP = this.options.hitPoints.additional > 0 ? Math.floor(this.options.hitPoints.additional) : 0;
+                if(additionalHP > 9999) {
+                    this.options.hitPoints.additional = additionalHP = 9999;
+                }
                 let conMod = this.getAbilityMod('con');
                 let conHP = 0;
                 if(conMod > 0) {
@@ -362,6 +365,9 @@ function initVue(f5data) {
                 let type = this.options.hitPoints.diceType;
                 let amount = this.options.hitPoints.diceAmount;
                 let additionalHP = this.options.hitPoints.additional > 0 ? Math.floor(this.options.hitPoints.additional) : 0;
+                if(additionalHP > 9999) {
+                    this.options.hitPoints.additional = additionalHP = 9999;
+                }
                 let conMod = this.getAbilityMod('con');
                 let conHP = 0;
                 if(conMod > 0) {

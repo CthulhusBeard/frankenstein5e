@@ -17,7 +17,9 @@ $statBlockRed: #822000;
     background-size: 100% auto;
     background-position: top center;
     background-repeat: no-repeat,repeat;
-    column-count: 1;
+    display: grid;
+    grid-template-columns: 48% 48%;
+    gap: 2%;
 
     &:before, &:after {
         content: "";
@@ -36,66 +38,69 @@ $statBlockRed: #822000;
         bottom: -3px;
     }
 
-    .stat-block__title {
-        font-weight: bold;
-        font-size: 2em;
-        margin-bottom: -3px;
-    }
-    .stat-block__subtitle {
-        font-size: 1.2em;
-        width: 100%;
-        border-bottom: 1px solid $statBlockRed;
-        margin: 20px 0 12px 0;
-        padding-bottom: 5px;
-        text-transform: uppercase;
-        span {
-            font-size: 1.3em;
+    .stat-block__column {
+
+        .stat-block__title {
+            font-weight: bold;
+            font-size: 2em;
+            margin-bottom: -3px;
         }
-    }
-
-    .stat-block__size-alignment {
-        color: black;
-        font-style: italic;
-        font-size: .9em;
-    }
-
-    .stat-block__ability-scores {
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        text-align: left;
-        .stat-block__ability {
-            flex: 1 1 0px;
-            text-align: center;
-            .stat-block__ability-name {
-                font-weight: bold;
+        .stat-block__subtitle {
+            font-size: 1.2em;
+            width: 100%;
+            border-bottom: 1px solid $statBlockRed;
+            margin: 20px 0 12px 0;
+            padding-bottom: 5px;
+            text-transform: uppercase;
+            span {
+                font-size: 1.3em;
             }
-
         }
-    }
 
-    .stat-block__attributes {
-        .stat-block__attribute {
+        .stat-block__size-alignment {
+            color: black;
+            font-style: italic;
+            font-size: .9em;
+        }
+
+        .stat-block__ability-scores {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            text-align: left;
+            .stat-block__ability {
+                flex: 1 1 0px;
+                text-align: center;
+                .stat-block__ability-name {
+                    font-weight: bold;
+                }
+
+            }
+        }
+
+        .stat-block__attributes {
+            .stat-block__attribute {
+                span {
+                    font-weight: bold;
+                }
+            }
+        }
+
+        .stat-block__line-break {
+            background-image: url('/images/statblock/separator-bar.svg');
+            padding-bottom: .7%;
+            width: 100%;
+            background-repeat: no-repeat;
+            background-size: cover;
+            margin: 11px 0;
+        }
+
+        .stat-block__feature {
+            margin-bottom: 4px;
             span {
                 font-weight: bold;
+                font-style: italic;
             }
-        }
-    }
-
-    .stat-block__line-break {
-        background-image: url('/images/statblock/separator-bar.svg');
-        padding-bottom: .7%;
-        width: 100%;
-        background-repeat: no-repeat;
-        background-size: cover;
-        margin: 11px 0;
-    }
-
-    .stat-block__feature {
-        margin-bottom: 4px;
-        span {
-            font-weight: bold;
-            font-style: italic;
         }
     }
 
