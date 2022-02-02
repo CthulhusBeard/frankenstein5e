@@ -121,11 +121,12 @@
                     <select id="options__hitdice-amount" name="options__hitdice-amount" v-model="options.hitPoints.diceAmount">
                         <option v-for="i in 30" :value="i" >@{{i}}</option>
                     </select>
+                    <br/>
                     <label>@{{f5.misc.hit_dice_type}}:</label>
                     <select id="options__hitdice-type" name="options__hitdice-type" v-model="options.hitPoints.diceType">
                         <option v-for="i in f5.hitdice" :value="i" >@{{i}}</option>
                     </select>
-                    </select>
+                    <br/>
                     <label>@{{f5.misc.additional}}:</label>
                     <input type="number" min="0" max="9999" id="options__hitpoints-additional" name="options__hitpoints-additional" v-model="options.hitPoints.additional" value="0" />
                 </div>
@@ -133,10 +134,13 @@
                 <label class="option-label" for="options__abilities">@{{f5.misc.title_abilities}}</label>
                 <div class="option options-row options__abilities">
                     <div :class="'options__ability option-box '+index" v-for="(item, index) in f5.abilities">
-                        @{{item.name}}
+                        <span class="bold-text">@{{item.name}}</span>
+                        <br/>
+                        Score: 
                         <select :name="'options__ability_'+index" v-model="options.abilities[index]">
                             <option v-for="i in 31" :value="i-1" >@{{i-1}}</option>
                         </select>
+                        <br/>
                         Save: <input :name="'options__saving-throws_'+index" v-model="options.savingThrows[index]" type="checkbox" />
                     </div>
                 </div>

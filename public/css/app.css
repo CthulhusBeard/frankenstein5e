@@ -18,12 +18,16 @@ body {
   width: 100%;
 }
 
+.bold-text {
+  font-weight: bold;
+}
+
 .creature-options {
   position: relative;
   width: 60%;
   padding: 10px;
   display: grid;
-  grid-template-columns: 200px 300px 200px 300px;
+  grid-template-columns: 150px 400px 150px 400px;
   grid-gap: 0 10px;
 }
 
