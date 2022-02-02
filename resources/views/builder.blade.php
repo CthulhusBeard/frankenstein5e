@@ -12,7 +12,7 @@
     <body ng-app="f5App" ng-controller="f5Ctrl">
         <div id="f5" class="main-content full-height">
             @include('partials.statblock')
-            
+
             <div class="cr-controller popup-overlay">
                 <strong>Challenge Rating Manager</strong>
                 <div>
@@ -90,6 +90,7 @@
                         <option value="">None</option>
                         <option v-for="(item, index) in f5.alignments" :value="index">@{{item.name}}</option>
                     </select>
+                    @{{f5.misc.title_alignments_typically}}<input type="checkbox" v-model="options.showTypicalAlignment">
                 </div>
                 
                 <label class="option-label" for="options__armorclass">@{{f5.misc.title_armor_class}}</label>
@@ -136,6 +137,7 @@
                         <select :name="'options__ability_'+index" v-model="options.abilities[index]">
                             <option v-for="i in 31" :value="i-1" >@{{i-1}}</option>
                         </select>
+                        Save: <input :name="'options__saving-throws_'+index" v-model="options.savingThrows[index]" type="checkbox" />
                     </div>
                 </div>
                 
@@ -156,7 +158,7 @@
                 <div class="option options-row options__resistances">
                     <div :class="'options__resistance option-box '+index" v-for="(item, index) in f5.damagetypes">
                         <label :for="'resistance_'+index">@{{item.name}}</label>
-                        <input :id="'resistance_'+index" type="checkbox" v-model="options.damageResistances[index]">
+                        <input :id="'resistance_'+index" type="checkbox" v-on:click="unsetDamages(index, 'resistance')" v-model="options.damageResistances[index]">
                     </div>
                 </div>
                 
@@ -164,7 +166,7 @@
                 <div class="option options-row options__immunities">
                     <div :class="'options__immunity option-box '+index" v-for="(item, index) in f5.damagetypes">
                         <label :for="'immunity_'+index">@{{item.name}}</label>
-                        <input :id="'immunity_'+index" type="checkbox" v-model="options.damageImmunities[index]">
+                        <input :id="'immunity_'+index" type="checkbox" v-on:click="unsetDamages(index, 'immunity')" v-model="options.damageImmunities[index]">
                     </div>
                 </div>
                 
@@ -172,7 +174,7 @@
                 <div class="option options-row options__vulnerabilities">
                     <div :class="'options__vulnerability option-box '+index" v-for="(item, index) in f5.damagetypes">
                         <label :for="'vulnerability_'+index">@{{item.name}}</label>
-                        <input :id="'vulnerability_'+index" type="checkbox" v-model="options.damageVulnerabilites[index]">
+                        <input :id="'vulnerability_'+index" type="checkbox" v-on:click="unsetDamages(index, 'vulnerability')" v-model="options.damageVulnerabilites[index]">
                     </div>
                 </div>
                 

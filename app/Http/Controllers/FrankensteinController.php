@@ -51,7 +51,7 @@ class FrankensteinController extends Controller
                 $rawData[$config] = config('f5.'.$config);
             }
 
-            $translatedData = translateJSON(json_encode($rawData));
+            $translatedData = $this->translateJSON(json_encode($rawData));
 
             Cache::put('f5', $translatedData, $cacheSeconds);
             
@@ -61,5 +61,20 @@ class FrankensteinController extends Controller
             'translatedData' => $translatedData
         ]);
     }
+
+    private function translateJSON($data) {
+        preg_match_all('/\"f5\\\\?\/[a-z\|_\\\\]*\.[a-z\|_\\\\]*\"/', $data, $output_array);
+
+        if(isset($output_array[0])) {
+            foreach($output_array[0] as $match) {
+                $matchClean = str_replace('\\','', str_replace('"','',$match));
+                $data = str_replace($match, '"'.trans($matchClean).'"', $data);
+            }
+        }
+
+        return $data;
+    }
+
+
 
 }

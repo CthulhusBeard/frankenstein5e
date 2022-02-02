@@ -11,6 +11,7 @@ function initVue(f5data) {
             typeCategory: '',
             showtypeCategory: true,
             alignment: '',
+            showTypicalAlignment: true,
             armorClass: {
                 type: '',
                 manual: '1',
@@ -24,6 +25,7 @@ function initVue(f5data) {
                 additional: 0,
             },
             abilities: {},
+            savingThrows: {},
             damageResistances: {},
             damageImmunities: {},
             damageVulnerabilites: {},
@@ -71,6 +73,7 @@ function initVue(f5data) {
 
     for(let ability in f5data.abilities) {
         vueData.options.abilities[ability] = 10;
+        vueData.options.savingThrows[ability] = false;
     }
 
     /*
@@ -183,35 +186,35 @@ function initVue(f5data) {
 
             //Description Text
             descriptionText: function() {
-                let str = '';
+                let descStr = '';
                 if(this.options.size) {
-                    str += this.getProp(this.f5.creaturesizes[this.options.size]);
+                    descStr += this.getProp(this.f5.creaturesizes[this.options.size]);
                     this.options.hitPoints.diceType = this.f5.creaturesizes[this.options.size].hit_dice;
                 }
                 if(this.options.type) {
-                    if(str != '') str += ' '; 
-                    str += this.getProp(this.f5.creaturetypes[this.options.type]);
+                    if(descStr != '') descStr += ' '; 
+                    descStr += this.getProp(this.f5.creaturetypes[this.options.type]);
                 }
-                if(this.options.subtype || (this.options.showtypeCategory && this.options.typeCategory)) { 
-                    if(str != '') str += ' '; 
-                    str += '('
+                if(this.options.subtype /*|| (this.options.showtypeCategory && this.options.typeCategory)*/) { 
+                    if(descStr != '') descStr += ' '; 
+                    descStr += '('
                     if(this.options.subtype) {
-                        str += this.getProp(this.f5.creaturesubtypes[this.options.subtype]);
+                        descStr += this.getProp(this.f5.creaturesubtypes[this.options.subtype]);
                     }
                     /* Do something with category?
                     if(this.options.subtype && (this.options.showtypeCategory && this.options.typeCategory)) { 
                         str += ', ';
                     }
                     */
-                    str += ')';
+                    descStr += ')';
                 }
 
                 if(this.options.alignment) {
-                    if(str != '') str += ', '; 
-                    str += this.getProp(this.f5.alignments[this.options.alignment]);
+                    if(descStr != '') descStr += ', '; 
+                    descStr += this.getProp(this.f5.alignments[this.options.alignment]);
                 }
                 
-                return this.capitalize(str);
+                return this.capitalize(descStr);
     
             },
 
@@ -394,13 +397,13 @@ function initVue(f5data) {
             //TODO have a fix for redundancies
             //If in immunity, then remove from resistance and vulnerability
             //If in resistance, then remove from vulnerability
-            damageResistanceText: function() {
+            damageResistanceText: function() {   
                 return this.damageList(this.options.damageResistances);
             },
-            damageImmunitiesText: function() {
+            damageImmunitiesText: function() { 
                 return this.damageList(this.options.damageImmunities);
             },
-            damageVulnerabilitiesText: function() {
+            damageVulnerabilitiesText: function() { 
                 return this.damageList(this.options.damageVulnerabilites);
             },
             conditionImmunitiesText: function() {
@@ -536,6 +539,28 @@ function initVue(f5data) {
                 return displayText;
             },
 
+            //Saving Throw
+            savingThrowText: function() {
+                let displayText = '';
+
+                for(let i in this.options.savingThrows) {
+                    if(!this.options.savingThrows[i]) {
+                        continue;
+                    }
+                    if(displayText !== '') {
+                        displayText += ', ';
+                    }
+
+                    displayText += i.toUpperCase() + ' +'+(this.getAbilityMod(i) + this.options.proficiency); 
+                }
+                return displayText;
+            },
+
+            //
+            proficiencyText: function() {
+                return "+"+this.options.proficiency;
+            },
+
             //Challenge Rating
             crText: function() {
                 return 'CR ?? ';
@@ -617,6 +642,18 @@ function initVue(f5data) {
                 return list;
             },
 
+            unsetDamages: function(i, type = null) {
+                if(type != "resistance" && this.options.damageResistances[i]) {
+                    this.options.damageResistances[i] = false;
+                }
+                if(type != "immunity" && this.options.damageImmunities[i]) {
+                    this.options.damageImmunities[i] = false;
+                }
+                if(type != "vulnerability" && this.options.damageVulnerabilites[i]) {
+                    this.options.damageVulnerabilites[i] = false;
+                }
+            },
+
             conditionList: function(input) {
                 let list = '';
                 for(let i in input) {
@@ -679,12 +716,9 @@ function initVue(f5data) {
             },
 
             calcSkillMod: function (skill, addPlus = false) {
-                console.log(skill);
                 let ability = this.$data.f5.skills[skill].ability;
                 let abilityMod = this.getAbilityMod(ability);
-                console.log(abilityMod);
                 if(this.options.skills[skill]) {
-                    console.log(this.options.proficiency);
                     abilityMod += this.options.proficiency;
                 }
                 if(addPlus) abilityMod = this.addPlus(abilityMod);

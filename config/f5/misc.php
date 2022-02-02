@@ -16,6 +16,9 @@ return [
     'title_hit_dice' => 'f5/misc.title_hit_dice',
 
     'undefined_health' => 'f5/misc.undefined_health',
+    
+    'title_proficiency' => 'f5/misc.title_proficiency',
+    'title_saving_throws' => 'f5/misc.title_saving_throws',
 
     //---
 
@@ -34,6 +37,7 @@ return [
     'title_damage_vulnerabilities' => 'f5/damage.title_damage_vulnerabilities',
     'title_condition_immunities' => 'f5/conditions.title_condition_immunities',
     'title_alignments' => 'f5/alignments.title_alignments',
+    'title_alignments_typically' => 'f5/alignments.title_alignments_typically',
     'title_languages' => 'f5/languages.title_languages',
     'title_skills' => 'f5/skills.title_skills',
     'title_senses' => 'f5/senses.title_senses',
