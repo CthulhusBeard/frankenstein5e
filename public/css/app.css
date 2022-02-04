@@ -34,7 +34,7 @@ body {
 .stat-block-container {
   position: relative;
   width: 80%;
-  padding: 0 10%;
+  padding: 20px 10%;
 }
 
 .title-size {
@@ -147,6 +147,22 @@ body {
   font-size: 1.3em;
 }
 
+.focusEdit {
+  cursor: pointer;
+}
+
+.focusEdit .editField {
+  display: none;
+}
+
+.focusEdit.focused .editField {
+  display: unset;
+}
+
+.focusEdit.focused .displayField {
+  display: none;
+}
+
 .stat-block {
   position: relative;
   width: 100%;
@@ -189,10 +205,20 @@ body {
   bottom: -3px;
 }
 
+.stat-block .stat-block__column .title {
+  margin-right: 2px;
+}
+
 .stat-block .stat-block__column .stat-block__title {
   font-weight: bold;
   font-size: 2em;
   margin-bottom: -3px;
+}
+
+.stat-block .stat-block__column .stat-block__title input {
+  font-weight: bold;
+  font-size: 1em;
+  color: #822000;
 }
 
 .stat-block .stat-block__column .stat-block__subtitle {
@@ -204,7 +230,7 @@ body {
   text-transform: uppercase;
 }
 
-.stat-block .stat-block__column .stat-block__subtitle span {
+.stat-block .stat-block__column .stat-block__subtitle .title {
   font-size: 1.3em;
 }
 
@@ -230,7 +256,7 @@ body {
   font-weight: bold;
 }
 
-.stat-block .stat-block__column .stat-block__attributes .stat-block__attribute span {
+.stat-block .stat-block__column .stat-block__attributes .stat-block__attribute .title {
   font-weight: bold;
 }
 
@@ -247,7 +273,7 @@ body {
   margin-bottom: 4px;
 }
 
-.stat-block .stat-block__column .stat-block__feature span {
+.stat-block .stat-block__column .stat-block__feature .title {
   font-weight: bold;
   font-style: italic;
 }

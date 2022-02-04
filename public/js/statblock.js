@@ -1,5 +1,3 @@
-var app;
-
 function initVue(f5data) {
 
     let vueData = {
@@ -13,9 +11,9 @@ function initVue(f5data) {
             alignment: '',
             showTypicalAlignment: true,
             armorClass: {
-                type: '',
-                manual: '1',
-                name: f5data.armor.natural.name,
+                type: 'none',
+                manual: '10',
+                name: f5data.armor.none.name,
                 bonus: '0',
                 stealthDis: false,
             },
@@ -114,9 +112,12 @@ function initVue(f5data) {
     }
     vueData.options.hover = false;
     
-    app = new Vue({
+    let app = new Vue({
         el: '#f5',
         data: vueData,
+        components: {
+            'Multiselect': Multiselect
+        },
 
         computed: {
 
@@ -627,6 +628,14 @@ function initVue(f5data) {
         },
 
         methods: {
+            showEdit: function() {
+                console.log('showEdit');
+            },
+
+            hideEdit: function() {
+                console.log('hideEdit');
+            },
+
             damageList: function(input) {
                 let list = '';
                 for(let i in input) {
@@ -762,5 +771,29 @@ function initVue(f5data) {
         }
     });
 
+
+    document.addEventListener('click', function(e) {
+        if(!e.target.closest(".focusEdit")) {
+            const editFields = document.querySelectorAll(".focusEdit.focused");
+            editFields.forEach(function(el) { 
+                el.classList.remove('focused');
+            });
+        }
+    });
+
+    const editFields = document.querySelectorAll(".focusEdit");
+    for (const editField of editFields) {
+        editField.addEventListener('click', clearEditFields);
+    }
+
+    function clearEditFields(e) {
+        const editFields = document.querySelectorAll(".focusEdit.focused");
+        editFields.forEach(function(el) { 
+            el.classList.remove('focused');
+        });
+        e.target.closest(".focusEdit").classList.add('focused');
+    }
+
+    return app;
 
 }

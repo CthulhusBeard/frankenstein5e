@@ -5,9 +5,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>Frankenstein 5</title>
-
+        
         <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="{{mix('css/app.css')}}">
+        <style src="@vueform/multiselect/themes/default.css"></style>
     </head>
     <body ng-app="f5App" ng-controller="f5Ctrl">
         <div id="f5" class="main-content full-height">
@@ -43,7 +44,13 @@
                 </div>
             </div>
 
+            
             <div class="creature-options">
+                <!-- <Multiselect
+                    v-model="options.languages"
+                    :options="f5.languages"
+                    :close-on-select="false"
+                /> -->
 
                 <label class="option-label" for="options__names">Creature Name</label>
                 <div class="option options__names">
@@ -225,16 +232,17 @@
 
         </div>
         
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
         <script src="{{mix('js/app.js')}}" type="text/javascript"></script>
         <script src="{{asset('js/statblock.js')}}" type="text/javascript"></script>
 
         <script>
             let f5data = JSON.parse({!! json_encode($translatedData) !!}) ;
             console.log(f5data);
-            initVue(f5data);
-
-            $('.add-feature-btn').click(function() {
-                $('.add-feature').addClass('show');
+            let app = initVue(f5data);
+            
+            document.querySelector(".add-feature-btn").addEventListener('click', function() {
+                document.querySelector(".add-feature").classList.add('show');
             });
         </script>
     </body>

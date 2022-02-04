@@ -1,5 +1,21 @@
 $statBlockRed: #822000;
 
+.focusEdit {
+    cursor: pointer;
+    
+    .editField {
+        display: none;
+    }
+    &.focused {
+        .editField {
+            display: unset;
+        }
+        .displayField {
+            display: none;
+        }
+    }
+}
+
 .stat-block {
     position: relative;
     width: 100%;
@@ -39,11 +55,19 @@ $statBlockRed: #822000;
     }
 
     .stat-block__column {
+        .title {
+            margin-right: 2px;
+        }
 
         .stat-block__title {
             font-weight: bold;
             font-size: 2em;
             margin-bottom: -3px;
+            input {
+                font-weight: bold;
+                font-size: 1em;
+                color: $statBlockRed;
+            }
         }
         .stat-block__subtitle {
             font-size: 1.2em;
@@ -52,7 +76,7 @@ $statBlockRed: #822000;
             margin: 20px 0 12px 0;
             padding-bottom: 5px;
             text-transform: uppercase;
-            span {
+            .title {
                 font-size: 1.3em;
             }
         }
@@ -80,7 +104,7 @@ $statBlockRed: #822000;
 
         .stat-block__attributes {
             .stat-block__attribute {
-                span {
+                .title {
                     font-weight: bold;
                 }
             }
@@ -97,7 +121,7 @@ $statBlockRed: #822000;
 
         .stat-block__feature {
             margin-bottom: 4px;
-            span {
+            .title {
                 font-weight: bold;
                 font-style: italic;
             }
