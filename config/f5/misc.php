@@ -7,6 +7,7 @@ return [
     'additional' => 'f5/misc.additional',
     'type' => 'f5/misc.type',
     'die_symbol' => 'f5/misc.die_symbol',
+    'passive' => 'f5/misc.passive',
     
     'hit_dice_amount' => 'f5/misc.hit_dice_amount',
     'hit_dice_type' => 'f5/misc.hit_dice_type',
@@ -32,12 +33,18 @@ return [
     'hover' => 'f5/speeds.hover',
 
     //Titles
+    'title_size' => 'f5/sizes.title_size',
+    'title_type' => 'f5/types.title_type',
+    'title_subtype' => 'f5/subtypes.title_subtype',
+    'title_category' => 'f5/subtypes.title_category',
+
     'title_damage_resistances' => 'f5/damage.title_damage_resistances',
     'title_damage_immunities' => 'f5/damage.title_damage_immunities',
     'title_damage_vulnerabilities' => 'f5/damage.title_damage_vulnerabilities',
     'title_condition_immunities' => 'f5/conditions.title_condition_immunities',
     'title_alignments' => 'f5/alignments.title_alignments',
     'title_alignments_typically' => 'f5/alignments.title_alignments_typically',
+    'alignments_typically' => 'f5/alignments.alignments_typically',
     'title_languages' => 'f5/languages.title_languages',
     'title_skills' => 'f5/skills.title_skills',
     'title_senses' => 'f5/senses.title_senses',

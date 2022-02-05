@@ -31,18 +31,18 @@
             <span v-if="newFeature.attack.meleeRanged !== 'ranged'" >
                 <label>Attack Reach:</label>
                 <select name="featureAttackReach" v-model="newFeature.attack.reach">
-                    <option v-for="i in 5" :value="i*5">@{{i*5 + options.measureUnit}}</option>
+                    <option v-for="i in 5" :value="i*5">@{{i*5 + options.measure.measureUnit}}</option>
                 </select>
             </span>
             <span v-if="newFeature.attack.meleeRanged !== 'melee'" >
                 <label>Attack Range:</label>
                 Short: 
                 <select name="featureAttackRangeShort" v-model="newFeature.attack.rangeShort">
-                    <option v-for="i in 10" :value="i*5">@{{i*5 + options.measureUnit}}</option>
+                    <option v-for="i in 10" :value="i*5">@{{i*5 + options.measure.measureUnit}}</option>
                 </select>
                 Long: 
                 <select name="featureAttackRangeLong" v-model="newFeature.attack.rangeLong">
-                    <option v-for="i in 10" :value="i*5">@{{i*5 + options.measureUnit}}</option>
+                    <option v-for="i in 10" :value="i*5">@{{i*5 + options.measure.measureUnit}}</option>
                 </select>
             </span>
             <br/>

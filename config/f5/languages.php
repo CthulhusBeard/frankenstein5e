@@ -77,9 +77,5 @@ return [
         'name' => 'f5/languages.thieves_cant',
         'special' => true,
     ],
-    'telepathy' => [
-        'name' => 'f5/languages.telepathy',
-        'special' => true,
-    ],
 
 ];

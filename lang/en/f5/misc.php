@@ -8,6 +8,8 @@ return [
     'type' => 'Type',
     'die_symbol' => 'd',
 
+    'passive' => 'passive',
+
     'hit_dice_amount' => 'Hit Dice Amount',
     'hit_dice_type' => 'Hit Dice Type',
 

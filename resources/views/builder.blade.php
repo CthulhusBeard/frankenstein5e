@@ -6,9 +6,12 @@
 
         <title>Frankenstein 5</title>
         
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+        <script src="{{mix('js/app.js')}}" defer></script>
+
         <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="{{mix('css/app.css')}}">
-        <style src="@vueform/multiselect/themes/default.css"></style>
+        <link rel="stylesheet" type="text/css" href="{{asset('css/vueform/default.css')}}">
     </head>
     <body ng-app="f5App" ng-controller="f5Ctrl">
         <div id="f5" class="main-content full-height">
@@ -46,16 +49,6 @@
 
             
             <div class="creature-options">
-                <!-- <Multiselect
-                    v-model="options.languages"
-                    :options="f5.languages"
-                    :close-on-select="false"
-                /> -->
-
-                <label class="option-label" for="options__names">Creature Name</label>
-                <div class="option options__names">
-                    <input type="text" id="options__name" name="options__name" v-model="options.name" />
-                </div>
 
                 <label class="option-label" for="options__sizes">Size</label>
                 <div class="option options__sizes">
@@ -99,65 +92,14 @@
                     </select>
                     @{{f5.misc.title_alignments_typically}}<input type="checkbox" v-model="options.showTypicalAlignment">
                 </div>
-                
-                <label class="option-label" for="options__armorclass">@{{f5.misc.title_armor_class}}</label>
-                <div class="option options__armorclass">
-                    <select id="options__armorclass" name="options__armorclass" v-model="options.armorClass.type">
-                        <option disabled value="">Please select one</option>
-                        <option v-for="(item, index) in f5.armor" :value="index" >@{{generateArmourText(item, f5.misc.max)}}</option>
-                    </select>
-                    <div v-if="options.armorClass.type === 'custom'" >
-                        Armor Name: <input v-model='options.armorClass.name'/><br/>
-                        <!--Disadvantage on Stealth: <input type="checkbox" v-model="options.armorClass.stealthDis">-->
-                    </div>
-                    <span v-if="allowAcSelector">
-                        @{{f5.misc.title_armor_class}}: <select name="options__armorclass_range" v-model="options.armorClass.manual">
-                            <option v-for="(val, i) in getAcRange" :value="val" >@{{val}}</option>
-                        </select>
-                    </span>
-                    <span v-if="allowAcBonus">
-                        Magical Bonus: +<select name="options__armorclass_range" v-model="options.armorClass.bonus" >
-                            <option v-for="i in 6" :value="i-1" >@{{i-1}}</option>
-                        </select>     
-                    </span>           
-                </div>
-
-                <label class="option-label" for="options__hitpoints">@{{f5.misc.title_hit_points}}</label>
-                <div class="option options__hitpoints">
-                    <label>@{{f5.misc.hit_dice_amount}}:</label>
-                    <select id="options__hitdice-amount" name="options__hitdice-amount" v-model="options.hitPoints.diceAmount">
-                        <option v-for="i in 30" :value="i" >@{{i}}</option>
-                    </select>
-                    <br/>
-                    <label>@{{f5.misc.hit_dice_type}}:</label>
-                    <select id="options__hitdice-type" name="options__hitdice-type" v-model="options.hitPoints.diceType">
-                        <option v-for="i in f5.hitdice" :value="i" >@{{i}}</option>
-                    </select>
-                    <br/>
-                    <label>@{{f5.misc.additional}}:</label>
-                    <input type="number" min="0" max="9999" id="options__hitpoints-additional" name="options__hitpoints-additional" v-model="options.hitPoints.additional" value="0" />
-                </div>
-
-                <label class="option-label" for="options__abilities">@{{f5.misc.title_abilities}}</label>
-                <div class="option options-row options__abilities">
-                    <div :class="'options__ability option-box '+index" v-for="(item, index) in f5.abilities">
-                        <span class="bold-text">@{{item.name}}</span>
-                        <br/>
-                        Score: 
-                        <select :name="'options__ability_'+index" v-model="options.abilities[index]">
-                            <option v-for="i in 31" :value="i-1" >@{{i-1}}</option>
-                        </select>
-                        <br/>
-                        Save: <input :name="'options__saving-throws_'+index" v-model="options.savingThrows[index]" type="checkbox" />
-                    </div>
-                </div>
+            
                 
                 <label class="option-label" for="options__speeds">@{{f5.misc.title_speed}}</label>
                 <div class="option options-row options__speeds">
                     <div :class="'options__speed option-box '+index" v-for="(item, index) in f5.speeds">
                         <label :for="index">@{{item.name}}</label>
                         <select :name="'options__speed_'+index" v-model="options.speeds[index]">
-                            <option v-for="(val, i) in [0,5,10,15,20,25,30,35,40,45,50,60,70,80,90,100,120,140,160,180,200,250,300]" :value="val" >@{{val+' '+options.measureUnit}}</option>
+                            <option v-for="(val, i) in [0,5,10,15,20,25,30,35,40,45,50,60,70,80,90,100,120,140,160,180,200,250,300]" :value="val" >@{{val+' '+options.measure.measureUnit}}</option>
                         </select>
                         <span v-if="index === 'fly' && options.speeds['fly'] > 0">
                             @{{f5.misc.hover}}: <input type="checkbox" v-model="options.hover">
@@ -210,7 +152,7 @@
                     <div :class="'options__senses option-box '+index" v-for="(item, index) in f5.senses">
                         <label :for="'sense_'+index">@{{item.name}}</label>
                         <select :name="'options__sense_'+index" v-model="options.senses[index]">
-                            <option v-for="(val, i) in [0,5,10,15,20,25,30,35,40,45,50,60,70,80,90,100,120,140,160,180,200,250,300]" :value="val" >@{{val+' '+options.measureUnit}}</option>
+                            <option v-for="(val, i) in [0,5,10,15,20,25,30,35,40,45,50,60,70,80,90,100,120,140,160,180,200,250,300]" :value="val" >@{{val+' '+options.measure.measureUnit}}</option>
                         </select>
                     </div>
                 </div>
@@ -229,21 +171,48 @@
 
             @include('partials.featurebuilder')
 
-
         </div>
         
-        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
-        <script src="{{mix('js/app.js')}}" type="text/javascript"></script>
-        <script src="{{asset('js/statblock.js')}}" type="text/javascript"></script>
 
         <script>
-            let f5data = JSON.parse({!! json_encode($translatedData) !!}) ;
-            console.log(f5data);
-            let app = initVue(f5data);
+            window.onload = function() {
+                let f5data = JSON.parse({!! json_encode($translatedData) !!}) ;
+                console.log(f5data);
+                let app = StatBlock.initVue(f5data);
+
+
+                    //Listeners
             
-            document.querySelector(".add-feature-btn").addEventListener('click', function() {
-                document.querySelector(".add-feature").classList.add('show');
-            });
+                //Edit Fields. Allow focused objects to be editted while making others uneditable
+                document.addEventListener('click', function(e) {
+                    if(!e.target.closest(".focusEdit")) {   //Click on any object other than an edittable one
+                        const editFields = document.querySelectorAll(".focusEdit.focused");
+                        editFields.forEach(function(el) { 
+                            el.classList.remove('focused');
+                        });
+                    }
+                });
+
+                const editFields = document.querySelectorAll(".focusEdit"); //Get all edittable elements
+                for (const editField of editFields) {
+                    editField.addEventListener('click', clearEditFields); 
+                }
+
+                function clearEditFields(e) { //Clear other edittable fields
+                    const editFields = document.querySelectorAll(".focusEdit.focused");
+                    editFields.forEach(function(el) { 
+                        el.classList.remove('focused');
+                    });
+                    e.target.closest(".focusEdit").classList.add('focused');
+                }
+
+                //Add Feature
+                document.querySelector(".add-feature-btn").addEventListener('click', function() {
+                    document.querySelector(".add-feature").classList.add('show');
+                });
+
+
+            };
         </script>
     </body>
 </html>

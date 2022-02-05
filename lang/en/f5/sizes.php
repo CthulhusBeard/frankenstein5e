@@ -7,4 +7,6 @@ return [
     'large' => 'Large',
     'huge' => 'Huge',
     'gargantuan' => 'Gargantuan',
+
+    'title_size' => 'Size',
 ];

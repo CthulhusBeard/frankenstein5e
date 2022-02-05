@@ -110,4 +110,8 @@ return [
     'avian' => 'Avian',
     'aquatic' => 'Aquatic',
     'amphibian' => 'Amphibian',
+
+    //Titles
+    'title_subtype' => 'Subtype', 
+    'title_category' => 'Category', 
 ];

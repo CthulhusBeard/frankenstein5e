@@ -153,14 +153,30 @@ body {
 
 .focusEdit .editField {
   display: none;
+  border: 1px black solid;
+  border-radius: 2px;
+  background-color: white;
 }
 
 .focusEdit.focused .editField {
   display: unset;
 }
 
+.focusEdit.focused .editField--flex {
+  display: flex;
+}
+
 .focusEdit.focused .displayField {
   display: none;
+}
+
+.noEdit {
+  cursor: not-allowed;
+}
+
+.multiselect-tag {
+  border-radius: 10px;
+  background-color: green;
 }
 
 .stat-block {
@@ -258,6 +274,14 @@ body {
 
 .stat-block .stat-block__column .stat-block__attributes .stat-block__attribute .title {
   font-weight: bold;
+}
+
+.stat-block .stat-block__column .stat-block__attributes .hoverElements {
+  display: none;
+}
+
+.stat-block .stat-block__column .stat-block__attributes:hover .hoverElements {
+  display: unset;
 }
 
 .stat-block .stat-block__column .stat-block__line-break {

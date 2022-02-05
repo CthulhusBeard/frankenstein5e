@@ -1,13 +1,16 @@
-function initVue(f5data) {
+import Multiselect from '@vueform/multiselect/dist/multiselect.vue2.js';
+import VueCompositionAPI from '@vue/composition-api';
+Vue.use(VueCompositionAPI);
+
+export function initVue(f5data) {
 
     let vueData = {
         options: {
             name: 'Monster',
-            size: '',
+            size: 'medium',
             type: '',
             subtype: '',
             typeCategory: '',
-            showtypeCategory: true,
             alignment: '',
             showTypicalAlignment: true,
             armorClass: {
@@ -18,8 +21,8 @@ function initVue(f5data) {
                 stealthDis: false,
             },
             hitPoints: {
-                type: 4,
-                amount: 1,
+                diceType: 4,
+                diceAmount: 1,
                 additional: 0,
             },
             abilities: {},
@@ -29,11 +32,23 @@ function initVue(f5data) {
             damageVulnerabilites: {},
             conditionImmunities: {},
             skills: {},
-            languages: {},
+            languages: [],
+            languageOptions: {
+                telepathy: 0,
+                doesntSpeak: false,
+                understands: false,
+                //cantReadWrite: 0,
+            },
             speeds: {},
             senses: {},
 
-            measureUnit: 'ft.',
+            measure: {
+                measureUnit: 'ft.',
+                measureIncrement: 5,
+                measureUnitUp: 5280,
+                measureUnitUpName: 'miles',
+            },
+
             showNonCombat: true,
             proficiency: 2,
             targetCR: {
@@ -93,13 +108,8 @@ function initVue(f5data) {
     }
 
     for(let lang in f5data.languages) {
-        if(f5data.languages[lang]['hidden']) {
-            continue;
-        }
         if(f5data.languages[lang]['default']) {
-            vueData.options.languages[lang] = f5data.languages[lang]['default'];
-        } else {
-            vueData.options.languages[lang] = false;
+            vueData.options.languages.push(lang);
         }
     }
 
@@ -190,7 +200,7 @@ function initVue(f5data) {
                 let descStr = '';
                 if(this.options.size) {
                     descStr += this.getProp(this.f5.creaturesizes[this.options.size]);
-                    this.options.hitPoints.diceType = this.f5.creaturesizes[this.options.size].hit_dice;
+                    this.options.hitPoints.diceType = this.f5.creaturesizes[this.options.size].hit_dice; //TODO check if hitdice were manually set
                 }
                 if(this.options.type) {
                     if(descStr != '') descStr += ' '; 
@@ -202,7 +212,7 @@ function initVue(f5data) {
                     if(this.options.subtype) {
                         descStr += this.getProp(this.f5.creaturesubtypes[this.options.subtype]);
                     }
-                    /* Do something with category?
+                    /* TODO Do something with category?
                     if(this.options.subtype && (this.options.showtypeCategory && this.options.typeCategory)) { 
                         str += ', ';
                     }
@@ -212,7 +222,11 @@ function initVue(f5data) {
 
                 if(this.options.alignment) {
                     if(descStr != '') descStr += ', '; 
-                    descStr += this.getProp(this.f5.alignments[this.options.alignment]);
+                    if(this.options.showTypicalAlignment) {
+                        descStr += this.f5.misc.alignments_typically.replace(":alignment", this.getProp(this.f5.alignments[this.options.alignment]));
+                    } else {
+                        descStr += this.getProp(this.f5.alignments[this.options.alignment]);
+                    }
                 }
                 
                 return this.capitalize(descStr);
@@ -451,6 +465,12 @@ function initVue(f5data) {
                     }
                     displayText += this.options.senses[i]+' '+this.options.measure.measureUnit;
                 }
+                if(this.options.skills['perception']) {
+                    if(displayText !== '') {
+                        displayText += ', ';
+                    }
+                    displayText += this.f5.misc['passive']+' '+this.f5.skills['perception'].name+' '+(this.calcSkillMod('perception', false+10));
+                }
                 return displayText;
             },
 
@@ -505,20 +525,21 @@ function initVue(f5data) {
 
             //Languages
             languageText: function() {
+                console.log(this.options.languages);
                 let displayText = '';
 
-                if(this.options.languages['all']) {
+                if(this.options.languages.includes('all')) {
                     return this.$data.f5.languages['all'].name;
                 }
 
                 for(let i in this.options.languages) {
-                    if(!this.options.languages[i]) {
-                        continue;
-                    }
                     if(displayText !== '') {
                         displayText += ', ';
                     }
-                    displayText += this.$data.f5.languages[i].name; 
+                    displayText += this.$data.f5.languages[this.options.languages[i]].name; 
+                }
+                if(displayText === '') {
+                    this.$data.f5.languages['none'].name;
                 }
                 return displayText;
             },
@@ -770,29 +791,6 @@ function initVue(f5data) {
             },
         }
     });
-
-
-    document.addEventListener('click', function(e) {
-        if(!e.target.closest(".focusEdit")) {
-            const editFields = document.querySelectorAll(".focusEdit.focused");
-            editFields.forEach(function(el) { 
-                el.classList.remove('focused');
-            });
-        }
-    });
-
-    const editFields = document.querySelectorAll(".focusEdit");
-    for (const editField of editFields) {
-        editField.addEventListener('click', clearEditFields);
-    }
-
-    function clearEditFields(e) {
-        const editFields = document.querySelectorAll(".focusEdit.focused");
-        editFields.forEach(function(el) { 
-            el.classList.remove('focused');
-        });
-        e.target.closest(".focusEdit").classList.add('focused');
-    }
 
     return app;
 

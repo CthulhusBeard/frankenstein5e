@@ -5,15 +5,29 @@ $statBlockRed: #822000;
     
     .editField {
         display: none;
+        border: 1px black solid;
+        border-radius: 2px;
+        background-color: white;
     }
     &.focused {
         .editField {
             display: unset;
+            &--flex {
+                display: flex;
+            }
         }
         .displayField {
             display: none;
         }
     }
+}
+.noEdit {
+    cursor: not-allowed;
+}
+
+.multiselect-tag {
+    border-radius: 10px;
+    background-color: green;
 }
 
 .stat-block {
@@ -106,6 +120,16 @@ $statBlockRed: #822000;
             .stat-block__attribute {
                 .title {
                     font-weight: bold;
+                }
+            }
+            
+            .hoverElements {
+                display: none;
+            }
+
+            &:hover {
+                .hoverElements {
+                    display: unset;
                 }
             }
         }

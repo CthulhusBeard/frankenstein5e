@@ -16,4 +16,6 @@ return [
     'ooze' => 'Ooze',
     'plant' => 'Plant',
     'undead' => 'Undead',
+
+    'title_type' => 'Type', 
 ];
