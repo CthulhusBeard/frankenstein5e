@@ -50,63 +50,6 @@
             
             <div class="creature-options">
 
-                <label class="option-label" for="options__sizes">Size</label>
-                <div class="option options__sizes">
-                    <select id="options__size" name="options__size" v-model="options.size">
-                        <option disabled value="">Please select one</option>
-                        <option v-for="(item, index) in f5.creaturesizes" :value="index">@{{item.name}}</option>
-                    </select>
-                </div>
-
-                <label class="option-label" for="options__types">Type</label>
-                <div class="option options__types">
-                    <select id="options__type" name="options__type" v-model="options.type">
-                        <option disabled value="">Please select one</option>
-                        <option v-for="(item, index) in f5.creaturetypes" :value="index">@{{item.name}}</option>
-                    </select>
-                </div>
-
-                <label class="option-label" for="options__subtypes">Subtype</label>
-                <div class="option options__subtypes">
-                    <select id="options__subtype" name="options__subtype" v-model="options.subtype">
-                        <option selected value="">None</option>
-                        <option v-for="(item, index) in f5.creaturesubtypes" :value="index">@{{item.name}}</option>
-                    <!--<option v-for="item in orderedSubtypes" :value="item.id">@{{item.name}}</option>-->
-                    </select>
-                </div>
-
-                <label class="option-label" v-if="typeCategoryList.length > 0" for="options__typeCategory">Type Category</label>
-                <div class="option options__type-option" v-if="typeCategoryList.length > 0">
-                    <select id="options__type-option" name="options__typeCategory" v-model="options.typeCategory">
-                        <option value="">None</option>
-                        <option v-for="item in typeCategoryList" :value="item.id">@{{item.name}}</option>
-                    </select>
-                    <input type="checkbox" v-model="options.showtypeCategory">
-                </div>
-
-                <label class="option-label" for="options__alignments">Default Alignment</label>
-                <div class="option options__alignments">
-                    <select id="options__alignment" name="options__alignment" v-model="options.alignment">
-                        <option value="">None</option>
-                        <option v-for="(item, index) in f5.alignments" :value="index">@{{item.name}}</option>
-                    </select>
-                    @{{f5.misc.title_alignments_typically}}<input type="checkbox" v-model="options.showTypicalAlignment">
-                </div>
-            
-                
-                <label class="option-label" for="options__speeds">@{{f5.misc.title_speed}}</label>
-                <div class="option options-row options__speeds">
-                    <div :class="'options__speed option-box '+index" v-for="(item, index) in f5.speeds">
-                        <label :for="index">@{{item.name}}</label>
-                        <select :name="'options__speed_'+index" v-model="options.speeds[index]">
-                            <option v-for="(val, i) in [0,5,10,15,20,25,30,35,40,45,50,60,70,80,90,100,120,140,160,180,200,250,300]" :value="val" >@{{val+' '+options.measure.measureUnit}}</option>
-                        </select>
-                        <span v-if="index === 'fly' && options.speeds['fly'] > 0">
-                            @{{f5.misc.hover}}: <input type="checkbox" v-model="options.hover">
-                        </span>
-                    </div>
-                </div>
-                
                 <label class="option-label" for="options__resistances">@{{f5.misc.title_damage_resistances}}</label>
                 <div class="option options-row options__resistances">
                     <div :class="'options__resistance option-box '+index" v-for="(item, index) in f5.damagetypes">
@@ -136,14 +79,6 @@
                     <div :class="'options__condition_immunity option-box '+index" v-for="(item, index) in f5.conditions">
                         <label :for="'condition_immunity_'+index">@{{item.name}}</label>
                         <input :id="'condition_immunity_'+index" type="checkbox" v-model="options.conditionImmunities[index]">
-                    </div>
-                </div>
-                
-                <label class="option-label" for="options__languages">Languages</label>
-                <div class="option options-row options__languages">
-                    <div :class="'options__language option-box '+index" v-for="(item, index) in f5.languages">
-                        <label :for="'language_'+index">@{{item.name}}</label>
-                        <input :id="'language_'+index" type="checkbox" v-model="options.languages[index]">
                     </div>
                 </div>
                 
