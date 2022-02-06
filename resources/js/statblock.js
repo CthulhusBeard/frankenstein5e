@@ -19,6 +19,7 @@ export function initVue(f5data) {
                 name: f5data.armor.none.name,
                 bonus: '0',
                 stealthDis: false,
+                shield: false,
             },
             hitPoints: {
                 diceType: 4,
@@ -27,17 +28,15 @@ export function initVue(f5data) {
             },
             abilities: {},
             savingThrows: {},
-            damageResistances: {},
-            damageImmunities: {},
-            damageVulnerabilites: {},
-            conditionImmunities: {},
-            skills: {},
-            languages: [],
-            languageOptions: {
+            damageResistances: [],
+            damageImmunities: [],
+            damageVulnerabilites: [],
+            conditionImmunities: [],
+            skills: [],
+            languages: {
+                spokenWritten: [],
+                doesntSpeak: [],
                 telepathy: 0,
-                doesntSpeak: false,
-                understands: false,
-                //cantReadWrite: 0,
             },
             speeds: {},
             senses: {},
@@ -89,27 +88,13 @@ export function initVue(f5data) {
         vueData.options.savingThrows[ability] = false;
     }
 
-    /*
-    for(let type in f5data.damagetypes) {
-        vueData.options.damageResistances[type] = false;
-    }
-
-    for(let type in f5data.damagetypes) {
-        vueData.options.damageImmunities[type] = false;
-    }
-
-    for(let skill in f5data.skills) {
-        vueData.options.skills[skill] = false;
-    }
-    */
-
     for(let sense in f5data.senses) {
         vueData.options.senses[sense] = 0;
     }
 
     for(let lang in f5data.languages) {
         if(f5data.languages[lang]['default']) {
-            vueData.options.languages.push(lang);
+            vueData.options.languages.spokenWritten.push(lang);
         }
     }
 
@@ -300,6 +285,10 @@ export function initVue(f5data) {
                     if(this.allowAcBonus && this.options.armorClass.bonus && this.options.armorClass.bonus > 0) {
                         acValue += parseFloat(this.options.armorClass.bonus);
                     }
+                    
+                    if(this.options.armorClass.shield) {
+                        acValue += 2;
+                    }
 
                 }
                 return acValue;
@@ -321,7 +310,7 @@ export function initVue(f5data) {
                     //set name
                     if(this.options.armorClass.type === 'custom' && this.options.armorClass.name) {
                         name = this.options.armorClass.name;
-                    } else if(this.f5.armor[this.options.armorClass.type].name) {
+                    } else if(this.options.armorClass.type !== 'none' && this.f5.armor[this.options.armorClass.type].name) {
                         name = this.f5.armor[this.options.armorClass.type].name;
                     }
 
@@ -357,9 +346,17 @@ export function initVue(f5data) {
                         magicalBonus = "+"+this.options.armorClass.bonus+' ';
                     }
 
-                    acText = acValue + ' (' + magicalBonus + name +')';// +stealthDis;
+                    let shieldText = '';
+                    if(this.options.armorClass.shield) {
+                        shieldText = ', '+this.f5.misc.shield;
+                    }
+
+                    acText = String(acValue);
+                    if(magicalBonus || shieldText || name) {
+                        acText += ' (' + magicalBonus + name + shieldText + ')';// +stealthDis?;
+                    }
                 }
-                return acText;
+                return acText.toLowerCase();
             },
 
             //Hit Points
@@ -400,7 +397,7 @@ export function initVue(f5data) {
                 if(conHP > 0) {
                     conText = ' + '+conHP;
                 }
-                let hpText = hp+' ('+amount+this.f5.misc.die_symbol+type+conText;
+                let hpText = hp+' ('+amount + this.f5.misc.die_symbol+type+conText;
                 if(additionalHP > 0) {
                     hpText += ' + '+additionalHP;
                 }
@@ -423,6 +420,23 @@ export function initVue(f5data) {
             },
             conditionImmunitiesText: function() {
                 return this.conditionList(this.options.conditionImmunities);
+            },
+            
+            eligableDamageTypes: function() {
+                let list = [];
+                for(let i in this.f5.damagetypes) {
+                    if(
+                        this.options.damageResistances.includes(i) ||
+                        this.options.damageImmunities.includes(i) ||
+                        this.options.damageVulnerabilites.includes(i)
+                    ) {
+                        list.push({ value: i, label: this.f5.damagetypes[i].name, disabled: true});
+                    } else {
+                        list.push({ value: i, label: this.f5.damagetypes[i].name});
+                    }
+                }
+                console.log(list);
+                return list;
             },
 
 
@@ -525,21 +539,20 @@ export function initVue(f5data) {
 
             //Languages
             languageText: function() {
-                console.log(this.options.languages);
                 let displayText = '';
 
-                if(this.options.languages.includes('all')) {
+                if(this.options.languages.spokenWritten.includes('all')) {
                     return this.$data.f5.languages['all'].name;
                 }
 
-                for(let i in this.options.languages) {
+                for(let lang of this.options.languages.spokenWritten) {
                     if(displayText !== '') {
                         displayText += ', ';
                     }
-                    displayText += this.$data.f5.languages[this.options.languages[i]].name; 
+                    displayText += this.$data.f5.languages[lang].name; 
                 }
-                if(displayText === '') {
-                    this.$data.f5.languages['none'].name;
+                if(!displayText) {
+                    displayText = this.$data.f5.misc.none;
                 }
                 return displayText;
             },
@@ -548,15 +561,12 @@ export function initVue(f5data) {
             skillText: function() {
                 let displayText = '';
 
-                for(let i in this.options.skills) {
-                    if(!this.options.skills[i]) {
-                        continue;
-                    }
+                for(let skill of this.options.skills) {
                     if(displayText !== '') {
                         displayText += ', ';
                     }
 
-                    displayText += this.$data.f5.skills[i].name + ' '+this.calcSkillMod(i, true); 
+                    displayText += this.$data.f5.skills[skill].name + ' '+this.calcSkillMod(skill, true); 
                 }
                 return displayText;
             },
@@ -573,7 +583,7 @@ export function initVue(f5data) {
                         displayText += ', ';
                     }
 
-                    displayText += i.toUpperCase() + ' +'+(this.getAbilityMod(i) + this.options.proficiency); 
+                    displayText += i.charAt(0).toUpperCase() + i.slice(1) + ' +'+(this.getAbilityMod(i) + this.options.proficiency); 
                 }
                 return displayText;
             },
@@ -591,85 +601,79 @@ export function initVue(f5data) {
             ///////////////// NEW FEATURE /////////////////
             newFeatureAttackText: function() {
                 let abilityMod = this.getAbilityMod(this.newFeature.attack.ability);
-                let str = '<span class="i">';
+                let displayText = '<span class="i">';
                 if(this.newFeature.attack.meleeRanged == 'meleeranged') {
-                    str += 'Melee or Ranged';
+                    displayText += 'Melee or Ranged';
                 } else if(this.newFeature.attack.meleeRanged == 'melee') {
-                    str += 'Melee';
+                    displayText += 'Melee';
                 } else if(this.newFeature.attack.meleeRanged == 'ranged') {
-                    str += 'Ranged';
+                    displayText += 'Ranged';
                 }
                 if(this.newFeature.attack.weaponSpell == 'weapon') {
-                    str += ' Weapon ';
+                    displayText += ' Weapon ';
                 } else if(this.newFeature.attack.weaponSpell == 'spell') {
-                    str += ' Spell ';
+                    displayText += ' Spell ';
                 }
-                str += 'Attack:</span> +';
-                str += (abilityMod+this.options.proficiency);
-                str += ' to hit';
+                displayText += 'Attack:</span> +';
+                displayText += (abilityMod+this.options.proficiency);
+                displayText += ' to hit';
 
                 if(this.newFeature.attack.meleeRanged !== 'ranged') {
-                    str += ', reach '+this.newFeature.attack.reach+' '+this.options.measure.measureUnit;
-                    str += ', '+this.newFeature.attack.targets+' target';
+                    displayText += ', reach '+this.newFeature.attack.reach+' '+this.options.measure.measureUnit;
+                    displayText += ', '+this.newFeature.attack.targets+' target';
                     if(this.newFeature.attack.targets !== 1) {
-                        str += 's';
+                        displayText += 's';
                     }
                 }
 
                 if(this.newFeature.attack.meleeRanged !== 'melee') {
-                    str += ', range ';
-                    str += this.newFeature.attack.rangeShort;
+                    displayText += ', range ';
+                    displayText += this.newFeature.attack.rangeShort;
                     if(this.newFeature.attack.rangeLong > this.newFeature.attack.rangeShort) {
-                        str += '/'+this.newFeature.attack.rangeLong;
+                        displayText += '/'+this.newFeature.attack.rangeLong;
                     }
-                    str += ' '+this.options.measure.measureUnit;
-                    str += ', '+this.newFeature.attack.targets+' target';
+                    displayText += ' '+this.options.measure.measureUnit;
+                    displayText += ', '+this.newFeature.attack.targets+' target';
                     if(this.newFeature.attack.targets !== 1) {
-                        str += 's';
+                        displayText += 's';
                     }
                 }
 
-                str += '. <span class="i">Hit: </span> (';
-                str += this.newFeature.attack.diceAmount+'d'+this.newFeature.attack.damageDice;
+                displayText += '. <span class="i">Hit: </span> (';
+                displayText += this.newFeature.attack.diceAmount+'d'+this.newFeature.attack.damageDice;
                 if(abilityMod > 0) {
-                    str += ' + '+abilityMod;
+                    displayText += ' + '+abilityMod;
                 } else if(abilityMod < 0) {
-                    str += ' - '+(abilityMod*-1);
+                    displayText += ' - '+(abilityMod*-1);
                 } 
-                str += ')';
+                displayText += ')';
 
-                return str;
+                return displayText;
             },
 
             newFeatureSpellText: function() {
-                let str = '';
+                let displayText = '';
 
-                return str;
+                return displayText;
             },
         },
 
         methods: {
-            showEdit: function() {
-                console.log('showEdit');
-            },
-
-            hideEdit: function() {
-                console.log('hideEdit');
-            },
 
             damageList: function(input) {
-                let list = '';
-                for(let i in input) {
-                    if(!input[i]) continue;
+                let sortArr = Object.keys(this.f5.damagetypes);
+                input.sort((a, b) => sortArr.indexOf(a) - sortArr.indexOf(b));
+                let displayText = '';
+                for(let i of input) {
                     if(this.f5.damagetypes[i].long_name) {
-                        if(list !== '') list += '; ';
-                        list += this.f5.damagetypes[i].long_name;
+                        if(displayText !== '') displayText += '; ';
+                        displayText += this.f5.damagetypes[i].long_name;
                     } else {
-                        if(list !== '') list += ', ';
-                        list += this.f5.damagetypes[i].name;
+                        if(displayText !== '') displayText += ', ';
+                        displayText += this.f5.damagetypes[i].name;
                     }
                 }
-                return list;
+                return displayText;
             },
 
             unsetDamages: function(i, type = null) {
@@ -685,13 +689,14 @@ export function initVue(f5data) {
             },
 
             conditionList: function(input) {
-                let list = '';
-                for(let i in input) {
-                    if(!input[i]) continue;                    
-                    if(list !== '') list += ', ';
-                    list += this.f5.conditions[i].name;
+                let displayText = '';
+                for(let i of input) {                    
+                    if(displayText !== '') {
+                        displayText += ', ';
+                    }
+                    displayText += this.f5.conditions[i].name;
                 }
-                return list;
+                return displayText;
             },
 
             listReturn: function (list) {
@@ -748,10 +753,12 @@ export function initVue(f5data) {
             calcSkillMod: function (skill, addPlus = false) {
                 let ability = this.$data.f5.skills[skill].ability;
                 let abilityMod = this.getAbilityMod(ability);
-                if(this.options.skills[skill]) {
+                if(this.options.skills.includes(skill)) {
                     abilityMod += this.options.proficiency;
                 }
-                if(addPlus) abilityMod = this.addPlus(abilityMod);
+                if(addPlus) {
+                    abilityMod = this.addPlus(abilityMod);
+                }
                 return abilityMod;
             },
 

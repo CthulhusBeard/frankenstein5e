@@ -1,29 +1,29 @@
 <div class="stat-block-container">
     <div class="stat-block">
         <div class="stat-block__column">
-            <div class="stat-block__title focusEdit">
-                <span class="displayField">@{{options.name}}</span>
-                <input type="text" class="editField" v-model="options.name" />
+            <div class="stat-block__title focus-edit">
+                <span class="display-field">@{{options.name}}</span>
+                <input type="text" class="edit-field" v-model="options.name" />
             </div>
-            <div class="stat-block__size-alignment focusEdit">
+
+            <div class="stat-block__size-alignment focus-edit">
                 <span>@{{descriptionText}}</span>
-                <div class="option options__sizes editField">
-                    <br/>
+                <div class="option options__sizes edit-field">
                     @{{ f5.misc.title_size }}:
                     <select id="options__size" name="options__size" v-model="options.size">
                         <option v-for="(item, index) in f5.creaturesizes" :value="index">@{{item.name}}</option>
                     </select>
                 </div>
-                <div class="option options__types editField">
-                    <br/>
+
+                <div class="option options__types edit-field">
                     @{{ f5.misc.title_type }}:
                     <select id="options__type" name="options__type" v-model="options.type">
                         <option disabled value="">Please select one</option>
                         <option v-for="(item, index) in f5.creaturetypes" :value="index">@{{item.name}}</option>
                     </select>
                 </div>
-                <div class="option options__subtypes editField">
-                    <br/>
+
+                <div class="option options__subtypes edit-field">
                     @{{ f5.misc.title_subtype }}:
                     <select id="options__subtype" name="options__subtype" v-model="options.subtype">
                         <option selected value="">None</option>
@@ -31,16 +31,16 @@
                     <!--<option v-for="item in orderedSubtypes" :value="item.id">@{{item.name}}</option>-->
                     </select>
                 </div>
-                <div class="option options__type-option editField" v-if="typeCategoryList.length > 0">
-                    <br/>
+
+                <div class="option options__type-option edit-field" v-if="typeCategoryList.length > 0">
                     @{{ f5.misc.title_category }}:
                     <select id="options__type-option" name="options__typeCategory" v-model="options.typeCategory">
                         <option value="">None</option>
                         <option v-for="item in typeCategoryList" :value="item.id">@{{item.name}}</option>
                     </select>
                 </div>
-                <div class="option options__alignments editField">
-                    <br/>
+
+                <div class="option options__alignments edit-field">
                     @{{ f5.misc.title_alignments }}:
                     <select id="options__alignment" name="options__alignment" v-model="options.alignment">
                         <option value="">None</option>
@@ -50,11 +50,12 @@
                 </div>
             </div>
             <div class="stat-block__line-break"></div>
+
             <div class="stat-block__attributes">
-                <div class="stat-block__attribute focusEdit">
+                <div class="stat-block__attribute focus-edit">
                     <span class="title">@{{f5.misc.title_armor_class}}:</span>
-                    <span class="displayField">@{{acText}}</span>
-                    <div class="option options__hitpoints editField">
+                    <span>@{{acText}}</span>
+                    <div class="option options__hitpoints edit-field">
                         <select id="options__armorclass" name="options__armorclass" v-model="options.armorClass.type">
                             <option disabled value="">Please select one</option>
                             <option v-for="(item, index) in f5.armor" :value="index" >@{{generateArmourText(item, f5.misc.max)}}</option>
@@ -72,14 +73,15 @@
                             Magical Bonus: +<select name="options__armorclass_range" v-model="options.armorClass.bonus" >
                                 <option v-for="i in 6" :value="i-1" >@{{i-1}}</option>
                             </select>     
-                        </span>           
+                        </span>  
+                        Shield: <input name="options__shield" v-model="options.armorClass.shield" type="checkbox" />        
                     </div>
                 </div>
-                <div class="stat-block__attribute focusEdit">
+
+                <div class="stat-block__attribute focus-edit">
                     <span class="title">@{{f5.misc.title_hit_points}}:</span>
                     <span>@{{hitPointsText}}</span>
-                    <div class="option options__hitpoints editField">
-                        <br/>
+                    <div class="option options__hitpoints edit-field">
                         <label>@{{f5.misc.hit_dice_amount}}:</label>
                         <select id="options__hitdice-amount" name="options__hitdice-amount" v-model="options.hitPoints.diceAmount">
                             <option v-for="i in 30" :value="i" >@{{i}}</option>
@@ -94,10 +96,11 @@
                         <input type="number" min="0" max="9999" id="options__hitpoints-additional" name="options__hitpoints-additional" v-model="options.hitPoints.additional" value="0" />
                     </div>
                 </div>
-                <div class="stat-block__attribute focusEdit">
+
+                <div class="stat-block__attribute focus-edit">
                     <span class="title">@{{f5.misc.title_speed}}:</span>
                     <span>@{{speedText}}</span>
-                    <div class="option options-row options__speeds editField">
+                    <div class="option options-row options__speeds edit-field">
                         <div :class="'options__speed option-box '+index" v-for="(item, index) in f5.speeds">
                             <label :for="index">@{{item.name}}</label>
                             <select :name="'options__speed_'+index" v-model="options.speeds[index]">
@@ -111,15 +114,16 @@
                 </div>
             </div>
             <div class="stat-block__line-break"></div>
+
             <div class="stat-block__ability-scores">
-                <div class="stat-block__ability focusEdit" v-for="(item, index) in f5.abilities" >
+                <div class="stat-block__ability focus-edit" v-for="(item, index) in f5.abilities" >
                     <div class="stat-block__ability-name">
                         @{{index.toUpperCase()}}
                     </div>
-                    <div class="stat-block__ability-score displayField">
+                    <div class="stat-block__ability-score display-field">
                         @{{options.abilities[index]}} (@{{calcAbilityMod(options.abilities[index], true)}})
                     </div>
-                    <div :class="'editField options__ability option-box '+index">
+                    <div :class="'edit-field options__ability option-box '+index">
                         Score: 
                         <select :name="'options__ability_'+index" v-model="options.abilities[index]">
                             <option v-for="i in 31" :value="i-1" >@{{i-1}}</option>
@@ -130,40 +134,171 @@
                 </div>
             </div>
             <div class="stat-block__line-break"></div>
-            <div class="stat-block__attributes">
+
+            <div class="stat-block__attributes hidden-holder">
                 <div v-if="savingThrowText" class="stat-block__attribute">
                     <span class="title">@{{f5.misc.title_saving_throws}}:</span>
-                    <span class="displayField">@{{savingThrowText}}</span>
+                    <span class="display-field">@{{savingThrowText}}</span>
                 </div>
-                <div v-if="skillText" class="stat-block__attribute">
-                    <span class="title">@{{f5.misc.title_skills}}:</span>
-                    <span class="displayField">@{{skillText}}</span>
+                <div class="stat-block__attribute focus-edit" v-bind:class="{'hover-show': !skillText}">
+                    <span v-if="skillText" class="title">@{{f5.misc.title_skills}}:</span>
+                    <span v-else class="title">+ @{{f5.misc.title_skills}}</span>
+                    <span>@{{skillText}}</span>
+                    <Multiselect class="edit-field edit-field--flex"
+                        v-model="options.skills" 
+                        mode="tags"
+                        :options="f5.skills" 
+                        mode="multiple"
+                        :close-on-select="false"
+                        :searchable="true"
+                        :create-option="true"
+                        >
+                            <template v-slot:tag="{ option, handleTagRemove, disabled }">
+                                <div class="multiselect-tag">
+                                    @{{ option.label.name }}
+                                    <span v-if="!disabled" class="multiselect-tag-remove" @mousedown.prevent="handleTagRemove(option, $event)">
+                                        <span class="multiselect-tag-remove-icon"></span>
+                                    </span>
+                                </div>
+                            </template>
+
+                            <template v-slot:option="{ option }">
+                                @{{ option.label.name }}
+                            </template>
+                    </Multiselect>
                 </div>
-                <div v-if="damageResistanceText" class="stat-block__attribute">
-                    <span class="title">@{{f5.misc.title_damage_resistances}}:</span>
-                    <span class="displayField">@{{damageResistanceText}}</span>
+
+                <div class="stat-block__attribute focus-edit" v-bind:class="{'hover-show': !damageResistanceText}">
+                    <span v-if="damageResistanceText" class="title">@{{f5.misc.title_damage_resistances}}:</span>
+                    <span v-else class="title">+ @{{f5.misc.title_damage_resistances}}</span>
+                    <span>@{{damageResistanceText}}</span>
+                    <Multiselect class="edit-field edit-field--flex"
+                        v-model="options.damageResistances" 
+                        mode="tags"
+                        :options="eligableDamageTypes" 
+                        mode="multiple"
+                        :close-on-select="false"
+                        :searchable="true"
+                        :create-option="true"
+                        >
+                            <template v-slot:tag="{ option, handleTagRemove, disabled }">
+                                <div class="multiselect-tag">
+                                    @{{ option.label }}
+                                    <span v-if="!disabled" class="multiselect-tag-remove" @mousedown.prevent="handleTagRemove(option, $event)">
+                                        <span class="multiselect-tag-remove-icon"></span>
+                                    </span>
+                                </div>
+                            </template>
+
+                            <template v-slot:option="{ option }">
+                                @{{ option.label }}
+                            </template>
+                    </Multiselect>
                 </div>
-                <div v-if="damageImmunitiesText" class="stat-block__attribute">
-                    <span class="title">@{{f5.misc.title_damage_immunities}}:</span>
-                    <span class="displayField">@{{damageImmunitiesText}}</span>
+
+                <div class="stat-block__attribute focus-edit" v-bind:class="{'hover-show': !damageImmunitiesText}">
+                    <span v-if="damageImmunitiesText" class="title">@{{f5.misc.title_damage_immunities}}:</span>
+                    <span v-else class="title">+ @{{f5.misc.title_damage_immunities}}</span>
+                    <span>@{{damageImmunitiesText}}</span>
+                    <Multiselect class="edit-field edit-field--flex"
+                        v-model="options.damageImmunities" 
+                        mode="tags"
+                        :options="eligableDamageTypes" 
+                        mode="multiple"
+                        :close-on-select="false"
+                        :searchable="true"
+                        :create-option="true"
+                        >
+                            <template v-slot:tag="{ option, handleTagRemove, disabled }">
+                                <div class="multiselect-tag">
+                                    @{{ option.label }}
+                                    <span v-if="!disabled" class="multiselect-tag-remove" @mousedown.prevent="handleTagRemove(option, $event)">
+                                        <span class="multiselect-tag-remove-icon"></span>
+                                    </span>
+                                </div>
+                            </template>
+
+                            <template v-slot:option="{ option }">
+                                @{{ option.label }}
+                            </template>
+                    </Multiselect>
                 </div>
-                <div v-if="damageVulnerabilitiesText" class="stat-block__attribute">
-                    <span class="title">@{{f5.misc.title_damage_vulnerabilities}}:</span>
-                    <span class="displayField">@{{damageVulnerabilitiesText}}</span>
+
+                <div class="stat-block__attribute focus-edit" v-bind:class="{'hover-show': !damageVulnerabilitiesText}">
+                    <span v-if="damageVulnerabilitiesText" class="title">@{{f5.misc.title_damage_vulnerabilities}}:</span>
+                    <span v-else class="title">+ @{{f5.misc.title_damage_vulnerabilities}}</span>
+                    <span>@{{damageVulnerabilitiesText}}</span>
+                    <Multiselect class="edit-field edit-field--flex"
+                        v-model="options.damageVulnerabilites" 
+                        mode="tags"
+                        :options="eligableDamageTypes" 
+                        mode="multiple"
+                        :close-on-select="false"
+                        :searchable="true"
+                        :create-option="true"
+                        >
+                            <template v-slot:tag="{ option, handleTagRemove, disabled }">
+                                <div class="multiselect-tag">
+                                    @{{ option.label }}
+                                    <span v-if="!disabled" class="multiselect-tag-remove" @mousedown.prevent="handleTagRemove(option, $event)">
+                                        <span class="multiselect-tag-remove-icon"></span>
+                                    </span>
+                                </div>
+                            </template>
+
+                            <template v-slot:option="{ option }">
+                                @{{ option.label }}
+                            </template>
+                    </Multiselect>
                 </div>
-                <div v-if="conditionImmunitiesText" class="stat-block__attribute">
-                    <span class="title">@{{f5.misc.title_condition_immunities}}:</span>
-                    <span class="displayField">@{{conditionImmunitiesText}}</span>
+
+                <div class="stat-block__attribute focus-edit" v-bind:class="{'hover-show': !conditionImmunitiesText}">
+                    <span v-if="conditionImmunitiesText" class="title">@{{f5.misc.title_condition_immunities}}:</span>
+                    <span v-else class="title">+ @{{f5.misc.title_condition_immunities}}</span>
+                    <span>@{{conditionImmunitiesText}}</span>
+                    <Multiselect class="edit-field edit-field--flex"
+                        v-model="options.conditionImmunities" 
+                        mode="tags"
+                        :options="f5.conditions" 
+                        mode="multiple"
+                        :close-on-select="false"
+                        :searchable="true"
+                        :create-option="true"
+                        >
+                            <template v-slot:tag="{ option, handleTagRemove, disabled }">
+                                <div class="multiselect-tag">
+                                    @{{ option.label.name }}
+                                    <span v-if="!disabled" class="multiselect-tag-remove" @mousedown.prevent="handleTagRemove(option, $event)">
+                                        <span class="multiselect-tag-remove-icon"></span>
+                                    </span>
+                                </div>
+                            </template>
+
+                            <template v-slot:option="{ option }">
+                                @{{ option.label.name }}
+                            </template>
+                    </Multiselect>
                 </div>
-                <div v-if="sensesText" class="stat-block__attribute">
-                    <span class="title">@{{f5.misc.title_senses}}:</span>
-                    <span class="displayField">@{{sensesText}}</span>
+
+                <div class="stat-block__attribute focus-edit" v-bind:class="{'hover-show': !sensesText}">
+                    <span v-if="sensesText" class="title">@{{f5.misc.title_senses}}:</span>
+                    <span v-else class="title">+ @{{f5.misc.title_senses}}</span>
+                    <span>@{{sensesText}}</span>
+                    <div class="option options-row options__senses edit-field">
+                        <div :class="'options__senses option-box '+index" v-for="(item, index) in f5.senses">
+                            <label :for="'sense_'+index">@{{item.name}}</label>
+                            <select :name="'options__sense_'+index" v-model="options.senses[index]">
+                                <option v-for="(val, i) in [0,5,10,15,20,25,30,35,40,45,50,60,70,80,90,100,120,140,160,180,200,250,300]" :value="val" >@{{val+' '+options.measure.measureUnit}}</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat-block__attribute focusEdit">
+
+                <div class="stat-block__attribute focus-edit">
                     <span class="title">@{{f5.misc.title_languages}}:</span>
                     <span>@{{languageText}}</span>
-                    <Multiselect class="editField editField--flex"
-                        v-model="options.languages" 
+                    <Multiselect class="edit-field edit-field--flex"
+                        v-model="options.languages.spokenWritten" 
                         mode="tags"
                         :options="f5.languages" 
                         mode="multiple"
@@ -185,13 +320,13 @@
                             </template>
                     </Multiselect>
                 </div>
-                <div class="stat-block__attribute noEdit">
+                <div class="stat-block__attribute no-edit">
                     <span class="title">@{{f5.misc.title_challenge_rating}}:</span>
-                    <span class="displayField">@{{crText}}</span>
+                    <span class="display-field">@{{crText}}</span>
                 </div>
-                <div class="stat-block__attribute noEdit">
+                <div class="stat-block__attribute no-edit">
                     <span class="title">@{{f5.misc.title_proficiency}}:</span>
-                    <span class="displayField">@{{proficiencyText}}</span>
+                    <span class="display-field">@{{proficiencyText}}</span>
                 </div>
             </div>
             <div class="stat-block__line-break"></div>

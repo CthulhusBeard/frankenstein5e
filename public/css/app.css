@@ -147,31 +147,44 @@ body {
   font-size: 1.3em;
 }
 
-.focusEdit {
-  cursor: pointer;
-}
-
-.focusEdit .editField {
-  display: none;
+.editable,
+.hidden-holder .hover-show,
+.focus-edit .edit-field {
   border: 1px black solid;
   border-radius: 2px;
   background-color: white;
 }
 
-.focusEdit.focused .editField {
-  display: unset;
+.focus-edit {
+  cursor: pointer;
 }
 
-.focusEdit.focused .editField--flex {
-  display: flex;
-}
-
-.focusEdit.focused .displayField {
+.focus-edit .edit-field {
   display: none;
 }
 
-.noEdit {
+.focus-edit.focused .edit-field {
+  display: block;
+}
+
+.focus-edit.focused .edit-field--flex {
+  display: flex;
+}
+
+.focus-edit.focused .display-field {
+  display: none;
+}
+
+.no-edit {
   cursor: not-allowed;
+}
+
+.hidden-holder .hover-show {
+  display: none;
+}
+
+.hidden-holder:hover .hover-show {
+  display: block;
 }
 
 .multiselect-tag {

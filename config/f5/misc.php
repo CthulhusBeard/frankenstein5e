@@ -8,6 +8,8 @@ return [
     'type' => 'f5/misc.type',
     'die_symbol' => 'f5/misc.die_symbol',
     'passive' => 'f5/misc.passive',
+    'none' => 'f5/misc.none',
+    'shield' => 'f5/armor.shield',
     
     'hit_dice_amount' => 'f5/misc.hit_dice_amount',
     'hit_dice_type' => 'f5/misc.hit_dice_type',

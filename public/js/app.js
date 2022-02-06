@@ -14903,6 +14903,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initVue", function() { return initVue; });
 /* harmony import */ var _vueform_multiselect_dist_multiselect_vue2_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @vueform/multiselect/dist/multiselect.vue2.js */ "./node_modules/@vueform/multiselect/dist/multiselect.vue2.js");
 /* harmony import */ var _vue_composition_api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @vue/composition-api */ "./node_modules/@vue/composition-api/dist/vue-composition-api.mjs");
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 
 
 Vue.use(_vue_composition_api__WEBPACK_IMPORTED_MODULE_1__["default"]);
@@ -14921,7 +14927,8 @@ function initVue(f5data) {
         manual: '10',
         name: f5data.armor.none.name,
         bonus: '0',
-        stealthDis: false
+        stealthDis: false,
+        shield: false
       },
       hitPoints: {
         diceType: 4,
@@ -14930,17 +14937,15 @@ function initVue(f5data) {
       },
       abilities: {},
       savingThrows: {},
-      damageResistances: {},
-      damageImmunities: {},
-      damageVulnerabilites: {},
-      conditionImmunities: {},
-      skills: {},
-      languages: [],
-      languageOptions: {
-        telepathy: 0,
-        doesntSpeak: false,
-        understands: false //cantReadWrite: 0,
-
+      damageResistances: [],
+      damageImmunities: [],
+      damageVulnerabilites: [],
+      conditionImmunities: [],
+      skills: [],
+      languages: {
+        spokenWritten: [],
+        doesntSpeak: [],
+        telepathy: 0
       },
       speeds: {},
       senses: {},
@@ -14987,18 +14992,6 @@ function initVue(f5data) {
     vueData.options.abilities[ability] = 10;
     vueData.options.savingThrows[ability] = false;
   }
-  /*
-  for(let type in f5data.damagetypes) {
-      vueData.options.damageResistances[type] = false;
-  }
-    for(let type in f5data.damagetypes) {
-      vueData.options.damageImmunities[type] = false;
-  }
-    for(let skill in f5data.skills) {
-      vueData.options.skills[skill] = false;
-  }
-  */
-
 
   for (var sense in f5data.senses) {
     vueData.options.senses[sense] = 0;
@@ -15006,7 +14999,7 @@ function initVue(f5data) {
 
   for (var lang in f5data.languages) {
     if (f5data.languages[lang]['default']) {
-      vueData.options.languages.push(lang);
+      vueData.options.languages.spokenWritten.push(lang);
     }
   }
 
@@ -15191,6 +15184,10 @@ function initVue(f5data) {
           if (this.allowAcBonus && this.options.armorClass.bonus && this.options.armorClass.bonus > 0) {
             acValue += parseFloat(this.options.armorClass.bonus);
           }
+
+          if (this.options.armorClass.shield) {
+            acValue += 2;
+          }
         }
 
         return acValue;
@@ -15207,7 +15204,7 @@ function initVue(f5data) {
           //set name
           if (this.options.armorClass.type === 'custom' && this.options.armorClass.name) {
             name = this.options.armorClass.name;
-          } else if (this.f5.armor[this.options.armorClass.type].name) {
+          } else if (this.options.armorClass.type !== 'none' && this.f5.armor[this.options.armorClass.type].name) {
             name = this.f5.armor[this.options.armorClass.type].name;
           } //set AC value
 
@@ -15247,10 +15244,20 @@ function initVue(f5data) {
             magicalBonus = "+" + this.options.armorClass.bonus + ' ';
           }
 
-          acText = acValue + ' (' + magicalBonus + name + ')'; // +stealthDis;
+          var shieldText = '';
+
+          if (this.options.armorClass.shield) {
+            shieldText = ', ' + this.f5.misc.shield;
+          }
+
+          acText = String(acValue);
+
+          if (magicalBonus || shieldText || name) {
+            acText += ' (' + magicalBonus + name + shieldText + ')'; // +stealthDis?;
+          }
         }
 
-        return acText;
+        return acText.toLowerCase();
       },
       //Hit Points
       getHP: function getHP() {
@@ -15324,6 +15331,27 @@ function initVue(f5data) {
       },
       conditionImmunitiesText: function conditionImmunitiesText() {
         return this.conditionList(this.options.conditionImmunities);
+      },
+      eligableDamageTypes: function eligableDamageTypes() {
+        var list = [];
+
+        for (var i in this.f5.damagetypes) {
+          if (this.options.damageResistances.includes(i) || this.options.damageImmunities.includes(i) || this.options.damageVulnerabilites.includes(i)) {
+            list.push({
+              value: i,
+              label: this.f5.damagetypes[i].name,
+              disabled: true
+            });
+          } else {
+            list.push({
+              value: i,
+              label: this.f5.damagetypes[i].name
+            });
+          }
+        }
+
+        console.log(list);
+        return list;
       },
       //Speeds
       speedText: function speedText() {
@@ -15433,23 +15461,33 @@ function initVue(f5data) {
       },
       //Languages
       languageText: function languageText() {
-        console.log(this.options.languages);
         var displayText = '';
 
-        if (this.options.languages.includes('all')) {
+        if (this.options.languages.spokenWritten.includes('all')) {
           return this.$data.f5.languages['all'].name;
         }
 
-        for (var i in this.options.languages) {
-          if (displayText !== '') {
-            displayText += ', ';
-          }
+        var _iterator = _createForOfIteratorHelper(this.options.languages.spokenWritten),
+            _step;
 
-          displayText += this.$data.f5.languages[this.options.languages[i]].name;
+        try {
+          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+            var _lang = _step.value;
+
+            if (displayText !== '') {
+              displayText += ', ';
+            }
+
+            displayText += this.$data.f5.languages[_lang].name;
+          }
+        } catch (err) {
+          _iterator.e(err);
+        } finally {
+          _iterator.f();
         }
 
-        if (displayText === '') {
-          this.$data.f5.languages['none'].name;
+        if (!displayText) {
+          displayText = this.$data.f5.misc.none;
         }
 
         return displayText;
@@ -15458,16 +15496,23 @@ function initVue(f5data) {
       skillText: function skillText() {
         var displayText = '';
 
-        for (var i in this.options.skills) {
-          if (!this.options.skills[i]) {
-            continue;
-          }
+        var _iterator2 = _createForOfIteratorHelper(this.options.skills),
+            _step2;
 
-          if (displayText !== '') {
-            displayText += ', ';
-          }
+        try {
+          for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+            var skill = _step2.value;
 
-          displayText += this.$data.f5.skills[i].name + ' ' + this.calcSkillMod(i, true);
+            if (displayText !== '') {
+              displayText += ', ';
+            }
+
+            displayText += this.$data.f5.skills[skill].name + ' ' + this.calcSkillMod(skill, true);
+          }
+        } catch (err) {
+          _iterator2.e(err);
+        } finally {
+          _iterator2.f();
         }
 
         return displayText;
@@ -15485,7 +15530,7 @@ function initVue(f5data) {
             displayText += ', ';
           }
 
-          displayText += i.toUpperCase() + ' +' + (this.getAbilityMod(i) + this.options.proficiency);
+          displayText += i.charAt(0).toUpperCase() + i.slice(1) + ' +' + (this.getAbilityMod(i) + this.options.proficiency);
         }
 
         return displayText;
@@ -15501,91 +15546,98 @@ function initVue(f5data) {
       ///////////////// NEW FEATURE /////////////////
       newFeatureAttackText: function newFeatureAttackText() {
         var abilityMod = this.getAbilityMod(this.newFeature.attack.ability);
-        var str = '<span class="i">';
+        var displayText = '<span class="i">';
 
         if (this.newFeature.attack.meleeRanged == 'meleeranged') {
-          str += 'Melee or Ranged';
+          displayText += 'Melee or Ranged';
         } else if (this.newFeature.attack.meleeRanged == 'melee') {
-          str += 'Melee';
+          displayText += 'Melee';
         } else if (this.newFeature.attack.meleeRanged == 'ranged') {
-          str += 'Ranged';
+          displayText += 'Ranged';
         }
 
         if (this.newFeature.attack.weaponSpell == 'weapon') {
-          str += ' Weapon ';
+          displayText += ' Weapon ';
         } else if (this.newFeature.attack.weaponSpell == 'spell') {
-          str += ' Spell ';
+          displayText += ' Spell ';
         }
 
-        str += 'Attack:</span> +';
-        str += abilityMod + this.options.proficiency;
-        str += ' to hit';
+        displayText += 'Attack:</span> +';
+        displayText += abilityMod + this.options.proficiency;
+        displayText += ' to hit';
 
         if (this.newFeature.attack.meleeRanged !== 'ranged') {
-          str += ', reach ' + this.newFeature.attack.reach + ' ' + this.options.measure.measureUnit;
-          str += ', ' + this.newFeature.attack.targets + ' target';
+          displayText += ', reach ' + this.newFeature.attack.reach + ' ' + this.options.measure.measureUnit;
+          displayText += ', ' + this.newFeature.attack.targets + ' target';
 
           if (this.newFeature.attack.targets !== 1) {
-            str += 's';
+            displayText += 's';
           }
         }
 
         if (this.newFeature.attack.meleeRanged !== 'melee') {
-          str += ', range ';
-          str += this.newFeature.attack.rangeShort;
+          displayText += ', range ';
+          displayText += this.newFeature.attack.rangeShort;
 
           if (this.newFeature.attack.rangeLong > this.newFeature.attack.rangeShort) {
-            str += '/' + this.newFeature.attack.rangeLong;
+            displayText += '/' + this.newFeature.attack.rangeLong;
           }
 
-          str += ' ' + this.options.measure.measureUnit;
-          str += ', ' + this.newFeature.attack.targets + ' target';
+          displayText += ' ' + this.options.measure.measureUnit;
+          displayText += ', ' + this.newFeature.attack.targets + ' target';
 
           if (this.newFeature.attack.targets !== 1) {
-            str += 's';
+            displayText += 's';
           }
         }
 
-        str += '. <span class="i">Hit: </span> (';
-        str += this.newFeature.attack.diceAmount + 'd' + this.newFeature.attack.damageDice;
+        displayText += '. <span class="i">Hit: </span> (';
+        displayText += this.newFeature.attack.diceAmount + 'd' + this.newFeature.attack.damageDice;
 
         if (abilityMod > 0) {
-          str += ' + ' + abilityMod;
+          displayText += ' + ' + abilityMod;
         } else if (abilityMod < 0) {
-          str += ' - ' + abilityMod * -1;
+          displayText += ' - ' + abilityMod * -1;
         }
 
-        str += ')';
-        return str;
+        displayText += ')';
+        return displayText;
       },
       newFeatureSpellText: function newFeatureSpellText() {
-        var str = '';
-        return str;
+        var displayText = '';
+        return displayText;
       }
     },
     methods: {
-      showEdit: function showEdit() {
-        console.log('showEdit');
-      },
-      hideEdit: function hideEdit() {
-        console.log('hideEdit');
-      },
       damageList: function damageList(input) {
-        var list = '';
+        var sortArr = Object.keys(this.f5.damagetypes);
+        input.sort(function (a, b) {
+          return sortArr.indexOf(a) - sortArr.indexOf(b);
+        });
+        var displayText = '';
 
-        for (var i in input) {
-          if (!input[i]) continue;
+        var _iterator3 = _createForOfIteratorHelper(input),
+            _step3;
 
-          if (this.f5.damagetypes[i].long_name) {
-            if (list !== '') list += '; ';
-            list += this.f5.damagetypes[i].long_name;
-          } else {
-            if (list !== '') list += ', ';
-            list += this.f5.damagetypes[i].name;
+        try {
+          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+            var i = _step3.value;
+
+            if (this.f5.damagetypes[i].long_name) {
+              if (displayText !== '') displayText += '; ';
+              displayText += this.f5.damagetypes[i].long_name;
+            } else {
+              if (displayText !== '') displayText += ', ';
+              displayText += this.f5.damagetypes[i].name;
+            }
           }
+        } catch (err) {
+          _iterator3.e(err);
+        } finally {
+          _iterator3.f();
         }
 
-        return list;
+        return displayText;
       },
       unsetDamages: function unsetDamages(i) {
         var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
@@ -15603,15 +15655,28 @@ function initVue(f5data) {
         }
       },
       conditionList: function conditionList(input) {
-        var list = '';
+        var displayText = '';
 
-        for (var i in input) {
-          if (!input[i]) continue;
-          if (list !== '') list += ', ';
-          list += this.f5.conditions[i].name;
+        var _iterator4 = _createForOfIteratorHelper(input),
+            _step4;
+
+        try {
+          for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+            var i = _step4.value;
+
+            if (displayText !== '') {
+              displayText += ', ';
+            }
+
+            displayText += this.f5.conditions[i].name;
+          }
+        } catch (err) {
+          _iterator4.e(err);
+        } finally {
+          _iterator4.f();
         }
 
-        return list;
+        return displayText;
       },
       listReturn: function listReturn(list) {
         var displayText = '';
@@ -15669,11 +15734,14 @@ function initVue(f5data) {
         var ability = this.$data.f5.skills[skill].ability;
         var abilityMod = this.getAbilityMod(ability);
 
-        if (this.options.skills[skill]) {
+        if (this.options.skills.includes(skill)) {
           abilityMod += this.options.proficiency;
         }
 
-        if (addPlus) abilityMod = this.addPlus(abilityMod);
+        if (addPlus) {
+          abilityMod = this.addPlus(abilityMod);
+        }
+
         return abilityMod;
       },
       calcAbilityMod: function calcAbilityMod(abilityScore) {

@@ -50,56 +50,6 @@
             
             <div class="creature-options">
 
-                <label class="option-label" for="options__resistances">@{{f5.misc.title_damage_resistances}}</label>
-                <div class="option options-row options__resistances">
-                    <div :class="'options__resistance option-box '+index" v-for="(item, index) in f5.damagetypes">
-                        <label :for="'resistance_'+index">@{{item.name}}</label>
-                        <input :id="'resistance_'+index" type="checkbox" v-on:click="unsetDamages(index, 'resistance')" v-model="options.damageResistances[index]">
-                    </div>
-                </div>
-                
-                <label class="option-label" for="options__immunities">@{{f5.misc.title_damage_immunities}}</label>
-                <div class="option options-row options__immunities">
-                    <div :class="'options__immunity option-box '+index" v-for="(item, index) in f5.damagetypes">
-                        <label :for="'immunity_'+index">@{{item.name}}</label>
-                        <input :id="'immunity_'+index" type="checkbox" v-on:click="unsetDamages(index, 'immunity')" v-model="options.damageImmunities[index]">
-                    </div>
-                </div>
-                
-                <label class="option-label" for="options__vulnerabilities">@{{f5.misc.title_damage_vulnerabilities}}</label>
-                <div class="option options-row options__vulnerabilities">
-                    <div :class="'options__vulnerability option-box '+index" v-for="(item, index) in f5.damagetypes">
-                        <label :for="'vulnerability_'+index">@{{item.name}}</label>
-                        <input :id="'vulnerability_'+index" type="checkbox" v-on:click="unsetDamages(index, 'vulnerability')" v-model="options.damageVulnerabilites[index]">
-                    </div>
-                </div>
-                
-                <label class="option-label" for="options__condition_immunities">@{{f5.misc.title_condition_immunities}}</label>
-                <div class="option options-row options__condition_immunities">
-                    <div :class="'options__condition_immunity option-box '+index" v-for="(item, index) in f5.conditions">
-                        <label :for="'condition_immunity_'+index">@{{item.name}}</label>
-                        <input :id="'condition_immunity_'+index" type="checkbox" v-model="options.conditionImmunities[index]">
-                    </div>
-                </div>
-                
-                <label class="option-label" for="options__senses">Senses</label>
-                <div class="option options-row options__senses">
-                    <div :class="'options__senses option-box '+index" v-for="(item, index) in f5.senses">
-                        <label :for="'sense_'+index">@{{item.name}}</label>
-                        <select :name="'options__sense_'+index" v-model="options.senses[index]">
-                            <option v-for="(val, i) in [0,5,10,15,20,25,30,35,40,45,50,60,70,80,90,100,120,140,160,180,200,250,300]" :value="val" >@{{val+' '+options.measure.measureUnit}}</option>
-                        </select>
-                    </div>
-                </div>
-
-                <label class="option-label" for="options__skills">Skill Proficiencies</label>
-                <div class="option options-row options__skills">
-                    <div :class="'options__skill option-box '+index" v-for="(item, index) in f5.skills">
-                        <label :for="'skill_'+index">@{{item.name}}</label>
-                        <input :id="'skill_'+index" type="checkbox" id="checkbox" v-model="options.skills[index]">
-                    </div>
-                </div>
-
                 <button class="add-feature-btn">+ Feature</button>
     
             </div>
@@ -120,25 +70,25 @@
             
                 //Edit Fields. Allow focused objects to be editted while making others uneditable
                 document.addEventListener('click', function(e) {
-                    if(!e.target.closest(".focusEdit")) {   //Click on any object other than an edittable one
-                        const editFields = document.querySelectorAll(".focusEdit.focused");
+                    if(!e.target.closest(".focus-edit")) {   //Click on any object other than an edittable one
+                        const editFields = document.querySelectorAll(".focus-edit.focused");
                         editFields.forEach(function(el) { 
                             el.classList.remove('focused');
                         });
                     }
                 });
 
-                const editFields = document.querySelectorAll(".focusEdit"); //Get all edittable elements
+                const editFields = document.querySelectorAll(".focus-edit"); //Get all edittable elements
                 for (const editField of editFields) {
                     editField.addEventListener('click', clearEditFields); 
                 }
 
                 function clearEditFields(e) { //Clear other edittable fields
-                    const editFields = document.querySelectorAll(".focusEdit.focused");
+                    const editFields = document.querySelectorAll(".focus-edit.focused");
                     editFields.forEach(function(el) { 
                         el.classList.remove('focused');
                     });
-                    e.target.closest(".focusEdit").classList.add('focused');
+                    e.target.closest(".focus-edit").classList.add('focused');
                 }
 
                 //Add Feature

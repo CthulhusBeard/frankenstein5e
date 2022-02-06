@@ -7,6 +7,7 @@ return [
     'additional' => 'Additional',
     'type' => 'Type',
     'die_symbol' => 'd',
+    'none' => 'None',
 
     'passive' => 'passive',
 

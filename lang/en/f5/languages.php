@@ -3,7 +3,6 @@
 return [
     'custom' => 'custom',
 
-    'none' => 'None',
     'all' => 'All Languages',
     'common' => 'Common',
     'dwarvish' => 'Dwarvish',

@@ -7,6 +7,18 @@ use Illuminate\Support\Facades\Cache;
 
 class FrankensteinController extends Controller
 {
+
+    //TODO: 
+    // - Create features
+    // - Loc pass
+    // - WOTC Fan Content legal
+    // - SEO meta
+    // - Change images to original
+    // - Convert units
+    // - Update Prof by CR (already in config)
+    
+    
+    
     public function builder (Request $request) {
         $cacheSeconds = 2;
 

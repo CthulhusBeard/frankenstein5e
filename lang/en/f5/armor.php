@@ -24,6 +24,8 @@ return [
     'splint' => 'Splint Armor',
     'plate' => 'Plate Armor',
     
+    'shield' => 'shield',
+
     'stealth_dis' => 'Disadvantage on Stealth',
     
     'title_armor_class' => 'Armor Class',

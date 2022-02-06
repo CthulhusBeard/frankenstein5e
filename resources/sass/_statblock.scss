@@ -1,28 +1,44 @@
 $statBlockRed: #822000;
 
-.focusEdit {
+.editable {
+    border: 1px black solid;
+    border-radius: 2px;
+    background-color: white;
+}
+
+.focus-edit {
     cursor: pointer;
     
-    .editField {
+    .edit-field {
         display: none;
-        border: 1px black solid;
-        border-radius: 2px;
-        background-color: white;
+        @extend .editable;
     }
     &.focused {
-        .editField {
-            display: unset;
+        .edit-field {
+            display: block;
             &--flex {
                 display: flex;
             }
         }
-        .displayField {
+        .display-field {
             display: none;
         }
     }
 }
-.noEdit {
+.no-edit {
     cursor: not-allowed;
+}
+
+.hidden-holder {
+    .hover-show {
+        display: none;
+        @extend .editable;
+    }
+    &:hover {
+        .hover-show {
+            display: block;
+        }
+    }
 }
 
 .multiselect-tag {
@@ -151,5 +167,4 @@ $statBlockRed: #822000;
             }
         }
     }
-
 }
