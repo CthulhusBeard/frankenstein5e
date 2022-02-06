@@ -9,6 +9,8 @@ return [
     'die_symbol' => 'd',
     'none' => 'None',
 
+    'please_select_one' => 'Please select one',
+
     'passive' => 'passive',
 
     'hit_dice_amount' => 'Hit Dice Amount',

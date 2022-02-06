@@ -10,6 +10,8 @@ return [
     'passive' => 'f5/misc.passive',
     'none' => 'f5/misc.none',
     'shield' => 'f5/armor.shield',
+
+    'please_select_one' => 'f5/misc.please_select_one',
     
     'hit_dice_amount' => 'f5/misc.hit_dice_amount',
     'hit_dice_type' => 'f5/misc.hit_dice_type',

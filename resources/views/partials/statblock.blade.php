@@ -18,7 +18,7 @@
                 <div class="option options__types edit-field">
                     @{{ f5.misc.title_type }}:
                     <select id="options__type" name="options__type" v-model="options.type">
-                        <option disabled value="">Please select one</option>
+                        <option disabled value="">@{{f5.misc.please_select_one}}</option>
                         <option v-for="(item, index) in f5.creaturetypes" :value="index">@{{item.name}}</option>
                     </select>
                 </div>
@@ -26,7 +26,7 @@
                 <div class="option options__subtypes edit-field">
                     @{{ f5.misc.title_subtype }}:
                     <select id="options__subtype" name="options__subtype" v-model="options.subtype">
-                        <option selected value="">None</option>
+                        <option selected value="">@{{f5.misc.none}}</option>
                         <option v-for="(item, index) in f5.creaturesubtypes" :value="index">@{{item.name}}</option>
                     <!--<option v-for="item in orderedSubtypes" :value="item.id">@{{item.name}}</option>-->
                     </select>
@@ -35,7 +35,7 @@
                 <div class="option options__type-option edit-field" v-if="typeCategoryList.length > 0">
                     @{{ f5.misc.title_category }}:
                     <select id="options__type-option" name="options__typeCategory" v-model="options.typeCategory">
-                        <option value="">None</option>
+                        <option value="">@{{f5.misc.none}}</option>
                         <option v-for="item in typeCategoryList" :value="item.id">@{{item.name}}</option>
                     </select>
                 </div>
@@ -43,7 +43,7 @@
                 <div class="option options__alignments edit-field">
                     @{{ f5.misc.title_alignments }}:
                     <select id="options__alignment" name="options__alignment" v-model="options.alignment">
-                        <option value="">None</option>
+                        <option value="">@{{f5.misc.none}}</option>
                         <option v-for="(item, index) in f5.alignments" :value="index">@{{item.name}}</option>
                     </select>
                     @{{f5.misc.title_alignments_typically}}<input type="checkbox" v-model="options.showTypicalAlignment">
@@ -329,14 +329,16 @@
                     <span class="display-field">@{{proficiencyText}}</span>
                 </div>
             </div>
+
             <div class="stat-block__line-break"></div>
+
             <div class="stat-block__feature"><span>Innate Spellcasting (Psionics).</span> The dragon’s innate spellcasting ability is Intelligence (spell save DC 17). It can innately cast the following spells, requiring no components:</div>
-            <div class="stat-block__subtitle"><span>A</span>ctions</div>
+            <div class="stat-block__subtitle">Actions</div>
             <div class="stat-block__feature"><span>Innate Spellcasting (Psionics).</span> The dragon’s innate spellcasting ability is Intelligence (spell save DC 17). It can innately cast the following spells, requiring no components:</div>
         </div>
         
         <div class="stat-block__column">
-            <div class="stat-block__subtitle"><span>L</span>egendary <span>A</span>ctions</div>
+            <div class="stat-block__subtitle">Legendary Actions</div>
             <div class="stat-block__feature"><span>Innate Spellcasting (Psionics).</span> The dragon’s innate spellcasting ability is Intelligence (spell save DC 17). It can innately cast the following spells, requiring no components:</div>
             <div class="stat-block__feature"><span>Innate Spellcasting (Psionics).</span> The dragon’s innate spellcasting ability is Intelligence (spell save DC 17). It can innately cast the following spells, requiring no components:</div>
         </div>
