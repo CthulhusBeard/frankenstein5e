@@ -4,6 +4,37 @@ Vue.use(VueCompositionAPI);
 
 export function initVue(f5data) {
 
+    Vue.component('statblock-feature', {
+        data: {
+            id: 0,
+            name: '!!!',
+            type: '$$$',
+            template: 'custom test',
+            custom_description: 'blah blah',
+        },
+        computed: {
+            displayName: function() {
+                console.log('displayName');
+                console.log(this.name);
+                return this.name;
+            },
+            descriptionText: function() {
+                return this.customDescription;
+            },
+        },
+        methods: {
+
+        },
+
+        template: `
+            <div class="stat-block__feature focus-edit">
+                <span class="feature__title">!!{{displayName}}{{name}}</span> 
+                <span class="feature__description">!!{{descriptionText}}{{custom_description}}</span>
+                <div class="feature__remove" @click="removeFeature(type, id)">x</div>
+            </div>
+            `
+    })
+
     let vueData = {
         options: {
             name: 'Monster',
@@ -39,6 +70,7 @@ export function initVue(f5data) {
                 telepathy: 0,
             },
             speeds: {},
+            hover: false,
             senses: {},
 
             measure: {
@@ -55,6 +87,13 @@ export function initVue(f5data) {
                 }, 
                 defensive: {
                 }
+            },
+            features: {
+                passives: [],
+                actions: [],
+                bonusActions: [],
+                legendaryActions: [],
+                mythicActions: [],
             },
         },
         newFeature: {
@@ -105,13 +144,12 @@ export function initVue(f5data) {
             vueData.options.speeds[speed] = 0;
         }
     }
-    vueData.options.hover = false;
     
     let app = new Vue({
         el: '#f5',
         data: vueData,
         components: {
-            'Multiselect': Multiselect
+            'Multiselect': Multiselect,
         },
 
         computed: {
@@ -435,7 +473,6 @@ export function initVue(f5data) {
                         list.push({ value: i, label: this.f5.damagetypes[i].name});
                     }
                 }
-                console.log(list);
                 return list;
             },
 
@@ -795,6 +832,24 @@ export function initVue(f5data) {
 
             capitalize: function(str) {
                 return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+            },
+
+            createFeature: function(type) {
+                let newFeature = {
+                    id: this.options.features[type].length,
+                    type: type,
+                    name: this.f5.misc.title_new_feature,
+                    template: 'custom', 
+                    custom_description: 'The dragon\'s innate spellcasting ability is Intelligence (spell save DC 17). It can innately cast the following spells, requiring no components:',
+                };
+
+                this.options.features[type].push(newFeature);
+                console.log(type);
+                console.log(this.options.features[type]);
+            },
+
+            removeFeature: function(type, id) {
+                //for(let feature of this.options.features[type]);
             },
         }
     });

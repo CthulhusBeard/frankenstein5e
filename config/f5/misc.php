@@ -12,6 +12,7 @@ return [
     'shield' => 'f5/armor.shield',
 
     'please_select_one' => 'f5/misc.please_select_one',
+    'choose_a' => 'f5/misc.choose_a',
     
     'hit_dice_amount' => 'f5/misc.hit_dice_amount',
     'hit_dice_type' => 'f5/misc.hit_dice_type',
@@ -24,6 +25,8 @@ return [
     
     'title_proficiency' => 'f5/misc.title_proficiency',
     'title_saving_throws' => 'f5/misc.title_saving_throws',
+
+    'title_new_feature' => 'f5/features.title_new_feature',
 
     //---
 

@@ -145,6 +145,7 @@
                     <span v-else class="title">+ @{{f5.misc.title_skills}}</span>
                     <span>@{{skillText}}</span>
                     <Multiselect class="edit-field edit-field--flex"
+                        :placeholder="f5.misc.choose_a.replace(':choice', 'skill')"
                         v-model="options.skills" 
                         mode="tags"
                         :options="f5.skills" 
@@ -152,7 +153,7 @@
                         :close-on-select="false"
                         :searchable="true"
                         :create-option="true"
-                        >
+                    >
                             <template v-slot:tag="{ option, handleTagRemove, disabled }">
                                 <div class="multiselect-tag">
                                     @{{ option.label.name }}
@@ -174,13 +175,14 @@
                     <span>@{{damageResistanceText}}</span>
                     <Multiselect class="edit-field edit-field--flex"
                         v-model="options.damageResistances" 
+                        :placeholder="f5.misc.choose_a.replace(':choice', 'damage type')"
                         mode="tags"
                         :options="eligableDamageTypes" 
                         mode="multiple"
                         :close-on-select="false"
                         :searchable="true"
                         :create-option="true"
-                        >
+                    >
                             <template v-slot:tag="{ option, handleTagRemove, disabled }">
                                 <div class="multiselect-tag">
                                     @{{ option.label }}
@@ -202,13 +204,14 @@
                     <span>@{{damageImmunitiesText}}</span>
                     <Multiselect class="edit-field edit-field--flex"
                         v-model="options.damageImmunities" 
+                        :placeholder="f5.misc.choose_a.replace(':choice', 'damage type')"
                         mode="tags"
                         :options="eligableDamageTypes" 
                         mode="multiple"
                         :close-on-select="false"
                         :searchable="true"
                         :create-option="true"
-                        >
+                    >
                             <template v-slot:tag="{ option, handleTagRemove, disabled }">
                                 <div class="multiselect-tag">
                                     @{{ option.label }}
@@ -230,13 +233,14 @@
                     <span>@{{damageVulnerabilitiesText}}</span>
                     <Multiselect class="edit-field edit-field--flex"
                         v-model="options.damageVulnerabilites" 
+                        :placeholder="f5.misc.choose_a.replace(':choice', 'damage type')"
                         mode="tags"
                         :options="eligableDamageTypes" 
                         mode="multiple"
                         :close-on-select="false"
                         :searchable="true"
                         :create-option="true"
-                        >
+                    >
                             <template v-slot:tag="{ option, handleTagRemove, disabled }">
                                 <div class="multiselect-tag">
                                     @{{ option.label }}
@@ -258,13 +262,14 @@
                     <span>@{{conditionImmunitiesText}}</span>
                     <Multiselect class="edit-field edit-field--flex"
                         v-model="options.conditionImmunities" 
+                        :placeholder="f5.misc.choose_a.replace(':choice', 'condition')"
                         mode="tags"
                         :options="f5.conditions" 
                         mode="multiple"
                         :close-on-select="false"
                         :searchable="true"
                         :create-option="true"
-                        >
+                    >
                             <template v-slot:tag="{ option, handleTagRemove, disabled }">
                                 <div class="multiselect-tag">
                                     @{{ option.label.name }}
@@ -332,15 +337,53 @@
 
             <div class="stat-block__line-break"></div>
 
-            <div class="stat-block__feature"><span>Innate Spellcasting (Psionics).</span> The dragon’s innate spellcasting ability is Intelligence (spell save DC 17). It can innately cast the following spells, requiring no components:</div>
-            <div class="stat-block__subtitle">Actions</div>
-            <div class="stat-block__feature"><span>Innate Spellcasting (Psionics).</span> The dragon’s innate spellcasting ability is Intelligence (spell save DC 17). It can innately cast the following spells, requiring no components:</div>
+            <div class="stat-block__passives">
+                <div class="stat-block__add-feature-button" @click="createFeature('passives')">
+                    + Passive Feature
+                </div>
+                <statblock-feature 
+                    v-for="passive in options.features.passives"
+                    v-bind:feature="passive"
+                ></statblock-feature>
+            </div>
+            <div class="stat-block__actions">
+                <div v-if="options.features.actions.length" class="stat-block__subtitle">
+                    Actions
+                </div>
+                <div class="stat-block__add-feature-button" @click="createFeature('actions')">+ Action</div>
+                <statblock-feature 
+                    v-for="action in options.features.actions"
+                    v-bind:feature="action"
+                ></statblock-feature>
+            </div>
+            <div class="stat-block__bonus-actions">
+                <div v-if="options.features.bonusActions.length" class="stat-block__subtitle">Bonus Actions</div>
+                <div class="stat-block__add-feature-button" @click="createFeature('bonusActions')">+ Bonus Action</div>
+                <statblock-feature 
+                    v-for="bonusAction in options.features.bonusActions"
+                    v-bind:feature="bonusAction"
+                ></statblock-feature>
+            </div>
+
         </div>
         
         <div class="stat-block__column">
-            <div class="stat-block__subtitle">Legendary Actions</div>
-            <div class="stat-block__feature"><span>Innate Spellcasting (Psionics).</span> The dragon’s innate spellcasting ability is Intelligence (spell save DC 17). It can innately cast the following spells, requiring no components:</div>
-            <div class="stat-block__feature"><span>Innate Spellcasting (Psionics).</span> The dragon’s innate spellcasting ability is Intelligence (spell save DC 17). It can innately cast the following spells, requiring no components:</div>
+            <div class="stat-block__legendary-actions">
+                <div v-if="options.features.legendaryActions.length" class="stat-block__subtitle">Legendary Actions</div>
+                <div class="stat-block__add-feature-button" @click="createFeature('legendaryActions')">+ Legendary Action</div>
+                <statblock-feature 
+                    v-for="legendaryAction in options.features.legendaryActions"
+                    v-bind:feature="legendaryAction"
+                ></statblock-feature>
+            </div>
+            <div class="stat-block__mythic-actions">
+                <div v-if="options.features.mythicActions.length" class="stat-block__subtitle">Mythic Actions</div>
+                <div class="stat-block__add-feature-button" @click="createFeature('mythicActions')">+ Mythic Action</div>
+                <statblock-feature 
+                    v-for="mythicAction in options.features.mythicActions"
+                    v-bind="mythicAction"
+                ></statblock-feature>
+            </div>
         </div>
     </div>
 </div>

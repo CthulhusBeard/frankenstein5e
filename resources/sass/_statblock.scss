@@ -2,12 +2,17 @@ $statBlockRed: #822000;
 
 .editable {
     border: 1px black solid;
-    border-radius: 2px;
+    border-radius: 8px;
     background-color: white;
 }
 
 .focus-edit {
     cursor: pointer;
+
+    &:hover {
+        background-color: #7e7a6338;    
+        border-radius: 8px;
+    }
     
     .edit-field {
         display: none;
@@ -83,10 +88,6 @@ $statBlockRed: #822000;
     &:after {
         bottom: -3px;
     }
-
-    // .stat-block__column {
-
-    // }
 
     .title {
         margin-right: 2px;
@@ -177,11 +178,34 @@ $statBlockRed: #822000;
         margin: 11px 0;
     }
 
+    .stat-block__add-feature-button {
+        @extend .editable;
+        display: none;
+        font-weight: bold;
+        cursor: pointer;
+        &:hover {
+            background-color: #7e7a6338;    
+            border-radius: 8px;
+        }
+    }
+
     .stat-block__feature {
-        margin-bottom: 4px;
-        .title {
+        color: black;
+        margin-bottom: 12px;
+        .feature__title {
             font-weight: bold;
             font-style: italic;
+        }
+        .feature__remove {
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+    }
+        
+    &:hover {
+        .stat-block__add-feature-button {
+            display: block;
         }
     }
     

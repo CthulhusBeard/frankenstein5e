@@ -13,7 +13,7 @@ class FrankensteinController extends Controller
     // - Loc pass
     // - WOTC Fan Content legal
     // - SEO meta
-    // - Change images to original
+    // - Change images to original ( add repeating ripped edge)
     // - Convert units
     // - Update Prof by CR (already in config)
     

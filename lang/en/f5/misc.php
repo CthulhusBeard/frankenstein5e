@@ -10,6 +10,7 @@ return [
     'none' => 'None',
 
     'please_select_one' => 'Please select one',
+    'choose_a' => 'Choose a :choice',
 
     'passive' => 'passive',
 

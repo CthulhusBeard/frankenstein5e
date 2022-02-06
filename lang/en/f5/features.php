@@ -35,4 +35,7 @@ return [
     'desc_modifier_damage' => 'plus :damage_roll :damage_type damage',
     'desc_modifier_saving_throw_generic' => 'Additionally, it must succeed a :damage_roll :damage_type damage',
     'desc_modifier_saving_throw_creature' => 'If the target is a creature, it must succeed a :damage_roll :damage_type damage',
+
+    //--
+    'title_new_feature' => 'New Feature',
 ];
