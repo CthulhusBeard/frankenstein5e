@@ -14903,6 +14903,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initVue", function() { return initVue; });
 /* harmony import */ var _vueform_multiselect_dist_multiselect_vue2_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @vueform/multiselect/dist/multiselect.vue2.js */ "./node_modules/@vueform/multiselect/dist/multiselect.vue2.js");
 /* harmony import */ var _vue_composition_api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @vue/composition-api */ "./node_modules/@vue/composition-api/dist/vue-composition-api.mjs");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
 function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -14914,25 +14922,18 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 Vue.use(_vue_composition_api__WEBPACK_IMPORTED_MODULE_1__["default"]);
 function initVue(f5data) {
   Vue.component('statblock-feature', {
-    data: {
-      id: 0,
-      name: '!!!',
-      type: '$$$',
-      template: 'custom test',
-      custom_description: 'blah blah'
-    },
+    props: ['value'],
     computed: {
       displayName: function displayName() {
-        console.log('displayName');
-        console.log(this.name);
-        return this.name;
+        return this.value.name;
       },
       descriptionText: function descriptionText() {
-        return this.customDescription;
+        return this.value.custom_description;
       }
     },
     methods: {},
-    template: "\n            <div class=\"stat-block__feature focus-edit\">\n                <span class=\"feature__title\">!!{{displayName}}{{name}}</span> \n                <span class=\"feature__description\">!!{{descriptionText}}{{custom_description}}</span>\n                <div class=\"feature__remove\" @click=\"removeFeature(type, id)\">x</div>\n            </div>\n            "
+    template: "\n            <div class=\"stat-block__feature focus-edit\">\n                <span class=\"feature__title display-field\">{{displayName}}</span> \n                <span class=\"feature__description display-field\">{{descriptionText}}</span>\n                <div class=\"edit-field\">\n                    <input type=\"text\" class=\"feature__title\" v-model=\"value.name\" />\n                    {{this.$parent.f5.misc.title_feature_template}}\n                    <select v-model=\"value.template\">\n                        <option v-for=\"(template, i) in this.$parent.f5.featuretemplates\" :value=\"i\">{{template.name}}</option>\n                    </select>\n                    </br>\n                    <textarea v-if=\"value.template == 'custom'\" rows=\"5\" class=\"feature__description\" v-model=\"value.custom_description\"></textarea>\n                </div>\n                <div class=\"feature__remove\" @click=\"$emit('remove-feature', value.type, value.id)\">x</div>\n            </div>\n            " //v-on:input="$emit('input', $event.target.value)"
+
   });
   var vueData = {
     options: {
@@ -15811,20 +15812,40 @@ function initVue(f5data) {
       },
       createFeature: function createFeature(type) {
         var newFeature = {
-          id: this.options.features[type].length,
+          id: this.randChars(15),
           type: type,
           name: this.f5.misc.title_new_feature,
-          template: 'custom',
-          custom_description: 'The dragon\'s innate spellcasting ability is Intelligence (spell save DC 17). It can innately cast the following spells, requiring no components:'
+          template: 'custom'
         };
+        newFeature['custom_description'] = ' The dragon\'s innate spellcasting ability is Intelligence (spell save DC 17). It can innately cast the following spells, requiring no components:';
         this.options.features[type].push(newFeature);
-        console.log(type);
-        console.log(this.options.features[type]);
       },
-      removeFeature: function removeFeature(type, id) {//for(let feature of this.options.features[type]);
+      removeFeature: function removeFeature(type, id) {
+        for (var i in this.options.features[type]) {
+          if (this.options.features[type][i].id === id) {
+            this.options.features[type].splice(i, 1);
+            return;
+          }
+        }
+      },
+      randChars: function randChars(len) {
+        var base = _toConsumableArray("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvyxyz0123456789");
+
+        var generator = function generator(base, len) {
+          return _toConsumableArray(Array(len)).map(function (i) {
+            return base[Math.random() * base.length | 0];
+          }).join('');
+        };
+
+        return generator(base, len);
       }
     }
   });
+  app.createFeature('passives');
+  app.createFeature('actions');
+  app.createFeature('bonusActions');
+  app.createFeature('legendaryActions');
+  app.createFeature('mythicActions');
   return app;
 }
 

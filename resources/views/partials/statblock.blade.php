@@ -343,8 +343,12 @@
                 </div>
                 <statblock-feature 
                     v-for="passive in options.features.passives"
-                    v-bind:feature="passive"
+                    v-model="passive"
+                    v-on:remove-feature="removeFeature"
                 ></statblock-feature>
+                
+                    <!-- v-bind:key="action.id"
+                    v-bind:feature="action" -->
             </div>
             <div class="stat-block__actions">
                 <div v-if="options.features.actions.length" class="stat-block__subtitle">
@@ -353,7 +357,8 @@
                 <div class="stat-block__add-feature-button" @click="createFeature('actions')">+ Action</div>
                 <statblock-feature 
                     v-for="action in options.features.actions"
-                    v-bind:feature="action"
+                    v-model="action"
+                    v-on:remove-feature="removeFeature"
                 ></statblock-feature>
             </div>
             <div class="stat-block__bonus-actions">
@@ -361,7 +366,8 @@
                 <div class="stat-block__add-feature-button" @click="createFeature('bonusActions')">+ Bonus Action</div>
                 <statblock-feature 
                     v-for="bonusAction in options.features.bonusActions"
-                    v-bind:feature="bonusAction"
+                    v-model="bonusAction"
+                    v-on:remove-feature="removeFeature"
                 ></statblock-feature>
             </div>
 
@@ -373,7 +379,8 @@
                 <div class="stat-block__add-feature-button" @click="createFeature('legendaryActions')">+ Legendary Action</div>
                 <statblock-feature 
                     v-for="legendaryAction in options.features.legendaryActions"
-                    v-bind:feature="legendaryAction"
+                    v-model="legendaryAction"
+                    v-on:remove-feature="removeFeature"
                 ></statblock-feature>
             </div>
             <div class="stat-block__mythic-actions">
@@ -381,7 +388,8 @@
                 <div class="stat-block__add-feature-button" @click="createFeature('mythicActions')">+ Mythic Action</div>
                 <statblock-feature 
                     v-for="mythicAction in options.features.mythicActions"
-                    v-bind="mythicAction"
+                    v-model="mythicAction"
+                    v-on:remove-feature="removeFeature"
                 ></statblock-feature>
             </div>
         </div>

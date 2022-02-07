@@ -336,6 +336,7 @@ body {
 }
 
 .stat-block .stat-block__feature {
+  position: relative;
   color: black;
   margin-bottom: 12px;
 }
@@ -345,10 +346,27 @@ body {
   font-style: italic;
 }
 
+.stat-block .stat-block__feature .feature__description {
+  width: 98%;
+  resize: none;
+}
+
 .stat-block .stat-block__feature .feature__remove {
+  display: none;
   position: absolute;
+  font-size: 12px;
+  font-weight: bold;
   right: 0;
   top: 0;
+  padding: 0px 5px 2px 6px;
+  transform: translate(50%, -50%);
+  background-color: white;
+  border: 1px black solid;
+  border-radius: 17px;
+}
+
+.stat-block .stat-block__feature:hover .feature__remove {
+  display: block;
 }
 
 .stat-block:hover .stat-block__add-feature-button {

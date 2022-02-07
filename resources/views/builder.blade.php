@@ -47,13 +47,6 @@
                 </div>
             </div>
 
-            
-            <div class="creature-options">
-
-                <button class="add-feature-btn">+ Feature</button>
-    
-            </div>
-
             @include('partials.featurebuilder')
 
         </div>
@@ -64,38 +57,18 @@
                 let f5data = JSON.parse({!! json_encode($translatedData) !!}) ;
                 console.log(f5data);
                 let app = StatBlock.initVue(f5data);
-
-
-                    //Listeners
             
                 //Edit Fields. Allow focused objects to be editted while making others uneditable
                 document.addEventListener('click', function(e) {
-                    if(!e.target.closest(".focus-edit")) {   //Click on any object other than an edittable one
-                        const editFields = document.querySelectorAll(".focus-edit.focused");
-                        editFields.forEach(function(el) { 
-                            el.classList.remove('focused');
-                        });
-                    }
-                });
-
-                const editFields = document.querySelectorAll(".focus-edit"); //Get all edittable elements
-                for (const editField of editFields) {
-                    editField.addEventListener('click', clearEditFields); 
-                }
-
-                function clearEditFields(e) { //Clear other edittable fields
                     const editFields = document.querySelectorAll(".focus-edit.focused");
                     editFields.forEach(function(el) { 
                         el.classList.remove('focused');
                     });
-                    e.target.closest(".focus-edit").classList.add('focused');
-                }
 
-                //Add Feature
-                document.querySelector(".add-feature-btn").addEventListener('click', function() {
-                    document.querySelector(".add-feature").classList.add('show');
+                    if(e.target.closest(".focus-edit")) {   //Click on any object other than an edittable one
+                        e.target.closest(".focus-edit").classList.add('focused');
+                    }
                 });
-
 
             };
         </script>

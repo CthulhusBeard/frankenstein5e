@@ -27,6 +27,7 @@ return [
     'title_saving_throws' => 'f5/misc.title_saving_throws',
 
     'title_new_feature' => 'f5/features.title_new_feature',
+    'title_feature_template' => 'f5/features.title_feature_template',
 
     //---
 

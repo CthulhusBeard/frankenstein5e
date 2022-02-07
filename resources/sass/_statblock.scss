@@ -190,16 +190,34 @@ $statBlockRed: #822000;
     }
 
     .stat-block__feature {
+        position: relative;
         color: black;
         margin-bottom: 12px;
         .feature__title {
             font-weight: bold;
             font-style: italic;
         }
+        .feature__description {
+            width: 98%;
+            resize: none;
+        }
         .feature__remove {
+            display: none;
             position: absolute;
+            font-size: 12px;
+            font-weight: bold;
             right: 0;
             top: 0;
+            padding: 0px 5px 2px 6px;
+            transform: translate(50%, -50%);
+            background-color: white;
+            border: 1px black solid;
+            border-radius: 17px;
+        }
+        &:hover {
+            .feature__remove {
+                display: block;
+            }
         }
     }
         

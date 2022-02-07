@@ -38,4 +38,5 @@ return [
 
     //--
     'title_new_feature' => 'New Feature',
+    'title_feature_template' => 'Feature Template',
 ];

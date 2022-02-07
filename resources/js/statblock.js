@@ -5,34 +5,36 @@ Vue.use(VueCompositionAPI);
 export function initVue(f5data) {
 
     Vue.component('statblock-feature', {
-        data: {
-            id: 0,
-            name: '!!!',
-            type: '$$$',
-            template: 'custom test',
-            custom_description: 'blah blah',
-        },
+        props: ['value'],
         computed: {
             displayName: function() {
-                console.log('displayName');
-                console.log(this.name);
-                return this.name;
+                return this.value.name;
             },
             descriptionText: function() {
-                return this.customDescription;
+                return this.value.custom_description;
             },
         },
         methods: {
-
         },
 
         template: `
             <div class="stat-block__feature focus-edit">
-                <span class="feature__title">!!{{displayName}}{{name}}</span> 
-                <span class="feature__description">!!{{descriptionText}}{{custom_description}}</span>
-                <div class="feature__remove" @click="removeFeature(type, id)">x</div>
+                <span class="feature__title display-field">{{displayName}}</span> 
+                <span class="feature__description display-field">{{descriptionText}}</span>
+                <div class="edit-field">
+                    <input type="text" class="feature__title" v-model="value.name" />
+                    <br/>
+                    {{this.$parent.f5.misc.title_feature_template}}
+                    <select v-model="value.template">
+                        <option v-for="(template, i) in this.$parent.f5.featuretemplates" :value="i">{{template.name}}</option>
+                    </select>
+                    </br>
+                    <textarea v-if="value.template == 'custom'" rows="5" class="feature__description" v-model="value.custom_description"></textarea>
+                </div>
+                <div class="feature__remove" @click="$emit('remove-feature', value.type, value.id)">x</div>
             </div>
             `
+            //v-on:input="$emit('input', $event.target.value)"
     })
 
     let vueData = {
@@ -836,23 +838,42 @@ export function initVue(f5data) {
 
             createFeature: function(type) {
                 let newFeature = {
-                    id: this.options.features[type].length,
+                    id: this.randChars(15),
                     type: type,
                     name: this.f5.misc.title_new_feature,
                     template: 'custom', 
-                    custom_description: 'The dragon\'s innate spellcasting ability is Intelligence (spell save DC 17). It can innately cast the following spells, requiring no components:',
                 };
+                newFeature['custom_description'] = ' The dragon\'s innate spellcasting ability is Intelligence (spell save DC 17). It can innately cast the following spells, requiring no components:';
 
                 this.options.features[type].push(newFeature);
-                console.log(type);
-                console.log(this.options.features[type]);
             },
 
             removeFeature: function(type, id) {
-                //for(let feature of this.options.features[type]);
+                for(let i in this.options.features[type]) {
+                    if(this.options.features[type][i].id === id) {
+                        this.options.features[type].splice(i, 1);
+                        return;
+                    }
+                }
+            },
+
+            randChars: function(len) {
+                const base = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvyxyz0123456789"];
+                const generator = (base, len) => {
+                    return [...Array(len)]
+                      .map(i => base[Math.random()*base.length|0])
+                      .join('');
+                };
+                return generator(base, len);
             },
         }
     });
+
+    app.createFeature('passives');
+    app.createFeature('actions');
+    app.createFeature('bonusActions');
+    app.createFeature('legendaryActions');
+    app.createFeature('mythicActions');
 
     return app;
 
