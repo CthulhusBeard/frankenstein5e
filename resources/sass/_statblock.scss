@@ -214,6 +214,10 @@ $statBlockRed: #822000;
             border: 1px black solid;
             border-radius: 17px;
         }
+        .edit-field {
+            width: 98%;
+            padding: 5px;
+        }
         &:hover {
             .feature__remove {
                 display: block;

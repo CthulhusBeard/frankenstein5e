@@ -365,6 +365,11 @@ body {
   border-radius: 17px;
 }
 
+.stat-block .stat-block__feature .edit-field {
+  width: 98%;
+  padding: 5px;
+}
+
 .stat-block .stat-block__feature:hover .feature__remove {
   display: block;
 }

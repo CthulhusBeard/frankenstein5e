@@ -31,7 +31,7 @@ export function initVue(f5data) {
                     </br>
                     <textarea v-if="value.template == 'custom'" rows="5" class="feature__description" v-model="value.custom_description"></textarea>
                 </div>
-                <div class="feature__remove" @click="$emit('remove-feature', value.type, value.id)">x</div>
+                <div class="feature__remove" @click="$emit('remove-feature', value.actionType, value.id)">x</div>
             </div>
             `
             //v-on:input="$emit('input', $event.target.value)"
@@ -839,7 +839,7 @@ export function initVue(f5data) {
             createFeature: function(type) {
                 let newFeature = {
                     id: this.randChars(15),
-                    type: type,
+                    actionType: type,
                     name: this.f5.misc.title_new_feature,
                     template: 'custom', 
                 };

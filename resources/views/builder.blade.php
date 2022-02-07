@@ -65,7 +65,7 @@
                         el.classList.remove('focused');
                     });
 
-                    if(e.target.closest(".focus-edit")) {   //Click on any object other than an edittable one
+                    if(e.target.closest(".focus-edit") && !e.target.closest(".feature__remove")) {   //Click on any object other than an edittable one
                         e.target.closest(".focus-edit").classList.add('focused');
                     }
                 });

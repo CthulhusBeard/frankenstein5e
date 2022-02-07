@@ -14932,7 +14932,7 @@ function initVue(f5data) {
       }
     },
     methods: {},
-    template: "\n            <div class=\"stat-block__feature focus-edit\">\n                <span class=\"feature__title display-field\">{{displayName}}</span> \n                <span class=\"feature__description display-field\">{{descriptionText}}</span>\n                <div class=\"edit-field\">\n                    <input type=\"text\" class=\"feature__title\" v-model=\"value.name\" />\n                    {{this.$parent.f5.misc.title_feature_template}}\n                    <select v-model=\"value.template\">\n                        <option v-for=\"(template, i) in this.$parent.f5.featuretemplates\" :value=\"i\">{{template.name}}</option>\n                    </select>\n                    </br>\n                    <textarea v-if=\"value.template == 'custom'\" rows=\"5\" class=\"feature__description\" v-model=\"value.custom_description\"></textarea>\n                </div>\n                <div class=\"feature__remove\" @click=\"$emit('remove-feature', value.type, value.id)\">x</div>\n            </div>\n            " //v-on:input="$emit('input', $event.target.value)"
+    template: "\n            <div class=\"stat-block__feature focus-edit\">\n                <span class=\"feature__title display-field\">{{displayName}}</span> \n                <span class=\"feature__description display-field\">{{descriptionText}}</span>\n                <div class=\"edit-field\">\n                    <input type=\"text\" class=\"feature__title\" v-model=\"value.name\" />\n                    <br/>\n                    {{this.$parent.f5.misc.title_feature_template}}\n                    <select v-model=\"value.template\">\n                        <option v-for=\"(template, i) in this.$parent.f5.featuretemplates\" :value=\"i\">{{template.name}}</option>\n                    </select>\n                    </br>\n                    <textarea v-if=\"value.template == 'custom'\" rows=\"5\" class=\"feature__description\" v-model=\"value.custom_description\"></textarea>\n                </div>\n                <div class=\"feature__remove\" @click=\"$emit('remove-feature', value.actionType, value.id)\">x</div>\n            </div>\n            " //v-on:input="$emit('input', $event.target.value)"
 
   });
   var vueData = {
@@ -15813,7 +15813,7 @@ function initVue(f5data) {
       createFeature: function createFeature(type) {
         var newFeature = {
           id: this.randChars(15),
-          type: type,
+          actionType: type,
           name: this.f5.misc.title_new_feature,
           template: 'custom'
         };
