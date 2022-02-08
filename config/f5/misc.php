@@ -43,6 +43,7 @@ return [
     'title_attack_ability' => 'f5/features.title_attack_ability',
     'title_targets' => 'f5/features.title_targets',
     'title_half_on_success' => 'f5/features.title_half_on_success',
+    'title_damage_type' => 'f5/features.title_damage_type',
 
     'num_of_targets' => 'f5/features.num_of_targets',
     'one_target' => 'f5/features.one_target',

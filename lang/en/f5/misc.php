@@ -8,7 +8,7 @@ return [
     'type' => 'Type',
     'die_symbol' => 'd',
     'none' => 'None',
-    'damage' => 'Damage',
+    'damage' => ':type damage',
 
     'please_select_one' => 'Please select one',
     'choose_a' => 'Choose a :choice',
@@ -28,5 +28,6 @@ return [
 
     'title_proficiency' => 'Proficiency Bonus',
     'title_saving_throws' => 'Saving Throws',
+    'title_damage' => 'Damage',
 
 ];

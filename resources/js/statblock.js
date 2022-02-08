@@ -954,7 +954,12 @@ export function initVue(f5data) {
                 } else {
                     descText = damageObj.additional+' ';
                 }
-                descText += this.$data.f5.damagetypes[damageObj.type].name.toLowerCase()+' '+this.$data.f5.misc.damage.toLowerCase();
+                console.log(damageObj.type);
+                console.log(damageObj.type);
+                console.log(this.$data.f5.damagetypes);
+                console.log(this.$data.f5.damagetypes[damageObj.type]);
+                console.log(this.$data.f5.damagetypes[damageObj.type]['name']);
+                descText += this.$data.f5.misc.damage.replace(':type', this.$data.f5.damagetypes[damageObj.type].name.toLowerCase());
                 return descText;
             },
 

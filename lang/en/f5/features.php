@@ -57,4 +57,5 @@ return [
     'title_additional_saving_throw' => 'Additional Saving Throw',
     'title_targets' => 'Targets',
     'title_half_on_success' => 'Half Damage on Success',
+    'title_damage_type' => 'Damage Type',
 ];

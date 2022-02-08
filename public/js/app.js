@@ -14973,7 +14973,7 @@ function initVue(f5data) {
           } //Hit
 
 
-          descText += ' <i>' + this.$parent.f5.misc.desc_attack_hit + '</i>';
+          descText += ' <i>' + this.$parent.f5.misc.desc_attack_hit + '</i> ';
           var damageText = '';
 
           var _iterator = _createForOfIteratorHelper(this.value.attackDamage),
@@ -14982,7 +14982,6 @@ function initVue(f5data) {
           try {
             for (_iterator.s(); !(_step = _iterator.n()).done;) {
               var damage = _step.value;
-              console.log(damage);
 
               if (damageText) {
                 damageText += ' and ';
@@ -14996,8 +14995,19 @@ function initVue(f5data) {
             _iterator.f();
           }
 
-          descText += damageText;
-          return descText;
+          descText += damageText; //Add Saving Throw
+
+          if (this.value.attackSavingThrow) {
+            var savingThrowText = this.$parent.f5.misc.desc_attack_saving_throw_damage;
+
+            if (this.value.attackSavingThrow) {
+              savingThrowText = savingThrowText.replace(':half_as_much', this.$parent.f5.misc.desc_saving_throw_half_on_success);
+            } else {
+              savingThrowText = savingThrowText.replace(':half_as_much', '');
+            }
+          }
+
+          return descText + '.';
         }
       }
     },
@@ -15910,7 +15920,8 @@ function initVue(f5data) {
           attackSavingThrow: false,
           attackTargets: 1,
           savingThrowAbility: 'str',
-          savingThrowDamage: []
+          savingThrowDamage: [],
+          savingThrowHalfOnSuccess: true
         };
         newFeature.attackDamage.push(this.createDamageDie());
         newFeature.savingThrowDamage.push(this.createDamageDie());
@@ -15937,7 +15948,6 @@ function initVue(f5data) {
         return Math.floor((damageObj.diceType / 2 + .5) * damageObj.diceAmount) + damageObj.additional;
       },
       damageText: function damageText(damageObj) {
-        console.log('---');
         var descText = '';
 
         if (damageObj.diceAmount > 0) {
@@ -15953,12 +15963,12 @@ function initVue(f5data) {
           descText = damageObj.additional + ' ';
         }
 
-        console.log(damageObj);
+        console.log(damageObj.type);
         console.log(damageObj.type);
         console.log(this.$data.f5.damagetypes);
         console.log(this.$data.f5.damagetypes[damageObj.type]);
-        console.log(this.$data.f5.damagetypes[damageObj.type].name);
-        descText += this.$data.f5.damagetypes[damageObj.type].name.toLowerCase() + ' ' + this.$data.f5.misc.damage.toLowerCase();
+        console.log(this.$data.f5.damagetypes[damageObj.type]['name']);
+        descText += this.$data.f5.misc.damage.replace(':type', this.$data.f5.damagetypes[damageObj.type].name.toLowerCase());
         return descText;
       },
       randChars: function randChars(len) {

@@ -55,18 +55,25 @@
                 <label>@{{$parent.f5.misc.title_damage_dice}}:</label>
                 <div class="feature__damage" v-for="(damage, index) in value.attackDamage">
                     <label>@{{$parent.f5.misc.dice_amount}}:</label>
-                        <select id="feature__damage__hitdice-amount" name="feature__damage__hitdice-amount" v-model="damage.diceAmount">
-                            <option v-for="i in 30" :value="i" >@{{i}}</option>
-                        </select>
-                        <br/>
-                        <label>@{{$parent.f5.misc.dice_type}}:</label>
-                        <select id="feature__damage__hitdice-type" name="feature__damage__hitdice-type" v-model="damage.diceType">
-                            <option v-for="i in $parent.f5.dicetypes" :value="i" >@{{i}}</option>
-                        </select>
-                        <br/>
+                    <select id="feature__damage__hitdice-amount" name="feature__damage__hitdice-amount" v-model="damage.diceAmount">
+                        <option value="0" >0</option>
+                        <option v-for="i in 30" :value="i" >@{{i}}</option>
+                    </select>
+                    <br/>
+                    <label>@{{$parent.f5.misc.dice_type}}:</label>
+                    <select id="feature__damage__hitdice-type" name="feature__damage__hitdice-type" v-model="damage.diceType">
+                        <option v-for="i in $parent.f5.dicetypes" :value="i" >@{{i}}</option>
+                    </select>
+                    <br/>
                     <label>@{{$parent.f5.misc.additional}}:</label>
                     <input type="number" min="0" max="9999" id="feature__damage__hitpoints-additional" name="feature__damage__hitpoints-additional" v-model="damage.additional" value="0" />
-                
+                    <br/>
+                    <label>@{{$parent.f5.misc.title_damage_type}}:</label>
+                    <select id="feature__damage__damage-type" name="feature__damage__damage-type" v-model="damage.type">
+                        <option v-for="(type, i) in $parent.f5.damagetypes" :value="i" >@{{type.name}}</option>
+                    </select>
+
+
                     <div class="feature__remove-damage" @click="removeDamageDie('attackDamage', index)">x</div>
                 </div>
                 <button @click="addDamageDie('attackDamage')">+ Damage Die</button>
@@ -88,6 +95,7 @@
                     <div class="feature__damage" v-for="(damage, index) in value.savingThrowDamage">
                         <label>@{{$parent.f5.misc.dice_amount}}:</label>
                             <select id="feature__damage__hitdice-amount" name="feature__damage__hitdice-amount" v-model="damage.diceAmount">
+                                <option value="0" >0</option>
                                 <option v-for="i in 30" :value="i" >@{{i}}</option>
                             </select>
                             <br/>
