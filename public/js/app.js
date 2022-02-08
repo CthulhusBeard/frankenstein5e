@@ -14923,17 +14923,97 @@ Vue.use(_vue_composition_api__WEBPACK_IMPORTED_MODULE_1__["default"]);
 function initVue(f5data) {
   Vue.component('statblock-feature', {
     props: ['value'],
+    template: '#stat-block__feature',
     computed: {
       displayName: function displayName() {
         return this.value.name;
       },
+      getValidTemplateTypes: function getValidTemplateTypes() {
+        var options = {};
+
+        for (var i in this.$parent.f5.featuretemplates) {
+          if (this.value.actionType == 'passives' && i == 'attack') {//continue;
+          }
+
+          options[i] = this.$parent.f5.featuretemplates[i];
+        }
+
+        return options;
+      },
       descriptionText: function descriptionText() {
-        return this.value.custom_description;
+        var descText = '';
+
+        if (this.value.template == 'custom') {
+          return this.value.customDescription;
+        } else if (this.value.template == 'attack') {
+          descText = this.$parent.f5.misc.desc_attack; //'<i>:attack_range :attack_type:</i> +:attack_bonus to hit, :range :targets.'
+
+          descText = descText.replace(':attack_range', this.$parent.f5.areaofeffect[this.value.targetType].name);
+          descText = descText.replace(':attack_type', this.$parent.f5.attacktypes[this.value.attackType].name);
+          descText = descText.replace(':attack_bonus', Number(this.$parent.getAbilityMod(this.value.attackAbility, false)) + this.$parent.options.proficiency);
+
+          if (this.value.targetType == 'melee') {
+            descText = descText.replace(':range', this.$parent.f5.misc.reach);
+          } else if (this.value.targetType == 'melee_or_ranged') {
+            descText = descText.replace(':range', this.$parent.f5.misc.reach_or_range);
+          } else if (this.value.targetType == 'ranged') {
+            descText = descText.replace(':range', this.$parent.f5.misc.range);
+          } else {
+            descText = descText.replace(':range', '');
+          }
+
+          descText = descText.replace(':reach_distance', this.value.attackReach + ' ' + this.$parent.options.measure.measureUnit);
+          descText = descText.replace(':range_distance_low', this.value.attackRange.low);
+          descText = descText.replace(':range_distance_high', this.value.attackRange.high + ' ' + this.$parent.options.measure.measureUnit);
+
+          if (this.value.attackTargets > 1) {
+            descText = descText.replace(':targets', this.$parent.f5.misc.num_of_targets.replace(':targets', this.value.attackTargets));
+          } else {
+            descText = descText.replace(':targets', this.$parent.f5.misc.one_target.replace(':targets', this.value.attackTargets));
+          } //Hit
+
+
+          descText += ' <i>' + this.$parent.f5.misc.desc_attack_hit + '</i>';
+          var damageText = '';
+
+          var _iterator = _createForOfIteratorHelper(this.value.attackDamage),
+              _step;
+
+          try {
+            for (_iterator.s(); !(_step = _iterator.n()).done;) {
+              var damage = _step.value;
+              console.log(damage);
+
+              if (damageText) {
+                damageText += ' and ';
+              }
+
+              damageText += this.$parent.damageText(damage);
+            }
+          } catch (err) {
+            _iterator.e(err);
+          } finally {
+            _iterator.f();
+          }
+
+          descText += damageText;
+          return descText;
+        }
       }
     },
-    methods: {},
-    template: "\n            <div class=\"stat-block__feature focus-edit\">\n                <span class=\"feature__title display-field\">{{displayName}}</span> \n                <span class=\"feature__description display-field\">{{descriptionText}}</span>\n                <div class=\"edit-field\">\n                    <input type=\"text\" class=\"feature__title\" v-model=\"value.name\" />\n                    <br/>\n                    {{this.$parent.f5.misc.title_feature_template}}\n                    <select v-model=\"value.template\">\n                        <option v-for=\"(template, i) in this.$parent.f5.featuretemplates\" :value=\"i\">{{template.name}}</option>\n                    </select>\n                    </br>\n                    <textarea v-if=\"value.template == 'custom'\" rows=\"5\" class=\"feature__description\" v-model=\"value.custom_description\"></textarea>\n                </div>\n                <div class=\"feature__remove\" @click=\"$emit('remove-feature', value.actionType, value.id)\">x</div>\n            </div>\n            " //v-on:input="$emit('input', $event.target.value)"
-
+    methods: {
+      addDamageDie: function addDamageDie(type) {
+        this.value[type].push({
+          diceType: 4,
+          diceAmount: 1,
+          additional: 0,
+          type: 'slashing'
+        });
+      },
+      removeDamageDie: function removeDamageDie(type, i) {
+        this.value[type].splice(i, 1);
+      }
+    }
   });
   var vueData = {
     options: {
@@ -14988,8 +15068,10 @@ function initVue(f5data) {
         passives: [],
         actions: [],
         bonusActions: [],
+        reactions: [],
         legendaryActions: [],
-        mythicActions: []
+        mythicActions: [],
+        lairActions: []
       }
     },
     newFeature: {
@@ -15495,12 +15577,12 @@ function initVue(f5data) {
           return this.$data.f5.languages['all'].name;
         }
 
-        var _iterator = _createForOfIteratorHelper(this.options.languages.spokenWritten),
-            _step;
+        var _iterator2 = _createForOfIteratorHelper(this.options.languages.spokenWritten),
+            _step2;
 
         try {
-          for (_iterator.s(); !(_step = _iterator.n()).done;) {
-            var _lang = _step.value;
+          for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+            var _lang = _step2.value;
 
             if (displayText !== '') {
               displayText += ', ';
@@ -15509,9 +15591,9 @@ function initVue(f5data) {
             displayText += this.$data.f5.languages[_lang].name;
           }
         } catch (err) {
-          _iterator.e(err);
+          _iterator2.e(err);
         } finally {
-          _iterator.f();
+          _iterator2.f();
         }
 
         if (!displayText) {
@@ -15524,12 +15606,12 @@ function initVue(f5data) {
       skillText: function skillText() {
         var displayText = '';
 
-        var _iterator2 = _createForOfIteratorHelper(this.options.skills),
-            _step2;
+        var _iterator3 = _createForOfIteratorHelper(this.options.skills),
+            _step3;
 
         try {
-          for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-            var skill = _step2.value;
+          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+            var skill = _step3.value;
 
             if (displayText !== '') {
               displayText += ', ';
@@ -15538,9 +15620,9 @@ function initVue(f5data) {
             displayText += this.$data.f5.skills[skill].name + ' ' + this.calcSkillMod(skill, true);
           }
         } catch (err) {
-          _iterator2.e(err);
+          _iterator3.e(err);
         } finally {
-          _iterator2.f();
+          _iterator3.f();
         }
 
         return displayText;
@@ -15644,12 +15726,12 @@ function initVue(f5data) {
         });
         var displayText = '';
 
-        var _iterator3 = _createForOfIteratorHelper(input),
-            _step3;
+        var _iterator4 = _createForOfIteratorHelper(input),
+            _step4;
 
         try {
-          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-            var i = _step3.value;
+          for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+            var i = _step4.value;
 
             if (this.f5.damagetypes[i].long_name) {
               if (displayText !== '') displayText += '; ';
@@ -15660,9 +15742,9 @@ function initVue(f5data) {
             }
           }
         } catch (err) {
-          _iterator3.e(err);
+          _iterator4.e(err);
         } finally {
-          _iterator3.f();
+          _iterator4.f();
         }
 
         return displayText;
@@ -15685,12 +15767,12 @@ function initVue(f5data) {
       conditionList: function conditionList(input) {
         var displayText = '';
 
-        var _iterator4 = _createForOfIteratorHelper(input),
-            _step4;
+        var _iterator5 = _createForOfIteratorHelper(input),
+            _step5;
 
         try {
-          for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-            var i = _step4.value;
+          for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+            var i = _step5.value;
 
             if (displayText !== '') {
               displayText += ', ';
@@ -15699,9 +15781,9 @@ function initVue(f5data) {
             displayText += this.f5.conditions[i].name;
           }
         } catch (err) {
-          _iterator4.e(err);
+          _iterator5.e(err);
         } finally {
-          _iterator4.f();
+          _iterator5.f();
         }
 
         return displayText;
@@ -15815,9 +15897,24 @@ function initVue(f5data) {
           id: this.randChars(15),
           actionType: type,
           name: this.f5.misc.title_new_feature,
-          template: 'custom'
+          template: 'custom',
+          attackAbility: 'str',
+          targetType: 'melee',
+          attackType: 'none',
+          attackRange: {
+            'low': 20,
+            'high': 60
+          },
+          attackReach: 5,
+          attackDamage: [],
+          attackSavingThrow: false,
+          attackTargets: 1,
+          savingThrowAbility: 'str',
+          savingThrowDamage: []
         };
-        newFeature['custom_description'] = ' The dragon\'s innate spellcasting ability is Intelligence (spell save DC 17). It can innately cast the following spells, requiring no components:';
+        newFeature.attackDamage.push(this.createDamageDie());
+        newFeature.savingThrowDamage.push(this.createDamageDie());
+        newFeature['customDescription'] = ' The dragon\'s innate spellcasting ability is Intelligence (spell save DC 17). It can innately cast the following spells, requiring no components:';
         this.options.features[type].push(newFeature);
       },
       removeFeature: function removeFeature(type, id) {
@@ -15827,6 +15924,42 @@ function initVue(f5data) {
             return;
           }
         }
+      },
+      createDamageDie: function createDamageDie() {
+        return {
+          diceType: 4,
+          diceAmount: 1,
+          additional: 0,
+          type: 'slashing'
+        };
+      },
+      averageDamage: function averageDamage(damageObj) {
+        return Math.floor((damageObj.diceType / 2 + .5) * damageObj.diceAmount) + damageObj.additional;
+      },
+      damageText: function damageText(damageObj) {
+        console.log('---');
+        var descText = '';
+
+        if (damageObj.diceAmount > 0) {
+          descText += this.averageDamage(damageObj);
+          descText += ' (' + damageObj.diceAmount + this.$data.f5.misc.die_symbol + damageObj.diceType;
+
+          if (damageObj.additional > 0) {
+            descText += ' + ' + damageObj.additional;
+          }
+
+          descText += ') ';
+        } else {
+          descText = damageObj.additional + ' ';
+        }
+
+        console.log(damageObj);
+        console.log(damageObj.type);
+        console.log(this.$data.f5.damagetypes);
+        console.log(this.$data.f5.damagetypes[damageObj.type]);
+        console.log(this.$data.f5.damagetypes[damageObj.type].name);
+        descText += this.$data.f5.damagetypes[damageObj.type].name.toLowerCase() + ' ' + this.$data.f5.misc.damage.toLowerCase();
+        return descText;
       },
       randChars: function randChars(len) {
         var base = _toConsumableArray("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvyxyz0123456789");
@@ -15844,8 +15977,10 @@ function initVue(f5data) {
   app.createFeature('passives');
   app.createFeature('actions');
   app.createFeature('bonusActions');
+  app.createFeature('reactions');
   app.createFeature('legendaryActions');
   app.createFeature('mythicActions');
+  app.createFeature('lairActions');
   return app;
 }
 

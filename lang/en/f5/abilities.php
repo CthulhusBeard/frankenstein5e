@@ -8,5 +8,6 @@ return [
     'wis' => 'Wisdom',
     'cha' => 'Charisma',
 
+    'title_ability' => 'Ability',
     'title_abilities' => 'Abilities',
 ];

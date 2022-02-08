@@ -6,35 +6,91 @@ export function initVue(f5data) {
 
     Vue.component('statblock-feature', {
         props: ['value'],
+        template: '#stat-block__feature',    
         computed: {
             displayName: function() {
                 return this.value.name;
             },
+            getValidTemplateTypes: function() {
+                let options = {};
+                for(let i in this.$parent.f5.featuretemplates) {
+                    if(this.value.actionType == 'passives' && i == 'attack') {
+                        //continue;
+                    }
+                    options[i] = this.$parent.f5.featuretemplates[i];
+                }
+                return options;
+            },
+
             descriptionText: function() {
-                return this.value.custom_description;
+                let descText = '';
+
+                if(this.value.template == 'custom') {
+                    return this.value.customDescription;
+                } else if(this.value.template == 'attack') {
+                    descText = this.$parent.f5.misc.desc_attack;
+                    //'<i>:attack_range :attack_type:</i> +:attack_bonus to hit, :range :targets.'
+                    descText = descText.replace(':attack_range', this.$parent.f5.areaofeffect[this.value.targetType].name);
+                    descText = descText.replace(':attack_type', this.$parent.f5.attacktypes[this.value.attackType].name);
+                    descText = descText.replace(':attack_bonus', Number(this.$parent.getAbilityMod(this.value.attackAbility,false))+this.$parent.options.proficiency);
+                    if(this.value.targetType == 'melee') {
+                        descText = descText.replace(':range', this.$parent.f5.misc.reach);
+                    } else if(this.value.targetType == 'melee_or_ranged') {
+                        descText = descText.replace(':range', this.$parent.f5.misc.reach_or_range);
+                    } else if(this.value.targetType == 'ranged'){
+                        descText = descText.replace(':range', this.$parent.f5.misc.range);
+                    } else {
+                        descText = descText.replace(':range', '');
+                    }
+                    descText = descText.replace(':reach_distance', this.value.attackReach+' '+this.$parent.options.measure.measureUnit);
+                    descText = descText.replace(':range_distance_low', this.value.attackRange.low);
+                    descText = descText.replace(':range_distance_high', this.value.attackRange.high+' '+this.$parent.options.measure.measureUnit);
+                    if(this.value.attackTargets > 1) {
+                        descText = descText.replace(':targets', this.$parent.f5.misc.num_of_targets.replace(':targets', this.value.attackTargets));
+                    } else {
+                        descText = descText.replace(':targets', this.$parent.f5.misc.one_target.replace(':targets', this.value.attackTargets));
+                    }
+
+                    //Hit
+                    descText += ' <i>'+this.$parent.f5.misc.desc_attack_hit+'</i> ';
+                    let damageText = '';
+                    for(let damage of this.value.attackDamage) {
+                        if(damageText) {
+                            damageText += ' and ';
+                        }
+                        damageText += this.$parent.damageText(damage);
+                    }
+
+                    descText += damageText;
+
+                    //Add Saving Throw
+                    if(this.value.attackSavingThrow) {
+                        let savingThrowText = this.$parent.f5.misc.desc_attack_saving_throw_damage;
+                        if(this.value.attackSavingThrow) {
+                            savingThrowText = savingThrowText.replace(':half_as_much', this.$parent.f5.misc.desc_saving_throw_half_on_success);
+                        } else {
+                            savingThrowText = savingThrowText.replace(':half_as_much', '');
+                        }
+                    }
+
+                    return descText+'.';
+                }
             },
         },
         methods: {
-        },
+            addDamageDie: function(type) {
+                this.value[type].push({
+                    diceType: 4,
+                    diceAmount: 1,
+                    additional: 0,
+                    type: 'slashing',
+                });
+            },
 
-        template: `
-            <div class="stat-block__feature focus-edit">
-                <span class="feature__title display-field">{{displayName}}</span> 
-                <span class="feature__description display-field">{{descriptionText}}</span>
-                <div class="edit-field">
-                    <input type="text" class="feature__title" v-model="value.name" />
-                    <br/>
-                    {{this.$parent.f5.misc.title_feature_template}}
-                    <select v-model="value.template">
-                        <option v-for="(template, i) in this.$parent.f5.featuretemplates" :value="i">{{template.name}}</option>
-                    </select>
-                    </br>
-                    <textarea v-if="value.template == 'custom'" rows="5" class="feature__description" v-model="value.custom_description"></textarea>
-                </div>
-                <div class="feature__remove" @click="$emit('remove-feature', value.actionType, value.id)">x</div>
-            </div>
-            `
-            //v-on:input="$emit('input', $event.target.value)"
+            removeDamageDie: function(type, i) {
+                this.value[type].splice(i, 1);
+            },
+        },       
     })
 
     let vueData = {
@@ -94,8 +150,10 @@ export function initVue(f5data) {
                 passives: [],
                 actions: [],
                 bonusActions: [],
+                reactions: [],
                 legendaryActions: [],
                 mythicActions: [],
+                lairActions: [],
             },
         },
         newFeature: {
@@ -842,8 +900,22 @@ export function initVue(f5data) {
                     actionType: type,
                     name: this.f5.misc.title_new_feature,
                     template: 'custom', 
+                    attackAbility: 'str',
+                    targetType: 'melee',
+                    attackType: 'none',
+                    attackRange: {'low': 20, 'high':60},
+                    attackReach: 5,
+                    attackDamage: [],
+                    attackSavingThrow: false,
+                    attackTargets: 1,
+                    savingThrowAbility: 'str',
+                    savingThrowDamage: [],
+                    savingThrowHalfOnSuccess: true,
                 };
-                newFeature['custom_description'] = ' The dragon\'s innate spellcasting ability is Intelligence (spell save DC 17). It can innately cast the following spells, requiring no components:';
+
+                newFeature.attackDamage.push(this.createDamageDie());
+                newFeature.savingThrowDamage.push(this.createDamageDie());
+                newFeature['customDescription'] = ' The dragon\'s innate spellcasting ability is Intelligence (spell save DC 17). It can innately cast the following spells, requiring no components:';
 
                 this.options.features[type].push(newFeature);
             },
@@ -855,6 +927,35 @@ export function initVue(f5data) {
                         return;
                     }
                 }
+            },
+
+            createDamageDie: function() {
+                return {
+                    diceType: 4,
+                    diceAmount: 1,
+                    additional: 0,
+                    type: 'slashing',
+                }
+            },
+
+            averageDamage: function(damageObj) {
+                return Math.floor(((damageObj.diceType / 2) + .5) * damageObj.diceAmount) + damageObj.additional;
+            },
+
+            damageText: function(damageObj) {
+                let descText = '';
+                if(damageObj.diceAmount > 0) {
+                    descText += this.averageDamage(damageObj);
+                    descText += ' ('+damageObj.diceAmount+this.$data.f5.misc.die_symbol+damageObj.diceType;
+                    if(damageObj.additional > 0) {
+                        descText += ' + '+damageObj.additional;
+                    }
+                    descText += ') ';
+                } else {
+                    descText = damageObj.additional+' ';
+                }
+                descText += this.$data.f5.damagetypes[damageObj.type].name.toLowerCase()+' '+this.$data.f5.misc.damage.toLowerCase();
+                return descText;
             },
 
             randChars: function(len) {
@@ -872,8 +973,10 @@ export function initVue(f5data) {
     app.createFeature('passives');
     app.createFeature('actions');
     app.createFeature('bonusActions');
+    app.createFeature('reactions');
     app.createFeature('legendaryActions');
     app.createFeature('mythicActions');
+    app.createFeature('lairActions');
 
     return app;
 

@@ -13,4 +13,7 @@ return [
     'custom' => [
         'name' => 'f5/featuretemplates.custom',
     ],
+    'multiattack' => [
+        'name' => 'f5/featuretemplates.multiattack',
+    ],
 ];

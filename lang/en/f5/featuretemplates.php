@@ -6,4 +6,5 @@ return [
     'attack' => 'Attack',
     'saving_throw' => 'Saving Throw',
     'spellcasting' => 'Spellcasting',
+    'multiattack' => 'Multiattack',
 ];

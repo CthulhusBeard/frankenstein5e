@@ -47,11 +47,9 @@
                 </div>
             </div>
 
-            @include('partials.featurebuilder')
 
         </div>
         
-
         <script>
             window.onload = function() {
                 let f5data = JSON.parse({!! json_encode($translatedData) !!}) ;
@@ -72,5 +70,8 @@
 
             };
         </script>
+
+        @include('partials.feature')
+
     </body>
 </html>

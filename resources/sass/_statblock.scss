@@ -214,6 +214,25 @@ $statBlockRed: #822000;
             border: 1px black solid;
             border-radius: 17px;
         }
+        .feature__options {
+            margin-left: 5px;
+        }
+        .feature__damage {
+            position: relative;
+            border: 1px black solid;
+            border-radius: 2px;
+            padding: 2px;
+            .feature__remove-damage {
+                border: 1px black solid;
+                right: 0;
+                top: 0;
+                font-size: 12px;
+                font-weight: bold;
+                position: absolute;
+                padding: 0px 5px 2px 6px;
+                border-radius: 17px;
+            }
+        }
         .edit-field {
             width: 98%;
             padding: 5px;

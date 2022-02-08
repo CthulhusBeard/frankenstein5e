@@ -17,6 +17,7 @@ class FrankensteinController extends Controller
     // - Convert units
     // - Update Prof by CR (already in config)
     // - Reorder Features
+    // - Mage armour
     
     
     
@@ -31,7 +32,7 @@ class FrankensteinController extends Controller
             $configData = [
                 'misc',
                 'tags',
-                'hitdice',
+                'dicetypes',
                 'challengerating',
                 'abilities',
                 'featureactiontypes',
@@ -54,6 +55,7 @@ class FrankensteinController extends Controller
                 'features',
                 'featuremodifiers',
                 'spells',
+                'attacktypes',
 
                 'defaultmonster',
             ];

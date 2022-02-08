@@ -33,6 +33,11 @@ return [
         'desc' => 'f5/featureactiontypes.legendary_action_desc',
         'rank' => '3',
     ],
+    'mythic_action' => [
+        'name' => 'f5/featureactiontypes.mythic_action',
+        'desc' => 'f5/featureactiontypes.mythic_action_desc',
+        'rank' => '3',
+    ],
     'lair_action' => [
         'name' => 'f5/featureactiontypes.lair_action',
         'desc' => 'f5/featureactiontypes.lair_action_desc',

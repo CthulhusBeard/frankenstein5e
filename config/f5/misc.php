@@ -10,9 +10,13 @@ return [
     'passive' => 'f5/misc.passive',
     'none' => 'f5/misc.none',
     'shield' => 'f5/armor.shield',
+    'damage' => 'f5/misc.damage',
 
     'please_select_one' => 'f5/misc.please_select_one',
     'choose_a' => 'f5/misc.choose_a',
+    
+    'dice_amount' => 'f5/misc.dice_amount',
+    'dice_type' => 'f5/misc.dice_type',
     
     'hit_dice_amount' => 'f5/misc.hit_dice_amount',
     'hit_dice_type' => 'f5/misc.hit_dice_type',
@@ -25,9 +29,34 @@ return [
     
     'title_proficiency' => 'f5/misc.title_proficiency',
     'title_saving_throws' => 'f5/misc.title_saving_throws',
+    'title_additional_saving_throw' => 'f5/features.title_additional_saving_throw',
 
     'title_new_feature' => 'f5/features.title_new_feature',
     'title_feature_template' => 'f5/features.title_feature_template',
+    'title_attack_type' => 'f5/features.title_attack_type',
+    'title_attack_range' => 'f5/features.title_attack_range',
+    'title_target_type' => 'f5/features.title_target_type',
+    'title_reach_distance' => 'f5/features.title_reach_distance',
+    'title_range_distance' => 'f5/features.title_range_distance',
+    'title_damage_dice' => 'f5/features.title_damage_dice',
+    'title_saving_throw_ability' => 'f5/features.title_saving_throw_ability',
+    'title_attack_ability' => 'f5/features.title_attack_ability',
+    'title_targets' => 'f5/features.title_targets',
+    'title_half_on_success' => 'f5/features.title_half_on_success',
+
+    'num_of_targets' => 'f5/features.num_of_targets',
+    'one_target' => 'f5/features.one_target',
+    'desc_attack_hit' => 'f5/features.desc_attack_hit',
+
+    //--
+
+    'desc_attack' => 'f5/features.desc_attack',
+    'reach' => 'f5/features.reach',
+    'range' => 'f5/features.range',
+    'reach_or_range' => 'f5/features.reach_or_range',
+
+    'desc_attack_saving_throw_damage' => 'f5/features.desc_attack_saving_throw_damage',
+    'desc_saving_throw_half_on_success' => 'f5/features.desc_saving_throw_half_on_success',
 
     //---
 
@@ -59,6 +88,7 @@ return [
     'title_speed' => 'f5/speeds.title_speed',
     'title_armor_class' => 'f5/armor.title_armor_class',
     'title_abilities' => 'f5/abilities.title_abilities',
+    'title_ability' => 'f5/abilities.title_ability',
     'title_challenge_rating' => 'f5/misc.title_challenge_rating',
     'title_hit_points' => 'f5/misc.title_hit_points',
     'title_hit_dice' => 'f5/misc.title_hit_dice',
