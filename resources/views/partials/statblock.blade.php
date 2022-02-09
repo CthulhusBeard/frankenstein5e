@@ -1,5 +1,5 @@
 <div class="stat-block-container">
-    <div class="stat-block">
+    <div class="stat-block" v-bind:class="{'edit-mode': editor.edit_mode}">
         <div class="stat-block__column">
             <div class="stat-block__title focus-edit">
                 <span class="display-field">@{{options.name}}</span>
@@ -121,7 +121,7 @@
                         @{{index.toUpperCase()}}
                     </div>
                     <div class="stat-block__ability-score display-field">
-                        @{{options.abilities[index]}} (@{{calcAbilityMod(options.abilities[index], true)}})
+                        @{{options.abilities[index]}} (@{{addPlus(calcAbilityMod(options.abilities[index]))}})
                     </div>
                     <div :class="'edit-field options__ability option-box '+index">
                         Score: 
@@ -140,16 +140,15 @@
                     <span class="title">@{{f5.misc.title_saving_throws}}:</span>
                     <span class="display-field">@{{savingThrowText}}</span>
                 </div>
-                <div class="stat-block__attribute focus-edit" v-bind:class="{'hover-show': !skillText}">
+                <div class="stat-block__attribute focus-edit" v-bind:class="{'edit-show': !skillText}">
                     <span v-if="skillText" class="title">@{{f5.misc.title_skills}}:</span>
                     <span v-else class="title">+ @{{f5.misc.title_skills}}</span>
                     <span>@{{skillText}}</span>
                     <Multiselect class="edit-field edit-field--flex"
-                        :placeholder="f5.misc.choose_a.replace(':choice', 'skill')"
+                        :placeholder="f5.misc.choose_skill"
                         v-model="options.skills" 
-                        mode="tags"
                         :options="f5.skills" 
-                        mode="multiple"
+                        mode="tags"
                         :close-on-select="false"
                         :searchable="true"
                         :create-option="true"
@@ -169,16 +168,15 @@
                     </Multiselect>
                 </div>
 
-                <div class="stat-block__attribute focus-edit" v-bind:class="{'hover-show': !damageResistanceText}">
+                <div class="stat-block__attribute focus-edit" v-bind:class="{'edit-show': !damageResistanceText}">
                     <span v-if="damageResistanceText" class="title">@{{f5.misc.title_damage_resistances}}:</span>
                     <span v-else class="title">+ @{{f5.misc.title_damage_resistances}}</span>
                     <span>@{{damageResistanceText}}</span>
                     <Multiselect class="edit-field edit-field--flex"
                         v-model="options.damageResistances" 
                         :placeholder="f5.misc.choose_a.replace(':choice', 'damage type')"
-                        mode="tags"
                         :options="eligableDamageTypes" 
-                        mode="multiple"
+                        mode="tags"
                         :close-on-select="false"
                         :searchable="true"
                         :create-option="true"
@@ -198,16 +196,15 @@
                     </Multiselect>
                 </div>
 
-                <div class="stat-block__attribute focus-edit" v-bind:class="{'hover-show': !damageImmunitiesText}">
+                <div class="stat-block__attribute focus-edit" v-bind:class="{'edit-show': !damageImmunitiesText}">
                     <span v-if="damageImmunitiesText" class="title">@{{f5.misc.title_damage_immunities}}:</span>
                     <span v-else class="title">+ @{{f5.misc.title_damage_immunities}}</span>
                     <span>@{{damageImmunitiesText}}</span>
                     <Multiselect class="edit-field edit-field--flex"
                         v-model="options.damageImmunities" 
                         :placeholder="f5.misc.choose_a.replace(':choice', 'damage type')"
-                        mode="tags"
                         :options="eligableDamageTypes" 
-                        mode="multiple"
+                        mode="tags"
                         :close-on-select="false"
                         :searchable="true"
                         :create-option="true"
@@ -227,16 +224,15 @@
                     </Multiselect>
                 </div>
 
-                <div class="stat-block__attribute focus-edit" v-bind:class="{'hover-show': !damageVulnerabilitiesText}">
+                <div class="stat-block__attribute focus-edit" v-bind:class="{'edit-show': !damageVulnerabilitiesText}">
                     <span v-if="damageVulnerabilitiesText" class="title">@{{f5.misc.title_damage_vulnerabilities}}:</span>
                     <span v-else class="title">+ @{{f5.misc.title_damage_vulnerabilities}}</span>
                     <span>@{{damageVulnerabilitiesText}}</span>
                     <Multiselect class="edit-field edit-field--flex"
                         v-model="options.damageVulnerabilites" 
                         :placeholder="f5.misc.choose_a.replace(':choice', 'damage type')"
-                        mode="tags"
                         :options="eligableDamageTypes" 
-                        mode="multiple"
+                        mode="tags"
                         :close-on-select="false"
                         :searchable="true"
                         :create-option="true"
@@ -256,16 +252,15 @@
                     </Multiselect>
                 </div>
 
-                <div class="stat-block__attribute focus-edit" v-bind:class="{'hover-show': !conditionImmunitiesText}">
+                <div class="stat-block__attribute focus-edit" v-bind:class="{'edit-show': !conditionImmunitiesText}">
                     <span v-if="conditionImmunitiesText" class="title">@{{f5.misc.title_condition_immunities}}:</span>
                     <span v-else class="title">+ @{{f5.misc.title_condition_immunities}}</span>
                     <span>@{{conditionImmunitiesText}}</span>
                     <Multiselect class="edit-field edit-field--flex"
                         v-model="options.conditionImmunities" 
                         :placeholder="f5.misc.choose_a.replace(':choice', 'condition')"
-                        mode="tags"
                         :options="f5.conditions" 
-                        mode="multiple"
+                        mode="tags"
                         :close-on-select="false"
                         :searchable="true"
                         :create-option="true"
@@ -285,7 +280,7 @@
                     </Multiselect>
                 </div>
 
-                <div class="stat-block__attribute focus-edit" v-bind:class="{'hover-show': !sensesText}">
+                <div class="stat-block__attribute focus-edit" v-bind:class="{'edit-show': !sensesText}">
                     <span v-if="sensesText" class="title">@{{f5.misc.title_senses}}:</span>
                     <span v-else class="title">+ @{{f5.misc.title_senses}}</span>
                     <span>@{{sensesText}}</span>
@@ -304,9 +299,8 @@
                     <span>@{{languageText}}</span>
                     <Multiselect class="edit-field edit-field--flex"
                         v-model="options.languages.spokenWritten" 
-                        mode="tags"
                         :options="f5.languages" 
-                        mode="multiple"
+                        mode="tags"
                         :close-on-select="false"
                         :searchable="true"
                         :create-option="true"
@@ -339,7 +333,7 @@
 
             <div class="stat-block__passives">
                 <div class="stat-block__add-feature-button" @click="createFeature('passives')">
-                    + Passive Feature
+                    @{{f5.misc.title_add_passive}}
                 </div>
                 <statblock-feature 
                     v-for="passive in options.features.passives"
@@ -349,10 +343,10 @@
             </div>
             <div class="stat-block__actions">
                 <div v-if="options.features.actions.length" class="stat-block__subtitle">
-                    Actions
+                    @{{f5.misc.title_action}}
                 </div>
                 <div class="stat-block__add-feature-button" @click="createFeature('actions')">
-                    + Action
+                    @{{f5.misc.title_add_action}}
                 </div>
                 <statblock-feature 
                     v-for="action in options.features.actions"
@@ -362,10 +356,10 @@
             </div>
             <div class="stat-block__bonus-actions">
                 <div v-if="options.features.bonusActions.length" class="stat-block__subtitle">
-                    Bonus Actions
+                    @{{f5.misc.title_bonus_action}}
                 </div>
                 <div class="stat-block__add-feature-button" @click="createFeature('bonusActions')">
-                    + Bonus Action
+                    @{{f5.misc.title_add_bonus_action}}
                 </div>
                 <statblock-feature 
                     v-for="bonusAction in options.features.bonusActions"
@@ -373,12 +367,16 @@
                     v-on:remove-feature="removeFeature"
                 ></statblock-feature>
             </div>
+
+        </div>
+
+        <div class="stat-block__column">
             <div class="stat-block__reactions">
                 <div v-if="options.features.reactions.length" class="stat-block__subtitle">
-                    Reactions
+                    @{{f5.misc.title_reaction}}
                 </div>
                 <div class="stat-block__add-feature-button" @click="createFeature('reactions')">
-                    + Reaction
+                    @{{f5.misc.title_add_reaction}}
                 </div>
                 <statblock-feature 
                     v-for="reaction in options.features.reactions"
@@ -386,16 +384,12 @@
                     v-on:remove-feature="removeFeature"
                 ></statblock-feature>
             </div>
-
-        </div>
-        
-        <div class="stat-block__column">
             <div class="stat-block__legendary-actions">
                 <div v-if="options.features.legendaryActions.length" class="stat-block__subtitle">
-                    Legendary Actions
+                    @{{f5.misc.title_legendary_action}}
                 </div>
                 <div class="stat-block__add-feature-button" @click="createFeature('legendaryActions')">
-                    + Legendary Action
+                    @{{f5.misc.title_add_legendary_action}}
                 </div>
                 <statblock-feature 
                     v-for="legendaryAction in options.features.legendaryActions"
@@ -405,10 +399,10 @@
             </div>
             <div class="stat-block__mythic-actions">
                 <div v-if="options.features.mythicActions.length" class="stat-block__subtitle">
-                    Mythic Actions
+                    @{{f5.misc.title_mythic_action}}
                 </div>
                 <div class="stat-block__add-feature-button" @click="createFeature('mythicActions')">
-                    + Mythic Action
+                    @{{f5.misc.title_add_mythic_action}}
                 </div>
                 <statblock-feature 
                     v-for="mythicAction in options.features.mythicActions"
@@ -418,10 +412,10 @@
             </div>
             <div class="stat-block__lair-actions">
                 <div v-if="options.features.lairActions.length" class="stat-block__subtitle">
-                Lair Actions
+                    @{{f5.misc.title_lair_action}}
                 </div>
                 <div class="stat-block__add-feature-button" @click="createFeature('lairActions')">
-                    + Lair Action
+                    @{{f5.misc.title_add_lair_action}}
                 </div>
                 <statblock-feature 
                     v-for="lairAction in options.features.lairActions"

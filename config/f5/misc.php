@@ -1,6 +1,11 @@
 <?php
 
 return [
+    'sentence_list_separator' => 'f5/misc.sentence_list_separator',
+    'and' => 'f5/misc.and',
+    'or' => 'f5/misc.or',
+    'sentence_end' => 'f5/misc.sentence_end',
+
     'max' => 'f5/misc.max',
     'count' => 'f5/misc.count',
     'amount' => 'f5/misc.amount',
@@ -8,12 +13,18 @@ return [
     'type' => 'f5/misc.type',
     'die_symbol' => 'f5/misc.die_symbol',
     'passive' => 'f5/misc.passive',
+    'passive_skill' => 'f5/misc.passive_skill',
     'none' => 'f5/misc.none',
     'shield' => 'f5/armor.shield',
     'damage' => 'f5/misc.damage',
 
+    'title_repeat_save' => 'f5/durations.title_repeat_save',
+
     'please_select_one' => 'f5/misc.please_select_one',
     'choose_a' => 'f5/misc.choose_a',
+    'choose_skill' => 'f5/misc.choose_skill',
+    'choose_abilities' => 'f5/misc.choose_abilities',
+    'choose_conditions' => 'f5/misc.choose_conditions',
     
     'dice_amount' => 'f5/misc.dice_amount',
     'dice_type' => 'f5/misc.dice_type',
@@ -40,16 +51,42 @@ return [
     'title_range_distance' => 'f5/features.title_range_distance',
     'title_damage_dice' => 'f5/features.title_damage_dice',
     'title_saving_throw_ability' => 'f5/features.title_saving_throw_ability',
+    'title_saving_throw_monster_ability' => 'f5/features.title_saving_throw_monster_ability',
     'title_attack_ability' => 'f5/features.title_attack_ability',
     'title_targets' => 'f5/features.title_targets',
     'title_half_on_success' => 'f5/features.title_half_on_success',
     'title_damage_type' => 'f5/features.title_damage_type',
+    'title_saving_throw_conditions' => 'f5/features.title_saving_throw_conditions',
+    'title_ability_bonus' => 'f5/features.title_ability_bonus',
+    'title_ongoing_damage' => 'f5/features.title_ongoing_damage',
 
     'num_of_targets' => 'f5/features.num_of_targets',
     'one_target' => 'f5/features.one_target',
     'desc_attack_hit' => 'f5/features.desc_attack_hit',
 
+    //--    
+    
+    'title_passive' => 'f5/featureactiontypes.title_passive',
+    'title_action' => 'f5/featureactiontypes.title_action',
+    'title_bonus_action' => 'f5/featureactiontypes.title_bonus_action',
+    'title_reaction' => 'f5/featureactiontypes.title_reaction',
+    'title_free_action' => 'f5/featureactiontypes.title_free_action',
+    'title_legendary_action' => 'f5/featureactiontypes.title_legendary_action',
+    'title_mythic_action' => 'f5/featureactiontypes.title_mythic_action',
+    'title_lair_action' => 'f5/featureactiontypes.title_lair_action',
+    
+    'title_add_passive' => 'f5/featureactiontypes.title_add_passive',
+    'title_add_action' => 'f5/featureactiontypes.title_add_action',
+    'title_add_bonus_action' => 'f5/featureactiontypes.title_add_bonus_action',
+    'title_add_free_action' => 'f5/featureactiontypes.title_add_free_action',
+    'title_add_reaction' => 'f5/featureactiontypes.title_add_reaction',
+    'title_add_legendary_action' => 'f5/featureactiontypes.title_add_legendary_action',
+    'title_add_mythic_action' => 'f5/featureactiontypes.title_add_mythic_action',
+    'title_add_lair_action' => 'f5/featureactiontypes.title_add_lair_action',
+
     //--
+
+    'additionally' => 'f5/features.additionally',
 
     'desc_attack' => 'f5/features.desc_attack',
     'reach' => 'f5/features.reach',
@@ -57,6 +94,8 @@ return [
     'reach_or_range' => 'f5/features.reach_or_range',
 
     'desc_attack_saving_throw_damage' => 'f5/features.desc_attack_saving_throw_damage',
+    'desc_attack_saving_throw_condition' => 'f5/features.desc_attack_saving_throw_condition',
+    'desc_attack_saving_throw_damage_condition' => 'f5/features.desc_attack_saving_throw_damage_condition',
     'desc_saving_throw_half_on_success' => 'f5/features.desc_saving_throw_half_on_success',
 
     //---

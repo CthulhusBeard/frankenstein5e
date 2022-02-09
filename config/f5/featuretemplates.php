@@ -10,10 +10,10 @@ return [
     'spellcasting' => [
         'name' => 'f5/featuretemplates.spellcasting',
     ],
-    'custom' => [
-        'name' => 'f5/featuretemplates.custom',
-    ],
     'multiattack' => [
         'name' => 'f5/featuretemplates.multiattack',
+    ],
+    'custom' => [
+        'name' => 'f5/featuretemplates.custom',
     ],
 ];

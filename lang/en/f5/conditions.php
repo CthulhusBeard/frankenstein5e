@@ -4,6 +4,16 @@ return [
 
     'title_condition_immunities' => 'Condition Immunities',
 
+    //Semantic Usages
+    'become' => 'become :condition',
+    'becomes' => 'becomes :condition',
+    'is' => 'is :condition',
+    'is_not' => 'is not :condition',
+    'gains' => 'gains a point of :condition',
+    'does_not_gain' => 'does not gain a point of :condition',
+    'knocked' => 'be knocked :condition',
+    'not_knocked' => 'is not knocked :condition',
+
     //Conditions
     'blinded' => 'Blinded',
     'is_blinded' => 'become blinded',
@@ -60,4 +70,14 @@ return [
     'unconsious' => 'Unconscious',
     'is_unconsious' => 'is unconscious',
     'not_unconsious' => 'is not unconscious',
+
+    'swallowed' => 'Swallowed',
+    'is_swallowed' => 'be swallowed by the :creature',
+    'not_swallowed' => 'is not swallowed',
+    'swallowed_description' => '',
+
+    'on_fire' => 'On Fire',
+    'is_on_fire' => 'be set on fire',
+    'not_on_fire' => 'is not set on fire',
+    'on_fire_description' => '',
 ];

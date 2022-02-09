@@ -15,6 +15,11 @@
     </head>
     <body ng-app="f5App" ng-controller="f5Ctrl">
         <div id="f5" class="main-content full-height">
+
+            <div class="slide-button" v-bind:class="{ selected : editor.edit_mode }" @click="editor.edit_mode = !editor.edit_mode">
+                <label>Edit Mode</label>
+            </div>
+
             @include('partials.statblock')
 
             <div class="cr-controller popup-overlay">
@@ -46,6 +51,7 @@
                     <button>Apply</button>
                 </div>
             </div>
+        
 
 
         </div>

@@ -1,6 +1,11 @@
 <?php 
 
 return [
+    'sentence_list_separator' => ',',
+    'and' => 'and',
+    'or' => 'or',
+    'sentence_end' => '.',
+    
     'max' => 'Max.',
     'count' => 'Count',
     'amount' => 'Amount',
@@ -12,8 +17,12 @@ return [
 
     'please_select_one' => 'Please select one',
     'choose_a' => 'Choose a :choice',
+    'choose_skill' => 'Choose a skill',
+    'choose_abilities' => 'Choose at least one ability',
+    'choose_conditions' => 'Choose one or more conditions',
 
     'passive' => 'passive',
+    'passive_skill' => 'passive :skill',
 
     'dice_amount' => 'Dice Amount',
     'dice_type' => 'Dice Type',

@@ -1,4 +1,16 @@
 <?php
+/*
+
+        //Semantic Usages
+        'become' => 'become :condition',
+        'becomes' => 'becomes :condition',
+        'is' => 'is :condition',
+        'is_not' => 'is not :condition',
+        'gains' => 'gains a point of :condition',
+        'does_not_gain' => 'does not gain a point of :condition',
+        'knocked' => 'be knocked :condition',
+        'not_knocked' => 'is not knocked :condition',
+*/
 
 return [
     'blinded' => [
@@ -84,6 +96,21 @@ return [
         'is' => 'f5/conditions.is_unconsious',
         'not' => 'f5/conditions.not_unconsious',
         'rank' => 4.5,
+    ],
+    'swallowed' => [
+        'name' => 'f5/conditions.swallowed',
+        'is' => 'f5/conditions.is_swallowed',
+        'not' => 'f5/conditions.not_swallowed',
+        'description' => 'f5/conditions.swallowed_description',
+        'rank' => 4,
+    ],
+    
+    'on_fire' => [
+        'name' => 'f5/conditions.on_fire',
+        'is' => 'f5/conditions.is_on_fire',
+        'not' => 'f5/conditions.not_on_fire',
+        'description' => 'f5/conditions.on_fire_description',
+        'rank' => 3,
     ],
 
 ];

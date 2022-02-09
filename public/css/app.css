@@ -56,10 +56,8 @@ body {
 }
 
 .cr-controller {
-  position: fixed;
+  position: relative;
   color: black;
-  top: 0;
-  right: 0;
   width: 300px;
   border: 1px black solid;
   border-radius: 7px;
@@ -68,6 +66,53 @@ body {
   padding: 3px;
   margin: 4px;
   box-shadow: 5px 5px rgba(0, 0, 0, 0.5);
+}
+
+.slide-button {
+  position: relative;
+  cursor: pointer;
+  padding-left: 35px;
+  transition: color 0.1s ease;
+}
+
+.slide-button label {
+  margin-left: 35px;
+}
+
+.slide-button:before {
+  display: block;
+  position: absolute;
+  content: "";
+  left: 0;
+  z-index: 1;
+  top: 0.4rem;
+  background-color: rgba(0, 0, 0, 0.05);
+  width: 3.5rem;
+  height: 0.2rem;
+  border-radius: 250rem;
+  transition: background 0.3s ease;
+}
+
+.slide-button:after {
+  background: #fff linear-gradient(transparent, rgba(0, 0, 0, 0.05));
+  position: absolute;
+  content: "" !important;
+  z-index: 2;
+  box-shadow: 0 1px 2px 0 rgba(34, 36, 38, 0.15), 0 0 0 1px rgba(34, 36, 38, 0.15) inset;
+  width: 1.5rem;
+  height: 1.5rem;
+  top: -0.25rem;
+  left: 0;
+  border-radius: 250rem;
+  transition: left 0.3s ease;
+}
+
+.slide-button.selected:before {
+  background-color: #48e79d !important;
+}
+
+.slide-button.selected:after {
+  left: 2rem;
 }
 
 .creature-options .option-label {
@@ -148,49 +193,16 @@ body {
 }
 
 .editable,
+.stat-block .focus-edit .edit-field,
 .stat-block .stat-block__add-feature-button,
-.hidden-holder .hover-show,
-.focus-edit .edit-field {
+.hidden-holder .edit-show {
   border: 1px black solid;
   border-radius: 8px;
   background-color: white;
 }
 
-.focus-edit {
-  cursor: pointer;
-}
-
-.focus-edit:hover {
-  background-color: #7e7a6338;
-  border-radius: 8px;
-}
-
-.focus-edit .edit-field {
+.hidden-holder .edit-show {
   display: none;
-}
-
-.focus-edit.focused .edit-field {
-  display: block;
-}
-
-.focus-edit.focused .edit-field--flex {
-  display: flex;
-}
-
-.focus-edit.focused .display-field {
-  display: none;
-}
-
-.no-edit {
-  cursor: not-allowed;
-}
-
-.hidden-holder .hover-show {
-  display: none;
-}
-
-.hidden-holder:hover .hover-show {
-  display: block;
 }
 
 .multiselect-tag {
@@ -396,7 +408,45 @@ body {
   display: block;
 }
 
-.stat-block:hover .stat-block__add-feature-button {
+.stat-block .focus-edit .edit-field {
+  display: none;
+}
+
+.stat-block.edit-mode .no-edit {
+  cursor: not-allowed;
+}
+
+.stat-block.edit-mode .stat-block__add-feature-button {
   display: block;
+}
+
+.stat-block.edit-mode .hidden-holder .edit-show {
+  display: block !important;
+}
+
+.stat-block.edit-mode .focus-edit {
+  cursor: pointer;
+}
+
+.stat-block.edit-mode .focus-edit:hover {
+  background-color: #7e7a6338;
+  border-radius: 8px;
+}
+
+.stat-block.edit-mode .focus-edit.focused .feature__description {
+  background-color: #f8f1ce;
+  border: 1px black solid;
+}
+
+.stat-block.edit-mode .focus-edit.focused .edit-field {
+  display: block;
+}
+
+.stat-block.edit-mode .focus-edit.focused .edit-field--flex {
+  display: flex;
+}
+
+.stat-block.edit-mode .focus-edit.focused .display-field {
+  display: none;
 }
 

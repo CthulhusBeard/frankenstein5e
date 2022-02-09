@@ -6,43 +6,10 @@ $statBlockRed: #822000;
     background-color: white;
 }
 
-.focus-edit {
-    cursor: pointer;
-
-    &:hover {
-        background-color: #7e7a6338;    
-        border-radius: 8px;
-    }
-    
-    .edit-field {
-        display: none;
-        @extend .editable;
-    }
-    &.focused {
-        .edit-field {
-            display: block;
-            &--flex {
-                display: flex;
-            }
-        }
-        .display-field {
-            display: none;
-        }
-    }
-}
-.no-edit {
-    cursor: not-allowed;
-}
-
 .hidden-holder {
-    .hover-show {
+    .edit-show {
         display: none;
         @extend .editable;
-    }
-    &:hover {
-        .hover-show {
-            display: block;
-        }
     }
 }
 
@@ -243,11 +210,54 @@ $statBlockRed: #822000;
             }
         }
     }
+
+    
+    .focus-edit {
+        .edit-field {
+            display: none;
+            @extend .editable;
+        }
+    }
         
-    &:hover {
+    &.edit-mode {
+        
+        .no-edit {
+            cursor: not-allowed;
+        }
         .stat-block__add-feature-button {
             display: block;
         }
+        .hidden-holder {
+            .edit-show {
+                display: block !important;
+            }
+        }
+        
+        .focus-edit {
+            cursor: pointer;
+
+            &:hover {
+                background-color: #7e7a6338;    
+                border-radius: 8px;
+            }
+            
+            &.focused {
+        
+                .feature__description {
+                    background-color: #f8f1ce;
+                    border: 1px black solid;
+                }
+                .edit-field {
+                    display: block;
+                    &--flex {
+                        display: flex;
+                    }
+                }
+                .display-field {
+                    display: none;
+                }
+            }
+        }
+        
     }
-    
 }

@@ -77,6 +77,7 @@ return [
         'type' => 'physical',
         'magical' => 'true',
         'rank' => '1',
+        'dealt' => false,
     ],
     'physical_non_silvered' => [
         'name' => 'f5/damage.type_physical_non_silvered',
@@ -84,6 +85,7 @@ return [
         'type' => 'physical',
         'magical' => 'false',
         'rank' => '1',
+        'dealt' => false,
     ],
     'physical_non_adamantine' => [
         'name' => 'f5/damage.type_physical_non_adamantine',
@@ -91,6 +93,7 @@ return [
         'type' => 'physical',
         'magical' => 'false',
         'rank' => '1',
+        'dealt' => false,
     ],
 
 ];

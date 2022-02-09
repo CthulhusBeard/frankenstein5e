@@ -18,6 +18,8 @@ class FrankensteinController extends Controller
     // - Update Prof by CR (already in config)
     // - Reorder Features
     // - Mage armour
+    // - Automatic column org or manual moving
+    // - Fix semantic usage on Conditions
     
     
     
@@ -31,6 +33,7 @@ class FrankensteinController extends Controller
 
             $configData = [
                 'misc',
+                'timepoints',
                 'tags',
                 'dicetypes',
                 'challengerating',

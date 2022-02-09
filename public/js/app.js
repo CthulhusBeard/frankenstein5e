@@ -14924,9 +14924,30 @@ function initVue(f5data) {
   Vue.component('statblock-feature', {
     props: ['value'],
     template: '#stat-block__feature',
+    components: {
+      'Multiselect': _vueform_multiselect_dist_multiselect_vue2_js__WEBPACK_IMPORTED_MODULE_0__["default"]
+    },
+    watch: {
+      value: {
+        handler: function handler(val) {
+          if (this.value.savingThrowSaveAbilities.length === 0) {
+            this.value.savingThrowSaveAbilities = ['str'];
+          }
+        },
+        deep: true
+      }
+    },
     computed: {
       displayName: function displayName() {
         return this.value.name;
+      },
+      hasRunOnSentence: function hasRunOnSentence() {
+        if (this.value.template == 'attack' && this.value.attackSavingThrow && (this.value.savingThrowConditions.length > 1 || this.value.attackDamage.length > 1)) {
+          return true;
+        } // TODO make this work
+
+
+        return false;
       },
       getValidTemplateTypes: function getValidTemplateTypes() {
         var options = {};
@@ -14945,12 +14966,14 @@ function initVue(f5data) {
 
         if (this.value.template == 'custom') {
           return this.value.customDescription;
-        } else if (this.value.template == 'attack') {
-          descText = this.$parent.f5.misc.desc_attack; //'<i>:attack_range :attack_type:</i> +:attack_bonus to hit, :range :targets.'
+        }
+
+        if (this.value.template == 'attack') {
+          descText = this.$parent.f5.misc.desc_attack; //'<i>:attack_range :attack_type:</i> :attack_bonus to hit, :range :targets.'
 
           descText = descText.replace(':attack_range', this.$parent.f5.areaofeffect[this.value.targetType].name);
           descText = descText.replace(':attack_type', this.$parent.f5.attacktypes[this.value.attackType].name);
-          descText = descText.replace(':attack_bonus', Number(this.$parent.getAbilityMod(this.value.attackAbility, false)) + this.$parent.options.proficiency);
+          descText = descText.replace(':attack_bonus', this.$parent.addPlus(this.$parent.getAbilityMod(this.value.attackAbility) + this.$parent.options.proficiency));
 
           if (this.value.targetType == 'melee') {
             descText = descText.replace(':range', this.$parent.f5.misc.reach);
@@ -14974,51 +14997,89 @@ function initVue(f5data) {
 
 
           descText += ' <i>' + this.$parent.f5.misc.desc_attack_hit + '</i> ';
-          var damageText = '';
+          var damageList = [];
 
-          var _iterator = _createForOfIteratorHelper(this.value.attackDamage),
-              _step;
-
-          try {
-            for (_iterator.s(); !(_step = _iterator.n()).done;) {
-              var damage = _step.value;
-
-              if (damageText) {
-                damageText += ' and ';
-              }
-
-              damageText += this.$parent.damageText(damage);
-            }
-          } catch (err) {
-            _iterator.e(err);
-          } finally {
-            _iterator.f();
+          for (var i in this.value.attackDamage) {
+            damageList.push(this.$parent.createDamageText(this.value.attackDamage[i], this.value.attackAbility));
           }
 
-          descText += damageText; //Add Saving Throw
+          descText += this.$parent.createSentenceList(damageList);
+        } //Add Saving Throw
 
-          if (this.value.attackSavingThrow) {
-            var savingThrowText = this.$parent.f5.misc.desc_attack_saving_throw_damage;
 
-            if (this.value.attackSavingThrow) {
-              savingThrowText = savingThrowText.replace(':half_as_much', this.$parent.f5.misc.desc_saving_throw_half_on_success);
+        if (this.value.template == 'attack' && this.value.attackSavingThrow || this.value.template == 'saving_throw') {
+          var savingThrowText = '';
+
+          if (this.value.savingThrowDamage.length > 0 && this.value.savingThrowConditions.length > 0) {
+            savingThrowText = this.$parent.f5.misc.desc_attack_saving_throw_damage_condition;
+          } else if (this.value.savingThrowDamage.length > 0) {
+            savingThrowText = this.$parent.f5.misc.desc_attack_saving_throw_damage;
+          } else if (this.value.savingThrowConditions.length > 0) {
+            savingThrowText = this.$parent.f5.misc.desc_attack_saving_throw_condition;
+          }
+
+          if (this.value.attackSavingThrow && this.value.attackDamage.length > 0) {
+            if (this.hasRunOnSentence) {
+              savingThrowText = this.$parent.f5.misc.sentence_end + ' ' + this.$parent.f5.misc.additionally.replace(':addition', savingThrowText);
             } else {
-              savingThrowText = savingThrowText.replace(':half_as_much', '');
+              savingThrowText = this.$parent.f5.misc.sentence_list_separator + ' ' + this.$parent.f5.misc.and + ' ' + savingThrowText;
             }
+          } else {
+            savingThrowText = this.$parent.f5.misc.sentence_end + ' ' + savingThrowText.charAt(0).toUpperCase() + savingThrowText.slice(1);
+          } //Half as much
+
+
+          if (this.value.savingThrowHalfOnSuccess) {
+            savingThrowText = savingThrowText.replace(':half_as_much', this.$parent.f5.misc.desc_saving_throw_half_on_success);
+          } else {
+            savingThrowText = savingThrowText.replace(':half_as_much', '');
+            savingThrowText = savingThrowText.replace(':not_condition', '');
+          } //Add Saving Throw Damage
+
+
+          if (this.value.savingThrowDamage.length) {
+            var stDamageList = [];
+
+            for (var _i in this.value.savingThrowDamage) {
+              stDamageList.push(this.$parent.createDamageText(this.value.savingThrowDamage[_i], this.value.savingThrowMonsterAbility));
+            }
+
+            savingThrowText = savingThrowText.replace(':damage', this.$parent.createSentenceList(stDamageList));
+          } //Add Saving Throw Conditions
+
+
+          if (this.value.savingThrowConditions.length) {
+            var stConditionList = [];
+            var stNotConditionList = [];
+
+            for (var _i2 in this.value.savingThrowConditions) {
+              stConditionList.push(this.$parent.f5.conditions[this.value.savingThrowConditions[_i2]].is);
+              stNotConditionList.push(this.$parent.f5.conditions[this.value.savingThrowConditions[_i2]].not);
+            }
+
+            savingThrowText = savingThrowText.replace(':condition', this.$parent.createSentenceList(stConditionList));
+            savingThrowText = savingThrowText.replace(':not_condition', this.$parent.f5.misc.and + ' ' + this.$parent.createSentenceList(stNotConditionList));
           }
 
-          return descText + '.';
+          savingThrowText = savingThrowText.replace(':saving_throw_dc', this.$parent.makeSavingThrowDC(this.value.savingThrowMonsterAbility));
+          var abilityList = [];
+
+          for (var _i3 in this.value.savingThrowSaveAbilities) {
+            abilityList.push(this.$parent.f5.abilities[this.value.savingThrowSaveAbilities[_i3]].name);
+          }
+
+          savingThrowText = savingThrowText.replace(':saving_throw_ability', this.$parent.createSentenceList(abilityList, false));
+          descText += savingThrowText;
         }
+
+        return descText + '.';
       }
     },
     methods: {
       addDamageDie: function addDamageDie(type) {
-        this.value[type].push({
-          diceType: 4,
-          diceAmount: 1,
-          additional: 0,
-          type: 'slashing'
-        });
+        var damageDie = this.$parent.createDamageDie(this.value[type].length > 0 ? false : true); //false for each damage set after the first
+
+        this.value[type].push(damageDie);
       },
       removeDamageDie: function removeDamageDie(type, i) {
         this.value[type].splice(i, 1);
@@ -15026,6 +15087,9 @@ function initVue(f5data) {
     }
   });
   var vueData = {
+    editor: {
+      edit_mode: true
+    },
     options: {
       name: 'Monster',
       size: 'medium',
@@ -15473,6 +15537,20 @@ function initVue(f5data) {
 
         return list;
       },
+      dealableDamageTypes: function dealableDamageTypes() {
+        var list = [];
+
+        for (var i in this.f5.damagetypes) {
+          if (!(this.f5.damagetypes[i].dealt === false)) {
+            list.push({
+              value: i,
+              label: this.f5.damagetypes[i].name
+            });
+          }
+        }
+
+        return list;
+      },
       //Speeds
       speedText: function speedText() {
         var displayText = '';
@@ -15523,12 +15601,12 @@ function initVue(f5data) {
           displayText += this.options.senses[i] + ' ' + this.options.measure.measureUnit;
         }
 
-        if (this.options.skills['perception']) {
+        if (this.options.skills.includes('perception')) {
           if (displayText !== '') {
             displayText += ', ';
           }
 
-          displayText += this.f5.misc['passive'] + ' ' + this.f5.skills['perception'].name + ' ' + this.calcSkillMod('perception', false + 10);
+          displayText += this.f5.misc.passive_skill.replace(':skill', this.f5.skills['perception'].name) + ' ' + (this.calcSkillMod('perception') + 10);
         }
 
         return displayText;
@@ -15544,7 +15622,6 @@ function initVue(f5data) {
             subtypeObj.id = i;
 
             if (this.$data.f5.creaturetypes[this.options.type]['subtypes'].includes(i)) {
-              console.log('splice ' + i);
               topSubtypes.splice(count, 0, subtypeObj);
               count++;
             } else {
@@ -15570,9 +15647,9 @@ function initVue(f5data) {
         }
 
         if (this.$data.f5.creaturesubtypes.hasOwnProperty(this.options.subtype) && this.$data.f5.creaturesubtypes[this.options.subtype].hasOwnProperty('options')) {
-          for (var _i in this.$data.f5.creaturesubtypes[this.options.subtype]['options']) {
-            var _data = this.$data.f5.creaturesubtypes[this.options.subtype]['options'][_i];
-            _data.id = _i;
+          for (var _i4 in this.$data.f5.creaturesubtypes[this.options.subtype]['options']) {
+            var _data = this.$data.f5.creaturesubtypes[this.options.subtype]['options'][_i4];
+            _data.id = _i4;
             optionsList.push(_data);
           }
         }
@@ -15587,12 +15664,12 @@ function initVue(f5data) {
           return this.$data.f5.languages['all'].name;
         }
 
-        var _iterator2 = _createForOfIteratorHelper(this.options.languages.spokenWritten),
-            _step2;
+        var _iterator = _createForOfIteratorHelper(this.options.languages.spokenWritten),
+            _step;
 
         try {
-          for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-            var _lang = _step2.value;
+          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+            var _lang = _step.value;
 
             if (displayText !== '') {
               displayText += ', ';
@@ -15601,9 +15678,9 @@ function initVue(f5data) {
             displayText += this.$data.f5.languages[_lang].name;
           }
         } catch (err) {
-          _iterator2.e(err);
+          _iterator.e(err);
         } finally {
-          _iterator2.f();
+          _iterator.f();
         }
 
         if (!displayText) {
@@ -15616,23 +15693,27 @@ function initVue(f5data) {
       skillText: function skillText() {
         var displayText = '';
 
-        var _iterator3 = _createForOfIteratorHelper(this.options.skills),
-            _step3;
+        var _iterator2 = _createForOfIteratorHelper(this.options.skills),
+            _step2;
 
         try {
-          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-            var skill = _step3.value;
+          for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+            var skill = _step2.value;
+
+            if (this.calcSkillMod(skill) == 0) {
+              continue;
+            }
 
             if (displayText !== '') {
               displayText += ', ';
             }
 
-            displayText += this.$data.f5.skills[skill].name + ' ' + this.calcSkillMod(skill, true);
+            displayText += this.$data.f5.skills[skill].name + ' ' + this.addPlus(this.calcSkillMod(skill));
           }
         } catch (err) {
-          _iterator3.e(err);
+          _iterator2.e(err);
         } finally {
-          _iterator3.f();
+          _iterator2.f();
         }
 
         return displayText;
@@ -15661,7 +15742,7 @@ function initVue(f5data) {
       },
       //Challenge Rating
       crText: function crText() {
-        return 'CR ?? ';
+        return 'CR ?? (??? XP)';
       },
       ///////////////// NEW FEATURE /////////////////
       newFeatureAttackText: function newFeatureAttackText() {
@@ -15736,12 +15817,12 @@ function initVue(f5data) {
         });
         var displayText = '';
 
-        var _iterator4 = _createForOfIteratorHelper(input),
-            _step4;
+        var _iterator3 = _createForOfIteratorHelper(input),
+            _step3;
 
         try {
-          for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-            var i = _step4.value;
+          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+            var i = _step3.value;
 
             if (this.f5.damagetypes[i].long_name) {
               if (displayText !== '') displayText += '; ';
@@ -15752,9 +15833,9 @@ function initVue(f5data) {
             }
           }
         } catch (err) {
-          _iterator4.e(err);
+          _iterator3.e(err);
         } finally {
-          _iterator4.f();
+          _iterator3.f();
         }
 
         return displayText;
@@ -15777,12 +15858,12 @@ function initVue(f5data) {
       conditionList: function conditionList(input) {
         var displayText = '';
 
-        var _iterator5 = _createForOfIteratorHelper(input),
-            _step5;
+        var _iterator4 = _createForOfIteratorHelper(input),
+            _step4;
 
         try {
-          for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
-            var i = _step5.value;
+          for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+            var i = _step4.value;
 
             if (displayText !== '') {
               displayText += ', ';
@@ -15791,17 +15872,15 @@ function initVue(f5data) {
             displayText += this.f5.conditions[i].name;
           }
         } catch (err) {
-          _iterator5.e(err);
+          _iterator4.e(err);
         } finally {
-          _iterator5.f();
+          _iterator4.f();
         }
 
         return displayText;
       },
       listReturn: function listReturn(list) {
         var displayText = '';
-        console.log('listReturn ' + list);
-        console.log(this.$data.options[list]);
 
         if (this.$data.options[list].hasOwnProperty('all')) {
           return this.$data.f5[list]['all'].name;
@@ -15850,7 +15929,6 @@ function initVue(f5data) {
         }
       },
       calcSkillMod: function calcSkillMod(skill) {
-        var addPlus = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
         var ability = this.$data.f5.skills[skill].ability;
         var abilityMod = this.getAbilityMod(ability);
 
@@ -15858,30 +15936,29 @@ function initVue(f5data) {
           abilityMod += this.options.proficiency;
         }
 
-        if (addPlus) {
-          abilityMod = this.addPlus(abilityMod);
-        }
-
         return abilityMod;
       },
       calcAbilityMod: function calcAbilityMod(abilityScore) {
-        var addPlus = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
         var mod = Math.floor((abilityScore - 10) / 2);
-
-        if (addPlus && mod > 0) {
-          mod = this.addPlus(mod);
-        }
-
         return mod;
       },
       getAbilityMod: function getAbilityMod(ability) {
-        var addPlus = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
         var score = this.options.abilities[ability];
-        return this.calcAbilityMod(score, addPlus);
+        return this.calcAbilityMod(score);
+      },
+      makeSavingThrowDC: function makeSavingThrowDC(ability) {
+        return 8 + this.options.proficiency + this.getAbilityMod(ability);
       },
       addPlus: function addPlus(number) {
+        var addSpace = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+        var space = addSpace ? ' ' : '';
+
         if (number > 0) {
-          number = '+' + number;
+          number = '+' + space + number;
+        } else if (number < 0) {
+          if (addSpace) {
+            number = String(number).replace('-', '-' + space);
+          }
         }
 
         return number;
@@ -15919,13 +15996,21 @@ function initVue(f5data) {
           attackDamage: [],
           attackSavingThrow: false,
           attackTargets: 1,
-          savingThrowAbility: 'str',
+          savingThrowMonsterAbility: 'str',
+          savingThrowSaveAbilities: ['str'],
           savingThrowDamage: [],
-          savingThrowHalfOnSuccess: true
+          savingThrowHalfOnSuccess: true,
+          savingThrowConditions: [],
+          hasOngoingDamage: false,
+          ongoingDamage: [],
+          ongoingDamageOccurs: 'start',
+          ongoingDamageRepeatSave: false,
+          ongoingDamageDuration: 'ongoing'
         };
-        newFeature.attackDamage.push(this.createDamageDie());
+        newFeature.attackDamage.push(this.createDamageDie(true));
         newFeature.savingThrowDamage.push(this.createDamageDie());
-        newFeature['customDescription'] = ' The dragon\'s innate spellcasting ability is Intelligence (spell save DC 17). It can innately cast the following spells, requiring no components:';
+        newFeature.ongoingDamage.push(this.createDamageDie());
+        newFeature['customDescription'] = 'The dragon\'s innate spellcasting ability is Intelligence (spell save DC 17). It can innately cast the following spells, requiring no components:';
         this.options.features[type].push(newFeature);
       },
       removeFeature: function removeFeature(type, id) {
@@ -15937,25 +16022,39 @@ function initVue(f5data) {
         }
       },
       createDamageDie: function createDamageDie() {
+        var setAbilityBonus = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
         return {
           diceType: 4,
           diceAmount: 1,
           additional: 0,
+          abilityBonus: setAbilityBonus,
           type: 'slashing'
         };
       },
-      averageDamage: function averageDamage(damageObj) {
-        return Math.floor((damageObj.diceType / 2 + .5) * damageObj.diceAmount) + damageObj.additional;
+      averageDamage: function averageDamage(damageObj, ability) {
+        var abilityDamage = 0;
+
+        if (damageObj.abilityBonus) {
+          abilityDamage = Number(this.getAbilityMod(ability));
+        }
+
+        var damage = Math.floor((damageObj.diceType / 2 + .5) * damageObj.diceAmount) + (damageObj.additional + abilityDamage);
+        return damage > 0 ? damage : 1;
       },
-      damageText: function damageText(damageObj) {
+      createDamageText: function createDamageText(damageObj, ability) {
         var descText = '';
 
         if (damageObj.diceAmount > 0) {
-          descText += this.averageDamage(damageObj);
+          descText += this.averageDamage(damageObj, ability);
           descText += ' (' + damageObj.diceAmount + this.$data.f5.misc.die_symbol + damageObj.diceType;
+          var additionalDamage = damageObj.additional;
 
-          if (damageObj.additional > 0) {
-            descText += ' + ' + damageObj.additional;
+          if (damageObj.abilityBonus) {
+            additionalDamage += this.getAbilityMod(ability);
+          }
+
+          if (additionalDamage != 0) {
+            descText += ' ' + this.addPlus(additionalDamage, true);
           }
 
           descText += ') ';
@@ -15963,11 +16062,6 @@ function initVue(f5data) {
           descText = damageObj.additional + ' ';
         }
 
-        console.log(damageObj.type);
-        console.log(damageObj.type);
-        console.log(this.$data.f5.damagetypes);
-        console.log(this.$data.f5.damagetypes[damageObj.type]);
-        console.log(this.$data.f5.damagetypes[damageObj.type]['name']);
         descText += this.$data.f5.misc.damage.replace(':type', this.$data.f5.damagetypes[damageObj.type].name.toLowerCase());
         return descText;
       },
@@ -15981,6 +16075,60 @@ function initVue(f5data) {
         };
 
         return generator(base, len);
+      },
+      createSentenceList: function createSentenceList(input) {
+        var inclusive = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+        var len = input.length;
+
+        if (isNaN(len)) {
+          if (!isNaN(Object.keys(input).length)) {
+            len = Object.keys(input).length;
+          }
+        }
+
+        var descText = '';
+
+        for (var i in input) {
+          //TODO this might need to change in other languages
+          if (descText) {
+            if (len > 2) {
+              descText += this.f5.misc.sentence_list_separator + ' ';
+            }
+
+            if (i == len - 1) {
+              if (inclusive) {
+                descText += ' ' + this.f5.misc.and + ' ';
+              } else {
+                descText += ' ' + this.f5.misc.or + ' ';
+              }
+            }
+          }
+
+          descText += input[i];
+        }
+
+        return descText;
+      },
+      createSimpleList: function createSimpleList(input) {
+        var len = input.length;
+
+        if (isNaN(len)) {
+          if (!isNaN(Object.keys(input).length)) {
+            len = Object.keys(input).length;
+          }
+        }
+
+        var descText = '';
+
+        for (var i in input) {
+          if (descText) {
+            descText += this.f5.misc.sentence_list_separator + ' ';
+          }
+
+          descText += input[i];
+        }
+
+        return descText;
       }
     }
   });
