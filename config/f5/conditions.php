@@ -104,7 +104,6 @@ return [
         'description' => 'f5/conditions.swallowed_description',
         'rank' => 4,
     ],
-    
     'on_fire' => [
         'name' => 'f5/conditions.on_fire',
         'is' => 'f5/conditions.is_on_fire',
@@ -112,5 +111,14 @@ return [
         'description' => 'f5/conditions.on_fire_description',
         'rank' => 3,
     ],
+    'pushed' => [
+        'name' => 'f5/conditions.pushed',
+        'is' => 'f5/conditions.is_pushed',
+        'not' => 'f5/conditions.not_pushed',
+        'description' => 'f5/conditions.pushed_description',
+        'distance' => [1,2,3,4,5,6],
+        'rank' => 1,
+    ],
+
 
 ];

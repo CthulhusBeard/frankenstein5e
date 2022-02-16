@@ -1,5 +1,5 @@
 <div class="stat-block-container">
-    <div class="stat-block" v-bind:class="{'edit-mode': editor.edit_mode}">
+    <div class="stat-block two_column" v-bind:class="{'edit-mode': editor.edit_mode}">
         <div class="stat-block__column">
             <div class="stat-block__title focus-edit">
                 <span class="display-field">@{{options.name}}</span>
@@ -57,11 +57,10 @@
                     <span>@{{acText}}</span>
                     <div class="option options__hitpoints edit-field">
                         <select id="options__armorclass" name="options__armorclass" v-model="options.armorClass.type">
-                            <option disabled value="">Please select one</option>
                             <option v-for="(item, index) in f5.armor" :value="index" >@{{generateArmourText(item, f5.misc.max)}}</option>
                         </select>
                         <div v-if="options.armorClass.type === 'custom'" >
-                            Armor Name: <input v-model='options.armorClass.name'/><br/>
+                            @{{f5.misc.title_armor_name}}: <input v-model='options.armorClass.name'/><br/>
                             <!--Disadvantage on Stealth: <input type="checkbox" v-model="options.armorClass.stealthDis">-->
                         </div>
                         <span v-if="allowAcSelector">
@@ -70,11 +69,11 @@
                             </select>
                         </span>
                         <span v-if="allowAcBonus">
-                            Magical Bonus: +<select name="options__armorclass_range" v-model="options.armorClass.bonus" >
+                            @{{f5.misc.title_magical_bonus}}: +<select name="options__armorclass_range" v-model="options.armorClass.bonus" >
                                 <option v-for="i in 6" :value="i-1" >@{{i-1}}</option>
                             </select>     
                         </span>  
-                        Shield: <input name="options__shield" v-model="options.armorClass.shield" type="checkbox" />        
+                        @{{f5.misc.title_shield}}: <input name="options__shield" v-model="options.armorClass.shield" type="checkbox" />        
                     </div>
                 </div>
 

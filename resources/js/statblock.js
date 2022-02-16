@@ -21,9 +21,43 @@ export function initVue(f5data) {
             }
         },
         computed: {
+
             displayName: function() {
-                return this.value.name;
+                let nameText = this.value.name;
+                //anything that triggers brackets //Different forms?
+                let brackets = ''; //separated by "sentence_list_separator_secondary"
+                
+                //Legendary action cost
+                if(
+                    (this.value.actionType === 'legendaryActions' || this.value.actionType === 'mythicActions') &&
+                    this.$parent.options.hasLegendaryActions &&
+                    (this.value.actionType !== 'mythicActions' || this.$parent.options.hasMythicActions) &&
+                    this.value.legendaryActionCost > 1
+                ) {
+                    brackets += this.$parent.f5.misc.action_cost.replace(':cost', this.value.legendaryActionCost);
+                }
+
+                //Recharge rate
+                if(this.value.recharge.type !== 'none') {
+                    if(brackets) {
+                        brackets += this.$parent.f5.misc.sentence_list_separator_secondary+' ';
+                    }
+                    if(this.value.recharge.type === 'dice_roll') {
+                        brackets += this.$parent.f5.misc.title_recharge+' '+this.value.recharge.minRoll;
+                        if(this.value.recharge.minRoll !== this.value.recharge.diceType) {
+                            brackets += '-'+this.value.recharge.diceType;
+                        }
+                    } else if(this.$parent.f5.recharge[this.value.recharge.type].desc) {
+                        brackets += this.$parent.f5.recharge[this.value.recharge.type].desc;
+                    }
+                }
+
+                if(brackets) {
+                    nameText += ' ('+brackets+')';
+                }
+                return nameText;
             },
+
             hasRunOnSentence: function() {
                 if(
                     (
@@ -73,11 +107,7 @@ export function initVue(f5data) {
                     descText = descText.replace(':reach_distance', this.value.attackReach+' '+this.$parent.options.measure.measureUnit);
                     descText = descText.replace(':range_distance_low', this.value.attackRange.low);
                     descText = descText.replace(':range_distance_high', this.value.attackRange.high+' '+this.$parent.options.measure.measureUnit);
-                    if(this.value.attackTargets > 1) {
-                        descText = descText.replace(':targets', this.$parent.f5.misc.num_of_targets.replace(':targets', this.value.attackTargets));
-                    } else {
-                        descText = descText.replace(':targets', this.$parent.f5.misc.one_target.replace(':targets', this.value.attackTargets));
-                    }
+                    descText = descText.replace(':targets', this.$parent.translate(this.$parent.f5.misc.num_of_targets, this.value.attackTargets).replace(':target_count', this.value.attackTargets));
 
                     //Hit
                     descText += ' <i>'+this.$parent.f5.misc.desc_attack_hit+'</i> ';
@@ -99,15 +129,17 @@ export function initVue(f5data) {
                         savingThrowText = this.$parent.f5.misc.desc_attack_saving_throw_condition;
                     }
                     
-                    if(this.value.attackSavingThrow && this.value.attackDamage.length > 0) {
+                    if(this.value.template == 'attack' && this.value.attackSavingThrow && this.value.attackDamage.length > 0) {
                         if(this.hasRunOnSentence) {
                             savingThrowText = this.$parent.f5.misc.sentence_end+' '+this.$parent.f5.misc.additionally.replace(':addition', savingThrowText);
                         } else {
                             savingThrowText = this.$parent.f5.misc.sentence_list_separator+' '+this.$parent.f5.misc.and+' '+savingThrowText;
                         }
                     } else {
-                        savingThrowText = this.$parent.f5.misc.sentence_end+' '+savingThrowText.charAt(0).toUpperCase() + savingThrowText.slice(1);
+                        savingThrowText = savingThrowText.charAt(0).toUpperCase() + savingThrowText.slice(1);
                     }
+                    
+                    savingThrowText = savingThrowText.replace(':target_text', this.$parent.translate(this.$parent.f5.misc.the_target, this.value.attackTargets));
 
                     //Half as much
                     if(this.value.savingThrowHalfOnSuccess) {
@@ -171,7 +203,7 @@ export function initVue(f5data) {
         options: {
             name: 'Monster',
             size: 'medium',
-            type: '',
+            type: 'dragon',
             subtype: '',
             typeCategory: '',
             alignment: '',
@@ -220,6 +252,9 @@ export function initVue(f5data) {
                 defensive: {
                 }
             },
+            hasLegendaryActions: true,
+            hasMythicActions: false,
+            legendaryActions: 3,
             features: {
                 passives: [],
                 actions: [],
@@ -990,7 +1025,7 @@ export function initVue(f5data) {
                     attackAbility: 'str',
                     targetType: 'melee',
                     attackType: 'none',
-                    attackRange: {'low': 20, 'high':60},
+                    attackRange: {'low': 20, 'high': 60},
                     attackReach: 5,
                     attackDamage: [],
                     attackSavingThrow: false,
@@ -1005,6 +1040,13 @@ export function initVue(f5data) {
                     ongoingDamageOccurs: 'start',
                     ongoingDamageRepeatSave: false,
                     ongoingDamageDuration: 'ongoing',
+                    recharge: {
+                        type: 'none',
+                        diceType: 6,
+                        minRoll: 5,
+                    },
+                    legendaryActionCost: 1,
+                    spellcastingAbility: 'int',
                 };
 
                 newFeature.attackDamage.push(this.createDamageDie(true));
@@ -1117,6 +1159,19 @@ export function initVue(f5data) {
                     descText += input[i];
                 }
                 return descText;
+            },
+
+            translate: function(str, pluralCount = 1) {
+                let pluralBreak = str.indexOf('|');
+                let retStr = str;
+                if(pluralBreak > 0) {
+                    if(pluralCount == 0 || pluralCount > 1) {
+                        retStr = str.substr(pluralBreak+1);
+                    } else {
+                        retStr = str.substr(0, pluralBreak);
+                    }
+                }
+                return retStr;
             },
         }
     });

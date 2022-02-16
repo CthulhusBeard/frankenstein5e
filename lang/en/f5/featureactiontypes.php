@@ -19,13 +19,18 @@ return [
     'title_add_mythic_action' => '+ Add a Mythic Action',
     'title_add_lair_action' => '+ Add a Lair Action',
 
+    'title_legendary_action_cost' => 'Legendary Action Cost',
+
     'passive_desc' => '',
     'action_desc' => 'As an action, ',
     'bonus_action_desc' => 'As a bonus action, ',
     'reaction_desc' => 'As a reaction, ',
     'free_action_desc' => 'As a free action',
-    'legendary_action_desc' => 'Costs :cost Legendary Action',
+    'legendary_action_desc' => 'Costs :cost Legendary Actions',
+    'mythic_action_desc' => 'Costs :cost Legendary Actions',
     'lair_action_desc' => 'Lair Action',
+
+    'action_cost' => ':cost Actions',
 
     'recharge' => 'Recharge (:recharge)',
 ];

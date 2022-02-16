@@ -80,4 +80,10 @@ return [
     'is_on_fire' => 'be set on fire',
     'not_on_fire' => 'is not set on fire',
     'on_fire_description' => '',
+
+    'pushed' => 'Pushed',
+    'is_pushed' => 'be pushed :distance',
+    'not_pushed' => 'is not pushed',
+    'pushed_description' => '',
+
 ];

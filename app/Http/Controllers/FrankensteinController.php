@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use App;
 
 class FrankensteinController extends Controller
 {
@@ -19,12 +20,17 @@ class FrankensteinController extends Controller
     // - Reorder Features
     // - Mage armour
     // - Automatic column org or manual moving
-    // - Fix semantic usage on Conditions
-    
+    // - Fix semantic usage on Conditions plus additional conditions
+    // - Remove external CDN references
+    // - Clean up label "for"s
     
     
     public function builder (Request $request) {
-        $cacheSeconds = 2;
+        if (App::environment('local')) {
+            $cacheSeconds = 2;
+        } else {
+            $cacheSeconds = 60 * 60;
+        }
 
         if(Cache::has('f5')) {
             $translatedData = Cache::get('f5');
@@ -35,6 +41,7 @@ class FrankensteinController extends Controller
                 'misc',
                 'timepoints',
                 'tags',
+                'recharge',
                 'dicetypes',
                 'challengerating',
                 'abilities',

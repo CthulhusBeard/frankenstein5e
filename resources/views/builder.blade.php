@@ -17,38 +17,45 @@
         <div id="f5" class="main-content full-height">
 
             <div class="slide-button" v-bind:class="{ selected : editor.edit_mode }" @click="editor.edit_mode = !editor.edit_mode">
-                <label>Edit Mode</label>
+                <label>@{{f5.misc.title_edit_mode}}</label>
             </div>
 
             @include('partials.statblock')
 
             <div class="cr-controller popup-overlay">
-                <strong>Challenge Rating Manager</strong>
+                <strong>@{{f5.misc.title_cr_manager}}</strong>
                 <div>
-                    Approx. Offensive CR: @{{damageCr}}<br/>
-                    Approx. Health CR: @{{healthCr}}<br/>
-                    Approx. Armor CR: @{{armorCr}}
+                    @{{f5.misc.title_offensive_cr}}: @{{damageCr}}<br/>
+                    @{{f5.misc.title_hp_cr}}: @{{healthCr}}<br/>
+                    @{{f5.misc.title_ac_cr}}: @{{armorCr}}
                 </div>
                 <div> 
-                    <label class="option-label" for="options__set-cr">Set CR: </label>
+                    <label class="option-label" for="options__set-cr">@{{f5.misc.title_set_cr}}: </label>
                     <select id="option options__set-cr" name="options__set-cr">
                         <option v-for="(item, index) in f5.challengerating" :value="index">@{{index}}</option>
                     </select>
-                    <button>Apply</button>
+                    <button>@{{f5.misc.title_apply}}</button>
                 </div>
                 <div> 
-                    <label class="option-label" for="options__set-cr">Set Offensive CR: </label>
-                    <select id="option options__set-cr" name="options__set-cr">
+                    <label class="option-label" for="options__set-o-cr">@{{f5.misc.title_set_offensive_cr}}: </label>
+                    <select id="option options__set-o-cr" name="options__set-cr">
                         <option v-for="(item, index) in f5.challengerating" :value="index">@{{index}}</option>
                     </select>
-                    <button>Apply</button>
+                    <button>@{{f5.misc.title_apply}}</button>
                 </div>
                 <div> 
-                    <label class="option-label" for="options__set-cr">Set Defensive CR: </label>
-                    <select id="option options__set-cr" name="options__set-cr">
+                    <label class="option-label" for="options__set-hp-cr">@{{f5.misc.title_set_hp_cr}}: </label>
+                    <select id="option options__set-hp-cr" name="options__set-cr">
                         <option v-for="(item, index) in f5.challengerating" :value="index">@{{index}}</option>
                     </select>
-                    <button>Apply</button>
+                    <button>@{{f5.misc.title_apply}}</button>
+                </div>
+                <div> 
+                    <label class="option-label" for="options__set-ac-cr">@{{f5.misc.title_set_ac_cr}}: </label>
+                    <select id="option options__set-ac-cr" name="options__set-cr">
+                        <option v-for="(item, index) in f5.challengerating" :value="index">@{{index}}</option>
+                    </select>
+                    <button>@{{f5.misc.title_apply}}</button>
                 </div>
             </div>
         
@@ -64,13 +71,17 @@
             
                 //Edit Fields. Allow focused objects to be editted while making others uneditable
                 document.addEventListener('click', function(e) {
-                    const editFields = document.querySelectorAll(".focus-edit.focused");
-                    editFields.forEach(function(el) { 
-                        el.classList.remove('focused');
-                    });
-
                     if(e.target.closest(".focus-edit") && !e.target.closest(".feature__remove")) {   //Click on any object other than an edittable one
+                        const editFields = document.querySelectorAll(".focus-edit.focused");
+                        editFields.forEach(function(el) { 
+                            el.classList.remove('focused');
+                        });
                         e.target.closest(".focus-edit").classList.add('focused');
+                    } else if(!e.target.closest(".stat-block")) {
+                        const editFields = document.querySelectorAll(".focus-edit.focused");
+                        editFields.forEach(function(el) { 
+                            el.classList.remove('focused');
+                        });
                     }
                 });
 

@@ -18,6 +18,10 @@ $statBlockRed: #822000;
     background-color: green;
 }
 
+.indent-margin {
+    margin-left: 4px;
+}
+
 .stat-block {
     position: relative;
     width: 100%;
@@ -36,8 +40,12 @@ $statBlockRed: #822000;
     background-position: top center;
     background-repeat: no-repeat,repeat;
     display: grid;
-    grid-template-columns: 48% 48%;
     gap: 2%;
+
+    &.two_column {
+        grid-template-columns: 48% 48%;
+        min-width: 900px;
+    }
 
     &:before, &:after {
         content: "";
@@ -65,9 +73,13 @@ $statBlockRed: #822000;
             font-style: normal;
             font-weight: bold;
             color: black;
-            margin-left: 4px;
             padding: 2px;
+            @extend .indent-margin;
         }
+    }
+
+    .stat-block__column {
+        min-width: 425px;
     }
 
     .stat-block__title {
@@ -120,6 +132,9 @@ $statBlockRed: #822000;
 
     .stat-block__attributes {
         .stat-block__attribute {
+            &.edit-show {
+                padding: 0 4px;
+            }
             .title {
                 font-weight: bold;
             }
@@ -183,14 +198,17 @@ $statBlockRed: #822000;
         }
         .feature__options {
             margin-left: 5px;
+            //column-count: 2;
+            //column-gap: 2px;
         }
         .feature__damage {
             position: relative;
             border: 1px black solid;
-            border-radius: 2px;
+            border-radius: 8px;
             padding: 2px;
             .feature__remove-damage {
                 border: 1px black solid;
+                background-color: white;
                 right: 0;
                 top: 0;
                 font-size: 12px;
@@ -198,11 +216,20 @@ $statBlockRed: #822000;
                 position: absolute;
                 padding: 0px 5px 2px 6px;
                 border-radius: 17px;
+                transform: translate(50%, -50%);
             }
+        }
+        .attack-border {
+            border: 1px black solid;
+            border-radius: 8px;
+            padding: 2px;
         }
         .edit-field {
             width: 98%;
             padding: 5px;
+            .title-label {
+                font-weight: bold;
+            }
         }
         &:hover {
             .feature__remove {
@@ -226,6 +253,7 @@ $statBlockRed: #822000;
         }
         .stat-block__add-feature-button {
             display: block;
+            padding: 0 4px;
         }
         .hidden-holder {
             .edit-show {
@@ -242,6 +270,7 @@ $statBlockRed: #822000;
             }
             
             &.focused {
+                cursor: inherit;
         
                 .feature__description {
                     background-color: #f8f1ce;

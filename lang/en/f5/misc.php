@@ -2,6 +2,7 @@
 
 return [
     'sentence_list_separator' => ',',
+    'sentence_list_separator_secondary' => ';',
     'and' => 'and',
     'or' => 'or',
     'sentence_end' => '.',
@@ -38,5 +39,7 @@ return [
     'title_proficiency' => 'Proficiency Bonus',
     'title_saving_throws' => 'Saving Throws',
     'title_damage' => 'Damage',
+
+    'title_magical_bonus' => 'Magical Bonus',
 
 ];

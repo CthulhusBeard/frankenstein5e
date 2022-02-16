@@ -210,6 +210,11 @@ body {
   background-color: green;
 }
 
+.indent-margin,
+.stat-block .option.edit-field {
+  margin-left: 4px;
+}
+
 .stat-block {
   position: relative;
   width: 100%;
@@ -228,8 +233,12 @@ body {
   background-position: top center;
   background-repeat: no-repeat, repeat;
   display: grid;
-  grid-template-columns: 48% 48%;
   gap: 2%;
+}
+
+.stat-block.two_column {
+  grid-template-columns: 48% 48%;
+  min-width: 900px;
 }
 
 .stat-block:before,
@@ -260,8 +269,11 @@ body {
   font-style: normal;
   font-weight: bold;
   color: black;
-  margin-left: 4px;
   padding: 2px;
+}
+
+.stat-block .stat-block__column {
+  min-width: 425px;
 }
 
 .stat-block .stat-block__title {
@@ -313,6 +325,10 @@ body {
 
 .stat-block .stat-block__ability-scores .stat-block__ability .stat-block__ability-name {
   font-weight: bold;
+}
+
+.stat-block .stat-block__attributes .stat-block__attribute.edit-show {
+  padding: 0 4px;
 }
 
 .stat-block .stat-block__attributes .stat-block__attribute .title {
@@ -384,12 +400,13 @@ body {
 .stat-block .stat-block__feature .feature__damage {
   position: relative;
   border: 1px black solid;
-  border-radius: 2px;
+  border-radius: 8px;
   padding: 2px;
 }
 
 .stat-block .stat-block__feature .feature__damage .feature__remove-damage {
   border: 1px black solid;
+  background-color: white;
   right: 0;
   top: 0;
   font-size: 12px;
@@ -397,11 +414,22 @@ body {
   position: absolute;
   padding: 0px 5px 2px 6px;
   border-radius: 17px;
+  transform: translate(50%, -50%);
+}
+
+.stat-block .stat-block__feature .attack-border {
+  border: 1px black solid;
+  border-radius: 8px;
+  padding: 2px;
 }
 
 .stat-block .stat-block__feature .edit-field {
   width: 98%;
   padding: 5px;
+}
+
+.stat-block .stat-block__feature .edit-field .title-label {
+  font-weight: bold;
 }
 
 .stat-block .stat-block__feature:hover .feature__remove {
@@ -418,6 +446,7 @@ body {
 
 .stat-block.edit-mode .stat-block__add-feature-button {
   display: block;
+  padding: 0 4px;
 }
 
 .stat-block.edit-mode .hidden-holder .edit-show {
@@ -431,6 +460,10 @@ body {
 .stat-block.edit-mode .focus-edit:hover {
   background-color: #7e7a6338;
   border-radius: 8px;
+}
+
+.stat-block.edit-mode .focus-edit.focused {
+  cursor: inherit;
 }
 
 .stat-block.edit-mode .focus-edit.focused .feature__description {

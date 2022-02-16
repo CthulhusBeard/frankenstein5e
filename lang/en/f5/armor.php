@@ -29,5 +29,7 @@ return [
     'stealth_dis' => 'Disadvantage on Stealth',
     
     'title_armor_class' => 'Armor Class',
+    'title_armor_name' => 'Armor Name',
+    'title_shield' => 'Shield',
     
 ];

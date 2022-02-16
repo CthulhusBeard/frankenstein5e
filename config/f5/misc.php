@@ -2,6 +2,7 @@
 
 return [
     'sentence_list_separator' => 'f5/misc.sentence_list_separator',
+    'sentence_list_separator_secondary' => 'f5/misc.sentence_list_separator_secondary',
     'and' => 'f5/misc.and',
     'or' => 'f5/misc.or',
     'sentence_end' => 'f5/misc.sentence_end',
@@ -36,6 +37,8 @@ return [
     'title_challenge_rating' => 'f5/misc.title_challenge_rating',
     'title_hit_dice' => 'f5/misc.title_hit_dice',
 
+    'title_magical_bonus' => 'f5/misc.title_magical_bonus',
+
     'undefined_health' => 'f5/misc.undefined_health',
     
     'title_proficiency' => 'f5/misc.title_proficiency',
@@ -43,6 +46,8 @@ return [
     'title_additional_saving_throw' => 'f5/features.title_additional_saving_throw',
 
     'title_new_feature' => 'f5/features.title_new_feature',
+    'title_feature_name' => 'f5/features.title_feature_name',
+    'title_feature_options' => 'f5/features.title_feature_options',
     'title_feature_template' => 'f5/features.title_feature_template',
     'title_attack_type' => 'f5/features.title_attack_type',
     'title_attack_range' => 'f5/features.title_attack_range',
@@ -53,6 +58,7 @@ return [
     'title_saving_throw_ability' => 'f5/features.title_saving_throw_ability',
     'title_saving_throw_monster_ability' => 'f5/features.title_saving_throw_monster_ability',
     'title_attack_ability' => 'f5/features.title_attack_ability',
+    'title_spellcasting_ability' => 'f5/features.title_spellcasting_ability',
     'title_targets' => 'f5/features.title_targets',
     'title_half_on_success' => 'f5/features.title_half_on_success',
     'title_damage_type' => 'f5/features.title_damage_type',
@@ -61,8 +67,8 @@ return [
     'title_ongoing_damage' => 'f5/features.title_ongoing_damage',
 
     'num_of_targets' => 'f5/features.num_of_targets',
-    'one_target' => 'f5/features.one_target',
     'desc_attack_hit' => 'f5/features.desc_attack_hit',
+    'the_target' => 'f5/features.the_target',
 
     //--    
     
@@ -83,6 +89,10 @@ return [
     'title_add_legendary_action' => 'f5/featureactiontypes.title_add_legendary_action',
     'title_add_mythic_action' => 'f5/featureactiontypes.title_add_mythic_action',
     'title_add_lair_action' => 'f5/featureactiontypes.title_add_lair_action',
+
+    'title_legendary_action_cost' => 'f5/featureactiontypes.title_legendary_action_cost',
+
+    'action_cost' => 'f5/featureactiontypes.action_cost',
 
     //--
 
@@ -127,9 +137,29 @@ return [
     'title_senses' => 'f5/senses.title_senses',
     'title_speed' => 'f5/speeds.title_speed',
     'title_armor_class' => 'f5/armor.title_armor_class',
+    'title_armor_name' => 'f5/armor.title_armor_name',
+    'title_shield' => 'f5/armor.title_shield',
     'title_abilities' => 'f5/abilities.title_abilities',
     'title_ability' => 'f5/abilities.title_ability',
     'title_challenge_rating' => 'f5/misc.title_challenge_rating',
     'title_hit_points' => 'f5/misc.title_hit_points',
     'title_hit_dice' => 'f5/misc.title_hit_dice',
+
+    //--
+    
+    'title_cr_manager' => 'f5/builder.title_cr_manager',
+    'title_offensive_cr' => 'f5/builder.title_offensive_cr',
+    'title_hp_cr' => 'f5/builder.title_hp_cr',
+    'title_ac_cr' => 'f5/builder.title_ac_cr',
+
+    'title_edit_mode' => 'f5/builder.title_edit_mode',
+    'title_apply' => 'f5/builder.title_apply',
+
+    'title_set_cr' => 'f5/builder.title_set_cr',
+    'title_set_offensive_cr' => 'f5/builder.title_set_offensive_cr',
+    'title_set_hp_cr' => 'f5/builder.title_set_hp_cr',
+    'title_set_ac_cr' => 'f5/builder.title_set_ac_cr',
+
+    'title_recharge' => 'f5/recharge.title_recharge',
+    'title_recharge_min_roll' => 'f5/recharge.title_recharge_min_roll',
 ];

@@ -3,7 +3,7 @@
 return [
     'desc_attack_hit' => 'Hit:',
     'desc_attack_miss' => 'Miss:',
-    'desc_saving_throw' => 'Each creature :target_choice that is within :range feet of the :target_area :is_aware must succeed on a DC :save_dc :save_ability saving throw. On a failed save, the target :condition for :duration :takes_damage. :successful_save',
+    'desc_saving_throw' => 'Each creature :target_choice that is within :range feet of the :target_area :is_aware must succeed on a DC :save_dc :save_ability saving throw. On a failed save, :target_text :condition for :duration :takes_damage. :successful_save',
     'desc_deal_damage' => ':damage_roll :damage_type damage', //4d8 lightning damage
     'desc_successful_save' => 'On a successful save :half_damage :condition',
 
@@ -21,8 +21,8 @@ return [
     'reach' => 'reach :reach_distance',
     'range' => 'range :range_distance_low/:range_distance_high',
     'reach_or_range' => 'reach :reach_distance or range :range_distance_low/:range_distance_high',
-    'one_target' => ':targets target',
-    'num_of_targets' => ':targets targets',
+    'num_of_targets' => ':target_count target|:target_count targets',
+    'the_target' => 'the target|the targets',
 
     'name_multiattack' => 'Multiattack', 
     'desc_multiattack' => 'The :creature_type makes :multiattack.', 
@@ -39,14 +39,17 @@ return [
     //Feature Modifiers
     'additionally' => 'Additionally, :addition',
     'desc_modifier_damage' => 'plus :damage_roll :damage_type damage',
-    'desc_attack_saving_throw_condition' => 'the target must make a DC :saving_throw_dc :saving_throw_ability saving throw or :condition',
-    'desc_attack_saving_throw_damage' => 'the target must make a DC :saving_throw_dc :saving_throw_ability saving throw, taking :damage on a failed save:half_as_much',
-    'desc_attack_saving_throw_damage_condition' => 'the target must make a DC :saving_throw_dc :saving_throw_ability saving throw, taking :damage on a failed save and :condition:half_as_much :not_condition',
+    'desc_attack_saving_throw_condition' => ':target_text must make a DC :saving_throw_dc :saving_throw_ability saving throw or :condition',
+    'desc_attack_saving_throw_damage' => ':target_text must make a DC :saving_throw_dc :saving_throw_ability saving throw, taking :damage on a failed save:half_as_much',
+    'desc_attack_saving_throw_damage_condition' => ':target_text must make a DC :saving_throw_dc :saving_throw_ability saving throw, taking :damage on a failed save and :condition:half_as_much :not_condition',
     'desc_saving_throw_half_on_success' => ', or half as much damage on a successful one',
 
     //--
     'title_new_feature' => 'New Feature',
+    'title_feature_name' => 'Feature Name',
+    'title_feature_options' => 'Feature Options',
     'title_attack_ability' => 'Attack Ability',
+    'title_spellcasting_ability' => 'Spellcasting Ability',
     'title_feature_template' => 'Feature Template',
     'title_attack_type' => 'Attack Type',
     'title_target_type' => 'Target Type',
