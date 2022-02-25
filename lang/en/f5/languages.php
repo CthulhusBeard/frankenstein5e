@@ -2,6 +2,7 @@
 
 return [
     'custom' => 'custom',
+    'languages_none' => '—',
 
     'all' => 'All Languages',
     'common' => 'Common',

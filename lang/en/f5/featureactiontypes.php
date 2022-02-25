@@ -2,13 +2,13 @@
 
 return [
     'title_passive' => 'Passive',
-    'title_action' => 'Action',
-    'title_bonus_action' => 'Bonus Action',
-    'title_reaction' => 'Reaction',
-    'title_free_action' => 'Free Action',
-    'title_legendary_action' => 'Legendary Action',
-    'title_mythic_action' => 'Mythic Action',
-    'title_lair_action' => 'Lair Action',
+    'title_action' => 'Actions',
+    'title_bonus_action' => 'Bonus Actions',
+    'title_reaction' => 'Reactions',
+    'title_free_action' => 'Free Actions',
+    'title_legendary_action' => 'Legendary Actions',
+    'title_mythic_action' => 'Mythic Actions',
+    'title_lair_action' => 'Lair Actions',
 
     'title_add_passive' => '+ Add a Passive Feature',
     'title_add_action' => '+ Add an Action',
@@ -33,4 +33,8 @@ return [
     'action_cost' => ':cost Actions',
 
     'recharge' => 'Recharge (:recharge)',
+
+    'legendary_action_desc' => 'the creature does cool legendary stuffs',
+    'mythic_action_desc' => 'the creature does cool mythic stuffs',
+    'lair_action_desc' => 'the creature does cool lair stuffs',
 ];

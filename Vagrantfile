@@ -69,4 +69,7 @@ Vagrant.configure("2") do |config|
   #   apt-get update
   #   apt-get install -y apache2
   # SHELL
+
+  config.winrm.timeout =   300 # 5 minutes
+  config.vm.boot_timeout = 300 # 5 minutes
 end

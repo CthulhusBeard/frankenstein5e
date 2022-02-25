@@ -13,6 +13,7 @@ return [
     'additional' => 'Additional',
     'type' => 'Type',
     'die_symbol' => 'd',
+    'die_structure' => ':die_amountd:die_type',
     'none' => 'None',
     'damage' => ':type damage',
 
@@ -41,5 +42,7 @@ return [
     'title_damage' => 'Damage',
 
     'title_magical_bonus' => 'Magical Bonus',
+    
+    'title_save' => 'Save',
 
 ];

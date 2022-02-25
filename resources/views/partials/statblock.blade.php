@@ -1,6 +1,6 @@
 <div class="stat-block-container">
-    <div class="stat-block two_column" v-bind:class="{'edit-mode': editor.edit_mode}">
-        <div class="stat-block__column">
+    <div class="stat-block" v-bind:class="[{'edit-mode': editor.edit_mode}, statblockColumns]">
+        <div class="stat-block__section">
             <div class="stat-block__title focus-edit">
                 <span class="display-field">@{{options.name}}</span>
                 <input type="text" class="edit-field" v-model="options.name" />
@@ -327,101 +327,101 @@
                     <span class="display-field">@{{proficiencyText}}</span>
                 </div>
             </div>
-
-            <div class="stat-block__line-break"></div>
-
-            <div class="stat-block__passives">
-                <div class="stat-block__add-feature-button" @click="createFeature('passives')">
-                    @{{f5.misc.title_add_passive}}
-                </div>
-                <statblock-feature 
-                    v-for="passive in options.features.passives"
-                    v-model="passive"
-                    v-on:remove-feature="removeFeature"
-                ></statblock-feature>
-            </div>
-            <div class="stat-block__actions">
-                <div v-if="options.features.actions.length" class="stat-block__subtitle">
-                    @{{f5.misc.title_action}}
-                </div>
-                <div class="stat-block__add-feature-button" @click="createFeature('actions')">
-                    @{{f5.misc.title_add_action}}
-                </div>
-                <statblock-feature 
-                    v-for="action in options.features.actions"
-                    v-model="action"
-                    v-on:remove-feature="removeFeature"
-                ></statblock-feature>
-            </div>
-            <div class="stat-block__bonus-actions">
-                <div v-if="options.features.bonusActions.length" class="stat-block__subtitle">
-                    @{{f5.misc.title_bonus_action}}
-                </div>
-                <div class="stat-block__add-feature-button" @click="createFeature('bonusActions')">
-                    @{{f5.misc.title_add_bonus_action}}
-                </div>
-                <statblock-feature 
-                    v-for="bonusAction in options.features.bonusActions"
-                    v-model="bonusAction"
-                    v-on:remove-feature="removeFeature"
-                ></statblock-feature>
-            </div>
-
         </div>
 
-        <div class="stat-block__column">
-            <div class="stat-block__reactions">
-                <div v-if="options.features.reactions.length" class="stat-block__subtitle">
-                    @{{f5.misc.title_reaction}}
-                </div>
-                <div class="stat-block__add-feature-button" @click="createFeature('reactions')">
-                    @{{f5.misc.title_add_reaction}}
-                </div>
-                <statblock-feature 
-                    v-for="reaction in options.features.reactions"
-                    v-model="reaction"
-                    v-on:remove-feature="removeFeature"
-                ></statblock-feature>
+        <div class="stat-block__line-break"></div>
+
+        <div class="stat-block__passives">
+            <div class="stat-block__add-feature-button" @click="createFeature('passives')">
+                @{{f5.misc.title_add_passive}}
             </div>
-            <div class="stat-block__legendary-actions">
-                <div v-if="options.features.legendaryActions.length" class="stat-block__subtitle">
-                    @{{f5.misc.title_legendary_action}}
-                </div>
-                <div class="stat-block__add-feature-button" @click="createFeature('legendaryActions')">
-                    @{{f5.misc.title_add_legendary_action}}
-                </div>
-                <statblock-feature 
-                    v-for="legendaryAction in options.features.legendaryActions"
-                    v-model="legendaryAction"
-                    v-on:remove-feature="removeFeature"
-                ></statblock-feature>
+            <statblock-feature 
+                v-for="passive in options.features.passives"
+                v-model="passive"
+                v-on:remove-feature="removeFeature"
+            ></statblock-feature>
+        </div>
+        <div class="stat-block__section stat-block__actions">
+            <div v-if="options.features.actions.length" class="stat-block__subtitle">
+                <div class="header">@{{f5.misc.title_action}}</div>
             </div>
-            <div class="stat-block__mythic-actions">
-                <div v-if="options.features.mythicActions.length" class="stat-block__subtitle">
-                    @{{f5.misc.title_mythic_action}}
-                </div>
-                <div class="stat-block__add-feature-button" @click="createFeature('mythicActions')">
-                    @{{f5.misc.title_add_mythic_action}}
-                </div>
-                <statblock-feature 
-                    v-for="mythicAction in options.features.mythicActions"
-                    v-model="mythicAction"
-                    v-on:remove-feature="removeFeature"
-                ></statblock-feature>
+            <div class="stat-block__add-feature-button" @click="createFeature('actions')">
+                @{{f5.misc.title_add_action}}
             </div>
-            <div class="stat-block__lair-actions">
-                <div v-if="options.features.lairActions.length" class="stat-block__subtitle">
-                    @{{f5.misc.title_lair_action}}
-                </div>
-                <div class="stat-block__add-feature-button" @click="createFeature('lairActions')">
-                    @{{f5.misc.title_add_lair_action}}
-                </div>
-                <statblock-feature 
-                    v-for="lairAction in options.features.lairActions"
-                    v-model="lairAction"
-                    v-on:remove-feature="removeFeature"
-                ></statblock-feature>
+            <statblock-feature 
+                v-for="action in options.features.actions"
+                v-model="action"
+                v-on:remove-feature="removeFeature"
+            ></statblock-feature>
+        </div>
+        <div class="stat-block__section stat-block__bonus-actions">
+            <div v-if="options.features.bonusActions.length" class="stat-block__subtitle">
+                <div class="header">@{{f5.misc.title_bonus_action}}</div>
             </div>
+            <div class="stat-block__add-feature-button" @click="createFeature('bonusActions')">
+                @{{f5.misc.title_add_bonus_action}}
+            </div>
+            <statblock-feature 
+                v-for="bonusAction in options.features.bonusActions"
+                v-model="bonusAction"
+                v-on:remove-feature="removeFeature"
+            ></statblock-feature>
+        </div>
+
+        <div class="stat-block__section stat-block__reactions">
+            <div v-if="options.features.reactions.length" class="stat-block__subtitle">
+                <div class="header">@{{f5.misc.title_reaction}}</div>
+            </div>
+            <div class="stat-block__add-feature-button" @click="createFeature('reactions')">
+                @{{f5.misc.title_add_reaction}}
+            </div>
+            <statblock-feature 
+                v-for="reaction in options.features.reactions"
+                v-model="reaction"
+                v-on:remove-feature="removeFeature"
+            ></statblock-feature>
+        </div>
+        <div class="stat-block__section stat-block__legendary-actions">
+            <div v-if="options.features.legendaryActions.length" class="stat-block__subtitle">
+                <div class="header">@{{f5.misc.title_legendary_action}}</div>
+                <div>@{{f5.misc.legendary_action_desc}}</div>
+            </div>
+            <div class="stat-block__add-feature-button" @click="createFeature('legendaryActions')">
+                @{{f5.misc.title_add_legendary_action}}
+            </div>
+            <statblock-feature 
+                v-for="legendaryAction in options.features.legendaryActions"
+                v-model="legendaryAction"
+                v-on:remove-feature="removeFeature"
+            ></statblock-feature>
+        </div>
+        <div class="stat-block__section stat-block__mythic-actions">
+            <div v-if="options.features.mythicActions.length" class="stat-block__subtitle">
+                <div class="header">@{{f5.misc.title_mythic_action}}</div>
+                <div>@{{f5.misc.mythic_action_desc}}</div>
+            </div>
+            <div class="stat-block__add-feature-button" @click="createFeature('mythicActions')">
+                @{{f5.misc.title_add_mythic_action}}
+            </div>
+            <statblock-feature 
+                v-for="mythicAction in options.features.mythicActions"
+                v-model="mythicAction"
+                v-on:remove-feature="removeFeature"
+            ></statblock-feature>
+        </div>
+        <div class="stat-block__section stat-block__lair-actions">
+            <div v-if="options.features.lairActions.length" class="stat-block__subtitle">
+                <div class="header">@{{f5.misc.title_lair_action}}</div>
+                <div>@{{f5.misc.lair_action_desc}}</div>
+            </div>
+            <div class="stat-block__add-feature-button" @click="createFeature('lairActions')">
+                @{{f5.misc.title_add_lair_action}}
+            </div>
+            <statblock-feature 
+                v-for="lairAction in options.features.lairActions"
+                v-model="lairAction"
+                v-on:remove-feature="removeFeature"
+            ></statblock-feature>
         </div>
     </div>
 </div>

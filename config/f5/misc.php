@@ -13,11 +13,14 @@ return [
     'additional' => 'f5/misc.additional',
     'type' => 'f5/misc.type',
     'die_symbol' => 'f5/misc.die_symbol',
+    'die_structure' => 'f5/misc.die_structure',
     'passive' => 'f5/misc.passive',
     'passive_skill' => 'f5/misc.passive_skill',
     'none' => 'f5/misc.none',
     'shield' => 'f5/armor.shield',
     'damage' => 'f5/misc.damage',
+
+    'languages_none' => 'f5/languages.languages_none',
 
     'title_repeat_save' => 'f5/durations.title_repeat_save',
 
@@ -69,6 +72,7 @@ return [
     'num_of_targets' => 'f5/features.num_of_targets',
     'desc_attack_hit' => 'f5/features.desc_attack_hit',
     'the_target' => 'f5/features.the_target',
+    'each_target' => 'f5/features.each_target',
 
     //--    
     
@@ -154,6 +158,7 @@ return [
 
     'title_edit_mode' => 'f5/builder.title_edit_mode',
     'title_apply' => 'f5/builder.title_apply',
+    'title_columns' => 'f5/builder.title_columns',
 
     'title_set_cr' => 'f5/builder.title_set_cr',
     'title_set_offensive_cr' => 'f5/builder.title_set_offensive_cr',
@@ -162,4 +167,6 @@ return [
 
     'title_recharge' => 'f5/recharge.title_recharge',
     'title_recharge_min_roll' => 'f5/recharge.title_recharge_min_roll',
+    
+    'title_save' => 'f5/misc.title_save',
 ];

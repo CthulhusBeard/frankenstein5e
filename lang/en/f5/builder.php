@@ -7,6 +7,7 @@ return [
     'title_ac_cr' => 'Armor Class CR',
 
     'title_edit_mode' => 'Edit Mode',
+    'title_columns' => 'Columns',
     'title_apply' => 'Apply',
 
     'title_set_cr' => 'Set CR',

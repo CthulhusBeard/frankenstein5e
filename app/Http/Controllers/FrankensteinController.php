@@ -23,6 +23,10 @@ class FrankensteinController extends Controller
     // - Fix semantic usage on Conditions plus additional conditions
     // - Remove external CDN references
     // - Clean up label "for"s
+    // - Minimum size for conditions (grappled, swallowed, etc)
+    // - Make better lists: //function createConditionSentenceList
+    //    -> from "... and are blinded and are deafened, or half as much damage on a successful one and are not blinded and are not deafened."
+    //    -> to "... and becomes blinded and deafened, or half as much damage on a successful one and are not blinded or deafened."
     
     
     public function builder (Request $request) {

@@ -16,8 +16,14 @@
     <body ng-app="f5App" ng-controller="f5Ctrl">
         <div id="f5" class="main-content full-height">
 
-            <div class="slide-button" v-bind:class="{ selected : editor.edit_mode }" @click="editor.edit_mode = !editor.edit_mode">
-                <label>@{{f5.misc.title_edit_mode}}</label>
+            <div class="builder-controls">
+                <div class="slide-button" v-bind:class="{ selected : editor.edit_mode }" @click="editor.edit_mode = !editor.edit_mode">
+                    <label>@{{f5.misc.title_edit_mode}}</label>
+                </div>
+                <label class="control-label" for="controls__columns">@{{f5.misc.title_columns}}: </label>
+                <select v-model="editor.columns">
+                        <option v-for="i in 3" :value="i">@{{i}}</option>
+                </select>
             </div>
 
             @include('partials.statblock')
@@ -71,19 +77,24 @@
             
                 //Edit Fields. Allow focused objects to be editted while making others uneditable
                 document.addEventListener('click', function(e) {
-                    if(e.target.closest(".focus-edit") && !e.target.closest(".feature__remove")) {   //Click on any object other than an edittable one
-                        const editFields = document.querySelectorAll(".focus-edit.focused");
-                        editFields.forEach(function(el) { 
-                            el.classList.remove('focused');
-                        });
-                        e.target.closest(".focus-edit").classList.add('focused');
-                    } else if(!e.target.closest(".stat-block")) {
-                        const editFields = document.querySelectorAll(".focus-edit.focused");
-                        editFields.forEach(function(el) { 
-                            el.classList.remove('focused');
-                        });
-                    }
+                    removeFocus(e.target);
                 });
+
+                function removeFocus(element = null) {
+                    const editFields = document.querySelectorAll(".focus-edit.focused");
+                    editFields.forEach(function(el) { 
+                        el.classList.remove('focused');
+                    });
+
+                    if(
+                        element && 
+                        element.closest(".focus-edit") &&
+                        !element.closest(".feature__remove") &&
+                        !element.closest(".feature__save")
+                    ) {   //Click on any object other than an edittable one
+                        element.closest(".focus-edit").classList.add('focused');
+                    }
+                }
 
             };
         </script>

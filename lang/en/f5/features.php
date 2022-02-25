@@ -23,6 +23,7 @@ return [
     'reach_or_range' => 'reach :reach_distance or range :range_distance_low/:range_distance_high',
     'num_of_targets' => ':target_count target|:target_count targets',
     'the_target' => 'the target|the targets',
+    'each_target' => 'the target|each target',
 
     'name_multiattack' => 'Multiattack', 
     'desc_multiattack' => 'The :creature_type makes :multiattack.', 
@@ -42,7 +43,9 @@ return [
     'desc_attack_saving_throw_condition' => ':target_text must make a DC :saving_throw_dc :saving_throw_ability saving throw or :condition',
     'desc_attack_saving_throw_damage' => ':target_text must make a DC :saving_throw_dc :saving_throw_ability saving throw, taking :damage on a failed save:half_as_much',
     'desc_attack_saving_throw_damage_condition' => ':target_text must make a DC :saving_throw_dc :saving_throw_ability saving throw, taking :damage on a failed save and :condition:half_as_much :not_condition',
+    'desc_attack_saving_throw_damage_condition_separated' => ':target_text must make a DC :saving_throw_dc :saving_throw_ability saving throw. On a failed save, :target_text takes :damage and :condition:. half_as_much :not_condition',
     'desc_saving_throw_half_on_success' => ', or half as much damage on a successful one',
+    'desc_saving_throw_on_success_take_half' => 'On a successful save, :target_text takes half as much damage',
 
     //--
     'title_new_feature' => 'New Feature',

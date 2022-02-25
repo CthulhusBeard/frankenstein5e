@@ -25,7 +25,7 @@ $statBlockRed: #822000;
 .stat-block {
     position: relative;
     width: 100%;
-    min-width: 350px;
+    min-width: 450px;
     min-height: 200px;
     font-family: Roboto, Helvetica,sans-serif;
     font-size: 15px;
@@ -39,12 +39,20 @@ $statBlockRed: #822000;
     background-size: 100% auto;
     background-position: top center;
     background-repeat: no-repeat,repeat;
-    display: grid;
-    gap: 2%;
 
-    &.two_column {
-        grid-template-columns: 48% 48%;
-        min-width: 900px;
+    &.column-1 {
+        column-count: 1;
+        max-width: 450px;
+    }
+
+    &.column-2 {
+        column-count: 2;
+        column-width: 50%;
+    }
+
+    &.column-3 {
+        column-count: 3;
+        column-width: 33%;
     }
 
     &:before, &:after {
@@ -78,10 +86,6 @@ $statBlockRed: #822000;
         }
     }
 
-    .stat-block__column {
-        min-width: 425px;
-    }
-
     .stat-block__title {
         font-weight: bold;
         font-size: 2em;
@@ -93,20 +97,22 @@ $statBlockRed: #822000;
         }
     }
     .stat-block__subtitle {
-        font-size: 1.2em;
-        width: 100%;
-        border-bottom: 1px solid $statBlockRed;
-        margin: 20px 0 12px 0;
-        padding-bottom: 5px;
-        text-transform: uppercase;
+        .header {
+            font-size: 1.2em;
+            text-transform: uppercase;
+            border-bottom: 1px solid $statBlockRed;
+            width: 100%;
+            margin: 20px 0 12px 0;
+            padding-bottom: 5px;
 
-        &::first-letter {
-            font-size: 1.3em;
+            &::first-letter {
+                font-size: 1.3em;
+            }
         }
+    }
 
-        .title {
-            font-size: 1.3em;
-        }
+    .stat-block__section {
+        break-inside: avoid;
     }
 
     .stat-block__size-alignment {
@@ -165,6 +171,7 @@ $statBlockRed: #822000;
         display: none;
         font-weight: bold;
         cursor: pointer;
+        margin-bottom: 10px;
         &:hover {
             background-color: #7e7a6338;    
             border-radius: 8px;
@@ -172,9 +179,11 @@ $statBlockRed: #822000;
     }
 
     .stat-block__feature {
-        position: relative;
         color: black;
         margin-bottom: 12px;
+        .feature__display {
+            position: relative;
+        }
         .feature__title {
             font-weight: bold;
             font-style: italic;
@@ -204,6 +213,7 @@ $statBlockRed: #822000;
         .feature__damage {
             position: relative;
             border: 1px black solid;
+            background-color: #f3efdd;
             border-radius: 8px;
             padding: 2px;
             .feature__remove-damage {
@@ -214,7 +224,7 @@ $statBlockRed: #822000;
                 font-size: 12px;
                 font-weight: bold;
                 position: absolute;
-                padding: 0px 5px 2px 6px;
+                padding: 0px 6px 2px 5px;
                 border-radius: 17px;
                 transform: translate(50%, -50%);
             }
@@ -224,9 +234,20 @@ $statBlockRed: #822000;
             border-radius: 8px;
             padding: 2px;
         }
+        .edit-feature {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 5%;
+            max-width: 450px;
+            background-color: #f8f1ce;
+            z-index: 100;
+            box-shadow: 0px 0px 40px #000, 0px 0px 40px #000;
+        }
         .edit-field {
             width: 98%;
             padding: 5px;
+            break-inside: avoid-column;
             .title-label {
                 font-weight: bold;
             }
@@ -268,14 +289,25 @@ $statBlockRed: #822000;
                 background-color: #7e7a6338;    
                 border-radius: 8px;
             }
+
+            .edit-field {
+                .feature__description {
+                    border: 1px black solid;
+                    background-color: white;  
+                    width: 97%;
+                }
+                .feature__description-textarea {
+                    width: 97%;
+                    border: 1px black solid;
+                }
+            }
             
             &.focused {
                 cursor: inherit;
-        
-                .feature__description {
-                    background-color: #f8f1ce;
-                    border: 1px black solid;
-                }
+                border: solid 3px black;
+                padding: 2px;
+                border-radius: 8px;
+
                 .edit-field {
                     display: block;
                     &--flex {
