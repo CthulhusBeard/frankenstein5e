@@ -40,6 +40,12 @@ $statBlockRed: #822000;
     background-position: top center;
     background-repeat: no-repeat,repeat;
 
+    textarea {
+        font-family: Roboto, Helvetica,sans-serif;
+        font-size: 15px;
+        font-weight: normal;
+    }
+
     &.column-1 {
         column-count: 1;
         max-width: 450px;

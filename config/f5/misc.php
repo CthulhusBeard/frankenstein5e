@@ -111,7 +111,12 @@ return [
     'desc_attack_saving_throw_condition' => 'f5/features.desc_attack_saving_throw_condition',
     'desc_attack_saving_throw_damage_condition' => 'f5/features.desc_attack_saving_throw_damage_condition',
     'desc_saving_throw_half_on_success' => 'f5/features.desc_saving_throw_half_on_success',
+
+    'title_innate_spellcasting' => 'f5/features.title_innate_spellcasting',
+    'desc_spellcasting_innate' => 'f5/features.desc_spellcasting_innate',
+    'desc_spellcasting_innately' => 'f5/features.desc_spellcasting_innately',
     'desc_spellcasting' => 'f5/features.desc_spellcasting',
+    'desc_spellcasting_requiring_no_components' => 'f5/features.desc_spellcasting_requiring_no_components',
 
     //---
 

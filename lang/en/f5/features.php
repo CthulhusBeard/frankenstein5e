@@ -38,7 +38,11 @@ return [
     'desc_legendary_resistance' => 'If the :creature_type fails a saving throw, it can choose to succeed instead.',
 
     //Spellcasting
-    'desc_spellcasting' => 'The :creature_type\'s innate spellcasting ability is :spellcasting_ability (spell save DC :spell_save_dc). It can innately cast the following spells, requiring no components:',
+    'desc_spellcasting' => 'The :creature_type\'s :innatespellcasting ability is :spellcasting_ability (spell save DC :spell_save_dc). It can :innatelycast the following spells:no_components:',
+    'desc_spellcasting_innate' => 'innate ',
+    'desc_spellcasting_innately' => 'innately ',
+    'title_innate_spellcasting' => 'Innate Spellcasting',
+    'desc_spellcasting_requiring_no_components' => ', requiring no components',
 
     //Feature Modifiers
     'additionally' => 'Additionally, :addition',

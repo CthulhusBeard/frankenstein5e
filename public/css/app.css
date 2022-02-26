@@ -234,6 +234,12 @@ body {
   background-repeat: no-repeat, repeat;
 }
 
+.stat-block textarea {
+  font-family: Roboto, Helvetica, sans-serif;
+  font-size: 15px;
+  font-weight: normal;
+}
+
 .stat-block.column-1 {
   -moz-column-count: 1;
        column-count: 1;

@@ -112,8 +112,17 @@ export function initVue(f5data) {
                     descText = this.$parent.f5.misc.desc_spellcasting;
                     
                     descText = descText.replace(':creature_type', this.$parent.options.type);
-                    descText = descText.replace(':spellcasting_ability', this.$parent.f5.abilities[this.spellcastingAbility].name);
-                    descText = descText.replace(':spell_save_dc', this.$parent.makeSavingThrowDC(this.spellcastingAbility));
+                    descText = descText.replace(':spellcasting_ability', this.$parent.f5.abilities[this.value.spellcastingAbility].name);
+                    descText = descText.replace(':spell_save_dc', this.$parent.makeSavingThrowDC(this.value.spellcastingAbility));
+                    if(this.value.innateSpellcasting) {
+                        descText = descText.replace(':innate', this.$parent.f5.misc.desc_spellcasting_innate);
+                        descText = descText.replace(':innately', this.$parent.f5.misc.desc_spellcasting_innately);
+                        descText = descText.replace(':no_components', this.$parent.f5.misc.desc_spellcasting_requiring_no_components);
+                    } else {
+                        descText = descText.replace(':innate', '');
+                        descText = descText.replace(':innately', '');
+                        descText = descText.replace(':no_components', '');
+                    }
 
                     return descText;
                 } 
@@ -1107,6 +1116,7 @@ export function initVue(f5data) {
                     },
                     legendaryActionCost: 1,
                     spellcastingAbility: 'int',
+                    innateSpellcasting: false,
                     customDamage: [],
                     customDescription: 'The dragon\'s innate spellcasting ability is Intelligence (spell save DC 17). It can innately cast the following spells, requiring no components:',
                 };

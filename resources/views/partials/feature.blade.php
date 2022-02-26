@@ -221,7 +221,7 @@
                         </div>
 
                         <div class="feature__remove-damage" @click="removeDamageDie('attackDamage', index)">x</div>
-                        
+
                         <button @click="addDamageDie('attackDamage')">+ Damage Die</button>
                         <br/>
                         <br/>
@@ -330,7 +330,12 @@
             </div>
 
             <div class="feature__options feature__options-global">
-                <div v-if="value.template !== 'spellcasting'">
+                
+                <div v-if="value.template === 'spellcasting'">
+                    <label class="title-label" for="feature__recharge">@{{$parent.f5.misc.title_innate_spellcasting}}:</label>
+                    <input type="checkbox" v-model="value.innateSpellcasting">
+                </div>
+                <div v-else>
                     <label class="title-label" for="feature__recharge">@{{$parent.f5.misc.title_recharge}}:</label>
                     <select id="feature__recharge" name="feature__recharge" v-model="value.recharge.type">
                         <option v-for="(recharge, i) in $parent.f5.recharge" :value="i" >@{{recharge.name}}</option>
