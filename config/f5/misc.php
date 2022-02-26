@@ -111,6 +111,7 @@ return [
     'desc_attack_saving_throw_condition' => 'f5/features.desc_attack_saving_throw_condition',
     'desc_attack_saving_throw_damage_condition' => 'f5/features.desc_attack_saving_throw_damage_condition',
     'desc_saving_throw_half_on_success' => 'f5/features.desc_saving_throw_half_on_success',
+    'desc_spellcasting' => 'f5/features.desc_spellcasting',
 
     //---
 

@@ -37,6 +37,9 @@ return [
     'name_legendary_resistance' => 'Legendary Resistance (3/Day).',
     'desc_legendary_resistance' => 'If the :creature_type fails a saving throw, it can choose to succeed instead.',
 
+    //Spellcasting
+    'desc_spellcasting' => 'The :creature_type\'s innate spellcasting ability is :spellcasting_ability (spell save DC :spell_save_dc). It can innately cast the following spells, requiring no components:',
+
     //Feature Modifiers
     'additionally' => 'Additionally, :addition',
     'desc_modifier_damage' => 'plus :damage_roll :damage_type damage',

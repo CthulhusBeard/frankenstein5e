@@ -108,6 +108,16 @@ export function initVue(f5data) {
                     return this.value.customDescription;
                 } 
 
+                if(this.value.template == 'spellcasting') {
+                    descText = this.$parent.f5.misc.desc_spellcasting;
+                    
+                    descText = descText.replace(':creature_type', this.$parent.options.type);
+                    descText = descText.replace(':spellcasting_ability', this.$parent.f5.abilities[this.spellcastingAbility].name);
+                    descText = descText.replace(':spell_save_dc', this.$parent.makeSavingThrowDC(this.spellcastingAbility));
+
+                    return descText;
+                } 
+
                 if(this.value.template == 'attack') {
                     descText = this.$parent.f5.misc.desc_attack;
                     //'<i>:attack_range :attack_type:</i> :attack_bonus to hit, :range :targets.'
