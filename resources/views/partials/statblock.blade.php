@@ -4,6 +4,7 @@
             <div class="stat-block__title focus-edit">
                 <span class="display-field">@{{options.name}}</span>
                 <input type="text" class="edit-field" v-model="options.name" />
+                <input type="checkbox" class="edit-field" v-model="options.nameProperNoun" />
             </div>
 
             <div class="stat-block__size-alignment focus-edit">

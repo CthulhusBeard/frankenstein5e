@@ -6,6 +6,14 @@ return [
     'and' => 'and',
     'or' => 'or',
     'sentence_end' => '.',
+
+    'indefinite_article_a' => 'a',
+    'indefinite_article_an' => 'an',
+
+    'ordinal_1' => 'st',
+    'ordinal_2' => 'nd',
+    'ordinal_3' => 'rd',
+    'ordinal_other' => 'th',
     
     'max' => 'Max.',
     'count' => 'Count',

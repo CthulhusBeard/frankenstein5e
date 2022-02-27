@@ -38,11 +38,9 @@ return [
     'desc_legendary_resistance' => 'If the :creature_type fails a saving throw, it can choose to succeed instead.',
 
     //Spellcasting
-    'desc_spellcasting' => 'The :creature_type\'s :innatespellcasting ability is :spellcasting_ability (spell save DC :spell_save_dc). It can :innatelycast the following spells:no_components:',
-    'desc_spellcasting_innate' => 'innate ',
-    'desc_spellcasting_innately' => 'innately ',
+    'desc_spellcasting' => 'The :creature_name is a:caster_level spellcaster. Its spellcasting ability is :spellcasting_ability (spell save DC :spell_save_dc, :spell_hit to hit with spell attacks). It can cast the following spells:',
+    'desc_innate_spellcasting' => 'The :creature_name is :caster_level_article :caster_level spellcaster. Its innate spellcasting ability is :spellcasting_ability (spell save DC :spell_save_dc, :spell_hit to hit with spell attacks). It can innately cast the following spells, requiring no components:',
     'title_innate_spellcasting' => 'Innate Spellcasting',
-    'desc_spellcasting_requiring_no_components' => ', requiring no components',
 
     //Feature Modifiers
     'additionally' => 'Additionally, :addition',
@@ -76,4 +74,5 @@ return [
     'title_ability_bonus' => 'Ability Bonus',
     'title_saving_throw_conditions' => 'Conditions Applied',
     'title_ongoing_damage' => 'Ongoing Damage',
+    'title_add_damage_die' => '+ Damage Die',
 ];

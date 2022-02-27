@@ -7,6 +7,14 @@ return [
     'or' => 'f5/misc.or',
     'sentence_end' => 'f5/misc.sentence_end',
 
+    'indefinite_article_a' => 'f5/misc.indefinite_article_a',
+    'indefinite_article_an' => 'f5/misc.indefinite_article_an',
+
+    'ordinal_1' => 'f5/misc.ordinal_1',
+    'ordinal_2' => 'f5/misc.ordinal_2',
+    'ordinal_3' => 'f5/misc.ordinal_3',
+    'ordinal_other' => 'f5/misc.ordinal_other',
+
     'max' => 'f5/misc.max',
     'count' => 'f5/misc.count',
     'amount' => 'f5/misc.amount',
@@ -107,16 +115,22 @@ return [
     'range' => 'f5/features.range',
     'reach_or_range' => 'f5/features.reach_or_range',
 
+    'title_add_damage_die' => 'f5/features.title_add_damage_die',
+    
     'desc_attack_saving_throw_damage' => 'f5/features.desc_attack_saving_throw_damage',
     'desc_attack_saving_throw_condition' => 'f5/features.desc_attack_saving_throw_condition',
     'desc_attack_saving_throw_damage_condition' => 'f5/features.desc_attack_saving_throw_damage_condition',
     'desc_saving_throw_half_on_success' => 'f5/features.desc_saving_throw_half_on_success',
 
     'title_innate_spellcasting' => 'f5/features.title_innate_spellcasting',
-    'desc_spellcasting_innate' => 'f5/features.desc_spellcasting_innate',
-    'desc_spellcasting_innately' => 'f5/features.desc_spellcasting_innately',
     'desc_spellcasting' => 'f5/features.desc_spellcasting',
-    'desc_spellcasting_requiring_no_components' => 'f5/features.desc_spellcasting_requiring_no_components',
+    'desc_innate_spellcasting' => 'f5/features.desc_innate_spellcasting',
+    //--
+    'title_add_spell' => 'f5/spells.title_add_spell',
+    'title_classic_spellcasting' => 'f5/spells.title_classic_spellcasting',
+    'title_casts_before_combat' => 'f5/spells.title_casts_before_combat',
+    'title_cast_at_will' => 'f5/spells.title_cast_at_will',
+
 
     //---
 
@@ -175,4 +189,5 @@ return [
     'title_recharge_min_roll' => 'f5/recharge.title_recharge_min_roll',
     
     'title_save' => 'f5/misc.title_save',
+
 ];

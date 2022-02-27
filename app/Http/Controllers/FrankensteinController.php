@@ -68,7 +68,7 @@ class FrankensteinController extends Controller
                 'creaturesubtypes',
                 'features',
                 'featuremodifiers',
-                'spells',
+                'spelllevels',
                 'attacktypes',
 
                 'defaultmonster',

@@ -15013,20 +15013,17 @@ function initVue(f5data) {
 
         if (this.value.template == 'spellcasting') {
           descText = this.$parent.f5.misc.desc_spellcasting;
-          descText = descText.replace(':creature_type', this.$parent.options.type);
-          descText = descText.replace(':spellcasting_ability', this.$parent.f5.abilities[this.value.spellcastingAbility].name);
-          descText = descText.replace(':spell_save_dc', this.$parent.makeSavingThrowDC(this.value.spellcastingAbility));
 
           if (this.value.innateSpellcasting) {
-            descText = descText.replace(':innate', this.$parent.f5.misc.desc_spellcasting_innate);
-            descText = descText.replace(':innately', this.$parent.f5.misc.desc_spellcasting_innately);
-            descText = descText.replace(':no_components', this.$parent.f5.misc.desc_spellcasting_requiring_no_components);
-          } else {
-            descText = descText.replace(':innate', '');
-            descText = descText.replace(':innately', '');
-            descText = descText.replace(':no_components', '');
+            descText = this.$parent.f5.misc.desc_innate_spellcasting;
           }
 
+          descText = descText.replace(':creature_name', this.$parent.options.name.toLowerCase());
+          descText = descText.replace(':caster_level_article', this.$parent.determineIndefiniteArticle(this.$parent.casterLevel));
+          descText = descText.replace(':caster_level', this.$parent.ordinalNumber(this.$parent.casterLevel));
+          descText = descText.replace(':spellcasting_ability', this.$parent.f5.abilities[this.value.spellcastingAbility].name);
+          descText = descText.replace(':spell_save_dc', this.$parent.makeSavingThrowDC(this.value.spellcastingAbility));
+          descText = descText.replace(':spell_hit', this.$parent.addPlus(this.$parent.proficiency + this.$parent.getAbilityMod(this.value.spellcastingAbility)));
           return descText;
         }
 
@@ -15035,7 +15032,7 @@ function initVue(f5data) {
 
           descText = descText.replace(':attack_range', this.$parent.f5.areaofeffect[this.value.targetType].name);
           descText = descText.replace(':attack_type', this.$parent.f5.attacktypes[this.value.attackType].name);
-          descText = descText.replace(':attack_bonus', this.$parent.addPlus(this.$parent.getAbilityMod(this.value.attackAbility) + this.$parent.options.proficiency));
+          descText = descText.replace(':attack_bonus', this.$parent.addPlus(this.$parent.getAbilityMod(this.value.attackAbility) + this.$parent.proficiency));
 
           if (this.value.targetType == 'melee') {
             descText = descText.replace(':range', this.$parent.f5.misc.reach);
@@ -15157,6 +15154,21 @@ function initVue(f5data) {
       },
       removeDamageDie: function removeDamageDie(type, i) {
         this.value[type].splice(i, 1);
+      },
+      addSpell: function addSpell() {
+        this.value.spellList[this.value.addSpellLevel].push({
+          'name': this.value.addSpellName,
+          'level': this.value.addSpellLevel,
+          'at_will': this.value.addSpellAtWill,
+          'cast_before': this.value.addSpellBeforeCombat
+        });
+        this.value.addSpellName = 'New Spell';
+        this.value.addSpellLevel = 0;
+        this.value.addSpellAtWill = false;
+        this.value.addSpellBeforeCombat = false;
+        console.log(this.value.spellList);
+      },
+      removeSpell: function removeSpell() {//remove this spell
       }
     }
   });
@@ -15167,6 +15179,7 @@ function initVue(f5data) {
     },
     options: {
       name: 'Monster',
+      nameProperNoun: false,
       size: 'medium',
       type: 'dragon',
       subtype: '',
@@ -15208,7 +15221,10 @@ function initVue(f5data) {
         measureUnitUpName: 'miles'
       },
       showNonCombat: true,
-      proficiency: 2,
+      manualOverride: {
+        proficiency: 0,
+        casterLevel: 0
+      },
       targetCR: {
         offensive: {},
         defensive: {}
@@ -15807,14 +15823,14 @@ function initVue(f5data) {
             displayText += ', ';
           }
 
-          displayText += i.charAt(0).toUpperCase() + i.slice(1) + ' +' + (this.getAbilityMod(i) + this.options.proficiency);
+          displayText += i.charAt(0).toUpperCase() + i.slice(1) + ' +' + (this.getAbilityMod(i) + this.proficiency);
         }
 
         return displayText;
       },
       //
       proficiencyText: function proficiencyText() {
-        return "+" + this.options.proficiency;
+        return "+" + this.proficiency;
       },
       //Challenge Rating
       crText: function crText() {
@@ -15840,7 +15856,7 @@ function initVue(f5data) {
         }
 
         displayText += 'Attack:</span> +';
-        displayText += abilityMod + this.options.proficiency;
+        displayText += abilityMod + this.proficiency;
         displayText += ' to hit';
 
         if (this.newFeature.attack.meleeRanged !== 'ranged') {
@@ -15883,6 +15899,16 @@ function initVue(f5data) {
       newFeatureSpellText: function newFeatureSpellText() {
         var displayText = '';
         return displayText;
+      },
+      casterLevel: function casterLevel() {
+        var casterLevel = 100; //TODO Calculate caster level
+
+        return casterLevel;
+      },
+      proficiency: function proficiency() {
+        var proficiency = 2; //TODO Calculate proficiency
+
+        return proficiency;
       }
     },
     methods: {
@@ -16009,7 +16035,7 @@ function initVue(f5data) {
         var abilityMod = this.getAbilityMod(ability);
 
         if (this.options.skills.includes(skill)) {
-          abilityMod += this.options.proficiency;
+          abilityMod += this.proficiency;
         }
 
         return abilityMod;
@@ -16023,7 +16049,7 @@ function initVue(f5data) {
         return this.calcAbilityMod(score);
       },
       makeSavingThrowDC: function makeSavingThrowDC(ability) {
-        return 8 + this.options.proficiency + this.getAbilityMod(ability);
+        return 8 + this.proficiency + this.getAbilityMod(ability);
       },
       addPlus: function addPlus(number) {
         var addSpace = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
@@ -16088,11 +16114,29 @@ function initVue(f5data) {
             diceType: 6,
             minRoll: 5
           },
-          legendaryActionCost: 1,
           spellcastingAbility: 'int',
           innateSpellcasting: false,
+          classicSpellcasting: false,
+          addSpellName: 'New Spell',
+          addSpellLevel: 0,
+          addSpellAtWill: false,
+          addSpellBeforeCombat: false,
+          spellList: {
+            'at_will': [],
+            0: [],
+            1: [],
+            2: [],
+            3: [],
+            4: [],
+            5: [],
+            6: [],
+            7: [],
+            8: [],
+            9: []
+          },
           customDamage: [],
-          customDescription: 'The dragon\'s innate spellcasting ability is Intelligence (spell save DC 17). It can innately cast the following spells, requiring no components:'
+          customDescription: 'Feature Desciption',
+          legendaryActionCost: 1
         };
         newFeature.attackDamage.push(this.createDamageDie(true));
         newFeature.savingThrowDamage.push(this.createDamageDie());
@@ -16263,6 +16307,34 @@ function initVue(f5data) {
         }
 
         return retStr;
+      },
+      ordinalNumber: function ordinalNumber(num) {
+        var ordinal = '';
+        var lastDigit = String(num).charAt(-1);
+
+        if (lastDigit === 1 && num != 11) {
+          ordinal = this.f5.misc.ordinal_1;
+        } else if (lastDigit === 2 && num != 12) {
+          ordinal = this.f5.misc.ordinal_2;
+        } else if (lastDigit === 3 && num != 13) {
+          ordinal = this.f5.misc.ordinal_3;
+        } else {
+          ordinal = this.f5.misc.ordinal_other;
+        }
+
+        return String(num) + ordinal;
+      },
+      determineIndefiniteArticle: function determineIndefiniteArticle(str) {
+        var vowels = ['a', 'e', 'i', 'o', 'u'];
+        var vowelNumbers = [1, 8, 11, 18]; //ignoring 80+
+
+        var firstChar = String(str).charAt(0).toLowerCase();
+
+        if (vowels.includes(firstChar) || vowelNumbers.includes(Number(str))) {
+          return this.f5.misc.indefinite_article_an;
+        } else {
+          return this.f5.misc.indefinite_article_a;
+        }
       }
     }
   });
