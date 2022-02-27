@@ -19,6 +19,7 @@ return [
     'count' => 'f5/misc.count',
     'amount' => 'f5/misc.amount',
     'additional' => 'f5/misc.additional',
+    'level' => 'f5/misc.level',
     'type' => 'f5/misc.type',
     'die_symbol' => 'f5/misc.die_symbol',
     'die_structure' => 'f5/misc.die_structure',
@@ -58,6 +59,7 @@ return [
 
     'title_new_feature' => 'f5/features.title_new_feature',
     'title_feature_name' => 'f5/features.title_feature_name',
+    'title_spellcasting_feature_name' => 'f5/features.title_spellcasting_feature_name',
     'title_feature_options' => 'f5/features.title_feature_options',
     'title_feature_template' => 'f5/features.title_feature_template',
     'title_attack_type' => 'f5/features.title_attack_type',
@@ -85,6 +87,7 @@ return [
     //--    
     
     'title_passive' => 'f5/featureactiontypes.title_passive',
+    'title_spellcasting' => 'f5/featureactiontypes.title_spellcasting',
     'title_action' => 'f5/featureactiontypes.title_action',
     'title_bonus_action' => 'f5/featureactiontypes.title_bonus_action',
     'title_reaction' => 'f5/featureactiontypes.title_reaction',
@@ -94,6 +97,7 @@ return [
     'title_lair_action' => 'f5/featureactiontypes.title_lair_action',
     
     'title_add_passive' => 'f5/featureactiontypes.title_add_passive',
+    'title_add_spellcasting' => 'f5/featureactiontypes.title_add_spellcasting',
     'title_add_action' => 'f5/featureactiontypes.title_add_action',
     'title_add_bonus_action' => 'f5/featureactiontypes.title_add_bonus_action',
     'title_add_free_action' => 'f5/featureactiontypes.title_add_free_action',
@@ -116,7 +120,7 @@ return [
     'reach_or_range' => 'f5/features.reach_or_range',
 
     'title_add_damage_die' => 'f5/features.title_add_damage_die',
-    
+
     'desc_attack_saving_throw_damage' => 'f5/features.desc_attack_saving_throw_damage',
     'desc_attack_saving_throw_condition' => 'f5/features.desc_attack_saving_throw_condition',
     'desc_attack_saving_throw_damage_condition' => 'f5/features.desc_attack_saving_throw_damage_condition',
@@ -127,6 +131,7 @@ return [
     'desc_innate_spellcasting' => 'f5/features.desc_innate_spellcasting',
     //--
     'title_add_spell' => 'f5/spells.title_add_spell',
+    'title_add_spell_name' => 'f5/spells.title_add_spell_name',
     'title_classic_spellcasting' => 'f5/spells.title_classic_spellcasting',
     'title_casts_before_combat' => 'f5/spells.title_casts_before_combat',
     'title_cast_at_will' => 'f5/spells.title_cast_at_will',

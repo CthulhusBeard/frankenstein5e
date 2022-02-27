@@ -15163,7 +15163,6 @@ function initVue(f5data) {
           'cast_before': this.value.addSpellBeforeCombat
         });
         this.value.addSpellName = 'New Spell';
-        this.value.addSpellLevel = 0;
         this.value.addSpellAtWill = false;
         this.value.addSpellBeforeCombat = false;
         console.log(this.value.spellList);
@@ -15234,6 +15233,7 @@ function initVue(f5data) {
       legendaryActions: 3,
       features: {
         passives: [],
+        spellcasting: [],
         actions: [],
         bonusActions: [],
         reactions: [],
@@ -16141,6 +16141,11 @@ function initVue(f5data) {
         newFeature.attackDamage.push(this.createDamageDie(true));
         newFeature.savingThrowDamage.push(this.createDamageDie());
         newFeature.ongoingDamage.push(this.createDamageDie());
+
+        if (type === 'spellcasting') {
+          newFeature.template = 'spellcasting';
+        }
+
         this.options.features[type].push(newFeature);
       },
       removeFeature: function removeFeature(type, id) {

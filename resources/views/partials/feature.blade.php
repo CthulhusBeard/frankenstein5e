@@ -5,14 +5,17 @@
             <span class="feature__description {{--display-field--}}" v-html="descriptionText"></span>
             <div class="feature__remove" @click="$emit('remove-feature', value.actionType, value.id)">x</div>
         </div>
+
         <div class="edit-feature edit-field">
-            <label class="title-label">@{{$parent.f5.misc.title_feature_name}}:</label>
+            <label v-if="value.template === 'spellcasting'" class="title-label">@{{$parent.f5.misc.title_spellcasting_feature_name}}:</label>
+            <label v-else class="title-label">@{{$parent.f5.misc.title_feature_name}}:</label>
             <input type="text" class="feature__title" v-model="value.name" />
-            <br/>
-            <label class="title-label">@{{$parent.f5.misc.title_feature_template}}:</label>
-            <select v-model="value.template">
-                <option v-for="(template, i) in getValidTemplateTypes" :value="i">@{{template.name}}</option>
-            </select>
+            <div v-if="value.template !== 'spellcasting'">
+                <label class="title-label">@{{$parent.f5.misc.title_feature_template}}:</label>
+                <select v-model="value.template">
+                    <option v-for="(template, i) in getValidTemplateTypes" v-if="i != 'spellcasting'" :value="i">@{{template.name}}</option>
+                </select>
+            </div>
             <div class="feature__description" v-if="value.template !== 'custom'" v-html="descriptionEditText"></div>
             <br/>
 
@@ -58,10 +61,20 @@
 
             <!-- Spellcasting -->
             <div class="feature__options" v-if="value.template === 'spellcasting'">
-                <label class="title-label">@{{$parent.f5.misc.title_spellcasting_ability}}:</label>
-                <select v-model="value.spellcastingAbility">
-                    <option v-for="(ability, i) in $parent.f5.abilities" :value="i">@{{ability.name}}</option>
-                </select>
+                <div class="feature__spells">
+                    <div v-for="(spellLevelList, spellLevel) in value.spellList" v-if="$parent.f5.spelllevels[spellLevel].display !== false && spellLevelList.length > 0">
+                        <strong>@{{$parent.f5.spelllevels[spellLevel].name}}:</strong>
+                        <span class="feature__spells__list" v-for="(spell, i) in spellLevelList">
+                            @{{spell.name}}<span v-if="i < spellLevelList.length-1" >@{{$parent.f5.misc.sentence_list_separator}} </span>
+                        </span>
+                    </div>
+                </div>
+                <div>
+                    <label class="title-label">@{{$parent.f5.misc.title_spellcasting_ability}}:</label>
+                    <select v-model="value.spellcastingAbility">
+                        <option v-for="(ability, i) in $parent.f5.abilities" :value="i">@{{ability.name}}</option>
+                    </select>
+                </div>
                 <div>
                     <label class="title-label" for="feature__innate-spellcasting">@{{$parent.f5.misc.title_innate_spellcasting}}:</label>
                     <input type="checkbox" v-model="value.innateSpellcasting">
@@ -71,12 +84,16 @@
                     <input type="checkbox" v-model="value.classicSpellcasting">
                 </div>
 
-                <div>
-                    <label class="title-label">@{{$parent.f5.misc.title_add_spell}}:</label>
+                <label class="title-label">@{{$parent.f5.misc.title_add_spell}}:</label>
+                <div class="feature__add-spell">
+                    <label class="title-label">@{{$parent.f5.misc.title_add_spell_name}}:</label>
                     <input type="text" v-model="value.addSpellName">
-                    <select id="feature__add-spell" name="feature__add-spell" v-model="value.addSpellLevel">
-                        <option v-for="(level, i) in $parent.spelllevels" :value="i" >@{{level.name}}</option>
-                    </select>
+                    <div>
+                        <label class="title-label" for="feature__add-spell-level">@{{$parent.f5.misc.title_casts_before_combat}}:</label>
+                        <select id="feature__add-spell-level" name="feature__add-spell-level" v-model="value.addSpellLevel">
+                            <option v-for="(level, i) in $parent.f5.spelllevels" :value="i" >@{{level.name}}</option>
+                        </select>
+                    </div>
                     <div>
                         <label class="title-label" for="feature__add-spell-before-combat">@{{$parent.f5.misc.title_casts_before_combat}}:</label>
                         <input type="checkbox" v-model="value.addSpellBeforeCombat">

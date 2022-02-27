@@ -332,6 +332,17 @@
 
         <div class="stat-block__line-break"></div>
 
+        <div class="stat-block__spellcasting">
+            <div v-if="!options.features.spellcasting.length" class="stat-block__add-feature-button" @click="createFeature('spellcasting')">
+                @{{f5.misc.title_add_spellcasting}}
+            </div>
+            <statblock-feature 
+                v-for="spellcasting in options.features.spellcasting"
+                v-model="spellcasting"
+                v-on:remove-feature="removeFeature"
+            ></statblock-feature>
+        </div>
+
         <div class="stat-block__passives">
             <div class="stat-block__add-feature-button" @click="createFeature('passives')">
                 @{{f5.misc.title_add_passive}}

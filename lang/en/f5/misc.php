@@ -19,6 +19,7 @@ return [
     'count' => 'Count',
     'amount' => 'Amount',
     'additional' => 'Additional',
+    'level' => 'Level',
     'type' => 'Type',
     'die_symbol' => 'd',
     'die_structure' => ':die_amountd:die_type',

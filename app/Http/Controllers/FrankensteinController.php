@@ -11,6 +11,7 @@ class FrankensteinController extends Controller
 
     //TODO: 
     // - Create features
+    //    -> Add multiattack
     // - Loc pass
     // - WOTC Fan Content legal
     // - SEO meta
@@ -18,7 +19,7 @@ class FrankensteinController extends Controller
     // - Convert units
     // - Update Prof by CR (already in config)
     // - Reorder Features
-    // - Mage armour
+    // - Mage armour ac?
     // - Automatic column org or manual moving
     // - Fix semantic usage on Conditions plus additional conditions
     // - Remove external CDN references

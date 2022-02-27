@@ -235,6 +235,18 @@ $statBlockRed: #822000;
                 transform: translate(50%, -50%);
             }
         }
+        .feature__add-spell {
+            border: 1px black solid;
+            border-radius: 8px;
+            padding: 2px;
+        }
+        .feature__spells {
+            padding: 2px;
+        }
+        .feature__spell-list {
+            text-transform: lowercase;
+            font-style: italic;
+        }
         .attack-border {
             border: 1px black solid;
             border-radius: 8px;

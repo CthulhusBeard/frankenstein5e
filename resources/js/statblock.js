@@ -258,7 +258,6 @@ export function initVue(f5data) {
                 });
 
                 this.value.addSpellName = 'New Spell';
-                this.value.addSpellLevel = 0; 
                 this.value.addSpellAtWill = false; 
                 this.value.addSpellBeforeCombat = false; 
 
@@ -337,6 +336,7 @@ export function initVue(f5data) {
             legendaryActions: 3,
             features: {
                 passives: [],
+                spellcasting: [],
                 actions: [],
                 bonusActions: [],
                 reactions: [],
@@ -1175,6 +1175,10 @@ export function initVue(f5data) {
                 newFeature.attackDamage.push(this.createDamageDie(true));
                 newFeature.savingThrowDamage.push(this.createDamageDie());
                 newFeature.ongoingDamage.push(this.createDamageDie());
+
+                if(type === 'spellcasting') {
+                    newFeature.template = 'spellcasting';
+                }
 
                 this.options.features[type].push(newFeature);
             },
