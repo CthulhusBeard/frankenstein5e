@@ -142,7 +142,7 @@ export function initVue(f5data) {
 
                     //Spells
                     let castsBefore = false;
-                    descText += "<br/>";
+                    descText += '<br/><br/>';
                     
                     for(const level in this.value.spellList) {
                         if(this.value.spellList[level].spells.length === 0 && this.value.spellList[level].slots === 0) {
@@ -162,7 +162,7 @@ export function initVue(f5data) {
                                 descText += '*';
                                 castsBefore = true;
                             }
-                            if(i !== this.value.spellList[level].spells.length - 1) {
+                            if(i < this.value.spellList[level].spells.length - 1) {
                                 descText += this.$parent.f5.misc.sentence_list_separator+' ';
                             }
                         }
@@ -173,7 +173,7 @@ export function initVue(f5data) {
                         descText += this.$parent.f5.misc.casts_spells_before;
                     }
                     
-                    descText = descText.replace(':creature_name', this.$parent.options.name.toLowerCase());
+                    descText = descText.replaceAll(':creature_name', this.$parent.options.name.toLowerCase());
 
                     return descText;
                 } 

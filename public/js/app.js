@@ -15045,7 +15045,7 @@ function initVue(f5data) {
           descText = descText.replace(':spell_hit', this.$parent.addPlus(this.$parent.proficiency + this.$parent.getAbilityMod(this.value.spellcastingAbility))); //Spells
 
           var castsBefore = false;
-          descText += "<br/>";
+          descText += '<br/><br/>';
 
           for (var level in this.value.spellList) {
             if (this.value.spellList[level].spells.length === 0 && this.value.spellList[level].slots === 0) {
@@ -15070,7 +15070,7 @@ function initVue(f5data) {
                 castsBefore = true;
               }
 
-              if (i !== this.value.spellList[level].spells.length - 1) {
+              if (i < this.value.spellList[level].spells.length - 1) {
                 descText += this.$parent.f5.misc.sentence_list_separator + ' ';
               }
             }
@@ -15082,7 +15082,7 @@ function initVue(f5data) {
             descText += this.$parent.f5.misc.casts_spells_before;
           }
 
-          descText = descText.replace(':creature_name', this.$parent.options.name.toLowerCase());
+          descText = descText.replaceAll(':creature_name', this.$parent.options.name.toLowerCase());
           return descText;
         }
 
