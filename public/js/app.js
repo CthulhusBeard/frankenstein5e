@@ -14933,6 +14933,17 @@ function initVue(f5data) {
           if (this.value.savingThrowSaveAbilities.length === 0) {
             this.value.savingThrowSaveAbilities = ['str'];
           }
+
+          if (this.$parent.f5.areaofeffect[this.value.targetType].types.includes(this.value.template)) {
+            for (var key in this.$parent.f5.areaofeffect) {
+              var element = this.$parent.f5.areaofeffect[key];
+
+              if (element.types.includes(this.value.template)) {
+                this.value.targetType = key;
+                return;
+              }
+            }
+          }
         },
         deep: true
       }
@@ -14995,6 +15006,15 @@ function initVue(f5data) {
 
         return options;
       },
+      averageDPR: function averageDPR() {
+        if (this.value.manualDPR >= 0) {
+          return this.value.manualDPR;
+        }
+
+        var avgDPR = 0; //TODO figure this out
+
+        return avgDPR;
+      },
       descriptionEditText: function descriptionEditText() {
         var brackets = this.bracketText; //separated by "sentence_list_separator_secondary"
 
@@ -15018,12 +15038,51 @@ function initVue(f5data) {
             descText = this.$parent.f5.misc.desc_innate_spellcasting;
           }
 
-          descText = descText.replace(':creature_name', this.$parent.options.name.toLowerCase());
           descText = descText.replace(':caster_level_article', this.$parent.determineIndefiniteArticle(this.$parent.casterLevel));
           descText = descText.replace(':caster_level', this.$parent.ordinalNumber(this.$parent.casterLevel));
           descText = descText.replace(':spellcasting_ability', this.$parent.f5.abilities[this.value.spellcastingAbility].name);
           descText = descText.replace(':spell_save_dc', this.$parent.makeSavingThrowDC(this.value.spellcastingAbility));
-          descText = descText.replace(':spell_hit', this.$parent.addPlus(this.$parent.proficiency + this.$parent.getAbilityMod(this.value.spellcastingAbility)));
+          descText = descText.replace(':spell_hit', this.$parent.addPlus(this.$parent.proficiency + this.$parent.getAbilityMod(this.value.spellcastingAbility))); //Spells
+
+          var castsBefore = false;
+          descText += "<br/>";
+
+          for (var level in this.value.spellList) {
+            if (this.value.spellList[level].spells.length === 0 && this.value.spellList[level].slots === 0) {
+              continue;
+            }
+
+            descText += this.$parent.f5.spelllevels[level].name;
+
+            if (level == 0) {
+              descText += ' (' + this.$parent.f5.misc.at_will + '): ';
+            } else {
+              descText += ' (' + this.$parent.translate(this.$parent.f5.misc.spell_slots, this.value.spellList[level].slots).replace(':slot_quantity', this.value.spellList[level].slots) + '): ';
+            }
+
+            descText += '<i>';
+
+            for (var i in this.value.spellList[level].spells) {
+              descText += this.value.spellList[level].spells[i].name.toLowerCase();
+
+              if (this.value.spellList[level].spells[i].cast_before) {
+                descText += '*';
+                castsBefore = true;
+              }
+
+              if (i !== this.value.spellList[level].spells.length - 1) {
+                descText += this.$parent.f5.misc.sentence_list_separator + ' ';
+              }
+            }
+
+            descText += '</i><br/>';
+          }
+
+          if (castsBefore) {
+            descText += this.$parent.f5.misc.casts_spells_before;
+          }
+
+          descText = descText.replace(':creature_name', this.$parent.options.name.toLowerCase());
           return descText;
         }
 
@@ -15052,8 +15111,8 @@ function initVue(f5data) {
           descText += ' <i>' + this.$parent.f5.misc.desc_attack_hit + '</i> ';
           var damageList = [];
 
-          for (var i in this.value.attackDamage) {
-            damageList.push(this.$parent.createDamageText(this.value.attackDamage[i], this.value.attackAbility));
+          for (var _i in this.value.attackDamage) {
+            damageList.push(this.$parent.createDamageText(this.value.attackDamage[_i], this.value.attackAbility));
           }
 
           descText += this.$parent.createSentenceList(damageList);
@@ -15111,8 +15170,8 @@ function initVue(f5data) {
           if (this.value.savingThrowDamage.length) {
             var stDamageList = [];
 
-            for (var _i in this.value.savingThrowDamage) {
-              stDamageList.push(this.$parent.createDamageText(this.value.savingThrowDamage[_i], this.value.savingThrowMonsterAbility));
+            for (var _i2 in this.value.savingThrowDamage) {
+              stDamageList.push(this.$parent.createDamageText(this.value.savingThrowDamage[_i2], this.value.savingThrowMonsterAbility));
             }
 
             savingThrowText = savingThrowText.replace(':damage', this.$parent.createSentenceList(stDamageList));
@@ -15123,9 +15182,9 @@ function initVue(f5data) {
             var stConditionList = [];
             var stNotConditionList = [];
 
-            for (var _i2 in this.value.savingThrowConditions) {
-              stConditionList.push(this.$parent.translate(this.$parent.f5.conditions[this.value.savingThrowConditions[_i2]].is, stTargetCount).replace(':condition', this.$parent.f5.conditions[this.value.savingThrowConditions[_i2]].name.toLowerCase()));
-              stNotConditionList.push(this.$parent.translate(this.$parent.f5.conditions[this.value.savingThrowConditions[_i2]].not, stTargetCount).replace(':condition', this.$parent.f5.conditions[this.value.savingThrowConditions[_i2]].name.toLowerCase())); //TODO replace distance for pushed
+            for (var _i3 in this.value.savingThrowConditions) {
+              stConditionList.push(this.$parent.translate(this.$parent.f5.conditions[this.value.savingThrowConditions[_i3]].is, stTargetCount).replace(':condition', this.$parent.f5.conditions[this.value.savingThrowConditions[_i3]].name.toLowerCase()));
+              stNotConditionList.push(this.$parent.translate(this.$parent.f5.conditions[this.value.savingThrowConditions[_i3]].not, stTargetCount).replace(':condition', this.$parent.f5.conditions[this.value.savingThrowConditions[_i3]].name.toLowerCase())); //TODO replace distance for pushed
             }
 
             savingThrowText = savingThrowText.replace(':condition', this.$parent.createConditionSentenceList(stConditionList));
@@ -15135,8 +15194,8 @@ function initVue(f5data) {
           savingThrowText = savingThrowText.replace(':saving_throw_dc', this.$parent.makeSavingThrowDC(this.value.savingThrowMonsterAbility));
           var abilityList = [];
 
-          for (var _i3 in this.value.savingThrowSaveAbilities) {
-            abilityList.push(this.$parent.f5.abilities[this.value.savingThrowSaveAbilities[_i3]].name);
+          for (var _i4 in this.value.savingThrowSaveAbilities) {
+            abilityList.push(this.$parent.f5.abilities[this.value.savingThrowSaveAbilities[_i4]].name);
           }
 
           savingThrowText = savingThrowText.replace(':saving_throw_ability', this.$parent.createSentenceList(abilityList, false));
@@ -15156,18 +15215,28 @@ function initVue(f5data) {
         this.value[type].splice(i, 1);
       },
       addSpell: function addSpell() {
-        this.value.spellList[this.value.addSpellLevel].push({
+        this.value.spellList[this.value.addSpellLevel].spells.push({
           'name': this.value.addSpellName,
           'level': this.value.addSpellLevel,
-          'at_will': this.value.addSpellAtWill,
           'cast_before': this.value.addSpellBeforeCombat
         });
         this.value.addSpellName = 'New Spell';
-        this.value.addSpellAtWill = false;
         this.value.addSpellBeforeCombat = false;
-        console.log(this.value.spellList);
       },
-      removeSpell: function removeSpell() {//remove this spell
+      removeSpell: function removeSpell(spellName, spellLevel) {
+        var _this = this;
+
+        //TODO remove this spell
+        this.value.spellList[spellLevel].spells.forEach(function (element, index) {
+          if (spellName === element['name']) {
+            _this.value.spellList[spellLevel].spells.splice(index, 1);
+          }
+
+          return;
+        });
+      },
+      unsetManualDPR: function unsetManualDPR() {
+        this.value.manualDPR = -1;
       }
     }
   });
@@ -15746,9 +15815,9 @@ function initVue(f5data) {
         }
 
         if (this.$data.f5.creaturesubtypes.hasOwnProperty(this.options.subtype) && this.$data.f5.creaturesubtypes[this.options.subtype].hasOwnProperty('options')) {
-          for (var _i4 in this.$data.f5.creaturesubtypes[this.options.subtype]['options']) {
-            var _data = this.$data.f5.creaturesubtypes[this.options.subtype]['options'][_i4];
-            _data.id = _i4;
+          for (var _i5 in this.$data.f5.creaturesubtypes[this.options.subtype]['options']) {
+            var _data = this.$data.f5.creaturesubtypes[this.options.subtype]['options'][_i5];
+            _data.id = _i5;
             optionsList.push(_data);
           }
         }
@@ -16119,24 +16188,57 @@ function initVue(f5data) {
           classicSpellcasting: false,
           addSpellName: 'New Spell',
           addSpellLevel: 0,
-          addSpellAtWill: false,
           addSpellBeforeCombat: false,
           spellList: {
-            'at_will': [],
-            0: [],
-            1: [],
-            2: [],
-            3: [],
-            4: [],
-            5: [],
-            6: [],
-            7: [],
-            8: [],
-            9: []
+            'at_will': {
+              slots: 0,
+              spells: []
+            },
+            0: {
+              slots: 0,
+              spells: []
+            },
+            1: {
+              slots: 0,
+              spells: []
+            },
+            2: {
+              slots: 0,
+              spells: []
+            },
+            3: {
+              slots: 0,
+              spells: []
+            },
+            4: {
+              slots: 0,
+              spells: []
+            },
+            5: {
+              slots: 0,
+              spells: []
+            },
+            6: {
+              slots: 0,
+              spells: []
+            },
+            7: {
+              slots: 0,
+              spells: []
+            },
+            8: {
+              slots: 0,
+              spells: []
+            },
+            9: {
+              slots: 0,
+              spells: []
+            }
           },
           customDamage: [],
           customDescription: 'Feature Desciption',
-          legendaryActionCost: 1
+          legendaryActionCost: 1,
+          manualDPR: -1
         };
         newFeature.attackDamage.push(this.createDamageDie(true));
         newFeature.savingThrowDamage.push(this.createDamageDie());
@@ -16303,12 +16405,10 @@ function initVue(f5data) {
         var pluralBreak = str.indexOf('|');
         var retStr = str;
 
-        if (pluralBreak > 0) {
-          if (pluralCount == 0 || pluralCount > 1) {
-            retStr = str.substr(pluralBreak + 1);
-          } else {
-            retStr = str.substr(0, pluralBreak);
-          }
+        if (pluralCount == 0 || pluralCount > 1) {
+          retStr = str.substr(pluralBreak + 1);
+        } else {
+          retStr = str.substr(0, pluralBreak);
         }
 
         return retStr;

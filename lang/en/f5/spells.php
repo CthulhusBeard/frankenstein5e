@@ -1,9 +1,9 @@
 <?php
 
 return [
-    'at_will' => '(at will)',
+    'at_will' => 'at will',
     'title_at_will' => 'At Will',
-    'slots' => '(:slot_quantity slot)|(:slot_quantity slots)',
+    'spell_slots' => ':slot_quantity slot|:slot_quantity slots',
 
     'cantrip' => 'Cantrip',
     'level_one' => '1st Level',
@@ -21,5 +21,7 @@ return [
     'title_classic_spellcasting' => 'Use Classic Spell Style',
     'title_casts_before_combat' => 'Casts Before Combat',
     'title_cast_at_will' => 'Cast At Will',
+    'title_spell_slots' => 'Spells Slots',
+    'casts_spells_before' => '*The :creature_name casts these spells on itself before combat.',
 
 ];

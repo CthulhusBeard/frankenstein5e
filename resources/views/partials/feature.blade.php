@@ -62,10 +62,12 @@
             <!-- Spellcasting -->
             <div class="feature__options" v-if="value.template === 'spellcasting'">
                 <div class="feature__spells">
-                    <div v-for="(spellLevelList, spellLevel) in value.spellList" v-if="$parent.f5.spelllevels[spellLevel].display !== false && spellLevelList.length > 0">
+                    <div class="feature__spellGroup" v-for="(spellLevelList, spellLevel) in value.spellList" v-if="$parent.f5.spelllevels[spellLevel].display !== false && spellLevelList.length > 0">
                         <strong>@{{$parent.f5.spelllevels[spellLevel].name}}:</strong>
-                        <span class="feature__spells__list" v-for="(spell, i) in spellLevelList">
-                            @{{spell.name}}<span v-if="i < spellLevelList.length-1" >@{{$parent.f5.misc.sentence_list_separator}} </span>
+                        <span class="feature__spellGroup__item" v-for="(spell, i) in spellLevelList.spells">
+                            <span class="feature__spellGroup__name">@{{spell.name}}</span>
+                            <div class="feature__spells__remove" @click="removeSpell(spell.name, spell.level)">x</div>
+                            <span v-if="i < spellLevelList.length-1" >@{{$parent.f5.misc.sentence_list_separator}}</span>
                         </span>
                     </div>
                 </div>
@@ -98,11 +100,17 @@
                         <label class="title-label" for="feature__add-spell-before-combat">@{{$parent.f5.misc.title_casts_before_combat}}:</label>
                         <input type="checkbox" v-model="value.addSpellBeforeCombat">
                     </div>
-                    <div>
-                        <label class="title-label" for="feature__add-spell-at-will">@{{$parent.f5.misc.title_cast_at_will}}:</label>
-                        <input type="checkbox" v-model="value.addSpellAtWill">
-                    </div>
                     <button @click="addSpell()">@{{$parent.f5.misc.title_add_spell}}</button>
+                </div>
+
+                <label class="title-label">@{{$parent.f5.misc.title_spell_slots}}:</label>
+                <div class="feature__spell-slots">
+                    <div class="feature__spell-slots__group" v-for="(group, level) in $parent.f5.spelllevels" v-if="group.display !== false && level > 0">
+                        <label class="title-label" for="feature__spell-slots">@{{group.name}}:</label>
+                        <select id="feature__spell-slots-" name="feature__add-spell-level" v-model="value.spellList[level].slots">
+                            <option v-for="i in 5" :value="i-1" >@{{i-1}}</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 

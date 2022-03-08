@@ -4,7 +4,12 @@ return [
     'melee' => [
         'name' => 'f5/ranges.melee',
         'range' => [5, 10, 15, 20],
-        'types' => ['attack', 'saving_throw'],
+        'types' => ['attack'],
+        'rank' => 1,
+    ],
+    'touch' => [
+        'name' => 'f5/ranges.touch',
+        'types' => ['saving_throw'],
         'rank' => 1,
     ],
     'ranged' => [

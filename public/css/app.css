@@ -215,6 +215,27 @@ body {
   margin-left: 4px;
 }
 
+.x,
+.stat-block .stat-block__feature .feature__spellGroup__item .feature__spells__remove,
+.stat-block .stat-block__feature .feature__damage .feature__remove-damage,
+.stat-block .stat-block__feature .feature__remove {
+  border: 1px black solid;
+  background-color: white;
+  right: 0;
+  top: 0;
+  font-size: 12px;
+  font-weight: bold;
+  position: absolute;
+  padding: 0px 6px 2px 5px;
+  border-radius: 17px;
+  transform: translate(50%, -50%);
+  cursor: pointer;
+}
+
+i {
+  font-style: italic;
+}
+
 .stat-block {
   position: relative;
   width: 100%;
@@ -401,16 +422,6 @@ body {
 
 .stat-block .stat-block__feature .feature__remove {
   display: none;
-  position: absolute;
-  font-size: 12px;
-  font-weight: bold;
-  right: 0;
-  top: 0;
-  padding: 0px 5px 2px 6px;
-  transform: translate(50%, -50%);
-  background-color: white;
-  border: 1px black solid;
-  border-radius: 17px;
 }
 
 .stat-block .stat-block__feature .feature__options {
@@ -425,23 +436,35 @@ body {
   padding: 2px;
 }
 
-.stat-block .stat-block__feature .feature__damage .feature__remove-damage {
-  border: 1px black solid;
-  background-color: white;
-  right: 0;
-  top: 0;
-  font-size: 12px;
-  font-weight: bold;
-  position: absolute;
-  padding: 0px 6px 2px 5px;
-  border-radius: 17px;
-  transform: translate(50%, -50%);
+.stat-block .stat-block__feature .feature__spellGroup {
+  margin: 2px 0;
 }
 
-.stat-block .stat-block__feature .feature__add-spell {
+.stat-block .stat-block__feature .feature__spellGroup__item {
+  position: relative;
+}
+
+.stat-block .stat-block__feature .feature__spellGroup__item .feature__spellGroup__name {
+  border: 2px black solid;
+  border-radius: 7px;
+  padding: 2px;
+  background: powderblue;
+}
+
+.stat-block .stat-block__feature .feature__add-spell,
+.stat-block .stat-block__feature .feature__spell-slots {
   border: 1px black solid;
   border-radius: 8px;
   padding: 2px;
+}
+
+.stat-block .stat-block__feature .feature__spell-slots {
+  display: grid;
+  grid-template-columns: repeat(3, 30%);
+}
+
+.stat-block .stat-block__feature .feature__spell-slots__group {
+  margin-right: 2px;
 }
 
 .stat-block .stat-block__feature .feature__spells {
