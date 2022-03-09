@@ -13,9 +13,12 @@ export function initVue(f5data) {
         watch: {
             value: {
                 handler(val) {
+                    //Must have one or more saving throw
                     if(this.value.savingThrowSaveAbilities.length === 0) {
                         this.value.savingThrowSaveAbilities = ['str'];
                     }
+
+                    //If AOE target area doesn't apply to this template, change it
                     if(this.$parent.f5.areaofeffect[this.value.targetType].types.includes(this.value.template)) {
                         for(const key in this.$parent.f5.areaofeffect) {
                             let element = this.$parent.f5.areaofeffect[key];
@@ -24,6 +27,11 @@ export function initVue(f5data) {
                                 return;
                             }
                         }
+                    }
+
+                    //If spellcasting is chosen and the feature still has default text, change to "Spellcasting"
+                    if(this.value.template === 'spellcasting' && this.value.name === this.$parent.f5.misc.title_new_feature) {
+                        this.value.name === this.$parent.f5.misc.title_spellcasting;
                     }
                 }, 
                 deep: true
@@ -113,6 +121,64 @@ export function initVue(f5data) {
                 return avgDPR;
             },
 
+            atWillSpells: function() {
+                let spellsSorted = [];
+                
+                for(const level in this.value.spellList) {
+                    if(this.value.spellList[level].spells.length <= 0) {
+                        continue;
+                    }
+                    for(const i in this.value.spellList[level]) {
+                        const spell = this.value.spellList[level].spells[i];
+                        if(spell.at_will) {
+                            spellsSorted.push(spell);
+                        } 
+                    }
+                }
+
+                return spellsSorted;
+            },
+
+            spellsSlotsSorted: function() {
+                let spellsSorted = [];
+                
+                for(const level in this.value.spellList) {
+                    if(this.value.spellList[level].slots >= 0 && this.value.spellList[level].spells.length >= 0) {
+                        spellsSorted[level] = {spells: [], slots: this.value.spellList[level].slots};
+                    } else {
+                        continue;
+                    }
+                    for(const i in this.value.spellList[level].spells) {
+                        const spell = this.value.spellList[level].spells[i];
+                        if(!spell.at_will) {
+                            spellsSorted[level].spells.push(spell);
+                        } 
+                    }
+                    if(spellsSorted[level].spells.length == 0) {
+                        delete spellsSorted[level];
+                    }
+                }
+
+                return spellsSorted;
+            },
+
+            spellsUsesSorted: function() {
+                let spellsSorted = [];
+                
+                for(const level in this.value.spellList) {
+                    for(const i in this.value.spellList[level]) {
+                        const spell = this.value.spellList[level].spells[i];
+                        if(level === 0) {
+                            spellsSorted[0].push(spell);
+                        } else if(!spell.at_will && spell.uses > 0) {
+                            spellsSorted[spell.uses].push(spell);
+                        } 
+                    }
+                }
+
+                return spellsSorted;
+            },
+
             descriptionEditText: function() {
                 let brackets = this.bracketText; //separated by "sentence_list_separator_secondary"
                 if(brackets) {
@@ -130,7 +196,7 @@ export function initVue(f5data) {
 
                 if(this.value.template == 'spellcasting') {
                     descText = this.$parent.f5.misc.desc_spellcasting;
-                    if(this.value.innateSpellcasting) {
+                    if(this.value.innateSpellcasting) { //TODO prepared spellcasting
                         descText = this.$parent.f5.misc.desc_innate_spellcasting;
                     }
 
@@ -140,33 +206,71 @@ export function initVue(f5data) {
                     descText = descText.replace(':spell_save_dc', this.$parent.makeSavingThrowDC(this.value.spellcastingAbility));
                     descText = descText.replace(':spell_hit', this.$parent.addPlus(this.$parent.proficiency + this.$parent.getAbilityMod(this.value.spellcastingAbility)));
 
+                    if(this.atWillSpells.length > 0) {
+                        let atWillSpellList = this.$parent.createSentenceList(this.atWillSpells, true, function(str) {return '<i>'+str+'</i>'});
+                        descText = descText.replace(':at_will_spells', this.$parent.f5.misc.desc_at_will_spells);
+                        descText = descText.replace(':at_will_spell_list', atWillSpellList);
+                    } else {
+                        descText = descText.replace(':at_will_spells', '');
+                    }
+
                     //Spells
                     let castsBefore = false;
                     descText += '<br/><br/>';
                     
-                    for(const level in this.value.spellList) {
-                        if(this.value.spellList[level].spells.length === 0 && this.value.spellList[level].slots === 0) {
-                            continue;
-                        }
-                        descText += this.$parent.f5.spelllevels[level].name;
-                        if(level == 0) {
-                            descText += ' ('+this.$parent.f5.misc.at_will+'): ';
-                        } else {
-                            descText += ' ('+this.$parent.translate(this.$parent.f5.misc.spell_slots, this.value.spellList[level].slots).replace(':slot_quantity',this.value.spellList[level].slots)+'): ';
-                        }
+                    if(this.$parent.editor.spell_slots) {
+                        //Old Spell Display
+                        let spellSlotList = this.spellsSlotsSorted;
+                        for(const level in spellSlotList) {
+                            if(spellSlotList[level].spells.length === 0 && spellSlotList[level].slots === 0) {
+                                continue;
+                            }
+                            descText += this.$parent.f5.spelllevels[level].name;
+                            if(level == 0) {
+                                descText += ' ('+this.$parent.f5.misc.at_will+'): ';
+                            } else {
+                                descText += ' ('+this.$parent.translate(this.$parent.f5.misc.spell_slots, spellSlotList[level].slots).replace(':slot_quantity',spellSlotList[level].slots)+'): ';
+                            }
 
-                        descText += '<i>';
-                        for(const i in this.value.spellList[level].spells) {
-                            descText += this.value.spellList[level].spells[i].name.toLowerCase();
-                            if(this.value.spellList[level].spells[i].cast_before) {
-                                descText += '*';
-                                castsBefore = true;
+                            descText += '<i>';
+                            for(const i in spellSlotList[level].spells) {
+                                descText += spellSlotList[level].spells[i].name.toLowerCase();
+                                if(spellSlotList[level].spells[i].cast_before) {
+                                    descText += '*';
+                                    castsBefore = true;
+                                }
+                                if(i < spellSlotList[level].spells.length - 1) {
+                                    descText += this.$parent.f5.misc.sentence_list_separator+' ';
+                                }
                             }
-                            if(i < this.value.spellList[level].spells.length - 1) {
-                                descText += this.$parent.f5.misc.sentence_list_separator+' ';
-                            }
+                            descText += '</i><br/>';
                         }
-                        descText += '</i><br/>';
+                    } else {
+                        //New Spell Display
+                        let spellUseList = this.spellsUsesSorted;
+                        for(const uses in spellUseList) {
+                            if(spellUseList[uses].spells.length === 0) { 
+                                continue;
+                            }
+                            if(uses == 0) {
+                                descText += this.$parent.f5.spelllevels[0].name + ' ('+this.$parent.f5.misc.at_will+'): ';
+                            } else {
+                                descText += this.$parent.f5.misc.spell_uses.replace(':slot_uses',uses)+' ('+this.$parent.translate(this.$parent.f5.misc.spell_slots, spellUseList[uses].slots).replace(':slot_quantity',spellUseList[uses].slots)+'): ';
+                            }
+
+                            descText += '<i>';
+                            for(const i in spellUseList[uses].spells) {
+                                descText += spellUseList[uses].spells[i].name.toLowerCase();
+                                if(spellUseList[uses].spells[i].cast_before) {
+                                    descText += '*';
+                                    castsBefore = true;
+                                }
+                                if(i < spellUseList[uses].spells.length - 1) {
+                                    descText += this.$parent.f5.misc.sentence_list_separator+' ';
+                                }
+                            }
+                            descText += '</i><br/>';
+                        }
                     }
 
                     if(castsBefore) {
@@ -308,10 +412,14 @@ export function initVue(f5data) {
                     'name': this.value.addSpellName,
                     'level': this.value.addSpellLevel,
                     'cast_before': this.value.addSpellBeforeCombat,
+                    'at_will': this.value.addSpellAtWill,
+                    'uses': this.value.addSpellUses,
                 });
 
                 this.value.addSpellName = 'New Spell';
                 this.value.addSpellBeforeCombat = false;
+                this.value.addSpellAtWill = false;
+                this.value.addSpellUses = addSpellUses = 1;
             },
 
             removeSpell: function(spellName, spellLevel) {
@@ -333,6 +441,7 @@ export function initVue(f5data) {
     let vueData = {
         editor: {
             edit_mode: true,
+            spell_slots: true,
             columns: 2,
         },
         options: {
@@ -1212,7 +1321,9 @@ export function initVue(f5data) {
                     classicSpellcasting: false,
                     addSpellName: 'New Spell',
                     addSpellLevel: 0,
+                    addSpellUses: 1,
                     addSpellBeforeCombat: false,
+                    addSpellAtWill: false,
                     spellList: {
                         'at_will': {
                             slots: 0,
@@ -1336,7 +1447,7 @@ export function initVue(f5data) {
                 return generator(base, len);
             },
 
-            createSentenceList: function(input, inclusive = true) {
+            createSentenceList: function(input, inclusive = true, modifierFunction = null) {
                 let len = input.length;
                 if(isNaN(len)) {
                     if(!isNaN(Object.keys(input).length)) {
@@ -1358,7 +1469,11 @@ export function initVue(f5data) {
                             }
                         }
                     }
-                    descText += input[i];
+                    if(modifierFunction != null && typeof modifierFunction === 'function') {
+                        descText += modifierFunction(input[i]);
+                    } else {
+                        descText += input[i];
+                    }
                 }
                 return descText;
             },

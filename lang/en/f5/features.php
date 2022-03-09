@@ -38,8 +38,10 @@ return [
     'desc_legendary_resistance' => 'If the :creature_type fails a saving throw, it can choose to succeed instead.',
 
     //Spellcasting
-    'desc_spellcasting' => 'The :creature_name is :caster_level_article :caster_level level spellcaster. Its spellcasting ability is :spellcasting_ability (spell save DC :spell_save_dc, :spell_hit to hit with spell attacks). It can cast the following spells:',
-    'desc_innate_spellcasting' => 'The :creature_name is :caster_level_article :caster_level level spellcaster. Its innate spellcasting ability is :spellcasting_ability (spell save DC :spell_save_dc, :spell_hit to hit with spell attacks). It can innately cast the following spells, requiring no components:',
+    'desc_spellcasting' => 'The :creature_name is :caster_level_article :caster_level level spellcaster. Its spellcasting ability is :spellcasting_ability (spell save DC :spell_save_dc, :spell_hit to hit with spell attacks). It:at_will_spells can cast the following spells:',
+    'desc_prepared_spellcasting' => 'The :creature_name is :caster_level_article :caster_level level spellcaster. Its spellcasting ability is :spellcasting_ability (spell save DC :spell_save_dc, :spell_hit to hit with spell attacks). It:at_will_spells has the following spells prepared:',
+    'desc_innate_spellcasting' => 'The :creature_name is :caster_level_article :caster_level level spellcaster. Its innate spellcasting ability is :spellcasting_ability (spell save DC :spell_save_dc, :spell_hit to hit with spell attacks). It:at_will_spells can innately cast the following spells, requiring no components:',
+    'desc_at_will_spells' => ' can cast :at_will_spell_list at will and',
     'title_innate_spellcasting' => 'Innate Spellcasting',
 
     //Feature Modifiers
@@ -55,6 +57,7 @@ return [
     //--
     'title_new_feature' => 'New Feature',
     'title_feature_name' => 'Feature Name',
+    'title_spellcasting' => 'Spellcasting',
     'title_spellcasting_feature_name' => 'Spellcasting Feature Name',
     'title_feature_options' => 'Feature Options',
     'title_attack_ability' => 'Attack Ability',

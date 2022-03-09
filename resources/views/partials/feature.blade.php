@@ -77,7 +77,7 @@
                         <option v-for="(ability, i) in $parent.f5.abilities" :value="i">@{{ability.name}}</option>
                     </select>
                 </div>
-                <div>
+                <div> {{-- TODO prepared spellcasting --}}
                     <label class="title-label" for="feature__innate-spellcasting">@{{$parent.f5.misc.title_innate_spellcasting}}:</label>
                     <input type="checkbox" v-model="value.innateSpellcasting">
                 </div>
@@ -96,9 +96,19 @@
                             <option v-for="(level, i) in $parent.f5.spelllevels" :value="i" >@{{level.name}}</option>
                         </select>
                     </div>
+                    <div v-if="!$parent.editor.spell_slots">
+                        <label class="title-label" for="feature__add-spell-level">@{{$parent.f5.misc.title_spell_uses}}:</label>
+                        <select id="feature__add-spell-level" name="feature__add-spell-level" v-model="value.addSpellUses">
+                            <option v-for="i in 4" :value="i" >@{{i}}</option>
+                        </select>
+                    </div>
                     <div>
                         <label class="title-label" for="feature__add-spell-before-combat">@{{$parent.f5.misc.title_casts_before_combat}}:</label>
                         <input type="checkbox" v-model="value.addSpellBeforeCombat">
+                    </div>
+                    <div>
+                        <label class="title-label" for="feature__add-spell-at-will">@{{$parent.f5.misc.title_cast_at_will}}:</label>
+                        <input type="checkbox" v-model="value.addSpellAtWill">
                     </div>
                     <button @click="addSpell()">@{{$parent.f5.misc.title_add_spell}}</button>
                 </div>

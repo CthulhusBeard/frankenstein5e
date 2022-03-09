@@ -59,6 +59,7 @@ return [
 
     'title_new_feature' => 'f5/features.title_new_feature',
     'title_feature_name' => 'f5/features.title_feature_name',
+    'title_spellcasting' => 'f5/features.title_spellcasting',
     'title_spellcasting_feature_name' => 'f5/features.title_spellcasting_feature_name',
     'title_feature_options' => 'f5/features.title_feature_options',
     'title_feature_template' => 'f5/features.title_feature_template',
@@ -129,6 +130,8 @@ return [
     'title_innate_spellcasting' => 'f5/features.title_innate_spellcasting',
     'desc_spellcasting' => 'f5/features.desc_spellcasting',
     'desc_innate_spellcasting' => 'f5/features.desc_innate_spellcasting',
+    'desc_prepared_spellcasting' => 'f5/features.desc_prepared_spellcasting',
+    'desc_at_will_spells' => 'f5/features.desc_at_will_spells',
     //--
     'title_add_spell' => 'f5/spells.title_add_spell',
     'title_add_spell_name' => 'f5/spells.title_add_spell_name',
@@ -136,8 +139,10 @@ return [
     'title_casts_before_combat' => 'f5/spells.title_casts_before_combat',
     'title_cast_at_will' => 'f5/spells.title_cast_at_will',
     'title_spell_slots' => 'f5/spells.title_spell_slots',
+    'title_spell_uses' => 'f5/spells.title_spell_uses',
     'at_will' => 'f5/spells.at_will',
     'spell_slots' => 'f5/spells.spell_slots',
+    'spell_uses' => 'f5/spells.spell_uses',
     'casts_spells_before' => 'f5/spells.casts_spells_before',
 
 
@@ -186,6 +191,7 @@ return [
     'title_ac_cr' => 'f5/builder.title_ac_cr',
 
     'title_edit_mode' => 'f5/builder.title_edit_mode',
+    'title_use_spell_slots' => 'f5/builder.title_use_spell_slots',
     'title_apply' => 'f5/builder.title_apply',
     'title_columns' => 'f5/builder.title_columns',
 

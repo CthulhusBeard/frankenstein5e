@@ -20,6 +20,9 @@
                 <div class="slide-button" v-bind:class="{ selected : editor.edit_mode }" @click="editor.edit_mode = !editor.edit_mode">
                     <label>@{{f5.misc.title_edit_mode}}</label>
                 </div>
+                <div class="slide-button" v-bind:class="{ selected : editor.spell_slots }" @click="editor.spell_slots = !editor.spell_slots">
+                    <label>@{{f5.misc.title_use_spell_slots}}</label>
+                </div>
                 <label class="control-label" for="controls__columns">@{{f5.misc.title_columns}}: </label>
                 <select v-model="editor.columns">
                         <option v-for="i in 3" :value="i">@{{i}}</option>

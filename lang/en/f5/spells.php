@@ -4,6 +4,7 @@ return [
     'at_will' => 'at will',
     'title_at_will' => 'At Will',
     'spell_slots' => ':slot_quantity slot|:slot_quantity slots',
+    'spell_uses' => ':slot_uses/day each',
 
     'cantrip' => 'Cantrip',
     'level_one' => '1st Level',
@@ -22,6 +23,7 @@ return [
     'title_casts_before_combat' => 'Casts Before Combat',
     'title_cast_at_will' => 'Cast At Will',
     'title_spell_slots' => 'Spells Slots',
+    'title_spell_uses' => 'Spell Uses',
     'casts_spells_before' => '*The :creature_name casts these spells on itself before combat.',
 
 ];
