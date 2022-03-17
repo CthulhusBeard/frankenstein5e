@@ -81,10 +81,6 @@
                     <label class="title-label" for="feature__innate-spellcasting">@{{$parent.f5.misc.title_innate_spellcasting}}:</label>
                     <input type="checkbox" v-model="value.innateSpellcasting">
                 </div>
-                <div>
-                    <label class="title-label" for="feature__classic-spell">@{{$parent.f5.misc.title_classic_spellcasting}}:</label>
-                    <input type="checkbox" v-model="value.classicSpellcasting">
-                </div>
 
                 <label class="title-label">@{{$parent.f5.misc.title_add_spell}}:</label>
                 <div class="feature__add-spell">
@@ -113,8 +109,8 @@
                     <button @click="addSpell()">@{{$parent.f5.misc.title_add_spell}}</button>
                 </div>
 
-                <label class="title-label">@{{$parent.f5.misc.title_spell_slots}}:</label>
-                <div class="feature__spell-slots">
+                <label v-if="$parent.editor.spell_slots" class="title-label">@{{$parent.f5.misc.title_spell_slots}}:</label>
+                <div v-if="$parent.editor.spell_slots" class="feature__spell-slots">
                     <div class="feature__spell-slots__group" v-for="(group, level) in $parent.f5.spelllevels" v-if="group.display !== false && level > 0">
                         <label class="title-label" for="feature__spell-slots">@{{group.name}}:</label>
                         <select id="feature__spell-slots-" name="feature__add-spell-level" v-model="value.spellList[level].slots">

@@ -14949,7 +14949,7 @@ function initVue(f5data) {
 
 
           if (this.value.template === 'spellcasting' && this.value.name === this.$parent.f5.misc.title_new_feature) {
-            this.value.name === this.$parent.f5.misc.title_spellcasting;
+            this.value.name = this.$parent.f5.misc.title_spellcasting;
           }
         },
         deep: true
@@ -15030,7 +15030,7 @@ function initVue(f5data) {
             continue;
           }
 
-          for (var i in this.value.spellList[level]) {
+          for (var i in this.value.spellList[level].spells) {
             var spell = this.value.spellList[level].spells[i];
 
             if (spell.at_will) {
@@ -15073,7 +15073,7 @@ function initVue(f5data) {
         var spellsSorted = [];
 
         for (var level in this.value.spellList) {
-          for (var i in this.value.spellList[level]) {
+          for (var i in this.value.spellList[level].spells) {
             var spell = this.value.spellList[level].spells[i];
 
             if (level === 0) {
@@ -15117,11 +15117,14 @@ function initVue(f5data) {
           descText = descText.replace(':spell_hit', this.$parent.addPlus(this.$parent.proficiency + this.$parent.getAbilityMod(this.value.spellcastingAbility)));
 
           if (this.atWillSpells.length > 0) {
-            var atWillSpellList = this.$parent.createSentenceList(this.atWillSpells, true, function (str) {
+            var atWillSpellList = this.$parent.createSentenceList(this.atWillSpells.map(function (x) {
+              return x.name;
+            }), true, function (str) {
               return '<i>' + str + '</i>';
             });
             descText = descText.replace(':at_will_spells', this.$parent.f5.misc.desc_at_will_spells);
             descText = descText.replace(':at_will_spell_list', atWillSpellList);
+            console.log(this.atWillSpells);
           } else {
             descText = descText.replace(':at_will_spells', '');
           } //Spells
@@ -15194,12 +15197,12 @@ function initVue(f5data) {
                 }
               }
 
-              descText += '</i><br/>';
+              descText += '</i><br/><br/>';
             }
           }
 
           if (castsBefore) {
-            descText += this.$parent.f5.misc.casts_spells_before;
+            descText += '<br/>' + this.$parent.f5.misc.casts_spells_before;
           }
 
           descText = descText.replaceAll(':creature_name', this.$parent.options.name.toLowerCase());
@@ -15342,10 +15345,10 @@ function initVue(f5data) {
           'at_will': this.value.addSpellAtWill,
           'uses': this.value.addSpellUses
         });
-        this.value.addSpellName = 'New Spell';
+        this.value.addSpellName = this.$parent.f5.misc.title_add_spell_name;
         this.value.addSpellBeforeCombat = false;
         this.value.addSpellAtWill = false;
-        this.value.addSpellUses = addSpellUses = 1;
+        this.value.addSpellUses = 1;
       },
       removeSpell: function removeSpell(spellName, spellLevel) {
         var _this = this;
@@ -16310,7 +16313,6 @@ function initVue(f5data) {
           },
           spellcastingAbility: 'int',
           innateSpellcasting: false,
-          classicSpellcasting: false,
           addSpellName: 'New Spell',
           addSpellLevel: 0,
           addSpellUses: 1,

@@ -31,7 +31,7 @@ export function initVue(f5data) {
 
                     //If spellcasting is chosen and the feature still has default text, change to "Spellcasting"
                     if(this.value.template === 'spellcasting' && this.value.name === this.$parent.f5.misc.title_new_feature) {
-                        this.value.name === this.$parent.f5.misc.title_spellcasting;
+                        this.value.name = this.$parent.f5.misc.title_spellcasting;
                     }
                 }, 
                 deep: true
@@ -128,7 +128,7 @@ export function initVue(f5data) {
                     if(this.value.spellList[level].spells.length <= 0) {
                         continue;
                     }
-                    for(const i in this.value.spellList[level]) {
+                    for(const i in this.value.spellList[level].spells) {
                         const spell = this.value.spellList[level].spells[i];
                         if(spell.at_will) {
                             spellsSorted.push(spell);
@@ -166,7 +166,7 @@ export function initVue(f5data) {
                 let spellsSorted = [];
                 
                 for(const level in this.value.spellList) {
-                    for(const i in this.value.spellList[level]) {
+                    for(const i in this.value.spellList[level].spells) {
                         const spell = this.value.spellList[level].spells[i];
                         if(level === 0) {
                             spellsSorted[0].push(spell);
@@ -207,9 +207,10 @@ export function initVue(f5data) {
                     descText = descText.replace(':spell_hit', this.$parent.addPlus(this.$parent.proficiency + this.$parent.getAbilityMod(this.value.spellcastingAbility)));
 
                     if(this.atWillSpells.length > 0) {
-                        let atWillSpellList = this.$parent.createSentenceList(this.atWillSpells, true, function(str) {return '<i>'+str+'</i>'});
+                        let atWillSpellList = this.$parent.createSentenceList(this.atWillSpells.map(x => x.name), true, function(str) {return '<i>'+str+'</i>'});
                         descText = descText.replace(':at_will_spells', this.$parent.f5.misc.desc_at_will_spells);
                         descText = descText.replace(':at_will_spell_list', atWillSpellList);
+                        console.log(this.atWillSpells);
                     } else {
                         descText = descText.replace(':at_will_spells', '');
                     }
@@ -269,12 +270,12 @@ export function initVue(f5data) {
                                     descText += this.$parent.f5.misc.sentence_list_separator+' ';
                                 }
                             }
-                            descText += '</i><br/>';
+                            descText += '</i><br/><br/>';
                         }
                     }
 
                     if(castsBefore) {
-                        descText += this.$parent.f5.misc.casts_spells_before;
+                        descText += '<br/>'+this.$parent.f5.misc.casts_spells_before;
                     }
                     
                     descText = descText.replaceAll(':creature_name', this.$parent.options.name.toLowerCase());
@@ -416,10 +417,10 @@ export function initVue(f5data) {
                     'uses': this.value.addSpellUses,
                 });
 
-                this.value.addSpellName = 'New Spell';
+                this.value.addSpellName = this.$parent.f5.misc.title_add_spell_name;
                 this.value.addSpellBeforeCombat = false;
                 this.value.addSpellAtWill = false;
-                this.value.addSpellUses = addSpellUses = 1;
+                this.value.addSpellUses = 1;
             },
 
             removeSpell: function(spellName, spellLevel) {
@@ -1318,7 +1319,6 @@ export function initVue(f5data) {
                     },
                     spellcastingAbility: 'int',
                     innateSpellcasting: false,
-                    classicSpellcasting: false,
                     addSpellName: 'New Spell',
                     addSpellLevel: 0,
                     addSpellUses: 1,
