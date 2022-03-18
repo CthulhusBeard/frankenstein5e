@@ -29,9 +29,17 @@ export function initVue(f5data) {
                         }
                     }
 
-                    //If spellcasting is chosen and the feature still has default text, change to "Spellcasting"
-                    if(this.value.template === 'spellcasting' && this.value.name === this.$parent.f5.misc.title_new_feature) {
-                        this.value.name = this.$parent.f5.misc.title_spellcasting;
+                    //Calc Feature DPR
+                    if(this.value.manualDPR >= 0) {
+                        this.value.averageDPR = this.value.manualDPR;
+                    } else {
+                        let avgDPR = 0;
+                        if(this.value.template === 'spellcasting') {
+                            avgDPR = this.$parent.f5.spelllevels[this.highestCastableSpell].average_damage; 
+                        } else if(this.value.template === 'attack') {
+                            
+                        }
+                        this.value.averageDPR = avgDPR;
                     }
                 }, 
                 deep: true
@@ -110,17 +118,6 @@ export function initVue(f5data) {
                 return options;
             },
 
-            averageDPR: function() {
-                if(this.value.manualDPR >= 0) {
-                    return this.value.manualDPR;
-                }
-
-                let avgDPR = 0;
-                //TODO figure this out
-
-                return avgDPR;
-            },
-
             atWillSpells: function() {
                 let spellsSorted = [];
                 
@@ -137,6 +134,31 @@ export function initVue(f5data) {
                 }
 
                 return spellsSorted;
+            },
+
+            highestCastableSpell:function() {
+                let highestSlot = 0;
+                
+                for(const level in this.value.spellList) {
+                    if(
+                        level > highestSlot &&
+                        this.value.spellList[level].spells.length > 0 
+                    ) {
+                        if(this.$parent.editor.spell_slots && this.value.spellList[level].slots > 0) {
+                            highestSlot = level;
+                        } else if(!this.$parent.editor.spell_slots) {
+                            for(const i in this.value.spellList[level].spells) {
+                                const spell = this.value.spellList[level].spells[i];
+                                if(spell.at_will || spell.uses > 0) {
+                                    highestSlot = level;
+                                    break;
+                                } 
+                            }
+                        }
+                    }
+                }
+
+                return highestSlot;
             },
 
             spellsSlotsSorted: function() {
@@ -210,7 +232,6 @@ export function initVue(f5data) {
                         let atWillSpellList = this.$parent.createSentenceList(this.atWillSpells.map(x => x.name), true, function(str) {return '<i>'+str+'</i>'});
                         descText = descText.replace(':at_will_spells', this.$parent.f5.misc.desc_at_will_spells);
                         descText = descText.replace(':at_will_spell_list', atWillSpellList);
-                        console.log(this.atWillSpells);
                     } else {
                         descText = descText.replace(':at_will_spells', '');
                     }
@@ -577,14 +598,29 @@ export function initVue(f5data) {
                 return 'column-'+this.editor.columns;
             },
 
-            //Feature
-            generateFeatureTemplate: function() {
-                return this.newFeature.action + this.newFeature.template;
+            averageDPR: function() {
+                let avgDPR = 0;
+                
+                for(const featureType in this.options.features) {
+                    //console.log('featureType: '+featureType);
+                    for(const feature of this.options.features[featureType]) {
+                        //console.log('feature');
+                        //console.log(feature.name);
+                        //console.log(feature.averageDPR);
+                        if(feature.averageDPR > avgDPR) {
+                            avgDPR = feature.averageDPR;
+                        }
+                    }
+                }
+
+                return avgDPR;
             },
 
             //Challenge Rating
             damageCr: function() {
-                //TODO: Factor in DPR and offensive features
+                //console.log('--averageDPR--');
+                console.log(this.averageDPR);
+
                 return 'O-CR';
             },
 
@@ -1371,9 +1407,10 @@ export function initVue(f5data) {
                         },
                     },
                     customDamage: [],
-                    customDescription: 'Feature Desciption',
+                    customDescription: '',
                     legendaryActionCost: 1,
                     manualDPR: -1,
+                    averageDPR: -1,
                 };
 
                 newFeature.attackDamage.push(this.createDamageDie(true));
@@ -1382,6 +1419,7 @@ export function initVue(f5data) {
 
                 if(type === 'spellcasting') {
                     newFeature.template = 'spellcasting';
+                    newFeature.name = this.f5.misc.title_spellcasting;
                 }
 
                 this.options.features[type].push(newFeature);

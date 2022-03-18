@@ -14945,11 +14945,20 @@ function initVue(f5data) {
                 return;
               }
             }
-          } //If spellcasting is chosen and the feature still has default text, change to "Spellcasting"
+          } //Calc DPR
 
 
-          if (this.value.template === 'spellcasting' && this.value.name === this.$parent.f5.misc.title_new_feature) {
-            this.value.name = this.$parent.f5.misc.title_spellcasting;
+          if (this.value.manualDPR >= 0) {
+            this.value.averageDPR = this.value.manualDPR;
+          } else {
+            var avgDPR = 0;
+
+            if (this.value.template === 'spellcasting') {
+              avgDPR = this.$parent.f5.spelllevels[this.highestCastableSpell].average_damage;
+              console.log('Spell DPR ' + avgDPR);
+            }
+
+            this.value.averageDPR = avgDPR;
           }
         },
         deep: true
@@ -15013,15 +15022,6 @@ function initVue(f5data) {
 
         return options;
       },
-      averageDPR: function averageDPR() {
-        if (this.value.manualDPR >= 0) {
-          return this.value.manualDPR;
-        }
-
-        var avgDPR = 0; //TODO figure this out
-
-        return avgDPR;
-      },
       atWillSpells: function atWillSpells() {
         var spellsSorted = [];
 
@@ -15040,6 +15040,28 @@ function initVue(f5data) {
         }
 
         return spellsSorted;
+      },
+      highestCastableSpell: function highestCastableSpell() {
+        var highestSlot = 0;
+
+        for (var level in this.value.spellList) {
+          if (level > highestSlot && this.value.spellList[level].spells.length > 0) {
+            if (this.$parent.editor.spell_slots && this.value.spellList[level].slots > 0) {
+              highestSlot = level;
+            } else if (!this.$parent.editor.spell_slots) {
+              for (var i in this.value.spellList[level].spells) {
+                var spell = this.value.spellList[level].spells[i];
+
+                if (spell.at_will || spell.uses > 0) {
+                  highestSlot = level;
+                  break;
+                }
+              }
+            }
+          }
+        }
+
+        return highestSlot;
       },
       spellsSlotsSorted: function spellsSlotsSorted() {
         var spellsSorted = [];
@@ -15124,7 +15146,6 @@ function initVue(f5data) {
             });
             descText = descText.replace(':at_will_spells', this.$parent.f5.misc.desc_at_will_spells);
             descText = descText.replace(':at_will_spell_list', atWillSpellList);
-            console.log(this.atWillSpells);
           } else {
             descText = descText.replace(':at_will_spells', '');
           } //Spells
@@ -15499,13 +15520,39 @@ function initVue(f5data) {
       statblockColumns: function statblockColumns() {
         return 'column-' + this.editor.columns;
       },
-      //Feature
-      generateFeatureTemplate: function generateFeatureTemplate() {
-        return this.newFeature.action + this.newFeature.template;
+      averageDPR: function averageDPR() {
+        var avgDPR = 0;
+
+        for (var featureType in this.options.features) {
+          console.log('featureType: ' + featureType);
+
+          var _iterator = _createForOfIteratorHelper(this.options.features[featureType]),
+              _step;
+
+          try {
+            for (_iterator.s(); !(_step = _iterator.n()).done;) {
+              var feature = _step.value;
+              console.log('feature');
+              console.log(feature.name);
+              console.log(feature.averageDPR);
+
+              if (feature.averageDPR > avgDPR) {
+                avgDPR = feature.averageDPR;
+              }
+            }
+          } catch (err) {
+            _iterator.e(err);
+          } finally {
+            _iterator.f();
+          }
+        }
+
+        return avgDPR;
       },
       //Challenge Rating
       damageCr: function damageCr() {
-        //TODO: Factor in DPR and offensive features
+        console.log('--averageDPR--');
+        console.log(this.averageDPR);
         return 'O-CR';
       },
       healthCr: function healthCr() {
@@ -15960,12 +16007,12 @@ function initVue(f5data) {
           return this.$data.f5.languages['all'].name;
         }
 
-        var _iterator = _createForOfIteratorHelper(this.options.languages.spokenWritten),
-            _step;
+        var _iterator2 = _createForOfIteratorHelper(this.options.languages.spokenWritten),
+            _step2;
 
         try {
-          for (_iterator.s(); !(_step = _iterator.n()).done;) {
-            var _lang = _step.value;
+          for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+            var _lang = _step2.value;
 
             if (displayText !== '') {
               displayText += ', ';
@@ -15974,9 +16021,9 @@ function initVue(f5data) {
             displayText += this.$data.f5.languages[_lang].name;
           }
         } catch (err) {
-          _iterator.e(err);
+          _iterator2.e(err);
         } finally {
-          _iterator.f();
+          _iterator2.f();
         }
 
         if (!displayText) {
@@ -16116,12 +16163,12 @@ function initVue(f5data) {
         });
         var displayText = '';
 
-        var _iterator2 = _createForOfIteratorHelper(input),
-            _step2;
+        var _iterator3 = _createForOfIteratorHelper(input),
+            _step3;
 
         try {
-          for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-            var i = _step2.value;
+          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+            var i = _step3.value;
 
             if (this.f5.damagetypes[i].long_name) {
               if (displayText !== '') displayText += '; ';
@@ -16132,9 +16179,9 @@ function initVue(f5data) {
             }
           }
         } catch (err) {
-          _iterator2.e(err);
+          _iterator3.e(err);
         } finally {
-          _iterator2.f();
+          _iterator3.f();
         }
 
         return displayText;
@@ -16157,12 +16204,12 @@ function initVue(f5data) {
       conditionList: function conditionList(input) {
         var displayText = '';
 
-        var _iterator3 = _createForOfIteratorHelper(input),
-            _step3;
+        var _iterator4 = _createForOfIteratorHelper(input),
+            _step4;
 
         try {
-          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-            var i = _step3.value;
+          for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+            var i = _step4.value;
 
             if (displayText !== '') {
               displayText += ', ';
@@ -16171,9 +16218,9 @@ function initVue(f5data) {
             displayText += this.f5.conditions[i].name;
           }
         } catch (err) {
-          _iterator3.e(err);
+          _iterator4.e(err);
         } finally {
-          _iterator3.f();
+          _iterator4.f();
         }
 
         return displayText;
@@ -16365,9 +16412,10 @@ function initVue(f5data) {
             }
           },
           customDamage: [],
-          customDescription: 'Feature Desciption',
+          customDescription: '',
           legendaryActionCost: 1,
-          manualDPR: -1
+          manualDPR: -1,
+          averageDPR: -1
         };
         newFeature.attackDamage.push(this.createDamageDie(true));
         newFeature.savingThrowDamage.push(this.createDamageDie());
@@ -16375,6 +16423,7 @@ function initVue(f5data) {
 
         if (type === 'spellcasting') {
           newFeature.template = 'spellcasting';
+          newFeature.name = this.f5.misc.title_spellcasting;
         }
 
         this.options.features[type].push(newFeature);

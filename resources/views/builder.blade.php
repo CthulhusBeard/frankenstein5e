@@ -34,6 +34,7 @@
             <div class="cr-controller popup-overlay">
                 <strong>@{{f5.misc.title_cr_manager}}</strong>
                 <div>
+                    @{{f5.misc.title_average_dpr}}: @{{averageDPR}}<br/>
                     @{{f5.misc.title_offensive_cr}}: @{{damageCr}}<br/>
                     @{{f5.misc.title_hp_cr}}: @{{healthCr}}<br/>
                     @{{f5.misc.title_ac_cr}}: @{{armorCr}}
