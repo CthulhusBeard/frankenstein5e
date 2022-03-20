@@ -54,6 +54,12 @@ return [
     'desc_saving_throw_half_on_success' => ', or half as much damage on a successful one',
     'desc_saving_throw_on_success_take_half' => 'On a successful save, :target_text takes half as much damage',
 
+    'desc_ongoing_damage_generic' => ':flavour_descriptionUntil :ongoing_end_condition, the target takes :damage_amount :damage_occurance.',
+    'desc_ongoing_damage_flavour_onfire' => 'If the target is a creature or a flammable object, it ignites.',
+    
+    'desc_ongoing_damage_end_generic' => 'a creature takes :action_type to end the effect',
+    'desc_ongoing_damage_end_onfire' => 'a creature takes :action_type to douse the fire',
+
     //--
     'title_new_feature' => 'New Feature',
     'title_feature_name' => 'Feature Name',
@@ -79,4 +85,9 @@ return [
     'title_saving_throw_conditions' => 'Conditions Applied',
     'title_ongoing_damage' => 'Ongoing Damage',
     'title_add_damage_die' => '+ Damage Die',
+
+    'title_on_failed_save' => 'Requires Failed Save',
+    'title_damage_occurance' => 'Damage Occurs',
+    'title_damage_duration' => 'Duration',
+
 ];

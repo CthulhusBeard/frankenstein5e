@@ -13,18 +13,19 @@ export function initVue(f5data) {
         watch: {
             value: {
                 handler(val) {
+
                     //Must have one or more saving throw
                     if(this.value.savingThrowSaveAbilities.length === 0) {
                         this.value.savingThrowSaveAbilities = ['str'];
                     }
 
                     //If AOE target area doesn't apply to this template, change it
-                    if(this.$parent.f5.areaofeffect[this.value.targetType].types.includes(this.value.template)) {
+                    if(!this.$parent.f5.areaofeffect[this.value.targetType].types.includes(this.value.template)) {
                         for(const key in this.$parent.f5.areaofeffect) {
                             let element = this.$parent.f5.areaofeffect[key];
                             if(element.types.includes(this.value.template)) {
                                 this.value.targetType = key;
-                                return;
+                                break;
                             }
                         }
                     }
@@ -34,12 +35,31 @@ export function initVue(f5data) {
                         this.value.averageDPR = this.value.manualDPR;
                     } else {
                         let avgDPR = 0;
-                        if(this.value.template === 'spellcasting') {
-                            avgDPR = this.$parent.f5.spelllevels[this.highestCastableSpell].average_damage; 
-                        } else if(this.value.template === 'attack') {
+
+                        if(this.value.template === 'spellcasting') { // Spellcasting Average DPR
+                            this.value.averageDPR = this.$parent.f5.spelllevels[this.highestCastableSpell].average_damage;
+
+                        } else if(this.value.template === 'attack') { // Attack Average DPR
+                            for(let i in this.value.attackDamage) {
+                                avgDPR += this.$parent.averageDamage(this.value.attackDamage[i], this.value.attackAbility);
+                            }
                             
+                            if(this.value.hasOngoingDamage) {
+                                for(let i in this.value.ongoingDamage) {
+                                    avgDPR += this.$parent.averageDamage(this.value.ongoingDamage[i], 0);
+                                }
+                            }
+
+                            this.value.averageSingleTargetDPR = avgDPR;
+                            this.value.averageDPR = avgDPR * this.value.attackTargets;
+
+                            //TODO Saving throw
+
+                        } else if(this.value.template === 'saving_throw') { // Saving Throw Average DPR
+
+
                         }
-                        this.value.averageDPR = avgDPR;
+                        
                     }
                 }, 
                 deep: true
@@ -190,11 +210,13 @@ export function initVue(f5data) {
                 for(const level in this.value.spellList) {
                     for(const i in this.value.spellList[level].spells) {
                         const spell = this.value.spellList[level].spells[i];
-                        if(level === 0) {
-                            spellsSorted[0].push(spell);
-                        } else if(!spell.at_will && spell.uses > 0) {
+
+                        if(!spell.at_will && spell.uses > 0) {
+                            if(!Array.isArray(spellsSorted[spell.uses])) {
+                                spellsSorted[spell.uses] = [];
+                            }
                             spellsSorted[spell.uses].push(spell);
-                        } 
+                        }
                     }
                 }
 
@@ -271,27 +293,27 @@ export function initVue(f5data) {
                         //New Spell Display
                         let spellUseList = this.spellsUsesSorted;
                         for(const uses in spellUseList) {
-                            if(spellUseList[uses].spells.length === 0) { 
+                            if(spellUseList[uses].length === 0) { 
                                 continue;
                             }
                             if(uses == 0) {
                                 descText += this.$parent.f5.spelllevels[0].name + ' ('+this.$parent.f5.misc.at_will+'): ';
                             } else {
-                                descText += this.$parent.f5.misc.spell_uses.replace(':slot_uses',uses)+' ('+this.$parent.translate(this.$parent.f5.misc.spell_slots, spellUseList[uses].slots).replace(':slot_quantity',spellUseList[uses].slots)+'): ';
+                                descText += this.$parent.f5.misc.spell_uses.replace(':slot_uses',uses)+': ';
                             }
 
                             descText += '<i>';
-                            for(const i in spellUseList[uses].spells) {
-                                descText += spellUseList[uses].spells[i].name.toLowerCase();
-                                if(spellUseList[uses].spells[i].cast_before) {
+                            for(const i in spellUseList[uses]) {
+                                descText += spellUseList[uses][i].name.toLowerCase();
+                                if(spellUseList[uses][i].cast_before) {
                                     descText += '*';
                                     castsBefore = true;
                                 }
-                                if(i < spellUseList[uses].spells.length - 1) {
+                                if(i < spellUseList[uses].length - 1) {
                                     descText += this.$parent.f5.misc.sentence_list_separator+' ';
                                 }
                             }
-                            descText += '</i><br/><br/>';
+                            descText += '</i><br/>';
                         }
                     }
 
@@ -333,6 +355,8 @@ export function initVue(f5data) {
                     descText += this.$parent.createSentenceList(damageList);
 
                 }
+
+
                 //Add Saving Throw
                 if((this.value.template == 'attack' && this.value.attackSavingThrow) || this.value.template == 'saving_throw') {
                     let savingThrowText = '';
@@ -602,32 +626,38 @@ export function initVue(f5data) {
                 let avgDPR = 0;
                 
                 for(const featureType in this.options.features) {
-                    //console.log('featureType: '+featureType);
                     for(const feature of this.options.features[featureType]) {
-                        //console.log('feature');
-                        //console.log(feature.name);
-                        //console.log(feature.averageDPR);
                         if(feature.averageDPR > avgDPR) {
                             avgDPR = feature.averageDPR;
                         }
                     }
                 }
 
+                //TODO Consider feature use limits (recharge, short rest, slots, etc)
+                //TODO Create a damage fallout chart
+
                 return avgDPR;
             },
 
             //Challenge Rating
             damageCr: function() {
-                //console.log('--averageDPR--');
-                console.log(this.averageDPR);
+                let dpr = this.averageDPR;
+                let approxCr = 1;
+                
+                for(let i in this.f5.challengerating) {
+                    let cr = this.f5.challengerating[i];
+                    if(dpr >= cr.dpr.low && dpr <= cr.dpr.high) {
+                        approxCr = i;
+                        break;
+                    }
+                }
 
-                return 'O-CR';
+                return approxCr;
             },
 
             healthCr: function() {
                 //TODO: Factor in AC, HP, and defensive features
                 let hp = this.getHP;
-
                 let approxCr = 31;
 
                 for(let i in this.f5.challengerating) {
@@ -1346,6 +1376,7 @@ export function initVue(f5data) {
                     hasOngoingDamage: false,
                     ongoingDamage: [],
                     ongoingDamageOccurs: 'start',
+                    ongoingDamageOnFailedSave: true,
                     ongoingDamageRepeatSave: false,
                     ongoingDamageDuration: 'ongoing',
                     recharge: {
@@ -1355,7 +1386,7 @@ export function initVue(f5data) {
                     },
                     spellcastingAbility: 'int',
                     innateSpellcasting: false,
-                    addSpellName: 'New Spell',
+                    addSpellName: this.f5.misc.title_add_spell_name,
                     addSpellLevel: 0,
                     addSpellUses: 1,
                     addSpellBeforeCombat: false,
@@ -1411,6 +1442,7 @@ export function initVue(f5data) {
                     legendaryActionCost: 1,
                     manualDPR: -1,
                     averageDPR: -1,
+                    averageSingleTargetDPR: -1,
                 };
 
                 newFeature.attackDamage.push(this.createDamageDie(true));
@@ -1444,10 +1476,15 @@ export function initVue(f5data) {
                 }
             },
 
-            averageDamage: function(damageObj, ability) {
+            averageDamage: function(damageObj, ability = 0) {
                 let abilityDamage = 0;
-                if(damageObj.abilityBonus) {
+                if(!Number.isNaN(ability)) {
+                    abilityDamage = Number(ability);
+                } else if(damageObj.abilityBonus) {
                     abilityDamage = Number(this.getAbilityMod(ability));
+                    if(Number.isNaN(abilityDamage)) {
+                        abilityDamage = 0;
+                    }
                 }
                 let damage = Math.floor(((damageObj.diceType / 2) + .5) * damageObj.diceAmount) + (Number(damageObj.additional) + Number(abilityDamage));
                 return damage > 0 ? damage : 1;

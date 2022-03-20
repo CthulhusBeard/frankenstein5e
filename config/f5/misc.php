@@ -31,6 +31,9 @@ return [
 
     'languages_none' => 'f5/languages.languages_none',
 
+    'title_on_failed_save' => 'f5/features.title_on_failed_save',
+    'title_damage_occurance' => 'f5/features.title_damage_occurance',
+    'title_damage_duration' => 'f5/features.title_damage_duration',
     'title_repeat_save' => 'f5/durations.title_repeat_save',
 
     'please_select_one' => 'f5/misc.please_select_one',
@@ -163,9 +166,9 @@ return [
     'title_subtype' => 'f5/subtypes.title_subtype',
     'title_category' => 'f5/subtypes.title_category',
 
-    'title_damage_resistances' => 'f5/damage.title_damage_resistances',
-    'title_damage_immunities' => 'f5/damage.title_damage_immunities',
-    'title_damage_vulnerabilities' => 'f5/damage.title_damage_vulnerabilities',
+    'title_damage_resistances' => 'f5/damagetypes.title_damage_resistances',
+    'title_damage_immunities' => 'f5/damagetypes.title_damage_immunities',
+    'title_damage_vulnerabilities' => 'f5/damagetypes.title_damage_vulnerabilities',
     'title_condition_immunities' => 'f5/conditions.title_condition_immunities',
     'title_alignments' => 'f5/alignments.title_alignments',
     'title_alignments_typically' => 'f5/alignments.title_alignments_typically',
@@ -189,7 +192,7 @@ return [
     'title_offensive_cr' => 'f5/builder.title_offensive_cr',
     'title_hp_cr' => 'f5/builder.title_hp_cr',
     'title_ac_cr' => 'f5/builder.title_ac_cr',
-    'title_average_dpr' => 'f5/builder.title_average_dpr',
+    'title_approx_dpr' => 'f5/builder.title_approx_dpr',
 
     'title_edit_mode' => 'f5/builder.title_edit_mode',
     'title_use_spell_slots' => 'f5/builder.title_use_spell_slots',

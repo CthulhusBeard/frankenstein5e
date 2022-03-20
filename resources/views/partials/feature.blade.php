@@ -165,8 +165,8 @@
                 <div>
                     <label class="title-label">@{{$parent.f5.misc.title_attack_type}}:</label>
                     <span v-for="(attackType, i) in $parent.f5.attacktypes">
-                        <input type="radio" :id="'aoe_'+i" :value="i" v-model="value.attackType">
-                        <label :for="'aoe_'+i">@{{attackType.name}}</label>
+                        <input type="radio" :id="'aoe_'+i+'_'+value.id" :value="i" v-model="value.attackType">
+                        <label :for="'aoe_'+i+'_'+value.id">@{{attackType.name}}</label>
                     </span>
                 </div>
                 <label class="title-label">@{{$parent.f5.misc.title_attack_ability}}:</label>
@@ -218,69 +218,6 @@
                     <br/>
                 </div>
 
-                <!-- Ongoing Damage Options -->
-                <div>
-                    <label class="title-label">@{{$parent.f5.misc.title_ongoing_damage}}</label>
-                    <input type="checkbox" v-model="value.hasOngoingDamage">
-                    <div class="feature__ongoing-damage indent-margin" v-if="value.hasOngoingDamage">
-                        <div>
-                            <input name="occurs_start" type="radio" value="start" v-model="value.ongoingDamageOccurs">
-                            <label for="occurs_start">@{{$parent.f5.timepoints.start_of_turn.name}}</label>
-                            <input name="occurs_end" type="radio" value="end" v-model="value.ongoingDamageOccurs">
-                            <label for="occurs_end">@{{$parent.f5.timepoints.end_of_turn.name}}</label>
-                        </div>
-                        
-                        <div v-for="(duration, i) in $parent.durations">
-                            <input type="radio" value="start" v-model="value.ongoingDamageDuration">
-                            <label class="title-label" :for="'duration_'+i">@{{duration.name}}</label>
-                        </div>
-
-                        <div>
-                            <label class="title-label">@{{$parent.f5.misc.title_repeat_save}}:</label>
-                            <input type="checkbox" v-model="value.ongoingDamageRepeatSave">
-                        </div>
-
-                        <label class="title-label">@{{$parent.f5.misc.title_damage_dice}}:</label>
-                        <div class="feature__damage" v-for="(damage, index) in value.ongoingDamage">
-                            <label class="title-label">@{{$parent.f5.misc.dice_amount}}:</label>
-                            <select id="feature__damage__dice-amount" name="feature__damage__dice-amount" v-model="damage.diceAmount">
-                                <option value="0" >0</option>
-                                <option v-for="i in 30" :value="i" >@{{i}}</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="title-label">@{{$parent.f5.misc.dice_type}}:</label>
-                            <select id="feature__damage__dice-type" name="feature__damage__dice-type" v-model="damage.diceType">
-                                <option v-for="i in $parent.f5.dicetypes" :value="i" >@{{i}}</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="title-label">@{{$parent.f5.misc.title_ability_bonus}}</label>
-                            <input type="checkbox" v-model="damage.abilityBonus">
-                        </div>
-
-                        <div>
-                            <label class="title-label">@{{$parent.f5.misc.additional}}:</label>
-                            <input type="number" min="0" max="9999" id="feature__damage__hitpoints-additional" name="feature__damage__hitpoints-additional" v-model="damage.additional" value="0" />
-
-                        </div>
-
-                        <div>
-                            <label class="title-label">@{{$parent.f5.misc.title_damage_type}}:</label>
-                            <select id="feature__damage__damage-type" name="feature__damage__damage-type" v-model="damage.type">
-                                <option v-for="(type, i) in $parent.dealableDamageTypes" :value="type.value" >@{{type.label}}</option>
-                            </select>
-                        </div>
-
-                        <div class="feature__remove-damage" @click="removeDamageDie('attackDamage', index)">x</div>
-
-                        <button @click="addDamageDie('attackDamage')">@{{$parent.f5.misc.title_add_damage_die}}</button>
-                        <br/>
-                        <br/>
-                    </div>
-                </div>
             </div>
 
             <!-- Saving Throw (Can also be added to "Attack") -->
@@ -382,6 +319,82 @@
                     <br/>
                 </div>
             </div>
+
+            <!-- Ongoing Damage Options -->
+            <div class="feature__options" v-if="value.template === 'saving_throw' || value.template === 'attack'">
+                <label class="title-label">@{{$parent.f5.misc.title_ongoing_damage}}</label>
+                <input type="checkbox" v-model="value.hasOngoingDamage">
+                <div class="feature__ongoing-damage indent-margin attack-border" v-if="value.hasOngoingDamage">
+                    <div>
+                        <label class="title-label">@{{$parent.f5.misc.title_damage_occurance}}:</label>
+                        <input :id="'ongoing-occurs_start-'+value.id" type="radio" value="start" v-model="value.ongoingDamageOccurs">
+                        <label :for="'ongoing-occurs_start-'+value.id">@{{$parent.f5.timepoints.start_of_turn.name}}</label>
+                        <input :id="'ongoing-occurs_end-'+value.id" type="radio" value="end" v-model="value.ongoingDamageOccurs">
+                        <label :for="'ongoing-occurs_end-'+value.id">@{{$parent.f5.timepoints.end_of_turn.name}}</label>
+                    </div>
+                    
+                    <label class="title-label">@{{$parent.f5.misc.title_damage_duration}}:</label>
+                    <div class="three-flex-columns">
+                        <div v-for="(duration, i) in $parent.f5.durations">
+                            <input :id="'duration_'+i+'_'+value.id" type="radio" :value="i" v-model="value.ongoingDamageDuration">
+                            <label :for="'duration_'+i+'_'+value.id">@{{duration.name}}</label>
+                        </div>
+                    </div>
+
+                    <div v-if="value.template === 'saving_throw'">
+                        <label class="title-label">@{{$parent.f5.misc.title_on_failed_save}}:</label>
+                        <input type="checkbox" v-model="value.ongoingDamageOnFailedSave">
+                    </div>
+
+                    <div v-if="value.template === 'saving_throw'">
+                        <label class="title-label">@{{$parent.f5.misc.title_repeat_save}}:</label>
+                        <input type="checkbox" v-model="value.ongoingDamageRepeatSave">
+                    </div>
+
+                    <label class="title-label">@{{$parent.f5.misc.title_damage_dice}}:</label>
+                    <div class="feature__damage" v-for="(damage, index) in value.ongoingDamage">
+                        <div>
+                            <label class="title-label">@{{$parent.f5.misc.dice_amount}}:</label>
+                            <select id="feature__damage__dice-amount" name="feature__damage__dice-amount" v-model="damage.diceAmount">
+                                <option value="0" >0</option>
+                                <option v-for="i in 30" :value="i" >@{{i}}</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="title-label">@{{$parent.f5.misc.dice_type}}:</label>
+                            <select id="feature__damage__dice-type" name="feature__damage__dice-type" v-model="damage.diceType">
+                                <option v-for="i in $parent.f5.dicetypes" :value="i" >@{{i}}</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="title-label">@{{$parent.f5.misc.title_ability_bonus}}</label>
+                            <input type="checkbox" v-model="damage.abilityBonus">
+                        </div>
+
+                        <div>
+                            <label class="title-label">@{{$parent.f5.misc.additional}}:</label>
+                            <input type="number" min="0" max="9999" id="feature__damage__hitpoints-additional" name="feature__damage__hitpoints-additional" v-model="damage.additional" value="0" />
+                        </div>
+
+                        <div>
+                            <label class="title-label">@{{$parent.f5.misc.title_damage_type}}:</label>
+                            <select id="feature__damage__damage-type" name="feature__damage__damage-type" v-model="damage.type">
+                                <option v-for="(type, i) in $parent.dealableDamageTypes" :value="type.value" >@{{type.label}}</option>
+                            </select>
+                        </div>
+
+                        <div class="feature__remove-damage" @click="removeDamageDie('ongoingDamage', index)">x</div>
+                    
+                    </div>
+
+                    <button @click="addDamageDie('ongoingDamage')">@{{$parent.f5.misc.title_add_damage_die}}</button>
+                    <br/>
+                        <br/>
+                    </div>
+                </div>
+
 
             <div class="feature__options feature__options-global">
                 

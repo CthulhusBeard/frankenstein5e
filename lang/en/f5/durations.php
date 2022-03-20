@@ -1,6 +1,15 @@
 <?php
 
 return [
+
+    'title_start_of_turn' => 'Start of Turn',
+    'title_end_of_turn' => 'End of Turn',
+    'title_one_round' => 'One Round',
+    'title_one_minute' => 'One Minute',
+    'title_ten_minutes' => 'Ten Minutes',
+    'title_one_hour' => 'One Hour',
+    'title_one_day' => 'One Day',
+
     'until_start_of_turn' => 'until the start of its next turn',
     'start_of_each_turn' => 'at the start of each of its turns',
     'until_end_of_turn' => 'until the end of its next turn',

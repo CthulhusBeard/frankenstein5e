@@ -5,7 +5,7 @@ return [
     'title_offensive_cr' => 'Offensive CR',
     'title_hp_cr' => 'Hit Points CR',
     'title_ac_cr' => 'Armor Class CR',
-    'title_average_dpr' => 'Average DPR',
+    'title_approx_dpr' => 'Approximate DPR',
 
     'title_edit_mode' => 'Edit Mode',
     'title_use_spell_slots' => 'Use Spell Slots',

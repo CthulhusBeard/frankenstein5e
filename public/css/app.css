@@ -236,6 +236,15 @@ i {
   font-style: italic;
 }
 
+.three-flex-columns {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.three-flex-columns div {
+  width: 33%;
+}
+
 .stat-block {
   position: relative;
   width: 100%;
