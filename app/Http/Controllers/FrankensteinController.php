@@ -18,13 +18,16 @@ class FrankensteinController extends Controller
     // - Change images to original ( add repeating ripped edge)
     // - Convert units
     // - Update Prof by CR (already in config)
-    // - Reorder Features
+    // - Reorder Features / Move features to other columns
     // - Mage armour ac?
     // - Automatic column org or manual moving
     // - Fix semantic usage on Conditions plus additional conditions
     // - Remove external CDN references
     // - Clean up label "for"s
     // - Minimum size for conditions (grappled, swallowed, etc)
+    // - Prepared spellcasting ??
+    // - Spells can't be editted
+    // - Life expectancy vs PC levels
     // - Make better lists: //function createConditionSentenceList
     //    -> from "... and are blinded and are deafened, or half as much damage on a successful one and are not blinded and are not deafened."
     //    -> to "... and becomes blinded and deafened, or half as much damage on a successful one and are not blinded or deafened."
@@ -45,6 +48,7 @@ class FrankensteinController extends Controller
             $configData = [
                 'misc',
                 'timepoints',
+                'playercharacters',
                 'tags',
                 'recharge',
                 'dicetypes',

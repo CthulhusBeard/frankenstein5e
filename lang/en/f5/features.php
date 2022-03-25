@@ -60,7 +60,20 @@ return [
     'desc_ongoing_damage_end_generic' => 'a creature takes :action_type to end the effect',
     'desc_ongoing_damage_end_onfire' => 'a creature takes :action_type to douse the fire',
 
-    //--
+    //Multiattack
+    'desc_make_attack' => 'makes :number_of_attacks :attack',
+    'desc_uses_ability' => 'uses :ability',
+    'desc_multiattack' => 'The :creature_name :attack_descriptions.',
+    'desc_multiattack_interchangeable' => 'The :creature_name makes :number_of_attacks attacks, either :attack_descriptions.',
+    'desc_multiattack_replace' => 'It can replace :replace_number of those attacks with :replacement_description.',
+
+    //Legendary Resistance
+    'desc_legendary_resistances' => 'If the :creature_name fails a saving throw, it can choose to succeed instead.',
+
+    //Passive Features
+    'desc_multiple_reactions' => 'The :creature_name makes ',
+
+    //Editor Titles
     'title_new_feature' => 'New Feature',
     'title_feature_name' => 'Feature Name',
     'title_spellcasting' => 'Spellcasting',

@@ -43,4 +43,9 @@ return [
         'desc' => 'f5/featureactiontypes.lair_action_desc',
         'rank' => '2',
     ],
+    
+    'spellcasting' => [
+        'name' => 'f5/featureactiontypes.spellcasting',
+        'desc' => 'f5/featureactiontypes.spellcasting_desc',
+    ],
 ];

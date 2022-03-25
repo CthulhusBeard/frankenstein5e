@@ -16,4 +16,5 @@ return [
     'title_set_offensive_cr' => 'Set Offensive CR',
     'title_set_hp_cr' => 'Set Hit Points CR',
     'title_set_ac_cr' => 'Set Armor Class CR',
+    'title_damage_projection' => 'Damage Projection',
 ];

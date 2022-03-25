@@ -19,6 +19,9 @@ return [
 
     'title_add_spell' => 'Add Spell',
     'title_add_spell_name' => 'Spell Name',
+    'title_spell_level' => 'Spell Level',
+    'title_spell_list' => 'Spell List',
+    'title_level_x_spells' => 'Level :spell_level Spells',
     'title_classic_spellcasting' => 'Use Classic Spell Style',
     'title_casts_before_combat' => 'Casts Before Combat',
     'title_cast_at_will' => 'Cast At Will',

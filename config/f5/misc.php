@@ -36,6 +36,15 @@ return [
     'title_damage_duration' => 'f5/features.title_damage_duration',
     'title_repeat_save' => 'f5/durations.title_repeat_save',
 
+    'desc_make_attack' => 'f5/features.desc_make_attack',
+    'desc_uses_ability' => 'f5/features.desc_uses_ability',
+    'desc_multiattack' => 'f5/features.desc_multiattack',
+    'desc_multiattack_interchangeable' => 'f5/features.desc_multiattack_interchangeable',
+    'desc_multiattack_replace' => 'f5/features.desc_multiattack_replace',
+
+    'desc_legendary_resistances' => 'f5/features.desc_legendary_resistances',
+
+
     'please_select_one' => 'f5/misc.please_select_one',
     'choose_a' => 'f5/misc.choose_a',
     'choose_skill' => 'f5/misc.choose_skill',
@@ -138,6 +147,9 @@ return [
     //--
     'title_add_spell' => 'f5/spells.title_add_spell',
     'title_add_spell_name' => 'f5/spells.title_add_spell_name',
+    'title_spell_level' => 'f5/spells.title_spell_level',
+    'title_spell_list' => 'f5/spells.title_spell_list',
+    'title_level_x_spells' => 'f5/spells.title_level_x_spells',
     'title_classic_spellcasting' => 'f5/spells.title_classic_spellcasting',
     'title_casts_before_combat' => 'f5/spells.title_casts_before_combat',
     'title_cast_at_will' => 'f5/spells.title_cast_at_will',
@@ -161,6 +173,7 @@ return [
     'hover' => 'f5/speeds.hover',
 
     //Titles
+    'title_proper_noun' => 'f5/misc.title_proper_noun',
     'title_size' => 'f5/sizes.title_size',
     'title_type' => 'f5/types.title_type',
     'title_subtype' => 'f5/subtypes.title_subtype',
@@ -203,6 +216,7 @@ return [
     'title_set_offensive_cr' => 'f5/builder.title_set_offensive_cr',
     'title_set_hp_cr' => 'f5/builder.title_set_hp_cr',
     'title_set_ac_cr' => 'f5/builder.title_set_ac_cr',
+    'title_damage_projection' => 'f5/builder.title_damage_projection',
 
     'title_recharge' => 'f5/recharge.title_recharge',
     'title_recharge_min_roll' => 'f5/recharge.title_recharge_min_roll',

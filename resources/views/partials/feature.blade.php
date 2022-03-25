@@ -22,34 +22,41 @@
             <!--<label v-if="value.template !== 'custom'">@{{$parent.f5.misc.title_feature_options}}:</label>-->
 
             <!-- Custom -->
-            <div class="feature__options" v-if="value.template === 'custom'">
+            <div class="feature__options feature__option-custom" v-if="value.template === 'custom'">
                 <textarea rows="5" class="feature__description-textarea" v-model="value.customDescription"></textarea>
                 
                 <!-- Damage Options -->
                 <div>
                     <label class="title-label">@{{$parent.f5.misc.title_damage_dice}}:</label>
                     <div class="feature__damage indent-margin" v-for="(damage, index) in value.customDamage">
-                        <label class="title-label">@{{$parent.f5.misc.dice_amount}}:</label>
-                        <select id="feature__damage__dice-amount" name="feature__damage__dice-amount" v-model="damage.diceAmount">
-                            <option value="0" >0</option>
-                            <option v-for="i in 30" :value="i" >@{{i}}</option>
-                        </select>
+                        <div>
+                            <label class="title-label">@{{$parent.f5.misc.dice_amount}}:</label>
+                            <select id="feature__damage__dice-amount" name="feature__damage__dice-amount" v-model="damage.diceAmount">
+                                <option value="0" >0</option>
+                                <option v-for="i in 30" :value="i" >@{{i}}</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="title-label">@{{$parent.f5.misc.dice_type}}:</label>
+                            <select id="feature__damage__dice-type" name="feature__damage__dice-type" v-model="damage.diceType">
+                                <option v-for="i in $parent.f5.dicetypes" :value="i" >@{{i}}</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="title-label">@{{$parent.f5.misc.title_ability_bonus}}</label>
+                            <input type="checkbox" v-model="damage.abilityBonus">
+                        </div>
+                        <div>
+                            <label :for="'feature__damage__hitpoints-additional__'+value.id" class="title-label">@{{$parent.f5.misc.additional}}:</label>
+                            <input type="number" min="0" max="9999" :id="'feature__damage__hitpoints-additional'+value.id" name="feature__damage__hitpoints-additional" v-model="damage.additional" value="0" />
+                        </div>
                         <br/>
-                        <label class="title-label">@{{$parent.f5.misc.dice_type}}:</label>
-                        <select id="feature__damage__dice-type" name="feature__damage__dice-type" v-model="damage.diceType">
-                            <option v-for="i in $parent.f5.dicetypes" :value="i" >@{{i}}</option>
-                        </select>
-                        <br/>
-                        <label class="title-label">@{{$parent.f5.misc.title_ability_bonus}}</label>
-                        <input type="checkbox" v-model="damage.abilityBonus">
-                        <br/>
-                        <label class="title-label">@{{$parent.f5.misc.additional}}:</label>
-                        <input type="number" min="0" max="9999" id="feature__damage__hitpoints-additional" name="feature__damage__hitpoints-additional" v-model="damage.additional" value="0" />
-                        <br/>
-                        <label class="title-label">@{{$parent.f5.misc.title_damage_type}}:</label>
-                        <select id="feature__damage__damage-type" name="feature__damage__damage-type" v-model="damage.type">
-                            <option v-for="(type, i) in $parent.dealableDamageTypes" :value="type.value" >@{{type.label}}</option>
-                        </select>
+                        <div>
+                            <label :for="'feature__damage__damage-type__'+value.id" class="title-label">@{{$parent.f5.misc.title_damage_type}}:</label>
+                            <select :id="'feature__damage__damage-type__'+value.id" name="feature__damage__damage-type" v-model="damage.type">
+                                <option v-for="(type, i) in $parent.dealableDamageTypes" :value="type.value" >@{{type.label}}</option>
+                            </select>
+                        </div>
 
                         <div class="feature__remove-damage" @click="removeDamageDie('customDamage', index)">x</div>
                     </div>
@@ -59,8 +66,22 @@
                 </div>
             </div>
 
+            <!-- Multiattack -->
+            <div class="feature__options feature__option-multiattack" v-if="value.template === 'multiattack'">
+                <div v-for="(feature, i) in value.multiattackReferences">
+                    <label :for="'feature__multiattack__num-of-attacks__'+value.id" class="title-label">@{{$parent.f5.misc.title_multiattack_number_of_attacks}}:</label>
+                    <select :id="'feature__multiattack__num-of-attacks__'+value.id" name="feature__multiattack__num-of-attacks" v-model="feature.uses">
+                        <option v-for="i in 4" :value="i" >@{{i}}</option>
+                    </select>
+                    <label :for="'feature__multiattack__ability__'+value.id" class="title-label">@{{$parent.f5.misc.title_multiattack_ability_name}}:</label>
+                    <input type="text" :id="'feature__multiattack__ability__'+value.id" name="feature__multiattack__ability" v-model="feature.id" />
+                </div>
+
+                <button @click="addMultiattack()">@{{$parent.f5.misc.title_add_multiattack_ability}}</button>
+            </div>
+
             <!-- Spellcasting -->
-            <div class="feature__options" v-if="value.template === 'spellcasting'">
+            <div class="feature__options feature__option-spellcasting" v-if="value.template === 'spellcasting'">
                 <div class="feature__spells">
                     <div class="feature__spellGroup" v-for="(spellLevelList, spellLevel) in value.spellList" v-if="$parent.f5.spelllevels[spellLevel].display !== false && spellLevelList.length > 0">
                         <strong>@{{$parent.f5.spelllevels[spellLevel].name}}:</strong>
@@ -77,51 +98,54 @@
                         <option v-for="(ability, i) in $parent.f5.abilities" :value="i">@{{ability.name}}</option>
                     </select>
                 </div>
-                <div> {{-- TODO prepared spellcasting --}}
+                {{-- TODO prepared spellcasting --}}
+                <div> 
                     <label class="title-label" for="feature__innate-spellcasting">@{{$parent.f5.misc.title_innate_spellcasting}}:</label>
                     <input type="checkbox" v-model="value.innateSpellcasting">
                 </div>
 
-                <label class="title-label">@{{$parent.f5.misc.title_add_spell}}:</label>
-                <div class="feature__add-spell">
-                    <label class="title-label">@{{$parent.f5.misc.title_add_spell_name}}:</label>
-                    <input type="text" v-model="value.addSpellName">
+                <div v-if="$parent.editor.spell_slots">
+                    <label class="title-label">@{{$parent.f5.misc.title_spell_slots}}:</label>
+                    <div class="feature__spell-slots">
+                        <div class="feature__spell-slots__group" v-for="(group, level) in $parent.f5.spelllevels" v-if="group.display !== false && level > 0">
+                            <label class="title-label" for="feature__spell-slots">@{{group.name}}:</label>
+                            <select id="feature__spell-slots-" name="feature__add-spell-level" v-model="value.spellSlots[level]">
+                                <option v-for="i in 5" :value="i-1" >@{{i-1}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <label class="title-label" for="feature__spell-list">@{{$parent.f5.misc.title_spell_list}}:</label>
+                <div v-for="(spell, i) in value.spellList" class="feature__edit-spell">
+                    <label class="title-label" for="feature__spell-name">@{{$parent.f5.misc.title_add_spell_name}}:</label>
+                    <input type="text" v-model="spell.name">
                     <div>
-                        <label class="title-label" for="feature__add-spell-level">@{{$parent.f5.misc.title_casts_before_combat}}:</label>
-                        <select id="feature__add-spell-level" name="feature__add-spell-level" v-model="value.addSpellLevel">
-                            <option v-for="(level, i) in $parent.f5.spelllevels" :value="i" >@{{level.name}}</option>
+                        <label class="title-label" for="feature__add-spell-level">@{{$parent.f5.misc.title_spell_level}}:</label>
+                        <select id="feature__add-spell-level" name="feature__add-spell-level" v-model="spell.level">
+                            <option v-for="(level, i) in $parent.f5.spelllevels" :value="i" v-if="level.display !== false">@{{level.name}}</option>
                         </select>
                     </div>
-                    <div v-if="!$parent.editor.spell_slots">
+                    <div v-if="!$parent.editor.spell_slots && spell.level >= 1 && !spell.at_will">
                         <label class="title-label" for="feature__add-spell-level">@{{$parent.f5.misc.title_spell_uses}}:</label>
-                        <select id="feature__add-spell-level" name="feature__add-spell-level" v-model="value.addSpellUses">
+                        <select id="feature__add-spell-level" name="feature__add-spell-level" v-model="spell.uses">
                             <option v-for="i in 4" :value="i" >@{{i}}</option>
                         </select>
                     </div>
                     <div>
                         <label class="title-label" for="feature__add-spell-before-combat">@{{$parent.f5.misc.title_casts_before_combat}}:</label>
-                        <input type="checkbox" v-model="value.addSpellBeforeCombat">
-                    </div>
-                    <div>
+                        <input type="checkbox" v-model="spell.before_combat">
                         <label class="title-label" for="feature__add-spell-at-will">@{{$parent.f5.misc.title_cast_at_will}}:</label>
-                        <input type="checkbox" v-model="value.addSpellAtWill">
+                        <input type="checkbox" v-model="spell.at_will">
                     </div>
-                    <button @click="addSpell()">@{{$parent.f5.misc.title_add_spell}}</button>
+                    <div class="feature__spells__remove" @click="removeSpell(i)">x</div>
                 </div>
-
-                <label v-if="$parent.editor.spell_slots" class="title-label">@{{$parent.f5.misc.title_spell_slots}}:</label>
-                <div v-if="$parent.editor.spell_slots" class="feature__spell-slots">
-                    <div class="feature__spell-slots__group" v-for="(group, level) in $parent.f5.spelllevels" v-if="group.display !== false && level > 0">
-                        <label class="title-label" for="feature__spell-slots">@{{group.name}}:</label>
-                        <select id="feature__spell-slots-" name="feature__add-spell-level" v-model="value.spellList[level].slots">
-                            <option v-for="i in 5" :value="i-1" >@{{i-1}}</option>
-                        </select>
-                    </div>
-                </div>
+                <button @click="addSpell()">@{{$parent.f5.misc.title_add_spell}}</button>
+                
             </div>
 
             <!-- Legendary or Mythic -->
-            <div class="feature__options" v-if="value.actionType === 'legendaryActions' || value.actionType === 'mythicActions'">
+            <div class="feature__options feature__options-legendary" v-if="value.actionType === 'legendary_action' || value.actionType === 'mythic_action'">
                 <label class="title-label">@{{$parent.f5.misc.title_legendary_action_cost}}:</label>
                 <select id="feature__legendary-cost" name="feature__recharge__legendary-cost" v-model="value.legendaryActionCost">
                     <option v-for="i in $parent.options.legendaryActions" :value="i" >@{{i}}</option>
@@ -321,7 +345,7 @@
             </div>
 
             <!-- Ongoing Damage Options -->
-            <div class="feature__options" v-if="value.template === 'saving_throw' || value.template === 'attack'">
+            <div class="feature__options feature__option-ongoing" v-if="value.template === 'saving_throw' || value.template === 'attack'">
                 <label class="title-label">@{{$parent.f5.misc.title_ongoing_damage}}</label>
                 <input type="checkbox" v-model="value.hasOngoingDamage">
                 <div class="feature__ongoing-damage indent-margin attack-border" v-if="value.hasOngoingDamage">
@@ -386,19 +410,16 @@
                         </div>
 
                         <div class="feature__remove-damage" @click="removeDamageDie('ongoingDamage', index)">x</div>
-                    
                     </div>
 
                     <button @click="addDamageDie('ongoingDamage')">@{{$parent.f5.misc.title_add_damage_die}}</button>
                     <br/>
-                        <br/>
-                    </div>
+                    <br/>
                 </div>
-
+            </div>
 
             <div class="feature__options feature__options-global">
-                
-                <div v-if="value.template !== 'spellcasting'">
+                <div v-if="value.template !== 'spellcasting' && value.template !== 'multiattack'">
                     <label class="title-label" for="feature__recharge">@{{$parent.f5.misc.title_recharge}}:</label>
                     <select id="feature__recharge" name="feature__recharge" v-model="value.recharge.type">
                         <option v-for="(recharge, i) in $parent.f5.recharge" :value="i" >@{{recharge.name}}</option>

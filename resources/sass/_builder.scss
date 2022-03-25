@@ -1,3 +1,10 @@
+.builder-controls {
+    padding: 10px;
+    border: 1px black solid;
+    width: 200px;
+    border-radius: 5px;
+}
+
 .popup-overlay {
     border: 1px black solid;
     border-radius: 7px;
@@ -23,7 +30,8 @@
 }
 
 .slide-button {
-
+    margin: 5px 0;
+    width: 150px;
     position: relative;
     cursor: pointer;
     padding-left: 35px;

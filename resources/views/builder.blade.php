@@ -67,6 +67,14 @@
                     </select>
                     <button>@{{f5.misc.title_apply}}</button>
                 </div>
+
+                <div>
+                    <label class="option-label" for="options__damage-projection">@{{f5.misc.title_damage_projection}}: </label>
+                    <div id="option options__damage-projection" name="options__damage-projection">
+                        @{{damageProjection}}
+                    </div>
+
+                </div>
             </div>
         
 

@@ -43,6 +43,7 @@ return [
     'title_hit_points' => 'Hit Points',
     'title_challenge_rating' => 'Challenge',
     'title_hit_dice' => 'Hit Dice',
+    'title_proper_noun' => 'Is Name a Proper Noun?',
 
     'undefined_health' => 'HP must have at least 1 hit die.',
 
