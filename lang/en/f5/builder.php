@@ -1,6 +1,11 @@
 <?php
 
 return [
+
+    'title_player_characters' => 'Player Characters',
+    'title_player_characters_count' => 'Count',
+    'title_player_characters_level' => 'Level',
+    
     'title_cr_manager' => 'Challenge Rating Manager',
     'title_offensive_cr' => 'Offensive CR',
     'title_hp_cr' => 'Hit Points CR',

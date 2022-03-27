@@ -204,6 +204,10 @@ return [
 
     //--
     
+    'title_player_characters' => 'f5/builder.title_player_characters',
+    'title_player_characters_count' => 'f5/builder.title_player_characters_count',
+    'title_player_characters_level' => 'f5/builder.title_player_characters_level',
+
     'title_cr_manager' => 'f5/builder.title_cr_manager',
     'title_offensive_cr' => 'f5/builder.title_offensive_cr',
     'title_hp_cr' => 'f5/builder.title_hp_cr',

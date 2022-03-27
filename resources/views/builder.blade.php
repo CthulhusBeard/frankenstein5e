@@ -20,13 +20,25 @@
                 <div class="slide-button" v-bind:class="{ selected : editor.edit_mode }" @click="editor.edit_mode = !editor.edit_mode">
                     <label>@{{f5.misc.title_edit_mode}}</label>
                 </div>
-                <div class="slide-button" v-bind:class="{ selected : editor.spell_slots }" @click="editor.spell_slots = !editor.spell_slots">
-                    <label>@{{f5.misc.title_use_spell_slots}}</label>
+                <div>
+                    <label class="control-label" for="controls__columns">@{{f5.misc.title_columns}}: </label>
+                    <select v-model="editor.columns">
+                            <option v-for="i in 3" :value="i">@{{i}}</option>
+                    </select>
                 </div>
-                <label class="control-label" for="controls__columns">@{{f5.misc.title_columns}}: </label>
-                <select v-model="editor.columns">
-                        <option v-for="i in 3" :value="i">@{{i}}</option>
-                </select>
+                @{{f5.misc.title_player_characters}}
+                <div>
+                    <label class="control-label" for="controls__player-count">@{{f5.misc.title_player_characters_count}}: </label>
+                    <select v-model="editor.player_characters.number">
+                            <option v-for="i in 12" :value="i">@{{i}}</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="control-label" for="controls__player-levels">@{{f5.misc.title_player_characters_level}}: </label>
+                    <select v-model="editor.player_characters.level">
+                            <option v-for="i in 20" :value="i">@{{i}}</option>
+                    </select>
+                </div>
             </div>
 
             @include('partials.statblock')

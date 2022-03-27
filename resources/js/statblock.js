@@ -573,7 +573,6 @@ export function initVue(f5data) {
     let vueData = {
         editor: {
             edit_mode: true,
-            spell_slots: true,
             columns: 2,
             player_characters: {
                 number: 4,

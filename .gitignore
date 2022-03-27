@@ -13,3 +13,5 @@ yarn-error.log
 .vagrant/
 *.css
 public/js/app.js
+public/js/app.js
+public/css/app.css
