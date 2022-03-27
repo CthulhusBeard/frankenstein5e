@@ -31,7 +31,9 @@ class FrankensteinController extends Controller
     // - Make better lists: //function createConditionSentenceList
     //    -> from "... and are blinded and are deafened, or half as much damage on a successful one and are not blinded and are not deafened."
     //    -> to "... and becomes blinded and deafened, or half as much damage on a successful one and are not blinded or deafened."
-    
+    // - Flying monsters with cr  below 10 are consider 2 effectively AC higher
+    // - Common passives like regen
+    // - Effective health pool
     
     public function builder (Request $request) {
         if (App::environment('local')) {

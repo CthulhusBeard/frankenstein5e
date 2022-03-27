@@ -104,7 +104,7 @@
                     <input type="checkbox" v-model="value.innateSpellcasting">
                 </div>
 
-                <div v-if="$parent.editor.spell_slots">
+                <div v-if="!value.innateSpellcasting">
                     <label class="title-label">@{{$parent.f5.misc.title_spell_slots}}:</label>
                     <div class="feature__spell-slots">
                         <div class="feature__spell-slots__group" v-for="(group, level) in $parent.f5.spelllevels" v-if="group.display !== false && level > 0">
@@ -126,7 +126,7 @@
                             <option v-for="(level, i) in $parent.f5.spelllevels" :value="i" v-if="level.display !== false">@{{level.name}}</option>
                         </select>
                     </div>
-                    <div v-if="!$parent.editor.spell_slots && spell.level >= 1 && !spell.at_will">
+                    <div v-if="value.innateSpellcasting && spell.level >= 1 && !spell.at_will">
                         <label class="title-label" for="feature__add-spell-level">@{{$parent.f5.misc.title_spell_uses}}:</label>
                         <select id="feature__add-spell-level" name="feature__add-spell-level" v-model="spell.uses">
                             <option v-for="i in 4" :value="i" >@{{i}}</option>
@@ -434,6 +434,12 @@
                     <label class="title-label">@{{$parent.f5.misc.dice_type}}:</label>
                     <select id="feature__recharge__dice-type" name="feature__recharge__dice-type" v-model="value.recharge.diceType">
                         <option v-for="i in $parent.f5.dicetypes" :value="i" >@{{i}}</option>
+                    </select>
+                </div>
+                <div class="indent-margin" v-if="value.recharge.type === 'limited_use'">
+                    <label class="title-label">@{{$parent.f5.misc.title_recharge_limited_use}}:</label>
+                    <select id="feature__recharge__limited-use" name="feature__recharge__limited-use" v-model="value.recharge.uses">
+                        <option v-for="i in 5" :value="i" >@{{i}}</option>
                     </select>
                 </div>
             </div>

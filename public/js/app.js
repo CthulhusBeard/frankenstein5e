@@ -15038,7 +15038,7 @@ function initVue(f5data) {
               brackets += '-' + this.value.recharge.diceType;
             }
           } else if (this.$parent.f5.recharge[this.value.recharge.type].desc) {
-            brackets += this.$parent.f5.recharge[this.value.recharge.type].desc;
+            brackets += this.$parent.f5.recharge[this.value.recharge.type].desc.replace(':uses', this.value.recharge.uses);
           }
         }
 
@@ -15098,8 +15098,8 @@ function initVue(f5data) {
             if (spell.level > highestSlot && ( //this spell is higher than a previously found spell
             spell.at_will || //if it can be cast at will or 
             spell.level === 0 || //is a cantrip or 
-            this.$parent.editor.spell_slots && this.value.spellSlots[spell.level] > 0 || //with spell slots
-            !this.$parent.editor.spell_slots && spell.uses > 0 // or with spell uses
+            !this.value.innateSpellcasting && this.value.spellSlots[spell.level] > 0 || //with spell slots
+            this.value.innateSpellcasting && spell.uses > 0 // or with spell uses
             )) {
               highestSlot = spell.level;
             }
@@ -15217,7 +15217,7 @@ function initVue(f5data) {
           descText += '<br/><br/>';
           var sortedSpellList;
 
-          if (this.$parent.editor.spell_slots) {
+          if (!this.value.innateSpellcasting) {
             sortedSpellList = this.spellsSlotsSorted;
           } else {
             sortedSpellList = this.spellsUsesSorted;
@@ -15229,7 +15229,7 @@ function initVue(f5data) {
               continue;
             }
 
-            if (this.$parent.editor.spell_slots && //there are no spell slots for this level
+            if (!this.value.innateSpellcasting && //there are no spell slots for this level
             level !== 0 && this.value.spellSlots[level] <= 0) {
               continue;
             }
@@ -15237,7 +15237,7 @@ function initVue(f5data) {
             if (level == 0) {
               descText += this.$parent.f5.spelllevels[level].name + ' (' + this.$parent.f5.misc.at_will + '): ';
             } else {
-              if (this.$parent.editor.spell_slots) {
+              if (!this.value.innateSpellcasting) {
                 descText += this.$parent.f5.spelllevels[level].name + ' (' + this.$parent.translate(this.$parent.f5.misc.spell_slots, this.value.spellSlots[level]).replace(':slot_quantity', this.value.spellSlots[level]) + '): ';
               } else {
                 descText += this.$parent.f5.misc.spell_uses.replace(':slot_uses', level) + ': ';
@@ -15421,10 +15421,10 @@ function initVue(f5data) {
 
               if (spell.at_will || spell.level === 0) {
                 spellUses = this.$parent.editor.round_tracker;
-              } else if (this.$parent.editor.spell_slots && !spellSlotsTracker[spell.level] && this.value.spellSlots[spell.level] > 0) {
+              } else if (!this.value.innateSpellcasting && !spellSlotsTracker[spell.level] && this.value.spellSlots[spell.level] > 0) {
                 spellUses = this.value.spellSlots[spell.level];
                 spellSlotsTracker[spell.level] = true;
-              } else if (!this.$parent.editor.spell_slots) {
+              } else if (this.value.innateSpellcasting) {
                 spellUses = spell.uses;
               }
 
@@ -15447,18 +15447,37 @@ function initVue(f5data) {
         } //Not Spellcasting
 
 
+        var actionCost = ['legendary_action', 'mythic_action'].includes(this.value.type) ? legendaryActionCost : 1;
+
         if (this.value.recharge.type === 'long_rest' || this.value.recharge.type === 'short_rest') {
-          return [this.value.averageDPR]; //Only once
+          return [{
+            name: this.value.name,
+            damage: this.value.averageDPR,
+            actionCost: actionCost
+          }]; //Only once
+        } else if (this.value.recharge.type === 'limited_use') {
+          var _damageArray = [];
+
+          for (var _i8 = 0; _i8 < this.value.recharge.uses; _i8++) {
+            console.log('Recharge count ' + _i8);
+
+            _damageArray.push({
+              name: this.value.name,
+              damage: this.value.averageDPR,
+              actionCost: actionCost
+            });
+          }
+
+          return _damageArray;
         } else if (this.value.recharge.type === 'dice_roll') {
           averageRechargeTurns = Math.round(1 / ((this.value.recharge.diceType - this.value.recharge.minRoll + 1) / this.value.recharge.diceType));
         }
 
-        var actionCost = ['legendary_action', 'mythic_action'].includes(this.value.type) ? legendaryActionCost : 1;
         var damageArray = [];
 
-        for (var _i8 = 0; _i8 < this.$parent.editor.round_tracker; _i8++) {
-          if (_i8 % averageRechargeTurns === 0) {
-            turnDamage[_i8] = {
+        for (var _i9 = 0; _i9 < this.$parent.editor.round_tracker; _i9++) {
+          if (_i9 % averageRechargeTurns === 0) {
+            turnDamage[_i9] = {
               name: this.value.name,
               damage: this.value.averageDPR,
               actionCost: actionCost
@@ -15776,9 +15795,9 @@ function initVue(f5data) {
                     //Projection isn't maxed out. Take the whole thing but sort based on DPR
                     var inject = 0; //DO I NEED THIS
 
-                    for (var _i9 = 0; _i9 < actionProjectionGroup.rounds[roundNum].length; _i9++) {
-                      if (featureProjection[roundNum].damage > actionProjectionGroup.rounds[roundNum][_i9].damage) {
-                        inject = _i9;
+                    for (var _i10 = 0; _i10 < actionProjectionGroup.rounds[roundNum].length; _i10++) {
+                      if (featureProjection[roundNum].damage > actionProjectionGroup.rounds[roundNum][_i10].damage) {
+                        inject = _i10;
                         break;
                       }
                     }
@@ -15788,16 +15807,16 @@ function initVue(f5data) {
                   //Projection maxed. How many other actions would we need to remove?
                   var requiredActionsToRemove = actionUses - (actionProjectionGroup.count - featureActionCost); //Start comparing
 
-                  for (var _i10 = 0; _i10 < actionProjectionGroup.rounds[roundNum].length; _i10++) {
+                  for (var _i11 = 0; _i11 < actionProjectionGroup.rounds[roundNum].length; _i11++) {
                     var damageTotal = 0; //Accumulate damage totals
 
                     for (var j = 0; j < requiredActionsToRemove; j++) {
-                      damageTotal += actionProjectionGroup.rounds[roundNum][_i10 + j].damage;
+                      damageTotal += actionProjectionGroup.rounds[roundNum][_i11 + j].damage;
                     } //Compare and splice if possible
 
 
                     if (featureProjection[roundNum].damage > damageTotal) {
-                      actionProjectionGroup.rounds[roundNum].splice(_i10, 0, featureProjection[roundNum]);
+                      actionProjectionGroup.rounds[roundNum].splice(_i11, 0, featureProjection[roundNum]);
                     }
                   }
                 }
@@ -15883,10 +15902,10 @@ function initVue(f5data) {
 
         if (armorCr.includes('-')) {
           var splitArmor = armorCr.split('-');
-          armorCr = (Number(splitArmor[0]) + Number(splitArmor[1])) / 2;
+          armorCr = (this.toNumber(splitArmor[0]) + this.toNumber(splitArmor[1])) / 2;
         }
 
-        var average = Math.round((armorCr + this.healthCr + this.damageCr) / 3);
+        var average = Math.round((armorCr + this.toNumber(this.healthCr) + this.toNumber(this.damageCr)) / 3);
         return average;
       },
       //Description Text
@@ -16272,9 +16291,9 @@ function initVue(f5data) {
         }
 
         if (this.$data.f5.creaturesubtypes.hasOwnProperty(this.options.subtype) && this.$data.f5.creaturesubtypes[this.options.subtype].hasOwnProperty('options')) {
-          for (var _i11 in this.$data.f5.creaturesubtypes[this.options.subtype]['options']) {
-            var _data = this.$data.f5.creaturesubtypes[this.options.subtype]['options'][_i11];
-            _data.id = _i11;
+          for (var _i12 in this.$data.f5.creaturesubtypes[this.options.subtype]['options']) {
+            var _data = this.$data.f5.creaturesubtypes[this.options.subtype]['options'][_i12];
+            _data.id = _i12;
             optionsList.push(_data);
           }
         }
@@ -16360,7 +16379,15 @@ function initVue(f5data) {
       },
       //Challenge Rating
       crText: function crText() {
-        return 'CR ?? (??? XP)';
+        var averageCRKey = this.toCRFormat(this.averageCR);
+        var crText = this.f5.misc.display_challenge_rating.replace(':cr', averageCRKey);
+        var cr = this.f5.challengerating[averageCRKey];
+
+        if (cr && cr.xp) {
+          crText += ' ' + this.f5.misc.display_challenge_rating_xp.replace(':xp', cr.xp);
+        }
+
+        return crText;
       },
       ///////////////// NEW FEATURE /////////////////
       newFeatureAttackText: function newFeatureAttackText() {
@@ -16427,12 +16454,17 @@ function initVue(f5data) {
         return displayText;
       },
       casterLevel: function casterLevel() {
-        var casterLevel = 100; //TODO Calculate caster level
-
+        var casterLevel = this.options.hitPoints.diceAmount;
         return casterLevel;
       },
       proficiency: function proficiency() {
-        var proficiency = 2; //TODO Calculate proficiency
+        var proficiency = 2; //Default
+
+        var cr = this.f5.challengerating[this.averageCR];
+
+        if (cr && cr.prof > 0) {
+          proficiency = cr.prof;
+        }
 
         return proficiency;
       }
@@ -16639,7 +16671,8 @@ function initVue(f5data) {
           recharge: {
             type: 'none',
             diceType: 6,
-            minRoll: 5
+            minRoll: 5,
+            uses: 1
           },
           spellcastingAbility: 'int',
           innateSpellcasting: false,
@@ -16897,6 +16930,36 @@ function initVue(f5data) {
       },
       mergeProjections: function mergeProjections(monsterProjection, inject, featureProjection) {
         return monsterProjection.splice(inject, 0, this.morphFeatureProjection(featureProjection));
+      },
+      toNumber: function toNumber(input) {
+        if (input.includes('/')) {
+          var divideArray = input.split('/');
+          input = divideArray[0] / divideArray[1];
+        }
+
+        return Number(input);
+      },
+      toCRFormat: function toCRFormat(input) {
+        if (input > 0 && input < 1) {
+          var compareToHalf = input - .5;
+          compareToHalf = compareToHalf >= 0 ? compareToHalf : compareToHalf * -1;
+          var compareToQuarter = input - .25;
+          compareToQuarter = compareToQuarter >= 0 ? compareToQuarter : comcompareToQuarterpareToHalf * -1;
+          var compareToEigth = input - .125;
+          compareToEigth = compareToEigth >= 0 ? compareToEigth : compareToEigth * -1;
+
+          if (compareToHalf <= compareToQuarter && compareToHalf <= compareToEigth && compareToHalf <= input) {
+            return "1/2";
+          } else if (compareToQuarter <= compareToHalf && compareToQuarter <= compareToEigth && compareToQuarter <= input) {
+            return "1/4";
+          } else if (compareToEigth <= compareToEigth && compareToEigth <= compareToHalf && compareToEigth <= input) {
+            return "1/8";
+          } else {
+            return 0;
+          }
+        }
+
+        return input;
       }
     }
   });

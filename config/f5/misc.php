@@ -161,6 +161,9 @@ return [
     'casts_spells_before' => 'f5/spells.casts_spells_before',
 
 
+    'display_challenge_rating' => 'f5/misc.display_challenge_rating',
+    'display_challenge_rating_xp' => 'f5/misc.display_challenge_rating_xp',
+
     //---
 
     'stealth_dis' => 'f5/armor.stealth_dis',
@@ -220,6 +223,7 @@ return [
 
     'title_recharge' => 'f5/recharge.title_recharge',
     'title_recharge_min_roll' => 'f5/recharge.title_recharge_min_roll',
+    'title_recharge_limited_use' => 'f5/recharge.title_recharge_limited_use',
     
     'title_save' => 'f5/misc.title_save',
 

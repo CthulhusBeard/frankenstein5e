@@ -12,6 +12,10 @@ return [
         'name' => 'f5/recharge.long_rest',
         'desc' => 'f5/recharge.long_rest_desc',
     ],
+    'limited_use' => [
+        'name' => 'f5/recharge.limited_use',
+        'desc' => 'f5/recharge.limited_use_desc',
+    ],
     'dice_roll' => [
         'name' => 'f5/recharge.dice_roll',
     ],

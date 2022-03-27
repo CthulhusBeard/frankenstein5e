@@ -140,7 +140,7 @@ export function initVue(f5data) {
                             brackets += '-'+this.value.recharge.diceType;
                         }
                     } else if(this.$parent.f5.recharge[this.value.recharge.type].desc) {
-                        brackets += this.$parent.f5.recharge[this.value.recharge.type].desc;
+                        brackets += this.$parent.f5.recharge[this.value.recharge.type].desc.replace(':uses', this.value.recharge.uses);
                     }
                 }
                 return brackets; 
@@ -195,8 +195,8 @@ export function initVue(f5data) {
                         (
                             spell.at_will || //if it can be cast at will or 
                             spell.level === 0 || //is a cantrip or 
-                            (this.$parent.editor.spell_slots && this.value.spellSlots[spell.level] > 0) || //with spell slots
-                            (!this.$parent.editor.spell_slots && spell.uses > 0) // or with spell uses
+                            (!this.value.innateSpellcasting && this.value.spellSlots[spell.level] > 0) || //with spell slots
+                            (this.value.innateSpellcasting && spell.uses > 0) // or with spell uses
                         )
                     ) {
                         highestSlot = spell.level;
@@ -277,7 +277,7 @@ export function initVue(f5data) {
 
                     
                     let sortedSpellList;
-                    if(this.$parent.editor.spell_slots) {
+                    if(!this.value.innateSpellcasting) {
                         sortedSpellList = this.spellsSlotsSorted;
                     } else {
                         sortedSpellList = this.spellsUsesSorted;
@@ -287,7 +287,7 @@ export function initVue(f5data) {
                         if(sortedSpellList[level].length === 0) { //there are no spells at this level
                             continue;
                         }
-                        if(this.$parent.editor.spell_slots && //there are no spell slots for this level
+                        if(!this.value.innateSpellcasting && //there are no spell slots for this level
                             level !== 0 && 
                             this.value.spellSlots[level] <= 0
                         ) {
@@ -297,7 +297,7 @@ export function initVue(f5data) {
                         if(level == 0) {
                             descText += this.$parent.f5.spelllevels[level].name+' ('+this.$parent.f5.misc.at_will+'): ';
                         } else {
-                            if(this.$parent.editor.spell_slots) {
+                            if(!this.value.innateSpellcasting) {
                                 descText += this.$parent.f5.spelllevels[level].name+' ('+this.$parent.translate(this.$parent.f5.misc.spell_slots, this.value.spellSlots[level]).replace(':slot_quantity',this.value.spellSlots[level])+'): ';
                             } else {
                                 descText += this.$parent.f5.misc.spell_uses.replace(':slot_uses',level)+': ';
@@ -472,10 +472,10 @@ export function initVue(f5data) {
                         let spellUses = 0;
                         if(spell.at_will || spell.level === 0) {
                             spellUses = this.$parent.editor.round_tracker;
-                        } else if(this.$parent.editor.spell_slots && !spellSlotsTracker[spell.level] && this.value.spellSlots[spell.level] > 0) {
+                        } else if(!this.value.innateSpellcasting && !spellSlotsTracker[spell.level] && this.value.spellSlots[spell.level] > 0) {
                             spellUses = this.value.spellSlots[spell.level];
                             spellSlotsTracker[spell.level] = true;
-                        } else if(!this.$parent.editor.spell_slots) {
+                        } else if(this.value.innateSpellcasting) {
                             spellUses = spell.uses;
                         }
 
@@ -493,15 +493,29 @@ export function initVue(f5data) {
                 }
 
                 //Not Spellcasting
+                let actionCost = (['legendary_action', 'mythic_action'].includes(this.value.type)) ? legendaryActionCost : 1;
+
                 if(this.value.recharge.type === 'long_rest' || this.value.recharge.type === 'short_rest') {
-                    return [this.value.averageDPR]; //Only once
+                    return [{
+                        name: this.value.name,
+                        damage: this.value.averageDPR,
+                        actionCost: actionCost,
+                    }]; //Only once
+                } else if(this.value.recharge.type === 'limited_use') {
+                    let damageArray = [];
+                    for(let i = 0; i < this.value.recharge.uses; i++) {
+                        console.log('Recharge count '+i);
+                        damageArray.push({
+                            name: this.value.name,
+                            damage: this.value.averageDPR,
+                            actionCost: actionCost,
+                        });
+                    }
+                    return damageArray;
                 } else if(this.value.recharge.type === 'dice_roll') {
                     averageRechargeTurns = Math.round(1 / ((this.value.recharge.diceType - this.value.recharge.minRoll + 1) / this.value.recharge.diceType));
                 }
 
-                let actionCost = (['legendary_action', 'mythic_action'].includes(this.value.type)) ? legendaryActionCost : 1;
-
-                let damageArray = [];
                 for(let i = 0; i < this.$parent.editor.round_tracker; i++) {
                     if(i % averageRechargeTurns === 0) {
                         turnDamage[i] = {
@@ -639,29 +653,6 @@ export function initVue(f5data) {
                 lair_action: [],
             },
         },
-        newFeature: {
-            name: 'Name',
-            action: 'action',
-            template: 'attack',
-            desc: '',
-            recharge: 0,
-            attack: {
-                meleeRanged: 'melee',
-                weaponSpell: 'weapon',
-                reach: '5',
-                rangeShort: '5',
-                rangeLong: '5',
-                ability: 'str',
-                targets: '1',
-                diceAmount: '1',
-                damageDice: '4',
-            }, 
-            spell: {
-                areaOfEffect: 'melee',
-                range: '5',
-                ability: 'str',
-            },
-        },
         f5: f5data,
     };
 
@@ -702,7 +693,6 @@ export function initVue(f5data) {
             },
 
             averageDPR: function() {
-                let maxRounds = 7;
                 let avgDPR = 0;
                 let dprGroups = {
                     passive: [],
@@ -918,9 +908,9 @@ export function initVue(f5data) {
                 let armorCr = this.armorCr;
                 if(armorCr.includes('-')) {
                     let splitArmor = armorCr.split('-');
-                    armorCr = (Number(splitArmor[0]) + Number(splitArmor[1])) / 2;
+                    armorCr = (this.toNumber(splitArmor[0]) + this.toNumber(splitArmor[1])) / 2;
                 }
-                let average = Math.round((armorCr + this.healthCr + this.damageCr) / 3);
+                let average = Math.round((armorCr + this.toNumber(this.healthCr) + this.toNumber(this.damageCr)) / 3);
                 return average;
             },
 
@@ -1355,7 +1345,13 @@ export function initVue(f5data) {
 
             //Challenge Rating
             crText: function() {
-                return 'CR ?? (??? XP)';
+                let averageCRKey = this.toCRFormat(this.averageCR);
+                let crText = this.f5.misc.display_challenge_rating.replace(':cr', averageCRKey);
+                let cr = this.f5.challengerating[averageCRKey];
+                if(cr && cr.xp) {
+                    crText += ' '+this.f5.misc.display_challenge_rating_xp.replace(':xp', cr.xp);
+                }
+                return crText;
             },
 
             ///////////////// NEW FEATURE /////////////////
@@ -1418,14 +1414,18 @@ export function initVue(f5data) {
             },
 
             casterLevel: function() {
-                let casterLevel = 100;
-                //TODO Calculate caster level
+                let casterLevel = this.options.hitPoints.diceAmount;
                 return casterLevel;
             },
 
             proficiency: function() {
-                let proficiency = 2;
-                //TODO Calculate proficiency
+                let proficiency = 2; //Default
+
+                let cr = this.f5.challengerating[this.averageCR];
+                if(cr && cr.prof > 0) {
+                    proficiency = cr.prof;
+                }
+
                 return proficiency;
             },
         },
@@ -1600,6 +1600,7 @@ export function initVue(f5data) {
                         type: 'none',
                         diceType: 6,
                         minRoll: 5,
+                        uses: 1,
                     },
                     spellcastingAbility: 'int',
                     innateSpellcasting: false,
@@ -1836,6 +1837,36 @@ export function initVue(f5data) {
 
             mergeProjections: function(monsterProjection, inject, featureProjection) {
                 return monsterProjection.splice(inject, 0, this.morphFeatureProjection(featureProjection));
+            },
+
+            toNumber: function(input) {
+                if(input.includes('/')) {
+                    let divideArray = input.split('/');
+                    input = divideArray[0] / divideArray[1];
+                }
+                return Number(input);
+            },
+
+            toCRFormat: function(input) {
+                if(input > 0 && input < 1) {
+                    let compareToHalf = input - .5;
+                    compareToHalf = (compareToHalf >= 0) ? compareToHalf : compareToHalf * -1;
+                    let compareToQuarter = input - .25;
+                    compareToQuarter = (compareToQuarter >= 0) ? compareToQuarter : comcompareToQuarterpareToHalf * -1;
+                    let compareToEigth = input - .125;
+                    compareToEigth = (compareToEigth >= 0) ? compareToEigth : compareToEigth * -1;
+
+                    if(compareToHalf <= compareToQuarter && compareToHalf <= compareToEigth && compareToHalf <= input) {
+                        return "1/2";
+                    } else if(compareToQuarter <= compareToHalf && compareToQuarter <= compareToEigth && compareToQuarter <= input) {
+                        return "1/4";
+                    } else if(compareToEigth <= compareToEigth && compareToEigth <= compareToHalf && compareToEigth <= input) {
+                        return "1/8";
+                    } else {
+                        return 0;
+                    }
+                }
+                return input;
             },
         }
     });

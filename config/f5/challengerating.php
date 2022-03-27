@@ -8,12 +8,12 @@ return [
 		'ac' => 13,
 		'hp' => [
 			'low' => 1, 
-			'high' => 6
+			'high' => 6,
 		],
 		'attack_bonus' => 3,
 		'dpr' => [
 			'low' => 0, 
-			'high' => 1
+			'high' => 1,
 		],
 		'save_dc' => 13,
 	],
@@ -24,12 +24,12 @@ return [
 		'ac' => 13,
 		'hp' => [
 			'low' => 7, 
-			'high' => 35
+			'high' => 35,
 		],
 		'attack_bonus' => 3,
 		'dpr' => [
 			'low' => 2, 
-			'high' => 3
+			'high' => 3,
 		],
 		'save_dc' => 13,
 	],
@@ -40,12 +40,12 @@ return [
 		'ac' => 13,
 		'hp' => [
 			'low' => 36, 
-			'high' => 49
+			'high' => 49,
 		],
 		'attack_bonus' => 3,
 		'dpr' => [ 
 			'low' => 4, 
-			'high' => 5
+			'high' => 5,
 		],
 		'save_dc' => 13,
 	],
@@ -56,12 +56,12 @@ return [
 		'ac' => 13,
 		'hp' => [
 			'low' => 50, 
-			'high' => 70
+			'high' => 70,
 		],
 		'attack_bonus' => 3,
 		'dpr' => [ 
 			'low' => 6, 
-			'high' => 8
+			'high' => 8,
 		],
 		'save_dc' => 13,
 	],
@@ -72,12 +72,12 @@ return [
 		'ac' => 13,
 		'hp' => [ 
 			'low' => 71, 
-			'high' => 85
+			'high' => 85,
 		],
 		'attack_bonus' => 3,
 		'dpr' => [ 
 			'low' => 9, 
-			'high' => 14
+			'high' => 14,
 		],
 		'save_dc' => 13,
 	],
@@ -88,12 +88,12 @@ return [
 		'ac' => 13,
 		'hp' => [ 
 			'low' => 86, 
-			'high' => 100
+			'high' => 100,
 		],
 		'attack_bonus' => 3,
 		'dpr' => [ 
 			'low' => 15, 
-			'high' => 20
+			'high' => 20,
 		],
 		'save_dc' => 13,
 	],
@@ -104,12 +104,12 @@ return [
 		'ac' => 13,
 		'hp' => [ 
 			'low' => 101, 
-			'high' => 115
+			'high' => 115,
 		],
 		'attack_bonus' => 4,
 		'dpr' => [ 
 			'low' => 21, 
-			'high' => 26
+			'high' => 26,
 		],
 		'save_dc' => 13,
 	],
@@ -120,12 +120,12 @@ return [
 		'ac' => 14,
 		'hp' => [ 
 			'low' => 116, 
-			'high' => 130
+			'high' => 130,
 		],
 		'attack_bonus' => 5,
 		'dpr' => [ 
 			'low' => 27, 
-			'high' => 32
+			'high' => 32,
 		],
 		'save_dc' => 14,
 	],
@@ -136,12 +136,12 @@ return [
 		'ac' => 15,
 		'hp' => [ 
 			'low' => 131, 
-			'high' => 145
+			'high' => 145,
 		],
 		'attack_bonus' => 6,
 		'dpr' => [ 
 			'low' => 33, 
-			'high' => 38
+			'high' => 38,
 		],
 		'save_dc' => 15,
 	],
@@ -152,12 +152,12 @@ return [
 		'ac' => 15,
 		'hp' => [ 
 			'low' => 146, 
-			'high' => 160
+			'high' => 160,
 		],
 		'attack_bonus' => 6,
 		'dpr' => [ 
 			'low' => 39, 
-			'high' => 44
+			'high' => 44,
 		],
 		'save_dc' => 15,
 	],
@@ -168,12 +168,12 @@ return [
 		'ac' => 15,
 		'hp' => [ 
 			'low' => 161, 
-			'high' => 175
+			'high' => 175,
 		],
 		'attack_bonus' => 6,
 		'dpr' => [ 
 			'low' => 45, 
-			'high' => 50
+			'high' => 50,
 		],
 		'save_dc' => 15,
 	],
@@ -184,12 +184,12 @@ return [
 		'ac' => 16,
 		'hp' => [ 
 			'low' => 176, 
-			'high' => 190
+			'high' => 190,
 		],
 		'attack_bonus' => 7,
 		'dpr' => [ 
 			'low' => 51, 
-			'high' => 56
+			'high' => 56,
 		],
 		'save_dc' => 16,
 	],
@@ -200,12 +200,12 @@ return [
 		'ac' => 16,
 		'hp' => [ 
 			'low' => 191, 
-			'high' => 205
+			'high' => 205,
 		],
 		'attack_bonus' => 7,
 		'dpr' => [ 
 			'low' => 57, 
-			'high' => 62
+			'high' => 62,
 		],
 		'save_dc' => 16,
 	],
@@ -216,12 +216,12 @@ return [
 		'ac' => 17,
 		'hp' => [ 
 			'low' => 206, 
-			'high' => 220
+			'high' => 220,
 		],
 		'attack_bonus' => 7,
 		'dpr' => [ 
 			'low' => 63, 
-			'high' => 68
+			'high' => 68,
 		],
 		'save_dc' => 16,
 	],
@@ -232,12 +232,12 @@ return [
 		'ac' => 17,
 		'hp' => [ 
 			'low' => 221, 
-			'high' => 235
+			'high' => 235,
 		],
 		'attack_bonus' => 8,
 		'dpr' => [ 
 			'low' => 69, 
-			'high' => 74
+			'high' => 74,
 		],
 		'save_dc' => 17,
 	],
@@ -248,12 +248,12 @@ return [
 		'ac' => 17,
 		'hp' => [ 
 			'low' => 236, 
-			'high' => 250
+			'high' => 250,
 		],
 		'attack_bonus' => 8,
 		'dpr' => [ 
 			'low' => 75, 
-			'high' => 80
+			'high' => 80,
 		],
 		'save_dc' => 17,
 	],
@@ -264,12 +264,12 @@ return [
 		'ac' => 18,
 		'hp' => [ 
 			'low' => 251, 
-			'high' => 265
+			'high' => 265,
 		],
 		'attack_bonus' => 8,
 		'dpr' => [ 
 			'low' => 81, 
-			'high' => 86
+			'high' => 86,
 		],
 		'save_dc' => 18,
 	],
@@ -280,12 +280,12 @@ return [
 		'ac' => 18,
 		'hp' => [ 
 			'low' => 266, 
-			'high' => 280
+			'high' => 280,
 		],
 		'attack_bonus' => 8,
 		'dpr' => [ 
 			'low' => 87, 
-			'high' => 92
+			'high' => 92,
 		],
 		'save_dc' => 18,
 	],
@@ -296,12 +296,12 @@ return [
 		'ac' => 18,
 		'hp' => [ 
 			'low' => 281, 
-			'high' => 295
+			'high' => 295,
 		],
 		'attack_bonus' => 8,
 		'dpr' => [ 
 			'low' => 93, 
-			'high' => 98
+			'high' => 98,
 		],
 		'save_dc' => 18,
 	],
@@ -312,12 +312,12 @@ return [
 		'ac' => 18,
 		'hp' => [ 
 			'low' => 296, 
-			'high' => 310
+			'high' => 310,
 		],
 		'attack_bonus' => 9,
 		'dpr' => [ 
 			'low' => 99, 
-			'high' => 104
+			'high' => 104,
 		],
 		'save_dc' => 18,
 	],
@@ -328,12 +328,12 @@ return [
 		'ac' => 19,
 		'hp' => [ 
 			'low' => 311, 
-			'high' => 325
+			'high' => 325,
 		],
 		'attack_bonus' => 10,
 		'dpr' => [ 
 			'low' => 105, 
-			'high' => 110
+			'high' => 110,
 		],
 		'save_dc' => 19,
 	],
@@ -344,12 +344,12 @@ return [
 		'ac' => 19,
 		'hp' => [ 
 			'low' => 326, 
-			'high' => 340
+			'high' => 340,
 		],
 		'attack_bonus' => 10,
 		'dpr' => [ 
 			'low' => 111, 
-			'high' => 116
+			'high' => 116,
 		],
 		'save_dc' => 19,
 	],
@@ -360,12 +360,12 @@ return [
 		'ac' => 19,
 		'hp' => [ 
 			'low' => 341, 
-			'high' => 355
+			'high' => 355,
 		],
 		'attack_bonus' => 10,
 		'dpr' => [ 
 			'low' => 117, 
-			'high' => 122
+			'high' => 122,
 		],
 		'save_dc' => 19,
 	],
@@ -376,12 +376,12 @@ return [
 		'ac' => 19,
 		'hp' => [ 
 			'low' => 356, 
-			'high' => 400
+			'high' => 400,
 		],
 		'attack_bonus' => 10,
 		'dpr' => [ 
 			'low' => 123, 
-			'high' => 140
+			'high' => 140,
 		],
 		'save_dc' => 19,
 	],
@@ -392,12 +392,12 @@ return [
 		'ac' => 19,
 		'hp' => [ 
 			'low' => 401, 
-			'high' => 445
+			'high' => 445,
 		],
 		'attack_bonus' => 11,
 		'dpr' => [ 
 			'low' => 141, 
-			'high' => 158
+			'high' => 158,
 		],
 		'save_dc' => 20,
 	],
@@ -408,12 +408,12 @@ return [
 		'ac' => 19,
 		'hp' => [ 
 			'low' => 446, 
-			'high' => 490
+			'high' => 490,
 		],
 		'attack_bonus' => 11,
 		'dpr' => [ 
 			'low' => 159, 
-			'high' => 176
+			'high' => 176,
 		],
 		'save_dc' => 20,
 	],
@@ -424,12 +424,12 @@ return [
 		'ac' => 19,
 		'hp' => [ 
 			'low' => 491, 
-			'high' => 535
+			'high' => 535,
 		],
 		'attack_bonus' => 11,
 		'dpr' => [ 
 			'low' => 177, 
-			'high' => 194
+			'high' => 194,
 		],
 		'save_dc' => 20,
 	],
@@ -440,12 +440,12 @@ return [
 		'ac' => 19,
 		'hp' => [ 
 			'low' => 536, 
-			'high' => 580
+			'high' => 580,
 		],
 		'attack_bonus' => 12,
 		'dpr' => [ 
 			'low' => 195, 
-			'high' => 212
+			'high' => 212,
 		],
 		'save_dc' => 21,
 	],
@@ -456,12 +456,12 @@ return [
 		'ac' => 19,
 		'hp' => [ 
 			'low' => 581, 
-			'high' => 625
+			'high' => 625,
 		],
 		'attack_bonus' => 12,
 		'dpr' => [ 
 			'low' => 213, 
-			'high' => 230
+			'high' => 230,
 		],
 		'save_dc' => 21,
 	],
@@ -472,12 +472,12 @@ return [
 		'ac' => 19,
 		'hp' => [ 
 			'low' => 626, 
-			'high' => 670
+			'high' => 670,
 		],
 		'attack_bonus' => 12,
 		'dpr' => [ 
 			'low' => 231, 
-			'high' => 248
+			'high' => 248,
 		],
 		'save_dc' => 21,
 	],
@@ -488,12 +488,12 @@ return [
 		'ac' => 19,
 		'hp' => [ 
 			'low' => 671, 
-			'high' => 715
+			'high' => 715,
 		],
 		'attack_bonus' => 13,
 		'dpr' => [ 
 			'low' => 249, 
-			'high' => 266
+			'high' => 266,
 		],
 		'save_dc' => 22,
 	],
@@ -504,12 +504,12 @@ return [
 		'ac' => 19,
 		'hp' => [ 
 			'low' => 716, 
-			'high' => 760
+			'high' => 760,
 		],
 		'attack_bonus' => 13,
 		'dpr' => [ 
 			'low' => 267, 
-			'high' => 284
+			'high' => 284,
 		],
 		'save_dc' => 22,
 	],
@@ -519,13 +519,13 @@ return [
 		'prof' => 9,
 		'ac' => 19,
 		'hp' => [ 
-			'low' => 761, 
-			'high' => 805
+			'low' => 761,
+			'high' => 805,
 		],
 		'attack_bonus' => 13,
 		'dpr' => [ 
 			'low' => 285, 
-			'high' => 302
+			'high' => 302,
 		],
 		'save_dc' => 22,
 	],
@@ -536,12 +536,12 @@ return [
 		'ac' => 19,
 		'hp' => [ 
 			'low' => 806, 
-			'high' => 850
+			'high' => 850,
 		],
 		'attack_bonus' => 14,
 		'dpr' => [ 
 			'low' => 303, 
-			'high' => 320
+			'high' => 320,
 		],
 		'save_dc' => 23,
 	],

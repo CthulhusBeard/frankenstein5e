@@ -25,6 +25,8 @@ return [
     'die_structure' => ':die_amountd:die_type',
     'none' => 'None',
     'damage' => ':type damage',
+    'display_challenge_rating' => 'CR :cr',
+    'display_challenge_rating_xp' => '(:xp XP)',
 
     'please_select_one' => 'Please select one',
     'choose_a' => 'Choose a :choice',

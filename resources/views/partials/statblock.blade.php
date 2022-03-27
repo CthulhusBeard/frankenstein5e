@@ -341,7 +341,6 @@
                 v-for="spellcasting in options.features.spellcasting"
                 v-model="spellcasting"
                 v-on:remove-feature="removeFeature"
-                :key="editor.spell_slots"
             ></statblock-feature>
         </div>
 
