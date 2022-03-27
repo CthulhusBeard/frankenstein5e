@@ -26,18 +26,37 @@
                             <option v-for="i in 3" :value="i">@{{i}}</option>
                     </select>
                 </div>
-                @{{f5.misc.title_player_characters}}
+                <div class="builder-controls_player-characters">
+                    <strong>@{{f5.misc.title_player_characters}}</strong>
+                    <div>
+                        <label class="control-label" for="controls__player-count">@{{f5.misc.title_player_characters_count}}: </label>
+                        <select v-model="editor.player_characters.number">
+                                <option v-for="i in 12" :value="i">@{{i}}</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="control-label" for="controls__player-levels">@{{f5.misc.title_player_characters_level}}: </label>
+                        <select v-model="editor.player_characters.level">
+                                <option v-for="(obj, i) in f5.playerlevels" :value="i">@{{i}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="builder-controls">
                 <div>
-                    <label class="control-label" for="controls__player-count">@{{f5.misc.title_player_characters_count}}: </label>
-                    <select v-model="editor.player_characters.number">
-                            <option v-for="i in 12" :value="i">@{{i}}</option>
+                    <button @click="exportMonster()">@{{f5.misc.title_export}}</button>
+                </div>
+            </div>
+
+            <div class="builder-controls">
+                <div>
+                    <select v-model="editor.import_monster">
+                        <option v-for="(monster, i) in SampleMonsters.monsters" :value="i">@{{monster.name}}</option>
                     </select>
                 </div>
                 <div>
-                    <label class="control-label" for="controls__player-levels">@{{f5.misc.title_player_characters_level}}: </label>
-                    <select v-model="editor.player_characters.level">
-                            <option v-for="i in 20" :value="i">@{{i}}</option>
-                    </select>
+                    <button @click="importMonster()">@{{f5.misc.title_import}}</button>
                 </div>
             </div>
 

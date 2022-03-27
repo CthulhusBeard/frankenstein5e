@@ -22,4 +22,8 @@ return [
     'title_set_hp_cr' => 'Set Hit Points CR',
     'title_set_ac_cr' => 'Set Armor Class CR',
     'title_damage_projection' => 'Damage Projection',
+
+    'title_export' => 'Export Monster',
+    'title_import' => 'Import Monster',
+    'title_use_automatic' => 'Determine Via CR',
 ];

@@ -14885,9 +14885,254 @@ module.exports = g;
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _statblock_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./statblock.js */ "./resources/js/statblock.js");
+/* harmony import */ var _samplemonsters__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./samplemonsters */ "./resources/js/samplemonsters.js");
 //require('./bootstrap');
 
 window.StatBlock = _statblock_js__WEBPACK_IMPORTED_MODULE_0__;
+
+window.SampleMonsters = _samplemonsters__WEBPACK_IMPORTED_MODULE_1__;
+
+/***/ }),
+
+/***/ "./resources/js/samplemonsters.js":
+/*!****************************************!*\
+  !*** ./resources/js/samplemonsters.js ***!
+  \****************************************/
+/*! exports provided: monsters */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "monsters", function() { return monsters; });
+
+/*
+Red Dragon
+Ancient	Red	Dragon
+Gargantuan	dragon,	chaotic	evil
+Armor	Class 22	(natural	armor)
+Hit	Points 546	(28d20	+	252)
+Speed 40	ft.,	climb	40	ft.,	fly	80	ft.
+STR DEX CON INT WIS CHA
+30	(+10) 10	(+0) 29 (+9) 18	(+4) 15	(+2) 23	(+6)
+Saving	Throws Dex	+7,	Con	+16,	Wis	+9,	Cha	+13
+Skills Perception	+16,	Stealth	+7
+Damage	Immunities fire
+Senses blindsight	60	ft.,	darkvision	120	ft.,	passive	
+Perception	26
+Languages Common,	Draconic
+Challenge 24	(62,000	XP)
+Legendary	Resistance	(3/Day). If	the	dragon	fails	a	
+saving	throw,	it	can	choose	to	succeed	instead.
+Actions
+Multiattack. The	dragon	can	use	its	Frightful	Presence.	
+It	then	makes	three	attacks:	one	with	its	bite	and	two	
+with	its	claws.
+Bite.	Melee	Weapon	Attack: +17	to	hit,	reach	15	ft.,	
+one	target.	Hit: 21	(2d10	+	10)	piercing	damage	plus	14	
+(4d6)	fire	damage.
+Claw.	Melee	Weapon	Attack: +17	to	hit,	reach	10	ft.,	
+one	target.	Hit:	17	(2d6	+	10)	slashing	damage
+Tail.	Melee	Weapon	Attack: +17	to	hit,	reach	20	ft.,	one	
+target.	Hit: 19	(2d8	+	10)	bludgeoning	damage.
+Frightful	Presence.	Each	creature	of	the	dragon’s	
+choice	that	is	within	120	feet	of	the	dragon	and	aware	
+of	it	must	succeed	on	a	DC	21	Wisdom	saving	throw	or	
+become	frightened	for	1	minute.	A	creature	can	repeat	
+the	saving	throw	at	the	end	of	each	of	its	turns,	ending	
+the	effect	on	itself	on	a	success.	If	a	creature’s	saving	
+throw	is	successful	or	the	effect	ends	for	it,	the	
+creature	is	immune	to	the	dragon’s	Frightful	Presence	
+for	the	next	24	hours.
+Fire	Breath	(Recharge	5–6).	The	dragon	exhales	fire	in	
+a	90-foot	cone.	Each	creature	in	that	area	must	make	a	
+DC	24	Dexterity	saving	throw,	taking	91	(26d6)	fire	
+damage	on	a	failed	save,	or	half	as	much	damage	on	a	
+successful	one.
+Legendary	Actions
+The	dragon	can	take	3	legendary	actions,	choosing	
+from	the	options	below.	Only	one	legendary	action	
+option	can	be	used	at	a	time	and	only	at	the	end	of	
+another	creature’s	turn.	The	dragon	regains	spent	
+legendary	actions	at	the	start	of	its	turn.
+Detect. The	dragon	makes	a	Wisdom	(Perception)	
+check.
+Tail	Attack.	The	dragon	makes	a	tail	attack.
+Wing	Attack	(Costs	2	Actions). The	dragon	beats	its	
+wings.	Each	creature	within	15	feet	of	the	dragon	
+must	succeed	on	a	DC	25	Dexterity	saving	throw	or	
+take	17	(2d6	+	10)	bludgeoning	damage	and	be	
+knocked	prone.	The	dragon	can	then	fly	up	to	half	its	
+flying	speed.
+*/
+
+var monsters = [{
+  "name": "Ancient Red Dragon",
+  "shortName": "",
+  "isNameProperNoun": false,
+  "size": "gargantuan",
+  "type": "dragon",
+  "subtype": "",
+  "typeCategory": "red",
+  "alignment": "chaotic_evil",
+  "showTypicalAlignment": false,
+  "armorClass": {
+    "type": "natural",
+    "manual": 17,
+    "name": "No Armor",
+    "bonus": "0",
+    "stealthDis": false,
+    "shield": false
+  },
+  "hitPoints": {
+    "diceType": 20,
+    "diceAmount": 28,
+    "additional": "0"
+  },
+  "abilities": {
+    "str": 30,
+    "dex": 10,
+    "con": 29,
+    "int": 18,
+    "wis": 15,
+    "cha": 23
+  },
+  "savingThrows": {
+    "str": false,
+    "dex": true,
+    "con": true,
+    "int": false,
+    "wis": true,
+    "cha": true
+  },
+  "damageResistances": [],
+  "damageImmunities": ["fire"],
+  "damageVulnerabilites": [],
+  "conditionImmunities": [],
+  "skills": ["perception", "stealth"],
+  "languages": {
+    "spokenWritten": ["common"],
+    "doesntSpeak": [],
+    "telepathy": 0
+  },
+  "speeds": {
+    "walk": 40,
+    "fly": 80,
+    "swim": 0,
+    "climb": 40,
+    "burrow": 0
+  },
+  "hover": false,
+  "senses": {
+    "darkvision": 120,
+    "blindsight": 60,
+    "tremorsense": 0,
+    "truesight": 0
+  },
+  "measure": {
+    "measureUnit": "ft.",
+    "measureIncrement": 5,
+    "measureUnitUp": 5280,
+    "measureUnitUpName": "miles"
+  },
+  "showNonCombat": true,
+  "manualOverride": {
+    "proficiency": 9,
+    "casterLevel": 0
+  },
+  "targetCR": {
+    "offensive": {},
+    "defensive": {}
+  },
+  "hasLegendaryActions": true,
+  "hasMythicActions": false,
+  "legendaryActions": 3,
+  "reactions": 1,
+  "actions": 1,
+  "features": {
+    "passive": [],
+    "spellcasting": [],
+    "action": [{
+      "id": "ImEiH7PlXShaliO",
+      "actionType": "action",
+      "name": "Tail",
+      "template": "attack",
+      "attackAbility": "str",
+      "targetType": "melee",
+      "attackType": "weapon",
+      "attackRange": {
+        "low": 20,
+        "high": 60
+      },
+      "attackReach": 20,
+      "attackDamage": [{
+        "diceType": 8,
+        "diceAmount": 2,
+        "additional": 0,
+        "abilityBonus": true,
+        "type": "bludgeoning"
+      }],
+      "attackSavingThrow": false,
+      "attackTargets": 1,
+      "aoeRange": 30,
+      "savingThrowMonsterAbility": "str",
+      "savingThrowSaveAbilities": ["str"],
+      "savingThrowDamage": [{
+        "diceType": 4,
+        "diceAmount": 1,
+        "additional": 0,
+        "abilityBonus": false,
+        "type": "slashing"
+      }],
+      "savingThrowHalfOnSuccess": true,
+      "savingThrowConditions": [],
+      "hasOngoingDamage": false,
+      "ongoingDamage": [{
+        "diceType": 4,
+        "diceAmount": 1,
+        "additional": 0,
+        "abilityBonus": false,
+        "type": "slashing"
+      }],
+      "ongoingDamageOccurs": "start_of_turn",
+      "ongoingDamageOnFailedSave": true,
+      "ongoingDamageRepeatSave": false,
+      "ongoingDamageDuration": "ongoing",
+      "recharge": {
+        "type": "none",
+        "diceType": 6,
+        "minRoll": 5,
+        "uses": 1
+      },
+      "spellcastingAbility": "int",
+      "innateSpellcasting": false,
+      "spellList": [],
+      "spellSlots": {
+        "0": 1,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "customDamage": [],
+      "customDescription": "",
+      "multiattackReferences": [],
+      "legendaryActionCost": 1,
+      "manualDPR": -1,
+      "averageDPR": -1,
+      "damageProjection": []
+    }],
+    "bonus_action": [],
+    "reaction": [],
+    "legendary_action": [],
+    "mythic_action": [],
+    "lair_action": []
+  }
+}];
 
 /***/ }),
 
@@ -14903,6 +15148,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initVue", function() { return initVue; });
 /* harmony import */ var _vueform_multiselect_dist_multiselect_vue2_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @vueform/multiselect/dist/multiselect.vue2.js */ "./node_modules/@vueform/multiselect/dist/multiselect.vue2.js");
 /* harmony import */ var _vue_composition_api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @vue/composition-api */ "./node_modules/@vue/composition-api/dist/vue-composition-api.mjs");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -15456,24 +15707,21 @@ function initVue(f5data) {
             actionCost: actionCost
           }]; //Only once
         } else if (this.value.recharge.type === 'limited_use') {
-          var _damageArray = [];
+          var damageArray = [];
 
           for (var _i8 = 0; _i8 < this.value.recharge.uses; _i8++) {
             console.log('Recharge count ' + _i8);
-
-            _damageArray.push({
+            damageArray.push({
               name: this.value.name,
               damage: this.value.averageDPR,
               actionCost: actionCost
             });
           }
 
-          return _damageArray;
+          return damageArray;
         } else if (this.value.recharge.type === 'dice_roll') {
           averageRechargeTurns = Math.round(1 / ((this.value.recharge.diceType - this.value.recharge.minRoll + 1) / this.value.recharge.diceType));
         }
-
-        var damageArray = [];
 
         for (var _i9 = 0; _i9 < this.$parent.editor.round_tracker; _i9++) {
           if (_i9 % averageRechargeTurns === 0) {
@@ -15524,16 +15772,17 @@ function initVue(f5data) {
   var vueData = {
     editor: {
       edit_mode: true,
-      spell_slots: true,
       columns: 2,
       player_characters: {
         number: 4,
         level: 1
       },
-      round_tracker: 7
+      round_tracker: 7,
+      import_monster: 0
     },
     options: {
       name: 'Monster',
+      shortName: '',
       isNameProperNoun: false,
       size: 'medium',
       type: 'dragon',
@@ -15600,29 +15849,6 @@ function initVue(f5data) {
         lair_action: []
       }
     },
-    newFeature: {
-      name: 'Name',
-      action: 'action',
-      template: 'attack',
-      desc: '',
-      recharge: 0,
-      attack: {
-        meleeRanged: 'melee',
-        weaponSpell: 'weapon',
-        reach: '5',
-        rangeShort: '5',
-        rangeLong: '5',
-        ability: 'str',
-        targets: '1',
-        diceAmount: '1',
-        damageDice: '4'
-      },
-      spell: {
-        areaOfEffect: 'melee',
-        range: '5',
-        ability: 'str'
-      }
-    },
     f5: f5data
   };
 
@@ -15661,7 +15887,6 @@ function initVue(f5data) {
         return 'column-' + this.editor.columns;
       },
       averageDPR: function averageDPR() {
-        var maxRounds = 7;
         var avgDPR = 0;
         var dprGroups = {
           passive: [],
@@ -15717,27 +15942,32 @@ function initVue(f5data) {
         var projections = {
           action: {
             count: this.options.actions,
-            rounds: []
+            rounds: [],
+            options: []
           },
           reaction: {
             count: this.options.reactions,
-            rounds: []
+            rounds: [],
+            options: []
           },
           legendary_action: {
             count: this.options.legendaryActions,
-            rounds: []
+            rounds: [],
+            options: []
           },
           lair_action: {
             count: 1,
-            rounds: []
+            rounds: [],
+            options: []
           },
           passive: {
             count: false,
-            rounds: []
+            rounds: [],
+            options: []
           }
         };
         console.log('------');
-        console.log('statblock: damageProjection()');
+        console.log('statblock: damageProjection()'); //Gather Projections
 
         for (var featureType in this.options.features) {
           var _iterator7 = _createForOfIteratorHelper(this.options.features[featureType]),
@@ -15755,77 +15985,97 @@ function initVue(f5data) {
                 actionType = 'action';
               }
 
-              var actionProjectionGroup = projections[actionType];
+              var actionProjectionGroup = projections[actionType].options.push(_toConsumableArray(feature.damageProjection)); //Clone projection
 
-              var featureProjection = _toConsumableArray(feature.damageProjection); //Clone projection
-              //Merge Projections
-
-
-              console.log('Projection: ');
-              console.log(featureProjection);
-
-              for (var roundNum = 0; roundNum < this.editor.round_tracker; roundNum++) {
-                //Loop through all rounds 
-                //If it does no damage, skip it
-                if (!featureProjection[roundNum] || !featureProjection[roundNum].damage) {
-                  continue;
-                } //Count Action uses (e.g. some Legendary Actions cost more than one action)
-
-
-                var actionUses = 0;
-
-                if (!actionProjectionGroup.rounds[roundNum]) {
-                  actionProjectionGroup.rounds[roundNum] = [];
-                }
-
-                for (var i = 0; i < actionProjectionGroup.rounds[roundNum].length; i++) {
-                  if (actionProjectionGroup.rounds[roundNum][i].actionCost) {
-                    actionUses += actionProjectionGroup.rounds[roundNum][i].actionCost;
-                  } else {
-                    actionUses++;
-                  }
-                } //Feature Action Cost
-
-
-                var featureActionCost = featureProjection[roundNum].actionCost ? featureProjection[roundNum].actionCost : 0; //Compare new projection feature action cost to existing count
-
-                if (actionProjectionGroup.count === false || //Unlimited
-                actionUses + featureActionCost <= actionProjectionGroup.count //Make sure we don't overflow
-                ) {
-                    //Projection isn't maxed out. Take the whole thing but sort based on DPR
-                    var inject = 0; //DO I NEED THIS
-
-                    for (var _i10 = 0; _i10 < actionProjectionGroup.rounds[roundNum].length; _i10++) {
-                      if (featureProjection[roundNum].damage > actionProjectionGroup.rounds[roundNum][_i10].damage) {
-                        inject = _i10;
-                        break;
-                      }
-                    }
-
-                    actionProjectionGroup.rounds[roundNum].splice(inject, 0, featureProjection[roundNum]);
-                  } else {
-                  //Projection maxed. How many other actions would we need to remove?
-                  var requiredActionsToRemove = actionUses - (actionProjectionGroup.count - featureActionCost); //Start comparing
-
-                  for (var _i11 = 0; _i11 < actionProjectionGroup.rounds[roundNum].length; _i11++) {
-                    var damageTotal = 0; //Accumulate damage totals
-
-                    for (var j = 0; j < requiredActionsToRemove; j++) {
-                      damageTotal += actionProjectionGroup.rounds[roundNum][_i11 + j].damage;
-                    } //Compare and splice if possible
-
-
-                    if (featureProjection[roundNum].damage > damageTotal) {
-                      actionProjectionGroup.rounds[roundNum].splice(_i11, 0, featureProjection[roundNum]);
-                    }
-                  }
-                }
-              }
+              /*
+                                      let featureProjection = [...feature.damageProjection]; //Clone projection
+              
+                                      // Merge Projections
+                                      console.log('Projection: ');
+                                      console.log(featureProjection);
+                                      for(let roundNum = 0; roundNum < this.editor.round_tracker; roundNum++) { //Loop through all rounds 
+              
+                                          //If it does no damage, skip it
+                                          if(!featureProjection[roundNum] || !featureProjection[roundNum].damage) {
+                                              continue;
+                                          }
+              
+                                          //Count Action uses (e.g. some Legendary Actions cost more than one action)
+                                          let actionUses = 0;
+                                          if(!actionProjectionGroup.rounds[roundNum]) {
+                                              actionProjectionGroup.rounds[roundNum] = [];
+                                          }
+                                          for(let i = 0; i < actionProjectionGroup.rounds[roundNum].length; i++) {
+                                              if(actionProjectionGroup.rounds[roundNum][i].actionCost) {
+                                                  actionUses += actionProjectionGroup.rounds[roundNum][i].actionCost;
+                                              } else {
+                                                  actionUses++;
+                                              }
+                                          }
+              
+                                          //Feature Action Cost
+                                          let featureActionCost = (featureProjection[roundNum].actionCost) ? featureProjection[roundNum].actionCost : 0;
+                                          
+                                          //Compare new projection feature action cost to existing count
+                                          if(
+                                              actionProjectionGroup.count === false || //Unlimited
+                                              actionUses + featureActionCost <= actionProjectionGroup.count //Make sure we don't overflow
+                                          ) {
+                                              //Projection isn't maxed out. Take the whole thing but sort based on DPR
+                                              let inject = 0; //DO I NEED THIS
+                                              for(let i = 0; i < actionProjectionGroup.rounds[roundNum].length; i++) {
+                                                  if(featureProjection[roundNum].damage > actionProjectionGroup.rounds[roundNum][i].damage) {
+                                                      inject = i;
+                                                      break;
+                                                  }
+                                              }
+                                              actionProjectionGroup.rounds[roundNum].splice(inject, 0, featureProjection[roundNum]);
+              
+                                          } else {
+                                              //Projection maxed. How many other actions would we need to remove?
+                                              let requiredActionsToRemove = actionUses - (actionProjectionGroup.count - featureActionCost);
+              
+                                              //Start comparing
+                                              for(let i = 0; i < actionProjectionGroup.rounds[roundNum].length; i++) {
+                                                  let damageTotal = 0;
+                                                  //Accumulate damage totals
+                                                  for(let j = 0; j < requiredActionsToRemove; j++) {
+                                                      damageTotal += actionProjectionGroup.rounds[roundNum][i+j].damage;
+                                                  }
+                                                  //Compare and splice if possible
+                                                  if(featureProjection[roundNum].damage > damageTotal) {
+                                                      actionProjectionGroup.rounds[roundNum].splice(i, 0, featureProjection[roundNum]);
+                                                  }
+                                              }
+                                          }
+                                      }
+                                      */
             }
           } catch (err) {
             _iterator7.e(err);
           } finally {
             _iterator7.f();
+          }
+        } //Sort Projections
+
+
+        for (var _actionType in projections) {
+          var _loop = function _loop(i) {
+            projections[_actionType].options.sort(function (a, b) {
+              return function () {
+                var damageA = a.damage[i] ? a.damage[i] : 0;
+                var damageB = b.damage[i] ? b.damage[i] : 0;
+                return damageA - damageB;
+              };
+            });
+
+            return "break"; //remove me
+          };
+
+          for (var i = 0; i < this.editor.round_tracker; i++) {
+            var _ret = _loop(i);
+
+            if (_ret === "break") break;
           }
         }
 
@@ -16131,16 +16381,11 @@ function initVue(f5data) {
 
         var conText = '';
 
-        if (conHP > 0) {
-          conText = ' + ' + conHP;
+        if (conHP > 0 || additionalHP > 0) {
+          conText = ' + ' + (conHP + additionalHP);
         }
 
         var hpText = hp + ' (' + amount + this.f5.misc.die_symbol + type + conText;
-
-        if (additionalHP > 0) {
-          hpText += ' + ' + additionalHP;
-        }
-
         hpText += ')';
         return hpText;
       },
@@ -16208,13 +16453,13 @@ function initVue(f5data) {
           }
 
           if (!this.f5.speeds[i]['hide_name']) {
-            displayText += this.f5.speeds[i].name + ' ';
+            displayText += this.f5.speeds[i].name.toLowerCase() + ' ';
           }
 
           displayText += this.options.speeds[i] + ' ' + this.options.measure.measureUnit;
 
           if (i === 'fly' && this.options.hover) {
-            displayText += ' (' + this.f5.misc.hover + ')';
+            displayText += ' (' + this.f5.misc.hover.toLowerCase() + ')';
           }
         }
 
@@ -16291,9 +16536,9 @@ function initVue(f5data) {
         }
 
         if (this.$data.f5.creaturesubtypes.hasOwnProperty(this.options.subtype) && this.$data.f5.creaturesubtypes[this.options.subtype].hasOwnProperty('options')) {
-          for (var _i12 in this.$data.f5.creaturesubtypes[this.options.subtype]['options']) {
-            var _data = this.$data.f5.creaturesubtypes[this.options.subtype]['options'][_i12];
-            _data.id = _i12;
+          for (var _i10 in this.$data.f5.creaturesubtypes[this.options.subtype]['options']) {
+            var _data = this.$data.f5.creaturesubtypes[this.options.subtype]['options'][_i10];
+            _data.id = _i10;
             optionsList.push(_data);
           }
         }
@@ -16459,6 +16704,10 @@ function initVue(f5data) {
       },
       proficiency: function proficiency() {
         var proficiency = 2; //Default
+
+        if (this.options.manualOverride.proficiency > 1) {
+          return this.options.manualOverride.proficiency;
+        }
 
         var cr = this.f5.challengerating[this.averageCR];
 
@@ -16960,6 +17209,34 @@ function initVue(f5data) {
         }
 
         return input;
+      },
+      exportMonster: function exportMonster() {
+        var cloneOptions = _objectSpread({}, this.options);
+
+        cloneOptions.averageDPR = -1;
+        cloneOptions.damageProjection = [];
+
+        for (var featureType in cloneOptions.features) {
+          var _iterator11 = _createForOfIteratorHelper(cloneOptions.features[featureType]),
+              _step11;
+
+          try {
+            for (_iterator11.s(); !(_step11 = _iterator11.n()).done;) {
+              var feature = _step11.value;
+              feature.averageDPR = -1;
+              feature.damageProjection = [];
+            }
+          } catch (err) {
+            _iterator11.e(err);
+          } finally {
+            _iterator11.f();
+          }
+        }
+
+        console.log(cloneOptions);
+      },
+      importMonster: function importMonster() {
+        this.options = SampleMonsters.monsters[this.editor.import_monster];
       }
     }
   });

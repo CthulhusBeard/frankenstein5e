@@ -52,6 +52,10 @@ body {
   border-radius: 5px;
 }
 
+.builder-controls_player-characters {
+  margin-top: 5px;
+}
+
 .popup-overlay {
   border: 1px black solid;
   border-radius: 7px;

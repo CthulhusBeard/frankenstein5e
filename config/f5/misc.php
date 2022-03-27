@@ -225,6 +225,10 @@ return [
     'title_set_ac_cr' => 'f5/builder.title_set_ac_cr',
     'title_damage_projection' => 'f5/builder.title_damage_projection',
 
+    'title_export' => 'f5/builder.title_export',
+    'title_import' => 'f5/builder.title_import',
+    'title_use_automatic' => 'f5/builder.title_use_automatic',
+
     'title_recharge' => 'f5/recharge.title_recharge',
     'title_recharge_min_roll' => 'f5/recharge.title_recharge_min_roll',
     'title_recharge_limited_use' => 'f5/recharge.title_recharge_limited_use',

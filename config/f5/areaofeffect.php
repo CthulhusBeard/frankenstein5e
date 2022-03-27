@@ -28,24 +28,24 @@ return [
         'name' => 'f5/ranges.line',
         'range' => [5, 10, 15, 20, 25, 30, 40, 50, 60, 80, 100, 120, 150, 175, 200, 250, 300],
         'types' => ['saving_throw'],
-        'targets_at_30' => 2,
+        'targets_at_30' => 1.5,
     ],
     'cone' => [
         'name' => 'f5/ranges.cone',
         'range' => [5, 10, 15, 20, 25, 30, 40, 50, 60, 80, 100, 120, 150, 175, 200, 250, 300],
         'types' => ['saving_throw'],
-        'targets_at_30' => 2.5,
+        'targets_at_30' => 2,
     ],
     'cube' => [
         'name' => 'f5/ranges.cube',
         'range' => [5, 10, 15, 20, 25, 30, 40, 50, 60, 80, 100, 120, 150, 175, 200, 250, 300],
         'types' => ['saving_throw'],
-        'targets_at_30' => 3,
+        'targets_at_30' => 2.5,
     ],
     'sphere' => [
         'name' => 'f5/ranges.sphere',
         'range' => [5, 10, 15, 20, 25, 30, 40, 50, 60, 80, 100, 120, 150, 175, 200, 250, 300],
         'types' => ['saving_throw'],
-        'targets_at_30' => 3.5,
+        'targets_at_30' => 3,
     ],
 ];

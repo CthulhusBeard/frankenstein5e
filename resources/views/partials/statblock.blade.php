@@ -324,9 +324,13 @@
                     <span class="title">@{{f5.misc.title_challenge_rating}}:</span>
                     <span class="display-field">@{{crText}}</span>
                 </div>
-                <div class="stat-block__attribute no-edit">
+                <div class="stat-block__attribute focus-edit">
                     <span class="title">@{{f5.misc.title_proficiency}}:</span>
                     <span class="display-field">@{{proficiencyText}}</span>
+                    <select class="edit-field" name="options__proficiency" v-model="options.manualOverride.proficiency">
+                        <option value="0">@{{f5.misc.title_use_automatic}}</option>
+                        <option v-for="i in 8" :value="i+1" >@{{i+1}}</option>
+                    </select>
                 </div>
             </div>
         </div>

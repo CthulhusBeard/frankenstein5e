@@ -579,9 +579,11 @@ export function initVue(f5data) {
                 level: 1,
             },
             round_tracker: 7,
+            import_monster: 0,
         },
         options: {
             name: 'Monster',
+            shortName: '',
             isNameProperNoun: false,
             size: 'medium',
             type: 'dragon',
@@ -736,29 +738,35 @@ export function initVue(f5data) {
                 let projections = {
                     action: {
                         count: this.options.actions,
-                        rounds: []
+                        rounds: [],
+                        options: [],
                     },
                     reaction: {
                         count: this.options.reactions,
-                        rounds: []
+                        rounds: [],
+                        options: [],
                     },
                     legendary_action: {
                         count: this.options.legendaryActions,
-                        rounds: []
+                        rounds: [],
+                        options: [],
                     },
                     lair_action: {
                         count: 1,
-                        rounds: []
+                        rounds: [],
+                        options: [],
                     },
                     passive: {
                         count: false,
-                        rounds: []
+                        rounds: [],
+                        options: [],
                     },
                 };
 
                 console.log('------');
                 console.log('statblock: damageProjection()');
 
+                //Gather Projections
                 for(const featureType in this.options.features) {
                     for(const feature of this.options.features[featureType]) {
 
@@ -770,13 +778,14 @@ export function initVue(f5data) {
                             actionType = 'action';
                         }
 
-                        let actionProjectionGroup = projections[actionType];
+                        let actionProjectionGroup = projections[actionType].options.push([...feature.damageProjection]);  //Clone projection
+
+/*
                         let featureProjection = [...feature.damageProjection]; //Clone projection
 
-                        //Merge Projections
+                        // Merge Projections
                         console.log('Projection: ');
                         console.log(featureProjection);
-
                         for(let roundNum = 0; roundNum < this.editor.round_tracker; roundNum++) { //Loop through all rounds 
 
                             //If it does no damage, skip it
@@ -833,6 +842,19 @@ export function initVue(f5data) {
                                 }
                             }
                         }
+                        */
+                    }
+                }
+
+                //Sort Projections
+                for(let actionType in projections) {
+                    for(let i = 0; i < this.editor.round_tracker; i++) {
+                        projections[actionType].options.sort((a, b) => function () {
+                            let damageA = (a.damage[i]) ? a.damage[i] : 0;
+                            let damageB = (b.damage[i]) ? b.damage[i] : 0;
+                            return damageA - damageB
+                        });
+                        break; //remove me
                     }
                 }
 
@@ -1127,13 +1149,10 @@ export function initVue(f5data) {
                     return this.f5.misc.undefined_health; 
                 }
                 let conText = '';
-                if(conHP > 0) {
-                    conText = ' + '+conHP;
+                if(conHP > 0 || additionalHP > 0) {
+                    conText = ' + '+(conHP + additionalHP);
                 }
                 let hpText = hp+' ('+amount + this.f5.misc.die_symbol+type+conText;
-                if(additionalHP > 0) {
-                    hpText += ' + '+additionalHP;
-                }
                 hpText += ')';
                 return hpText;
             },
@@ -1193,11 +1212,11 @@ export function initVue(f5data) {
                         displayText += ', ';
                     }
                     if(!this.f5.speeds[i]['hide_name']) {
-                        displayText += this.f5.speeds[i].name+' ';
+                        displayText += this.f5.speeds[i].name.toLowerCase()+' ';
                     }
                     displayText += this.options.speeds[i]+' '+this.options.measure.measureUnit; 
                     if(i === 'fly' && this.options.hover) {
-                        displayText += ' ('+this.f5.misc.hover+')';
+                        displayText += ' ('+this.f5.misc.hover.toLowerCase()+')';
                     }
                 }
                 if(!displayText) {
@@ -1419,6 +1438,10 @@ export function initVue(f5data) {
 
             proficiency: function() {
                 let proficiency = 2; //Default
+
+                if(this.options.manualOverride.proficiency > 1) {
+                    return this.options.manualOverride.proficiency;
+                }
 
                 let cr = this.f5.challengerating[this.averageCR];
                 if(cr && cr.prof > 0) {
@@ -1866,6 +1889,23 @@ export function initVue(f5data) {
                     }
                 }
                 return input;
+            },
+
+            exportMonster: function() {
+                let cloneOptions = {...this.options};
+                cloneOptions.averageDPR = -1;
+                cloneOptions.damageProjection = [];
+                for(let featureType in cloneOptions.features) {
+                    for(let feature of cloneOptions.features[featureType]) {
+                        feature.averageDPR = -1;
+                        feature.damageProjection = [];
+                    }
+                }
+                console.log(cloneOptions);
+            },
+
+            importMonster: function() {
+                this.options = SampleMonsters.monsters[this.editor.import_monster];
             },
         }
     });
