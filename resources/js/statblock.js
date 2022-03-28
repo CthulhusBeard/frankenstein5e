@@ -504,7 +504,6 @@ export function initVue(f5data) {
                 } else if(this.value.recharge.type === 'limited_use') {
                     let damageArray = [];
                     for(let i = 0; i < this.value.recharge.uses; i++) {
-                        console.log('Recharge count '+i);
                         damageArray.push({
                             name: this.value.name,
                             damage: this.value.averageDPR,
@@ -763,9 +762,6 @@ export function initVue(f5data) {
                     },
                 };
 
-                console.log('------');
-                console.log('statblock: damageProjection()');
-
                 //Gather Projections
                 for(const featureType in this.options.features) {
                     for(const feature of this.options.features[featureType]) {
@@ -778,87 +774,45 @@ export function initVue(f5data) {
                             actionType = 'action';
                         }
 
-                        let actionProjectionGroup = projections[actionType].options.push([...feature.damageProjection]);  //Clone projection
-
-/*
-                        let featureProjection = [...feature.damageProjection]; //Clone projection
-
-                        // Merge Projections
-                        console.log('Projection: ');
-                        console.log(featureProjection);
-                        for(let roundNum = 0; roundNum < this.editor.round_tracker; roundNum++) { //Loop through all rounds 
-
-                            //If it does no damage, skip it
-                            if(!featureProjection[roundNum] || !featureProjection[roundNum].damage) {
-                                continue;
-                            }
-
-                            //Count Action uses (e.g. some Legendary Actions cost more than one action)
-                            let actionUses = 0;
-                            if(!actionProjectionGroup.rounds[roundNum]) {
-                                actionProjectionGroup.rounds[roundNum] = [];
-                            }
-                            for(let i = 0; i < actionProjectionGroup.rounds[roundNum].length; i++) {
-                                if(actionProjectionGroup.rounds[roundNum][i].actionCost) {
-                                    actionUses += actionProjectionGroup.rounds[roundNum][i].actionCost;
-                                } else {
-                                    actionUses++;
-                                }
-                            }
-
-                            //Feature Action Cost
-                            let featureActionCost = (featureProjection[roundNum].actionCost) ? featureProjection[roundNum].actionCost : 0;
-                            
-                            //Compare new projection feature action cost to existing count
-                            if(
-                                actionProjectionGroup.count === false || //Unlimited
-                                actionUses + featureActionCost <= actionProjectionGroup.count //Make sure we don't overflow
-                            ) {
-                                //Projection isn't maxed out. Take the whole thing but sort based on DPR
-                                let inject = 0; //DO I NEED THIS
-                                for(let i = 0; i < actionProjectionGroup.rounds[roundNum].length; i++) {
-                                    if(featureProjection[roundNum].damage > actionProjectionGroup.rounds[roundNum][i].damage) {
-                                        inject = i;
-                                        break;
-                                    }
-                                }
-                                actionProjectionGroup.rounds[roundNum].splice(inject, 0, featureProjection[roundNum]);
-
-                            } else {
-                                //Projection maxed. How many other actions would we need to remove?
-                                let requiredActionsToRemove = actionUses - (actionProjectionGroup.count - featureActionCost);
-
-                                //Start comparing
-                                for(let i = 0; i < actionProjectionGroup.rounds[roundNum].length; i++) {
-                                    let damageTotal = 0;
-                                    //Accumulate damage totals
-                                    for(let j = 0; j < requiredActionsToRemove; j++) {
-                                        damageTotal += actionProjectionGroup.rounds[roundNum][i+j].damage;
-                                    }
-                                    //Compare and splice if possible
-                                    if(featureProjection[roundNum].damage > damageTotal) {
-                                        actionProjectionGroup.rounds[roundNum].splice(i, 0, featureProjection[roundNum]);
-                                    }
-                                }
-                            }
-                        }
-                        */
+                        projections[actionType].options.push([...feature.damageProjection]);  //Clone projection
                     }
                 }
 
                 //Sort Projections
                 for(let actionType in projections) {
                     for(let i = 0; i < this.editor.round_tracker; i++) {
-                        projections[actionType].options.sort((a, b) => function () {
-                            let damageA = (a.damage[i]) ? a.damage[i] : 0;
-                            let damageB = (b.damage[i]) ? b.damage[i] : 0;
-                            return damageA - damageB
+                        projections[actionType].options.sort(function (a, b) {
+                            let damageA = (a[i] && a[i].damage) ? a[i].damage/a[i].actionCost : 0;
+                            let damageB = (b[i] && b[i].damage) ? b[i].damage/b[i].actionCost : 0;
+                            return damageB - damageA;
                         });
-                        break; //remove me
+
+                        let actionCount = 0;
+                        for(let j = 0; j < projections[actionType].options.length; j++) {
+                            let actionObj = projections[actionType].options[j][i];
+                            let actionCost = (actionObj && actionObj.actionCost) ? actionObj.actionCost : 0;
+                            if(actionCount + actionCost <= projections[actionType].count) {
+                                //Action fits
+                                if(actionObj) {
+                                    //Add action
+                                    if(!projections[actionType].rounds[i]) {
+                                        projections[actionType].rounds[i] = [];
+                                    }
+                                    projections[actionType].rounds[i][j] = actionObj;
+                                    actionCount += actionCost;
+                                } else if(actionObj) {
+                                    //Not enough actions
+                                    actionCount += projections[actionType].count;
+                                }
+                            } else if(actionObj.damage > 0) {
+                                //push out viable damage options until later turns
+                                projections[actionType].options[j].splice(i, 0, 0);
+                            }
+                        }
                     }
                 }
 
-                console.log('FINAL');
+                console.log('Damage Projections:');
                 console.log(projections);
 
                 return projections;
@@ -1901,6 +1855,7 @@ export function initVue(f5data) {
                         feature.damageProjection = [];
                     }
                 }
+                console.log('exportMonster');
                 console.log(cloneOptions);
             },
 

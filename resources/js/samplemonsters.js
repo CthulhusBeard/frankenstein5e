@@ -88,7 +88,106 @@ let monsters = [
         "actions": 1,
         "features": {
             "passive": [],
-            "spellcasting": [],
+            "spellcasting": [
+                {
+                    "id": "VnHzeF9yqPMtTxt",
+                    "actionType": "spellcasting",
+                    "name": "Spellcasting",
+                    "template": "spellcasting",
+                    "attackAbility": "str",
+                    "targetType": "melee",
+                    "attackType": "none",
+                    "attackRange": {
+                        "low": 20,
+                        "high": 60
+                    },
+                    "attackReach": 5,
+                    "attackDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": true,
+                            "type": "slashing"
+                        }
+                    ],
+                    "attackSavingThrow": false,
+                    "attackTargets": 1,
+                    "aoeRange": 30,
+                    "savingThrowMonsterAbility": "str",
+                    "savingThrowSaveAbilities": [
+                        "str"
+                    ],
+                    "savingThrowDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": false,
+                            "type": "slashing"
+                        }
+                    ],
+                    "savingThrowHalfOnSuccess": true,
+                    "savingThrowConditions": [],
+                    "hasOngoingDamage": false,
+                    "ongoingDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": false,
+                            "type": "slashing"
+                        }
+                    ],
+                    "ongoingDamageOccurs": "start_of_turn",
+                    "ongoingDamageOnFailedSave": true,
+                    "ongoingDamageRepeatSave": false,
+                    "ongoingDamageDuration": "ongoing",
+                    "recharge": {
+                        "type": "none",
+                        "diceType": 6,
+                        "minRoll": 5,
+                        "uses": 1
+                    },
+                    "spellcastingAbility": "int",
+                    "innateSpellcasting": false,
+                    "spellList": [
+                        {
+                            "name": "Meteor Swarm",
+                            "level": "9",
+                            "cast_before": false,
+                            "at_will": false,
+                            "uses": 1
+                        }
+                    ],
+                    "spellSlots": {
+                        "0": 1,
+                        "1": 0,
+                        "2": 0,
+                        "3": 0,
+                        "4": 0,
+                        "5": 0,
+                        "6": 0,
+                        "7": 0,
+                        "8": 0,
+                        "9": 1
+                    },
+                    "customDamage": [],
+                    "customDescription": "",
+                    "multiattackReferences": [],
+                    "legendaryActionCost": 1,
+                    "manualDPR": -1,
+                    "averageDPR": 90,
+                    "damageProjection": [
+                        {
+                            "name": "Spellcasting: 9th Level",
+                            "damage": 90,
+                            "spellLevel": "9",
+                            "actionCost": 1
+                        }
+                    ]
+                }
+            ],
             "action": [
                 {
                     "id": "Eb5Aj01lmAkmHtZ",
@@ -417,6 +516,7 @@ let monsters = [
         "averageDPR": -1,
         "damageProjection": []
     },
+    
     {
         "name": "Ancient Red Dragon",
         "shortName": "",

@@ -8,10 +8,7 @@
         
         <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
         <script src="{{mix('js/app.js')}}" defer></script>
-
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="{{mix('css/app.css')}}">
-        <link rel="stylesheet" type="text/css" href="{{asset('css/vueform/default.css')}}">
     </head>
     <body ng-app="f5App" ng-controller="f5Ctrl">
         <div id="f5" class="main-content full-height">
