@@ -560,7 +560,10 @@ export function initVue(f5data) {
             },
 
             addMultiattack: function() {
-                this.value.multiattackReferences.push(null);
+                this.value.multiattackReferences.push({
+                    id: null,
+                    uses: 1
+                });
             },
 
             removeMultiattack: function(index) {

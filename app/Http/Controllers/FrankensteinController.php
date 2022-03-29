@@ -34,6 +34,7 @@ class FrankensteinController extends Controller
     // - Flying monsters with cr  below 10 are consider 2 effectively AC higher
     // - Common passives like regen
     // - Effective health pool
+    // - Why does an export cause 4 updates to the creature model
     
     public function builder (Request $request) {
         if (App::environment('local')) {

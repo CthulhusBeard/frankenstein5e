@@ -29525,7 +29525,10 @@ function initVue(f5data) {
         this.value.manualDPR = -1;
       },
       addMultiattack: function addMultiattack() {
-        this.value.multiattackReferences.push(null);
+        this.value.multiattackReferences.push({
+          id: null,
+          uses: 1
+        });
       },
       removeMultiattack: function removeMultiattack(index) {
         this.value.multiattackReferences.splice(index, 1);

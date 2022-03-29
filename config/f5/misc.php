@@ -118,6 +118,9 @@ return [
     'title_add_legendary_action' => 'f5/featureactiontypes.title_add_legendary_action',
     'title_add_mythic_action' => 'f5/featureactiontypes.title_add_mythic_action',
     'title_add_lair_action' => 'f5/featureactiontypes.title_add_lair_action',
+    
+    'title_add_multiattack_ability' => 'f5/featureactiontypes.title_add_multiattack_ability',
+    'title_multiattack_select_ability' => 'f5/featureactiontypes.title_multiattack_select_ability',
 
     'title_legendary_action_cost' => 'f5/featureactiontypes.title_legendary_action_cost',
 

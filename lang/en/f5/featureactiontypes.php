@@ -21,6 +21,9 @@ return [
     'title_add_mythic_action' => '+ Add a Mythic Action',
     'title_add_lair_action' => '+ Add a Lair Action',
 
+    'title_add_multiattack_ability' => '+ Add an Ability',
+    'title_multiattack_select_ability' => 'Select an Ability',
+
     'title_legendary_action_cost' => 'Legendary Action Cost',
 
     'passive_desc' => '',
