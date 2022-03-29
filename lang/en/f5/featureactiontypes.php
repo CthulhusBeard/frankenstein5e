@@ -22,7 +22,9 @@ return [
     'title_add_lair_action' => '+ Add a Lair Action',
 
     'title_add_multiattack_ability' => '+ Add an Ability',
-    'title_multiattack_select_ability' => 'Select an Ability',
+    'title_multiattack_select_ability' => 'Select a Feature',
+    'title_multiattack_number_of_uses' => 'Number of Uses',
+    'title_multiattack_ability_name' => 'Feature',
 
     'title_legendary_action_cost' => 'Legendary Action Cost',
 

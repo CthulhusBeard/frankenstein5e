@@ -121,6 +121,8 @@ return [
     
     'title_add_multiattack_ability' => 'f5/featureactiontypes.title_add_multiattack_ability',
     'title_multiattack_select_ability' => 'f5/featureactiontypes.title_multiattack_select_ability',
+    'title_multiattack_number_of_uses' => 'f5/featureactiontypes.title_multiattack_number_of_uses',
+    'title_multiattack_ability_name' => 'f5/featureactiontypes.title_multiattack_ability_name',
 
     'title_legendary_action_cost' => 'f5/featureactiontypes.title_legendary_action_cost',
 

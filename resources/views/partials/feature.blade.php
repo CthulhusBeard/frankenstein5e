@@ -70,11 +70,11 @@
             <div class="feature__options feature__option-multiattack" v-if="value.template === 'multiattack'">
                 <div v-for="(feature, i) in value.multiattackReferences">
                     <label :for="'feature__multiattack__ability__'+value.id" class="title-label">@{{$parent.f5.misc.title_multiattack_ability_name}}:</label>
-                    <select :id="'feature__multiattack__num-of-attacks__'+value.id" name="feature__multiattack__num-of-attacks" v-model="feature.uses">
-                        <option value="null" disabled>@{{$parent.f5.misc.title_multiattack_select_ability}}</option>
-                        <option v-for="(featureRef, j) in value.feature['action']" :value="j.id" >@{{j.name}}</option>
+                    <select :id="'feature__multiattack__num-of-attacks__'+value.id" name="feature__multiattack__num-of-attacks" v-model="feature.id">
+                        <option value="null" disabled selected>@{{$parent.f5.misc.title_multiattack_select_ability}}</option>
+                        <option v-for="(featureRef, j) in $parent.options.features['action']" :value="featureRef.id" >@{{featureRef.name}}</option>
                     </select>
-                    <label :for="'feature__multiattack__num-of-attacks__'+value.id" class="title-label">@{{$parent.f5.misc.title_multiattack_number_of_attacks}}:</label>
+                    <label :for="'feature__multiattack__num-of-attacks__'+value.id" class="title-label">@{{$parent.f5.misc.title_multiattack_number_of_uses}}:</label>
                     <select :id="'feature__multiattack__num-of-attacks__'+value.id" name="feature__multiattack__num-of-attacks" v-model="feature.uses">
                         <option v-for="i in 4" :value="i" >@{{i}}</option>
                     </select>
