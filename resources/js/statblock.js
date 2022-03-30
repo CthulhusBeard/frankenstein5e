@@ -1031,6 +1031,8 @@ export function initVue(f5data) {
                     customDamage: [],
                     customDescription: '',
                     multiattackReferences: [],
+                    useMultiattackAlternative: false,
+                    multiattackAltReferences: [],
                     legendaryActionCost: 1,
                     manualDPR: -1,
                     averageDPR: -1,

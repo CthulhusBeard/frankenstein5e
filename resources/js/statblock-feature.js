@@ -92,7 +92,31 @@ var StatBlockFeature = {
                 }
 
             } else if(this.value.template === 'multiattack') { 
-
+                // Multiattack DPR
+                let multiDPR = 0;
+                let multiDPRAlt = 0;
+                for(let featureRef of this.value.multiattackReferences) {
+                    if(featureRef.index !== null) {
+                        if(featureRef.index === 'spellcasting') {
+                            multiDPR += this.$parent.options.features['spellcasting'][0].averageDPR * featureRef.uses;
+                        } else {
+                            multiDPR += this.$parent.options.features['action'][featureRef.index].averageDPR * featureRef.uses;
+                        }
+                    }
+                }
+                if(this.value.useMultiattackAlternative) {
+                    console.log('Multiattack alt dpr');
+                    for(let featureRef of this.value.multiattackAltReferences) {
+                        if(featureRef.index !== null) {
+                            if(featureRef.index === 'spellcasting') {
+                                multiDPRAlt += this.$parent.options.features['spellcasting'][0].averageDPR * featureRef.uses;
+                            } else {
+                                multiDPRAlt += this.$parent.options.features['action'][featureRef.index].averageDPR * featureRef.uses;
+                            }
+                        }
+                    }
+                }
+                avgDPR = (multiDPR > multiDPRAlt) ? multiDPR : multiDPRAlt;
             }
 
             return avgDPR * avgTargets;
@@ -488,6 +512,31 @@ var StatBlockFeature = {
                 }
 
                 return turnDamage;
+            } else if(this.value.template === 'multiattack') {
+                console.log('Multiattack projection');
+                for(let featureRef of this.value.multiattackReferences) {
+                    if(featureRef.index !== null) {
+                        if(featureRef.index === 'spellcasting') {
+                            console.log(this.$parent.options.features['spellcasting'][0].damageProjection);
+                        } else {
+                            console.log(this.$parent.options.features['action'][featureRef.index].damageProjection);
+                        }
+                    }
+                }
+                if(this.value.useMultiattackAlternative) {
+                    console.log('Multiattack alt projection');
+                    for(let featureRef of this.value.multiattackAltReferences) {
+                        if(featureRef.index !== null) {
+                            if(featureRef.index === 'spellcasting') {
+                                console.log(this.$parent.options.features['spellcasting'][0].damageProjection);
+                            } else {
+                                console.log(this.$parent.options.features['action'][featureRef.index].damageProjection);
+                            }
+                        }
+                    }
+                }
+
+                return turnDamage;
             }
 
             //Not Spellcasting
@@ -557,15 +606,23 @@ var StatBlockFeature = {
             this.value.manualDPR = -1;
         },
 
-        addMultiattack: function() {
-            this.value.multiattackReferences.push({
-                id: null,
+        addMultiattack: function(alt = false) {
+            let multiRef = this.value.multiattackReferences;
+            if(alt) {
+                multiRef = this.value.multiattackAltReferences;
+            }
+            multiRef.push({
+                index: null,
                 uses: 1
             });
         },
 
-        removeMultiattack: function(index) {
-            this.value.multiattackReferences.splice(index, 1);
+        removeMultiattack: function(index, alt = false) {
+            if(alt) {
+                this.value.multiattackAltReferences.splice(index, 1);
+            } else {
+                this.value.multiattackReferences.splice(index, 1);
+            }
         },
     },       
 };

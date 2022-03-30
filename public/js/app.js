@@ -28723,7 +28723,7 @@ var monsters = [{
     }, {
       "id": "3iBiI8VrYTy5XKO",
       "actionType": "action",
-      "name": "New Feature",
+      "name": "Multiattack",
       "template": "multiattack",
       "attackAbility": "str",
       "targetType": "melee",
@@ -28790,13 +28790,13 @@ var monsters = [{
       "customDamage": [],
       "customDescription": "",
       "multiattackReferences": [{
-        "id": "Eb5Aj01lmAkmHtZ",
+        "index": 0,
         "uses": 1
       }, {
-        "id": "4HQMzGebPygWx5k",
+        "index": 1,
         "uses": 1
       }, {
-        "id": "hfL8tEVQOIDn48N",
+        "index": 2,
         "uses": 2
       }],
       "legendaryActionCost": 1,
@@ -29112,7 +29112,59 @@ var StatBlockFeature = {
         if (avgTargets > 1) {
           avgTargets = avgTargets / (distanceBaseline * 2) * (distanceBaseline + this.value.aoeRange); //basic formula to assume average number of targets hit
         }
-      } else if (this.value.template === 'multiattack') {}
+      } else if (this.value.template === 'multiattack') {
+        // Multiattack DPR
+        var multiDPR = 0;
+        var multiDPRAlt = 0;
+
+        var _iterator = _createForOfIteratorHelper(this.value.multiattackReferences),
+            _step;
+
+        try {
+          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+            var _featureRef = _step.value;
+
+            if (_featureRef.index !== null) {
+              if (_featureRef.index === 'spellcasting') {
+                multiDPR += this.$parent.options.features['spellcasting'][0].averageDPR * _featureRef.uses;
+              } else {
+                multiDPR += this.$parent.options.features['action'][_featureRef.index].averageDPR * _featureRef.uses;
+              }
+            }
+          }
+        } catch (err) {
+          _iterator.e(err);
+        } finally {
+          _iterator.f();
+        }
+
+        if (this.value.useMultiattackAlternative) {
+          console.log('Multiattack alt dpr');
+
+          var _iterator2 = _createForOfIteratorHelper(this.value.multiattackAltReferences),
+              _step2;
+
+          try {
+            for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+              var featureRef = _step2.value;
+
+              if (featureRef.index !== null) {
+                if (featureRef.index === 'spellcasting') {
+                  multiDPRAlt += this.$parent.options.features['spellcasting'][0].averageDPR * featureRef.uses;
+                } else {
+                  multiDPRAlt += this.$parent.options.features['action'][featureRef.index].averageDPR * featureRef.uses;
+                }
+              }
+            }
+          } catch (err) {
+            _iterator2.e(err);
+          } finally {
+            _iterator2.f();
+          }
+        }
+
+        avgDPR = multiDPR > multiDPRAlt ? multiDPR : multiDPRAlt;
+      }
 
       return avgDPR * avgTargets;
     },
@@ -29175,21 +29227,21 @@ var StatBlockFeature = {
     atWillSpells: function atWillSpells() {
       var spellsSorted = [];
 
-      var _iterator = _createForOfIteratorHelper(this.value.spellList),
-          _step;
+      var _iterator3 = _createForOfIteratorHelper(this.value.spellList),
+          _step3;
 
       try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
-          var spell = _step.value;
+        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+          var spell = _step3.value;
 
           if (spell.at_will) {
             spellsSorted.push(spell);
           }
         }
       } catch (err) {
-        _iterator.e(err);
+        _iterator3.e(err);
       } finally {
-        _iterator.f();
+        _iterator3.f();
       }
 
       return spellsSorted;
@@ -29197,12 +29249,12 @@ var StatBlockFeature = {
     highestCastableSpell: function highestCastableSpell() {
       var highestSlot = -1;
 
-      var _iterator2 = _createForOfIteratorHelper(this.value.spellList),
-          _step2;
+      var _iterator4 = _createForOfIteratorHelper(this.value.spellList),
+          _step4;
 
       try {
-        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-          var spell = _step2.value;
+        for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+          var spell = _step4.value;
 
           if (spell.level > highestSlot && ( //this spell is higher than a previously found spell
           spell.at_will || //if it can be cast at will or 
@@ -29214,9 +29266,9 @@ var StatBlockFeature = {
           }
         }
       } catch (err) {
-        _iterator2.e(err);
+        _iterator4.e(err);
       } finally {
-        _iterator2.f();
+        _iterator4.f();
       }
 
       return highestSlot;
@@ -29224,12 +29276,12 @@ var StatBlockFeature = {
     spellsSlotsSorted: function spellsSlotsSorted() {
       var spellsSorted = [];
 
-      var _iterator3 = _createForOfIteratorHelper(this.value.spellList),
-          _step3;
+      var _iterator5 = _createForOfIteratorHelper(this.value.spellList),
+          _step5;
 
       try {
-        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-          var spell = _step3.value;
+        for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+          var spell = _step5.value;
 
           if (!spell.at_will && this.value.spellSlots[spell.level] >= 0) {
             if (!spellsSorted[spell.level]) {
@@ -29240,9 +29292,9 @@ var StatBlockFeature = {
           }
         }
       } catch (err) {
-        _iterator3.e(err);
+        _iterator5.e(err);
       } finally {
-        _iterator3.f();
+        _iterator5.f();
       }
 
       return spellsSorted;
@@ -29250,12 +29302,12 @@ var StatBlockFeature = {
     spellsUsesSorted: function spellsUsesSorted() {
       var spellsSorted = [];
 
-      var _iterator4 = _createForOfIteratorHelper(this.value.spellList),
-          _step4;
+      var _iterator6 = _createForOfIteratorHelper(this.value.spellList),
+          _step6;
 
       try {
-        for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-          var spell = _step4.value;
+        for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
+          var spell = _step6.value;
 
           if (!spell.at_will && (spell.uses > 0 || spell.level === 0)) {
             var newIndex = spell.uses;
@@ -29272,9 +29324,9 @@ var StatBlockFeature = {
           }
         }
       } catch (err) {
-        _iterator4.e(err);
+        _iterator6.e(err);
       } finally {
-        _iterator4.f();
+        _iterator6.f();
       }
 
       return spellsSorted;
@@ -29511,12 +29563,12 @@ var StatBlockFeature = {
       if (this.value.template === 'spellcasting') {
         var spellSlotsTracker = [];
 
-        var _iterator5 = _createForOfIteratorHelper(this.value.spellList),
-            _step5;
+        var _iterator7 = _createForOfIteratorHelper(this.value.spellList),
+            _step7;
 
         try {
-          spellLoop: for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
-            var spell = _step5.value;
+          spellLoop: for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
+            var spell = _step7.value;
             var addIndex = turnDamage.length;
 
             for (var i in turnDamage) {
@@ -29547,9 +29599,59 @@ var StatBlockFeature = {
             }
           }
         } catch (err) {
-          _iterator5.e(err);
+          _iterator7.e(err);
         } finally {
-          _iterator5.f();
+          _iterator7.f();
+        }
+
+        return turnDamage;
+      } else if (this.value.template === 'multiattack') {
+        console.log('Multiattack projection');
+
+        var _iterator8 = _createForOfIteratorHelper(this.value.multiattackReferences),
+            _step8;
+
+        try {
+          for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
+            var _featureRef2 = _step8.value;
+
+            if (_featureRef2.index !== null) {
+              if (_featureRef2.index === 'spellcasting') {
+                console.log(this.$parent.options.features['spellcasting'][0].damageProjection);
+              } else {
+                console.log(this.$parent.options.features['action'][_featureRef2.index].damageProjection);
+              }
+            }
+          }
+        } catch (err) {
+          _iterator8.e(err);
+        } finally {
+          _iterator8.f();
+        }
+
+        if (this.value.useMultiattackAlternative) {
+          console.log('Multiattack alt projection');
+
+          var _iterator9 = _createForOfIteratorHelper(this.value.multiattackAltReferences),
+              _step9;
+
+          try {
+            for (_iterator9.s(); !(_step9 = _iterator9.n()).done;) {
+              var featureRef = _step9.value;
+
+              if (featureRef.index !== null) {
+                if (featureRef.index === 'spellcasting') {
+                  console.log(this.$parent.options.features['spellcasting'][0].damageProjection);
+                } else {
+                  console.log(this.$parent.options.features['action'][featureRef.index].damageProjection);
+                }
+              }
+            }
+          } catch (err) {
+            _iterator9.e(err);
+          } finally {
+            _iterator9.f();
+          }
         }
 
         return turnDamage;
@@ -29619,13 +29721,26 @@ var StatBlockFeature = {
       this.value.manualDPR = -1;
     },
     addMultiattack: function addMultiattack() {
-      this.value.multiattackReferences.push({
-        id: null,
+      var alt = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+      var multiRef = this.value.multiattackReferences;
+
+      if (alt) {
+        multiRef = this.value.multiattackAltReferences;
+      }
+
+      multiRef.push({
+        index: null,
         uses: 1
       });
     },
     removeMultiattack: function removeMultiattack(index) {
-      this.value.multiattackReferences.splice(index, 1);
+      var alt = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+      if (alt) {
+        this.value.multiattackAltReferences.splice(index, 1);
+      } else {
+        this.value.multiattackReferences.splice(index, 1);
+      }
     }
   }
 };
@@ -30794,6 +30909,8 @@ function initVue(f5data) {
           customDamage: [],
           customDescription: '',
           multiattackReferences: [],
+          useMultiattackAlternative: false,
+          multiattackAltReferences: [],
           legendaryActionCost: 1,
           manualDPR: -1,
           averageDPR: -1,

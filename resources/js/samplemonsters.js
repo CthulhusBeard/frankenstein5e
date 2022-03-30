@@ -509,7 +509,7 @@ let monsters = [
                 {
                     "id": "3iBiI8VrYTy5XKO",
                     "actionType": "action",
-                    "name": "New Feature",
+                    "name": "Multiattack",
                     "template": "multiattack",
                     "attackAbility": "str",
                     "targetType": "melee",
@@ -585,15 +585,15 @@ let monsters = [
                     "customDescription": "",
                     "multiattackReferences": [
                         {
-                            "id": "Eb5Aj01lmAkmHtZ",
+                            "index": 0,
                             "uses": 1
                         },
                         {
-                            "id": "4HQMzGebPygWx5k",
+                            "index": 1,
                             "uses": 1
                         },
                         {
-                            "id": "hfL8tEVQOIDn48N",
+                            "index": 2,
                             "uses": 2
                         }
                     ],
@@ -648,7 +648,7 @@ let monsters = [
         "averageDPR": -1,
         "damageProjection": []
     }, 
-        
+
     {
         "name": "Ancient Red Dragon",
         "shortName": "",

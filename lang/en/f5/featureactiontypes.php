@@ -25,6 +25,7 @@ return [
     'title_multiattack_select_ability' => 'Select a Feature',
     'title_multiattack_number_of_uses' => 'Number of Uses',
     'title_multiattack_ability_name' => 'Feature',
+    'title_multiattack_alternative' => 'Alternative',
 
     'title_legendary_action_cost' => 'Legendary Action Cost',
 

@@ -305,6 +305,7 @@ body {
 }
 
 .x,
+.stat-block .stat-block__feature .feature__option-multiattack .feature__multiattack__featureRef .feature__multiattack__remove,
 .stat-block .stat-block__feature .feature__edit-spell .feature__spells__remove,
 .stat-block .stat-block__feature .feature__spell-slots .feature__spells__remove,
 .stat-block .stat-block__feature .feature__damage .feature__remove-damage,
@@ -582,6 +583,12 @@ i {
 .stat-block .stat-block__feature .feature__spell-list {
   text-transform: lowercase;
   font-style: italic;
+}
+
+.stat-block .stat-block__feature .feature__option-multiattack .feature__multiattack__featureRef {
+  position: relative;
+  border: 1px black solid;
+  margin: 1px 0;
 }
 
 .stat-block .stat-block__feature .attack-border {
