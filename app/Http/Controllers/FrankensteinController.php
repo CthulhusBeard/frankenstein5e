@@ -11,7 +11,7 @@ class FrankensteinController extends Controller
 
     //TODO: 
     // - Create features
-    //    -> Add multiattack
+    //      -> Add multiattack
     // - Loc pass
     // - WOTC Fan Content legal
     // - SEO meta
@@ -25,16 +25,20 @@ class FrankensteinController extends Controller
     // - Remove external CDN references
     // - Clean up label "for"s
     // - Minimum size for conditions (grappled, swallowed, etc)
-    // - Prepared spellcasting ??
+    // - Prepared spellcasting class spell lists "from the cleric spell list"
     // - Spells can't be editted
     // - Life expectancy vs PC levels
     // - Make better lists: //function createConditionSentenceList
-    //    -> from "... and are blinded and are deafened, or half as much damage on a successful one and are not blinded and are not deafened."
-    //    -> to "... and becomes blinded and deafened, or half as much damage on a successful one and are not blinded or deafened."
+    //  -> from "... and are blinded and are deafened, or half as much damage on a successful one and are not blinded and are not deafened."
+    //      -> to "... and becomes blinded and deafened, or half as much damage on a successful one and are not blinded or deafened."
     // - Flying monsters with cr  below 10 are consider 2 effectively AC higher
     // - Common passives like regen
-    // - Effective health pool
     // - Why does an export cause 4 updates to the creature model
+    // - Adjust offensive and defensive CR calculations 
+    //      -> ref: https://www.reddit.com/r/DMAcademy/comments/nc3i47/the_cr_calculator_in_the_dmg_is_wack_it_doesnt/gy34lun/
+    //      -> Effective health pool - DMG 277
+    //      -> Features that increase CR - DMG 280 ("Does this feature alter CR? By how much?")
+    // - More than 1 stat block / encounter calculator
     
     public function builder (Request $request) {
         if (App::environment('local')) {
