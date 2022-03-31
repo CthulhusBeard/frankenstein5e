@@ -28255,16 +28255,214 @@ module.exports = g;
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _statblock_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./statblock.js */ "./resources/js/statblock.js");
+/* harmony import */ var _encounter_builder__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./encounter-builder */ "./resources/js/encounter-builder.js");
 /* harmony import */ var _samplemonsters__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./samplemonsters */ "./resources/js/samplemonsters.js");
 /* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/chart.esm.js");
 
-window.StatBlock = _statblock_js__WEBPACK_IMPORTED_MODULE_0__;
+window.EncounterBuilder = _encounter_builder__WEBPACK_IMPORTED_MODULE_0__;
 
 window.SampleMonsters = _samplemonsters__WEBPACK_IMPORTED_MODULE_1__;
 
 chart_js__WEBPACK_IMPORTED_MODULE_2__["Chart"].register(chart_js__WEBPACK_IMPORTED_MODULE_2__["DoughnutController"], chart_js__WEBPACK_IMPORTED_MODULE_2__["ArcElement"], chart_js__WEBPACK_IMPORTED_MODULE_2__["Tooltip"]);
 window.Chart = chart_js__WEBPACK_IMPORTED_MODULE_2__["Chart"];
+
+/***/ }),
+
+/***/ "./resources/js/encounter-builder.js":
+/*!*******************************************!*\
+  !*** ./resources/js/encounter-builder.js ***!
+  \*******************************************/
+/*! exports provided: initVue */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initVue", function() { return initVue; });
+/* harmony import */ var _vueform_multiselect_dist_multiselect_vue2_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @vueform/multiselect/dist/multiselect.vue2.js */ "./node_modules/@vueform/multiselect/dist/multiselect.vue2.js");
+/* harmony import */ var _statblock_feature_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./statblock-feature.js */ "./resources/js/statblock-feature.js");
+/* harmony import */ var _statblock_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./statblock.js */ "./resources/js/statblock.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+
+
+
+function initVue(f5data) {
+  var app = new Vue({
+    el: '#f5',
+    data: {
+      editor: {
+        edit_mode: true,
+        player_characters: {
+          number: 4,
+          level: 1
+        },
+        round_tracker: 7,
+        import_monster: 0
+      },
+      statblocks: [],
+      f5: f5data
+    },
+    components: {
+      'Multiselect': _vueform_multiselect_dist_multiselect_vue2_js__WEBPACK_IMPORTED_MODULE_0__["default"],
+      'statblock': _statblock_js__WEBPACK_IMPORTED_MODULE_2__["default"],
+      'statblock-feature': _statblock_feature_js__WEBPACK_IMPORTED_MODULE_1__["default"]
+    },
+    created: function created() {
+      console.log('created');
+      this.createStatBlock();
+    },
+    computed: {},
+    methods: {
+      randChars: function randChars(len) {
+        var base = _toConsumableArray("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvyxyz0123456789");
+
+        var generator = function generator(base, len) {
+          return _toConsumableArray(Array(len)).map(function (i) {
+            return base[Math.random() * base.length | 0];
+          }).join('');
+        };
+
+        return generator(base, len);
+      },
+      toNumber: function toNumber(input) {
+        if (input.includes('/')) {
+          var divideArray = input.split('/');
+          input = divideArray[0] / divideArray[1];
+        }
+
+        return Number(input);
+      },
+      importMonster: function importMonster(monster) {
+        console.log('import');
+        console.log(monster);
+        var importedStatBlock = monster; //TODO validation ?
+
+        this.statblocks.push(importedStatBlock);
+        console.log(this.statblocks);
+      },
+      createStatBlock: function createStatBlock() {
+        var statblock = {
+          id: this.randChars(15),
+          name: 'Monster',
+          shortName: '',
+          isNameProperNoun: false,
+          size: 'medium',
+          type: 'dragon',
+          subtype: '',
+          typeCategory: '',
+          alignment: '',
+          showTypicalAlignment: true,
+          armorClass: {
+            type: 'none',
+            manual: '10',
+            name: f5data.armor.none.name,
+            bonus: '0',
+            stealthDis: false,
+            shield: false
+          },
+          hitPoints: {
+            diceType: 4,
+            diceAmount: 1,
+            additional: 0
+          },
+          abilities: {},
+          savingThrows: {},
+          damageResistances: [],
+          damageImmunities: [],
+          damageVulnerabilites: [],
+          conditionImmunities: [],
+          skills: [],
+          languages: {
+            spokenWritten: [],
+            doesntSpeak: [],
+            telepathy: 0
+          },
+          speeds: {},
+          hover: false,
+          senses: {},
+          measure: {
+            measureUnit: 'ft.',
+            measureIncrement: 5,
+            measureUnitUp: 5280,
+            measureUnitUpName: 'miles'
+          },
+          showNonCombat: true,
+          manualOverride: {
+            proficiency: 0,
+            casterLevel: 0
+          },
+          targetCR: {
+            offensive: {},
+            defensive: {}
+          },
+          hasLegendaryActions: true,
+          hasMythicActions: false,
+          legendaryActions: 3,
+          reactions: 1,
+          actions: 1,
+          features: {
+            passive: [],
+            spellcasting: [],
+            action: [],
+            bonus_action: [],
+            reaction: [],
+            legendary_action: [],
+            mythic_action: [],
+            lair_action: []
+          },
+          display: {
+            columns: 2
+          }
+        };
+
+        for (var ability in f5data.abilities) {
+          statblock.abilities[ability] = 10;
+          statblock.savingThrows[ability] = false;
+        }
+
+        for (var sense in f5data.senses) {
+          statblock.senses[sense] = 0;
+        }
+
+        for (var lang in f5data.languages) {
+          if (f5data.languages[lang]['default']) {
+            statblock.languages.spokenWritten.push(lang);
+          }
+        }
+
+        for (var speed in f5data.speeds) {
+          if (f5data.speeds[speed]['default']) {
+            statblock.speeds[speed] = f5data.speeds[speed]['default'];
+          } else {
+            statblock.speeds[speed] = 0;
+          }
+        }
+
+        this.statblocks.push(statblock);
+        console.log('Stat block added');
+        console.log(this.statblocks);
+      },
+      removeStatBlock: function removeStatBlock(id) {
+        for (var i in this.statblocks) {
+          if (this.statblocks[i].id === id) {
+            this.statblocks.splice(i, 1);
+          }
+        }
+      }
+    }
+  });
+  return app;
+}
 
 /***/ }),
 
@@ -29126,9 +29324,9 @@ var StatBlockFeature = {
 
             if (_featureRef.index !== null) {
               if (_featureRef.index === 'spellcasting') {
-                multiDPR += this.$parent.options.features['spellcasting'][0].averageDPR * _featureRef.uses;
+                multiDPR += this.$parent.value.features['spellcasting'][0].averageDPR * _featureRef.uses;
               } else {
-                multiDPR += this.$parent.options.features['action'][_featureRef.index].averageDPR * _featureRef.uses;
+                multiDPR += this.$parent.value.features['action'][_featureRef.index].averageDPR * _featureRef.uses;
               }
             }
           }
@@ -29150,9 +29348,9 @@ var StatBlockFeature = {
 
               if (featureRef.index !== null) {
                 if (featureRef.index === 'spellcasting') {
-                  multiDPRAlt += this.$parent.options.features['spellcasting'][0].averageDPR * featureRef.uses;
+                  multiDPRAlt += this.$parent.value.features['spellcasting'][0].averageDPR * featureRef.uses;
                 } else {
-                  multiDPRAlt += this.$parent.options.features['action'][featureRef.index].averageDPR * featureRef.uses;
+                  multiDPRAlt += this.$parent.value.features['action'][featureRef.index].averageDPR * featureRef.uses;
                 }
               }
             }
@@ -29182,7 +29380,7 @@ var StatBlockFeature = {
     bracketText: function bracketText() {
       var brackets = ''; //Legendary action cost
 
-      if (this.$parent.options.hasLegendaryActions && (this.value.actionType === 'legendary_action' || this.$parent.options.hasMythicActions && this.value.actionType === 'mythic_action') && this.value.legendaryActionCost > 1) {
+      if (this.$parent.value.hasLegendaryActions && (this.value.actionType === 'legendary_action' || this.$parent.value.hasMythicActions && this.value.actionType === 'mythic_action') && this.value.legendaryActionCost > 1) {
         brackets += this.$parent.f5.misc.action_cost.replace(':cost', this.value.legendaryActionCost);
       } //Recharge rate
 
@@ -29428,11 +29626,11 @@ var StatBlockFeature = {
           descText += '<br/>' + this.$parent.f5.misc.casts_spells_before;
         }
 
-        if (this.$parent.options.isNameProperNoun) {
-          descText = descText.replace(/the :creature_name/ig, this.$parent.capitalize(this.$parent.options.name.toLowerCase()));
-          descText = descText.replaceAll(':creature_name', this.$parent.capitalize(this.$parent.options.name.toLowerCase()));
+        if (this.$parent.value.isNameProperNoun) {
+          descText = descText.replace(/the :creature_name/ig, this.$parent.capitalize(this.$parent.value.name.toLowerCase()));
+          descText = descText.replaceAll(':creature_name', this.$parent.capitalize(this.$parent.value.name.toLowerCase()));
         } else {
-          descText = descText.replaceAll(':creature_name', this.$parent.options.name.toLowerCase());
+          descText = descText.replaceAll(':creature_name', this.$parent.value.name.toLowerCase());
         }
 
         return descText;
@@ -29455,9 +29653,9 @@ var StatBlockFeature = {
           descText = descText.replace(':range', '');
         }
 
-        descText = descText.replace(':reach_distance', this.value.attackReach + ' ' + this.$parent.options.measure.measureUnit);
+        descText = descText.replace(':reach_distance', this.value.attackReach + ' ' + this.$parent.value.measure.measureUnit);
         descText = descText.replace(':range_distance_low', this.value.attackRange.low);
-        descText = descText.replace(':range_distance_high', this.value.attackRange.high + ' ' + this.$parent.options.measure.measureUnit);
+        descText = descText.replace(':range_distance_high', this.value.attackRange.high + ' ' + this.$parent.value.measure.measureUnit);
         descText = descText.replace(':targets', this.$parent.translate(this.$parent.f5.misc.num_of_targets, this.value.attackTargets).replace(':target_count', this.value.attackTargets)); //Hit
 
         descText += ' <i>' + this.$parent.f5.misc.desc_attack_hit + '</i> ';
@@ -29617,9 +29815,9 @@ var StatBlockFeature = {
 
             if (_featureRef2.index !== null) {
               if (_featureRef2.index === 'spellcasting') {
-                console.log(this.$parent.options.features['spellcasting'][0].damageProjection);
+                console.log(this.$parent.value.features['spellcasting'][0].damageProjection);
               } else {
-                console.log(this.$parent.options.features['action'][_featureRef2.index].damageProjection);
+                console.log(this.$parent.value.features['action'][_featureRef2.index].damageProjection);
               }
             }
           }
@@ -29641,9 +29839,9 @@ var StatBlockFeature = {
 
               if (featureRef.index !== null) {
                 if (featureRef.index === 'spellcasting') {
-                  console.log(this.$parent.options.features['spellcasting'][0].damageProjection);
+                  console.log(this.$parent.value.features['spellcasting'][0].damageProjection);
                 } else {
-                  console.log(this.$parent.options.features['action'][featureRef.index].damageProjection);
+                  console.log(this.$parent.value.features['action'][featureRef.index].damageProjection);
                 }
               }
             }
@@ -29751,12 +29949,12 @@ var StatBlockFeature = {
 /*!***********************************!*\
   !*** ./resources/js/statblock.js ***!
   \***********************************/
-/*! exports provided: initVue */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initVue", function() { return initVue; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return StatBlock; });
 /* harmony import */ var _vueform_multiselect_dist_multiselect_vue2_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @vueform/multiselect/dist/multiselect.vue2.js */ "./node_modules/@vueform/multiselect/dist/multiselect.vue2.js");
 /* harmony import */ var _statblock_feature_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./statblock-feature.js */ "./resources/js/statblock-feature.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -29781,1438 +29979,1306 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 
 
-function initVue(f5data) {
-  var vueData = {
-    editor: {
-      edit_mode: true,
-      columns: 2,
-      player_characters: {
-        number: 4,
-        level: 1
-      },
-      round_tracker: 7,
-      import_monster: 0
+
+var StatBlock = {
+  props: ['value'],
+  template: '#statblock',
+  components: {
+    'Multiselect': _vueform_multiselect_dist_multiselect_vue2_js__WEBPACK_IMPORTED_MODULE_0__["default"],
+    'statblock-feature': _statblock_feature_js__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  created: function created() {
+    console.log('created stat block component');
+  },
+  computed: {
+    //Editor
+    statblockColumns: function statblockColumns() {
+      return 'column-' + this.value.display.columns;
     },
-    options: {
-      name: 'Monster',
-      shortName: '',
-      isNameProperNoun: false,
-      size: 'medium',
-      type: 'dragon',
-      subtype: '',
-      typeCategory: '',
-      alignment: '',
-      showTypicalAlignment: true,
-      armorClass: {
-        type: 'none',
-        manual: '10',
-        name: f5data.armor.none.name,
-        bonus: '0',
-        stealthDis: false,
-        shield: false
-      },
-      hitPoints: {
+    averageDPR: function averageDPR() {
+      var avgDPR = 0;
+      var dprGroups = {
+        passive: [],
+        action: [],
+        //include spellcasting
+        bonus_action: [],
+        legendary_action: [],
+        //include mythic_action
+        lair_action: []
+      };
+      /*
+      total passives
+      top action / spellcasting +
+      top reaction + 
+      top bonus + 
+      top legendary/mythic combinations + 
+      top lair action
+      */
+
+      for (var featureType in this.value.features) {
+        var _iterator = _createForOfIteratorHelper(this.value.features[featureType]),
+            _step;
+
+        try {
+          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+            var feature = _step.value;
+            var dprType = featureType;
+
+            if (dprType === 'mythic_action') {
+              dprType = 'legendary_action';
+            } else if (dprType === 'spellcasting') {
+              dprType = 'action';
+            }
+
+            for (var i = 0; i > 7; i++) {
+              dprGroups[dprType][i] = 0;
+            }
+
+            if (feature.averageDPR > avgDPR) {
+              avgDPR = feature.averageDPR;
+            }
+          }
+        } catch (err) {
+          _iterator.e(err);
+        } finally {
+          _iterator.f();
+        }
+      }
+
+      return avgDPR;
+    },
+    damageProjection: function damageProjection() {
+      var projections = {
+        action: {
+          count: this.value.actions,
+          rounds: [],
+          options: []
+        },
+        reaction: {
+          count: this.value.reactions,
+          rounds: [],
+          options: []
+        },
+        legendary_action: {
+          count: this.value.legendaryActions,
+          rounds: [],
+          options: []
+        },
+        lair_action: {
+          count: 1,
+          rounds: [],
+          options: []
+        },
+        passive: {
+          count: false,
+          rounds: [],
+          options: []
+        }
+      }; //Gather Projections
+
+      for (var featureType in this.value.features) {
+        var _iterator2 = _createForOfIteratorHelper(this.value.features[featureType]),
+            _step2;
+
+        try {
+          for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+            var feature = _step2.value;
+            //Merge similar action types
+            var actionType = featureType;
+
+            if (actionType === 'mythic_action') {
+              actionType = 'legendary_action';
+            } else if (actionType === 'spellcasting') {
+              actionType = 'action';
+            }
+
+            projections[actionType].options.push(_toConsumableArray(feature.damageProjection)); //Clone projection
+          }
+        } catch (err) {
+          _iterator2.e(err);
+        } finally {
+          _iterator2.f();
+        }
+      } //Sort Projections
+
+
+      for (var _actionType in projections) {
+        var _loop = function _loop(i) {
+          projections[_actionType].options.sort(function (a, b) {
+            var damageA = a[i] && a[i].damage ? a[i].damage / a[i].actionCost : 0;
+            var damageB = b[i] && b[i].damage ? b[i].damage / b[i].actionCost : 0;
+            return damageB - damageA;
+          });
+
+          var actionCount = 0;
+
+          for (var j = 0; j < projections[_actionType].options.length; j++) {
+            var actionObj = projections[_actionType].options[j][i];
+            var actionCost = actionObj && actionObj.actionCost ? actionObj.actionCost : 0;
+
+            if (actionCount + actionCost <= projections[_actionType].count) {
+              //Action fits
+              if (actionObj) {
+                //Add action
+                if (!projections[_actionType].rounds[i]) {
+                  projections[_actionType].rounds[i] = [];
+                }
+
+                projections[_actionType].rounds[i][j] = actionObj;
+                actionCount += actionCost;
+              } else if (actionObj) {
+                //Not enough actions
+                actionCount += projections[_actionType].count;
+              }
+            } else if (actionObj.damage > 0) {
+              //push out viable damage options until later turns
+              projections[_actionType].options[j].splice(i, 0, 0);
+            }
+          }
+        };
+
+        for (var i = 0; i < this.editor.round_tracker; i++) {
+          _loop(i);
+        }
+      }
+
+      console.log('Damage Projections:');
+      console.log(projections);
+      return projections;
+    },
+    //Challenge Rating
+    damageCr: function damageCr() {
+      var dpr = this.averageDPR;
+      var approxCr = 1;
+
+      for (var i in this.f5.challengerating) {
+        var cr = this.f5.challengerating[i];
+
+        if (dpr >= cr.dpr.low && dpr <= cr.dpr.high) {
+          approxCr = i;
+          break;
+        }
+      }
+
+      return approxCr;
+    },
+    healthCr: function healthCr() {
+      //TODO: Factor in AC, HP, and defensive features
+      var hp = this.getHP;
+      var approxCr = 31;
+
+      for (var i in this.f5.challengerating) {
+        var cr = this.f5.challengerating[i];
+
+        if (hp >= cr.hp.low && hp <= cr.hp.high) {
+          approxCr = i;
+          break;
+        }
+      }
+
+      return approxCr;
+    },
+    armorCr: function armorCr() {
+      //TODO: Factor in AC, HP, and defensive features
+      var ac = this.getAC;
+
+      if (!ac) {
+        return 'Unset';
+      } else if (ac < this.f5.challengerating[0].ac) {
+        return '0';
+      } else if (ac > this.f5.challengerating[20].ac) {
+        return '> 30';
+      }
+
+      var crLow = 31;
+      var crHigh = 0;
+
+      for (var i in this.f5.challengerating) {
+        var cr = this.f5.challengerating[i];
+
+        if (ac == cr.ac) {
+          if (cr.cr > crHigh) {
+            crHigh = cr.cr;
+          }
+
+          if (cr.cr < crLow) {
+            crLow = cr.cr;
+          }
+        }
+      }
+
+      if (crLow == crHigh) return crLow;
+      return crLow + '-' + crHigh;
+    },
+    averageCR: function averageCR() {
+      var armorCr = this.armorCr;
+
+      if (armorCr.includes('-')) {
+        var splitArmor = armorCr.split('-');
+        armorCr = (this.$parent.toNumber(splitArmor[0]) + this.$parent.toNumber(splitArmor[1])) / 2;
+      }
+
+      var average = Math.round((armorCr + this.$parent.toNumber(this.healthCr) + this.$parent.toNumber(this.damageCr)) / 3);
+      return average;
+    },
+    //Description Text
+    descriptionText: function descriptionText() {
+      var descStr = '';
+
+      if (this.value.size) {
+        descStr += this.getProp(this.f5.creaturesizes[this.value.size]);
+        this.value.hitPoints.diceType = this.f5.creaturesizes[this.value.size].hit_dice; //TODO check if hitdice were manually set
+      }
+
+      if (this.value.type) {
+        if (descStr != '') descStr += ' ';
+        descStr += this.capitalize(this.getProp(this.f5.creaturetypes[this.value.type]));
+      }
+
+      if (this.value.subtype
+      /*|| (this.value.showtypeCategory && this.value.typeCategory)*/
+      ) {
+          if (descStr != '') descStr += ' ';
+          descStr += '(';
+
+          if (this.value.subtype) {
+            descStr += this.getProp(this.f5.creaturesubtypes[this.value.subtype]);
+          }
+          /* TODO Do something with category?
+          if(this.value.subtype && (this.value.showtypeCategory && this.value.typeCategory)) { 
+              str += ', ';
+          }
+          */
+
+
+          descStr += ')';
+        }
+
+      if (this.value.alignment) {
+        if (descStr != '') descStr += ', ';
+
+        if (this.value.showTypicalAlignment) {
+          descStr += this.f5.misc.alignments_typically.replace(":alignment", this.getProp(this.f5.alignments[this.value.alignment]));
+        } else {
+          descStr += this.getProp(this.f5.alignments[this.value.alignment]);
+        }
+      }
+
+      return this.capitalize(descStr);
+    },
+    //Armor Class
+    allowAcSelector: function allowAcSelector() {
+      if (this.value.armorClass && this.value.armorClass.type && this.f5.armor[this.value.armorClass.type]) {
+        return this.f5.armor[this.value.armorClass.type].range;
+      }
+
+      return false;
+    },
+    allowAcBonus: function allowAcBonus() {
+      if (this.f5.armor[this.value.armorClass.type] && this.f5.armor[this.value.armorClass.type].allow_bonus) {
+        return true;
+      }
+
+      return false;
+    },
+    getAcRange: function getAcRange() {
+      if (this.value.armorClass && this.value.armorClass.type && this.f5.armor[this.value.armorClass.type] && this.f5.armor[this.value.armorClass.type].range && this.f5.armor[this.value.armorClass.type].range.low && this.f5.armor[this.value.armorClass.type].range.high) {
+        var arr = [];
+
+        for (var i = this.f5.armor[this.value.armorClass.type].range.low; i < this.f5.armor[this.value.armorClass.type].range.high + 1; i++) {
+          arr.push(i);
+        }
+
+        return arr;
+      }
+
+      return 30;
+    },
+    getAC: function getAC() {
+      var acValue = 0;
+      var statBonus = 0;
+
+      if (this.value.armorClass && this.value.armorClass.type && this.f5.armor[this.value.armorClass.type]) {
+        //set AC value
+        if (this.f5.armor[this.value.armorClass.type].range) {
+          //manual value
+          acValue = parseFloat(this.value.armorClass.manual);
+        } else if (this.f5.armor[this.value.armorClass.type].base) {
+          //base value
+          acValue = this.f5.armor[this.value.armorClass.type].base;
+
+          if (this.f5.armor[this.value.armorClass.type].bonus && this.value.abilities[this.f5.armor[this.value.armorClass.type].bonus]) {
+            //get stat bonus
+            statBonus = this.getAbilityMod(this.f5.armor[this.value.armorClass.type].bonus);
+
+            if (this.f5.armor[this.value.armorClass.type].max_bonus && statBonus > this.f5.armor[this.value.armorClass.type].max_bonus) {
+              //set to max bonus
+              statBonus = this.f5.armor[this.value.armorClass.type].max_bonus;
+            }
+
+            acValue += parseFloat(statBonus);
+          }
+        } else {
+          console.error('Couldn\'t calculate AC');
+        }
+
+        if (this.allowAcBonus && this.value.armorClass.bonus && this.value.armorClass.bonus > 0) {
+          acValue += parseFloat(this.value.armorClass.bonus);
+        }
+
+        if (this.value.armorClass.shield) {
+          acValue += 2;
+        }
+      }
+
+      return acValue;
+    },
+    acText: function acText() {
+      var acText = '';
+      var name = '';
+      var acValue = 0;
+      var magicalBonus = '';
+      var statBonus = 0;
+      var stealthDis = '';
+
+      if (this.value.armorClass && this.value.armorClass.type && this.f5.armor[this.value.armorClass.type]) {
+        //set name
+        if (this.value.armorClass.type === 'custom' && this.value.armorClass.name) {
+          name = this.value.armorClass.name;
+        } else if (this.value.armorClass.type !== 'none' && this.f5.armor[this.value.armorClass.type].name) {
+          name = this.f5.armor[this.value.armorClass.type].name;
+        } //set AC value
+
+
+        if (this.f5.armor[this.value.armorClass.type].range) {
+          //manual value
+          acValue = parseFloat(this.value.armorClass.manual);
+
+          if (this.value.armorClass.stealthDis) {
+            stealthDis = ' (' + this.f5.misc.stealth_dis + ')';
+          }
+        } else if (this.f5.armor[this.value.armorClass.type].base) {
+          //base value
+          acValue = this.f5.armor[this.value.armorClass.type].base;
+
+          if (this.f5.armor[this.value.armorClass.type].bonus && this.value.abilities[this.f5.armor[this.value.armorClass.type].bonus]) {
+            //get stat bonus
+            statBonus = this.getAbilityMod(this.f5.armor[this.value.armorClass.type].bonus);
+
+            if (this.f5.armor[this.value.armorClass.type].max_bonus && statBonus > this.f5.armor[this.value.armorClass.type].max_bonus) {
+              //set to max bonus
+              statBonus = this.f5.armor[this.value.armorClass.type].max_bonus;
+            }
+
+            acValue += parseFloat(statBonus);
+          }
+
+          if (this.f5.armor[this.value.armorClass.type].stealth_dis) {
+            stealthDis = ' (' + this.f5.misc.stealth_dis + ')';
+          }
+        } else {
+          console.error('Couldn\'t calculate AC');
+        }
+
+        if (this.allowAcBonus && this.value.armorClass.bonus && this.value.armorClass.bonus > 0) {
+          acValue += parseFloat(this.value.armorClass.bonus);
+          magicalBonus = "+" + this.value.armorClass.bonus + ' ';
+        }
+
+        var shieldText = '';
+
+        if (this.value.armorClass.shield) {
+          shieldText = ', ' + this.f5.misc.shield;
+        }
+
+        acText = String(acValue);
+
+        if (magicalBonus || shieldText || name) {
+          acText += ' (' + magicalBonus + name + shieldText + ')'; // +stealthDis?;
+        }
+      }
+
+      return acText.toLowerCase();
+    },
+    //Hit Points
+    getHP: function getHP() {
+      var type = this.value.hitPoints.diceType;
+      var amount = this.value.hitPoints.diceAmount;
+      var additionalHP = this.value.hitPoints.additional > 0 ? Math.floor(this.value.hitPoints.additional) : 0;
+
+      if (additionalHP > 9999) {
+        this.value.hitPoints.additional = additionalHP = 9999;
+      }
+
+      var conMod = this.getAbilityMod('con');
+      var conHP = 0;
+
+      if (conMod > 0) {
+        conHP = conMod * amount;
+      }
+
+      var hp = Math.round((type / 2 + .5) * amount) + conHP + additionalHP;
+      return hp;
+    },
+    hitPointsText: function hitPointsText() {
+      var type = this.value.hitPoints.diceType;
+      var amount = this.value.hitPoints.diceAmount;
+      var additionalHP = this.value.hitPoints.additional > 0 ? Math.floor(this.value.hitPoints.additional) : 0;
+
+      if (additionalHP > 9999) {
+        this.value.hitPoints.additional = additionalHP = 9999;
+      }
+
+      var conMod = this.getAbilityMod('con');
+      var conHP = 0;
+
+      if (conMod > 0) {
+        conHP = conMod * amount;
+      }
+
+      var hp = Math.round((type / 2 + .5) * amount) + conHP + additionalHP;
+
+      if (isNaN(hp)) {
+        return this.f5.misc.undefined_health;
+      }
+
+      var conText = '';
+
+      if (conHP > 0 || additionalHP > 0) {
+        conText = ' + ' + (conHP + additionalHP);
+      }
+
+      var hpText = hp + ' (' + amount + this.f5.misc.die_symbol + type + conText;
+      hpText += ')';
+      return hpText;
+    },
+    //Damages
+    //TODO have a fix for redundancies
+    //If in immunity, then remove from resistance and vulnerability
+    //If in resistance, then remove from vulnerability
+    damageResistanceText: function damageResistanceText() {
+      return this.damageList(this.value.damageResistances).toLowerCase();
+    },
+    damageImmunitiesText: function damageImmunitiesText() {
+      return this.damageList(this.value.damageImmunities).toLowerCase();
+    },
+    damageVulnerabilitiesText: function damageVulnerabilitiesText() {
+      return this.damageList(this.value.damageVulnerabilites).toLowerCase();
+    },
+    conditionImmunitiesText: function conditionImmunitiesText() {
+      return this.conditionList(this.value.conditionImmunities).toLowerCase();
+    },
+    eligableDamageTypes: function eligableDamageTypes() {
+      var list = [];
+
+      for (var i in this.f5.damagetypes) {
+        if (this.value.damageResistances.includes(i) || this.value.damageImmunities.includes(i) || this.value.damageVulnerabilites.includes(i)) {
+          list.push({
+            value: i,
+            label: this.f5.damagetypes[i].name,
+            disabled: true
+          });
+        } else {
+          list.push({
+            value: i,
+            label: this.f5.damagetypes[i].name
+          });
+        }
+      }
+
+      return list;
+    },
+    dealableDamageTypes: function dealableDamageTypes() {
+      var list = [];
+
+      for (var i in this.f5.damagetypes) {
+        if (!(this.f5.damagetypes[i].dealt === false)) {
+          list.push({
+            value: i,
+            label: this.f5.damagetypes[i].name
+          });
+        }
+      }
+
+      return list;
+    },
+    //Speeds
+    speedText: function speedText() {
+      var displayText = '';
+
+      for (var i in this.value.speeds) {
+        if (!this.value.speeds[i]) {
+          continue;
+        }
+
+        if (displayText !== '') {
+          displayText += ', ';
+        }
+
+        if (!this.f5.speeds[i]['hide_name']) {
+          displayText += this.f5.speeds[i].name.toLowerCase() + ' ';
+        }
+
+        displayText += this.value.speeds[i] + ' ' + this.value.measure.measureUnit;
+
+        if (i === 'fly' && this.value.hover) {
+          displayText += ' (' + this.f5.misc.hover.toLowerCase() + ')';
+        }
+      }
+
+      if (!displayText) {
+        displayText = this.f5.misc.cant_move;
+      }
+
+      return displayText;
+    },
+    //Senses
+    sensesText: function sensesText() {
+      var displayText = '';
+
+      for (var i in this.value.senses) {
+        if (!this.value.senses[i]) {
+          continue;
+        }
+
+        if (displayText !== '') {
+          displayText += ', ';
+        }
+
+        if (!this.f5.senses[i]['hide_name']) {
+          displayText += this.f5.senses[i].name.toLowerCase() + ' ';
+        }
+
+        displayText += this.value.senses[i] + ' ' + this.value.measure.measureUnit;
+      } //Passive Perception
+
+
+      if (this.value.skills.includes('perception')) {
+        if (displayText !== '') {
+          displayText += ', ';
+        }
+
+        displayText += this.f5.misc.passive_skill.replace(':skill', this.f5.skills['perception'].name) + ' ' + (this.calcSkillMod('perception') + 10);
+      }
+
+      return displayText;
+    },
+    //Subtypes
+    orderedSubtypes: function orderedSubtypes() {
+      if (this.$data.f5.creaturetypes.hasOwnProperty(this.value.type) && this.$data.f5.creaturetypes[this.value.type]['subtypes']) {
+        var topSubtypes = [];
+        var count = 0;
+
+        for (var i in this.$data.f5.creaturesubtypes) {
+          var subtypeObj = this.$data.f5.creaturesubtypes[i];
+          subtypeObj.id = i;
+
+          if (this.$data.f5.creaturetypes[this.value.type]['subtypes'].includes(i)) {
+            topSubtypes.splice(count, 0, subtypeObj);
+            count++;
+          } else {
+            topSubtypes.push(subtypeObj);
+          }
+        }
+
+        return topSubtypes;
+      }
+
+      return this.f5.creaturesubtypes;
+    },
+    //Type Options
+    typeCategoryList: function typeCategoryList() {
+      var optionsList = [];
+
+      if (this.$data.f5.creaturetypes.hasOwnProperty(this.value.type) && this.$data.f5.creaturetypes[this.value.type].hasOwnProperty('options')) {
+        for (var i in this.$data.f5.creaturetypes[this.value.type]['options']) {
+          var data = this.$data.f5.creaturetypes[this.value.type]['options'][i];
+          data.id = i;
+          optionsList.push(data);
+        }
+      }
+
+      if (this.$data.f5.creaturesubtypes.hasOwnProperty(this.value.subtype) && this.$data.f5.creaturesubtypes[this.value.subtype].hasOwnProperty('options')) {
+        for (var _i in this.$data.f5.creaturesubtypes[this.value.subtype]['options']) {
+          var _data = this.$data.f5.creaturesubtypes[this.value.subtype]['options'][_i];
+          _data.id = _i;
+          optionsList.push(_data);
+        }
+      }
+
+      return optionsList;
+    },
+    //Languages
+    languageText: function languageText() {
+      var displayText = '';
+
+      if (this.value.languages.spokenWritten.includes('all')) {
+        return this.$data.f5.languages['all'].name;
+      }
+
+      var _iterator3 = _createForOfIteratorHelper(this.value.languages.spokenWritten),
+          _step3;
+
+      try {
+        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+          var lang = _step3.value;
+
+          if (displayText !== '') {
+            displayText += ', ';
+          }
+
+          displayText += this.$data.f5.languages[lang].name;
+        }
+      } catch (err) {
+        _iterator3.e(err);
+      } finally {
+        _iterator3.f();
+      }
+
+      if (!displayText) {
+        displayText = this.$data.f5.misc.languages_none;
+      }
+
+      return displayText;
+    },
+    //Skills
+    skillText: function skillText() {
+      var displayText = '';
+
+      for (var skill in this.$data.f5.skills) {
+        if (!this.value.skills.includes(skill)) {
+          continue;
+        }
+
+        if (this.calcSkillMod(skill) == 0) {
+          continue;
+        }
+
+        if (displayText !== '') {
+          displayText += ', ';
+        }
+
+        displayText += this.$data.f5.skills[skill].name + ' ' + this.addPlus(this.calcSkillMod(skill));
+      }
+
+      return displayText;
+    },
+    //Saving Throw
+    savingThrowText: function savingThrowText() {
+      var displayText = '';
+
+      for (var i in this.value.savingThrows) {
+        if (!this.value.savingThrows[i]) {
+          continue;
+        }
+
+        if (displayText !== '') {
+          displayText += ', ';
+        }
+
+        displayText += this.capitalize(i) + ' +' + (this.getAbilityMod(i) + this.proficiency);
+      }
+
+      return displayText;
+    },
+    //
+    proficiencyText: function proficiencyText() {
+      return "+" + this.proficiency;
+    },
+    //Challenge Rating
+    crText: function crText() {
+      var averageCRKey = this.toCRFormat(this.averageCR);
+      var crText = this.f5.misc.display_challenge_rating.replace(':cr', averageCRKey);
+      var cr = this.f5.challengerating[averageCRKey];
+
+      if (cr && cr.xp) {
+        crText += ' ' + this.f5.misc.display_challenge_rating_xp.replace(':xp', cr.xp);
+      }
+
+      return crText;
+    },
+    ///////////////// NEW FEATURE /////////////////
+    newFeatureAttackText: function newFeatureAttackText() {
+      var abilityMod = this.getAbilityMod(this.newFeature.attack.ability);
+      var displayText = '<span class="i">';
+
+      if (this.newFeature.attack.meleeRanged == 'meleeranged') {
+        displayText += 'Melee or Ranged';
+      } else if (this.newFeature.attack.meleeRanged == 'melee') {
+        displayText += 'Melee';
+      } else if (this.newFeature.attack.meleeRanged == 'ranged') {
+        displayText += 'Ranged';
+      }
+
+      if (this.newFeature.attack.weaponSpell == 'weapon') {
+        displayText += ' Weapon ';
+      } else if (this.newFeature.attack.weaponSpell == 'spell') {
+        displayText += ' Spell ';
+      }
+
+      displayText += 'Attack:</span> +';
+      displayText += abilityMod + this.proficiency;
+      displayText += ' to hit';
+
+      if (this.newFeature.attack.meleeRanged !== 'ranged') {
+        displayText += ', reach ' + this.newFeature.attack.reach + ' ' + this.value.measure.measureUnit;
+        displayText += ', ' + this.newFeature.attack.targets + ' target';
+
+        if (this.newFeature.attack.targets !== 1) {
+          displayText += 's';
+        }
+      }
+
+      if (this.newFeature.attack.meleeRanged !== 'melee') {
+        displayText += ', range ';
+        displayText += this.newFeature.attack.rangeShort;
+
+        if (this.newFeature.attack.rangeLong > this.newFeature.attack.rangeShort) {
+          displayText += '/' + this.newFeature.attack.rangeLong;
+        }
+
+        displayText += ' ' + this.value.measure.measureUnit;
+        displayText += ', ' + this.newFeature.attack.targets + ' target';
+
+        if (this.newFeature.attack.targets !== 1) {
+          displayText += 's';
+        }
+      }
+
+      displayText += '. <span class="i">Hit: </span> (';
+      displayText += this.newFeature.attack.diceAmount + 'd' + this.newFeature.attack.damageDice;
+
+      if (abilityMod > 0) {
+        displayText += ' + ' + abilityMod;
+      } else if (abilityMod < 0) {
+        displayText += ' - ' + abilityMod * -1;
+      }
+
+      displayText += ')';
+      return displayText;
+    },
+    newFeatureSpellText: function newFeatureSpellText() {
+      var displayText = '';
+      return displayText;
+    },
+    casterLevel: function casterLevel() {
+      var casterLevel = this.value.hitPoints.diceAmount;
+      return casterLevel;
+    },
+    proficiency: function proficiency() {
+      var proficiency = 2; //Default
+
+      if (this.value.manualOverride.proficiency > 1) {
+        return this.value.manualOverride.proficiency;
+      }
+
+      var cr = this.f5.challengerating[this.averageCR];
+
+      if (cr && cr.prof > 0) {
+        proficiency = cr.prof;
+      }
+
+      return proficiency;
+    }
+  },
+  methods: {
+    damageList: function damageList(input) {
+      var sortArr = Object.keys(this.f5.damagetypes);
+      input.sort(function (a, b) {
+        return sortArr.indexOf(a) - sortArr.indexOf(b);
+      });
+      var displayText = '';
+
+      var _iterator4 = _createForOfIteratorHelper(input),
+          _step4;
+
+      try {
+        for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+          var i = _step4.value;
+
+          if (this.f5.damagetypes[i].long_name) {
+            if (displayText !== '') displayText += '; ';
+            displayText += this.f5.damagetypes[i].long_name;
+          } else {
+            if (displayText !== '') displayText += ', ';
+            displayText += this.f5.damagetypes[i].name;
+          }
+        }
+      } catch (err) {
+        _iterator4.e(err);
+      } finally {
+        _iterator4.f();
+      }
+
+      return displayText;
+    },
+    unsetDamages: function unsetDamages(i) {
+      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+      if (type != "resistance" && this.value.damageResistances[i]) {
+        this.value.damageResistances[i] = false;
+      }
+
+      if (type != "immunity" && this.value.damageImmunities[i]) {
+        this.value.damageImmunities[i] = false;
+      }
+
+      if (type != "vulnerability" && this.value.damageVulnerabilites[i]) {
+        this.value.damageVulnerabilites[i] = false;
+      }
+    },
+    conditionList: function conditionList(input) {
+      var displayText = '';
+
+      var _iterator5 = _createForOfIteratorHelper(input),
+          _step5;
+
+      try {
+        for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+          var i = _step5.value;
+
+          if (displayText !== '') {
+            displayText += ', ';
+          }
+
+          displayText += this.f5.conditions[i].name;
+        }
+      } catch (err) {
+        _iterator5.e(err);
+      } finally {
+        _iterator5.f();
+      }
+
+      return displayText;
+    },
+    listReturn: function listReturn(list) {
+      var displayText = '';
+
+      if (this.$data.options[list].hasOwnProperty('all')) {
+        return this.$data.f5[list]['all'].name;
+      }
+
+      for (var i in this.value[list]) {
+        if (!this.value[list][i]) {
+          continue;
+        }
+
+        if (displayText !== '') {
+          displayText += ', ';
+        }
+
+        displayText += this.$data.f5[list][i].name;
+      }
+
+      return displayText;
+    },
+    generateArmourText: function generateArmourText(item, max) {
+      var text = item.name;
+
+      if (item.range && item.range.low && item.range.high) {
+        text += ' (' + item.range.low + '-' + item.range.high + ')';
+      }
+
+      if (item.base) {
+        text += ' (' + item.base;
+
+        if (item.bonus) {
+          text += '+' + item.bonus.toUpperCase();
+
+          if (item.max_bonus) {
+            text += ' - ' + max + ' ' + item.max_bonus;
+          }
+        }
+
+        text += ')';
+      }
+
+      return text;
+    },
+    generateWarnings: function generateWarnings() {
+      //Warning for armor that's too heavy 'str_requirement' vs STR
+      if (this.value.armorClass.type && this.f5.armor[this.value.armorClass.type] && this.f5.armor[this.value.armorClass.type].str_requirement && this.abilities.str < this.f5.armor[this.value.armorClass.type].str_requirement) {//TODO CREATE WARNING
+      }
+    },
+    calcSkillMod: function calcSkillMod(skill) {
+      var ability = this.$data.f5.skills[skill].ability;
+      var abilityMod = this.getAbilityMod(ability);
+
+      if (this.value.skills.includes(skill)) {
+        abilityMod += this.proficiency;
+      }
+
+      return abilityMod;
+    },
+    calcAbilityMod: function calcAbilityMod(abilityScore) {
+      var mod = Math.floor((abilityScore - 10) / 2);
+      return mod;
+    },
+    getAbilityMod: function getAbilityMod(ability) {
+      var score = this.value.abilities[ability];
+      return this.calcAbilityMod(score);
+    },
+    makeSavingThrowDC: function makeSavingThrowDC(ability) {
+      return 8 + this.proficiency + this.getAbilityMod(ability);
+    },
+    addPlus: function addPlus(number) {
+      var addSpace = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+      var space = addSpace ? ' ' : '';
+
+      if (number > 0) {
+        number = '+' + space + number;
+      } else if (number < 0) {
+        if (addSpace) {
+          number = String(number).replace('-', '-' + space);
+        }
+      }
+
+      return number;
+    },
+    getProp: function getProp(obj) {
+      var prop = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'name';
+
+      if (obj === undefined) {
+        return '';
+      }
+
+      if (obj[prop]) {
+        return obj[prop];
+      }
+
+      return obj;
+    },
+    capitalize: function capitalize(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    },
+    createFeature: function createFeature(type) {
+      var newFeature = {
+        id: this.$parent.randChars(15),
+        actionType: type,
+        name: this.f5.misc.title_new_feature,
+        template: 'custom',
+        attackAbility: 'str',
+        targetType: 'melee',
+        attackType: 'none',
+        attackRange: {
+          'low': 20,
+          'high': 60
+        },
+        attackReach: 5,
+        attackDamage: [this.createDamageDie(true)],
+        attackSavingThrow: false,
+        attackTargets: 1,
+        aoeRange: 30,
+        savingThrowMonsterAbility: 'str',
+        savingThrowSaveAbilities: ['str'],
+        savingThrowDamage: [this.createDamageDie()],
+        savingThrowHalfOnSuccess: true,
+        savingThrowConditions: [],
+        hasOngoingDamage: false,
+        ongoingDamage: [this.createDamageDie()],
+        ongoingDamageOccurs: 'start_of_turn',
+        ongoingDamageOnFailedSave: true,
+        ongoingDamageRepeatSave: false,
+        ongoingDamageDuration: 'ongoing',
+        recharge: {
+          type: 'none',
+          diceType: 6,
+          minRoll: 5,
+          uses: 1
+        },
+        spellcastingAbility: 'int',
+        innateSpellcasting: false,
+        spellList: [],
+        spellSlots: {},
+        customDamage: [],
+        customDescription: '',
+        multiattackReferences: [],
+        useMultiattackAlternative: false,
+        multiattackAltReferences: [],
+        legendaryActionCost: 1,
+        manualDPR: -1,
+        averageDPR: -1,
+        damageProjection: []
+      };
+
+      for (var i in 9) {
+        //TODO confirm this is 0-9
+        newFeature.spellSlots[i] = 0;
+      }
+
+      newFeature.attackDamage.push(this.createDamageDie(true));
+      newFeature.savingThrowDamage.push(this.createDamageDie());
+      newFeature.ongoingDamage.push(this.createDamageDie());
+
+      if (type === 'spellcasting') {
+        newFeature.template = 'spellcasting';
+        newFeature.name = this.f5.misc.title_spellcasting;
+      }
+
+      this.value.features[type].push(newFeature);
+    },
+    removeFeature: function removeFeature(type, id) {
+      for (var i in this.value.features[type]) {
+        if (this.value.features[type][i].id === id) {
+          this.value.features[type].splice(i, 1);
+          return;
+        }
+      }
+    },
+    createDamageDie: function createDamageDie() {
+      var setAbilityBonus = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+      return {
         diceType: 4,
         diceAmount: 1,
-        additional: 0
-      },
-      abilities: {},
-      savingThrows: {},
-      damageResistances: [],
-      damageImmunities: [],
-      damageVulnerabilites: [],
-      conditionImmunities: [],
-      skills: [],
-      languages: {
-        spokenWritten: [],
-        doesntSpeak: [],
-        telepathy: 0
-      },
-      speeds: {},
-      hover: false,
-      senses: {},
-      measure: {
-        measureUnit: 'ft.',
-        measureIncrement: 5,
-        measureUnitUp: 5280,
-        measureUnitUpName: 'miles'
-      },
-      showNonCombat: true,
-      manualOverride: {
-        proficiency: 0,
-        casterLevel: 0
-      },
-      targetCR: {
-        offensive: {},
-        defensive: {}
-      },
-      hasLegendaryActions: true,
-      hasMythicActions: false,
-      legendaryActions: 3,
-      reactions: 1,
-      actions: 1,
-      features: {
-        passive: [],
-        spellcasting: [],
-        action: [],
-        bonus_action: [],
-        reaction: [],
-        legendary_action: [],
-        mythic_action: [],
-        lair_action: []
+        additional: 0,
+        abilityBonus: setAbilityBonus,
+        type: 'slashing'
+      };
+    },
+    averageDamage: function averageDamage(damageObj) {
+      var ability = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+      //ability accepts Number or ability name
+      var abilityDamage = 0;
+
+      if (typeof ability === 'string' && damageObj.abilityBonus) {
+        abilityDamage = Number(this.getAbilityMod(ability));
+
+        if (Number.isNaN(abilityDamage)) {
+          abilityDamage = 0;
+        }
+      } else if (typeof ability === 'number') {
+        abilityDamage = Number(ability);
       }
+
+      var damage = Math.floor((damageObj.diceType / 2 + .5) * damageObj.diceAmount) + (Number(damageObj.additional) + Number(abilityDamage));
+      return damage > 0 ? damage : 1;
     },
-    f5: f5data
-  };
+    createDamageText: function createDamageText(damageObj, ability) {
+      var descText = '';
 
-  for (var ability in f5data.abilities) {
-    vueData.options.abilities[ability] = 10;
-    vueData.options.savingThrows[ability] = false;
-  }
+      if (damageObj.diceAmount > 0) {
+        descText += this.averageDamage(damageObj, ability);
+        descText += ' (' + this.$data.f5.misc.die_structure.replace(':die_amount', damageObj.diceAmount).replace(':die_type', damageObj.diceType);
+        var additionalDamage = Number(damageObj.additional);
 
-  for (var sense in f5data.senses) {
-    vueData.options.senses[sense] = 0;
-  }
-
-  for (var lang in f5data.languages) {
-    if (f5data.languages[lang]['default']) {
-      vueData.options.languages.spokenWritten.push(lang);
-    }
-  }
-
-  for (var speed in f5data.speeds) {
-    if (f5data.speeds[speed]['default']) {
-      vueData.options.speeds[speed] = f5data.speeds[speed]['default'];
-    } else {
-      vueData.options.speeds[speed] = 0;
-    }
-  }
-
-  var app = new Vue({
-    el: '#f5',
-    data: vueData,
-    components: {
-      'Multiselect': _vueform_multiselect_dist_multiselect_vue2_js__WEBPACK_IMPORTED_MODULE_0__["default"],
-      'statblock-feature': _statblock_feature_js__WEBPACK_IMPORTED_MODULE_1__["default"]
-    },
-    computed: {
-      //Editor
-      statblockColumns: function statblockColumns() {
-        return 'column-' + this.editor.columns;
-      },
-      averageDPR: function averageDPR() {
-        var avgDPR = 0;
-        var dprGroups = {
-          passive: [],
-          action: [],
-          //include spellcasting
-          bonus_action: [],
-          legendary_action: [],
-          //include mythic_action
-          lair_action: []
-        };
-        /*
-        total passives
-        top action / spellcasting +
-        top reaction + 
-        top bonus + 
-        top legendary/mythic combinations + 
-        top lair action
-        */
-
-        for (var featureType in this.options.features) {
-          var _iterator = _createForOfIteratorHelper(this.options.features[featureType]),
-              _step;
-
-          try {
-            for (_iterator.s(); !(_step = _iterator.n()).done;) {
-              var feature = _step.value;
-              var dprType = featureType;
-
-              if (dprType === 'mythic_action') {
-                dprType = 'legendary_action';
-              } else if (dprType === 'spellcasting') {
-                dprType = 'action';
-              }
-
-              for (var i = 0; i > 7; i++) {
-                dprGroups[dprType][i] = 0;
-              }
-
-              if (feature.averageDPR > avgDPR) {
-                avgDPR = feature.averageDPR;
-              }
-            }
-          } catch (err) {
-            _iterator.e(err);
-          } finally {
-            _iterator.f();
-          }
+        if (damageObj.abilityBonus) {
+          additionalDamage += this.getAbilityMod(ability);
         }
 
-        return avgDPR;
-      },
-      damageProjection: function damageProjection() {
-        var projections = {
-          action: {
-            count: this.options.actions,
-            rounds: [],
-            options: []
-          },
-          reaction: {
-            count: this.options.reactions,
-            rounds: [],
-            options: []
-          },
-          legendary_action: {
-            count: this.options.legendaryActions,
-            rounds: [],
-            options: []
-          },
-          lair_action: {
-            count: 1,
-            rounds: [],
-            options: []
-          },
-          passive: {
-            count: false,
-            rounds: [],
-            options: []
-          }
-        }; //Gather Projections
-
-        for (var featureType in this.options.features) {
-          var _iterator2 = _createForOfIteratorHelper(this.options.features[featureType]),
-              _step2;
-
-          try {
-            for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-              var feature = _step2.value;
-              //Merge similar action types
-              var actionType = featureType;
-
-              if (actionType === 'mythic_action') {
-                actionType = 'legendary_action';
-              } else if (actionType === 'spellcasting') {
-                actionType = 'action';
-              }
-
-              projections[actionType].options.push(_toConsumableArray(feature.damageProjection)); //Clone projection
-            }
-          } catch (err) {
-            _iterator2.e(err);
-          } finally {
-            _iterator2.f();
-          }
-        } //Sort Projections
-
-
-        for (var _actionType in projections) {
-          var _loop = function _loop(i) {
-            projections[_actionType].options.sort(function (a, b) {
-              var damageA = a[i] && a[i].damage ? a[i].damage / a[i].actionCost : 0;
-              var damageB = b[i] && b[i].damage ? b[i].damage / b[i].actionCost : 0;
-              return damageB - damageA;
-            });
-
-            var actionCount = 0;
-
-            for (var j = 0; j < projections[_actionType].options.length; j++) {
-              var actionObj = projections[_actionType].options[j][i];
-              var actionCost = actionObj && actionObj.actionCost ? actionObj.actionCost : 0;
-
-              if (actionCount + actionCost <= projections[_actionType].count) {
-                //Action fits
-                if (actionObj) {
-                  //Add action
-                  if (!projections[_actionType].rounds[i]) {
-                    projections[_actionType].rounds[i] = [];
-                  }
-
-                  projections[_actionType].rounds[i][j] = actionObj;
-                  actionCount += actionCost;
-                } else if (actionObj) {
-                  //Not enough actions
-                  actionCount += projections[_actionType].count;
-                }
-              } else if (actionObj.damage > 0) {
-                //push out viable damage options until later turns
-                projections[_actionType].options[j].splice(i, 0, 0);
-              }
-            }
-          };
-
-          for (var i = 0; i < this.editor.round_tracker; i++) {
-            _loop(i);
-          }
+        if (additionalDamage != 0) {
+          descText += ' ' + this.addPlus(additionalDamage, true);
         }
 
-        console.log('Damage Projections:');
-        console.log(projections);
-        return projections;
-      },
-      //Challenge Rating
-      damageCr: function damageCr() {
-        var dpr = this.averageDPR;
-        var approxCr = 1;
-
-        for (var i in this.f5.challengerating) {
-          var cr = this.f5.challengerating[i];
-
-          if (dpr >= cr.dpr.low && dpr <= cr.dpr.high) {
-            approxCr = i;
-            break;
-          }
-        }
-
-        return approxCr;
-      },
-      healthCr: function healthCr() {
-        //TODO: Factor in AC, HP, and defensive features
-        var hp = this.getHP;
-        var approxCr = 31;
-
-        for (var i in this.f5.challengerating) {
-          var cr = this.f5.challengerating[i];
-
-          if (hp >= cr.hp.low && hp <= cr.hp.high) {
-            approxCr = i;
-            break;
-          }
-        }
-
-        return approxCr;
-      },
-      armorCr: function armorCr() {
-        //TODO: Factor in AC, HP, and defensive features
-        var ac = this.getAC;
-
-        if (!ac) {
-          return 'Unset';
-        } else if (ac < this.f5.challengerating[0].ac) {
-          return '0';
-        } else if (ac > this.f5.challengerating[20].ac) {
-          return '> 30';
-        }
-
-        var crLow = 31;
-        var crHigh = 0;
-
-        for (var i in this.f5.challengerating) {
-          var cr = this.f5.challengerating[i];
-
-          if (ac == cr.ac) {
-            if (cr.cr > crHigh) {
-              crHigh = cr.cr;
-            }
-
-            if (cr.cr < crLow) {
-              crLow = cr.cr;
-            }
-          }
-        }
-
-        if (crLow == crHigh) return crLow;
-        return crLow + '-' + crHigh;
-      },
-      averageCR: function averageCR() {
-        var armorCr = this.armorCr;
-
-        if (armorCr.includes('-')) {
-          var splitArmor = armorCr.split('-');
-          armorCr = (this.toNumber(splitArmor[0]) + this.toNumber(splitArmor[1])) / 2;
-        }
-
-        var average = Math.round((armorCr + this.toNumber(this.healthCr) + this.toNumber(this.damageCr)) / 3);
-        return average;
-      },
-      //Description Text
-      descriptionText: function descriptionText() {
-        var descStr = '';
-
-        if (this.options.size) {
-          descStr += this.getProp(this.f5.creaturesizes[this.options.size]);
-          this.options.hitPoints.diceType = this.f5.creaturesizes[this.options.size].hit_dice; //TODO check if hitdice were manually set
-        }
-
-        if (this.options.type) {
-          if (descStr != '') descStr += ' ';
-          descStr += this.capitalize(this.getProp(this.f5.creaturetypes[this.options.type]));
-        }
-
-        if (this.options.subtype
-        /*|| (this.options.showtypeCategory && this.options.typeCategory)*/
-        ) {
-            if (descStr != '') descStr += ' ';
-            descStr += '(';
-
-            if (this.options.subtype) {
-              descStr += this.getProp(this.f5.creaturesubtypes[this.options.subtype]);
-            }
-            /* TODO Do something with category?
-            if(this.options.subtype && (this.options.showtypeCategory && this.options.typeCategory)) { 
-                str += ', ';
-            }
-            */
-
-
-            descStr += ')';
-          }
-
-        if (this.options.alignment) {
-          if (descStr != '') descStr += ', ';
-
-          if (this.options.showTypicalAlignment) {
-            descStr += this.f5.misc.alignments_typically.replace(":alignment", this.getProp(this.f5.alignments[this.options.alignment]));
-          } else {
-            descStr += this.getProp(this.f5.alignments[this.options.alignment]);
-          }
-        }
-
-        return this.capitalize(descStr);
-      },
-      //Armor Class
-      allowAcSelector: function allowAcSelector() {
-        if (this.options.armorClass && this.options.armorClass.type && this.f5.armor[this.options.armorClass.type]) {
-          return this.f5.armor[this.options.armorClass.type].range;
-        }
-
-        return false;
-      },
-      allowAcBonus: function allowAcBonus() {
-        if (this.f5.armor[this.options.armorClass.type] && this.f5.armor[this.options.armorClass.type].allow_bonus) {
-          return true;
-        }
-
-        return false;
-      },
-      getAcRange: function getAcRange() {
-        if (this.options.armorClass && this.options.armorClass.type && this.f5.armor[this.options.armorClass.type] && this.f5.armor[this.options.armorClass.type].range && this.f5.armor[this.options.armorClass.type].range.low && this.f5.armor[this.options.armorClass.type].range.high) {
-          var arr = [];
-
-          for (var i = this.f5.armor[this.options.armorClass.type].range.low; i < this.f5.armor[this.options.armorClass.type].range.high + 1; i++) {
-            arr.push(i);
-          }
-
-          return arr;
-        }
-
-        return 30;
-      },
-      getAC: function getAC() {
-        var acValue = 0;
-        var statBonus = 0;
-
-        if (this.options.armorClass && this.options.armorClass.type && this.f5.armor[this.options.armorClass.type]) {
-          //set AC value
-          if (this.f5.armor[this.options.armorClass.type].range) {
-            //manual value
-            acValue = parseFloat(this.options.armorClass.manual);
-          } else if (this.f5.armor[this.options.armorClass.type].base) {
-            //base value
-            acValue = this.f5.armor[this.options.armorClass.type].base;
-
-            if (this.f5.armor[this.options.armorClass.type].bonus && this.options.abilities[this.f5.armor[this.options.armorClass.type].bonus]) {
-              //get stat bonus
-              statBonus = this.getAbilityMod(this.f5.armor[this.options.armorClass.type].bonus);
-
-              if (this.f5.armor[this.options.armorClass.type].max_bonus && statBonus > this.f5.armor[this.options.armorClass.type].max_bonus) {
-                //set to max bonus
-                statBonus = this.f5.armor[this.options.armorClass.type].max_bonus;
-              }
-
-              acValue += parseFloat(statBonus);
-            }
-          } else {
-            console.error('Couldn\'t calculate AC');
-          }
-
-          if (this.allowAcBonus && this.options.armorClass.bonus && this.options.armorClass.bonus > 0) {
-            acValue += parseFloat(this.options.armorClass.bonus);
-          }
-
-          if (this.options.armorClass.shield) {
-            acValue += 2;
-          }
-        }
-
-        return acValue;
-      },
-      acText: function acText() {
-        var acText = '';
-        var name = '';
-        var acValue = 0;
-        var magicalBonus = '';
-        var statBonus = 0;
-        var stealthDis = '';
-
-        if (this.options.armorClass && this.options.armorClass.type && this.f5.armor[this.options.armorClass.type]) {
-          //set name
-          if (this.options.armorClass.type === 'custom' && this.options.armorClass.name) {
-            name = this.options.armorClass.name;
-          } else if (this.options.armorClass.type !== 'none' && this.f5.armor[this.options.armorClass.type].name) {
-            name = this.f5.armor[this.options.armorClass.type].name;
-          } //set AC value
-
-
-          if (this.f5.armor[this.options.armorClass.type].range) {
-            //manual value
-            acValue = parseFloat(this.options.armorClass.manual);
-
-            if (this.options.armorClass.stealthDis) {
-              stealthDis = ' (' + this.f5.misc.stealth_dis + ')';
-            }
-          } else if (this.f5.armor[this.options.armorClass.type].base) {
-            //base value
-            acValue = this.f5.armor[this.options.armorClass.type].base;
-
-            if (this.f5.armor[this.options.armorClass.type].bonus && this.options.abilities[this.f5.armor[this.options.armorClass.type].bonus]) {
-              //get stat bonus
-              statBonus = this.getAbilityMod(this.f5.armor[this.options.armorClass.type].bonus);
-
-              if (this.f5.armor[this.options.armorClass.type].max_bonus && statBonus > this.f5.armor[this.options.armorClass.type].max_bonus) {
-                //set to max bonus
-                statBonus = this.f5.armor[this.options.armorClass.type].max_bonus;
-              }
-
-              acValue += parseFloat(statBonus);
-            }
-
-            if (this.f5.armor[this.options.armorClass.type].stealth_dis) {
-              stealthDis = ' (' + this.f5.misc.stealth_dis + ')';
-            }
-          } else {
-            console.error('Couldn\'t calculate AC');
-          }
-
-          if (this.allowAcBonus && this.options.armorClass.bonus && this.options.armorClass.bonus > 0) {
-            acValue += parseFloat(this.options.armorClass.bonus);
-            magicalBonus = "+" + this.options.armorClass.bonus + ' ';
-          }
-
-          var shieldText = '';
-
-          if (this.options.armorClass.shield) {
-            shieldText = ', ' + this.f5.misc.shield;
-          }
-
-          acText = String(acValue);
-
-          if (magicalBonus || shieldText || name) {
-            acText += ' (' + magicalBonus + name + shieldText + ')'; // +stealthDis?;
-          }
-        }
-
-        return acText.toLowerCase();
-      },
-      //Hit Points
-      getHP: function getHP() {
-        var type = this.options.hitPoints.diceType;
-        var amount = this.options.hitPoints.diceAmount;
-        var additionalHP = this.options.hitPoints.additional > 0 ? Math.floor(this.options.hitPoints.additional) : 0;
-
-        if (additionalHP > 9999) {
-          this.options.hitPoints.additional = additionalHP = 9999;
-        }
-
-        var conMod = this.getAbilityMod('con');
-        var conHP = 0;
-
-        if (conMod > 0) {
-          conHP = conMod * amount;
-        }
-
-        var hp = Math.round((type / 2 + .5) * amount) + conHP + additionalHP;
-        return hp;
-      },
-      hitPointsText: function hitPointsText() {
-        var type = this.options.hitPoints.diceType;
-        var amount = this.options.hitPoints.diceAmount;
-        var additionalHP = this.options.hitPoints.additional > 0 ? Math.floor(this.options.hitPoints.additional) : 0;
-
-        if (additionalHP > 9999) {
-          this.options.hitPoints.additional = additionalHP = 9999;
-        }
-
-        var conMod = this.getAbilityMod('con');
-        var conHP = 0;
-
-        if (conMod > 0) {
-          conHP = conMod * amount;
-        }
-
-        var hp = Math.round((type / 2 + .5) * amount) + conHP + additionalHP;
-
-        if (isNaN(hp)) {
-          return this.f5.misc.undefined_health;
-        }
-
-        var conText = '';
-
-        if (conHP > 0 || additionalHP > 0) {
-          conText = ' + ' + (conHP + additionalHP);
-        }
-
-        var hpText = hp + ' (' + amount + this.f5.misc.die_symbol + type + conText;
-        hpText += ')';
-        return hpText;
-      },
-      //Damages
-      //TODO have a fix for redundancies
-      //If in immunity, then remove from resistance and vulnerability
-      //If in resistance, then remove from vulnerability
-      damageResistanceText: function damageResistanceText() {
-        return this.damageList(this.options.damageResistances).toLowerCase();
-      },
-      damageImmunitiesText: function damageImmunitiesText() {
-        return this.damageList(this.options.damageImmunities).toLowerCase();
-      },
-      damageVulnerabilitiesText: function damageVulnerabilitiesText() {
-        return this.damageList(this.options.damageVulnerabilites).toLowerCase();
-      },
-      conditionImmunitiesText: function conditionImmunitiesText() {
-        return this.conditionList(this.options.conditionImmunities).toLowerCase();
-      },
-      eligableDamageTypes: function eligableDamageTypes() {
-        var list = [];
-
-        for (var i in this.f5.damagetypes) {
-          if (this.options.damageResistances.includes(i) || this.options.damageImmunities.includes(i) || this.options.damageVulnerabilites.includes(i)) {
-            list.push({
-              value: i,
-              label: this.f5.damagetypes[i].name,
-              disabled: true
-            });
-          } else {
-            list.push({
-              value: i,
-              label: this.f5.damagetypes[i].name
-            });
-          }
-        }
-
-        return list;
-      },
-      dealableDamageTypes: function dealableDamageTypes() {
-        var list = [];
-
-        for (var i in this.f5.damagetypes) {
-          if (!(this.f5.damagetypes[i].dealt === false)) {
-            list.push({
-              value: i,
-              label: this.f5.damagetypes[i].name
-            });
-          }
-        }
-
-        return list;
-      },
-      //Speeds
-      speedText: function speedText() {
-        var displayText = '';
-
-        for (var i in this.options.speeds) {
-          if (!this.options.speeds[i]) {
-            continue;
-          }
-
-          if (displayText !== '') {
-            displayText += ', ';
-          }
-
-          if (!this.f5.speeds[i]['hide_name']) {
-            displayText += this.f5.speeds[i].name.toLowerCase() + ' ';
-          }
-
-          displayText += this.options.speeds[i] + ' ' + this.options.measure.measureUnit;
-
-          if (i === 'fly' && this.options.hover) {
-            displayText += ' (' + this.f5.misc.hover.toLowerCase() + ')';
-          }
-        }
-
-        if (!displayText) {
-          displayText = this.f5.misc.cant_move;
-        }
-
-        return displayText;
-      },
-      //Senses
-      sensesText: function sensesText() {
-        var displayText = '';
-
-        for (var i in this.options.senses) {
-          if (!this.options.senses[i]) {
-            continue;
-          }
-
-          if (displayText !== '') {
-            displayText += ', ';
-          }
-
-          if (!this.f5.senses[i]['hide_name']) {
-            displayText += this.f5.senses[i].name.toLowerCase() + ' ';
-          }
-
-          displayText += this.options.senses[i] + ' ' + this.options.measure.measureUnit;
-        } //Passive Perception
-
-
-        if (this.options.skills.includes('perception')) {
-          if (displayText !== '') {
-            displayText += ', ';
-          }
-
-          displayText += this.f5.misc.passive_skill.replace(':skill', this.f5.skills['perception'].name) + ' ' + (this.calcSkillMod('perception') + 10);
-        }
-
-        return displayText;
-      },
-      //Subtypes
-      orderedSubtypes: function orderedSubtypes() {
-        if (this.$data.f5.creaturetypes.hasOwnProperty(this.options.type) && this.$data.f5.creaturetypes[this.options.type]['subtypes']) {
-          var topSubtypes = [];
-          var count = 0;
-
-          for (var i in this.$data.f5.creaturesubtypes) {
-            var subtypeObj = this.$data.f5.creaturesubtypes[i];
-            subtypeObj.id = i;
-
-            if (this.$data.f5.creaturetypes[this.options.type]['subtypes'].includes(i)) {
-              topSubtypes.splice(count, 0, subtypeObj);
-              count++;
-            } else {
-              topSubtypes.push(subtypeObj);
-            }
-          }
-
-          return topSubtypes;
-        }
-
-        return this.f5.creaturesubtypes;
-      },
-      //Type Options
-      typeCategoryList: function typeCategoryList() {
-        var optionsList = [];
-
-        if (this.$data.f5.creaturetypes.hasOwnProperty(this.options.type) && this.$data.f5.creaturetypes[this.options.type].hasOwnProperty('options')) {
-          for (var i in this.$data.f5.creaturetypes[this.options.type]['options']) {
-            var data = this.$data.f5.creaturetypes[this.options.type]['options'][i];
-            data.id = i;
-            optionsList.push(data);
-          }
-        }
-
-        if (this.$data.f5.creaturesubtypes.hasOwnProperty(this.options.subtype) && this.$data.f5.creaturesubtypes[this.options.subtype].hasOwnProperty('options')) {
-          for (var _i in this.$data.f5.creaturesubtypes[this.options.subtype]['options']) {
-            var _data = this.$data.f5.creaturesubtypes[this.options.subtype]['options'][_i];
-            _data.id = _i;
-            optionsList.push(_data);
-          }
-        }
-
-        return optionsList;
-      },
-      //Languages
-      languageText: function languageText() {
-        var displayText = '';
-
-        if (this.options.languages.spokenWritten.includes('all')) {
-          return this.$data.f5.languages['all'].name;
-        }
-
-        var _iterator3 = _createForOfIteratorHelper(this.options.languages.spokenWritten),
-            _step3;
-
-        try {
-          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-            var _lang = _step3.value;
-
-            if (displayText !== '') {
-              displayText += ', ';
-            }
-
-            displayText += this.$data.f5.languages[_lang].name;
-          }
-        } catch (err) {
-          _iterator3.e(err);
-        } finally {
-          _iterator3.f();
-        }
-
-        if (!displayText) {
-          displayText = this.$data.f5.misc.languages_none;
-        }
-
-        return displayText;
-      },
-      //Skills
-      skillText: function skillText() {
-        var displayText = '';
-
-        for (var skill in this.$data.f5.skills) {
-          if (!this.options.skills.includes(skill)) {
-            continue;
-          }
-
-          if (this.calcSkillMod(skill) == 0) {
-            continue;
-          }
-
-          if (displayText !== '') {
-            displayText += ', ';
-          }
-
-          displayText += this.$data.f5.skills[skill].name + ' ' + this.addPlus(this.calcSkillMod(skill));
-        }
-
-        return displayText;
-      },
-      //Saving Throw
-      savingThrowText: function savingThrowText() {
-        var displayText = '';
-
-        for (var i in this.options.savingThrows) {
-          if (!this.options.savingThrows[i]) {
-            continue;
-          }
-
-          if (displayText !== '') {
-            displayText += ', ';
-          }
-
-          displayText += this.capitalize(i) + ' +' + (this.getAbilityMod(i) + this.proficiency);
-        }
-
-        return displayText;
-      },
-      //
-      proficiencyText: function proficiencyText() {
-        return "+" + this.proficiency;
-      },
-      //Challenge Rating
-      crText: function crText() {
-        var averageCRKey = this.toCRFormat(this.averageCR);
-        var crText = this.f5.misc.display_challenge_rating.replace(':cr', averageCRKey);
-        var cr = this.f5.challengerating[averageCRKey];
-
-        if (cr && cr.xp) {
-          crText += ' ' + this.f5.misc.display_challenge_rating_xp.replace(':xp', cr.xp);
-        }
-
-        return crText;
-      },
-      ///////////////// NEW FEATURE /////////////////
-      newFeatureAttackText: function newFeatureAttackText() {
-        var abilityMod = this.getAbilityMod(this.newFeature.attack.ability);
-        var displayText = '<span class="i">';
-
-        if (this.newFeature.attack.meleeRanged == 'meleeranged') {
-          displayText += 'Melee or Ranged';
-        } else if (this.newFeature.attack.meleeRanged == 'melee') {
-          displayText += 'Melee';
-        } else if (this.newFeature.attack.meleeRanged == 'ranged') {
-          displayText += 'Ranged';
-        }
-
-        if (this.newFeature.attack.weaponSpell == 'weapon') {
-          displayText += ' Weapon ';
-        } else if (this.newFeature.attack.weaponSpell == 'spell') {
-          displayText += ' Spell ';
-        }
-
-        displayText += 'Attack:</span> +';
-        displayText += abilityMod + this.proficiency;
-        displayText += ' to hit';
-
-        if (this.newFeature.attack.meleeRanged !== 'ranged') {
-          displayText += ', reach ' + this.newFeature.attack.reach + ' ' + this.options.measure.measureUnit;
-          displayText += ', ' + this.newFeature.attack.targets + ' target';
-
-          if (this.newFeature.attack.targets !== 1) {
-            displayText += 's';
-          }
-        }
-
-        if (this.newFeature.attack.meleeRanged !== 'melee') {
-          displayText += ', range ';
-          displayText += this.newFeature.attack.rangeShort;
-
-          if (this.newFeature.attack.rangeLong > this.newFeature.attack.rangeShort) {
-            displayText += '/' + this.newFeature.attack.rangeLong;
-          }
-
-          displayText += ' ' + this.options.measure.measureUnit;
-          displayText += ', ' + this.newFeature.attack.targets + ' target';
-
-          if (this.newFeature.attack.targets !== 1) {
-            displayText += 's';
-          }
-        }
-
-        displayText += '. <span class="i">Hit: </span> (';
-        displayText += this.newFeature.attack.diceAmount + 'd' + this.newFeature.attack.damageDice;
-
-        if (abilityMod > 0) {
-          displayText += ' + ' + abilityMod;
-        } else if (abilityMod < 0) {
-          displayText += ' - ' + abilityMod * -1;
-        }
-
-        displayText += ')';
-        return displayText;
-      },
-      newFeatureSpellText: function newFeatureSpellText() {
-        var displayText = '';
-        return displayText;
-      },
-      casterLevel: function casterLevel() {
-        var casterLevel = this.options.hitPoints.diceAmount;
-        return casterLevel;
-      },
-      proficiency: function proficiency() {
-        var proficiency = 2; //Default
-
-        if (this.options.manualOverride.proficiency > 1) {
-          return this.options.manualOverride.proficiency;
-        }
-
-        var cr = this.f5.challengerating[this.averageCR];
-
-        if (cr && cr.prof > 0) {
-          proficiency = cr.prof;
-        }
-
-        return proficiency;
+        descText += ') ';
+      } else {
+        descText = damageObj.additional + ' ';
       }
+
+      descText += this.$data.f5.misc.damage.replace(':type', this.$data.f5.damagetypes[damageObj.type].name.toLowerCase());
+      return descText;
     },
-    methods: {
-      damageList: function damageList(input) {
-        var sortArr = Object.keys(this.f5.damagetypes);
-        input.sort(function (a, b) {
-          return sortArr.indexOf(a) - sortArr.indexOf(b);
-        });
-        var displayText = '';
+    createSentenceList: function createSentenceList(input) {
+      var inclusive = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+      var modifierFunction = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+      var len = input.length;
 
-        var _iterator4 = _createForOfIteratorHelper(input),
-            _step4;
-
-        try {
-          for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-            var i = _step4.value;
-
-            if (this.f5.damagetypes[i].long_name) {
-              if (displayText !== '') displayText += '; ';
-              displayText += this.f5.damagetypes[i].long_name;
-            } else {
-              if (displayText !== '') displayText += ', ';
-              displayText += this.f5.damagetypes[i].name;
-            }
-          }
-        } catch (err) {
-          _iterator4.e(err);
-        } finally {
-          _iterator4.f();
+      if (isNaN(len)) {
+        if (!isNaN(Object.keys(input).length)) {
+          len = Object.keys(input).length;
         }
+      }
 
-        return displayText;
-      },
-      unsetDamages: function unsetDamages(i) {
-        var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+      var descText = '';
 
-        if (type != "resistance" && this.options.damageResistances[i]) {
-          this.options.damageResistances[i] = false;
-        }
-
-        if (type != "immunity" && this.options.damageImmunities[i]) {
-          this.options.damageImmunities[i] = false;
-        }
-
-        if (type != "vulnerability" && this.options.damageVulnerabilites[i]) {
-          this.options.damageVulnerabilites[i] = false;
-        }
-      },
-      conditionList: function conditionList(input) {
-        var displayText = '';
-
-        var _iterator5 = _createForOfIteratorHelper(input),
-            _step5;
-
-        try {
-          for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
-            var i = _step5.value;
-
-            if (displayText !== '') {
-              displayText += ', ';
-            }
-
-            displayText += this.f5.conditions[i].name;
-          }
-        } catch (err) {
-          _iterator5.e(err);
-        } finally {
-          _iterator5.f();
-        }
-
-        return displayText;
-      },
-      listReturn: function listReturn(list) {
-        var displayText = '';
-
-        if (this.$data.options[list].hasOwnProperty('all')) {
-          return this.$data.f5[list]['all'].name;
-        }
-
-        for (var i in this.options[list]) {
-          if (!this.options[list][i]) {
-            continue;
-          }
-
-          if (displayText !== '') {
-            displayText += ', ';
-          }
-
-          displayText += this.$data.f5[list][i].name;
-        }
-
-        return displayText;
-      },
-      generateArmourText: function generateArmourText(item, max) {
-        var text = item.name;
-
-        if (item.range && item.range.low && item.range.high) {
-          text += ' (' + item.range.low + '-' + item.range.high + ')';
-        }
-
-        if (item.base) {
-          text += ' (' + item.base;
-
-          if (item.bonus) {
-            text += '+' + item.bonus.toUpperCase();
-
-            if (item.max_bonus) {
-              text += ' - ' + max + ' ' + item.max_bonus;
-            }
-          }
-
-          text += ')';
-        }
-
-        return text;
-      },
-      generateWarnings: function generateWarnings() {
-        //Warning for armor that's too heavy 'str_requirement' vs STR
-        if (this.options.armorClass.type && this.f5.armor[this.options.armorClass.type] && this.f5.armor[this.options.armorClass.type].str_requirement && this.abilities.str < this.f5.armor[this.options.armorClass.type].str_requirement) {//TODO CREATE WARNING
-        }
-      },
-      calcSkillMod: function calcSkillMod(skill) {
-        var ability = this.$data.f5.skills[skill].ability;
-        var abilityMod = this.getAbilityMod(ability);
-
-        if (this.options.skills.includes(skill)) {
-          abilityMod += this.proficiency;
-        }
-
-        return abilityMod;
-      },
-      calcAbilityMod: function calcAbilityMod(abilityScore) {
-        var mod = Math.floor((abilityScore - 10) / 2);
-        return mod;
-      },
-      getAbilityMod: function getAbilityMod(ability) {
-        var score = this.options.abilities[ability];
-        return this.calcAbilityMod(score);
-      },
-      makeSavingThrowDC: function makeSavingThrowDC(ability) {
-        return 8 + this.proficiency + this.getAbilityMod(ability);
-      },
-      addPlus: function addPlus(number) {
-        var addSpace = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-        var space = addSpace ? ' ' : '';
-
-        if (number > 0) {
-          number = '+' + space + number;
-        } else if (number < 0) {
-          if (addSpace) {
-            number = String(number).replace('-', '-' + space);
-          }
-        }
-
-        return number;
-      },
-      getProp: function getProp(obj) {
-        var prop = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'name';
-
-        if (obj === undefined) {
-          return '';
-        }
-
-        if (obj[prop]) {
-          return obj[prop];
-        }
-
-        return obj;
-      },
-      capitalize: function capitalize(str) {
-        return str.charAt(0).toUpperCase() + str.slice(1);
-      },
-      createFeature: function createFeature(type) {
-        var newFeature = {
-          id: this.randChars(15),
-          actionType: type,
-          name: this.f5.misc.title_new_feature,
-          template: 'custom',
-          attackAbility: 'str',
-          targetType: 'melee',
-          attackType: 'none',
-          attackRange: {
-            'low': 20,
-            'high': 60
-          },
-          attackReach: 5,
-          attackDamage: [],
-          attackSavingThrow: false,
-          attackTargets: 1,
-          aoeRange: 30,
-          savingThrowMonsterAbility: 'str',
-          savingThrowSaveAbilities: ['str'],
-          savingThrowDamage: [],
-          savingThrowHalfOnSuccess: true,
-          savingThrowConditions: [],
-          hasOngoingDamage: false,
-          ongoingDamage: [],
-          ongoingDamageOccurs: 'start_of_turn',
-          ongoingDamageOnFailedSave: true,
-          ongoingDamageRepeatSave: false,
-          ongoingDamageDuration: 'ongoing',
-          recharge: {
-            type: 'none',
-            diceType: 6,
-            minRoll: 5,
-            uses: 1
-          },
-          spellcastingAbility: 'int',
-          innateSpellcasting: false,
-          spellList: [],
-          spellSlots: {
-            0: 1,
-            1: 0,
-            2: 0,
-            3: 0,
-            4: 0,
-            5: 0,
-            6: 0,
-            7: 0,
-            8: 0,
-            9: 0
-          },
-          customDamage: [],
-          customDescription: '',
-          multiattackReferences: [],
-          useMultiattackAlternative: false,
-          multiattackAltReferences: [],
-          legendaryActionCost: 1,
-          manualDPR: -1,
-          averageDPR: -1,
-          damageProjection: []
-        };
-        newFeature.attackDamage.push(this.createDamageDie(true));
-        newFeature.savingThrowDamage.push(this.createDamageDie());
-        newFeature.ongoingDamage.push(this.createDamageDie());
-
-        if (type === 'spellcasting') {
-          newFeature.template = 'spellcasting';
-          newFeature.name = this.f5.misc.title_spellcasting;
-        }
-
-        this.options.features[type].push(newFeature);
-      },
-      removeFeature: function removeFeature(type, id) {
-        for (var i in this.options.features[type]) {
-          if (this.options.features[type][i].id === id) {
-            this.options.features[type].splice(i, 1);
-            return;
-          }
-        }
-      },
-      createDamageDie: function createDamageDie() {
-        var setAbilityBonus = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-        return {
-          diceType: 4,
-          diceAmount: 1,
-          additional: 0,
-          abilityBonus: setAbilityBonus,
-          type: 'slashing'
-        };
-      },
-      averageDamage: function averageDamage(damageObj) {
-        var ability = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-        //ability accepts Number or ability name
-        var abilityDamage = 0;
-
-        if (typeof ability === 'string' && damageObj.abilityBonus) {
-          abilityDamage = Number(this.getAbilityMod(ability));
-
-          if (Number.isNaN(abilityDamage)) {
-            abilityDamage = 0;
-          }
-        } else if (typeof ability === 'number') {
-          abilityDamage = Number(ability);
-        }
-
-        var damage = Math.floor((damageObj.diceType / 2 + .5) * damageObj.diceAmount) + (Number(damageObj.additional) + Number(abilityDamage));
-        return damage > 0 ? damage : 1;
-      },
-      createDamageText: function createDamageText(damageObj, ability) {
-        var descText = '';
-
-        if (damageObj.diceAmount > 0) {
-          descText += this.averageDamage(damageObj, ability);
-          descText += ' (' + this.$data.f5.misc.die_structure.replace(':die_amount', damageObj.diceAmount).replace(':die_type', damageObj.diceType);
-          var additionalDamage = Number(damageObj.additional);
-
-          if (damageObj.abilityBonus) {
-            additionalDamage += this.getAbilityMod(ability);
-          }
-
-          if (additionalDamage != 0) {
-            descText += ' ' + this.addPlus(additionalDamage, true);
-          }
-
-          descText += ') ';
-        } else {
-          descText = damageObj.additional + ' ';
-        }
-
-        descText += this.$data.f5.misc.damage.replace(':type', this.$data.f5.damagetypes[damageObj.type].name.toLowerCase());
-        return descText;
-      },
-      randChars: function randChars(len) {
-        var base = _toConsumableArray("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvyxyz0123456789");
-
-        var generator = function generator(base, len) {
-          return _toConsumableArray(Array(len)).map(function (i) {
-            return base[Math.random() * base.length | 0];
-          }).join('');
-        };
-
-        return generator(base, len);
-      },
-      createSentenceList: function createSentenceList(input) {
-        var inclusive = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-        var modifierFunction = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-        var len = input.length;
-
-        if (isNaN(len)) {
-          if (!isNaN(Object.keys(input).length)) {
-            len = Object.keys(input).length;
-          }
-        }
-
-        var descText = '';
-
-        for (var i in input) {
-          //TODO this might need to change in other languages
-          if (descText) {
-            if (len > 2) {
-              descText += this.f5.misc.sentence_list_separator + ' ';
-            }
-
-            if (i == len - 1) {
-              if (inclusive) {
-                descText += ' ' + this.f5.misc.and + ' ';
-              } else {
-                descText += ' ' + this.f5.misc.or + ' ';
-              }
-            }
-          }
-
-          if (modifierFunction != null && typeof modifierFunction === 'function') {
-            descText += modifierFunction(input[i]);
-          } else {
-            descText += input[i];
-          }
-        }
-
-        return descText;
-      },
-      createConditionSentenceList: function createConditionSentenceList(input) {
-        var inclusive = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-        var len = input.length;
-
-        if (isNaN(len)) {
-          if (!isNaN(Object.keys(input).length)) {
-            len = Object.keys(input).length;
-          }
-        }
-
-        var descText = '';
-
-        for (var i in input) {
-          //TODO this might need to change in other languages
-          if (descText) {
-            if (len > 2) {
-              descText += this.f5.misc.sentence_list_separator + ' ';
-            }
-
-            if (i == len - 1) {
-              if (inclusive) {
-                descText += ' ' + this.f5.misc.and + ' ';
-              } else {
-                descText += ' ' + this.f5.misc.or + ' ';
-              }
-            }
-          }
-
-          descText += input[i];
-        }
-
-        return descText;
-      },
-      createSimpleList: function createSimpleList(input) {
-        var len = input.length;
-
-        if (isNaN(len)) {
-          if (!isNaN(Object.keys(input).length)) {
-            len = Object.keys(input).length;
-          }
-        }
-
-        var descText = '';
-
-        for (var i in input) {
-          if (descText) {
+      for (var i in input) {
+        //TODO this might need to change in other languages
+        if (descText) {
+          if (len > 2) {
             descText += this.f5.misc.sentence_list_separator + ' ';
           }
 
+          if (i == len - 1) {
+            if (inclusive) {
+              descText += ' ' + this.f5.misc.and + ' ';
+            } else {
+              descText += ' ' + this.f5.misc.or + ' ';
+            }
+          }
+        }
+
+        if (modifierFunction != null && typeof modifierFunction === 'function') {
+          descText += modifierFunction(input[i]);
+        } else {
           descText += input[i];
         }
-
-        return descText;
-      },
-      translate: function translate(str) {
-        var pluralCount = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-        var pluralBreak = str.indexOf('|');
-        var retStr = str;
-
-        if (pluralCount == 0 || pluralCount > 1) {
-          retStr = str.substr(pluralBreak + 1);
-        } else {
-          retStr = str.substr(0, pluralBreak);
-        }
-
-        return retStr;
-      },
-      ordinalNumber: function ordinalNumber(num) {
-        var ordinal = '';
-        var lastDigit = String(num).charAt(-1);
-
-        if (lastDigit === 1 && num != 11) {
-          ordinal = this.f5.misc.ordinal_1;
-        } else if (lastDigit === 2 && num != 12) {
-          ordinal = this.f5.misc.ordinal_2;
-        } else if (lastDigit === 3 && num != 13) {
-          ordinal = this.f5.misc.ordinal_3;
-        } else {
-          ordinal = this.f5.misc.ordinal_other;
-        }
-
-        return String(num) + ordinal;
-      },
-      determineIndefiniteArticle: function determineIndefiniteArticle(str) {
-        var vowels = ['a', 'e', 'i', 'o', 'u'];
-        var vowelNumbers = [1, 8, 11, 18]; //ignoring 80+
-
-        var firstChar = String(str).charAt(0).toLowerCase();
-
-        if (vowels.includes(firstChar) || vowelNumbers.includes(Number(str))) {
-          return this.f5.misc.indefinite_article_an;
-        } else {
-          return this.f5.misc.indefinite_article_a;
-        }
-      },
-      averageAOETargets: function averageAOETargets(targetType) {
-        var targets = this.$parent.f5.areaofeffect[targetType].targets_at_30;
-
-        if (targets > 1) {
-          targets = targets / (distanceBaseline * 2) * (distanceBaseline + this.value.aoeRange); //basic formula to assume average number of targets hit
-
-          if (targets > this.editor.player_characters.number) {
-            targets = this.editor.player_characters.number;
-          }
-        }
-
-        return targets;
-      },
-      morphFeatureProjection: function morphFeatureProjection(featureProjection) {
-        return featureProjection;
-      },
-      mergeProjections: function mergeProjections(monsterProjection, inject, featureProjection) {
-        return monsterProjection.splice(inject, 0, this.morphFeatureProjection(featureProjection));
-      },
-      toNumber: function toNumber(input) {
-        if (input.includes('/')) {
-          var divideArray = input.split('/');
-          input = divideArray[0] / divideArray[1];
-        }
-
-        return Number(input);
-      },
-      toCRFormat: function toCRFormat(input) {
-        if (input > 0 && input < 1) {
-          var compareToHalf = input - .5;
-          compareToHalf = compareToHalf >= 0 ? compareToHalf : compareToHalf * -1;
-          var compareToQuarter = input - .25;
-          compareToQuarter = compareToQuarter >= 0 ? compareToQuarter : comcompareToQuarterpareToHalf * -1;
-          var compareToEigth = input - .125;
-          compareToEigth = compareToEigth >= 0 ? compareToEigth : compareToEigth * -1;
-
-          if (compareToHalf <= compareToQuarter && compareToHalf <= compareToEigth && compareToHalf <= input) {
-            return "1/2";
-          } else if (compareToQuarter <= compareToHalf && compareToQuarter <= compareToEigth && compareToQuarter <= input) {
-            return "1/4";
-          } else if (compareToEigth <= compareToEigth && compareToEigth <= compareToHalf && compareToEigth <= input) {
-            return "1/8";
-          } else {
-            return 0;
-          }
-        }
-
-        return input;
-      },
-      exportMonster: function exportMonster() {
-        var cloneOptions = _objectSpread({}, this.options);
-
-        cloneOptions.averageDPR = -1;
-        cloneOptions.damageProjection = [];
-
-        for (var featureType in cloneOptions.features) {
-          var _iterator6 = _createForOfIteratorHelper(cloneOptions.features[featureType]),
-              _step6;
-
-          try {
-            for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
-              var feature = _step6.value;
-              feature.averageDPR = -1;
-              feature.damageProjection = [];
-            }
-          } catch (err) {
-            _iterator6.e(err);
-          } finally {
-            _iterator6.f();
-          }
-        }
-
-        console.log('exportMonster');
-        console.log(cloneOptions);
-      },
-      importMonster: function importMonster() {
-        this.options = SampleMonsters.monsters[this.editor.import_monster];
       }
+
+      return descText;
+    },
+    createConditionSentenceList: function createConditionSentenceList(input) {
+      var inclusive = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+      var len = input.length;
+
+      if (isNaN(len)) {
+        if (!isNaN(Object.keys(input).length)) {
+          len = Object.keys(input).length;
+        }
+      }
+
+      var descText = '';
+
+      for (var i in input) {
+        //TODO this might need to change in other languages
+        if (descText) {
+          if (len > 2) {
+            descText += this.f5.misc.sentence_list_separator + ' ';
+          }
+
+          if (i == len - 1) {
+            if (inclusive) {
+              descText += ' ' + this.f5.misc.and + ' ';
+            } else {
+              descText += ' ' + this.f5.misc.or + ' ';
+            }
+          }
+        }
+
+        descText += input[i];
+      }
+
+      return descText;
+    },
+    createSimpleList: function createSimpleList(input) {
+      var len = input.length;
+
+      if (isNaN(len)) {
+        if (!isNaN(Object.keys(input).length)) {
+          len = Object.keys(input).length;
+        }
+      }
+
+      var descText = '';
+
+      for (var i in input) {
+        if (descText) {
+          descText += this.f5.misc.sentence_list_separator + ' ';
+        }
+
+        descText += input[i];
+      }
+
+      return descText;
+    },
+    translate: function translate(str) {
+      var pluralCount = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+      var pluralBreak = str.indexOf('|');
+      var retStr = str;
+
+      if (pluralCount == 0 || pluralCount > 1) {
+        retStr = str.substr(pluralBreak + 1);
+      } else {
+        retStr = str.substr(0, pluralBreak);
+      }
+
+      return retStr;
+    },
+    ordinalNumber: function ordinalNumber(num) {
+      var ordinal = '';
+      var lastDigit = String(num).charAt(-1);
+
+      if (lastDigit === 1 && num != 11) {
+        ordinal = this.f5.misc.ordinal_1;
+      } else if (lastDigit === 2 && num != 12) {
+        ordinal = this.f5.misc.ordinal_2;
+      } else if (lastDigit === 3 && num != 13) {
+        ordinal = this.f5.misc.ordinal_3;
+      } else {
+        ordinal = this.f5.misc.ordinal_other;
+      }
+
+      return String(num) + ordinal;
+    },
+    determineIndefiniteArticle: function determineIndefiniteArticle(str) {
+      var vowels = ['a', 'e', 'i', 'o', 'u'];
+      var vowelNumbers = [1, 8, 11, 18]; //ignoring 80+
+
+      var firstChar = String(str).charAt(0).toLowerCase();
+
+      if (vowels.includes(firstChar) || vowelNumbers.includes(Number(str))) {
+        return this.f5.misc.indefinite_article_an;
+      } else {
+        return this.f5.misc.indefinite_article_a;
+      }
+    },
+    averageAOETargets: function averageAOETargets(targetType) {
+      var targets = this.$parent.f5.areaofeffect[targetType].targets_at_30;
+
+      if (targets > 1) {
+        targets = targets / (distanceBaseline * 2) * (distanceBaseline + this.value.aoeRange); //basic formula to assume average number of targets hit
+
+        if (targets > this.editor.player_characters.number) {
+          targets = this.editor.player_characters.number;
+        }
+      }
+
+      return targets;
+    },
+    morphFeatureProjection: function morphFeatureProjection(featureProjection) {
+      return featureProjection;
+    },
+    mergeProjections: function mergeProjections(monsterProjection, inject, featureProjection) {
+      return monsterProjection.splice(inject, 0, this.morphFeatureProjection(featureProjection));
+    },
+    toCRFormat: function toCRFormat(input) {
+      if (input > 0 && input < 1) {
+        var compareToHalf = input - .5;
+        compareToHalf = compareToHalf >= 0 ? compareToHalf : compareToHalf * -1;
+        var compareToQuarter = input - .25;
+        compareToQuarter = compareToQuarter >= 0 ? compareToQuarter : comcompareToQuarterpareToHalf * -1;
+        var compareToEigth = input - .125;
+        compareToEigth = compareToEigth >= 0 ? compareToEigth : compareToEigth * -1;
+
+        if (compareToHalf <= compareToQuarter && compareToHalf <= compareToEigth && compareToHalf <= input) {
+          return "1/2";
+        } else if (compareToQuarter <= compareToHalf && compareToQuarter <= compareToEigth && compareToQuarter <= input) {
+          return "1/4";
+        } else if (compareToEigth <= compareToEigth && compareToEigth <= compareToHalf && compareToEigth <= input) {
+          return "1/8";
+        } else {
+          return 0;
+        }
+      }
+
+      return input;
+    },
+    exportMonster: function exportMonster() {
+      var cloneOptions = _objectSpread({}, this.value);
+
+      cloneOptions.averageDPR = -1;
+      cloneOptions.damageProjection = [];
+
+      for (var featureType in cloneOptions.features) {
+        var _iterator6 = _createForOfIteratorHelper(cloneOptions.features[featureType]),
+            _step6;
+
+        try {
+          for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
+            var feature = _step6.value;
+            feature.averageDPR = -1;
+            feature.damageProjection = [];
+          }
+        } catch (err) {
+          _iterator6.e(err);
+        } finally {
+          _iterator6.f();
+        }
+      }
+
+      console.log('exportMonster');
+      console.log(cloneOptions);
     }
-  });
-  return app;
-}
+  }
+};
 
 /***/ }),
 
@@ -31234,8 +31300,8 @@ function initVue(f5data) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\GitHub\frankenstein5e\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\GitHub\frankenstein5e\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\PersonalProjects\Frankenstein5E\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\PersonalProjects\Frankenstein5E\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

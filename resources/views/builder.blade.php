@@ -42,68 +42,20 @@
 
             <div class="builder-controls">
                 <div>
-                    <button @click="exportMonster()">@{{f5.misc.title_export}}</button>
-                </div>
-            </div>
-
-            <div class="builder-controls">
-                <div>
                     <select v-model="editor.import_monster">
                         <option v-for="(monster, i) in SampleMonsters.monsters" :value="i">@{{monster.name}}</option>
                     </select>
                 </div>
                 <div>
-                    <button @click="importMonster()">@{{f5.misc.title_import}}</button>
+                    <button @click="importMonster(SampleMonsters.monsters[editor.import_monster])">@{{f5.misc.title_import}}</button>
                 </div>
             </div>
 
-            @include('partials.statblock')
-
-            <div class="cr-controller popup-overlay">
-                <strong>@{{f5.misc.title_cr_manager}}</strong>
-                <div>
-                    @{{f5.misc.title_approx_dpr}}: @{{averageDPR}}<br/>
-                    @{{f5.misc.title_offensive_cr}}: @{{damageCr}}<br/>
-                    @{{f5.misc.title_hp_cr}}: @{{healthCr}}<br/>
-                    @{{f5.misc.title_ac_cr}}: @{{armorCr}}
-                </div>
-                <div> 
-                    <label class="option-label" for="options__set-cr">@{{f5.misc.title_set_cr}}: </label>
-                    <select id="option options__set-cr" name="options__set-cr">
-                        <option v-for="(item, index) in f5.challengerating" :value="index">@{{index}}</option>
-                    </select>
-                    <button>@{{f5.misc.title_apply}}</button>
-                </div>
-                <div> 
-                    <label class="option-label" for="options__set-o-cr">@{{f5.misc.title_set_offensive_cr}}: </label>
-                    <select id="option options__set-o-cr" name="options__set-cr">
-                        <option v-for="(item, index) in f5.challengerating" :value="index">@{{index}}</option>
-                    </select>
-                    <button>@{{f5.misc.title_apply}}</button>
-                </div>
-                <div> 
-                    <label class="option-label" for="options__set-hp-cr">@{{f5.misc.title_set_hp_cr}}: </label>
-                    <select id="option options__set-hp-cr" name="options__set-cr">
-                        <option v-for="(item, index) in f5.challengerating" :value="index">@{{index}}</option>
-                    </select>
-                    <button>@{{f5.misc.title_apply}}</button>
-                </div>
-                <div> 
-                    <label class="option-label" for="options__set-ac-cr">@{{f5.misc.title_set_ac_cr}}: </label>
-                    <select id="option options__set-ac-cr" name="options__set-cr">
-                        <option v-for="(item, index) in f5.challengerating" :value="index">@{{index}}</option>
-                    </select>
-                    <button>@{{f5.misc.title_apply}}</button>
-                </div>
-
-                <div>
-                    <label class="option-label" for="options__damage-projection">@{{f5.misc.title_damage_projection}}: </label>
-                    <div id="option options__damage-projection" name="options__damage-projection">
-                        @{{damageProjection}}
-                    </div>
-
-                </div>
-            </div>
+            <statblock 
+                    v-for="statblock in statblocks"
+                    v-model="statblock"
+                    v-on:remove-statblock="removeStatBlock">
+            </statblock>
         
 
 
@@ -113,7 +65,7 @@
             window.onload = function() {
                 let f5data = JSON.parse({!! json_encode($translatedData) !!}) ;
                 console.log(f5data);
-                let app = StatBlock.initVue(f5data);
+                let app = EncounterBuilder.initVue(f5data);
             
                 //Edit Fields. Allow focused objects to be editted while making others uneditable
                 document.addEventListener('click', function(e) {

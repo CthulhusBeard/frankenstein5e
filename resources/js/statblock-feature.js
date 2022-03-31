@@ -98,9 +98,9 @@ var StatBlockFeature = {
                 for(let featureRef of this.value.multiattackReferences) {
                     if(featureRef.index !== null) {
                         if(featureRef.index === 'spellcasting') {
-                            multiDPR += this.$parent.options.features['spellcasting'][0].averageDPR * featureRef.uses;
+                            multiDPR += this.$parent.value.features['spellcasting'][0].averageDPR * featureRef.uses;
                         } else {
-                            multiDPR += this.$parent.options.features['action'][featureRef.index].averageDPR * featureRef.uses;
+                            multiDPR += this.$parent.value.features['action'][featureRef.index].averageDPR * featureRef.uses;
                         }
                     }
                 }
@@ -109,9 +109,9 @@ var StatBlockFeature = {
                     for(let featureRef of this.value.multiattackAltReferences) {
                         if(featureRef.index !== null) {
                             if(featureRef.index === 'spellcasting') {
-                                multiDPRAlt += this.$parent.options.features['spellcasting'][0].averageDPR * featureRef.uses;
+                                multiDPRAlt += this.$parent.value.features['spellcasting'][0].averageDPR * featureRef.uses;
                             } else {
-                                multiDPRAlt += this.$parent.options.features['action'][featureRef.index].averageDPR * featureRef.uses;
+                                multiDPRAlt += this.$parent.value.features['action'][featureRef.index].averageDPR * featureRef.uses;
                             }
                         }
                     }
@@ -138,11 +138,11 @@ var StatBlockFeature = {
             
             //Legendary action cost
             if(
-                this.$parent.options.hasLegendaryActions &&
+                this.$parent.value.hasLegendaryActions &&
                 (
                     this.value.actionType === 'legendary_action' || 
                     (
-                        this.$parent.options.hasMythicActions && 
+                        this.$parent.value.hasMythicActions && 
                         this.value.actionType === 'mythic_action'
                     )
                 ) &&
@@ -345,11 +345,11 @@ var StatBlockFeature = {
                     descText += '<br/>'+this.$parent.f5.misc.casts_spells_before;
                 }
                 
-                if(this.$parent.options.isNameProperNoun) {
-                    descText = descText.replace(/the :creature_name/ig, this.$parent.capitalize(this.$parent.options.name.toLowerCase()));
-                    descText = descText.replaceAll(':creature_name', this.$parent.capitalize(this.$parent.options.name.toLowerCase()));
+                if(this.$parent.value.isNameProperNoun) {
+                    descText = descText.replace(/the :creature_name/ig, this.$parent.capitalize(this.$parent.value.name.toLowerCase()));
+                    descText = descText.replaceAll(':creature_name', this.$parent.capitalize(this.$parent.value.name.toLowerCase()));
                 } else {
-                    descText = descText.replaceAll(':creature_name', this.$parent.options.name.toLowerCase());
+                    descText = descText.replaceAll(':creature_name', this.$parent.value.name.toLowerCase());
                 }
 
                 return descText;
@@ -370,9 +370,9 @@ var StatBlockFeature = {
                 } else {
                     descText = descText.replace(':range', '');
                 }
-                descText = descText.replace(':reach_distance', this.value.attackReach+' '+this.$parent.options.measure.measureUnit);
+                descText = descText.replace(':reach_distance', this.value.attackReach+' '+this.$parent.value.measure.measureUnit);
                 descText = descText.replace(':range_distance_low', this.value.attackRange.low);
-                descText = descText.replace(':range_distance_high', this.value.attackRange.high+' '+this.$parent.options.measure.measureUnit);
+                descText = descText.replace(':range_distance_high', this.value.attackRange.high+' '+this.$parent.value.measure.measureUnit);
                 descText = descText.replace(':targets', this.$parent.translate(this.$parent.f5.misc.num_of_targets, this.value.attackTargets).replace(':target_count', this.value.attackTargets));
 
                 //Hit
@@ -517,9 +517,9 @@ var StatBlockFeature = {
                 for(let featureRef of this.value.multiattackReferences) {
                     if(featureRef.index !== null) {
                         if(featureRef.index === 'spellcasting') {
-                            console.log(this.$parent.options.features['spellcasting'][0].damageProjection);
+                            console.log(this.$parent.value.features['spellcasting'][0].damageProjection);
                         } else {
-                            console.log(this.$parent.options.features['action'][featureRef.index].damageProjection);
+                            console.log(this.$parent.value.features['action'][featureRef.index].damageProjection);
                         }
                     }
                 }
@@ -528,9 +528,9 @@ var StatBlockFeature = {
                     for(let featureRef of this.value.multiattackAltReferences) {
                         if(featureRef.index !== null) {
                             if(featureRef.index === 'spellcasting') {
-                                console.log(this.$parent.options.features['spellcasting'][0].damageProjection);
+                                console.log(this.$parent.value.features['spellcasting'][0].damageProjection);
                             } else {
-                                console.log(this.$parent.options.features['action'][featureRef.index].damageProjection);
+                                console.log(this.$parent.value.features['action'][featureRef.index].damageProjection);
                             }
                         }
                     }

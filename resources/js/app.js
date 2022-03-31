@@ -1,5 +1,5 @@
-import * as StatBlock from './statblock.js';
-window.StatBlock = StatBlock;
+import * as EncounterBuilder from './encounter-builder';
+window.EncounterBuilder = EncounterBuilder;
 
 import * as SampleMonsters from './samplemonsters';
 window.SampleMonsters = SampleMonsters;
