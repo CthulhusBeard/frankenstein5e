@@ -8,6 +8,7 @@ var StatBlockFeature = {
     components: {
         'Multiselect': Multiselect,
     },
+
     watch: {
         value: {
             handler(val) {
@@ -18,9 +19,9 @@ var StatBlockFeature = {
                 }
 
                 //If AOE target area doesn't apply to this template, change it
-                if(!this.$parent.f5.areaofeffect[this.value.targetType].types.includes(this.value.template)) {
-                    for(const key in this.$parent.f5.areaofeffect) {
-                        let element = this.$parent.f5.areaofeffect[key];
+                if(!this.$parent.$parent.f5.areaofeffect[this.value.targetType].types.includes(this.value.template)) {
+                    for(const key in this.$parent.$parent.f5.areaofeffect) {
+                        let element = this.$parent.$parent.f5.areaofeffect[key];
                         if(element.types.includes(this.value.template)) {
                             this.value.targetType = key;
                             break;
@@ -50,9 +51,9 @@ var StatBlockFeature = {
                 return this.value.manualDPR;
             } else if(this.value.template === 'spellcasting') { 
                 // Spellcasting Average DPR
-                if(this.$parent.f5.spelllevels[this.highestCastableSpell]) { 
+                if(this.$parent.$parent.f5.spelllevels[this.highestCastableSpell]) { 
                     //Target count should already be considered in average damage of spells
-                    return this.$parent.f5.spelllevels[this.highestCastableSpell].average_damage;
+                    return this.$parent.$parent.f5.spelllevels[this.highestCastableSpell].average_damage;
                 }
 
             } else if(this.value.template === 'attack') { 
@@ -86,7 +87,7 @@ var StatBlockFeature = {
                 }
 
                 let distanceBaseline = 30;
-                avgTargets = this.$parent.f5.areaofeffect[this.value.targetType].targets_at_30;
+                avgTargets = this.$parent.$parent.f5.areaofeffect[this.value.targetType].targets_at_30;
                 if(avgTargets > 1) {
                     avgTargets = (avgTargets/(distanceBaseline*2)) * (distanceBaseline + this.value.aoeRange); //basic formula to assume average number of targets hit
                 }
@@ -105,7 +106,6 @@ var StatBlockFeature = {
                     }
                 }
                 if(this.value.useMultiattackAlternative) {
-                    console.log('Multiattack alt dpr');
                     for(let featureRef of this.value.multiattackAltReferences) {
                         if(featureRef.index !== null) {
                             if(featureRef.index === 'spellcasting') {
@@ -130,7 +130,7 @@ var StatBlockFeature = {
             if(brackets) {
                 nameText += ' ('+brackets+')';
             }
-            return (nameText + this.$parent.f5.misc.sentence_end).trim();
+            return (nameText + this.$parent.$parent.f5.misc.sentence_end).trim();
         },
 
         bracketText: function() {
@@ -148,21 +148,21 @@ var StatBlockFeature = {
                 ) &&
                 this.value.legendaryActionCost > 1
             ) {
-                brackets += this.$parent.f5.misc.action_cost.replace(':cost', this.value.legendaryActionCost);
+                brackets += this.$parent.$parent.f5.misc.action_cost.replace(':cost', this.value.legendaryActionCost);
             }
 
             //Recharge rate
             if(this.value.recharge.type !== 'none') {
                 if(brackets) {
-                    brackets += this.$parent.f5.misc.sentence_list_separator_secondary+' ';
+                    brackets += this.$parent.$parent.f5.misc.sentence_list_separator_secondary+' ';
                 }
                 if(this.value.recharge.type === 'dice_roll') {
-                    brackets += this.$parent.f5.misc.title_recharge+' '+this.value.recharge.minRoll;
+                    brackets += this.$parent.$parent.f5.misc.title_recharge+' '+this.value.recharge.minRoll;
                     if(this.value.recharge.minRoll !== this.value.recharge.diceType) {
                         brackets += '-'+this.value.recharge.diceType;
                     }
-                } else if(this.$parent.f5.recharge[this.value.recharge.type].desc) {
-                    brackets += this.$parent.f5.recharge[this.value.recharge.type].desc.replace(':uses', this.value.recharge.uses);
+                } else if(this.$parent.$parent.f5.recharge[this.value.recharge.type].desc) {
+                    brackets += this.$parent.$parent.f5.recharge[this.value.recharge.type].desc.replace(':uses', this.value.recharge.uses);
                 }
             }
             return brackets; 
@@ -184,13 +184,13 @@ var StatBlockFeature = {
 
         getValidTemplateTypes: function() {
             let options = {};
-            for(let i in this.$parent.f5.featuretemplates) {
+            for(let i in this.$parent.$parent.f5.featuretemplates) {
                 if(
-                    this.$parent.f5.featuretemplates[i].action_options && 
-                    this.$parent.f5.featuretemplates[i].action_options.includes(this.value.actionType)
+                    this.$parent.$parent.f5.featuretemplates[i].action_options && 
+                    this.$parent.$parent.f5.featuretemplates[i].action_options.includes(this.value.actionType)
                 ) {
 
-                    options[i] = this.$parent.f5.featuretemplates[i];
+                    options[i] = this.$parent.$parent.f5.featuretemplates[i];
                 }
             }
             return options;
@@ -274,20 +274,20 @@ var StatBlockFeature = {
             } 
 
             if(this.value.template == 'spellcasting') {
-                descText = this.$parent.f5.misc.desc_spellcasting;
+                descText = this.$parent.$parent.f5.misc.desc_spellcasting;
                 if(this.value.innateSpellcasting) { //TODO prepared spellcasting
-                    descText = this.$parent.f5.misc.desc_innate_spellcasting;
+                    descText = this.$parent.$parent.f5.misc.desc_innate_spellcasting;
                 }
 
-                descText = descText.replace(':caster_level_article', this.$parent.determineIndefiniteArticle(this.$parent.casterLevel)); 
+                descText = descText.replace(':caster_level_article', this.$parent.determineIndefiniteArticle(this.$parent.casterLevel, true)); 
                 descText = descText.replace(':caster_level', this.$parent.ordinalNumber(this.$parent.casterLevel)); 
-                descText = descText.replace(':spellcasting_ability', this.$parent.f5.abilities[this.value.spellcastingAbility].name);
+                descText = descText.replace(':spellcasting_ability', this.$parent.$parent.f5.abilities[this.value.spellcastingAbility].name);
                 descText = descText.replace(':spell_save_dc', this.$parent.makeSavingThrowDC(this.value.spellcastingAbility));
                 descText = descText.replace(':spell_hit', this.$parent.addPlus(this.$parent.proficiency + this.$parent.getAbilityMod(this.value.spellcastingAbility)));
 
                 if(this.atWillSpells.length > 0) {
                     let atWillSpellList = this.$parent.createSentenceList(this.atWillSpells.map(x => x.name), true, function(str) {return '<i>'+str+'</i>'});
-                    descText = descText.replace(':at_will_spells', this.$parent.f5.misc.desc_at_will_spells);
+                    descText = descText.replace(':at_will_spells', this.$parent.$parent.f5.misc.desc_at_will_spells);
                     descText = descText.replace(':at_will_spell_list', atWillSpellList.toLowerCase());
                 } else {
                     descText = descText.replace(':at_will_spells', '');
@@ -317,12 +317,12 @@ var StatBlockFeature = {
                     }
                     
                     if(level == 0) {
-                        descText += this.$parent.f5.spelllevels[level].name+' ('+this.$parent.f5.misc.at_will+'): ';
+                        descText += this.$parent.$parent.f5.spelllevels[level].name+' ('+this.$parent.$parent.f5.misc.at_will+'): ';
                     } else {
                         if(!this.value.innateSpellcasting) {
-                            descText += this.$parent.f5.spelllevels[level].name+' ('+this.$parent.translate(this.$parent.f5.misc.spell_slots, this.value.spellSlots[level]).replace(':slot_quantity',this.value.spellSlots[level])+'): ';
+                            descText += this.$parent.$parent.f5.spelllevels[level].name+' ('+this.$parent.translate(this.$parent.$parent.f5.misc.spell_slots, this.value.spellSlots[level]).replace(':slot_quantity',this.value.spellSlots[level])+'): ';
                         } else {
-                            descText += this.$parent.f5.misc.spell_uses.replace(':slot_uses',level)+': ';
+                            descText += this.$parent.$parent.f5.misc.spell_uses.replace(':slot_uses',level)+': ';
                         }
                     }
                     
@@ -335,14 +335,14 @@ var StatBlockFeature = {
                             castsBefore = true;
                         }
                         if(i < sortedSpellList[level].length - 1) {
-                            descText += this.$parent.f5.misc.sentence_list_separator+' ';
+                            descText += this.$parent.$parent.f5.misc.sentence_list_separator+' ';
                         }
                     }
                     descText += '</i><br/>';
                 }
 
                 if(castsBefore) {
-                    descText += '<br/>'+this.$parent.f5.misc.casts_spells_before;
+                    descText += '<br/>'+this.$parent.$parent.f5.misc.casts_spells_before;
                 }
                 
                 if(this.$parent.value.isNameProperNoun) {
@@ -356,27 +356,27 @@ var StatBlockFeature = {
             } 
 
             if(this.value.template == 'attack') {
-                descText = this.$parent.f5.misc.desc_attack;
+                descText = this.$parent.$parent.f5.misc.desc_attack;
                 //'<i>:attack_range :attack_type:</i> :attack_bonus to hit, :range :targets.'
-                descText = descText.replace(':attack_range', this.$parent.f5.areaofeffect[this.value.targetType].name);
-                descText = descText.replace(':attack_type', this.$parent.f5.attacktypes[this.value.attackType].name);
+                descText = descText.replace(':attack_range', this.$parent.$parent.f5.areaofeffect[this.value.targetType].name);
+                descText = descText.replace(':attack_type', this.$parent.$parent.f5.attacktypes[this.value.attackType].name);
                 descText = descText.replace(':attack_bonus', this.$parent.addPlus(this.$parent.getAbilityMod(this.value.attackAbility) + this.$parent.proficiency));
                 if(this.value.targetType == 'melee') {
-                    descText = descText.replace(':range', this.$parent.f5.misc.reach);
+                    descText = descText.replace(':range', this.$parent.$parent.f5.misc.reach);
                 } else if(this.value.targetType == 'melee_or_ranged') {
-                    descText = descText.replace(':range', this.$parent.f5.misc.reach_or_range);
+                    descText = descText.replace(':range', this.$parent.$parent.f5.misc.reach_or_range);
                 } else if(this.value.targetType == 'ranged'){
-                    descText = descText.replace(':range', this.$parent.f5.misc.range);
+                    descText = descText.replace(':range', this.$parent.$parent.f5.misc.range);
                 } else {
                     descText = descText.replace(':range', '');
                 }
                 descText = descText.replace(':reach_distance', this.value.attackReach+' '+this.$parent.value.measure.measureUnit);
                 descText = descText.replace(':range_distance_low', this.value.attackRange.low);
                 descText = descText.replace(':range_distance_high', this.value.attackRange.high+' '+this.$parent.value.measure.measureUnit);
-                descText = descText.replace(':targets', this.$parent.translate(this.$parent.f5.misc.num_of_targets, this.value.attackTargets).replace(':target_count', this.value.attackTargets));
+                descText = descText.replace(':targets', this.$parent.translate(this.$parent.$parent.f5.misc.num_of_targets, this.value.attackTargets).replace(':target_count', this.value.attackTargets));
 
                 //Hit
-                descText += ' <i>'+this.$parent.f5.misc.desc_attack_hit+'</i> ';
+                descText += ' <i>'+this.$parent.$parent.f5.misc.desc_attack_hit+'</i> ';
                 let damageList = [];
                 for(let i in this.value.attackDamage) {
                     damageList.push(this.$parent.createDamageText(this.value.attackDamage[i], this.value.attackAbility));
@@ -390,13 +390,13 @@ var StatBlockFeature = {
             if((this.value.template == 'attack' && this.value.attackSavingThrow) || this.value.template == 'saving_throw') {
                 let savingThrowText = '';
                 if(this.value.savingThrowDamage.length >= 1 && this.value.savingThrowConditions.length >= 2) {
-                    savingThrowText = this.$parent.f5.misc.desc_attack_saving_throw_damage_condition;
+                    savingThrowText = this.$parent.$parent.f5.misc.desc_attack_saving_throw_damage_condition;
                 } else if(this.value.savingThrowDamage.length >= 1 && this.value.savingThrowConditions.length >= 1) {
-                    savingThrowText = this.$parent.f5.misc.desc_attack_saving_throw_damage_condition;
+                    savingThrowText = this.$parent.$parent.f5.misc.desc_attack_saving_throw_damage_condition;
                 } else if(this.value.savingThrowDamage.length >= 1) {
-                    savingThrowText = this.$parent.f5.misc.desc_attack_saving_throw_damage;
+                    savingThrowText = this.$parent.$parent.f5.misc.desc_attack_saving_throw_damage;
                 } else if(this.value.savingThrowConditions.length >= 1) {
-                    savingThrowText = this.$parent.f5.misc.desc_attack_saving_throw_condition;
+                    savingThrowText = this.$parent.$parent.f5.misc.desc_attack_saving_throw_condition;
                 }
 
                 //Targets
@@ -408,17 +408,17 @@ var StatBlockFeature = {
                 }
 
                 if(this.value.template == 'attack') {
-                    savingThrowText = savingThrowText.replace(':target_text', this.$parent.translate(this.$parent.f5.misc.the_target, this.value.attackTargets));
+                    savingThrowText = savingThrowText.replace(':target_text', this.$parent.translate(this.$parent.$parent.f5.misc.the_target, this.value.attackTargets));
                 } else {
-                    savingThrowText = savingThrowText.replace(':target_text', this.$parent.translate(this.$parent.f5.misc.each_target, stTargetCount));
+                    savingThrowText = savingThrowText.replace(':target_text', this.$parent.translate(this.$parent.$parent.f5.misc.each_target, stTargetCount));
                 }
                 
                 //Adjust for run-on sentences
                 if(this.value.template == 'attack' && this.value.attackSavingThrow && this.value.attackDamage.length > 0) {
                     if(this.hasRunOnSentence) {
-                        savingThrowText = this.$parent.f5.misc.sentence_end+' '+this.$parent.f5.misc.additionally.replace(':addition', savingThrowText);
+                        savingThrowText = this.$parent.$parent.f5.misc.sentence_end+' '+this.$parent.$parent.f5.misc.additionally.replace(':addition', savingThrowText);
                     } else {
-                        savingThrowText = this.$parent.f5.misc.sentence_list_separator+' '+this.$parent.f5.misc.and+' '+savingThrowText;
+                        savingThrowText = this.$parent.$parent.f5.misc.sentence_list_separator+' '+this.$parent.$parent.f5.misc.and+' '+savingThrowText;
                     }
                 } else {
                     savingThrowText = this.$parent.capitalize(savingThrowText);
@@ -426,7 +426,7 @@ var StatBlockFeature = {
                 
                 //Half as much
                 if(this.value.savingThrowHalfOnSuccess) {
-                    savingThrowText = savingThrowText.replace(':half_as_much', this.$parent.f5.misc.desc_saving_throw_half_on_success);
+                    savingThrowText = savingThrowText.replace(':half_as_much', this.$parent.$parent.f5.misc.desc_saving_throw_half_on_success);
                 } else {
                     savingThrowText = savingThrowText.replace(':half_as_much', '');
                     savingThrowText = savingThrowText.replace(':not_condition', '');
@@ -447,22 +447,22 @@ var StatBlockFeature = {
                     let stNotConditionList = [];
                     for(let i in this.value.savingThrowConditions) {
                         stConditionList.push(
-                            this.$parent.translate(this.$parent.f5.conditions[this.value.savingThrowConditions[i]].is, stTargetCount).replace(':condition', this.$parent.f5.conditions[this.value.savingThrowConditions[i]].name.toLowerCase()
+                            this.$parent.translate(this.$parent.$parent.f5.conditions[this.value.savingThrowConditions[i]].is, stTargetCount).replace(':condition', this.$parent.$parent.f5.conditions[this.value.savingThrowConditions[i]].name.toLowerCase()
                         ));
                         stNotConditionList.push(
-                            this.$parent.translate(this.$parent.f5.conditions[this.value.savingThrowConditions[i]].not, stTargetCount).replace(':condition', this.$parent.f5.conditions[this.value.savingThrowConditions[i]].name.toLowerCase()
+                            this.$parent.translate(this.$parent.$parent.f5.conditions[this.value.savingThrowConditions[i]].not, stTargetCount).replace(':condition', this.$parent.$parent.f5.conditions[this.value.savingThrowConditions[i]].name.toLowerCase()
                         ));
                         //TODO replace distance for pushed
                     }
                     savingThrowText = savingThrowText.replace(':condition', this.$parent.createConditionSentenceList(stConditionList));
-                    savingThrowText = savingThrowText.replace(':not_condition', this.$parent.f5.misc.and + ' ' + this.$parent.createConditionSentenceList(stNotConditionList));
+                    savingThrowText = savingThrowText.replace(':not_condition', this.$parent.$parent.f5.misc.and + ' ' + this.$parent.createConditionSentenceList(stNotConditionList));
                 }
 
                 savingThrowText = savingThrowText.replace(':saving_throw_dc', this.$parent.makeSavingThrowDC(this.value.savingThrowMonsterAbility));
 
                 let abilityList = [];
                 for(let i in this.value.savingThrowSaveAbilities) {
-                    abilityList.push(this.$parent.f5.abilities[this.value.savingThrowSaveAbilities[i]].name);
+                    abilityList.push(this.$parent.$parent.f5.abilities[this.value.savingThrowSaveAbilities[i]].name);
                 }
                 savingThrowText = savingThrowText.replace(':saving_throw_ability', this.$parent.createSentenceList(abilityList, false));
 
@@ -472,7 +472,7 @@ var StatBlockFeature = {
                 
             }
 
-            return descText+this.$parent.f5.misc.sentence_end;
+            return descText+this.$parent.$parent.f5.misc.sentence_end;
         },
 
         damageProjection: function() {
@@ -493,7 +493,7 @@ var StatBlockFeature = {
 
                     let spellUses = 0;
                     if(spell.at_will || spell.level === 0) {
-                        spellUses = this.$parent.editor.round_tracker;
+                        spellUses = this.$parent.$parent.editor.round_tracker;
                     } else if(!this.value.innateSpellcasting && !spellSlotsTracker[spell.level] && this.value.spellSlots[spell.level] > 0) {
                         spellUses = this.value.spellSlots[spell.level];
                         spellSlotsTracker[spell.level] = true;
@@ -503,8 +503,8 @@ var StatBlockFeature = {
 
                     for(let j = 0; j < spellUses; j++) {
                         turnDamage.splice(addIndex, 0, {
-                            name: this.$parent.f5.misc.title_spellcasting+': '+this.$parent.f5.spelllevels[spell.level].name,
-                            damage: this.$parent.f5.spelllevels[spell.level].average_damage,
+                            name: this.$parent.$parent.f5.misc.title_spellcasting+': '+this.$parent.$parent.f5.spelllevels[spell.level].name,
+                            damage: this.$parent.$parent.f5.spelllevels[spell.level].average_damage,
                             spellLevel: spell.level,
                             actionCost: 1,
                         });
@@ -562,7 +562,7 @@ var StatBlockFeature = {
                 averageRechargeTurns = Math.round(1 / ((this.value.recharge.diceType - this.value.recharge.minRoll + 1) / this.value.recharge.diceType));
             }
 
-            for(let i = 0; i < this.$parent.editor.round_tracker; i++) {
+            for(let i = 0; i < this.$parent.$parent.editor.round_tracker; i++) {
                 if(i % averageRechargeTurns === 0) {
                     turnDamage[i] = {
                         name: this.value.name,
@@ -589,7 +589,7 @@ var StatBlockFeature = {
         addSpell: function(spellLevel = 0) {
             this.value.spellList.push(
                 {
-                    'name': this.$parent.f5.misc.title_add_spell_name,
+                    'name': this.$parent.$parent.f5.misc.title_add_spell_name,
                     'level': spellLevel,
                     'cast_before': false,
                     'at_will': false,

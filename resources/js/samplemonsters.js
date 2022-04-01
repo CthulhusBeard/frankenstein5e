@@ -2,6 +2,7 @@ export { monsters };
 
 let monsters = [
     {
+        "id": "iQKF3rSyy2PWMA4",
         "name": "Projection Test",
         "shortName": "",
         "isNameProperNoun": false,
@@ -599,56 +600,266 @@ let monsters = [
                     ],
                     "legendaryActionCost": 1,
                     "manualDPR": -1,
-                    "averageDPR": 0,
+                    "averageDPR": 51.5,
+                    "damageProjection": []
+                }
+            ],
+            "bonus_action": [
+                {
+                    "id": "q6W1uOfFIGK8j9W",
+                    "actionType": "bonus_action",
+                    "name": "Bonus Attack",
+                    "template": "attack",
+                    "attackAbility": "str",
+                    "targetType": "melee",
+                    "attackType": "spell",
+                    "attackRange": {
+                        "low": 20,
+                        "high": 60
+                    },
+                    "attackReach": 5,
+                    "attackDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 2,
+                            "additional": 0,
+                            "abilityBonus": true,
+                            "type": "cold"
+                        }
+                    ],
+                    "attackSavingThrow": false,
+                    "attackTargets": 1,
+                    "aoeRange": 30,
+                    "savingThrowMonsterAbility": "str",
+                    "savingThrowSaveAbilities": [
+                        "str"
+                    ],
+                    "savingThrowDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": false,
+                            "type": "slashing"
+                        }
+                    ],
+                    "savingThrowHalfOnSuccess": true,
+                    "savingThrowConditions": [],
+                    "hasOngoingDamage": false,
+                    "ongoingDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": false,
+                            "type": "slashing"
+                        }
+                    ],
+                    "ongoingDamageOccurs": "start_of_turn",
+                    "ongoingDamageOnFailedSave": true,
+                    "ongoingDamageRepeatSave": false,
+                    "ongoingDamageDuration": "ongoing",
+                    "recharge": {
+                        "type": "none",
+                        "diceType": 6,
+                        "minRoll": 5,
+                        "uses": 1
+                    },
+                    "spellcastingAbility": "int",
+                    "innateSpellcasting": false,
+                    "spellList": [],
+                    "spellSlots": {
+                        "0": 0,
+                        "1": 0,
+                        "2": 0,
+                        "3": 0,
+                        "4": 0,
+                        "5": 0,
+                        "6": 0,
+                        "7": 0,
+                        "8": 0,
+                        "9": 0
+                    },
+                    "customDamage": [],
+                    "customDescription": "",
+                    "multiattackReferences": [],
+                    "useMultiattackAlternative": false,
+                    "multiattackAltReferences": [],
+                    "legendaryActionCost": 1,
+                    "manualDPR": -1,
+                    "averageDPR": 5,
                     "damageProjection": [
                         {
-                            "name": "New Feature",
-                            "damage": 0,
+                            "name": "Bonus Attack",
+                            "damage": 5,
                             "actionCost": 1
                         },
                         {
-                            "name": "New Feature",
-                            "damage": 0,
+                            "name": "Bonus Attack",
+                            "damage": 5,
                             "actionCost": 1
                         },
                         {
-                            "name": "New Feature",
-                            "damage": 0,
+                            "name": "Bonus Attack",
+                            "damage": 5,
                             "actionCost": 1
                         },
                         {
-                            "name": "New Feature",
-                            "damage": 0,
+                            "name": "Bonus Attack",
+                            "damage": 5,
                             "actionCost": 1
                         },
                         {
-                            "name": "New Feature",
-                            "damage": 0,
+                            "name": "Bonus Attack",
+                            "damage": 5,
                             "actionCost": 1
                         },
                         {
-                            "name": "New Feature",
-                            "damage": 0,
+                            "name": "Bonus Attack",
+                            "damage": 5,
                             "actionCost": 1
                         },
                         {
-                            "name": "New Feature",
-                            "damage": 0,
+                            "name": "Bonus Attack",
+                            "damage": 5,
                             "actionCost": 1
                         }
                     ]
                 }
             ],
-            "bonus_action": [],
-            "reaction": [],
+            "reaction": [
+                {
+                    "id": "Oi44Y3Q9b2H07oF",
+                    "actionType": "reaction",
+                    "name": "Hellish Rebuke",
+                    "template": "saving_throw",
+                    "attackAbility": "str",
+                    "targetType": "cone",
+                    "attackType": "none",
+                    "attackRange": {
+                        "low": 20,
+                        "high": 60
+                    },
+                    "attackReach": 5,
+                    "attackDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": true,
+                            "type": "slashing"
+                        }
+                    ],
+                    "attackSavingThrow": false,
+                    "attackTargets": 1,
+                    "aoeRange": 30,
+                    "savingThrowMonsterAbility": "cha",
+                    "savingThrowSaveAbilities": [
+                        "dex"
+                    ],
+                    "savingThrowDamage": [
+                        {
+                            "diceType": 6,
+                            "diceAmount": 2,
+                            "additional": 0,
+                            "abilityBonus": false,
+                            "type": "fire"
+                        }
+                    ],
+                    "savingThrowHalfOnSuccess": true,
+                    "savingThrowConditions": [],
+                    "hasOngoingDamage": false,
+                    "ongoingDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": false,
+                            "type": "slashing"
+                        }
+                    ],
+                    "ongoingDamageOccurs": "start_of_turn",
+                    "ongoingDamageOnFailedSave": true,
+                    "ongoingDamageRepeatSave": false,
+                    "ongoingDamageDuration": "ongoing",
+                    "recharge": {
+                        "type": "none",
+                        "diceType": 6,
+                        "minRoll": 5,
+                        "uses": 1
+                    },
+                    "spellcastingAbility": "int",
+                    "innateSpellcasting": false,
+                    "spellList": [],
+                    "spellSlots": {
+                        "0": 0,
+                        "1": 0,
+                        "2": 0,
+                        "3": 0,
+                        "4": 0,
+                        "5": 0,
+                        "6": 0,
+                        "7": 0,
+                        "8": 0,
+                        "9": 0
+                    },
+                    "customDamage": [],
+                    "customDescription": "",
+                    "multiattackReferences": [],
+                    "useMultiattackAlternative": false,
+                    "multiattackAltReferences": [],
+                    "legendaryActionCost": 1,
+                    "manualDPR": -1,
+                    "averageDPR": 14,
+                    "damageProjection": [
+                        {
+                            "name": "Hellish Rebuke",
+                            "damage": 14,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Hellish Rebuke",
+                            "damage": 14,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Hellish Rebuke",
+                            "damage": 14,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Hellish Rebuke",
+                            "damage": 14,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Hellish Rebuke",
+                            "damage": 14,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Hellish Rebuke",
+                            "damage": 14,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Hellish Rebuke",
+                            "damage": 14,
+                            "actionCost": 1
+                        }
+                    ]
+                }
+            ],
             "legendary_action": [],
             "mythic_action": [],
             "lair_action": []
         },
         "averageDPR": -1,
-        "damageProjection": []
-    }, 
-
+        "damageProjection": [],
+        "display": {
+            "columns": 2
+        }
+    },
     {
         "name": "Ancient Red Dragon",
         "shortName": "",

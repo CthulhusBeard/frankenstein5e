@@ -27,7 +27,6 @@ export function initVue(f5data) {
         },
 
         created() {
-            console.log('created');
             this.createStatBlock();
         },
 
@@ -55,12 +54,10 @@ export function initVue(f5data) {
             },
 
             importMonster: function(monster) {
-                console.log('import');
-                console.log(monster);
+                console.log('import monster');
                 let importedStatBlock = monster;
                 //TODO validation ?
-                this.statblocks.push(importedStatBlock);
-                console.log(this.statblocks);
+                this.statblocks.unshift(importedStatBlock);
             },
 
             createStatBlock: function() {
@@ -127,6 +124,7 @@ export function initVue(f5data) {
                     legendaryActions: 3,
                     reactions: 1,
                     actions: 1,
+                    bonusActions: 1,
                     features: {
                         passive: [],
                         spellcasting: [],
@@ -166,10 +164,6 @@ export function initVue(f5data) {
                 }
 
                 this.statblocks.push(statblock);
-
-                
-                console.log('Stat block added');
-                console.log(this.statblocks);
             },
 
             removeStatBlock: function(id) {

@@ -40,6 +40,13 @@ class FrankensteinController extends Controller
     // - More than 1 stat block / encounter calculator
     // - Merge projections for Multiattack
     //      -> Consider Action Surge/Multiattack combo
+    // - DPR Totals
+    //      -> total passives
+    //      -> top action / spellcasting +
+    //      -> top reaction + 
+    //      -> top bonus + 
+    //      -> top legendary/mythic combinations + 
+    //      -> top lair action
     
     public function builder (Request $request) {
         if (App::environment('local')) {

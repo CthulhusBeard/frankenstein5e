@@ -10,9 +10,9 @@ return [
     'indefinite_article_a' => 'a',
     'indefinite_article_an' => 'an',
 
-    'ordinal_1' => 'st',
-    'ordinal_2' => 'nd',
-    'ordinal_3' => 'rd',
+    'ordinal_one' => 'st',
+    'ordinal_two' => 'nd',
+    'ordinal_three' => 'rd',
     'ordinal_other' => 'th',
     
     'max' => 'Max.',

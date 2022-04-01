@@ -10,9 +10,9 @@ return [
     'indefinite_article_a' => 'f5/misc.indefinite_article_a',
     'indefinite_article_an' => 'f5/misc.indefinite_article_an',
 
-    'ordinal_1' => 'f5/misc.ordinal_1',
-    'ordinal_2' => 'f5/misc.ordinal_2',
-    'ordinal_3' => 'f5/misc.ordinal_3',
+    'ordinal_one' => 'f5/misc.ordinal_one',
+    'ordinal_two' => 'f5/misc.ordinal_two',
+    'ordinal_three' => 'f5/misc.ordinal_three',
     'ordinal_other' => 'f5/misc.ordinal_other',
 
     'max' => 'f5/misc.max',

@@ -28318,7 +28318,6 @@ function initVue(f5data) {
       'statblock-feature': _statblock_feature_js__WEBPACK_IMPORTED_MODULE_1__["default"]
     },
     created: function created() {
-      console.log('created');
       this.createStatBlock();
     },
     computed: {},
@@ -28343,12 +28342,10 @@ function initVue(f5data) {
         return Number(input);
       },
       importMonster: function importMonster(monster) {
-        console.log('import');
-        console.log(monster);
+        console.log('import monster');
         var importedStatBlock = monster; //TODO validation ?
 
-        this.statblocks.push(importedStatBlock);
-        console.log(this.statblocks);
+        this.statblocks.unshift(importedStatBlock);
       },
       createStatBlock: function createStatBlock() {
         var statblock = {
@@ -28410,6 +28407,7 @@ function initVue(f5data) {
           legendaryActions: 3,
           reactions: 1,
           actions: 1,
+          bonusActions: 1,
           features: {
             passive: [],
             spellcasting: [],
@@ -28449,8 +28447,6 @@ function initVue(f5data) {
         }
 
         this.statblocks.push(statblock);
-        console.log('Stat block added');
-        console.log(this.statblocks);
       },
       removeStatBlock: function removeStatBlock(id) {
         for (var i in this.statblocks) {
@@ -28478,6 +28474,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "monsters", function() { return monsters; });
 
 var monsters = [{
+  "id": "iQKF3rSyy2PWMA4",
   "name": "Projection Test",
   "shortName": "",
   "isNameProperNoun": false,
@@ -28999,45 +28996,228 @@ var monsters = [{
       }],
       "legendaryActionCost": 1,
       "manualDPR": -1,
-      "averageDPR": 0,
+      "averageDPR": 51.5,
+      "damageProjection": []
+    }],
+    "bonus_action": [{
+      "id": "q6W1uOfFIGK8j9W",
+      "actionType": "bonus_action",
+      "name": "Bonus Attack",
+      "template": "attack",
+      "attackAbility": "str",
+      "targetType": "melee",
+      "attackType": "spell",
+      "attackRange": {
+        "low": 20,
+        "high": 60
+      },
+      "attackReach": 5,
+      "attackDamage": [{
+        "diceType": 4,
+        "diceAmount": 2,
+        "additional": 0,
+        "abilityBonus": true,
+        "type": "cold"
+      }],
+      "attackSavingThrow": false,
+      "attackTargets": 1,
+      "aoeRange": 30,
+      "savingThrowMonsterAbility": "str",
+      "savingThrowSaveAbilities": ["str"],
+      "savingThrowDamage": [{
+        "diceType": 4,
+        "diceAmount": 1,
+        "additional": 0,
+        "abilityBonus": false,
+        "type": "slashing"
+      }],
+      "savingThrowHalfOnSuccess": true,
+      "savingThrowConditions": [],
+      "hasOngoingDamage": false,
+      "ongoingDamage": [{
+        "diceType": 4,
+        "diceAmount": 1,
+        "additional": 0,
+        "abilityBonus": false,
+        "type": "slashing"
+      }],
+      "ongoingDamageOccurs": "start_of_turn",
+      "ongoingDamageOnFailedSave": true,
+      "ongoingDamageRepeatSave": false,
+      "ongoingDamageDuration": "ongoing",
+      "recharge": {
+        "type": "none",
+        "diceType": 6,
+        "minRoll": 5,
+        "uses": 1
+      },
+      "spellcastingAbility": "int",
+      "innateSpellcasting": false,
+      "spellList": [],
+      "spellSlots": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "customDamage": [],
+      "customDescription": "",
+      "multiattackReferences": [],
+      "useMultiattackAlternative": false,
+      "multiattackAltReferences": [],
+      "legendaryActionCost": 1,
+      "manualDPR": -1,
+      "averageDPR": 5,
       "damageProjection": [{
-        "name": "New Feature",
-        "damage": 0,
+        "name": "Bonus Attack",
+        "damage": 5,
         "actionCost": 1
       }, {
-        "name": "New Feature",
-        "damage": 0,
+        "name": "Bonus Attack",
+        "damage": 5,
         "actionCost": 1
       }, {
-        "name": "New Feature",
-        "damage": 0,
+        "name": "Bonus Attack",
+        "damage": 5,
         "actionCost": 1
       }, {
-        "name": "New Feature",
-        "damage": 0,
+        "name": "Bonus Attack",
+        "damage": 5,
         "actionCost": 1
       }, {
-        "name": "New Feature",
-        "damage": 0,
+        "name": "Bonus Attack",
+        "damage": 5,
         "actionCost": 1
       }, {
-        "name": "New Feature",
-        "damage": 0,
+        "name": "Bonus Attack",
+        "damage": 5,
         "actionCost": 1
       }, {
-        "name": "New Feature",
-        "damage": 0,
+        "name": "Bonus Attack",
+        "damage": 5,
         "actionCost": 1
       }]
     }],
-    "bonus_action": [],
-    "reaction": [],
+    "reaction": [{
+      "id": "Oi44Y3Q9b2H07oF",
+      "actionType": "reaction",
+      "name": "Hellish Rebuke",
+      "template": "saving_throw",
+      "attackAbility": "str",
+      "targetType": "cone",
+      "attackType": "none",
+      "attackRange": {
+        "low": 20,
+        "high": 60
+      },
+      "attackReach": 5,
+      "attackDamage": [{
+        "diceType": 4,
+        "diceAmount": 1,
+        "additional": 0,
+        "abilityBonus": true,
+        "type": "slashing"
+      }],
+      "attackSavingThrow": false,
+      "attackTargets": 1,
+      "aoeRange": 30,
+      "savingThrowMonsterAbility": "cha",
+      "savingThrowSaveAbilities": ["dex"],
+      "savingThrowDamage": [{
+        "diceType": 6,
+        "diceAmount": 2,
+        "additional": 0,
+        "abilityBonus": false,
+        "type": "fire"
+      }],
+      "savingThrowHalfOnSuccess": true,
+      "savingThrowConditions": [],
+      "hasOngoingDamage": false,
+      "ongoingDamage": [{
+        "diceType": 4,
+        "diceAmount": 1,
+        "additional": 0,
+        "abilityBonus": false,
+        "type": "slashing"
+      }],
+      "ongoingDamageOccurs": "start_of_turn",
+      "ongoingDamageOnFailedSave": true,
+      "ongoingDamageRepeatSave": false,
+      "ongoingDamageDuration": "ongoing",
+      "recharge": {
+        "type": "none",
+        "diceType": 6,
+        "minRoll": 5,
+        "uses": 1
+      },
+      "spellcastingAbility": "int",
+      "innateSpellcasting": false,
+      "spellList": [],
+      "spellSlots": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "customDamage": [],
+      "customDescription": "",
+      "multiattackReferences": [],
+      "useMultiattackAlternative": false,
+      "multiattackAltReferences": [],
+      "legendaryActionCost": 1,
+      "manualDPR": -1,
+      "averageDPR": 14,
+      "damageProjection": [{
+        "name": "Hellish Rebuke",
+        "damage": 14,
+        "actionCost": 1
+      }, {
+        "name": "Hellish Rebuke",
+        "damage": 14,
+        "actionCost": 1
+      }, {
+        "name": "Hellish Rebuke",
+        "damage": 14,
+        "actionCost": 1
+      }, {
+        "name": "Hellish Rebuke",
+        "damage": 14,
+        "actionCost": 1
+      }, {
+        "name": "Hellish Rebuke",
+        "damage": 14,
+        "actionCost": 1
+      }, {
+        "name": "Hellish Rebuke",
+        "damage": 14,
+        "actionCost": 1
+      }, {
+        "name": "Hellish Rebuke",
+        "damage": 14,
+        "actionCost": 1
+      }]
+    }],
     "legendary_action": [],
     "mythic_action": [],
     "lair_action": []
   },
   "averageDPR": -1,
-  "damageProjection": []
+  "damageProjection": [],
+  "display": {
+    "columns": 2
+  }
 }, {
   "name": "Ancient Red Dragon",
   "shortName": "",
@@ -29243,9 +29423,9 @@ var StatBlockFeature = {
         } //If AOE target area doesn't apply to this template, change it
 
 
-        if (!this.$parent.f5.areaofeffect[this.value.targetType].types.includes(this.value.template)) {
-          for (var key in this.$parent.f5.areaofeffect) {
-            var element = this.$parent.f5.areaofeffect[key];
+        if (!this.$parent.$parent.f5.areaofeffect[this.value.targetType].types.includes(this.value.template)) {
+          for (var key in this.$parent.$parent.f5.areaofeffect) {
+            var element = this.$parent.$parent.f5.areaofeffect[key];
 
             if (element.types.includes(this.value.template)) {
               this.value.targetType = key;
@@ -29275,9 +29455,9 @@ var StatBlockFeature = {
         return this.value.manualDPR;
       } else if (this.value.template === 'spellcasting') {
         // Spellcasting Average DPR
-        if (this.$parent.f5.spelllevels[this.highestCastableSpell]) {
+        if (this.$parent.$parent.f5.spelllevels[this.highestCastableSpell]) {
           //Target count should already be considered in average damage of spells
-          return this.$parent.f5.spelllevels[this.highestCastableSpell].average_damage;
+          return this.$parent.$parent.f5.spelllevels[this.highestCastableSpell].average_damage;
         }
       } else if (this.value.template === 'attack') {
         // Attack Average DPR
@@ -29305,7 +29485,7 @@ var StatBlockFeature = {
         }
 
         var distanceBaseline = 30;
-        avgTargets = this.$parent.f5.areaofeffect[this.value.targetType].targets_at_30;
+        avgTargets = this.$parent.$parent.f5.areaofeffect[this.value.targetType].targets_at_30;
 
         if (avgTargets > 1) {
           avgTargets = avgTargets / (distanceBaseline * 2) * (distanceBaseline + this.value.aoeRange); //basic formula to assume average number of targets hit
@@ -29337,8 +29517,6 @@ var StatBlockFeature = {
         }
 
         if (this.value.useMultiattackAlternative) {
-          console.log('Multiattack alt dpr');
-
           var _iterator2 = _createForOfIteratorHelper(this.value.multiattackAltReferences),
               _step2;
 
@@ -29375,29 +29553,29 @@ var StatBlockFeature = {
         nameText += ' (' + brackets + ')';
       }
 
-      return (nameText + this.$parent.f5.misc.sentence_end).trim();
+      return (nameText + this.$parent.$parent.f5.misc.sentence_end).trim();
     },
     bracketText: function bracketText() {
       var brackets = ''; //Legendary action cost
 
       if (this.$parent.value.hasLegendaryActions && (this.value.actionType === 'legendary_action' || this.$parent.value.hasMythicActions && this.value.actionType === 'mythic_action') && this.value.legendaryActionCost > 1) {
-        brackets += this.$parent.f5.misc.action_cost.replace(':cost', this.value.legendaryActionCost);
+        brackets += this.$parent.$parent.f5.misc.action_cost.replace(':cost', this.value.legendaryActionCost);
       } //Recharge rate
 
 
       if (this.value.recharge.type !== 'none') {
         if (brackets) {
-          brackets += this.$parent.f5.misc.sentence_list_separator_secondary + ' ';
+          brackets += this.$parent.$parent.f5.misc.sentence_list_separator_secondary + ' ';
         }
 
         if (this.value.recharge.type === 'dice_roll') {
-          brackets += this.$parent.f5.misc.title_recharge + ' ' + this.value.recharge.minRoll;
+          brackets += this.$parent.$parent.f5.misc.title_recharge + ' ' + this.value.recharge.minRoll;
 
           if (this.value.recharge.minRoll !== this.value.recharge.diceType) {
             brackets += '-' + this.value.recharge.diceType;
           }
-        } else if (this.$parent.f5.recharge[this.value.recharge.type].desc) {
-          brackets += this.$parent.f5.recharge[this.value.recharge.type].desc.replace(':uses', this.value.recharge.uses);
+        } else if (this.$parent.$parent.f5.recharge[this.value.recharge.type].desc) {
+          brackets += this.$parent.$parent.f5.recharge[this.value.recharge.type].desc.replace(':uses', this.value.recharge.uses);
         }
       }
 
@@ -29414,9 +29592,9 @@ var StatBlockFeature = {
     getValidTemplateTypes: function getValidTemplateTypes() {
       var options = {};
 
-      for (var i in this.$parent.f5.featuretemplates) {
-        if (this.$parent.f5.featuretemplates[i].action_options && this.$parent.f5.featuretemplates[i].action_options.includes(this.value.actionType)) {
-          options[i] = this.$parent.f5.featuretemplates[i];
+      for (var i in this.$parent.$parent.f5.featuretemplates) {
+        if (this.$parent.$parent.f5.featuretemplates[i].action_options && this.$parent.$parent.f5.featuretemplates[i].action_options.includes(this.value.actionType)) {
+          options[i] = this.$parent.$parent.f5.featuretemplates[i];
         }
       }
 
@@ -29546,16 +29724,16 @@ var StatBlockFeature = {
       }
 
       if (this.value.template == 'spellcasting') {
-        descText = this.$parent.f5.misc.desc_spellcasting;
+        descText = this.$parent.$parent.f5.misc.desc_spellcasting;
 
         if (this.value.innateSpellcasting) {
           //TODO prepared spellcasting
-          descText = this.$parent.f5.misc.desc_innate_spellcasting;
+          descText = this.$parent.$parent.f5.misc.desc_innate_spellcasting;
         }
 
-        descText = descText.replace(':caster_level_article', this.$parent.determineIndefiniteArticle(this.$parent.casterLevel));
+        descText = descText.replace(':caster_level_article', this.$parent.determineIndefiniteArticle(this.$parent.casterLevel, true));
         descText = descText.replace(':caster_level', this.$parent.ordinalNumber(this.$parent.casterLevel));
-        descText = descText.replace(':spellcasting_ability', this.$parent.f5.abilities[this.value.spellcastingAbility].name);
+        descText = descText.replace(':spellcasting_ability', this.$parent.$parent.f5.abilities[this.value.spellcastingAbility].name);
         descText = descText.replace(':spell_save_dc', this.$parent.makeSavingThrowDC(this.value.spellcastingAbility));
         descText = descText.replace(':spell_hit', this.$parent.addPlus(this.$parent.proficiency + this.$parent.getAbilityMod(this.value.spellcastingAbility)));
 
@@ -29565,7 +29743,7 @@ var StatBlockFeature = {
           }), true, function (str) {
             return '<i>' + str + '</i>';
           });
-          descText = descText.replace(':at_will_spells', this.$parent.f5.misc.desc_at_will_spells);
+          descText = descText.replace(':at_will_spells', this.$parent.$parent.f5.misc.desc_at_will_spells);
           descText = descText.replace(':at_will_spell_list', atWillSpellList.toLowerCase());
         } else {
           descText = descText.replace(':at_will_spells', '');
@@ -29594,12 +29772,12 @@ var StatBlockFeature = {
           }
 
           if (level == 0) {
-            descText += this.$parent.f5.spelllevels[level].name + ' (' + this.$parent.f5.misc.at_will + '): ';
+            descText += this.$parent.$parent.f5.spelllevels[level].name + ' (' + this.$parent.$parent.f5.misc.at_will + '): ';
           } else {
             if (!this.value.innateSpellcasting) {
-              descText += this.$parent.f5.spelllevels[level].name + ' (' + this.$parent.translate(this.$parent.f5.misc.spell_slots, this.value.spellSlots[level]).replace(':slot_quantity', this.value.spellSlots[level]) + '): ';
+              descText += this.$parent.$parent.f5.spelllevels[level].name + ' (' + this.$parent.translate(this.$parent.$parent.f5.misc.spell_slots, this.value.spellSlots[level]).replace(':slot_quantity', this.value.spellSlots[level]) + '): ';
             } else {
-              descText += this.$parent.f5.misc.spell_uses.replace(':slot_uses', level) + ': ';
+              descText += this.$parent.$parent.f5.misc.spell_uses.replace(':slot_uses', level) + ': ';
             }
           }
 
@@ -29615,7 +29793,7 @@ var StatBlockFeature = {
             }
 
             if (i < sortedSpellList[level].length - 1) {
-              descText += this.$parent.f5.misc.sentence_list_separator + ' ';
+              descText += this.$parent.$parent.f5.misc.sentence_list_separator + ' ';
             }
           }
 
@@ -29623,7 +29801,7 @@ var StatBlockFeature = {
         }
 
         if (castsBefore) {
-          descText += '<br/>' + this.$parent.f5.misc.casts_spells_before;
+          descText += '<br/>' + this.$parent.$parent.f5.misc.casts_spells_before;
         }
 
         if (this.$parent.value.isNameProperNoun) {
@@ -29637,18 +29815,18 @@ var StatBlockFeature = {
       }
 
       if (this.value.template == 'attack') {
-        descText = this.$parent.f5.misc.desc_attack; //'<i>:attack_range :attack_type:</i> :attack_bonus to hit, :range :targets.'
+        descText = this.$parent.$parent.f5.misc.desc_attack; //'<i>:attack_range :attack_type:</i> :attack_bonus to hit, :range :targets.'
 
-        descText = descText.replace(':attack_range', this.$parent.f5.areaofeffect[this.value.targetType].name);
-        descText = descText.replace(':attack_type', this.$parent.f5.attacktypes[this.value.attackType].name);
+        descText = descText.replace(':attack_range', this.$parent.$parent.f5.areaofeffect[this.value.targetType].name);
+        descText = descText.replace(':attack_type', this.$parent.$parent.f5.attacktypes[this.value.attackType].name);
         descText = descText.replace(':attack_bonus', this.$parent.addPlus(this.$parent.getAbilityMod(this.value.attackAbility) + this.$parent.proficiency));
 
         if (this.value.targetType == 'melee') {
-          descText = descText.replace(':range', this.$parent.f5.misc.reach);
+          descText = descText.replace(':range', this.$parent.$parent.f5.misc.reach);
         } else if (this.value.targetType == 'melee_or_ranged') {
-          descText = descText.replace(':range', this.$parent.f5.misc.reach_or_range);
+          descText = descText.replace(':range', this.$parent.$parent.f5.misc.reach_or_range);
         } else if (this.value.targetType == 'ranged') {
-          descText = descText.replace(':range', this.$parent.f5.misc.range);
+          descText = descText.replace(':range', this.$parent.$parent.f5.misc.range);
         } else {
           descText = descText.replace(':range', '');
         }
@@ -29656,9 +29834,9 @@ var StatBlockFeature = {
         descText = descText.replace(':reach_distance', this.value.attackReach + ' ' + this.$parent.value.measure.measureUnit);
         descText = descText.replace(':range_distance_low', this.value.attackRange.low);
         descText = descText.replace(':range_distance_high', this.value.attackRange.high + ' ' + this.$parent.value.measure.measureUnit);
-        descText = descText.replace(':targets', this.$parent.translate(this.$parent.f5.misc.num_of_targets, this.value.attackTargets).replace(':target_count', this.value.attackTargets)); //Hit
+        descText = descText.replace(':targets', this.$parent.translate(this.$parent.$parent.f5.misc.num_of_targets, this.value.attackTargets).replace(':target_count', this.value.attackTargets)); //Hit
 
-        descText += ' <i>' + this.$parent.f5.misc.desc_attack_hit + '</i> ';
+        descText += ' <i>' + this.$parent.$parent.f5.misc.desc_attack_hit + '</i> ';
         var damageList = [];
 
         for (var _i4 in this.value.attackDamage) {
@@ -29673,13 +29851,13 @@ var StatBlockFeature = {
         var savingThrowText = '';
 
         if (this.value.savingThrowDamage.length >= 1 && this.value.savingThrowConditions.length >= 2) {
-          savingThrowText = this.$parent.f5.misc.desc_attack_saving_throw_damage_condition;
+          savingThrowText = this.$parent.$parent.f5.misc.desc_attack_saving_throw_damage_condition;
         } else if (this.value.savingThrowDamage.length >= 1 && this.value.savingThrowConditions.length >= 1) {
-          savingThrowText = this.$parent.f5.misc.desc_attack_saving_throw_damage_condition;
+          savingThrowText = this.$parent.$parent.f5.misc.desc_attack_saving_throw_damage_condition;
         } else if (this.value.savingThrowDamage.length >= 1) {
-          savingThrowText = this.$parent.f5.misc.desc_attack_saving_throw_damage;
+          savingThrowText = this.$parent.$parent.f5.misc.desc_attack_saving_throw_damage;
         } else if (this.value.savingThrowConditions.length >= 1) {
-          savingThrowText = this.$parent.f5.misc.desc_attack_saving_throw_condition;
+          savingThrowText = this.$parent.$parent.f5.misc.desc_attack_saving_throw_condition;
         } //Targets
 
 
@@ -29692,17 +29870,17 @@ var StatBlockFeature = {
         }
 
         if (this.value.template == 'attack') {
-          savingThrowText = savingThrowText.replace(':target_text', this.$parent.translate(this.$parent.f5.misc.the_target, this.value.attackTargets));
+          savingThrowText = savingThrowText.replace(':target_text', this.$parent.translate(this.$parent.$parent.f5.misc.the_target, this.value.attackTargets));
         } else {
-          savingThrowText = savingThrowText.replace(':target_text', this.$parent.translate(this.$parent.f5.misc.each_target, stTargetCount));
+          savingThrowText = savingThrowText.replace(':target_text', this.$parent.translate(this.$parent.$parent.f5.misc.each_target, stTargetCount));
         } //Adjust for run-on sentences
 
 
         if (this.value.template == 'attack' && this.value.attackSavingThrow && this.value.attackDamage.length > 0) {
           if (this.hasRunOnSentence) {
-            savingThrowText = this.$parent.f5.misc.sentence_end + ' ' + this.$parent.f5.misc.additionally.replace(':addition', savingThrowText);
+            savingThrowText = this.$parent.$parent.f5.misc.sentence_end + ' ' + this.$parent.$parent.f5.misc.additionally.replace(':addition', savingThrowText);
           } else {
-            savingThrowText = this.$parent.f5.misc.sentence_list_separator + ' ' + this.$parent.f5.misc.and + ' ' + savingThrowText;
+            savingThrowText = this.$parent.$parent.f5.misc.sentence_list_separator + ' ' + this.$parent.$parent.f5.misc.and + ' ' + savingThrowText;
           }
         } else {
           savingThrowText = this.$parent.capitalize(savingThrowText);
@@ -29710,7 +29888,7 @@ var StatBlockFeature = {
 
 
         if (this.value.savingThrowHalfOnSuccess) {
-          savingThrowText = savingThrowText.replace(':half_as_much', this.$parent.f5.misc.desc_saving_throw_half_on_success);
+          savingThrowText = savingThrowText.replace(':half_as_much', this.$parent.$parent.f5.misc.desc_saving_throw_half_on_success);
         } else {
           savingThrowText = savingThrowText.replace(':half_as_much', '');
           savingThrowText = savingThrowText.replace(':not_condition', '');
@@ -29733,26 +29911,26 @@ var StatBlockFeature = {
           var stNotConditionList = [];
 
           for (var _i6 in this.value.savingThrowConditions) {
-            stConditionList.push(this.$parent.translate(this.$parent.f5.conditions[this.value.savingThrowConditions[_i6]].is, stTargetCount).replace(':condition', this.$parent.f5.conditions[this.value.savingThrowConditions[_i6]].name.toLowerCase()));
-            stNotConditionList.push(this.$parent.translate(this.$parent.f5.conditions[this.value.savingThrowConditions[_i6]].not, stTargetCount).replace(':condition', this.$parent.f5.conditions[this.value.savingThrowConditions[_i6]].name.toLowerCase())); //TODO replace distance for pushed
+            stConditionList.push(this.$parent.translate(this.$parent.$parent.f5.conditions[this.value.savingThrowConditions[_i6]].is, stTargetCount).replace(':condition', this.$parent.$parent.f5.conditions[this.value.savingThrowConditions[_i6]].name.toLowerCase()));
+            stNotConditionList.push(this.$parent.translate(this.$parent.$parent.f5.conditions[this.value.savingThrowConditions[_i6]].not, stTargetCount).replace(':condition', this.$parent.$parent.f5.conditions[this.value.savingThrowConditions[_i6]].name.toLowerCase())); //TODO replace distance for pushed
           }
 
           savingThrowText = savingThrowText.replace(':condition', this.$parent.createConditionSentenceList(stConditionList));
-          savingThrowText = savingThrowText.replace(':not_condition', this.$parent.f5.misc.and + ' ' + this.$parent.createConditionSentenceList(stNotConditionList));
+          savingThrowText = savingThrowText.replace(':not_condition', this.$parent.$parent.f5.misc.and + ' ' + this.$parent.createConditionSentenceList(stNotConditionList));
         }
 
         savingThrowText = savingThrowText.replace(':saving_throw_dc', this.$parent.makeSavingThrowDC(this.value.savingThrowMonsterAbility));
         var abilityList = [];
 
         for (var _i7 in this.value.savingThrowSaveAbilities) {
-          abilityList.push(this.$parent.f5.abilities[this.value.savingThrowSaveAbilities[_i7]].name);
+          abilityList.push(this.$parent.$parent.f5.abilities[this.value.savingThrowSaveAbilities[_i7]].name);
         }
 
         savingThrowText = savingThrowText.replace(':saving_throw_ability', this.$parent.createSentenceList(abilityList, false));
         descText += savingThrowText;
       } else if (this.value.template == 'multiattack') {}
 
-      return descText + this.$parent.f5.misc.sentence_end;
+      return descText + this.$parent.$parent.f5.misc.sentence_end;
     },
     damageProjection: function damageProjection() {
       var turnDamage = [];
@@ -29779,7 +29957,7 @@ var StatBlockFeature = {
             var spellUses = 0;
 
             if (spell.at_will || spell.level === 0) {
-              spellUses = this.$parent.editor.round_tracker;
+              spellUses = this.$parent.$parent.editor.round_tracker;
             } else if (!this.value.innateSpellcasting && !spellSlotsTracker[spell.level] && this.value.spellSlots[spell.level] > 0) {
               spellUses = this.value.spellSlots[spell.level];
               spellSlotsTracker[spell.level] = true;
@@ -29789,8 +29967,8 @@ var StatBlockFeature = {
 
             for (var j = 0; j < spellUses; j++) {
               turnDamage.splice(addIndex, 0, {
-                name: this.$parent.f5.misc.title_spellcasting + ': ' + this.$parent.f5.spelllevels[spell.level].name,
-                damage: this.$parent.f5.spelllevels[spell.level].average_damage,
+                name: this.$parent.$parent.f5.misc.title_spellcasting + ': ' + this.$parent.$parent.f5.spelllevels[spell.level].name,
+                damage: this.$parent.$parent.f5.spelllevels[spell.level].average_damage,
                 spellLevel: spell.level,
                 actionCost: 1
               });
@@ -29880,7 +30058,7 @@ var StatBlockFeature = {
         averageRechargeTurns = Math.round(1 / ((this.value.recharge.diceType - this.value.recharge.minRoll + 1) / this.value.recharge.diceType));
       }
 
-      for (var _i9 = 0; _i9 < this.$parent.editor.round_tracker; _i9++) {
+      for (var _i9 = 0; _i9 < this.$parent.$parent.editor.round_tracker; _i9++) {
         if (_i9 % averageRechargeTurns === 0) {
           turnDamage[_i9] = {
             name: this.value.name,
@@ -29905,7 +30083,7 @@ var StatBlockFeature = {
     addSpell: function addSpell() {
       var spellLevel = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
       this.value.spellList.push({
-        'name': this.$parent.f5.misc.title_add_spell_name,
+        'name': this.$parent.$parent.f5.misc.title_add_spell_name,
         'level': spellLevel,
         'cast_before': false,
         'at_will': false,
@@ -29987,33 +30165,22 @@ var StatBlock = {
     'Multiselect': _vueform_multiselect_dist_multiselect_vue2_js__WEBPACK_IMPORTED_MODULE_0__["default"],
     'statblock-feature': _statblock_feature_js__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  created: function created() {
-    console.log('created stat block component');
-  },
   computed: {
     //Editor
     statblockColumns: function statblockColumns() {
       return 'column-' + this.value.display.columns;
     },
     averageDPR: function averageDPR() {
-      var avgDPR = 0;
       var dprGroups = {
-        passive: [],
-        action: [],
+        passive: 0,
+        action: 0,
         //include spellcasting
-        bonus_action: [],
-        legendary_action: [],
+        reaction: 0,
+        bonus_action: 0,
+        legendary_action: 0,
         //include mythic_action
-        lair_action: []
+        lair_action: 0
       };
-      /*
-      total passives
-      top action / spellcasting +
-      top reaction + 
-      top bonus + 
-      top legendary/mythic combinations + 
-      top lair action
-      */
 
       for (var featureType in this.value.features) {
         var _iterator = _createForOfIteratorHelper(this.value.features[featureType]),
@@ -30030,12 +30197,8 @@ var StatBlock = {
               dprType = 'action';
             }
 
-            for (var i = 0; i > 7; i++) {
-              dprGroups[dprType][i] = 0;
-            }
-
-            if (feature.averageDPR > avgDPR) {
-              avgDPR = feature.averageDPR;
+            if (feature.averageDPR > dprGroups[dprType]) {
+              dprGroups[dprType] = feature.averageDPR;
             }
           }
         } catch (err) {
@@ -30045,12 +30208,19 @@ var StatBlock = {
         }
       }
 
-      return avgDPR;
+      return Object.values(dprGroups).reduce(function (a, b) {
+        return a + b;
+      });
     },
     damageProjection: function damageProjection() {
       var projections = {
         action: {
           count: this.value.actions,
+          rounds: [],
+          options: []
+        },
+        bonus_action: {
+          count: this.value.bonusActions,
           rounds: [],
           options: []
         },
@@ -30137,7 +30307,7 @@ var StatBlock = {
           }
         };
 
-        for (var i = 0; i < this.editor.round_tracker; i++) {
+        for (var i = 0; i < this.$parent.editor.round_tracker; i++) {
           _loop(i);
         }
       }
@@ -30151,8 +30321,8 @@ var StatBlock = {
       var dpr = this.averageDPR;
       var approxCr = 1;
 
-      for (var i in this.f5.challengerating) {
-        var cr = this.f5.challengerating[i];
+      for (var i in this.$parent.f5.challengerating) {
+        var cr = this.$parent.f5.challengerating[i];
 
         if (dpr >= cr.dpr.low && dpr <= cr.dpr.high) {
           approxCr = i;
@@ -30167,8 +30337,8 @@ var StatBlock = {
       var hp = this.getHP;
       var approxCr = 31;
 
-      for (var i in this.f5.challengerating) {
-        var cr = this.f5.challengerating[i];
+      for (var i in this.$parent.f5.challengerating) {
+        var cr = this.$parent.f5.challengerating[i];
 
         if (hp >= cr.hp.low && hp <= cr.hp.high) {
           approxCr = i;
@@ -30184,17 +30354,17 @@ var StatBlock = {
 
       if (!ac) {
         return 'Unset';
-      } else if (ac < this.f5.challengerating[0].ac) {
+      } else if (ac < this.$parent.f5.challengerating[0].ac) {
         return '0';
-      } else if (ac > this.f5.challengerating[20].ac) {
+      } else if (ac > this.$parent.f5.challengerating[20].ac) {
         return '> 30';
       }
 
       var crLow = 31;
       var crHigh = 0;
 
-      for (var i in this.f5.challengerating) {
-        var cr = this.f5.challengerating[i];
+      for (var i in this.$parent.f5.challengerating) {
+        var cr = this.$parent.f5.challengerating[i];
 
         if (ac == cr.ac) {
           if (cr.cr > crHigh) {
@@ -30226,13 +30396,13 @@ var StatBlock = {
       var descStr = '';
 
       if (this.value.size) {
-        descStr += this.getProp(this.f5.creaturesizes[this.value.size]);
-        this.value.hitPoints.diceType = this.f5.creaturesizes[this.value.size].hit_dice; //TODO check if hitdice were manually set
+        descStr += this.getProp(this.$parent.f5.creaturesizes[this.value.size]);
+        this.value.hitPoints.diceType = this.$parent.f5.creaturesizes[this.value.size].hit_dice; //TODO check if hitdice were manually set
       }
 
       if (this.value.type) {
         if (descStr != '') descStr += ' ';
-        descStr += this.capitalize(this.getProp(this.f5.creaturetypes[this.value.type]));
+        descStr += this.capitalize(this.getProp(this.$parent.f5.creaturetypes[this.value.type]));
       }
 
       if (this.value.subtype
@@ -30242,7 +30412,7 @@ var StatBlock = {
           descStr += '(';
 
           if (this.value.subtype) {
-            descStr += this.getProp(this.f5.creaturesubtypes[this.value.subtype]);
+            descStr += this.getProp(this.$parent.f5.creaturesubtypes[this.value.subtype]);
           }
           /* TODO Do something with category?
           if(this.value.subtype && (this.value.showtypeCategory && this.value.typeCategory)) { 
@@ -30258,9 +30428,9 @@ var StatBlock = {
         if (descStr != '') descStr += ', ';
 
         if (this.value.showTypicalAlignment) {
-          descStr += this.f5.misc.alignments_typically.replace(":alignment", this.getProp(this.f5.alignments[this.value.alignment]));
+          descStr += this.$parent.f5.misc.alignments_typically.replace(":alignment", this.getProp(this.$parent.f5.alignments[this.value.alignment]));
         } else {
-          descStr += this.getProp(this.f5.alignments[this.value.alignment]);
+          descStr += this.getProp(this.$parent.f5.alignments[this.value.alignment]);
         }
       }
 
@@ -30268,24 +30438,24 @@ var StatBlock = {
     },
     //Armor Class
     allowAcSelector: function allowAcSelector() {
-      if (this.value.armorClass && this.value.armorClass.type && this.f5.armor[this.value.armorClass.type]) {
-        return this.f5.armor[this.value.armorClass.type].range;
+      if (this.value.armorClass && this.value.armorClass.type && this.$parent.f5.armor[this.value.armorClass.type]) {
+        return this.$parent.f5.armor[this.value.armorClass.type].range;
       }
 
       return false;
     },
     allowAcBonus: function allowAcBonus() {
-      if (this.f5.armor[this.value.armorClass.type] && this.f5.armor[this.value.armorClass.type].allow_bonus) {
+      if (this.$parent.f5.armor[this.value.armorClass.type] && this.$parent.f5.armor[this.value.armorClass.type].allow_bonus) {
         return true;
       }
 
       return false;
     },
     getAcRange: function getAcRange() {
-      if (this.value.armorClass && this.value.armorClass.type && this.f5.armor[this.value.armorClass.type] && this.f5.armor[this.value.armorClass.type].range && this.f5.armor[this.value.armorClass.type].range.low && this.f5.armor[this.value.armorClass.type].range.high) {
+      if (this.value.armorClass && this.value.armorClass.type && this.$parent.f5.armor[this.value.armorClass.type] && this.$parent.f5.armor[this.value.armorClass.type].range && this.$parent.f5.armor[this.value.armorClass.type].range.low && this.$parent.f5.armor[this.value.armorClass.type].range.high) {
         var arr = [];
 
-        for (var i = this.f5.armor[this.value.armorClass.type].range.low; i < this.f5.armor[this.value.armorClass.type].range.high + 1; i++) {
+        for (var i = this.$parent.f5.armor[this.value.armorClass.type].range.low; i < this.$parent.f5.armor[this.value.armorClass.type].range.high + 1; i++) {
           arr.push(i);
         }
 
@@ -30298,22 +30468,22 @@ var StatBlock = {
       var acValue = 0;
       var statBonus = 0;
 
-      if (this.value.armorClass && this.value.armorClass.type && this.f5.armor[this.value.armorClass.type]) {
+      if (this.value.armorClass && this.value.armorClass.type && this.$parent.f5.armor[this.value.armorClass.type]) {
         //set AC value
-        if (this.f5.armor[this.value.armorClass.type].range) {
+        if (this.$parent.f5.armor[this.value.armorClass.type].range) {
           //manual value
           acValue = parseFloat(this.value.armorClass.manual);
-        } else if (this.f5.armor[this.value.armorClass.type].base) {
+        } else if (this.$parent.f5.armor[this.value.armorClass.type].base) {
           //base value
-          acValue = this.f5.armor[this.value.armorClass.type].base;
+          acValue = this.$parent.f5.armor[this.value.armorClass.type].base;
 
-          if (this.f5.armor[this.value.armorClass.type].bonus && this.value.abilities[this.f5.armor[this.value.armorClass.type].bonus]) {
+          if (this.$parent.f5.armor[this.value.armorClass.type].bonus && this.value.abilities[this.$parent.f5.armor[this.value.armorClass.type].bonus]) {
             //get stat bonus
-            statBonus = this.getAbilityMod(this.f5.armor[this.value.armorClass.type].bonus);
+            statBonus = this.getAbilityMod(this.$parent.f5.armor[this.value.armorClass.type].bonus);
 
-            if (this.f5.armor[this.value.armorClass.type].max_bonus && statBonus > this.f5.armor[this.value.armorClass.type].max_bonus) {
+            if (this.$parent.f5.armor[this.value.armorClass.type].max_bonus && statBonus > this.$parent.f5.armor[this.value.armorClass.type].max_bonus) {
               //set to max bonus
-              statBonus = this.f5.armor[this.value.armorClass.type].max_bonus;
+              statBonus = this.$parent.f5.armor[this.value.armorClass.type].max_bonus;
             }
 
             acValue += parseFloat(statBonus);
@@ -30341,40 +30511,40 @@ var StatBlock = {
       var statBonus = 0;
       var stealthDis = '';
 
-      if (this.value.armorClass && this.value.armorClass.type && this.f5.armor[this.value.armorClass.type]) {
+      if (this.value.armorClass && this.value.armorClass.type && this.$parent.f5.armor[this.value.armorClass.type]) {
         //set name
         if (this.value.armorClass.type === 'custom' && this.value.armorClass.name) {
           name = this.value.armorClass.name;
-        } else if (this.value.armorClass.type !== 'none' && this.f5.armor[this.value.armorClass.type].name) {
-          name = this.f5.armor[this.value.armorClass.type].name;
+        } else if (this.value.armorClass.type !== 'none' && this.$parent.f5.armor[this.value.armorClass.type].name) {
+          name = this.$parent.f5.armor[this.value.armorClass.type].name;
         } //set AC value
 
 
-        if (this.f5.armor[this.value.armorClass.type].range) {
+        if (this.$parent.f5.armor[this.value.armorClass.type].range) {
           //manual value
           acValue = parseFloat(this.value.armorClass.manual);
 
           if (this.value.armorClass.stealthDis) {
-            stealthDis = ' (' + this.f5.misc.stealth_dis + ')';
+            stealthDis = ' (' + this.$parent.f5.misc.stealth_dis + ')';
           }
-        } else if (this.f5.armor[this.value.armorClass.type].base) {
+        } else if (this.$parent.f5.armor[this.value.armorClass.type].base) {
           //base value
-          acValue = this.f5.armor[this.value.armorClass.type].base;
+          acValue = this.$parent.f5.armor[this.value.armorClass.type].base;
 
-          if (this.f5.armor[this.value.armorClass.type].bonus && this.value.abilities[this.f5.armor[this.value.armorClass.type].bonus]) {
+          if (this.$parent.f5.armor[this.value.armorClass.type].bonus && this.value.abilities[this.$parent.f5.armor[this.value.armorClass.type].bonus]) {
             //get stat bonus
-            statBonus = this.getAbilityMod(this.f5.armor[this.value.armorClass.type].bonus);
+            statBonus = this.getAbilityMod(this.$parent.f5.armor[this.value.armorClass.type].bonus);
 
-            if (this.f5.armor[this.value.armorClass.type].max_bonus && statBonus > this.f5.armor[this.value.armorClass.type].max_bonus) {
+            if (this.$parent.f5.armor[this.value.armorClass.type].max_bonus && statBonus > this.$parent.f5.armor[this.value.armorClass.type].max_bonus) {
               //set to max bonus
-              statBonus = this.f5.armor[this.value.armorClass.type].max_bonus;
+              statBonus = this.$parent.f5.armor[this.value.armorClass.type].max_bonus;
             }
 
             acValue += parseFloat(statBonus);
           }
 
-          if (this.f5.armor[this.value.armorClass.type].stealth_dis) {
-            stealthDis = ' (' + this.f5.misc.stealth_dis + ')';
+          if (this.$parent.f5.armor[this.value.armorClass.type].stealth_dis) {
+            stealthDis = ' (' + this.$parent.f5.misc.stealth_dis + ')';
           }
         } else {
           console.error('Couldn\'t calculate AC');
@@ -30388,7 +30558,7 @@ var StatBlock = {
         var shieldText = '';
 
         if (this.value.armorClass.shield) {
-          shieldText = ', ' + this.f5.misc.shield;
+          shieldText = ', ' + this.$parent.f5.misc.shield;
         }
 
         acText = String(acValue);
@@ -30439,7 +30609,7 @@ var StatBlock = {
       var hp = Math.round((type / 2 + .5) * amount) + conHP + additionalHP;
 
       if (isNaN(hp)) {
-        return this.f5.misc.undefined_health;
+        return this.$parent.f5.misc.undefined_health;
       }
 
       var conText = '';
@@ -30448,14 +30618,11 @@ var StatBlock = {
         conText = ' + ' + (conHP + additionalHP);
       }
 
-      var hpText = hp + ' (' + amount + this.f5.misc.die_symbol + type + conText;
+      var hpText = hp + ' (' + amount + this.$parent.f5.misc.die_symbol + type + conText;
       hpText += ')';
       return hpText;
     },
     //Damages
-    //TODO have a fix for redundancies
-    //If in immunity, then remove from resistance and vulnerability
-    //If in resistance, then remove from vulnerability
     damageResistanceText: function damageResistanceText() {
       return this.damageList(this.value.damageResistances).toLowerCase();
     },
@@ -30471,17 +30638,17 @@ var StatBlock = {
     eligableDamageTypes: function eligableDamageTypes() {
       var list = [];
 
-      for (var i in this.f5.damagetypes) {
+      for (var i in this.$parent.f5.damagetypes) {
         if (this.value.damageResistances.includes(i) || this.value.damageImmunities.includes(i) || this.value.damageVulnerabilites.includes(i)) {
           list.push({
             value: i,
-            label: this.f5.damagetypes[i].name,
+            label: this.$parent.f5.damagetypes[i].name,
             disabled: true
           });
         } else {
           list.push({
             value: i,
-            label: this.f5.damagetypes[i].name
+            label: this.$parent.f5.damagetypes[i].name
           });
         }
       }
@@ -30491,11 +30658,11 @@ var StatBlock = {
     dealableDamageTypes: function dealableDamageTypes() {
       var list = [];
 
-      for (var i in this.f5.damagetypes) {
-        if (!(this.f5.damagetypes[i].dealt === false)) {
+      for (var i in this.$parent.f5.damagetypes) {
+        if (!(this.$parent.f5.damagetypes[i].dealt === false)) {
           list.push({
             value: i,
-            label: this.f5.damagetypes[i].name
+            label: this.$parent.f5.damagetypes[i].name
           });
         }
       }
@@ -30515,19 +30682,19 @@ var StatBlock = {
           displayText += ', ';
         }
 
-        if (!this.f5.speeds[i]['hide_name']) {
-          displayText += this.f5.speeds[i].name.toLowerCase() + ' ';
+        if (!this.$parent.f5.speeds[i]['hide_name']) {
+          displayText += this.$parent.f5.speeds[i].name.toLowerCase() + ' ';
         }
 
         displayText += this.value.speeds[i] + ' ' + this.value.measure.measureUnit;
 
         if (i === 'fly' && this.value.hover) {
-          displayText += ' (' + this.f5.misc.hover.toLowerCase() + ')';
+          displayText += ' (' + this.$parent.f5.misc.hover.toLowerCase() + ')';
         }
       }
 
       if (!displayText) {
-        displayText = this.f5.misc.cant_move;
+        displayText = this.$parent.f5.misc.cant_move;
       }
 
       return displayText;
@@ -30545,8 +30712,8 @@ var StatBlock = {
           displayText += ', ';
         }
 
-        if (!this.f5.senses[i]['hide_name']) {
-          displayText += this.f5.senses[i].name.toLowerCase() + ' ';
+        if (!this.$parent.f5.senses[i]['hide_name']) {
+          displayText += this.$parent.f5.senses[i].name.toLowerCase() + ' ';
         }
 
         displayText += this.value.senses[i] + ' ' + this.value.measure.measureUnit;
@@ -30558,22 +30725,22 @@ var StatBlock = {
           displayText += ', ';
         }
 
-        displayText += this.f5.misc.passive_skill.replace(':skill', this.f5.skills['perception'].name) + ' ' + (this.calcSkillMod('perception') + 10);
+        displayText += this.$parent.f5.misc.passive_skill.replace(':skill', this.$parent.f5.skills['perception'].name) + ' ' + (this.calcSkillMod('perception') + 10);
       }
 
       return displayText;
     },
     //Subtypes
     orderedSubtypes: function orderedSubtypes() {
-      if (this.$data.f5.creaturetypes.hasOwnProperty(this.value.type) && this.$data.f5.creaturetypes[this.value.type]['subtypes']) {
+      if (this.$parent.f5.creaturetypes.hasOwnProperty(this.value.type) && this.$parent.f5.creaturetypes[this.value.type]['subtypes']) {
         var topSubtypes = [];
         var count = 0;
 
-        for (var i in this.$data.f5.creaturesubtypes) {
-          var subtypeObj = this.$data.f5.creaturesubtypes[i];
+        for (var i in this.$parent.f5.creaturesubtypes) {
+          var subtypeObj = this.$parent.f5.creaturesubtypes[i];
           subtypeObj.id = i;
 
-          if (this.$data.f5.creaturetypes[this.value.type]['subtypes'].includes(i)) {
+          if (this.$parent.f5.creaturetypes[this.value.type]['subtypes'].includes(i)) {
             topSubtypes.splice(count, 0, subtypeObj);
             count++;
           } else {
@@ -30584,23 +30751,23 @@ var StatBlock = {
         return topSubtypes;
       }
 
-      return this.f5.creaturesubtypes;
+      return this.$parent.f5.creaturesubtypes;
     },
     //Type Options
     typeCategoryList: function typeCategoryList() {
       var optionsList = [];
 
-      if (this.$data.f5.creaturetypes.hasOwnProperty(this.value.type) && this.$data.f5.creaturetypes[this.value.type].hasOwnProperty('options')) {
-        for (var i in this.$data.f5.creaturetypes[this.value.type]['options']) {
-          var data = this.$data.f5.creaturetypes[this.value.type]['options'][i];
+      if (this.$parent.f5.creaturetypes.hasOwnProperty(this.value.type) && this.$parent.f5.creaturetypes[this.value.type].hasOwnProperty('options')) {
+        for (var i in this.$parent.f5.creaturetypes[this.value.type]['options']) {
+          var data = this.$parent.f5.creaturetypes[this.value.type]['options'][i];
           data.id = i;
           optionsList.push(data);
         }
       }
 
-      if (this.$data.f5.creaturesubtypes.hasOwnProperty(this.value.subtype) && this.$data.f5.creaturesubtypes[this.value.subtype].hasOwnProperty('options')) {
-        for (var _i in this.$data.f5.creaturesubtypes[this.value.subtype]['options']) {
-          var _data = this.$data.f5.creaturesubtypes[this.value.subtype]['options'][_i];
+      if (this.$parent.f5.creaturesubtypes.hasOwnProperty(this.value.subtype) && this.$parent.f5.creaturesubtypes[this.value.subtype].hasOwnProperty('options')) {
+        for (var _i in this.$parent.f5.creaturesubtypes[this.value.subtype]['options']) {
+          var _data = this.$parent.f5.creaturesubtypes[this.value.subtype]['options'][_i];
           _data.id = _i;
           optionsList.push(_data);
         }
@@ -30613,7 +30780,7 @@ var StatBlock = {
       var displayText = '';
 
       if (this.value.languages.spokenWritten.includes('all')) {
-        return this.$data.f5.languages['all'].name;
+        return this.$parent.f5.languages['all'].name;
       }
 
       var _iterator3 = _createForOfIteratorHelper(this.value.languages.spokenWritten),
@@ -30627,7 +30794,7 @@ var StatBlock = {
             displayText += ', ';
           }
 
-          displayText += this.$data.f5.languages[lang].name;
+          displayText += this.$parent.f5.languages[lang].name;
         }
       } catch (err) {
         _iterator3.e(err);
@@ -30636,7 +30803,7 @@ var StatBlock = {
       }
 
       if (!displayText) {
-        displayText = this.$data.f5.misc.languages_none;
+        displayText = this.$parent.f5.misc.languages_none;
       }
 
       return displayText;
@@ -30645,7 +30812,7 @@ var StatBlock = {
     skillText: function skillText() {
       var displayText = '';
 
-      for (var skill in this.$data.f5.skills) {
+      for (var skill in this.$parent.f5.skills) {
         if (!this.value.skills.includes(skill)) {
           continue;
         }
@@ -30658,7 +30825,7 @@ var StatBlock = {
           displayText += ', ';
         }
 
-        displayText += this.$data.f5.skills[skill].name + ' ' + this.addPlus(this.calcSkillMod(skill));
+        displayText += this.$parent.f5.skills[skill].name + ' ' + this.addPlus(this.calcSkillMod(skill));
       }
 
       return displayText;
@@ -30688,11 +30855,11 @@ var StatBlock = {
     //Challenge Rating
     crText: function crText() {
       var averageCRKey = this.toCRFormat(this.averageCR);
-      var crText = this.f5.misc.display_challenge_rating.replace(':cr', averageCRKey);
-      var cr = this.f5.challengerating[averageCRKey];
+      var crText = this.$parent.f5.misc.display_challenge_rating.replace(':cr', averageCRKey);
+      var cr = this.$parent.f5.challengerating[averageCRKey];
 
       if (cr && cr.xp) {
-        crText += ' ' + this.f5.misc.display_challenge_rating_xp.replace(':xp', cr.xp);
+        crText += ' ' + this.$parent.f5.misc.display_challenge_rating_xp.replace(':xp', cr.xp);
       }
 
       return crText;
@@ -30772,7 +30939,7 @@ var StatBlock = {
         return this.value.manualOverride.proficiency;
       }
 
-      var cr = this.f5.challengerating[this.averageCR];
+      var cr = this.$parent.f5.challengerating[this.averageCR];
 
       if (cr && cr.prof > 0) {
         proficiency = cr.prof;
@@ -30783,7 +30950,7 @@ var StatBlock = {
   },
   methods: {
     damageList: function damageList(input) {
-      var sortArr = Object.keys(this.f5.damagetypes);
+      var sortArr = Object.keys(this.$parent.f5.damagetypes);
       input.sort(function (a, b) {
         return sortArr.indexOf(a) - sortArr.indexOf(b);
       });
@@ -30796,12 +30963,12 @@ var StatBlock = {
         for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
           var i = _step4.value;
 
-          if (this.f5.damagetypes[i].long_name) {
+          if (this.$parent.f5.damagetypes[i].long_name) {
             if (displayText !== '') displayText += '; ';
-            displayText += this.f5.damagetypes[i].long_name;
+            displayText += this.$parent.f5.damagetypes[i].long_name;
           } else {
             if (displayText !== '') displayText += ', ';
-            displayText += this.f5.damagetypes[i].name;
+            displayText += this.$parent.f5.damagetypes[i].name;
           }
         }
       } catch (err) {
@@ -30841,7 +31008,7 @@ var StatBlock = {
             displayText += ', ';
           }
 
-          displayText += this.f5.conditions[i].name;
+          displayText += this.$parent.f5.conditions[i].name;
         }
       } catch (err) {
         _iterator5.e(err);
@@ -30855,7 +31022,7 @@ var StatBlock = {
       var displayText = '';
 
       if (this.$data.options[list].hasOwnProperty('all')) {
-        return this.$data.f5[list]['all'].name;
+        return this.$parent.f5[list]['all'].name;
       }
 
       for (var i in this.value[list]) {
@@ -30867,7 +31034,7 @@ var StatBlock = {
           displayText += ', ';
         }
 
-        displayText += this.$data.f5[list][i].name;
+        displayText += this.$parent.f5[list][i].name;
       }
 
       return displayText;
@@ -30897,11 +31064,11 @@ var StatBlock = {
     },
     generateWarnings: function generateWarnings() {
       //Warning for armor that's too heavy 'str_requirement' vs STR
-      if (this.value.armorClass.type && this.f5.armor[this.value.armorClass.type] && this.f5.armor[this.value.armorClass.type].str_requirement && this.abilities.str < this.f5.armor[this.value.armorClass.type].str_requirement) {//TODO CREATE WARNING
+      if (this.value.armorClass.type && this.$parent.f5.armor[this.value.armorClass.type] && this.$parent.f5.armor[this.value.armorClass.type].str_requirement && this.abilities.str < this.$parent.f5.armor[this.value.armorClass.type].str_requirement) {//TODO CREATE WARNING
       }
     },
     calcSkillMod: function calcSkillMod(skill) {
-      var ability = this.$data.f5.skills[skill].ability;
+      var ability = this.$parent.f5.skills[skill].ability;
       var abilityMod = this.getAbilityMod(ability);
 
       if (this.value.skills.includes(skill)) {
@@ -30955,7 +31122,7 @@ var StatBlock = {
       var newFeature = {
         id: this.$parent.randChars(15),
         actionType: type,
-        name: this.f5.misc.title_new_feature,
+        name: this.$parent.f5.misc.title_new_feature,
         template: 'custom',
         attackAbility: 'str',
         targetType: 'melee',
@@ -31001,18 +31168,14 @@ var StatBlock = {
         damageProjection: []
       };
 
-      for (var i in 9) {
+      for (var i = 0; i < 10; i++) {
         //TODO confirm this is 0-9
         newFeature.spellSlots[i] = 0;
       }
 
-      newFeature.attackDamage.push(this.createDamageDie(true));
-      newFeature.savingThrowDamage.push(this.createDamageDie());
-      newFeature.ongoingDamage.push(this.createDamageDie());
-
       if (type === 'spellcasting') {
         newFeature.template = 'spellcasting';
-        newFeature.name = this.f5.misc.title_spellcasting;
+        newFeature.name = this.$parent.f5.misc.title_spellcasting;
       }
 
       this.value.features[type].push(newFeature);
@@ -31058,7 +31221,7 @@ var StatBlock = {
 
       if (damageObj.diceAmount > 0) {
         descText += this.averageDamage(damageObj, ability);
-        descText += ' (' + this.$data.f5.misc.die_structure.replace(':die_amount', damageObj.diceAmount).replace(':die_type', damageObj.diceType);
+        descText += ' (' + this.$parent.f5.misc.die_structure.replace(':die_amount', damageObj.diceAmount).replace(':die_type', damageObj.diceType);
         var additionalDamage = Number(damageObj.additional);
 
         if (damageObj.abilityBonus) {
@@ -31074,7 +31237,7 @@ var StatBlock = {
         descText = damageObj.additional + ' ';
       }
 
-      descText += this.$data.f5.misc.damage.replace(':type', this.$data.f5.damagetypes[damageObj.type].name.toLowerCase());
+      descText += this.$parent.f5.misc.damage.replace(':type', this.$parent.f5.damagetypes[damageObj.type].name.toLowerCase());
       return descText;
     },
     createSentenceList: function createSentenceList(input) {
@@ -31094,14 +31257,14 @@ var StatBlock = {
         //TODO this might need to change in other languages
         if (descText) {
           if (len > 2) {
-            descText += this.f5.misc.sentence_list_separator + ' ';
+            descText += this.$parent.f5.misc.sentence_list_separator + ' ';
           }
 
           if (i == len - 1) {
             if (inclusive) {
-              descText += ' ' + this.f5.misc.and + ' ';
+              descText += ' ' + this.$parent.f5.misc.and + ' ';
             } else {
-              descText += ' ' + this.f5.misc.or + ' ';
+              descText += ' ' + this.$parent.f5.misc.or + ' ';
             }
           }
         }
@@ -31131,14 +31294,14 @@ var StatBlock = {
         //TODO this might need to change in other languages
         if (descText) {
           if (len > 2) {
-            descText += this.f5.misc.sentence_list_separator + ' ';
+            descText += this.$parent.f5.misc.sentence_list_separator + ' ';
           }
 
           if (i == len - 1) {
             if (inclusive) {
-              descText += ' ' + this.f5.misc.and + ' ';
+              descText += ' ' + this.$parent.f5.misc.and + ' ';
             } else {
-              descText += ' ' + this.f5.misc.or + ' ';
+              descText += ' ' + this.$parent.f5.misc.or + ' ';
             }
           }
         }
@@ -31161,7 +31324,7 @@ var StatBlock = {
 
       for (var i in input) {
         if (descText) {
-          descText += this.f5.misc.sentence_list_separator + ' ';
+          descText += this.$parent.f5.misc.sentence_list_separator + ' ';
         }
 
         descText += input[i];
@@ -31184,30 +31347,35 @@ var StatBlock = {
     },
     ordinalNumber: function ordinalNumber(num) {
       var ordinal = '';
-      var lastDigit = String(num).charAt(-1);
+      var lastDigit = String(num).slice(-1);
 
-      if (lastDigit === 1 && num != 11) {
-        ordinal = this.f5.misc.ordinal_1;
-      } else if (lastDigit === 2 && num != 12) {
-        ordinal = this.f5.misc.ordinal_2;
-      } else if (lastDigit === 3 && num != 13) {
-        ordinal = this.f5.misc.ordinal_3;
+      if (lastDigit == 1 && num != 11) {
+        ordinal = this.$parent.f5.misc.ordinal_one;
+      } else if (lastDigit == 2 && num != 12) {
+        ordinal = this.$parent.f5.misc.ordinal_two;
+      } else if (lastDigit == 3 && num != 13) {
+        ordinal = this.$parent.f5.misc.ordinal_three;
       } else {
-        ordinal = this.f5.misc.ordinal_other;
+        ordinal = this.$parent.f5.misc.ordinal_other;
       }
 
       return String(num) + ordinal;
     },
     determineIndefiniteArticle: function determineIndefiniteArticle(str) {
+      var ordinalNum = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
       var vowels = ['a', 'e', 'i', 'o', 'u'];
       var vowelNumbers = [1, 8, 11, 18]; //ignoring 80+
+
+      if (ordinalNum) {
+        vowelNumbers = [8, 11, 18];
+      }
 
       var firstChar = String(str).charAt(0).toLowerCase();
 
       if (vowels.includes(firstChar) || vowelNumbers.includes(Number(str))) {
-        return this.f5.misc.indefinite_article_an;
+        return this.$parent.f5.misc.indefinite_article_an;
       } else {
-        return this.f5.misc.indefinite_article_a;
+        return this.$parent.f5.misc.indefinite_article_a;
       }
     },
     averageAOETargets: function averageAOETargets(targetType) {
@@ -31216,8 +31384,8 @@ var StatBlock = {
       if (targets > 1) {
         targets = targets / (distanceBaseline * 2) * (distanceBaseline + this.value.aoeRange); //basic formula to assume average number of targets hit
 
-        if (targets > this.editor.player_characters.number) {
-          targets = this.editor.player_characters.number;
+        if (targets > this.$parent.editor.player_characters.number) {
+          targets = this.$parent.editor.player_characters.number;
         }
       }
 
@@ -31300,8 +31468,8 @@ var StatBlock = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\PersonalProjects\Frankenstein5E\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\PersonalProjects\Frankenstein5E\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\GitHub\frankenstein5e\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\GitHub\frankenstein5e\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

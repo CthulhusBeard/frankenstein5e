@@ -49,6 +49,12 @@ i {
     }
 }
 
+.statblock__remove {
+    @extend .x;
+    right: 10%;
+    top: 20px;
+}
+
 .stat-block {
     position: relative;
     width: 100%;
@@ -152,7 +158,6 @@ i {
     }
 
     .stat-block__section {
-        break-inside: avoid;
     }
 
     .stat-block__size-alignment {

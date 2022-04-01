@@ -17,12 +17,6 @@
                 <div class="slide-button" v-bind:class="{ selected : editor.edit_mode }" @click="editor.edit_mode = !editor.edit_mode">
                     <label>@{{f5.misc.title_edit_mode}}</label>
                 </div>
-                <div>
-                    <label class="control-label" for="controls__columns">@{{f5.misc.title_columns}}: </label>
-                    <select v-model="editor.columns">
-                            <option v-for="i in 3" :value="i">@{{i}}</option>
-                    </select>
-                </div>
                 <div class="builder-controls_player-characters">
                     <strong>@{{f5.misc.title_player_characters}}</strong>
                     <div>
@@ -56,8 +50,6 @@
                     v-model="statblock"
                     v-on:remove-statblock="removeStatBlock">
             </statblock>
-        
-
 
         </div>
         
@@ -91,6 +83,7 @@
             };
         </script>
 
+        @include('partials.statblock')
         @include('partials.feature')
 
     </body>

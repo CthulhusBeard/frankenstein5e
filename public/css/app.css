@@ -309,7 +309,8 @@ body {
 .stat-block .stat-block__feature .feature__edit-spell .feature__spells__remove,
 .stat-block .stat-block__feature .feature__spell-slots .feature__spells__remove,
 .stat-block .stat-block__feature .feature__damage .feature__remove-damage,
-.stat-block .stat-block__feature .feature__remove {
+.stat-block .stat-block__feature .feature__remove,
+.statblock__remove {
   border: 1px black solid;
   background-color: white;
   right: 0;
@@ -334,6 +335,11 @@ i {
 
 .three-flex-columns div {
   width: 33%;
+}
+
+.statblock__remove {
+  right: 10%;
+  top: 20px;
 }
 
 .stat-block {
@@ -443,11 +449,6 @@ i {
 
 .stat-block .stat-block__subtitle .header::first-letter {
   font-size: 1.3em;
-}
-
-.stat-block .stat-block__section {
-  -moz-column-break-inside: avoid;
-       break-inside: avoid;
 }
 
 .stat-block .stat-block__size-alignment {
