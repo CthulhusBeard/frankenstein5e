@@ -68,40 +68,23 @@
 
             <!-- Multiattack -->
             <div class="feature__options feature__option-multiattack" v-if="value.template === 'multiattack'">
-                <div class="feature__multiattack__featureRef" v-for="(feature, i) in value.multiattackReferences">
-                    <label :for="'feature__multiattack__ability__'+value.id" class="title-label">@{{$parent.$parent.f5.misc.title_multiattack_ability_name}}:</label>
-                    <select :id="'feature__multiattack__num-of-attacks__'+value.id" name="feature__multiattack__num-of-attacks" v-model="feature.index">
-                        <option value="null" disabled selected>@{{$parent.$parent.f5.misc.title_multiattack_select_ability}}</option>
-                        <option v-for="(featureRef, j) in $parent.value.features['action']" v-if="featureRef.template !== 'multiattack'" :value="j">@{{featureRef.name}}</option>
-                        <option v-if="$parent.value.features['spellcasting']" value="spellcasting">@{{$parent.value.features['spellcasting'][0].name}}</option>
-                    </select>
-                    <label :for="'feature__multiattack__num-of-attacks__'+value.id" class="title-label">@{{$parent.$parent.f5.misc.title_multiattack_number_of_uses}}:</label>
-                    <select :id="'feature__multiattack__num-of-attacks__'+value.id" name="feature__multiattack__num-of-attacks" v-model="feature.uses">
-                        <option v-for="j in 4" :value="j" >@{{j}}</option>
-                    </select>
-                    <div class="feature__multiattack__remove" @click="removeMultiattack(i)">x</div>
+                <div class="feature__multiattack__group" v-for="(group, i) of value.multiattackReferences">
+                    <div class="feature__multiattack__featureRef" v-for="(feature, j) in group">
+                        <label :for="'feature__multiattack__ability__'+value.id" class="title-label">@{{$parent.$parent.f5.misc.title_multiattack_ability_name}}:</label>
+                        <select :id="'feature__multiattack__ability__'+value.id" name="feature__multiattack__ability" v-model="feature.index">
+                            <option value="null" disabled selected>@{{$parent.$parent.f5.misc.title_multiattack_select_ability}}</option>
+                            <option v-for="(featureRef, k) in $parent.value.features['action']" v-if="featureRef.template !== 'multiattack'" :value="k">@{{featureRef.name}}</option>
+                            <option v-if="$parent.value.features['spellcasting']" value="spellcasting">@{{$parent.value.features['spellcasting'][0].name}}</option>
+                        </select>
+                        <label :for="'feature__multiattack__num-of-attacks__'+value.id" class="title-label">@{{$parent.$parent.f5.misc.title_multiattack_number_of_uses}}:</label>
+                        <select :id="'feature__multiattack__num-of-attacks__'+value.id" name="feature__multiattack__num-of-attacks" v-model="feature.uses">
+                            <option v-for="k in 4" :value="k" >@{{k}}</option>
+                        </select>
+                        <div class="feature__multiattack__remove" @click="removeMultiattack(i, j)">x</div>
+                    </div>
+                    <button @click="addMultiattack(i)">@{{$parent.$parent.f5.misc.title_add_multiattack_ability}}</button>
+                    <div v-if="i === 0">@{{$parent.$parent.f5.misc.or.toUpperCase()}}</div>
                 </div>
-                <button @click="addMultiattack()">@{{$parent.$parent.f5.misc.title_add_multiattack_ability}}</button>
-
-                <div>
-                    <label class="title-label">@{{$parent.$parent.f5.misc.title_multiattack_alternative}}</label>
-                    <input type="checkbox" v-model="value.useMultiattackAlternative">
-                </div>
-                <div class="feature__multiattack__featureRef" v-if="value.useMultiattackAlternative" v-for="(feature, i) in value.multiattackAltReferences">
-                    <label :for="'feature__multiattack__ability__'+value.id" class="title-label">@{{$parent.$parent.f5.misc.title_multiattack_ability_name}}:</label>
-                    <select :id="'feature__multiattack__num-of-attacks__'+value.id" name="feature__multiattack__num-of-attacks" v-model="feature.index">
-                        <option value="null" disabled selected>@{{$parent.$parent.f5.misc.title_multiattack_select_ability}}</option>
-                        <option v-for="(featureRef, j) in $parent.value.features['action']" v-if="featureRef.template !== 'multiattack'" :value="j">@{{featureRef.name}}</option>
-                        <option v-if="$parent.value.features['spellcasting']" value="spellcasting">@{{$parent.value.features['spellcasting'][0].name}}</option>
-                    </select>
-                    <label :for="'feature__multiattack__num-of-attacks__'+value.id" class="title-label">@{{$parent.$parent.f5.misc.title_multiattack_number_of_uses}}:</label>
-                    <select :id="'feature__multiattack__num-of-attacks__'+value.id" name="feature__multiattack__num-of-attacks" v-model="feature.uses">
-                        <option v-for="j in 4" :value="j" >@{{j}}</option>
-                    </select>
-                    <div class="feature__multiattack__remove" @click="removeMultiattack(i, true)">x</div>
-                </div>
-
-                <button @click="addMultiattack(true)">@{{$parent.$parent.f5.misc.title_add_multiattack_ability}}</button>
             </div>
 
             <!-- Spellcasting -->

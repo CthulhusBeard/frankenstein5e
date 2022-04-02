@@ -585,18 +585,21 @@ let monsters = [
                     "customDamage": [],
                     "customDescription": "",
                     "multiattackReferences": [
-                        {
-                            "index": 0,
-                            "uses": 1
-                        },
-                        {
-                            "index": 1,
-                            "uses": 1
-                        },
-                        {
-                            "index": 2,
-                            "uses": 2
-                        }
+                        [
+                            {
+                                "index": 0,
+                                "uses": 1
+                            },
+                            {
+                                "index": 1,
+                                "uses": 1
+                            },
+                            {
+                                "index": 2,
+                                "uses": 2
+                            }
+                        ], 
+                        [],
                     ],
                     "legendaryActionCost": 1,
                     "manualDPR": -1,

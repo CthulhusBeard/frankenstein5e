@@ -75,7 +75,7 @@ export function initVue(f5data) {
                     armorClass: {
                         type: 'none',
                         manual: '10',
-                        name: f5data.armor.none.name,
+                        name: this.f5.armor.none.name,
                         bonus: '0',
                         stealthDis: false,
                         shield: false,
@@ -140,24 +140,24 @@ export function initVue(f5data) {
                     }
                 };
 
-                for(let ability in f5data.abilities) {
+                for(let ability in this.f5.abilities) {
                     statblock.abilities[ability] = 10;
                     statblock.savingThrows[ability] = false;
                 }
             
-                for(let sense in f5data.senses) {
+                for(let sense in this.f5.senses) {
                     statblock.senses[sense] = 0;
                 }
             
-                for(let lang in f5data.languages) {
-                    if(f5data.languages[lang]['default']) {
+                for(let lang in this.f5.languages) {
+                    if(this.f5.languages[lang]['default']) {
                         statblock.languages.spokenWritten.push(lang);
                     }
                 }
             
-                for(let speed in f5data.speeds) {
-                    if(f5data.speeds[speed]['default']) {
-                        statblock.speeds[speed] = f5data.speeds[speed]['default'];
+                for(let speed in this.f5.speeds) {
+                    if(this.f5.speeds[speed]['default']) {
+                        statblock.speeds[speed] = this.f5.speeds[speed]['default'];
                     } else {
                         statblock.speeds[speed] = 0;
                     }

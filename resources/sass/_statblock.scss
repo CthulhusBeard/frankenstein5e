@@ -296,7 +296,6 @@ i {
         .feature__option-multiattack {
             .feature__multiattack__featureRef {
                 position: relative;
-                border: 1px black solid;
                 margin: 1px 0;
                 .feature__multiattack__remove {
                     @extend .x;

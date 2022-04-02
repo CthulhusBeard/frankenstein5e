@@ -28362,7 +28362,7 @@ function initVue(f5data) {
           armorClass: {
             type: 'none',
             manual: '10',
-            name: f5data.armor.none.name,
+            name: this.f5.armor.none.name,
             bonus: '0',
             stealthDis: false,
             shield: false
@@ -28423,24 +28423,24 @@ function initVue(f5data) {
           }
         };
 
-        for (var ability in f5data.abilities) {
+        for (var ability in this.f5.abilities) {
           statblock.abilities[ability] = 10;
           statblock.savingThrows[ability] = false;
         }
 
-        for (var sense in f5data.senses) {
+        for (var sense in this.f5.senses) {
           statblock.senses[sense] = 0;
         }
 
-        for (var lang in f5data.languages) {
-          if (f5data.languages[lang]['default']) {
+        for (var lang in this.f5.languages) {
+          if (this.f5.languages[lang]['default']) {
             statblock.languages.spokenWritten.push(lang);
           }
         }
 
-        for (var speed in f5data.speeds) {
-          if (f5data.speeds[speed]['default']) {
-            statblock.speeds[speed] = f5data.speeds[speed]['default'];
+        for (var speed in this.f5.speeds) {
+          if (this.f5.speeds[speed]['default']) {
+            statblock.speeds[speed] = this.f5.speeds[speed]['default'];
           } else {
             statblock.speeds[speed] = 0;
           }
@@ -28984,7 +28984,7 @@ var monsters = [{
       },
       "customDamage": [],
       "customDescription": "",
-      "multiattackReferences": [{
+      "multiattackReferences": [[{
         "index": 0,
         "uses": 1
       }, {
@@ -28993,7 +28993,7 @@ var monsters = [{
       }, {
         "index": 2,
         "uses": 2
-      }],
+      }], []],
       "legendaryActionCost": 1,
       "manualDPR": -1,
       "averageDPR": 51.5,
@@ -29493,21 +29493,38 @@ var StatBlockFeature = {
       } else if (this.value.template === 'multiattack') {
         // Multiattack DPR
         var multiDPR = 0;
-        var multiDPRAlt = 0;
 
         var _iterator = _createForOfIteratorHelper(this.value.multiattackReferences),
             _step;
 
         try {
           for (_iterator.s(); !(_step = _iterator.n()).done;) {
-            var _featureRef = _step.value;
+            var maGroup = _step.value;
+            var groupDPR = 0;
 
-            if (_featureRef.index !== null) {
-              if (_featureRef.index === 'spellcasting') {
-                multiDPR += this.$parent.value.features['spellcasting'][0].averageDPR * _featureRef.uses;
-              } else {
-                multiDPR += this.$parent.value.features['action'][_featureRef.index].averageDPR * _featureRef.uses;
+            var _iterator2 = _createForOfIteratorHelper(maGroup),
+                _step2;
+
+            try {
+              for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+                var featureRef = _step2.value;
+
+                if (featureRef.index !== null) {
+                  if (featureRef.index === 'spellcasting') {
+                    groupDPR += this.$parent.value.features['spellcasting'][0].averageDPR * featureRef.uses;
+                  } else {
+                    groupDPR += this.$parent.value.features['action'][featureRef.index].averageDPR * featureRef.uses;
+                  }
+                }
               }
+            } catch (err) {
+              _iterator2.e(err);
+            } finally {
+              _iterator2.f();
+            }
+
+            if (groupDPR > multiDPR) {
+              multiDPR = groupDPR;
             }
           }
         } catch (err) {
@@ -29516,30 +29533,7 @@ var StatBlockFeature = {
           _iterator.f();
         }
 
-        if (this.value.useMultiattackAlternative) {
-          var _iterator2 = _createForOfIteratorHelper(this.value.multiattackAltReferences),
-              _step2;
-
-          try {
-            for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-              var featureRef = _step2.value;
-
-              if (featureRef.index !== null) {
-                if (featureRef.index === 'spellcasting') {
-                  multiDPRAlt += this.$parent.value.features['spellcasting'][0].averageDPR * featureRef.uses;
-                } else {
-                  multiDPRAlt += this.$parent.value.features['action'][featureRef.index].averageDPR * featureRef.uses;
-                }
-              }
-            }
-          } catch (err) {
-            _iterator2.e(err);
-          } finally {
-            _iterator2.f();
-          }
-        }
-
-        avgDPR = multiDPR > multiDPRAlt ? multiDPR : multiDPRAlt;
+        avgDPR = multiDPR;
       }
 
       return avgDPR * avgTargets;
@@ -29989,45 +29983,33 @@ var StatBlockFeature = {
 
         try {
           for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
-            var _featureRef2 = _step8.value;
+            var maGroup = _step8.value;
 
-            if (_featureRef2.index !== null) {
-              if (_featureRef2.index === 'spellcasting') {
-                console.log(this.$parent.value.features['spellcasting'][0].damageProjection);
-              } else {
-                console.log(this.$parent.value.features['action'][_featureRef2.index].damageProjection);
+            var _iterator9 = _createForOfIteratorHelper(maGroup),
+                _step9;
+
+            try {
+              for (_iterator9.s(); !(_step9 = _iterator9.n()).done;) {
+                var featureRef = _step9.value;
+
+                if (featureRef.index !== null) {
+                  if (featureRef.index === 'spellcasting') {
+                    console.log(this.$parent.value.features['spellcasting'][0].damageProjection);
+                  } else {
+                    console.log(this.$parent.value.features['action'][featureRef.index].damageProjection);
+                  }
+                }
               }
+            } catch (err) {
+              _iterator9.e(err);
+            } finally {
+              _iterator9.f();
             }
           }
         } catch (err) {
           _iterator8.e(err);
         } finally {
           _iterator8.f();
-        }
-
-        if (this.value.useMultiattackAlternative) {
-          console.log('Multiattack alt projection');
-
-          var _iterator9 = _createForOfIteratorHelper(this.value.multiattackAltReferences),
-              _step9;
-
-          try {
-            for (_iterator9.s(); !(_step9 = _iterator9.n()).done;) {
-              var featureRef = _step9.value;
-
-              if (featureRef.index !== null) {
-                if (featureRef.index === 'spellcasting') {
-                  console.log(this.$parent.value.features['spellcasting'][0].damageProjection);
-                } else {
-                  console.log(this.$parent.value.features['action'][featureRef.index].damageProjection);
-                }
-              }
-            }
-          } catch (err) {
-            _iterator9.e(err);
-          } finally {
-            _iterator9.f();
-          }
         }
 
         return turnDamage;
@@ -30096,27 +30078,14 @@ var StatBlockFeature = {
     unsetManualDPR: function unsetManualDPR() {
       this.value.manualDPR = -1;
     },
-    addMultiattack: function addMultiattack() {
-      var alt = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-      var multiRef = this.value.multiattackReferences;
-
-      if (alt) {
-        multiRef = this.value.multiattackAltReferences;
-      }
-
-      multiRef.push({
+    addMultiattack: function addMultiattack(index) {
+      this.value.multiattackReferences[index].push({
         index: null,
         uses: 1
       });
     },
-    removeMultiattack: function removeMultiattack(index) {
-      var alt = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-
-      if (alt) {
-        this.value.multiattackAltReferences.splice(index, 1);
-      } else {
-        this.value.multiattackReferences.splice(index, 1);
-      }
+    removeMultiattack: function removeMultiattack(index, insideIndex) {
+      this.value.multiattackReferences[index].splice(insideIndex, 1);
     }
   }
 };
@@ -31159,9 +31128,7 @@ var StatBlock = {
         spellSlots: {},
         customDamage: [],
         customDescription: '',
-        multiattackReferences: [],
-        useMultiattackAlternative: false,
-        multiattackAltReferences: [],
+        multiattackReferences: [[], []],
         legendaryActionCost: 1,
         manualDPR: -1,
         averageDPR: -1,
@@ -31169,7 +31136,6 @@ var StatBlock = {
       };
 
       for (var i = 0; i < 10; i++) {
-        //TODO confirm this is 0-9
         newFeature.spellSlots[i] = 0;
       }
 
@@ -31468,8 +31434,8 @@ var StatBlock = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\GitHub\frankenstein5e\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\GitHub\frankenstein5e\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\PersonalProjects\Frankenstein5E\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\PersonalProjects\Frankenstein5E\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

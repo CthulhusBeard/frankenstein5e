@@ -900,16 +900,17 @@ var StatBlock = {
                 spellSlots: {},
                 customDamage: [],
                 customDescription: '',
-                multiattackReferences: [],
-                useMultiattackAlternative: false,
-                multiattackAltReferences: [],
+                multiattackReferences: [
+                    [],
+                    []
+                ],
                 legendaryActionCost: 1,
                 manualDPR: -1,
                 averageDPR: -1,
                 damageProjection: [],
             };
 
-            for(let i = 0; i < 10; i++) { //TODO confirm this is 0-9
+            for(let i = 0; i < 10; i++) {
                 newFeature.spellSlots[i] = 0;
             }
 
