@@ -25,17 +25,20 @@ return [
     'the_target' => 'the target|the targets',
     'each_target' => 'the target|each target',
 
-    'name_multiattack' => 'Multiattack', 
-    'desc_multiattack' => 'The :creature_type makes :multiattack.', 
-
     'name_use_a_skill' => 'Use A Skill',
-    'desc_use_a_skill' => 'The :creature_type makes a :ability (:skill) check.',
+    'desc_use_a_skill' => 'The :creature_name makes a :ability (:skill) check.',
 
-    'name_claws' => 'Claws', 
-    'name_frightful_presence' => 'Frightful Presence', 
+    'name_legendary_resistance' => 'Legendary Resistance (:count/Day).',
+    'desc_legendary_resistance' => 'If the :creature_name fails a saving throw, it can choose to succeed instead.',
 
-    'name_legendary_resistance' => 'Legendary Resistance (3/Day).',
-    'desc_legendary_resistance' => 'If the :creature_type fails a saving throw, it can choose to succeed instead.',
+    //Multiattack
+    'name_multiattack' => 'Multiattack', 
+    'desc_multiattack' => 'The :creature_name :multiattack_descriptions.',
+    'desc_multiattack_alternative' => 'Alternatively, it :multiattack_descriptions.',
+    'desc_multiattack_either' => 'can either :multiattack_options',
+    'desc_multiattack_attack' => 'makes :use_count :ability_name attack|makes :use_count :ability_name attacks',
+    'desc_multiattack_ability' => 'can use :ability_name :use_count_semantics',
+    'desc_multiattack_spell' => 'casts :use_count spell|casts :use_count spells',
 
     //Spellcasting
     'desc_spellcasting' => 'The :creature_name is :caster_level_article :caster_level level spellcaster. Its spellcasting ability is :spellcasting_ability (spell save DC :spell_save_dc, :spell_hit to hit with spell attacks). It:at_will_spells can cast the following spells:',
@@ -59,13 +62,6 @@ return [
     
     'desc_ongoing_damage_end_generic' => 'a creature takes :action_type to end the effect',
     'desc_ongoing_damage_end_onfire' => 'a creature takes :action_type to douse the fire',
-
-    //Multiattack
-    'desc_make_attack' => 'makes :number_of_attacks :attack',
-    'desc_uses_ability' => 'uses :ability',
-    'desc_multiattack' => 'The :creature_name :attack_descriptions.',
-    'desc_multiattack_interchangeable' => 'The :creature_name makes :number_of_attacks attacks, either :attack_descriptions.',
-    'desc_multiattack_replace' => 'It can replace :replace_number of those attacks with :replacement_description.',
 
     //Legendary Resistance
     'desc_legendary_resistances' => 'If the :creature_name fails a saving throw, it can choose to succeed instead.',

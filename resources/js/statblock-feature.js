@@ -267,6 +267,12 @@ var StatBlockFeature = {
                 return this.value.customDescription;
             } 
 
+            if(this.value.template == 'multiattack') {
+                let maDesc = this.$parent.$parent.f5.misc.desc_multiattack;
+                let maAltDesc = this.$parent.$parent.f5.misc.desc_multiattack_alternative;
+                return (maDesc+' '+maAltDesc).replace('attack_descriptions', 'ATTACK/ABILITY');
+            }
+
             if(this.value.template == 'spellcasting') {
                 descText = this.$parent.$parent.f5.misc.desc_spellcasting;
                 if(this.value.innateSpellcasting) { //TODO prepared spellcasting

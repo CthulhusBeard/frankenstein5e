@@ -29717,6 +29717,12 @@ var StatBlockFeature = {
         return this.value.customDescription;
       }
 
+      if (this.value.template == 'multiattack') {
+        var maDesc = this.$parent.$parent.f5.misc.desc_multiattack;
+        var maAltDesc = this.$parent.$parent.f5.misc.desc_multiattack_alternative;
+        return (maDesc + ' ' + maAltDesc).replace('attack_descriptions', 'ATTACK/ABILITY');
+      }
+
       if (this.value.template == 'spellcasting') {
         descText = this.$parent.$parent.f5.misc.desc_spellcasting;
 
@@ -31434,8 +31440,8 @@ var StatBlock = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\PersonalProjects\Frankenstein5E\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\PersonalProjects\Frankenstein5E\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\GitHub\frankenstein5e\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\GitHub\frankenstein5e\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

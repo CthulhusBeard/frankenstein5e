@@ -38,9 +38,6 @@ return [
 
     'desc_make_attack' => 'f5/features.desc_make_attack',
     'desc_uses_ability' => 'f5/features.desc_uses_ability',
-    'desc_multiattack' => 'f5/features.desc_multiattack',
-    'desc_multiattack_interchangeable' => 'f5/features.desc_multiattack_interchangeable',
-    'desc_multiattack_replace' => 'f5/features.desc_multiattack_replace',
 
     'desc_legendary_resistances' => 'f5/features.desc_legendary_resistances',
 
@@ -145,11 +142,21 @@ return [
     'desc_attack_saving_throw_damage_condition' => 'f5/features.desc_attack_saving_throw_damage_condition',
     'desc_saving_throw_half_on_success' => 'f5/features.desc_saving_throw_half_on_success',
 
+    'name_multiattack' => 'f5/features.name_multiattack', 
+    'desc_multiattack' => 'f5/features.desc_multiattack',
+    'desc_multiattack_alternative' => 'f5/features.desc_multiattack_alternative',
+    'desc_multiattack_either' => 'f5/features.desc_multiattack_either',
+    'desc_multiattack_attack' => 'f5/features.desc_multiattack_attack',
+    'desc_multiattack_ability' => 'f5/features.desc_multiattack_ability',
+    'desc_multiattack_spell' => 'f5/features.desc_multiattack_spell',
+
+
     'title_innate_spellcasting' => 'f5/features.title_innate_spellcasting',
     'desc_spellcasting' => 'f5/features.desc_spellcasting',
     'desc_innate_spellcasting' => 'f5/features.desc_innate_spellcasting',
     'desc_prepared_spellcasting' => 'f5/features.desc_prepared_spellcasting',
     'desc_at_will_spells' => 'f5/features.desc_at_will_spells',
+
     //--
     'title_add_spell' => 'f5/spells.title_add_spell',
     'title_add_spell_name' => 'f5/spells.title_add_spell_name',
