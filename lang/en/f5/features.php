@@ -6,6 +6,7 @@ return [
     'desc_saving_throw' => 'Each creature :target_choice that is within :range feet of the :target_area :is_aware must succeed on a DC :save_dc :save_ability saving throw. On a failed save, :target_text :condition for :duration :takes_damage. :successful_save',
     'desc_deal_damage' => ':damage_roll :damage_type damage', //4d8 lightning damage
     'desc_successful_save' => 'On a successful save :half_damage :condition',
+    'desc_can_use' => 'can use',
 
     'desc_targeting_is_aware' => 'and aware of it',
     'desc_targeting_can_see' => 'and can see it',
@@ -36,8 +37,8 @@ return [
     'desc_multiattack' => 'The :creature_name :multiattack_descriptions.',
     'desc_multiattack_alternative' => 'Alternatively, it :multiattack_descriptions.',
     'desc_multiattack_either' => 'can either :multiattack_options',
-    'desc_multiattack_attack' => 'makes :use_count :ability_name attack|makes :use_count :ability_name attacks',
-    'desc_multiattack_ability' => 'can use :ability_name :use_count_semantics',
+    'desc_multiattack_attack' => 'makes :use_count :ability_name :attack_text',
+    'desc_multiattack_ability' => ':can_use :ability_name :use_count_semantics',
     'desc_multiattack_spell' => 'casts :use_count spell|casts :use_count spells',
 
     //Spellcasting

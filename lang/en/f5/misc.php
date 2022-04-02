@@ -10,10 +10,26 @@ return [
     'indefinite_article_a' => 'a',
     'indefinite_article_an' => 'an',
 
+    'zero' => 'zero', 
+    'one' => 'one', 
+    'two' => 'two', 
+    'three' => 'three',
+    'four' => 'four',
+    'five' => 'five',
+    'six' => 'six',
+    'seven' => 'seven',
+    'eight' => 'eight',
+    'nine' => 'nine',
+    'ten' => 'ten',
+
     'ordinal_one' => 'st',
     'ordinal_two' => 'nd',
     'ordinal_three' => 'rd',
     'ordinal_other' => 'th',
+
+    'once' => 'once',
+    'twice' => 'twice',
+    'three_or_more_times' => ':number times',
     
     'max' => 'Max.',
     'count' => 'Count',
@@ -25,6 +41,8 @@ return [
     'die_structure' => ':die_amountd:die_type',
     'none' => 'None',
     'damage' => ':type damage',
+    'attack' => 'attack|attacks',
+
     'display_challenge_rating' => 'CR :cr',
     'display_challenge_rating_xp' => '(:xp XP)',
 
@@ -56,5 +74,6 @@ return [
     'title_magical_bonus' => 'Magical Bonus',
     
     'title_save' => 'Save',
+
 
 ];

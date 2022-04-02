@@ -1052,8 +1052,11 @@ var StatBlock = {
             return descText;
         },
 
-        translate: function(str, pluralCount = 1) {
+        pluralize: function(str, pluralCount = 1) {
             let pluralBreak = str.indexOf('|');
+            if(pluralBreak < 0) {
+                return str;
+            }
             let retStr = str;
             if(pluralCount == 0 || pluralCount > 1) {
                 retStr = str.substr(pluralBreak+1);
@@ -1079,6 +1082,49 @@ var StatBlock = {
 
             return String(num)+ordinal;
         }, 
+
+        numberOfTimesSemantics: function(num) {
+            if(num == 1) {
+                return this.$parent.f5.misc.once;
+            }
+            if(num == 2) {
+                return this.$parent.f5.misc.twice;
+            }
+            return this.$parent.f5.misc.three_or_more_times.replace(':number', num);
+        },
+
+        numberToWord: function(num) {
+            let words = [
+                this.$parent.f5.misc.zero, 
+                this.$parent.f5.misc.one, 
+                this.$parent.f5.misc.two, 
+                this.$parent.f5.misc.three,
+                this.$parent.f5.misc.four,
+                this.$parent.f5.misc.five,
+                this.$parent.f5.misc.six,
+                this.$parent.f5.misc.seven,
+                this.$parent.f5.misc.eight,
+                this.$parent.f5.misc.nine,
+                this.$parent.f5.misc.ten,
+            ];
+
+            if(words[num]) {
+                return words[num];
+            }
+
+            return num;
+        },
+
+        replaceCreatureName: function(str) {
+            let creatureName = this.value.name.toLowerCase();
+            if(this.value.isNameProperNoun) {
+                str = str.replace(/the :creature_name/ig, this.capitalize(creatureName));
+                str = str.replaceAll(':creature_name', this.capitalize(creatureName));
+            } else {
+                str = str.replaceAll(':creature_name', creatureName);
+            }
+            return str;
+        },
 
         determineIndefiniteArticle: function(str, ordinalNum = false) {
             let vowels = ['a', 'e', 'i', 'o', 'u'];

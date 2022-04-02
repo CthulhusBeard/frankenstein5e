@@ -10,10 +10,26 @@ return [
     'indefinite_article_a' => 'f5/misc.indefinite_article_a',
     'indefinite_article_an' => 'f5/misc.indefinite_article_an',
 
+    'zero' => 'f5/misc.zero', 
+    'one' => 'f5/misc.one', 
+    'two' => 'f5/misc.two', 
+    'three' => 'f5/misc.three',
+    'four' => 'f5/misc.four',
+    'five' => 'f5/misc.five',
+    'six' => 'f5/misc.six',
+    'seven' => 'f5/misc.seven',
+    'eight' => 'f5/misc.eight',
+    'nine' => 'f5/misc.nine',
+    'ten' => 'f5/misc.ten',
+
     'ordinal_one' => 'f5/misc.ordinal_one',
     'ordinal_two' => 'f5/misc.ordinal_two',
     'ordinal_three' => 'f5/misc.ordinal_three',
     'ordinal_other' => 'f5/misc.ordinal_other',
+
+    'once' => 'f5/misc.once',
+    'twice' => 'f5/misc.twice',
+    'three_or_more_times' => 'f5/misc.three_or_more_times',
 
     'max' => 'f5/misc.max',
     'count' => 'f5/misc.count',
@@ -28,6 +44,7 @@ return [
     'none' => 'f5/misc.none',
     'shield' => 'f5/armor.shield',
     'damage' => 'f5/misc.damage',
+    'attack' => 'f5/misc.attack',
 
     'languages_none' => 'f5/languages.languages_none',
 
@@ -61,6 +78,8 @@ return [
     'title_magical_bonus' => 'f5/misc.title_magical_bonus',
 
     'undefined_health' => 'f5/misc.undefined_health',
+    
+    'desc_can_use' => 'f5/misc.desc_can_use',
     
     'title_proficiency' => 'f5/misc.title_proficiency',
     'title_saving_throws' => 'f5/misc.title_saving_throws',
