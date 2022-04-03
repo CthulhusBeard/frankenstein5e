@@ -203,6 +203,7 @@ return [
     'understands' => 'f5/languages.understands',
     'rarely_speaks' => 'f5/languages.rarely_speaks',
     'doesnt_speak' => 'f5/languages.doesnt_speak',
+    'telepathy' => 'f5/languages.telepathy',
 
     'cannot_move' => 'f5/speeds.cannot_move',
     'hover' => 'f5/speeds.hover',

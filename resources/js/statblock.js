@@ -588,6 +588,15 @@ var StatBlock = {
                 }
                 displayText += this.$parent.f5.languages[lang].name; 
             }
+
+            if(this.value.languages.telepathy) {
+                if(displayText !== '') {
+                    displayText += ', ';
+                }
+                displayText += this.$parent.f5.misc.telepathy+' '+this.value.languages.telepathy +' '+ this.value.measure.measureUnit;
+            }
+
+            //No Languages
             if(!displayText) {
                 displayText = this.$parent.f5.misc.languages_none;
             }

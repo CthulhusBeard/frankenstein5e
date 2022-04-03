@@ -326,8 +326,8 @@
                                     </template>
                             </Multiselect>
                             
-                            <label for="languages__telepathy">@{{$parent.f5.misc.title_telepathy}}</label>
-                            <select name="languages__telepathy" v-model="value.languages.telepathy">
+                            <span for="languages__telepathy" class="edit-field">@{{$parent.f5.misc.telepathy}}</span>
+                            <select name="languages__telepathy" v-model="value.languages.telepathy" class="edit-field">
                                 <option v-for="(val, i) in [0,5,10,15,20,25,30,35,40,45,50,60,70,80,90,100,120,140,160,180,200,250,300]" :value="val" >@{{val+' '+value.measure.measureUnit}}</option>
                             </select>
                         </div>

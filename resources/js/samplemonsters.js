@@ -60,7 +60,7 @@ let monsters = [
                 "abyssal"
             ],
             "doesntSpeak": [],
-            "telepathy": 0
+            "telepathy": 60
         },
         "speeds": {
             "walk": 40,
@@ -489,7 +489,7 @@ let monsters = [
                     ],
                     "legendaryActionCost": 1,
                     "manualDPR": -1,
-                    "averageDPR": 0,
+                    "averageDPR": 28,
                     "damageProjection": []
                 },
                 {
@@ -575,8 +575,44 @@ let monsters = [
                     ],
                     "legendaryActionCost": 1,
                     "manualDPR": -1,
-                    "averageDPR": -1,
-                    "damageProjection": []
+                    "averageDPR": 16,
+                    "damageProjection": [
+                        {
+                            "name": "Pincer",
+                            "damage": 16,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Pincer",
+                            "damage": 16,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Pincer",
+                            "damage": 16,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Pincer",
+                            "damage": 16,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Pincer",
+                            "damage": 16,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Pincer",
+                            "damage": 16,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Pincer",
+                            "damage": 16,
+                            "actionCost": 1
+                        }
+                    ]
                 },
                 {
                     "id": "WFW8sinyVmRAQF7",
@@ -661,8 +697,44 @@ let monsters = [
                     ],
                     "legendaryActionCost": 1,
                     "manualDPR": -1,
-                    "averageDPR": -1,
-                    "damageProjection": []
+                    "averageDPR": 7,
+                    "damageProjection": [
+                        {
+                            "name": "Fist",
+                            "damage": 7,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Fist",
+                            "damage": 7,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Fist",
+                            "damage": 7,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Fist",
+                            "damage": 7,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Fist",
+                            "damage": 7,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Fist",
+                            "damage": 7,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Fist",
+                            "damage": 7,
+                            "actionCost": 1
+                        }
+                    ]
                 }
             ],
             "bonus_action": [],
