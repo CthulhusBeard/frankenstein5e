@@ -588,6 +588,7 @@ i {
 
 .stat-block .stat-block__feature .feature__option-multiattack .feature__multiattack__featureRef {
   position: relative;
+  width: 99%;
   margin: 1px 0;
 }
 

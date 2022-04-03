@@ -78,7 +78,7 @@
                         </select>
                         <label :for="'feature__multiattack__num-of-attacks__'+value.id" class="title-label">@{{$parent.$parent.f5.misc.title_multiattack_number_of_uses}}:</label>
                         <select :id="'feature__multiattack__num-of-attacks__'+value.id" name="feature__multiattack__num-of-attacks" v-model="feature.uses">
-                            <option v-for="k in 4" :value="k" >@{{k}}</option>
+                            <option v-for="k in 5" :value="k" >@{{k}}</option>
                         </select>
                         <div class="feature__multiattack__remove" @click="removeMultiattack(i, j)">x</div>
                     </div>

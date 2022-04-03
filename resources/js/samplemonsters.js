@@ -3,10 +3,10 @@ export { monsters };
 let monsters = [
     {
         "id": "iQKF3rSyy2PWMA4",
-        "name": "Projection Test",
+        "name": "Dragon Mage",
         "shortName": "",
         "isNameProperNoun": false,
-        "size": "medium",
+        "size": "huge",
         "type": "dragon",
         "subtype": "",
         "typeCategory": "",
@@ -21,7 +21,7 @@ let monsters = [
             "shield": false
         },
         "hitPoints": {
-            "diceType": 8,
+            "diceType": 12,
             "diceAmount": 1,
             "additional": 0
         },
@@ -88,7 +88,130 @@ let monsters = [
         "reactions": 1,
         "actions": 1,
         "features": {
-            "passive": [],
+            "passive": [
+                {
+                    "id": "cLtMx9zADxhDeTD",
+                    "actionType": "passive",
+                    "name": "New Feature",
+                    "template": "custom",
+                    "attackAbility": "str",
+                    "targetType": "melee",
+                    "attackType": "none",
+                    "attackRange": {
+                        "low": 20,
+                        "high": 60
+                    },
+                    "attackReach": 5,
+                    "attackDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": true,
+                            "type": "slashing"
+                        }
+                    ],
+                    "attackSavingThrow": false,
+                    "attackTargets": 1,
+                    "aoeRange": 30,
+                    "savingThrowMonsterAbility": "str",
+                    "savingThrowSaveAbilities": [
+                        "str"
+                    ],
+                    "savingThrowDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": false,
+                            "type": "slashing"
+                        }
+                    ],
+                    "savingThrowHalfOnSuccess": true,
+                    "savingThrowConditions": [],
+                    "hasOngoingDamage": false,
+                    "ongoingDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": false,
+                            "type": "slashing"
+                        }
+                    ],
+                    "ongoingDamageOccurs": "start_of_turn",
+                    "ongoingDamageOnFailedSave": true,
+                    "ongoingDamageRepeatSave": false,
+                    "ongoingDamageDuration": "ongoing",
+                    "recharge": {
+                        "type": "none",
+                        "diceType": 6,
+                        "minRoll": 5,
+                        "uses": 1
+                    },
+                    "spellcastingAbility": "int",
+                    "innateSpellcasting": false,
+                    "spellList": [],
+                    "spellSlots": {
+                        "0": 0,
+                        "1": 0,
+                        "2": 0,
+                        "3": 0,
+                        "4": 0,
+                        "5": 0,
+                        "6": 0,
+                        "7": 0,
+                        "8": 0,
+                        "9": 0
+                    },
+                    "customDamage": [],
+                    "customDescription": "",
+                    "multiattackReferences": [
+                        [],
+                        []
+                    ],
+                    "legendaryActionCost": 1,
+                    "manualDPR": -1,
+                    "averageDPR": 0,
+                    "damageProjection": [
+                        {
+                            "name": "New Feature",
+                            "damage": 0,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "New Feature",
+                            "damage": 0,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "New Feature",
+                            "damage": 0,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "New Feature",
+                            "damage": 0,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "New Feature",
+                            "damage": 0,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "New Feature",
+                            "damage": 0,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "New Feature",
+                            "damage": 0,
+                            "actionCost": 1
+                        }
+                    ]
+                }
+            ],
             "spellcasting": [
                 {
                     "id": "VnHzeF9yqPMtTxt",
@@ -159,15 +282,29 @@ let monsters = [
                             "cast_before": false,
                             "at_will": false,
                             "uses": 1
+                        },
+                        {
+                            "name": "Flame Strike",
+                            "level": "5",
+                            "cast_before": false,
+                            "at_will": false,
+                            "uses": 1
+                        },
+                        {
+                            "name": "Fireball",
+                            "level": "3",
+                            "cast_before": false,
+                            "at_will": false,
+                            "uses": 1
                         }
                     ],
                     "spellSlots": {
                         "0": 1,
                         "1": 0,
                         "2": 0,
-                        "3": 0,
+                        "3": 3,
                         "4": 0,
-                        "5": 0,
+                        "5": 2,
                         "6": 0,
                         "7": 0,
                         "8": 0,
@@ -184,6 +321,36 @@ let monsters = [
                             "name": "Spellcasting: 9th Level",
                             "damage": 90,
                             "spellLevel": "9",
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Spellcasting: 5th Level",
+                            "damage": 30,
+                            "spellLevel": "5",
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Spellcasting: 5th Level",
+                            "damage": 30,
+                            "spellLevel": "5",
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Spellcasting: 3rd Level",
+                            "damage": 14,
+                            "spellLevel": "3",
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Spellcasting: 3rd Level",
+                            "damage": 14,
+                            "spellLevel": "3",
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Spellcasting: 3rd Level",
+                            "damage": 14,
+                            "spellLevel": "3",
                             "actionCost": 1
                         }
                     ]
@@ -598,12 +765,25 @@ let monsters = [
                                 "index": 2,
                                 "uses": 2
                             }
-                        ], 
-                        [],
+                        ],
+                        [
+                            {
+                                "index": 0,
+                                "uses": 1
+                            },
+                            {
+                                "index": 2,
+                                "uses": 1
+                            },
+                            {
+                                "index": "spellcasting",
+                                "uses": 2
+                            }
+                        ]
                     ],
                     "legendaryActionCost": 1,
                     "manualDPR": -1,
-                    "averageDPR": 51.5,
+                    "averageDPR": 198,
                     "damageProjection": []
                 }
             ],

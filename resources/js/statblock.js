@@ -199,11 +199,12 @@ var StatBlock = {
 
         averageCR: function() {
             let armorCr = this.armorCr;
-            if(armorCr.includes('-')) {
+            if(String(armorCr).includes('-')) {
                 let splitArmor = armorCr.split('-');
-                armorCr = (this.$parent.toNumber(splitArmor[0]) + this.$parent.toNumber(splitArmor[1])) / 2;
+                armorCr = this.$parent.toNumber(this.$parent.toNumber(splitArmor[0]) + this.$parent.toNumber(splitArmor[1])) / 2;
             }
-            let average = Math.round((armorCr + this.$parent.toNumber(this.healthCr) + this.$parent.toNumber(this.damageCr)) / 3);
+            let average = (Number(armorCr) + this.$parent.toNumber(this.healthCr) + this.$parent.toNumber(this.damageCr)) / 3;
+
             return average;
         },
 
@@ -1167,7 +1168,7 @@ var StatBlock = {
                 let compareToHalf = input - .5;
                 compareToHalf = (compareToHalf >= 0) ? compareToHalf : compareToHalf * -1;
                 let compareToQuarter = input - .25;
-                compareToQuarter = (compareToQuarter >= 0) ? compareToQuarter : comcompareToQuarterpareToHalf * -1;
+                compareToQuarter = (compareToQuarter >= 0) ? compareToQuarter : compareToQuarter * -1;
                 let compareToEigth = input - .125;
                 compareToEigth = (compareToEigth >= 0) ? compareToEigth : compareToEigth * -1;
 
@@ -1181,7 +1182,7 @@ var StatBlock = {
                     return 0;
                 }
             }
-            return input;
+            return Math.round(input);
         },
 
         exportMonster: function() {

@@ -46,7 +46,7 @@ export function initVue(f5data) {
             },
 
             toNumber: function(input) {
-                if(input.includes('/')) {
+                if(String(input).includes('/')) {
                     let divideArray = input.split('/');
                     input = divideArray[0] / divideArray[1];
                 }

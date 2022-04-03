@@ -79,7 +79,7 @@ return [
 
     'undefined_health' => 'f5/misc.undefined_health',
     
-    'desc_can_use' => 'f5/misc.desc_can_use',
+    'desc_can_use' => 'f5/features.desc_can_use',
     
     'title_proficiency' => 'f5/misc.title_proficiency',
     'title_saving_throws' => 'f5/misc.title_saving_throws',

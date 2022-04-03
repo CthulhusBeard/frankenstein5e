@@ -292,7 +292,9 @@ var StatBlockFeature = {
         multiattackDescription: function() {
             let maDesc = this.$parent.$parent.f5.misc.desc_multiattack;
             let maAltDesc = this.$parent.$parent.f5.misc.desc_multiattack_alternative;
-            let maAbilityDescs = [[],[]]; // Multiattacks will only have 2 options
+            let maAbilityDescs = [
+                [],[]
+            ]; // Multiattacks will only have 2 options
 
             for(let i in this.value.multiattackReferences) {
                 let group = this.value.multiattackReferences[i];
@@ -305,7 +307,7 @@ var StatBlockFeature = {
                     if(featureRef.index !== null) {
                         if(featureRef.index === 'spellcasting') {
                             feature = this.$parent.value.features['spellcasting'][0];
-                            featDesc = this.$parent.$parent.f5.misc.desc_multiattack_spell;
+                            featDesc = this.$parent.pluralize(this.$parent.$parent.f5.misc.desc_multiattack_spell, featureRef.uses);
                         } else {
                             feature = this.$parent.value.features['action'][featureRef.index];
                             if(feature.template === 'attack') {
@@ -326,20 +328,20 @@ var StatBlockFeature = {
                                 }
                             }
                         }
-                    }
 
-                    if(prevTemplate !== feature.template) {
-                        featDesc = featDesc.replace(':can_use ', this.$parent.$parent.f5.misc.desc_can_use);
-                    } else {
-                        featDesc = featDesc.replace(':can_use ', '');
-                    }
-                    featDesc = featDesc.replace(':use_count_semantics', this.$parent.numberOfTimesSemantics(featureRef.uses));
-                    featDesc = featDesc.replace(':use_count', featureRef.uses);
-                    featDesc = featDesc.replace(':ability_name', feature.name);
+                        if(prevTemplate !== feature.template) {
+                            featDesc = featDesc.replace(':can_use', this.$parent.$parent.f5.misc.desc_can_use);
+                        } else {
+                            featDesc = featDesc.replace(':can_use ', '');
+                        }
+                        featDesc = featDesc.replace(':use_count_semantics', this.$parent.numberOfTimesSemantics(featureRef.uses));
+                        featDesc = featDesc.replace(':use_count', this.$parent.numberToWord(featureRef.uses));
+                        featDesc = featDesc.replace(':ability_name', feature.name);
 
-                    prevTemplate = feature.template;
+                        prevTemplate = feature.template;
 
-                    maAbilityDescs[i].push(featDesc);
+                        maAbilityDescs[i].push(featDesc);
+                    } 
                 }
             }
 
