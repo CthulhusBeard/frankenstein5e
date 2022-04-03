@@ -2,6 +2,682 @@ export { monsters };
 
 let monsters = [
     {
+        "id": "exu75CiNirEFDeY",
+        "name": "Glabrezu",
+        "shortName": "",
+        "isNameProperNoun": false,
+        "size": "large",
+        "type": "fiend",
+        "subtype": "demon",
+        "typeCategory": "",
+        "alignment": "chaotic_evil",
+        "showTypicalAlignment": false,
+        "armorClass": {
+            "type": "natural",
+            "manual": 17,
+            "name": "No Armor",
+            "bonus": "0",
+            "stealthDis": false,
+            "shield": false
+        },
+        "hitPoints": {
+            "diceType": 10,
+            "diceAmount": 15,
+            "additional": 0
+        },
+        "abilities": {
+            "str": 20,
+            "dex": 15,
+            "con": 21,
+            "int": 19,
+            "wis": 17,
+            "cha": 16
+        },
+        "savingThrows": {
+            "str": true,
+            "dex": false,
+            "con": true,
+            "int": false,
+            "wis": true,
+            "cha": true
+        },
+        "damageResistances": [
+            "fire",
+            "cold",
+            "lightning",
+            "physical_non_magical"
+        ],
+        "damageImmunities": [
+            "poison"
+        ],
+        "damageVulnerabilites": [],
+        "conditionImmunities": [
+            "poisoned"
+        ],
+        "skills": [],
+        "languages": {
+            "spokenWritten": [
+                "abyssal"
+            ],
+            "doesntSpeak": [],
+            "telepathy": 0
+        },
+        "speeds": {
+            "walk": 40,
+            "fly": 0,
+            "swim": 0,
+            "climb": 0,
+            "burrow": 0
+        },
+        "hover": false,
+        "senses": {
+            "darkvision": {
+                "distance": 0,
+                "modifier": false
+            },
+            "blindsight": {
+                "distance": 0,
+                "modifier": false
+            },
+            "tremorsense": {
+                "distance": 0,
+                "modifier": false
+            },
+            "truesight": {
+                "distance": 120,
+                "modifier": false
+            }
+        },
+        "measure": {
+            "measureUnit": "ft.",
+            "measureIncrement": 5,
+            "measureUnitUp": 5280,
+            "measureUnitUpName": "miles"
+        },
+        "showNonCombat": true,
+        "manualOverride": {
+            "proficiency": 0,
+            "casterLevel": 0
+        },
+        "targetCR": {
+            "offensive": {},
+            "defensive": {}
+        },
+        "hasLegendaryActions": true,
+        "hasMythicActions": false,
+        "legendaryActions": 3,
+        "reactions": 1,
+        "actions": 1,
+        "bonusActions": 1,
+        "features": {
+            "passive": [],
+            "spellcasting": [
+                {
+                    "id": "cQmrOCWMvMf25oy",
+                    "actionType": "spellcasting",
+                    "name": "Innate Spellcasting",
+                    "template": "spellcasting",
+                    "attackAbility": "str",
+                    "targetType": "melee",
+                    "attackType": "none",
+                    "attackRange": {
+                        "low": 20,
+                        "high": 60
+                    },
+                    "attackReach": 5,
+                    "attackDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": true,
+                            "type": "slashing"
+                        }
+                    ],
+                    "attackSavingThrow": false,
+                    "attackTargets": 1,
+                    "aoeRange": 30,
+                    "savingThrowMonsterAbility": "str",
+                    "savingThrowSaveAbilities": [
+                        "str"
+                    ],
+                    "savingThrowDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": false,
+                            "type": "slashing"
+                        }
+                    ],
+                    "savingThrowHalfOnSuccess": true,
+                    "savingThrowConditions": [],
+                    "hasOngoingDamage": false,
+                    "ongoingDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": false,
+                            "type": "slashing"
+                        }
+                    ],
+                    "ongoingDamageOccurs": "start_of_turn",
+                    "ongoingDamageOnFailedSave": true,
+                    "ongoingDamageRepeatSave": false,
+                    "ongoingDamageDuration": "ongoing",
+                    "recharge": {
+                        "type": "none",
+                        "diceType": 6,
+                        "minRoll": 5,
+                        "uses": 1
+                    },
+                    "spellcastingAbility": "int",
+                    "innateSpellcasting": true,
+                    "spellList": [
+                        {
+                            "name": "Darkness",
+                            "level": "1",
+                            "cast_before": false,
+                            "at_will": true,
+                            "uses": 1
+                        },
+                        {
+                            "name": "Detect Magic",
+                            "level": "2",
+                            "cast_before": false,
+                            "at_will": true,
+                            "uses": 1
+                        },
+                        {
+                            "name": "Dispel Magic",
+                            "level": "3",
+                            "cast_before": false,
+                            "at_will": true,
+                            "uses": 1
+                        },
+                        {
+                            "name": "Confusion",
+                            "level": "4",
+                            "cast_before": false,
+                            "at_will": false,
+                            "uses": 1
+                        },
+                        {
+                            "name": "Fly",
+                            "level": "3",
+                            "cast_before": false,
+                            "at_will": false,
+                            "uses": 1
+                        },
+                        {
+                            "name": "Power Word Stun",
+                            "level": "5",
+                            "cast_before": false,
+                            "at_will": false,
+                            "uses": 1
+                        }
+                    ],
+                    "spellSlots": {
+                        "0": 0,
+                        "1": 0,
+                        "2": 0,
+                        "3": 0,
+                        "4": 0,
+                        "5": 0,
+                        "6": 0,
+                        "7": 0,
+                        "8": 0,
+                        "9": 0
+                    },
+                    "customDamage": [],
+                    "customDescription": "",
+                    "multiattackReferences": [
+                        [],
+                        []
+                    ],
+                    "legendaryActionCost": 1,
+                    "manualDPR": -1,
+                    "averageDPR": 30,
+                    "damageProjection": [
+                        {
+                            "name": "Spellcasting: 5th Level",
+                            "damage": 30,
+                            "spellLevel": "5",
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Spellcasting: 4th Level",
+                            "damage": 18,
+                            "spellLevel": "4",
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Spellcasting: 3rd Level",
+                            "damage": 14,
+                            "spellLevel": "3",
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Spellcasting: 3rd Level",
+                            "damage": 14,
+                            "spellLevel": "3",
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Spellcasting: 3rd Level",
+                            "damage": 14,
+                            "spellLevel": "3",
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Spellcasting: 3rd Level",
+                            "damage": 14,
+                            "spellLevel": "3",
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Spellcasting: 3rd Level",
+                            "damage": 14,
+                            "spellLevel": "3",
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Spellcasting: 3rd Level",
+                            "damage": 14,
+                            "spellLevel": "3",
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Spellcasting: 3rd Level",
+                            "damage": 14,
+                            "spellLevel": "3",
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Spellcasting: 3rd Level",
+                            "damage": 14,
+                            "spellLevel": "3",
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Spellcasting: 2nd Level",
+                            "damage": 9,
+                            "spellLevel": "2",
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Spellcasting: 2nd Level",
+                            "damage": 9,
+                            "spellLevel": "2",
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Spellcasting: 2nd Level",
+                            "damage": 9,
+                            "spellLevel": "2",
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Spellcasting: 2nd Level",
+                            "damage": 9,
+                            "spellLevel": "2",
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Spellcasting: 2nd Level",
+                            "damage": 9,
+                            "spellLevel": "2",
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Spellcasting: 2nd Level",
+                            "damage": 9,
+                            "spellLevel": "2",
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Spellcasting: 2nd Level",
+                            "damage": 9,
+                            "spellLevel": "2",
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Spellcasting: 1st Level",
+                            "damage": 7,
+                            "spellLevel": "1",
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Spellcasting: 1st Level",
+                            "damage": 7,
+                            "spellLevel": "1",
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Spellcasting: 1st Level",
+                            "damage": 7,
+                            "spellLevel": "1",
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Spellcasting: 1st Level",
+                            "damage": 7,
+                            "spellLevel": "1",
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Spellcasting: 1st Level",
+                            "damage": 7,
+                            "spellLevel": "1",
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Spellcasting: 1st Level",
+                            "damage": 7,
+                            "spellLevel": "1",
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Spellcasting: 1st Level",
+                            "damage": 7,
+                            "spellLevel": "1",
+                            "actionCost": 1
+                        }
+                    ]
+                }
+            ],
+            "action": [
+                {
+                    "id": "vMY2qzoft7XlbXy",
+                    "actionType": "action",
+                    "name": "Multiattack",
+                    "template": "multiattack",
+                    "attackAbility": "str",
+                    "targetType": "melee",
+                    "attackType": "none",
+                    "attackRange": {
+                        "low": 20,
+                        "high": 60
+                    },
+                    "attackReach": 5,
+                    "attackDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": true,
+                            "type": "slashing"
+                        }
+                    ],
+                    "attackSavingThrow": false,
+                    "attackTargets": 1,
+                    "aoeRange": 30,
+                    "savingThrowMonsterAbility": "str",
+                    "savingThrowSaveAbilities": [
+                        "str"
+                    ],
+                    "savingThrowDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": false,
+                            "type": "slashing"
+                        }
+                    ],
+                    "savingThrowHalfOnSuccess": true,
+                    "savingThrowConditions": [],
+                    "hasOngoingDamage": false,
+                    "ongoingDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": false,
+                            "type": "slashing"
+                        }
+                    ],
+                    "ongoingDamageOccurs": "start_of_turn",
+                    "ongoingDamageOnFailedSave": true,
+                    "ongoingDamageRepeatSave": false,
+                    "ongoingDamageDuration": "ongoing",
+                    "recharge": {
+                        "type": "none",
+                        "diceType": 6,
+                        "minRoll": 5,
+                        "uses": 1
+                    },
+                    "spellcastingAbility": "int",
+                    "innateSpellcasting": false,
+                    "spellList": [],
+                    "spellSlots": {
+                        "0": 0,
+                        "1": 0,
+                        "2": 0,
+                        "3": 0,
+                        "4": 0,
+                        "5": 0,
+                        "6": 0,
+                        "7": 0,
+                        "8": 0,
+                        "9": 0
+                    },
+                    "customDamage": [],
+                    "customDescription": "",
+                    "multiattackReferences": [
+                        [
+                            {
+                                "index": 1,
+                                "uses": 2
+                            },
+                            {
+                                "index": 2,
+                                "uses": 2
+                            }
+                        ],
+                        [
+                            {
+                                "index": 1,
+                                "uses": 2
+                            },
+                            {
+                                "index": "spellcasting",
+                                "uses": 1
+                            }
+                        ]
+                    ],
+                    "legendaryActionCost": 1,
+                    "manualDPR": -1,
+                    "averageDPR": 0,
+                    "damageProjection": []
+                },
+                {
+                    "id": "xn6a7ZKckpTAAl2",
+                    "actionType": "action",
+                    "name": "Pincer",
+                    "template": "attack",
+                    "attackAbility": "str",
+                    "targetType": "melee",
+                    "attackType": "weapon",
+                    "attackRange": {
+                        "low": 20,
+                        "high": 60
+                    },
+                    "attackReach": 10,
+                    "attackDamage": [
+                        {
+                            "diceType": 10,
+                            "diceAmount": 2,
+                            "additional": 0,
+                            "abilityBonus": true,
+                            "type": "bludgeoning"
+                        }
+                    ],
+                    "attackSavingThrow": false,
+                    "attackTargets": 1,
+                    "aoeRange": 30,
+                    "savingThrowMonsterAbility": "str",
+                    "savingThrowSaveAbilities": [
+                        "str"
+                    ],
+                    "savingThrowDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": false,
+                            "type": "slashing"
+                        }
+                    ],
+                    "savingThrowHalfOnSuccess": true,
+                    "savingThrowConditions": [],
+                    "hasOngoingDamage": false,
+                    "ongoingDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": false,
+                            "type": "slashing"
+                        }
+                    ],
+                    "ongoingDamageOccurs": "start_of_turn",
+                    "ongoingDamageOnFailedSave": true,
+                    "ongoingDamageRepeatSave": false,
+                    "ongoingDamageDuration": "ongoing",
+                    "recharge": {
+                        "type": "none",
+                        "diceType": 6,
+                        "minRoll": 5,
+                        "uses": 1
+                    },
+                    "spellcastingAbility": "int",
+                    "innateSpellcasting": false,
+                    "spellList": [],
+                    "spellSlots": {
+                        "0": 0,
+                        "1": 0,
+                        "2": 0,
+                        "3": 0,
+                        "4": 0,
+                        "5": 0,
+                        "6": 0,
+                        "7": 0,
+                        "8": 0,
+                        "9": 0
+                    },
+                    "customDamage": [],
+                    "customDescription": "",
+                    "multiattackReferences": [
+                        [],
+                        []
+                    ],
+                    "legendaryActionCost": 1,
+                    "manualDPR": -1,
+                    "averageDPR": -1,
+                    "damageProjection": []
+                },
+                {
+                    "id": "WFW8sinyVmRAQF7",
+                    "actionType": "action",
+                    "name": "Fist",
+                    "template": "attack",
+                    "attackAbility": "dex",
+                    "targetType": "melee",
+                    "attackType": "weapon",
+                    "attackRange": {
+                        "low": 20,
+                        "high": 60
+                    },
+                    "attackReach": 5,
+                    "attackDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 2,
+                            "additional": "0",
+                            "abilityBonus": true,
+                            "type": "bludgeoning"
+                        }
+                    ],
+                    "attackSavingThrow": false,
+                    "attackTargets": 1,
+                    "aoeRange": 30,
+                    "savingThrowMonsterAbility": "str",
+                    "savingThrowSaveAbilities": [
+                        "str"
+                    ],
+                    "savingThrowDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": false,
+                            "type": "slashing"
+                        }
+                    ],
+                    "savingThrowHalfOnSuccess": true,
+                    "savingThrowConditions": [],
+                    "hasOngoingDamage": false,
+                    "ongoingDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": false,
+                            "type": "slashing"
+                        }
+                    ],
+                    "ongoingDamageOccurs": "start_of_turn",
+                    "ongoingDamageOnFailedSave": true,
+                    "ongoingDamageRepeatSave": false,
+                    "ongoingDamageDuration": "ongoing",
+                    "recharge": {
+                        "type": "none",
+                        "diceType": 6,
+                        "minRoll": 5,
+                        "uses": 1
+                    },
+                    "spellcastingAbility": "int",
+                    "innateSpellcasting": false,
+                    "spellList": [],
+                    "spellSlots": {
+                        "0": 0,
+                        "1": 0,
+                        "2": 0,
+                        "3": 0,
+                        "4": 0,
+                        "5": 0,
+                        "6": 0,
+                        "7": 0,
+                        "8": 0,
+                        "9": 0
+                    },
+                    "customDamage": [],
+                    "customDescription": "",
+                    "multiattackReferences": [
+                        [],
+                        []
+                    ],
+                    "legendaryActionCost": 1,
+                    "manualDPR": -1,
+                    "averageDPR": -1,
+                    "damageProjection": []
+                }
+            ],
+            "bonus_action": [],
+            "reaction": [],
+            "legendary_action": [],
+            "mythic_action": [],
+            "lair_action": []
+        },
+        "display": {
+            "columns": 2
+        },
+        "averageDPR": -1,
+        "damageProjection": []
+    },
+    {
         "id": "iQKF3rSyy2PWMA4",
         "name": "Dragon Mage",
         "shortName": "",

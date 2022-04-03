@@ -25,5 +25,5 @@ return [
 
     'title_export' => 'Export Monster',
     'title_import' => 'Import Monster',
-    'title_use_automatic' => 'Determine Via CR',
+    'title_use_automatic' => 'Determined by CR',
 ];

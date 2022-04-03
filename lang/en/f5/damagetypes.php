@@ -16,12 +16,14 @@ return [
     'type_magical_piercing' => 'Magical Piercing',
     'type_magical_bludgeoning' => 'Magical Bludgeoning',
 
+    'type_physical'=> 'Physical',
+    'type_physical_long'=> 'Bludgeoning, Piercing, and Slashing',
     'type_physical_non_magical'=> 'Physical (non-magical)',
-    'type_physical_non_magical_long'=> 'Slashing, Piercing, and Bludgeoning from Nonmagical Attacks',
+    'type_physical_non_magical_long'=> 'Bludgeoning, Piercing, and Slashing from Nonmagical Attacks',
     'type_physical_non_silvered' => 'Physical (non-magical non-silvered)',
-    'type_physical_non_silvered_long' => 'Slashing, Piercing, and Bludgeoning from Nonmagical Attacks that aren\'t Silvered',
+    'type_physical_non_silvered_long' => 'Bludgeoning, Piercing, and Slashing from Nonmagical Attacks that aren\'t Silvered',
     'type_physical_non_adamantine' => 'Physical (non-magical non-adamantine)',
-    'type_physical_non_adamantine_long' => 'Slashing, Piercing, and Bludgeoning from Nonmagical Attacks that aren\'t Adamantine',
+    'type_physical_non_adamantine_long' => 'Bludgeoning, Piercing, and Slashing from Nonmagical Attacks that aren\'t Adamantine',
 
     'type_fire' => 'Fire',
     'type_cold' => 'Cold',

@@ -500,7 +500,7 @@ var StatBlock = {
         sensesText: function() {                
             let displayText = '';
             for(let i in this.value.senses) {
-                if(!this.value.senses[i]) {
+                if(!this.value.senses[i].distance) {
                     continue;
                 }
                 if(displayText !== '') {
@@ -509,16 +509,20 @@ var StatBlock = {
                 if(!this.$parent.f5.senses[i]['hide_name']) {
                     displayText += this.$parent.f5.senses[i].name.toLowerCase()+' ';
                 }
-                displayText += this.value.senses[i]+' '+this.value.measure.measureUnit;
+                displayText += this.value.senses[i].distance+' '+this.value.measure.measureUnit;
+                
+                if(this.value.senses[i].modifier) {
+                    displayText += '('+this.$parent.f5.senses[i].modifier_name.toLowerCase()+')';
+                }
             }
 
             //Passive Perception
-            if(this.value.skills.includes('perception')) {
+            //if(this.value.skills.includes('perception')) {
                 if(displayText !== '') {
                     displayText += ', ';
                 }
                 displayText += this.$parent.f5.misc.passive_skill.replace(':skill', this.$parent.f5.skills['perception'].name)+' '+(this.calcSkillMod('perception')+10);
-            }
+            //}
             return displayText;
         },
 
@@ -871,7 +875,7 @@ var StatBlock = {
                 template: 'custom', 
                 attackAbility: 'str',
                 targetType: 'melee',
-                attackType: 'none',
+                attackType: 'weapon',
                 attackRange: {'low': 20, 'high': 60},
                 attackReach: 5,
                 attackDamage: [this.createDamageDie(true)],
@@ -1186,7 +1190,10 @@ var StatBlock = {
         },
 
         exportMonster: function() {
+            console.log('exportMonster');
             let cloneOptions = {...this.value};
+            console.log(this.value);
+            console.log(cloneOptions);
             cloneOptions.averageDPR = -1;
             cloneOptions.damageProjection = [];
             for(let featureType in cloneOptions.features) {
@@ -1195,7 +1202,7 @@ var StatBlock = {
                     feature.damageProjection = [];
                 }
             }
-            console.log('exportMonster');
+            console.log('exportMonster data');
             console.log(cloneOptions);
         },
     }

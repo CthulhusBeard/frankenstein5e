@@ -136,7 +136,7 @@ export function initVue(f5data) {
                         lair_action: [],
                     },
                     display: {
-                        columns: 2,
+                        columns: 1,
                     }
                 };
 
@@ -146,7 +146,10 @@ export function initVue(f5data) {
                 }
             
                 for(let sense in this.f5.senses) {
-                    statblock.senses[sense] = 0;
+                    statblock.senses[sense] = {
+                        distance: 0,
+                        modifier: false,
+                    };
                 }
             
                 for(let lang in this.f5.languages) {

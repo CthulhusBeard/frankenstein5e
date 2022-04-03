@@ -47,6 +47,7 @@ class FrankensteinController extends Controller
     //      -> top bonus + 
     //      -> top legendary/mythic combinations + 
     //      -> top lair action
+    // - Move at will spells to cantrip slots
     
     public function builder (Request $request) {
         if (App::environment('local')) {

@@ -290,9 +290,13 @@
                             <div class="option options-row options__senses edit-field">
                                 <div :class="'options__senses option-box '+index" v-for="(item, index) in $parent.f5.senses">
                                     <label :for="'sense_'+index">@{{item.name}}</label>
-                                    <select :name="'options__sense_'+index" v-model="value.senses[index]">
+                                    <select :name="'options__sense_'+index" v-model="value.senses[index].distance">
                                         <option v-for="(val, i) in [0,5,10,15,20,25,30,35,40,45,50,60,70,80,90,100,120,140,160,180,200,250,300]" :value="val" >@{{val+' '+value.measure.measureUnit}}</option>
                                     </select>
+                                    <span v-if="item.modifier_name">
+                                        <label :for="'sense_'+index+'_modifier'">@{{item.modifier_name}}</label>
+                                        <input type="checkbox" v-model="value.senses[index].modifier" />
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -321,11 +325,18 @@
                                         @{{ option.label.name }}
                                     </template>
                             </Multiselect>
+                            
+                            <label for="languages__telepathy">@{{$parent.f5.misc.title_telepathy}}</label>
+                            <select name="languages__telepathy" v-model="value.languages.telepathy">
+                                <option v-for="(val, i) in [0,5,10,15,20,25,30,35,40,45,50,60,70,80,90,100,120,140,160,180,200,250,300]" :value="val" >@{{val+' '+value.measure.measureUnit}}</option>
+                            </select>
                         </div>
+
                         <div class="stat-block__attribute no-edit">
                             <span class="title">@{{$parent.f5.misc.title_challenge_rating}}:</span>
                             <span class="display-field">@{{crText}}</span>
                         </div>
+
                         <div class="stat-block__attribute focus-edit">
                             <span class="title">@{{$parent.f5.misc.title_proficiency}}:</span>
                             <span class="display-field">@{{proficiencyText}}</span>

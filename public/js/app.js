@@ -39303,7 +39303,7 @@ function initVue(f5data) {
             lair_action: []
           },
           display: {
-            columns: 2
+            columns: 1
           }
         };
 
@@ -39313,7 +39313,10 @@ function initVue(f5data) {
         }
 
         for (var sense in this.f5.senses) {
-          statblock.senses[sense] = 0;
+          statblock.senses[sense] = {
+            distance: 0,
+            modifier: false
+          };
         }
 
         for (var lang in this.f5.languages) {
@@ -41795,7 +41798,7 @@ var StatBlock = {
       var displayText = '';
 
       for (var i in this.value.senses) {
-        if (!this.value.senses[i]) {
+        if (!this.value.senses[i].distance) {
           continue;
         }
 
@@ -41807,7 +41810,11 @@ var StatBlock = {
           displayText += this.$parent.f5.senses[i].name.toLowerCase() + ' ';
         }
 
-        displayText += this.value.senses[i] + ' ' + this.value.measure.measureUnit;
+        displayText += this.value.senses[i].distance + ' ' + this.value.measure.measureUnit;
+
+        if (this.value.senses[i].modifier) {
+          displayText += '(' + this.$parent.f5.senses[i].modifier_name.toLowerCase() + ')';
+        }
       } //Passive Perception
 
 
@@ -42593,8 +42600,8 @@ var StatBlock = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\GitHub\frankenstein5e\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\GitHub\frankenstein5e\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\PersonalProjects\Frankenstein5E\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\PersonalProjects\Frankenstein5E\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
