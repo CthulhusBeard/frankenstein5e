@@ -26,4 +26,6 @@ return [
     'title_export' => 'Export Monster',
     'title_import' => 'Import Monster',
     'title_use_automatic' => 'Determined by CR',
+    
+    'title_clear_all' => 'Clear All Data',
 ];

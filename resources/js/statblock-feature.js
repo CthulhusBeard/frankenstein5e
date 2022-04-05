@@ -193,7 +193,7 @@ var StatBlockFeature = {
 
         atWillSpells: function() {
             let spellsSorted = [];
-            
+
             for(const spell of this.value.spellList) {
                 if(spell.at_will) {
                     spellsSorted.push(spell);
@@ -265,28 +265,29 @@ var StatBlockFeature = {
             let descText = '';
 
             if(this.value.template == 'custom') {
-                return this.value.customDescription;
-            } 
-
-            if(this.value.template == 'multiattack') {
-                return this.multiattackDescription;
-            }
-
-            if(this.value.template == 'spellcasting') {
-                return this.spellcastingDescription;
-            } 
-
-            //Attack Description
-            if(this.value.template == 'attack') {
+                //Custom Description
+                descText = this.value.customDescription;
+            } else if(this.value.template == 'multiattack') {
+                //Multiattack Description
+                descText = this.multiattackDescription;
+            } else if(this.value.template == 'spellcasting') {
+                //Spellcasting Description
+                descText = this.spellcastingDescription;
+            } else if(this.value.template == 'attack') {
+                //Attack Description
                 descText = this.attackDescription;
+                if(this.value.attackSavingThrow) {
+                    //Add Saving Throw
+                    descText += this.savingThrowDescription;
+                }
+            } else if(this.value.template == 'saving_throw') {
+                //Saving Throw Description
+                descText = this.savingThrowDescription;
             }
 
-            //Add Saving Throw
-            if((this.value.template == 'attack' && this.value.attackSavingThrow) || this.value.template == 'saving_throw') {
-                descText += this.savingThrowDescription;
-            }
-
-            return descText+this.$parent.$parent.f5.misc.sentence_end;
+            descText+this.$parent.$parent.f5.misc.sentence_end;
+            
+            return this.descriptionTextReplace(descText);
         },
 
         multiattackDescription: function() {
@@ -345,12 +346,23 @@ var StatBlockFeature = {
                 }
             }
 
-            maDesc = maDesc.replace(':multiattack_descriptions', this.$parent.createSentenceList(maAbilityDescs[0]));
-            maDesc = this.$parent.replaceCreatureName(maDesc);
+            if(maAbilityDescs[0].length > 0) {
+                maDesc = maDesc.replace(':multiattack_descriptions', this.$parent.createSentenceList(maAbilityDescs[0]));
+                
+                if(maAbilityDescs[1].length > 0) {
+                    maAltDesc = maAltDesc.replace(':multiattack_descriptions', this.$parent.createSentenceList(maAbilityDescs[1]));
+                    maDesc += ' '+maAltDesc;
+                }
+            } else {
+                if(maAbilityDescs[1].length > 0) {
+                    maDesc = maDesc.replace(':multiattack_descriptions', this.$parent.createSentenceList(maAbilityDescs[1]));
+                } else {
+                    maDesc = '';
+                }
+            }
             
-            if(maAbilityDescs[1].length > 0) {
-                maAltDesc = maAltDesc.replace(':multiattack_descriptions', this.$parent.createSentenceList(maAbilityDescs[1]));
-                maDesc += ' '+maAltDesc;
+            if(this.value.additionalDescription) {
+                maDesc += ' '+this.value.additionalDescription;
             }
 
             return maDesc;
@@ -362,12 +374,10 @@ var StatBlockFeature = {
             if(this.value.innateSpellcasting) { 
                 spellDesc = this.$parent.$parent.f5.misc.desc_innate_spellcasting;
             }
-
-            spellDesc = spellDesc.replace(':caster_level_article', this.$parent.determineIndefiniteArticle(this.$parent.casterLevel, true)); 
-            spellDesc = spellDesc.replace(':caster_level', this.$parent.ordinalNumber(this.$parent.casterLevel)); 
-            spellDesc = spellDesc.replace(':spellcasting_ability', this.$parent.$parent.f5.abilities[this.value.spellcastingAbility].name);
-            spellDesc = spellDesc.replace(':spell_save_dc', this.$parent.makeSavingThrowDC(this.value.spellcastingAbility));
-            spellDesc = spellDesc.replace(':spell_hit', this.$parent.addPlus(this.$parent.proficiency + this.$parent.getAbilityMod(this.value.spellcastingAbility)));
+            
+            if(this.value.additionalDescription) {
+                spellDesc += ' '+this.value.additionalDescription;
+            }
 
             if(this.atWillSpells.length > 0) {
                 let atWillSpellList = this.$parent.createSentenceList(this.atWillSpells.map(x => x.name), true, function(str) {return '<i>'+str+'</i>'});
@@ -376,20 +386,29 @@ var StatBlockFeature = {
             } else {
                 spellDesc = spellDesc.replace(':at_will_spells', '');
             }
+            
 
             //Spells
             let castsBefore = false;
             spellDesc += '<br/><br/>';
 
-            let sortedSpellList;
-            if(!this.value.innateSpellcasting) {
-                sortedSpellList = this.spellsSlotsSorted;
+            let sortedSpellList = [];
+            if(this.value.innateSpellcasting) {
+                sortedSpellList = JSON.parse(JSON.stringify(this.spellsUsesSorted)); //Clone, not reference
             } else {
-                sortedSpellList = this.spellsUsesSorted;
+                sortedSpellList = JSON.parse(JSON.stringify(this.spellsSlotsSorted)); //Clone, not reference
+            }
+
+            if(this.value.innateSpellcasting) {
+                if(!sortedSpellList[0]) {
+                    sortedSpellList[0] = [];
+                }
+                sortedSpellList[0].push(...this.atWillSpells);
             }
 
             for(const level in sortedSpellList) {
-                if(sortedSpellList[level].length === 0) { //there are no spells at this level
+                let spellSlotList = sortedSpellList[level];
+                if(!spellSlotList || spellSlotList.length === 0) { //there are no spells at this level
                     continue;
                 }
                 if(!this.value.innateSpellcasting && //there are no spell slots for this level
@@ -400,7 +419,11 @@ var StatBlockFeature = {
                 }
                 
                 if(level == 0) {
-                    spellDesc += this.$parent.$parent.f5.spelllevels[level].name+' ('+this.$parent.$parent.f5.misc.at_will+'): ';
+                    if(this.value.innateSpellcasting) {
+                        spellDesc += this.$parent.capitalize(this.$parent.$parent.f5.misc.at_will)+': ';
+                    } else {
+                        spellDesc += this.$parent.$parent.f5.spelllevels[level].name+' ('+this.$parent.$parent.f5.misc.at_will+'): ';
+                    }
                 } else {
                     if(!this.value.innateSpellcasting) {
                         spellDesc += this.$parent.$parent.f5.spelllevels[level].name+' ('+this.$parent.pluralize(this.$parent.$parent.f5.misc.spell_slots, this.value.spellSlots[level]).replace(':slot_quantity',this.value.spellSlots[level])+'): ';
@@ -410,47 +433,29 @@ var StatBlockFeature = {
                 }
                 
                 spellDesc += '<i>';
-                for(const i in sortedSpellList[level]) {
-                    let spell = sortedSpellList[level][i];
+                for(const i in spellSlotList) {
+                    let spell = spellSlotList[i];
                     spellDesc += spell.name.toLowerCase();
                     if(spell.cast_before) {
                         spellDesc += '*';
                         castsBefore = true;
                     }
-                    if(i < sortedSpellList[level].length - 1) {
+                    if(i < spellSlotList.length - 1) {
                         spellDesc += this.$parent.$parent.f5.misc.sentence_list_separator+' ';
                     }
                 }
-                spellDesc += '</i><br/>';
+                spellDesc += '</i><br/><br/>';
             }
 
             if(castsBefore) {
-                spellDesc += '<br/>'+this.$parent.$parent.f5.misc.casts_spells_before;
+                spellDesc += this.$parent.$parent.f5.misc.casts_spells_before;
             }
             
-            spellDesc = this.$parent.replaceCreatureName(spellDesc);
             return spellDesc;
         },
 
         attackDescription: function() {
             let attackDesc = this.$parent.$parent.f5.misc.desc_attack;
-            //'<i>:attack_range :attack_type:</i> :attack_bonus to hit, :range :targets.'
-            attackDesc = attackDesc.replace(':attack_range', this.$parent.$parent.f5.areaofeffect[this.value.targetType].name);
-            attackDesc = attackDesc.replace(':attack_type', this.$parent.$parent.f5.attacktypes[this.value.attackType].name);
-            attackDesc = attackDesc.replace(':attack_bonus', this.$parent.addPlus(this.$parent.getAbilityMod(this.value.attackAbility) + this.$parent.proficiency));
-            if(this.value.targetType == 'melee') {
-                attackDesc = attackDesc.replace(':range', this.$parent.$parent.f5.misc.reach);
-            } else if(this.value.targetType == 'melee_or_ranged') {
-                attackDesc = attackDesc.replace(':range', this.$parent.$parent.f5.misc.reach_or_range);
-            } else if(this.value.targetType == 'ranged'){
-                attackDesc = attackDesc.replace(':range', this.$parent.$parent.f5.misc.range);
-            } else {
-                attackDesc = attackDesc.replace(':range', '');
-            }
-            attackDesc = attackDesc.replace(':reach_distance', this.value.attackReach+' '+this.$parent.value.measure.measureUnit);
-            attackDesc = attackDesc.replace(':range_distance_low', this.value.attackRange.low);
-            attackDesc = attackDesc.replace(':range_distance_high', this.value.attackRange.high+' '+this.$parent.value.measure.measureUnit);
-            attackDesc = attackDesc.replace(':targets', this.$parent.pluralize(this.$parent.$parent.f5.misc.num_of_targets, this.value.attackTargets).replace(':target_count', this.value.attackTargets));
 
             //Hit
             attackDesc += ' <i>'+this.$parent.$parent.f5.misc.desc_attack_hit+'</i> ';
@@ -459,6 +464,14 @@ var StatBlockFeature = {
                 damageList.push(this.$parent.createDamageText(this.value.attackDamage[i], this.value.attackAbility));
             }
             attackDesc += this.$parent.createSentenceList(damageList);
+
+            if(!this.value.attackSavingThrow) {
+                attackDesc += this.$parent.$parent.f5.misc.sentence_end;
+                if(this.value.additionalDescription) {
+                    attackDesc += ' '+this.value.additionalDescription;
+                }
+            }
+
             return attackDesc;
         },
 
@@ -472,6 +485,10 @@ var StatBlockFeature = {
                 savingThrowText = this.$parent.$parent.f5.misc.desc_attack_saving_throw_damage;
             } else if(this.value.savingThrowConditions.length >= 1) {
                 savingThrowText = this.$parent.$parent.f5.misc.desc_attack_saving_throw_condition;
+            }
+
+            if(this.value.additionalDescription) {
+                savingThrowText += ' '+this.value.additionalDescription;
             }
 
             //Targets
@@ -532,14 +549,6 @@ var StatBlockFeature = {
                 savingThrowText = savingThrowText.replace(':condition', this.$parent.createConditionSentenceList(stConditionList));
                 savingThrowText = savingThrowText.replace(':not_condition', this.$parent.$parent.f5.misc.and + ' ' + this.$parent.createConditionSentenceList(stNotConditionList));
             }
-
-            savingThrowText = savingThrowText.replace(':saving_throw_dc', this.$parent.makeSavingThrowDC(this.value.savingThrowMonsterAbility));
-
-            let abilityList = [];
-            for(let i in this.value.savingThrowSaveAbilities) {
-                abilityList.push(this.$parent.$parent.f5.abilities[this.value.savingThrowSaveAbilities[i]].name);
-            }
-            savingThrowText = savingThrowText.replace(':saving_throw_ability', this.$parent.createSentenceList(abilityList, false));
 
             return savingThrowText;
         },
@@ -689,5 +698,51 @@ var StatBlockFeature = {
         removeMultiattack: function(index, insideIndex) {
             this.value.multiattackReferences[index].splice(insideIndex, 1);
         },
+
+        descriptionTextReplace: function(str) {
+            //Creature Name
+            let creatureName = this.$parent.value.name.toLowerCase();
+            if(this.value.isNameProperNoun) {
+                str = str.replace(/the :creature_name/ig, this.capitalize(creatureName));
+                str = str.replaceAll(':creature_name', this.capitalize(creatureName));
+            } else {
+                str = str.replaceAll(':creature_name', creatureName);
+            }
+
+            //Attacks
+            str = str.replace(':attack_range', this.$parent.$parent.f5.areaofeffect[this.value.targetType].name);
+            str = str.replace(':attack_type', this.$parent.$parent.f5.attacktypes[this.value.attackType].name);
+            str = str.replace(':attack_bonus', this.$parent.addPlus(this.$parent.getAbilityMod(this.value.attackAbility) + this.$parent.proficiency));
+            if(this.value.targetType == 'melee') {
+                str = str.replace(':range', this.$parent.$parent.f5.misc.reach);
+            } else if(this.value.targetType == 'melee_or_ranged') {
+                str = str.replace(':range', this.$parent.$parent.f5.misc.reach_or_range);
+            } else if(this.value.targetType == 'ranged'){
+                str = str.replace(':range', this.$parent.$parent.f5.misc.range);
+            } else {
+                str = str.replace(':range', '');
+            }
+            str = str.replace(':reach_distance', this.value.attackReach+' '+this.$parent.value.measure.measureUnit);
+            str = str.replace(':range_distance_low', this.value.attackRange.low);
+            str = str.replace(':range_distance_high', this.value.attackRange.high+' '+this.$parent.value.measure.measureUnit);
+            str = str.replace(':targets', this.$parent.pluralize(this.$parent.$parent.f5.misc.num_of_targets, this.value.attackTargets).replace(':target_count', this.value.attackTargets));
+
+            //Saving Throw
+            str = str.replace(':saving_throw_dc', this.$parent.makeSavingThrowDC(this.value.savingThrowMonsterAbility));
+            let abilityList = [];
+            for(let i in this.value.savingThrowSaveAbilities) {
+                abilityList.push(this.$parent.$parent.f5.abilities[this.value.savingThrowSaveAbilities[i]].name);
+            }
+            str = str.replace(':saving_throw_ability', this.$parent.createSentenceList(abilityList, false));
+
+            //Spells
+            str = str.replace(':caster_level_article', this.$parent.determineIndefiniteArticle(this.$parent.casterLevel, true)); 
+            str = str.replace(':caster_level', this.$parent.ordinalNumber(this.$parent.casterLevel)); 
+            str = str.replace(':spellcasting_ability', this.$parent.$parent.f5.abilities[this.value.spellcastingAbility].name);
+            str = str.replace(':spell_save_dc', this.$parent.makeSavingThrowDC(this.value.spellcastingAbility));
+            str = str.replace(':spell_hit', this.$parent.addPlus(this.$parent.proficiency + this.$parent.getAbilityMod(this.value.spellcastingAbility)));
+
+            return str;
+        }
     },       
 };

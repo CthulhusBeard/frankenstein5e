@@ -39341,6 +39341,10 @@ function initVue(f5data) {
             this.statblocks.splice(i, 1);
           }
         }
+      },
+      clearAllData: function clearAllData() {
+        this.statblocks = [];
+        this.createStatBlock();
       }
     }
   });
@@ -39361,6 +39365,402 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "monsters", function() { return monsters; });
 
 var monsters = [{
+  "id": "0rCTajunzGnVKZO",
+  "name": "Fire Giant",
+  "shortName": "",
+  "isNameProperNoun": false,
+  "size": "huge",
+  "type": "giant",
+  "subtype": "",
+  "typeCategory": "",
+  "alignment": "lawful_evil",
+  "showTypicalAlignment": false,
+  "armorClass": {
+    "type": "plate",
+    "manual": "10",
+    "name": "No Armor",
+    "bonus": "0",
+    "stealthDis": false,
+    "shield": false
+  },
+  "hitPoints": {
+    "diceType": 12,
+    "diceAmount": 13,
+    "additional": 0
+  },
+  "abilities": {
+    "str": 25,
+    "dex": 9,
+    "con": 23,
+    "int": 10,
+    "wis": 14,
+    "cha": 13
+  },
+  "savingThrows": {
+    "str": false,
+    "dex": true,
+    "con": true,
+    "int": false,
+    "wis": false,
+    "cha": true
+  },
+  "damageResistances": [],
+  "damageImmunities": ["fire"],
+  "damageVulnerabilites": [],
+  "conditionImmunities": [],
+  "skills": ["athletics", "perception"],
+  "languages": {
+    "spokenWritten": ["giant"],
+    "doesntSpeak": [],
+    "telepathy": 0
+  },
+  "speeds": {
+    "walk": 30,
+    "fly": 0,
+    "swim": 0,
+    "climb": 0,
+    "burrow": 0
+  },
+  "hover": false,
+  "senses": {
+    "darkvision": {
+      "distance": 0,
+      "modifier": false
+    },
+    "blindsight": {
+      "distance": 0,
+      "modifier": false
+    },
+    "tremorsense": {
+      "distance": 0,
+      "modifier": false
+    },
+    "truesight": {
+      "distance": 0,
+      "modifier": false
+    }
+  },
+  "measure": {
+    "measureUnit": "ft.",
+    "measureIncrement": 5,
+    "measureUnitUp": 5280,
+    "measureUnitUpName": "miles"
+  },
+  "showNonCombat": true,
+  "manualOverride": {
+    "proficiency": 0,
+    "casterLevel": 0
+  },
+  "targetCR": {
+    "offensive": {},
+    "defensive": {}
+  },
+  "hasLegendaryActions": true,
+  "hasMythicActions": false,
+  "legendaryActions": 3,
+  "reactions": 1,
+  "actions": 1,
+  "bonusActions": 1,
+  "features": {
+    "passive": [],
+    "spellcasting": [],
+    "action": [{
+      "id": "SilYqbrexyQihQs",
+      "actionType": "action",
+      "name": "Greatsword",
+      "template": "attack",
+      "attackAbility": "str",
+      "targetType": "melee",
+      "attackType": "weapon",
+      "attackRange": {
+        "low": 20,
+        "high": 60
+      },
+      "attackReach": 10,
+      "attackDamage": [{
+        "diceType": 6,
+        "diceAmount": 6,
+        "additional": 0,
+        "abilityBonus": true,
+        "type": "slashing"
+      }],
+      "attackSavingThrow": false,
+      "attackTargets": 1,
+      "aoeRange": 30,
+      "savingThrowMonsterAbility": "str",
+      "savingThrowSaveAbilities": ["str"],
+      "savingThrowDamage": [{
+        "diceType": 4,
+        "diceAmount": 1,
+        "additional": 0,
+        "abilityBonus": false,
+        "type": "slashing"
+      }],
+      "savingThrowHalfOnSuccess": true,
+      "savingThrowConditions": [],
+      "hasOngoingDamage": false,
+      "ongoingDamage": [{
+        "diceType": 4,
+        "diceAmount": 1,
+        "additional": 0,
+        "abilityBonus": false,
+        "type": "slashing"
+      }],
+      "ongoingDamageOccurs": "start_of_turn",
+      "ongoingDamageOnFailedSave": true,
+      "ongoingDamageRepeatSave": false,
+      "ongoingDamageDuration": "ongoing",
+      "recharge": {
+        "type": "none",
+        "diceType": 6,
+        "minRoll": 5,
+        "uses": 1
+      },
+      "spellcastingAbility": "int",
+      "innateSpellcasting": false,
+      "spellList": [],
+      "spellSlots": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "customDamage": [],
+      "customDescription": "",
+      "additionalDescription": "",
+      "multiattackReferences": [[], []],
+      "legendaryActionCost": 1,
+      "manualDPR": -1,
+      "averageDPR": 28,
+      "damageProjection": [{
+        "name": "Greatsword",
+        "damage": 28,
+        "actionCost": 1
+      }, {
+        "name": "Greatsword",
+        "damage": 28,
+        "actionCost": 1
+      }, {
+        "name": "Greatsword",
+        "damage": 28,
+        "actionCost": 1
+      }, {
+        "name": "Greatsword",
+        "damage": 28,
+        "actionCost": 1
+      }, {
+        "name": "Greatsword",
+        "damage": 28,
+        "actionCost": 1
+      }, {
+        "name": "Greatsword",
+        "damage": 28,
+        "actionCost": 1
+      }, {
+        "name": "Greatsword",
+        "damage": 28,
+        "actionCost": 1
+      }]
+    }, {
+      "id": "NlyI2UjBt1RXcnD",
+      "actionType": "action",
+      "name": "Rock",
+      "template": "attack",
+      "attackAbility": "str",
+      "targetType": "ranged",
+      "attackType": "weapon",
+      "attackRange": {
+        "low": 60,
+        "high": 250
+      },
+      "attackReach": 5,
+      "attackDamage": [{
+        "diceType": 10,
+        "diceAmount": 4,
+        "additional": 0,
+        "abilityBonus": true,
+        "type": "bludgeoning"
+      }],
+      "attackSavingThrow": false,
+      "attackTargets": 1,
+      "aoeRange": 30,
+      "savingThrowMonsterAbility": "str",
+      "savingThrowSaveAbilities": ["str"],
+      "savingThrowDamage": [{
+        "diceType": 4,
+        "diceAmount": 1,
+        "additional": 0,
+        "abilityBonus": false,
+        "type": "slashing"
+      }],
+      "savingThrowHalfOnSuccess": true,
+      "savingThrowConditions": [],
+      "hasOngoingDamage": false,
+      "ongoingDamage": [{
+        "diceType": 4,
+        "diceAmount": 1,
+        "additional": 0,
+        "abilityBonus": false,
+        "type": "slashing"
+      }],
+      "ongoingDamageOccurs": "start_of_turn",
+      "ongoingDamageOnFailedSave": true,
+      "ongoingDamageRepeatSave": false,
+      "ongoingDamageDuration": "ongoing",
+      "recharge": {
+        "type": "none",
+        "diceType": 6,
+        "minRoll": 5,
+        "uses": 1
+      },
+      "spellcastingAbility": "int",
+      "innateSpellcasting": false,
+      "spellList": [],
+      "spellSlots": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "customDamage": [],
+      "customDescription": "",
+      "additionalDescription": "",
+      "multiattackReferences": [[], []],
+      "legendaryActionCost": 1,
+      "manualDPR": -1,
+      "averageDPR": 29,
+      "damageProjection": [{
+        "name": "Rock",
+        "damage": 29,
+        "actionCost": 1
+      }, {
+        "name": "Rock",
+        "damage": 29,
+        "actionCost": 1
+      }, {
+        "name": "Rock",
+        "damage": 29,
+        "actionCost": 1
+      }, {
+        "name": "Rock",
+        "damage": 29,
+        "actionCost": 1
+      }, {
+        "name": "Rock",
+        "damage": 29,
+        "actionCost": 1
+      }, {
+        "name": "Rock",
+        "damage": 29,
+        "actionCost": 1
+      }, {
+        "name": "Rock",
+        "damage": 29,
+        "actionCost": 1
+      }]
+    }, {
+      "id": "iA1zFqhhnyd3m3L",
+      "actionType": "action",
+      "name": "Multiattack",
+      "template": "multiattack",
+      "attackAbility": "str",
+      "targetType": "melee",
+      "attackType": "weapon",
+      "attackRange": {
+        "low": 20,
+        "high": 60
+      },
+      "attackReach": 5,
+      "attackDamage": [{
+        "diceType": 4,
+        "diceAmount": 1,
+        "additional": 0,
+        "abilityBonus": true,
+        "type": "slashing"
+      }],
+      "attackSavingThrow": false,
+      "attackTargets": 1,
+      "aoeRange": 30,
+      "savingThrowMonsterAbility": "str",
+      "savingThrowSaveAbilities": ["str"],
+      "savingThrowDamage": [{
+        "diceType": 4,
+        "diceAmount": 1,
+        "additional": 0,
+        "abilityBonus": false,
+        "type": "slashing"
+      }],
+      "savingThrowHalfOnSuccess": true,
+      "savingThrowConditions": [],
+      "hasOngoingDamage": false,
+      "ongoingDamage": [{
+        "diceType": 4,
+        "diceAmount": 1,
+        "additional": 0,
+        "abilityBonus": false,
+        "type": "slashing"
+      }],
+      "ongoingDamageOccurs": "start_of_turn",
+      "ongoingDamageOnFailedSave": true,
+      "ongoingDamageRepeatSave": false,
+      "ongoingDamageDuration": "ongoing",
+      "recharge": {
+        "type": "none",
+        "diceType": 6,
+        "minRoll": 5,
+        "uses": 1
+      },
+      "spellcastingAbility": "int",
+      "innateSpellcasting": false,
+      "spellList": [],
+      "spellSlots": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "customDamage": [],
+      "customDescription": "",
+      "additionalDescription": "",
+      "multiattackReferences": [[{
+        "index": 0,
+        "uses": 2
+      }], []],
+      "legendaryActionCost": 1,
+      "manualDPR": -1,
+      "averageDPR": 56,
+      "damageProjection": []
+    }],
+    "bonus_action": [],
+    "reaction": [],
+    "legendary_action": [],
+    "mythic_action": [],
+    "lair_action": []
+  },
+  "display": {
+    "columns": 2
+  },
+  "averageDPR": -1,
+  "damageProjection": []
+}, {
   "id": "exu75CiNirEFDeY",
   "name": "Glabrezu",
   "shortName": "",
@@ -39408,7 +39808,7 @@ var monsters = [{
   "languages": {
     "spokenWritten": ["abyssal"],
     "doesntSpeak": [],
-    "telepathy": 0
+    "telepathy": 60
   },
   "speeds": {
     "walk": 40,
@@ -39774,7 +40174,7 @@ var monsters = [{
       }]],
       "legendaryActionCost": 1,
       "manualDPR": -1,
-      "averageDPR": 0,
+      "averageDPR": 28,
       "damageProjection": []
     }, {
       "id": "xn6a7ZKckpTAAl2",
@@ -39848,8 +40248,37 @@ var monsters = [{
       "multiattackReferences": [[], []],
       "legendaryActionCost": 1,
       "manualDPR": -1,
-      "averageDPR": -1,
-      "damageProjection": []
+      "averageDPR": 16,
+      "damageProjection": [{
+        "name": "Pincer",
+        "damage": 16,
+        "actionCost": 1
+      }, {
+        "name": "Pincer",
+        "damage": 16,
+        "actionCost": 1
+      }, {
+        "name": "Pincer",
+        "damage": 16,
+        "actionCost": 1
+      }, {
+        "name": "Pincer",
+        "damage": 16,
+        "actionCost": 1
+      }, {
+        "name": "Pincer",
+        "damage": 16,
+        "actionCost": 1
+      }, {
+        "name": "Pincer",
+        "damage": 16,
+        "actionCost": 1
+      }, {
+        "name": "Pincer",
+        "damage": 16,
+        "actionCost": 1
+      }],
+      "additionalDescription": "If the target is a Medium or smaller creature, it is grappled (escape DC 15). The :creature_name has two pincers, each of which can grapple only one target."
     }, {
       "id": "WFW8sinyVmRAQF7",
       "actionType": "action",
@@ -39922,8 +40351,36 @@ var monsters = [{
       "multiattackReferences": [[], []],
       "legendaryActionCost": 1,
       "manualDPR": -1,
-      "averageDPR": -1,
-      "damageProjection": []
+      "averageDPR": 7,
+      "damageProjection": [{
+        "name": "Fist",
+        "damage": 7,
+        "actionCost": 1
+      }, {
+        "name": "Fist",
+        "damage": 7,
+        "actionCost": 1
+      }, {
+        "name": "Fist",
+        "damage": 7,
+        "actionCost": 1
+      }, {
+        "name": "Fist",
+        "damage": 7,
+        "actionCost": 1
+      }, {
+        "name": "Fist",
+        "damage": 7,
+        "actionCost": 1
+      }, {
+        "name": "Fist",
+        "damage": 7,
+        "actionCost": 1
+      }, {
+        "name": "Fist",
+        "damage": 7,
+        "actionCost": 1
+      }]
     }],
     "bonus_action": [],
     "reaction": [],
@@ -40996,6 +41453,508 @@ var monsters = [{
     "mythic_action": [],
     "lair_action": []
   }
+}, {
+  "id": "sBWlsgjzkPDqLBR",
+  "name": "Black Bear",
+  "shortName": "",
+  "isNameProperNoun": false,
+  "size": "medium",
+  "type": "beast",
+  "subtype": "",
+  "typeCategory": "mammal",
+  "alignment": "unaligned",
+  "showTypicalAlignment": false,
+  "armorClass": {
+    "type": "natural",
+    "manual": 11,
+    "name": "No Armor",
+    "bonus": "0",
+    "stealthDis": false,
+    "shield": false
+  },
+  "hitPoints": {
+    "diceType": 8,
+    "diceAmount": 3,
+    "additional": 0
+  },
+  "abilities": {
+    "str": 15,
+    "dex": 10,
+    "con": 14,
+    "int": 2,
+    "wis": 12,
+    "cha": 7
+  },
+  "savingThrows": {
+    "str": false,
+    "dex": false,
+    "con": false,
+    "int": false,
+    "wis": false,
+    "cha": false
+  },
+  "damageResistances": [],
+  "damageImmunities": [],
+  "damageVulnerabilites": [],
+  "conditionImmunities": [],
+  "skills": ["perception"],
+  "languages": {
+    "spokenWritten": [],
+    "doesntSpeak": [],
+    "telepathy": 0
+  },
+  "speeds": {
+    "walk": 40,
+    "fly": 0,
+    "swim": 0,
+    "climb": 30,
+    "burrow": 0
+  },
+  "hover": false,
+  "senses": {
+    "darkvision": {
+      "distance": 0,
+      "modifier": false
+    },
+    "blindsight": {
+      "distance": 0,
+      "modifier": false
+    },
+    "tremorsense": {
+      "distance": 0,
+      "modifier": false
+    },
+    "truesight": {
+      "distance": 0,
+      "modifier": false
+    }
+  },
+  "measure": {
+    "measureUnit": "ft.",
+    "measureIncrement": 5,
+    "measureUnitUp": 5280,
+    "measureUnitUpName": "miles"
+  },
+  "showNonCombat": true,
+  "manualOverride": {
+    "proficiency": 0,
+    "casterLevel": 0
+  },
+  "targetCR": {
+    "offensive": {},
+    "defensive": {}
+  },
+  "hasLegendaryActions": true,
+  "hasMythicActions": false,
+  "legendaryActions": 3,
+  "reactions": 1,
+  "actions": 1,
+  "bonusActions": 1,
+  "features": {
+    "passive": [{
+      "id": "ECPsauQX7J6Js8c",
+      "actionType": "passive",
+      "name": "Keen Smell",
+      "template": "custom",
+      "attackAbility": "str",
+      "targetType": "melee",
+      "attackType": "weapon",
+      "attackRange": {
+        "low": 20,
+        "high": 60
+      },
+      "attackReach": 5,
+      "attackDamage": [{
+        "diceType": 4,
+        "diceAmount": 1,
+        "additional": 0,
+        "abilityBonus": true,
+        "type": "slashing"
+      }],
+      "attackSavingThrow": false,
+      "attackTargets": 1,
+      "aoeRange": 30,
+      "savingThrowMonsterAbility": "str",
+      "savingThrowSaveAbilities": ["str"],
+      "savingThrowDamage": [{
+        "diceType": 4,
+        "diceAmount": 1,
+        "additional": 0,
+        "abilityBonus": false,
+        "type": "slashing"
+      }],
+      "savingThrowHalfOnSuccess": true,
+      "savingThrowConditions": [],
+      "hasOngoingDamage": false,
+      "ongoingDamage": [{
+        "diceType": 4,
+        "diceAmount": 1,
+        "additional": 0,
+        "abilityBonus": false,
+        "type": "slashing"
+      }],
+      "ongoingDamageOccurs": "start_of_turn",
+      "ongoingDamageOnFailedSave": true,
+      "ongoingDamageRepeatSave": false,
+      "ongoingDamageDuration": "ongoing",
+      "recharge": {
+        "type": "none",
+        "diceType": 6,
+        "minRoll": 5,
+        "uses": 1
+      },
+      "spellcastingAbility": "int",
+      "innateSpellcasting": false,
+      "spellList": [],
+      "spellSlots": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "customDamage": [],
+      "customDescription": "The bear has advantage on Wisdom (Perception) checks that rely on smell.",
+      "additionalDescription": "",
+      "multiattackReferences": [[], []],
+      "legendaryActionCost": 1,
+      "manualDPR": -1,
+      "averageDPR": 0,
+      "damageProjection": [{
+        "name": "Keen Smell",
+        "damage": 0,
+        "actionCost": 1
+      }, {
+        "name": "Keen Smell",
+        "damage": 0,
+        "actionCost": 1
+      }, {
+        "name": "Keen Smell",
+        "damage": 0,
+        "actionCost": 1
+      }, {
+        "name": "Keen Smell",
+        "damage": 0,
+        "actionCost": 1
+      }, {
+        "name": "Keen Smell",
+        "damage": 0,
+        "actionCost": 1
+      }, {
+        "name": "Keen Smell",
+        "damage": 0,
+        "actionCost": 1
+      }, {
+        "name": "Keen Smell",
+        "damage": 0,
+        "actionCost": 1
+      }]
+    }],
+    "spellcasting": [],
+    "action": [{
+      "id": "pCVAqHFlJtxM8F2",
+      "actionType": "action",
+      "name": "Multiattack",
+      "template": "multiattack",
+      "attackAbility": "str",
+      "targetType": "melee",
+      "attackType": "weapon",
+      "attackRange": {
+        "low": 20,
+        "high": 60
+      },
+      "attackReach": 5,
+      "attackDamage": [{
+        "diceType": 4,
+        "diceAmount": 1,
+        "additional": 0,
+        "abilityBonus": true,
+        "type": "slashing"
+      }],
+      "attackSavingThrow": false,
+      "attackTargets": 1,
+      "aoeRange": 30,
+      "savingThrowMonsterAbility": "str",
+      "savingThrowSaveAbilities": ["str"],
+      "savingThrowDamage": [{
+        "diceType": 4,
+        "diceAmount": 1,
+        "additional": 0,
+        "abilityBonus": false,
+        "type": "slashing"
+      }],
+      "savingThrowHalfOnSuccess": true,
+      "savingThrowConditions": [],
+      "hasOngoingDamage": false,
+      "ongoingDamage": [{
+        "diceType": 4,
+        "diceAmount": 1,
+        "additional": 0,
+        "abilityBonus": false,
+        "type": "slashing"
+      }],
+      "ongoingDamageOccurs": "start_of_turn",
+      "ongoingDamageOnFailedSave": true,
+      "ongoingDamageRepeatSave": false,
+      "ongoingDamageDuration": "ongoing",
+      "recharge": {
+        "type": "none",
+        "diceType": 6,
+        "minRoll": 5,
+        "uses": 1
+      },
+      "spellcastingAbility": "int",
+      "innateSpellcasting": false,
+      "spellList": [],
+      "spellSlots": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "customDamage": [],
+      "customDescription": "",
+      "additionalDescription": "",
+      "multiattackReferences": [[{
+        "index": 1,
+        "uses": 1
+      }, {
+        "index": 2,
+        "uses": 1
+      }], []],
+      "legendaryActionCost": 1,
+      "manualDPR": -1,
+      "averageDPR": 0,
+      "damageProjection": []
+    }, {
+      "id": "QQDk4D01gimSAfA",
+      "actionType": "action",
+      "name": "Bite",
+      "template": "attack",
+      "attackAbility": "str",
+      "targetType": "melee",
+      "attackType": "weapon",
+      "attackRange": {
+        "low": 20,
+        "high": 60
+      },
+      "attackReach": 5,
+      "attackDamage": [{
+        "diceType": 6,
+        "diceAmount": 1,
+        "additional": 0,
+        "abilityBonus": true,
+        "type": "piercing"
+      }],
+      "attackSavingThrow": false,
+      "attackTargets": 1,
+      "aoeRange": 30,
+      "savingThrowMonsterAbility": "str",
+      "savingThrowSaveAbilities": ["str"],
+      "savingThrowDamage": [{
+        "diceType": 4,
+        "diceAmount": 1,
+        "additional": 0,
+        "abilityBonus": false,
+        "type": "slashing"
+      }],
+      "savingThrowHalfOnSuccess": true,
+      "savingThrowConditions": [],
+      "hasOngoingDamage": false,
+      "ongoingDamage": [{
+        "diceType": 4,
+        "diceAmount": 1,
+        "additional": 0,
+        "abilityBonus": false,
+        "type": "slashing"
+      }],
+      "ongoingDamageOccurs": "start_of_turn",
+      "ongoingDamageOnFailedSave": true,
+      "ongoingDamageRepeatSave": false,
+      "ongoingDamageDuration": "ongoing",
+      "recharge": {
+        "type": "none",
+        "diceType": 6,
+        "minRoll": 5,
+        "uses": 1
+      },
+      "spellcastingAbility": "int",
+      "innateSpellcasting": false,
+      "spellList": [],
+      "spellSlots": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "customDamage": [],
+      "customDescription": "",
+      "additionalDescription": "",
+      "multiattackReferences": [[], []],
+      "legendaryActionCost": 1,
+      "manualDPR": -1,
+      "averageDPR": 5,
+      "damageProjection": [{
+        "name": "Bite",
+        "damage": 5,
+        "actionCost": 1
+      }, {
+        "name": "Bite",
+        "damage": 5,
+        "actionCost": 1
+      }, {
+        "name": "Bite",
+        "damage": 5,
+        "actionCost": 1
+      }, {
+        "name": "Bite",
+        "damage": 5,
+        "actionCost": 1
+      }, {
+        "name": "Bite",
+        "damage": 5,
+        "actionCost": 1
+      }, {
+        "name": "Bite",
+        "damage": 5,
+        "actionCost": 1
+      }, {
+        "name": "Bite",
+        "damage": 5,
+        "actionCost": 1
+      }]
+    }, {
+      "id": "kuuJBrymrRRaviv",
+      "actionType": "action",
+      "name": "Claw",
+      "template": "attack",
+      "attackAbility": "str",
+      "targetType": "melee",
+      "attackType": "weapon",
+      "attackRange": {
+        "low": 20,
+        "high": 60
+      },
+      "attackReach": 5,
+      "attackDamage": [{
+        "diceType": 4,
+        "diceAmount": 2,
+        "additional": 0,
+        "abilityBonus": true,
+        "type": "slashing"
+      }],
+      "attackSavingThrow": false,
+      "attackTargets": 1,
+      "aoeRange": 30,
+      "savingThrowMonsterAbility": "str",
+      "savingThrowSaveAbilities": ["str"],
+      "savingThrowDamage": [{
+        "diceType": 4,
+        "diceAmount": 1,
+        "additional": 0,
+        "abilityBonus": false,
+        "type": "slashing"
+      }],
+      "savingThrowHalfOnSuccess": true,
+      "savingThrowConditions": [],
+      "hasOngoingDamage": false,
+      "ongoingDamage": [{
+        "diceType": 4,
+        "diceAmount": 1,
+        "additional": 0,
+        "abilityBonus": false,
+        "type": "slashing"
+      }],
+      "ongoingDamageOccurs": "start_of_turn",
+      "ongoingDamageOnFailedSave": true,
+      "ongoingDamageRepeatSave": false,
+      "ongoingDamageDuration": "ongoing",
+      "recharge": {
+        "type": "none",
+        "diceType": 6,
+        "minRoll": 5,
+        "uses": 1
+      },
+      "spellcastingAbility": "int",
+      "innateSpellcasting": false,
+      "spellList": [],
+      "spellSlots": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "customDamage": [],
+      "customDescription": "",
+      "additionalDescription": "",
+      "multiattackReferences": [[], []],
+      "legendaryActionCost": 1,
+      "manualDPR": -1,
+      "averageDPR": 7,
+      "damageProjection": [{
+        "name": "Claw",
+        "damage": 7,
+        "actionCost": 1
+      }, {
+        "name": "Claw",
+        "damage": 7,
+        "actionCost": 1
+      }, {
+        "name": "Claw",
+        "damage": 7,
+        "actionCost": 1
+      }, {
+        "name": "Claw",
+        "damage": 7,
+        "actionCost": 1
+      }, {
+        "name": "Claw",
+        "damage": 7,
+        "actionCost": 1
+      }, {
+        "name": "Claw",
+        "damage": 7,
+        "actionCost": 1
+      }, {
+        "name": "Claw",
+        "damage": 7,
+        "actionCost": 1
+      }]
+    }],
+    "bonus_action": [],
+    "reaction": [],
+    "legendary_action": [],
+    "mythic_action": [],
+    "lair_action": []
+  },
+  "display": {
+    "columns": 1
+  },
+  "averageDPR": -1,
+  "damageProjection": []
 }];
 
 /***/ }),
@@ -41013,6 +41972,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _vueform_multiselect_dist_multiselect_vue2_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @vueform/multiselect/dist/multiselect.vue2.js */ "./node_modules/@vueform/multiselect/dist/multiselect.vue2.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
 function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -41328,28 +42295,29 @@ var StatBlockFeature = {
       var descText = '';
 
       if (this.value.template == 'custom') {
-        return this.value.customDescription;
-      }
-
-      if (this.value.template == 'multiattack') {
-        return this.multiattackDescription;
-      }
-
-      if (this.value.template == 'spellcasting') {
-        return this.spellcastingDescription;
-      } //Attack Description
-
-
-      if (this.value.template == 'attack') {
+        //Custom Description
+        descText = this.value.customDescription;
+      } else if (this.value.template == 'multiattack') {
+        //Multiattack Description
+        descText = this.multiattackDescription;
+      } else if (this.value.template == 'spellcasting') {
+        //Spellcasting Description
+        descText = this.spellcastingDescription;
+      } else if (this.value.template == 'attack') {
+        //Attack Description
         descText = this.attackDescription;
-      } //Add Saving Throw
 
-
-      if (this.value.template == 'attack' && this.value.attackSavingThrow || this.value.template == 'saving_throw') {
-        descText += this.savingThrowDescription;
+        if (this.value.attackSavingThrow) {
+          //Add Saving Throw
+          descText += this.savingThrowDescription;
+        }
+      } else if (this.value.template == 'saving_throw') {
+        //Saving Throw Description
+        descText = this.savingThrowDescription;
       }
 
-      return descText + this.$parent.$parent.f5.misc.sentence_end;
+      descText + this.$parent.$parent.f5.misc.sentence_end;
+      return this.descriptionTextReplace(descText);
     },
     multiattackDescription: function multiattackDescription() {
       var maDesc = this.$parent.$parent.f5.misc.desc_multiattack;
@@ -41406,12 +42374,23 @@ var StatBlockFeature = {
         }
       }
 
-      maDesc = maDesc.replace(':multiattack_descriptions', this.$parent.createSentenceList(maAbilityDescs[0]));
-      maDesc = this.$parent.replaceCreatureName(maDesc);
+      if (maAbilityDescs[0].length > 0) {
+        maDesc = maDesc.replace(':multiattack_descriptions', this.$parent.createSentenceList(maAbilityDescs[0]));
 
-      if (maAbilityDescs[1].length > 0) {
-        maAltDesc = maAltDesc.replace(':multiattack_descriptions', this.$parent.createSentenceList(maAbilityDescs[1]));
-        maDesc += ' ' + maAltDesc;
+        if (maAbilityDescs[1].length > 0) {
+          maAltDesc = maAltDesc.replace(':multiattack_descriptions', this.$parent.createSentenceList(maAbilityDescs[1]));
+          maDesc += ' ' + maAltDesc;
+        }
+      } else {
+        if (maAbilityDescs[1].length > 0) {
+          maDesc = maDesc.replace(':multiattack_descriptions', this.$parent.createSentenceList(maAbilityDescs[1]));
+        } else {
+          maDesc = '';
+        }
+      }
+
+      if (this.value.additionalDescription) {
+        maDesc += ' ' + this.value.additionalDescription;
       }
 
       return maDesc;
@@ -41423,11 +42402,9 @@ var StatBlockFeature = {
         spellDesc = this.$parent.$parent.f5.misc.desc_innate_spellcasting;
       }
 
-      spellDesc = spellDesc.replace(':caster_level_article', this.$parent.determineIndefiniteArticle(this.$parent.casterLevel, true));
-      spellDesc = spellDesc.replace(':caster_level', this.$parent.ordinalNumber(this.$parent.casterLevel));
-      spellDesc = spellDesc.replace(':spellcasting_ability', this.$parent.$parent.f5.abilities[this.value.spellcastingAbility].name);
-      spellDesc = spellDesc.replace(':spell_save_dc', this.$parent.makeSavingThrowDC(this.value.spellcastingAbility));
-      spellDesc = spellDesc.replace(':spell_hit', this.$parent.addPlus(this.$parent.proficiency + this.$parent.getAbilityMod(this.value.spellcastingAbility)));
+      if (this.value.additionalDescription) {
+        spellDesc += ' ' + this.value.additionalDescription;
+      }
 
       if (this.atWillSpells.length > 0) {
         var atWillSpellList = this.$parent.createSentenceList(this.atWillSpells.map(function (x) {
@@ -41444,16 +42421,28 @@ var StatBlockFeature = {
 
       var castsBefore = false;
       spellDesc += '<br/><br/>';
-      var sortedSpellList;
+      var sortedSpellList = [];
 
-      if (!this.value.innateSpellcasting) {
-        sortedSpellList = this.spellsSlotsSorted;
+      if (this.value.innateSpellcasting) {
+        sortedSpellList = JSON.parse(JSON.stringify(this.spellsUsesSorted)); //Clone, not reference
       } else {
-        sortedSpellList = this.spellsUsesSorted;
+        sortedSpellList = JSON.parse(JSON.stringify(this.spellsSlotsSorted)); //Clone, not reference
+      }
+
+      if (this.value.innateSpellcasting) {
+        var _sortedSpellList$;
+
+        if (!sortedSpellList[0]) {
+          sortedSpellList[0] = [];
+        }
+
+        (_sortedSpellList$ = sortedSpellList[0]).push.apply(_sortedSpellList$, _toConsumableArray(this.atWillSpells));
       }
 
       for (var level in sortedSpellList) {
-        if (sortedSpellList[level].length === 0) {
+        var spellSlotList = sortedSpellList[level];
+
+        if (!spellSlotList || spellSlotList.length === 0) {
           //there are no spells at this level
           continue;
         }
@@ -41464,7 +42453,11 @@ var StatBlockFeature = {
         }
 
         if (level == 0) {
-          spellDesc += this.$parent.$parent.f5.spelllevels[level].name + ' (' + this.$parent.$parent.f5.misc.at_will + '): ';
+          if (this.value.innateSpellcasting) {
+            spellDesc += this.$parent.capitalize(this.$parent.$parent.f5.misc.at_will) + ': ';
+          } else {
+            spellDesc += this.$parent.$parent.f5.spelllevels[level].name + ' (' + this.$parent.$parent.f5.misc.at_will + '): ';
+          }
         } else {
           if (!this.value.innateSpellcasting) {
             spellDesc += this.$parent.$parent.f5.spelllevels[level].name + ' (' + this.$parent.pluralize(this.$parent.$parent.f5.misc.spell_slots, this.value.spellSlots[level]).replace(':slot_quantity', this.value.spellSlots[level]) + '): ';
@@ -41475,8 +42468,8 @@ var StatBlockFeature = {
 
         spellDesc += '<i>';
 
-        for (var i in sortedSpellList[level]) {
-          var spell = sortedSpellList[level][i];
+        for (var i in spellSlotList) {
+          var spell = spellSlotList[i];
           spellDesc += spell.name.toLowerCase();
 
           if (spell.cast_before) {
@@ -41484,42 +42477,22 @@ var StatBlockFeature = {
             castsBefore = true;
           }
 
-          if (i < sortedSpellList[level].length - 1) {
+          if (i < spellSlotList.length - 1) {
             spellDesc += this.$parent.$parent.f5.misc.sentence_list_separator + ' ';
           }
         }
 
-        spellDesc += '</i><br/>';
+        spellDesc += '</i><br/><br/>';
       }
 
       if (castsBefore) {
-        spellDesc += '<br/>' + this.$parent.$parent.f5.misc.casts_spells_before;
+        spellDesc += this.$parent.$parent.f5.misc.casts_spells_before;
       }
 
-      spellDesc = this.$parent.replaceCreatureName(spellDesc);
       return spellDesc;
     },
     attackDescription: function attackDescription() {
-      var attackDesc = this.$parent.$parent.f5.misc.desc_attack; //'<i>:attack_range :attack_type:</i> :attack_bonus to hit, :range :targets.'
-
-      attackDesc = attackDesc.replace(':attack_range', this.$parent.$parent.f5.areaofeffect[this.value.targetType].name);
-      attackDesc = attackDesc.replace(':attack_type', this.$parent.$parent.f5.attacktypes[this.value.attackType].name);
-      attackDesc = attackDesc.replace(':attack_bonus', this.$parent.addPlus(this.$parent.getAbilityMod(this.value.attackAbility) + this.$parent.proficiency));
-
-      if (this.value.targetType == 'melee') {
-        attackDesc = attackDesc.replace(':range', this.$parent.$parent.f5.misc.reach);
-      } else if (this.value.targetType == 'melee_or_ranged') {
-        attackDesc = attackDesc.replace(':range', this.$parent.$parent.f5.misc.reach_or_range);
-      } else if (this.value.targetType == 'ranged') {
-        attackDesc = attackDesc.replace(':range', this.$parent.$parent.f5.misc.range);
-      } else {
-        attackDesc = attackDesc.replace(':range', '');
-      }
-
-      attackDesc = attackDesc.replace(':reach_distance', this.value.attackReach + ' ' + this.$parent.value.measure.measureUnit);
-      attackDesc = attackDesc.replace(':range_distance_low', this.value.attackRange.low);
-      attackDesc = attackDesc.replace(':range_distance_high', this.value.attackRange.high + ' ' + this.$parent.value.measure.measureUnit);
-      attackDesc = attackDesc.replace(':targets', this.$parent.pluralize(this.$parent.$parent.f5.misc.num_of_targets, this.value.attackTargets).replace(':target_count', this.value.attackTargets)); //Hit
+      var attackDesc = this.$parent.$parent.f5.misc.desc_attack; //Hit
 
       attackDesc += ' <i>' + this.$parent.$parent.f5.misc.desc_attack_hit + '</i> ';
       var damageList = [];
@@ -41529,6 +42502,15 @@ var StatBlockFeature = {
       }
 
       attackDesc += this.$parent.createSentenceList(damageList);
+
+      if (!this.value.attackSavingThrow) {
+        attackDesc += this.$parent.$parent.f5.misc.sentence_end;
+
+        if (this.value.additionalDescription) {
+          attackDesc += ' ' + this.value.additionalDescription;
+        }
+      }
+
       return attackDesc;
     },
     savingThrowDescription: function savingThrowDescription() {
@@ -41542,6 +42524,10 @@ var StatBlockFeature = {
         savingThrowText = this.$parent.$parent.f5.misc.desc_attack_saving_throw_damage;
       } else if (this.value.savingThrowConditions.length >= 1) {
         savingThrowText = this.$parent.$parent.f5.misc.desc_attack_saving_throw_condition;
+      }
+
+      if (this.value.additionalDescription) {
+        savingThrowText += ' ' + this.value.additionalDescription;
       } //Targets
 
 
@@ -41603,14 +42589,6 @@ var StatBlockFeature = {
         savingThrowText = savingThrowText.replace(':not_condition', this.$parent.$parent.f5.misc.and + ' ' + this.$parent.createConditionSentenceList(stNotConditionList));
       }
 
-      savingThrowText = savingThrowText.replace(':saving_throw_dc', this.$parent.makeSavingThrowDC(this.value.savingThrowMonsterAbility));
-      var abilityList = [];
-
-      for (var _i5 in this.value.savingThrowSaveAbilities) {
-        abilityList.push(this.$parent.$parent.f5.abilities[this.value.savingThrowSaveAbilities[_i5]].name);
-      }
-
-      savingThrowText = savingThrowText.replace(':saving_throw_ability', this.$parent.createSentenceList(abilityList, false));
       return savingThrowText;
     },
     damageProjection: function damageProjection() {
@@ -41714,7 +42692,7 @@ var StatBlockFeature = {
       } else if (this.value.recharge.type === 'limited_use') {
         var damageArray = [];
 
-        for (var _i6 = 0; _i6 < this.value.recharge.uses; _i6++) {
+        for (var _i5 = 0; _i5 < this.value.recharge.uses; _i5++) {
           damageArray.push({
             name: this.value.name,
             damage: this.value.averageDPR,
@@ -41727,9 +42705,9 @@ var StatBlockFeature = {
         averageRechargeTurns = Math.round(1 / ((this.value.recharge.diceType - this.value.recharge.minRoll + 1) / this.value.recharge.diceType));
       }
 
-      for (var _i7 = 0; _i7 < this.$parent.$parent.editor.round_tracker; _i7++) {
-        if (_i7 % averageRechargeTurns === 0) {
-          turnDamage[_i7] = {
+      for (var _i6 = 0; _i6 < this.$parent.$parent.editor.round_tracker; _i6++) {
+        if (_i6 % averageRechargeTurns === 0) {
+          turnDamage[_i6] = {
             name: this.value.name,
             damage: this.value.averageDPR,
             actionCost: actionCost
@@ -41787,6 +42765,53 @@ var StatBlockFeature = {
     },
     removeMultiattack: function removeMultiattack(index, insideIndex) {
       this.value.multiattackReferences[index].splice(insideIndex, 1);
+    },
+    descriptionTextReplace: function descriptionTextReplace(str) {
+      //Creature Name
+      var creatureName = this.$parent.value.name.toLowerCase();
+
+      if (this.value.isNameProperNoun) {
+        str = str.replace(/the :creature_name/ig, this.capitalize(creatureName));
+        str = str.replaceAll(':creature_name', this.capitalize(creatureName));
+      } else {
+        str = str.replaceAll(':creature_name', creatureName);
+      } //Attacks
+
+
+      str = str.replace(':attack_range', this.$parent.$parent.f5.areaofeffect[this.value.targetType].name);
+      str = str.replace(':attack_type', this.$parent.$parent.f5.attacktypes[this.value.attackType].name);
+      str = str.replace(':attack_bonus', this.$parent.addPlus(this.$parent.getAbilityMod(this.value.attackAbility) + this.$parent.proficiency));
+
+      if (this.value.targetType == 'melee') {
+        str = str.replace(':range', this.$parent.$parent.f5.misc.reach);
+      } else if (this.value.targetType == 'melee_or_ranged') {
+        str = str.replace(':range', this.$parent.$parent.f5.misc.reach_or_range);
+      } else if (this.value.targetType == 'ranged') {
+        str = str.replace(':range', this.$parent.$parent.f5.misc.range);
+      } else {
+        str = str.replace(':range', '');
+      }
+
+      str = str.replace(':reach_distance', this.value.attackReach + ' ' + this.$parent.value.measure.measureUnit);
+      str = str.replace(':range_distance_low', this.value.attackRange.low);
+      str = str.replace(':range_distance_high', this.value.attackRange.high + ' ' + this.$parent.value.measure.measureUnit);
+      str = str.replace(':targets', this.$parent.pluralize(this.$parent.$parent.f5.misc.num_of_targets, this.value.attackTargets).replace(':target_count', this.value.attackTargets)); //Saving Throw
+
+      str = str.replace(':saving_throw_dc', this.$parent.makeSavingThrowDC(this.value.savingThrowMonsterAbility));
+      var abilityList = [];
+
+      for (var i in this.value.savingThrowSaveAbilities) {
+        abilityList.push(this.$parent.$parent.f5.abilities[this.value.savingThrowSaveAbilities[i]].name);
+      }
+
+      str = str.replace(':saving_throw_ability', this.$parent.createSentenceList(abilityList, false)); //Spells
+
+      str = str.replace(':caster_level_article', this.$parent.determineIndefiniteArticle(this.$parent.casterLevel, true));
+      str = str.replace(':caster_level', this.$parent.ordinalNumber(this.$parent.casterLevel));
+      str = str.replace(':spellcasting_ability', this.$parent.$parent.f5.abilities[this.value.spellcastingAbility].name);
+      str = str.replace(':spell_save_dc', this.$parent.makeSavingThrowDC(this.value.spellcastingAbility));
+      str = str.replace(':spell_hit', this.$parent.addPlus(this.$parent.proficiency + this.$parent.getAbilityMod(this.value.spellcastingAbility)));
+      return str;
     }
   }
 };
@@ -42058,7 +43083,8 @@ var StatBlock = {
         armorCr = this.$parent.toNumber(this.$parent.toNumber(splitArmor[0]) + this.$parent.toNumber(splitArmor[1])) / 2;
       }
 
-      var average = (Number(armorCr) + this.$parent.toNumber(this.healthCr) + this.$parent.toNumber(this.damageCr)) / 3;
+      var defensiveCr = (Number(armorCr) + this.$parent.toNumber(this.healthCr)) / 2;
+      var average = (defensiveCr + this.$parent.toNumber(this.damageCr)) / 2;
       return average;
     },
     //Description Text
@@ -42532,7 +43558,7 @@ var StatBlock = {
     },
     //
     proficiencyText: function proficiencyText() {
-      return "+" + this.proficiency;
+      return this.addPlus(this.proficiency);
     },
     //Challenge Rating
     crText: function crText() {
@@ -42621,7 +43647,7 @@ var StatBlock = {
         return this.value.manualOverride.proficiency;
       }
 
-      var cr = this.$parent.f5.challengerating[this.averageCR];
+      var cr = this.$parent.f5.challengerating[this.toCRFormat(this.averageCR)];
 
       if (cr && cr.prof > 0) {
         proficiency = cr.prof;
@@ -42841,6 +43867,7 @@ var StatBlock = {
         spellSlots: {},
         customDamage: [],
         customDescription: '',
+        additionalDescription: '',
         multiattackReferences: [[], []],
         legendaryActionCost: 1,
         manualDPR: -1,
@@ -43064,18 +44091,6 @@ var StatBlock = {
       }
 
       return num;
-    },
-    replaceCreatureName: function replaceCreatureName(str) {
-      var creatureName = this.value.name.toLowerCase();
-
-      if (this.value.isNameProperNoun) {
-        str = str.replace(/the :creature_name/ig, this.capitalize(creatureName));
-        str = str.replaceAll(':creature_name', this.capitalize(creatureName));
-      } else {
-        str = str.replaceAll(':creature_name', creatureName);
-      }
-
-      return str;
     },
     determineIndefiniteArticle: function determineIndefiniteArticle(str) {
       var ordinalNum = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;

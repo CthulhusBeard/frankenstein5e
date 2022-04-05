@@ -13,35 +13,41 @@
     <body ng-app="f5App" ng-controller="f5Ctrl">
         <div id="f5" class="main-content full-height">
 
-            <div class="builder-controls">
-                <div class="slide-button" v-bind:class="{ selected : editor.edit_mode }" @click="editor.edit_mode = !editor.edit_mode">
-                    <label>@{{f5.misc.title_edit_mode}}</label>
-                </div>
-                <div class="builder-controls_player-characters">
-                    <strong>@{{f5.misc.title_player_characters}}</strong>
-                    <div>
-                        <label class="control-label" for="controls__player-count">@{{f5.misc.title_player_characters_count}}: </label>
-                        <select v-model="editor.player_characters.number">
-                                <option v-for="i in 12" :value="i">@{{i}}</option>
-                        </select>
+            <div class="controls-holder">
+                <div class="builder-controls">
+                    <div class="slide-button" v-bind:class="{ selected : editor.edit_mode }" @click="editor.edit_mode = !editor.edit_mode">
+                        <label>@{{f5.misc.title_edit_mode}}</label>
                     </div>
-                    <div>
-                        <label class="control-label" for="controls__player-levels">@{{f5.misc.title_player_characters_level}}: </label>
-                        <select v-model="editor.player_characters.level">
-                                <option v-for="(obj, i) in f5.playerlevels" :value="i">@{{i}}</option>
-                        </select>
+                    <div class="builder-controls_player-characters">
+                        <strong>@{{f5.misc.title_player_characters}}</strong>
+                        <div>
+                            <label class="control-label" for="controls__player-count">@{{f5.misc.title_player_characters_count}}: </label>
+                            <select v-model="editor.player_characters.number">
+                                    <option v-for="i in 12" :value="i">@{{i}}</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="control-label" for="controls__player-levels">@{{f5.misc.title_player_characters_level}}: </label>
+                            <select v-model="editor.player_characters.level">
+                                    <option v-for="(obj, i) in f5.playerlevels" :value="i">@{{i}}</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="builder-controls">
-                <div>
-                    <select v-model="editor.import_monster">
-                        <option v-for="(monster, i) in SampleMonsters.monsters" :value="i">@{{monster.name}}</option>
-                    </select>
-                </div>
-                <div>
-                    <button @click="importMonster(SampleMonsters.monsters[editor.import_monster])">@{{f5.misc.title_import}}</button>
+                <div class="builder-controls">
+                    <div>
+                        <select v-model="editor.import_monster">
+                            <option v-for="(monster, i) in SampleMonsters.monsters" :value="i">@{{monster.name}}</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button @click="importMonster(SampleMonsters.monsters[editor.import_monster])">@{{f5.misc.title_import}}</button>
+                    </div>
+                    <div>
+                        <br/>
+                        <button @click="clearAllData()">@{{f5.misc.title_clear_all}}</button>
+                    </div>
                 </div>
             </div>
 

@@ -58,6 +58,8 @@ return [
 
     'desc_legendary_resistances' => 'f5/features.desc_legendary_resistances',
 
+    'title_additional_description' => 'f5/features.title_additional_description',
+
 
     'please_select_one' => 'f5/misc.please_select_one',
     'choose_a' => 'f5/misc.choose_a',
@@ -261,11 +263,11 @@ return [
     'title_export' => 'f5/builder.title_export',
     'title_import' => 'f5/builder.title_import',
     'title_use_automatic' => 'f5/builder.title_use_automatic',
+    'title_clear_all' => 'f5/builder.title_clear_all',
 
     'title_recharge' => 'f5/recharge.title_recharge',
     'title_recharge_min_roll' => 'f5/recharge.title_recharge_min_roll',
     'title_recharge_limited_use' => 'f5/recharge.title_recharge_limited_use',
     
     'title_save' => 'f5/misc.title_save',
-
 ];

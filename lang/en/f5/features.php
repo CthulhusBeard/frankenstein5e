@@ -32,6 +32,9 @@ return [
     'name_legendary_resistance' => 'Legendary Resistance (:count/Day).',
     'desc_legendary_resistance' => 'If the :creature_name fails a saving throw, it can choose to succeed instead.',
 
+
+    'title_additional_description' => 'Additional Feature Text',
+
     //Multiattack
     'name_multiattack' => 'Multiattack', 
     'desc_multiattack' => 'The :creature_name :multiattack_descriptions.',
@@ -44,7 +47,7 @@ return [
     //Spellcasting
     'desc_spellcasting' => 'The :creature_name is :caster_level_article :caster_level level spellcaster. Its spellcasting ability is :spellcasting_ability (spell save DC :spell_save_dc, :spell_hit to hit with spell attacks). It:at_will_spells can cast the following spells:',
     'desc_prepared_spellcasting' => 'The :creature_name is :caster_level_article :caster_level level spellcaster. Its spellcasting ability is :spellcasting_ability (spell save DC :spell_save_dc, :spell_hit to hit with spell attacks). It:at_will_spells has the following spells prepared:',
-    'desc_innate_spellcasting' => 'The :creature_name\'s innate spellcasting ability is :spellcasting_ability (spell save DC :spell_save_dc, :spell_hit to hit with spell attacks). It:at_will_spells can innately cast the following spells, requiring no components:',
+    'desc_innate_spellcasting' => 'The :creature_name\'s innate spellcasting ability is :spellcasting_ability (spell save DC :spell_save_dc, :spell_hit to hit with spell attacks). It can innately cast the following spells, requiring no components:',
     'desc_at_will_spells' => ' can cast :at_will_spell_list at will and',
     'title_innate_spellcasting' => 'Innate Spellcasting',
 

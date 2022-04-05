@@ -176,6 +176,11 @@ export function initVue(f5data) {
                     }
                 }
             },
+
+            clearAllData: function() {
+                this.statblocks = [];
+                this.createStatBlock();
+            },
         },
     });
 

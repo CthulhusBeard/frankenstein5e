@@ -1,3 +1,8 @@
+.controls-holder {
+    display: flex;
+    flex-direction: row;
+}
+
 .builder-controls {
     padding: 10px;
     border: 1px black solid;

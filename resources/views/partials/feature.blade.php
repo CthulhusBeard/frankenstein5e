@@ -17,7 +17,10 @@
                 </select>
             </div>
             <div class="feature__description" v-if="value.template !== 'custom'" v-html="descriptionEditText"></div>
-            <br/>
+            <div v-if="value.template !== 'custom'">
+                <label class="title-label">@{{$parent.$parent.f5.misc.title_additional_description}}:</label>
+                <textarea rows="3" class="feature__description-textarea" v-model="value.additionalDescription"></textarea>
+            </div>
 
             <!--<label v-if="value.template !== 'custom'">@{{$parent.$parent.f5.misc.title_feature_options}}:</label>-->
 
@@ -74,7 +77,7 @@
                         <select :id="'feature__multiattack__ability__'+value.id" name="feature__multiattack__ability" v-model="feature.index">
                             <option value="null" disabled selected>@{{$parent.$parent.f5.misc.title_multiattack_select_ability}}</option>
                             <option v-for="(featureRef, k) in $parent.value.features['action']" v-if="featureRef.template !== 'multiattack'" :value="k">@{{featureRef.name}}</option>
-                            <option v-if="$parent.value.features['spellcasting']" value="spellcasting">@{{$parent.value.features['spellcasting'][0].name}}</option>
+                            <option v-if="$parent.value.features['spellcasting'].length" value="spellcasting">@{{$parent.value.features['spellcasting'][0].name}}</option>
                         </select>
                         <label :for="'feature__multiattack__num-of-attacks__'+value.id" class="title-label">@{{$parent.$parent.f5.misc.title_multiattack_number_of_uses}}:</label>
                         <select :id="'feature__multiattack__num-of-attacks__'+value.id" name="feature__multiattack__num-of-attacks" v-model="feature.uses">

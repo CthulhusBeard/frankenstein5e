@@ -52,8 +52,8 @@
                             </select>
                             @{{$parent.f5.misc.title_alignments_typically}}<input type="checkbox" v-model="value.showTypicalAlignment">
                         </div>
+                        <div class="stat-block__line-break"></div>
                     </div>
-                    <div class="stat-block__line-break"></div>
 
                     <div class="stat-block__attributes">
                         <div class="stat-block__attribute focus-edit">
@@ -115,28 +115,30 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="stat-block__line-break"></div>
                     </div>
-                    <div class="stat-block__line-break"></div>
 
                     <div class="stat-block__ability-scores">
-                        <div class="stat-block__ability focus-edit" v-for="(item, index) in $parent.f5.abilities" >
-                            <div class="stat-block__ability-name">
-                                @{{index.toUpperCase()}}
-                            </div>
-                            <div class="stat-block__ability-score display-field">
-                                @{{value.abilities[index]}} (@{{addPlus(calcAbilityMod(value.abilities[index]))}})
-                            </div>
-                            <div :class="'edit-field options__ability option-box '+index">
-                                Score: 
-                                <select :name="'options__ability_'+index" v-model="value.abilities[index]">
-                                    <option v-for="i in 31" :value="i-1" >@{{i-1}}</option>
-                                </select>
-                                <br/>
-                                Save: <input :name="'options__saving-throws_'+index" v-model="value.savingThrows[index]" type="checkbox" />
+                        <div class="stat-block__ability-scores__holder">
+                            <div class="stat-block__ability focus-edit" v-for="(item, index) in $parent.f5.abilities" >
+                                <div class="stat-block__ability-name">
+                                    @{{index.toUpperCase()}}
+                                </div>
+                                <div class="stat-block__ability-score display-field">
+                                    @{{value.abilities[index]}} (@{{addPlus(calcAbilityMod(value.abilities[index]))}})
+                                </div>
+                                <div :class="'edit-field options__ability option-box '+index">
+                                    Score: 
+                                    <select :name="'options__ability_'+index" v-model="value.abilities[index]">
+                                        <option v-for="i in 31" :value="i-1" >@{{i-1}}</option>
+                                    </select>
+                                    <br/>
+                                    Save: <input :name="'options__saving-throws_'+index" v-model="value.savingThrows[index]" type="checkbox" />
+                                </div>
                             </div>
                         </div>
+                        <div class="stat-block__line-break"></div>
                     </div>
-                    <div class="stat-block__line-break"></div>
 
                     <div class="stat-block__attributes hidden-holder">
                         <div v-if="savingThrowText" class="stat-block__attribute">
@@ -346,19 +348,7 @@
                             </select>
                         </div>
                     </div>
-                </div>
-
-                <div class="stat-block__line-break"></div>
-
-                <div class="stat-block__spellcasting">
-                    <div v-if="!value.features.spellcasting.length" class="stat-block__add-feature-button" @click="createFeature('spellcasting')">
-                        @{{$parent.f5.misc.title_add_spellcasting}}
-                    </div>
-                    <statblock-feature 
-                        v-for="spellcasting in value.features.spellcasting"
-                        v-model="spellcasting"
-                        v-on:remove-feature="removeFeature"
-                    ></statblock-feature>
+                    <div class="stat-block__line-break"></div>
                 </div>
 
                 <div class="stat-block__passives">
@@ -368,6 +358,17 @@
                     <statblock-feature 
                         v-for="passive in value.features.passive"
                         v-model="passive"
+                        v-on:remove-feature="removeFeature"
+                    ></statblock-feature>
+                </div>
+
+                <div class="stat-block__spellcasting">
+                    <div v-if="!value.features.spellcasting.length" class="stat-block__add-feature-button" @click="createFeature('spellcasting')">
+                        @{{$parent.f5.misc.title_add_spellcasting}}
+                    </div>
+                    <statblock-feature 
+                        v-for="spellcasting in value.features.spellcasting"
+                        v-model="spellcasting"
                         v-on:remove-feature="removeFeature"
                     ></statblock-feature>
                 </div>

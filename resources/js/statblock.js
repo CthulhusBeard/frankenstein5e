@@ -203,7 +203,9 @@ var StatBlock = {
                 let splitArmor = armorCr.split('-');
                 armorCr = this.$parent.toNumber(this.$parent.toNumber(splitArmor[0]) + this.$parent.toNumber(splitArmor[1])) / 2;
             }
-            let average = (Number(armorCr) + this.$parent.toNumber(this.healthCr) + this.$parent.toNumber(this.damageCr)) / 3;
+            let defensiveCr = (Number(armorCr) + this.$parent.toNumber(this.healthCr)) / 2;
+
+            let average = (defensiveCr + this.$parent.toNumber(this.damageCr)) / 2;
 
             return average;
         },
@@ -642,7 +644,7 @@ var StatBlock = {
 
         //
         proficiencyText: function() {
-            return "+"+this.proficiency;
+            return this.addPlus(this.proficiency);
         },
 
         //Challenge Rating
@@ -727,7 +729,7 @@ var StatBlock = {
                 return this.value.manualOverride.proficiency;
             }
 
-            let cr = this.$parent.f5.challengerating[this.averageCR];
+            let cr = this.$parent.f5.challengerating[this.toCRFormat(this.averageCR)];
             if(cr && cr.prof > 0) {
                 proficiency = cr.prof;
             }
@@ -914,6 +916,7 @@ var StatBlock = {
                 spellSlots: {},
                 customDamage: [],
                 customDescription: '',
+                additionalDescription: '',
                 multiattackReferences: [
                     [],
                     []
@@ -1127,17 +1130,6 @@ var StatBlock = {
             }
 
             return num;
-        },
-
-        replaceCreatureName: function(str) {
-            let creatureName = this.value.name.toLowerCase();
-            if(this.value.isNameProperNoun) {
-                str = str.replace(/the :creature_name/ig, this.capitalize(creatureName));
-                str = str.replaceAll(':creature_name', this.capitalize(creatureName));
-            } else {
-                str = str.replaceAll(':creature_name', creatureName);
-            }
-            return str;
         },
 
         determineIndefiniteArticle: function(str, ordinalNum = false) {

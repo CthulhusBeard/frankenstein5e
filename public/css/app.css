@@ -121,6 +121,11 @@ body {
   font-style: italic;
 }
 
+.controls-holder {
+  display: flex;
+  flex-direction: row;
+}
+
 .builder-controls {
   padding: 10px;
   border: 1px black solid;
@@ -364,7 +369,7 @@ i {
 .stat-block textarea {
   font-family: Roboto, Helvetica, sans-serif;
   font-size: 15px;
-  font-weight: normal;
+  font-weight: 500;
 }
 
 .stat-block.column-1 {
@@ -458,10 +463,14 @@ i {
 }
 
 .stat-block .stat-block__ability-scores {
+  width: 100%;
+  text-align: left;
+}
+
+.stat-block .stat-block__ability-scores .stat-block__ability-scores__holder {
   display: flex;
   flex-direction: row;
   width: 100%;
-  text-align: left;
 }
 
 .stat-block .stat-block__ability-scores .stat-block__ability {
@@ -471,6 +480,11 @@ i {
 
 .stat-block .stat-block__ability-scores .stat-block__ability .stat-block__ability-name {
   font-weight: bold;
+}
+
+.stat-block .stat-block__attributes {
+  -moz-column-break-inside: avoid;
+       break-inside: avoid;
 }
 
 .stat-block .stat-block__attributes .stat-block__attribute.edit-show {
