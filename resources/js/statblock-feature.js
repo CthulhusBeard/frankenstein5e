@@ -10,6 +10,12 @@ var StatBlockFeature = {
         'Multiselect': Multiselect,
     },
 
+    mounted() {
+        if(this.value.actionType === 'multiattack') {
+            this.$parent.$on('feature-drp-change', this.compareIdToMultiattackFeatures);
+        }
+    },
+
     watch: {
         value: {
             handler(val) {
@@ -33,6 +39,8 @@ var StatBlockFeature = {
                 //Set DPR value so it's accessible from outside
                 if(this.value.averageDPR != this.calcAverageDPR) {
                     this.value.averageDPR = this.calcAverageDPR;
+                    console.log('DPR Change: '+this.value.name+' -> '+this.value.averageDPR);
+                    this.$parent.$emit('feature-drp-change', {id: this.value.id, actionType: this.value.actionType});
                 }
                 if(this.value.damageProjection != this.damageProjection) {
                     this.value.damageProjection = this.damageProjection;
@@ -743,6 +751,31 @@ var StatBlockFeature = {
             str = str.replace(':spell_hit', this.$parent.addPlus(this.$parent.proficiency + this.$parent.getAbilityMod(this.value.spellcastingAbility)));
 
             return str;
+        },
+
+        compareIdToMultiattackFeatures: function(obj) {
+            console.log('compareIdToMultiattackFeatures: ');
+            console.log(obj);
+            if(!(obj.actionType === 'spellcasting' || obj.actionType === 'action')) {
+                return;
+            }
+            
+            for(let maGroup of this.value.multiattackReferences) {
+                for(let featureRef of maGroup) {
+                    if(featureRef.index !== null) {
+                        if(
+                            featureRef.index === 'spellcasting' && 
+                            this.$parent.value.features['spellcasting'][0].id === obj.id
+                        ) {
+                            console.log('Multiattack: DPR Changed of child: '+obj.id);
+                            this.$forceUpdate();
+                        } else if(this.$parent.value.features['action'][featureRef.index].id === obj.id) {
+                            console.log('Multiattack: DPR Changed of child: '+obj.id);
+                            this.$forceUpdate();
+                        }
+                    }
+                }
+            }
         }
     },       
 };

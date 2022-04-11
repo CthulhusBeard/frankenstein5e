@@ -39295,6 +39295,7 @@ function initVue(f5data) {
           features: {
             passive: [],
             spellcasting: [],
+            multiattack: [],
             action: [],
             bonus_action: [],
             reaction: [],
@@ -39670,9 +39671,10 @@ var monsters = [{
         "damage": 29,
         "actionCost": 1
       }]
-    }, {
+    }],
+    "multiattack": [{
       "id": "iA1zFqhhnyd3m3L",
-      "actionType": "action",
+      "actionType": "multiattack",
       "name": "Multiattack",
       "template": "multiattack",
       "attackAbility": "str",
@@ -40090,9 +40092,9 @@ var monsters = [{
         "actionCost": 1
       }]
     }],
-    "action": [{
+    "multiattack": [{
       "id": "vMY2qzoft7XlbXy",
-      "actionType": "action",
+      "actionType": "multiattack",
       "name": "Multiattack",
       "template": "multiattack",
       "attackAbility": "str",
@@ -40176,7 +40178,8 @@ var monsters = [{
       "manualDPR": -1,
       "averageDPR": 28,
       "damageProjection": []
-    }, {
+    }],
+    "action": [{
       "id": "xn6a7ZKckpTAAl2",
       "actionType": "action",
       "name": "Pincer",
@@ -40974,9 +40977,10 @@ var monsters = [{
         "damage": 2,
         "actionCost": 1
       }]
-    }, {
+    }],
+    "multiattack": [{
       "id": "3iBiI8VrYTy5XKO",
-      "actionType": "action",
+      "actionType": "multiattack",
       "name": "Multiattack",
       "template": "multiattack",
       "attackAbility": "str",
@@ -41995,6 +41999,11 @@ var StatBlockFeature = {
   components: {
     'Multiselect': _vueform_multiselect_dist_multiselect_vue2_js__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
+  mounted: function mounted() {
+    if (this.value.actionType === 'multiattack') {
+      this.$parent.$on('feature-drp-change', this.compareIdToMultiattackFeatures);
+    }
+  },
   watch: {
     value: {
       handler: function handler(val) {
@@ -42018,6 +42027,11 @@ var StatBlockFeature = {
 
         if (this.value.averageDPR != this.calcAverageDPR) {
           this.value.averageDPR = this.calcAverageDPR;
+          console.log('DPR Change: ' + this.value.name + ' -> ' + this.value.averageDPR);
+          this.$parent.$emit('feature-drp-change', {
+            id: this.value.id,
+            actionType: this.value.actionType
+          });
         }
 
         if (this.value.damageProjection != this.damageProjection) {
@@ -42812,6 +42826,50 @@ var StatBlockFeature = {
       str = str.replace(':spell_save_dc', this.$parent.makeSavingThrowDC(this.value.spellcastingAbility));
       str = str.replace(':spell_hit', this.$parent.addPlus(this.$parent.proficiency + this.$parent.getAbilityMod(this.value.spellcastingAbility)));
       return str;
+    },
+    compareIdToMultiattackFeatures: function compareIdToMultiattackFeatures(obj) {
+      console.log('compareIdToMultiattackFeatures: ');
+      console.log(obj);
+
+      if (!(obj.actionType === 'spellcasting' || obj.actionType === 'action')) {
+        return;
+      }
+
+      var _iterator10 = _createForOfIteratorHelper(this.value.multiattackReferences),
+          _step10;
+
+      try {
+        for (_iterator10.s(); !(_step10 = _iterator10.n()).done;) {
+          var maGroup = _step10.value;
+
+          var _iterator11 = _createForOfIteratorHelper(maGroup),
+              _step11;
+
+          try {
+            for (_iterator11.s(); !(_step11 = _iterator11.n()).done;) {
+              var featureRef = _step11.value;
+
+              if (featureRef.index !== null) {
+                if (featureRef.index === 'spellcasting' && this.$parent.value.features['spellcasting'][0].id === obj.id) {
+                  console.log('Multiattack: DPR Changed of child: ' + obj.id);
+                  this.$forceUpdate();
+                } else if (this.$parent.value.features['action'][featureRef.index].id === obj.id) {
+                  console.log('Multiattack: DPR Changed of child: ' + obj.id);
+                  this.$forceUpdate();
+                }
+              }
+            }
+          } catch (err) {
+            _iterator11.e(err);
+          } finally {
+            _iterator11.f();
+          }
+        }
+      } catch (err) {
+        _iterator10.e(err);
+      } finally {
+        _iterator10.f();
+      }
     }
   }
 };
@@ -42860,6 +42918,9 @@ var StatBlock = {
     'Multiselect': _vueform_multiselect_dist_multiselect_vue2_js__WEBPACK_IMPORTED_MODULE_0__["default"],
     'statblock-feature': _statblock_feature_js__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
+  created: function created() {
+    this.$on('feature-drp-change', this.featureDPRChanged);
+  },
   computed: {
     //Editor
     statblockColumns: function statblockColumns() {
@@ -42869,7 +42930,7 @@ var StatBlock = {
       var dprGroups = {
         passive: 0,
         action: 0,
-        //include spellcasting
+        //include spellcasting and multiattack
         reaction: 0,
         bonus_action: 0,
         legendary_action: 0,
@@ -42888,7 +42949,7 @@ var StatBlock = {
 
             if (dprType === 'mythic_action') {
               dprType = 'legendary_action';
-            } else if (dprType === 'spellcasting') {
+            } else if (dprType === 'spellcasting' || dprType === 'multiattack') {
               dprType = 'action';
             }
 
@@ -43882,6 +43943,9 @@ var StatBlock = {
       if (type === 'spellcasting') {
         newFeature.template = 'spellcasting';
         newFeature.name = this.$parent.f5.misc.title_spellcasting;
+      } else if (type === 'multiattack') {
+        newFeature.template = 'multiattack';
+        newFeature.name = this.$parent.f5.misc.title_multiattack;
       }
 
       this.value.features[type].push(newFeature);
@@ -44179,6 +44243,40 @@ var StatBlock = {
 
       console.log('exportMonster data');
       console.log(cloneOptions);
+    },
+    getFeatureById: function getFeatureById(id) {
+      var types = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+      var featureTypes = this.value.features.keys();
+
+      if (typeof types === 'array') {
+        featureTypes = types;
+      }
+
+      for (var featureType in featureTypes) {
+        if (this.value.features.hasOwnProperty(featureType)) {
+          var _iterator7 = _createForOfIteratorHelper(this.value.features[featureType]),
+              _step7;
+
+          try {
+            for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
+              var feature = _step7.value;
+
+              if (feature.id === id) {
+                return feature;
+              }
+            }
+          } catch (err) {
+            _iterator7.e(err);
+          } finally {
+            _iterator7.f();
+          }
+        }
+      }
+    },
+    featureDPRChanged: function featureDPRChanged(obj) {
+      console.log('featureDPRChanged');
+      console.log(obj);
+      this.$forceUpdate();
     }
   }
 };
@@ -44203,8 +44301,8 @@ var StatBlock = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\PersonalProjects\Frankenstein5E\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\PersonalProjects\Frankenstein5E\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\GitHub\frankenstein5e\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\GitHub\frankenstein5e\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -355,9 +355,11 @@ let monsters = [
                         }
                     ]
                 },
+            ],
+            "multiattack": [
                 {
                     "id": "iA1zFqhhnyd3m3L",
-                    "actionType": "action",
+                    "actionType": "multiattack",
                     "name": "Multiattack",
                     "template": "multiattack",
                     "attackAbility": "str",
@@ -846,10 +848,10 @@ let monsters = [
                     ]
                 }
             ],
-            "action": [
+            "multiattack": [
                 {
                     "id": "vMY2qzoft7XlbXy",
-                    "actionType": "action",
+                    "actionType": "multiattack",
                     "name": "Multiattack",
                     "template": "multiattack",
                     "attackAbility": "str",
@@ -951,6 +953,8 @@ let monsters = [
                     "averageDPR": 28,
                     "damageProjection": []
                 },
+            ],
+            "action": [
                 {
                     "id": "xn6a7ZKckpTAAl2",
                     "actionType": "action",
@@ -1882,9 +1886,11 @@ let monsters = [
                         }
                     ]
                 },
+            ],
+            "multiattack": [
                 {
                     "id": "3iBiI8VrYTy5XKO",
-                    "actionType": "action",
+                    "actionType": "multiattack",
                     "name": "Multiattack",
                     "template": "multiattack",
                     "attackAbility": "str",

@@ -4,6 +4,7 @@ return [
     'title_passive' => 'Passive',
     'title_spellcasting' => 'Spellcasting',
     'title_action' => 'Actions',
+    'title_multiattack' => 'Multiattack',
     'title_bonus_action' => 'Bonus Actions',
     'title_reaction' => 'Reactions',
     'title_free_action' => 'Free Actions',
@@ -13,6 +14,7 @@ return [
 
     'title_add_passive' => '+ Add a Passive Feature',
     'title_add_spellcasting' => '+ Add Spellcasting',
+    'title_add_multiattack' => '+ Add Multiattack',
     'title_add_action' => '+ Add an Action',
     'title_add_bonus_action' => '+ Add a Bonus Action',
     'title_add_free_action' => '+ Add a Free Action',

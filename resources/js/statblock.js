@@ -12,6 +12,10 @@ var StatBlock = {
         'statblock-feature': StatBlockFeature,
     },
 
+    created() {
+        this.$on('feature-drp-change', this.featureDPRChanged);
+    },
+
     computed: {
         //Editor
         statblockColumns: function() {
@@ -21,7 +25,7 @@ var StatBlock = {
         averageDPR: function() {
             let dprGroups = {
                 passive: 0,
-                action: 0, //include spellcasting
+                action: 0, //include spellcasting and multiattack
                 reaction: 0,
                 bonus_action: 0,
                 legendary_action: 0, //include mythic_action
@@ -33,7 +37,7 @@ var StatBlock = {
                     let dprType = featureType;
                     if(dprType === 'mythic_action') {
                         dprType = 'legendary_action';
-                    } else if(dprType === 'spellcasting') {
+                    } else if(dprType === 'spellcasting' || dprType === 'multiattack') {
                         dprType = 'action';
                     }
 
@@ -934,6 +938,9 @@ var StatBlock = {
             if(type === 'spellcasting') {
                 newFeature.template = 'spellcasting';
                 newFeature.name = this.$parent.f5.misc.title_spellcasting;
+            }else if(type === 'multiattack') {
+                newFeature.template = 'multiattack';
+                newFeature.name = this.$parent.f5.misc.title_multiattack;
             }
 
             this.value.features[type].push(newFeature);
@@ -1206,5 +1213,27 @@ var StatBlock = {
             console.log('exportMonster data');
             console.log(cloneOptions);
         },
+
+        getFeatureById: function(id, types = null) {
+            let featureTypes = this.value.features.keys();
+            if(typeof types === 'array') {
+                featureTypes = types;
+            }
+            for(let featureType in featureTypes) {
+                if(this.value.features.hasOwnProperty(featureType)) {
+                    for(let feature of this.value.features[featureType]) {
+                        if(feature.id === id) {
+                            return feature;
+                        }
+                    }
+                }
+            }
+        },
+
+        featureDPRChanged: function(obj) {
+            console.log('featureDPRChanged');
+            console.log(obj);
+            this.$forceUpdate();
+        }
     }
 }

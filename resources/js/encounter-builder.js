@@ -128,6 +128,7 @@ export function initVue(f5data) {
                     features: {
                         passive: [],
                         spellcasting: [],
+                        multiattack: [],
                         action: [],
                         bonus_action: [],
                         reaction: [],

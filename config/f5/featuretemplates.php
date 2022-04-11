@@ -33,7 +33,7 @@ return [
     'multiattack' => [
         'name' => 'f5/featuretemplates.multiattack',
         'action_options' => [
-            'action',
+            'multiattack',
         ],
     ],
     'custom' => [

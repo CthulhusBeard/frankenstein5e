@@ -119,6 +119,7 @@ return [
     
     'title_passive' => 'f5/featureactiontypes.title_passive',
     'title_spellcasting' => 'f5/featureactiontypes.title_spellcasting',
+    'title_multiattack' => 'f5/featureactiontypes.title_multiattack',
     'title_action' => 'f5/featureactiontypes.title_action',
     'title_bonus_action' => 'f5/featureactiontypes.title_bonus_action',
     'title_reaction' => 'f5/featureactiontypes.title_reaction',
@@ -129,6 +130,7 @@ return [
     
     'title_add_passive' => 'f5/featureactiontypes.title_add_passive',
     'title_add_spellcasting' => 'f5/featureactiontypes.title_add_spellcasting',
+    'title_add_multiattack' => 'f5/featureactiontypes.title_add_multiattack',
     'title_add_action' => 'f5/featureactiontypes.title_add_action',
     'title_add_bonus_action' => 'f5/featureactiontypes.title_add_bonus_action',
     'title_add_free_action' => 'f5/featureactiontypes.title_add_free_action',

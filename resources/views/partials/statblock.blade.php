@@ -373,6 +373,17 @@
                     ></statblock-feature>
                 </div>
 
+                <div class="stat-block__multiattack">
+                    <div v-if="!value.features.multiattack.length" class="stat-block__add-feature-button" @click="createFeature('multiattack')">
+                        @{{$parent.f5.misc.title_add_multiattack}}
+                    </div>
+                    <statblock-feature 
+                        v-for="multiattack in value.features.multiattack"
+                        v-model="multiattack"
+                        v-on:remove-feature="removeFeature"
+                    ></statblock-feature>
+                </div>
+
                 <div class="stat-block__section stat-block__actions">
                     <div v-if="value.features.action.length" class="stat-block__subtitle">
                         <div class="header">@{{$parent.f5.misc.title_action}}</div>

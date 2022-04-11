@@ -10,7 +10,7 @@
             <label v-if="value.template === 'spellcasting'" class="title-label">@{{$parent.$parent.f5.misc.title_spellcasting_feature_name}}:</label>
             <label v-else class="title-label">@{{$parent.$parent.f5.misc.title_feature_name}}:</label>
             <input type="text" class="feature__title" v-model="value.name" />
-            <div v-if="value.template !== 'spellcasting'">
+            <div v-if="value.template !== 'spellcasting' && value.template !== 'multiattack'">
                 <label class="title-label">@{{$parent.$parent.f5.misc.title_feature_template}}:</label>
                 <select v-model="value.template">
                     <option v-for="(template, i) in getValidTemplateTypes" v-if="i != 'spellcasting'" :value="i">@{{template.name}}</option>
@@ -76,7 +76,7 @@
                         <label :for="'feature__multiattack__ability__'+value.id" class="title-label">@{{$parent.$parent.f5.misc.title_multiattack_ability_name}}:</label>
                         <select :id="'feature__multiattack__ability__'+value.id" name="feature__multiattack__ability" v-model="feature.index">
                             <option value="null" disabled selected>@{{$parent.$parent.f5.misc.title_multiattack_select_ability}}</option>
-                            <option v-for="(featureRef, k) in $parent.value.features['action']" v-if="featureRef.template !== 'multiattack'" :value="k">@{{featureRef.name}}</option>
+                            <option v-for="(featureRef, k) in $parent.value.features['action']" :value="k">@{{featureRef.name}}</option>
                             <option v-if="$parent.value.features['spellcasting'].length" value="spellcasting">@{{$parent.value.features['spellcasting'][0].name}}</option>
                         </select>
                         <label :for="'feature__multiattack__num-of-attacks__'+value.id" class="title-label">@{{$parent.$parent.f5.misc.title_multiattack_number_of_uses}}:</label>
