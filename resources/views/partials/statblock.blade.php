@@ -358,7 +358,7 @@
                     <statblock-feature 
                         v-for="passive in value.features.passive"
                         v-model="passive"
-                        v-on:remove-feature="removeFeature"
+                        @remove-feature="removeFeature"
                     ></statblock-feature>
                 </div>
 
@@ -369,7 +369,7 @@
                     <statblock-feature 
                         v-for="spellcasting in value.features.spellcasting"
                         v-model="spellcasting"
-                        v-on:remove-feature="removeFeature"
+                        @remove-feature="removeFeature"
                     ></statblock-feature>
                 </div>
 
@@ -380,7 +380,7 @@
                     <statblock-feature 
                         v-for="multiattack in value.features.multiattack"
                         v-model="multiattack"
-                        v-on:remove-feature="removeFeature"
+                        @remove-feature="removeFeature"
                     ></statblock-feature>
                 </div>
 
@@ -394,7 +394,7 @@
                     <statblock-feature 
                         v-for="action in value.features.action"
                         v-model="action"
-                        v-on:remove-feature="removeFeature"
+                        @remove-feature="removeFeature"
                     ></statblock-feature>
                 </div>
 
@@ -408,7 +408,7 @@
                     <statblock-feature 
                         v-for="bonusAction in value.features.bonus_action"
                         v-model="bonusAction"
-                        v-on:remove-feature="removeFeature"
+                        @remove-feature="removeFeature"
                     ></statblock-feature>
                 </div>
 
@@ -422,7 +422,7 @@
                     <statblock-feature 
                         v-for="reaction in value.features.reaction"
                         v-model="reaction"
-                        v-on:remove-feature="removeFeature"
+                        @remove-feature="removeFeature"
                     ></statblock-feature>
                 </div>
 
@@ -437,7 +437,7 @@
                     <statblock-feature 
                         v-for="legendaryAction in value.features.legendary_action"
                         v-model="legendaryAction"
-                        v-on:remove-feature="removeFeature"
+                        @remove-feature="removeFeature"
                     ></statblock-feature>
                 </div>
 
@@ -452,7 +452,7 @@
                     <statblock-feature 
                         v-for="mythicAction in value.features.mythic_action"
                         v-model="mythicAction"
-                        v-on:remove-feature="removeFeature"
+                        @remove-feature="removeFeature"
                     ></statblock-feature>
                 </div>
                 
@@ -467,7 +467,7 @@
                     <statblock-feature 
                         v-for="lairAction in value.features.lair_action"
                         v-model="lairAction"
-                        v-on:remove-feature="removeFeature"
+                        @remove-feature="removeFeature"
                     ></statblock-feature>
                 </div>
             </div>

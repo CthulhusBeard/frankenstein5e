@@ -1,5 +1,4 @@
 import Multiselect from '@vueform/multiselect/dist/multiselect.vue2.js';
-import jquery from 'jquery';
 
 export {StatBlockFeature as default}
 
@@ -25,7 +24,8 @@ var StatBlockFeature = {
                     this.value.savingThrowSaveAbilities = ['str'];
                 }
 
-                //If AOE target area doesn't apply to this template, change it
+                //If AOE target area doesn't apply to this template, change it 
+                //TODO: make AOE target type?
                 if(!this.$parent.$parent.f5.areaofeffect[this.value.targetType].types.includes(this.value.template)) {
                     for(const key in this.$parent.$parent.f5.areaofeffect) {
                         let element = this.$parent.$parent.f5.areaofeffect[key];
@@ -36,22 +36,35 @@ var StatBlockFeature = {
                     }
                 }
 
-                //Set DPR value so it's accessible from outside
-                if(this.value.averageDPR != this.calcAverageDPR) {
-                    this.value.averageDPR = this.calcAverageDPR;
-                    console.log('DPR Change: '+this.value.name+' -> '+this.value.averageDPR);
-                    this.$parent.$emit('feature-drp-change', {id: this.value.id, actionType: this.value.actionType});
-                }
-                if(this.value.damageProjection != this.damageProjection) {
-                    this.value.damageProjection = this.damageProjection;
-                }
+                this.updateDamageProperties();
 
-                
             }, 
             deep: true
         }
     },
+
     computed: {
+        featureReferences: function() {
+            let featureReferences = [];
+            if(this.value.template === 'multiattack') {
+                for(let maGroup of this.value.multiattackReferences) {
+                    for(let featureRef of maGroup) {
+                        if(featureRef.index !== null) {
+                            let id = '';
+                            if(featureRef.index === 'spellcasting') {
+                                id = this.$parent.value.features['spellcasting'][0].id;
+                            } else {
+                                id = this.$parent.value.features['action'][featureRef.index].id;
+                            }
+                            if(id && !featureReferences.includes(id)) {
+                                featureReferences.push(id);
+                            }
+                        }
+                    }
+                }
+            }
+            return featureReferences;
+        },
 
         calcAverageDPR: function() {
             let avgDPR = 0;
@@ -108,11 +121,15 @@ var StatBlockFeature = {
                     let groupDPR = 0;
                     for(let featureRef of maGroup) {
                         if(featureRef.index !== null) {
+                            let abilityDPR = 0;
                             if(featureRef.index === 'spellcasting') {
-                                groupDPR += this.$parent.value.features['spellcasting'][0].averageDPR * featureRef.uses;
+                                abilityDPR = this.$parent.value.features['spellcasting'][0].averageDPR * featureRef.uses;
+                                console.log('calcAverageDPR MA DPR feature: '+this.$parent.value.features['spellcasting'][0].name+': '+abilityDPR);
                             } else {
-                                groupDPR += this.$parent.value.features['action'][featureRef.index].averageDPR * featureRef.uses;
+                                abilityDPR = this.$parent.value.features['action'][featureRef.index].averageDPR * featureRef.uses;
+                                console.log('calcAverageDPR MA DPR feature: '+this.$parent.value.features['action'][featureRef.index].name+': '+abilityDPR);
                             }
+                            groupDPR += (!isNaN(abilityDPR) && abilityDPR > 0) ? abilityDPR : 0;
                         }
                     }
                     if(groupDPR > multiDPR) {
@@ -120,9 +137,24 @@ var StatBlockFeature = {
                     }
                 }
                 avgDPR = multiDPR;
+                console.log('calcAverageDPR MA DPR: '+avgDPR);
+            } else if(this.value.template === 'custom') { 
+                // Custom Ability Average DPR
+                for(let i in this.value.customDamage) {
+                    avgDPR += this.$parent.averageDamage(this.value.customDamage[i], 0);
+                }
             }
 
-            return avgDPR * avgTargets;
+            let dpr = avgDPR * avgTargets;
+
+            //Set to value
+            if(this.value.averageDPR !== dpr) {
+                //set emit here?
+                console.log('calcAverageDPR set new DPR to "averageDPR" prop');
+                this.value.averageDPR = dpr;
+            }
+
+            return dpr;
         },
 
         displayName: function() {
@@ -776,6 +808,18 @@ var StatBlockFeature = {
                     }
                 }
             }
-        }
+        },
+
+        updateDamageProperties: function() {
+            //Set DPR value so it's accessible from outside
+            if(this.value.averageDPR != this.calcAverageDPR) {
+                this.value.averageDPR = this.calcAverageDPR;
+                console.log('DPR Change: '+this.value.name+' -> '+this.value.averageDPR);
+                this.$parent.$emit('feature-drp-change', {id: this.value.id, actionType: this.value.actionType});
+            }
+            if(this.value.damageProjection != this.damageProjection) {
+                this.value.damageProjection = this.damageProjection;
+            }
+        },
     },       
 };

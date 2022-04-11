@@ -10,6 +10,7 @@
             <label v-if="value.template === 'spellcasting'" class="title-label">@{{$parent.$parent.f5.misc.title_spellcasting_feature_name}}:</label>
             <label v-else class="title-label">@{{$parent.$parent.f5.misc.title_feature_name}}:</label>
             <input type="text" class="feature__title" v-model="value.name" />
+            <span>DPR: @{{calcAverageDPR}}</span>
             <div v-if="value.template !== 'spellcasting' && value.template !== 'multiattack'">
                 <label class="title-label">@{{$parent.$parent.f5.misc.title_feature_template}}:</label>
                 <select v-model="value.template">

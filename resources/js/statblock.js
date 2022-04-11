@@ -46,8 +46,13 @@ var StatBlock = {
                     }
                 }
             }
+
+            let dpr = Object.values(dprGroups).reduce((a, b) => a + b);
             
-            return Object.values(dprGroups).reduce((a, b) => a + b);
+            console.log(this.value.name + ' averageDPR -> '+dpr);
+            console.log(dprGroups);
+            
+            return dpr;
         },
 
         damageProjection: function() {
@@ -1198,19 +1203,16 @@ var StatBlock = {
         },
 
         exportMonster: function() {
-            console.log('exportMonster');
-            let cloneOptions = {...this.value};
-            console.log(this.value);
-            console.log(cloneOptions);
-            cloneOptions.averageDPR = -1;
-            cloneOptions.damageProjection = [];
+            let cloneOptions = JSON.parse(JSON.stringify(this.value));
+            //delete cloneOptions.averageDPR;
+            //delete cloneOptions.damageProjection;
             for(let featureType in cloneOptions.features) {
                 for(let feature of cloneOptions.features[featureType]) {
-                    feature.averageDPR = -1;
-                    feature.damageProjection = [];
+                    //delete feature.averageDPR;
+                    //delete feature.damageProjection;
                 }
             }
-            console.log('exportMonster data');
+            console.log('exportMonster');
             console.log(cloneOptions);
         },
 
