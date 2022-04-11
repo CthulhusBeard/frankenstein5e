@@ -56,7 +56,6 @@ export function initVue(f5data) {
             importMonster: function(monster) {
                 console.log('import monster');
                 let importedStatBlock = monster;
-                //TODO validation ?
                 this.statblocks.unshift(importedStatBlock);
             },
 
@@ -75,7 +74,6 @@ export function initVue(f5data) {
                     armorClass: {
                         type: 'none',
                         manual: '10',
-                        name: this.f5.armor.none.name,
                         bonus: '0',
                         stealthDis: false,
                         shield: false,
@@ -167,7 +165,8 @@ export function initVue(f5data) {
                     }
                 }
 
-                this.statblocks.push(statblock);
+                let i = this.statblocks.push(statblock);
+                return i-1;
             },
 
             removeStatBlock: function(id) {
