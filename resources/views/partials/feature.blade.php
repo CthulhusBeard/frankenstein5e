@@ -109,16 +109,15 @@
                         <option v-for="(ability, i) in $parent.$parent.f5.abilities" :value="i">@{{ability.name}}</option>
                     </select>
                 </div>
-                {{-- TODO prepared spellcasting --}}
                 <div> 
                     <label class="title-label" for="feature__innate-spellcasting">@{{$parent.$parent.f5.misc.title_innate_spellcasting}}:</label>
-                    <input type="checkbox" v-model="value.innateSpellcasting">
+                    <input type="checkbox" v-model="value.innateSpellcasting" />
                 </div>
-                <div> 
+                <div v-if="!value.innateSpellcasting">
                     <label class="title-label" for="feature__prepared-spellcasting">@{{$parent.$parent.f5.misc.title_prepared_spellcasting_class}}:</label>
                     <select v-model="value.spellcastingClass">
                         <option value="">@{{$parent.$parent.f5.misc.none}}</option>
-                        <option v-for="(class, i) in $parent.$parent.f5.classes" v-if="class.prepared_spellcasting" :value="i">@{{class.name}}</option>
+                        <option v-for="(playerclass, i) in $parent.$parent.f5.classes" v-if="playerclass.prepared_spellcasting" :value="i">@{{playerclass.name}}</option>
                     </select>
                 </div>
 

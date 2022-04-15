@@ -377,6 +377,9 @@
                 </div>
 
                 <div class="stat-block__multiattack">
+                    <div v-if="value.features.action.length || value.features.multiattack.length" class="stat-block__subtitle">
+                        <div class="header">@{{$parent.f5.misc.title_action}}</div>
+                    </div>
                     <div v-if="!value.features.multiattack.length" class="stat-block__add-feature-button" @click="createFeature('multiattack')">
                         @{{$parent.f5.misc.title_add_multiattack}}
                     </div>
@@ -388,9 +391,6 @@
                 </div>
 
                 <div class="stat-block__section stat-block__actions">
-                    <div v-if="value.features.action.length" class="stat-block__subtitle">
-                        <div class="header">@{{$parent.f5.misc.title_action}}</div>
-                    </div>
                     <div class="stat-block__add-feature-button" @click="createFeature('action')">
                         @{{$parent.f5.misc.title_add_action}}
                     </div>
@@ -478,7 +478,8 @@
             <div class="statblock__remove" @click="$emit('remove-statblock', value.id)">x</div>
         </div>
 
-        <div class="cr-controller popup-overlay">
+        <div class="statblock-data">
+            <div class="cr-controller popup-overlay">
                 <strong>@{{$parent.f5.misc.title_cr_manager}}</strong>
                 <div>
                     @{{$parent.f5.misc.title_approx_dpr}}: @{{averageDPR}}<br/>
@@ -514,24 +515,29 @@
                     </select>
                     <button>@{{$parent.f5.misc.title_apply}}</button>
                 </div>
-
-                {{--
+            </div>
+            
+            <div class="cr-controller popup-overlay">
                 <div>
-                    <label class="option-label" for="options__damage-projection">@{{$parent.f5.misc.title_damage_projection}}: </label>
+                    <label class="option-label" for="options__damage-projection">
+                        <strong>@{{$parent.f5.misc.title_damage_projection}}:</strong>
+                    </label>
                     <div id="option options__damage-projection" name="options__damage-projection">
                         @{{damageProjection}}
                     </div>
                 </div>
-                --}}
             </div>
 
-            <div>
-                <label class="control-label" for="controls__columns">@{{$parent.f5.misc.title_columns}}: </label>
-                <select v-model="value.display.columns">
-                        <option v-for="i in 3" :value="i">@{{i}}</option>
-                </select>
+            <div class="cr-controller popup-overlay">
+                <div>
+                    <label class="control-label" for="controls__columns">@{{$parent.f5.misc.title_columns}}: </label>
+                    <select v-model="value.display.columns">
+                            <option v-for="i in 3" :value="i">@{{i}}</option>
+                    </select>
+                </div>
+                <button @click="exportMonster()">@{{$parent.f5.misc.title_export}}</button>
             </div>
-            <button @click="exportMonster()">@{{$parent.f5.misc.title_export}}</button>
+        </div>
 
     </div>
 </script>

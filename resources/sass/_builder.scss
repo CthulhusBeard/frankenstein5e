@@ -38,6 +38,11 @@
     box-shadow: 5px 5px rgba(0, 0, 0, 0.5);
 }
 
+.statblock-data {
+    position: relative;
+    display: flex;
+}
+
 .slide-button {
     margin: 5px 0;
     width: 150px;

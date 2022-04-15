@@ -145,6 +145,11 @@ var StatBlockFeature = {
                 }
             }
 
+            //Limit targets to number of players
+            if(avgTargets > this.$parent.$parent.editor.player_characters.number) {
+                avgTargets = this.$parent.$parent.editor.player_characters.number;
+            }
+
             let dpr = avgDPR * avgTargets;
 
             //Set to value
@@ -398,7 +403,7 @@ var StatBlockFeature = {
                 if(maAbilityDescs[1].length > 0) {
                     maDesc = maDesc.replace(':multiattack_descriptions', this.$parent.createSentenceList(maAbilityDescs[1]));
                 } else {
-                    maDesc = '';
+                    maDesc = ' ';
                 }
             }
             
@@ -411,9 +416,10 @@ var StatBlockFeature = {
 
         spellcastingDescription: function() {
             let spellDesc = this.$parent.$parent.f5.misc.desc_spellcasting;
-            //TODO prepared spellcasting
             if(this.value.innateSpellcasting) { 
                 spellDesc = this.$parent.$parent.f5.misc.desc_innate_spellcasting;
+            } else if(this.value.spellcastingClass) {
+                spellDesc = this.$parent.$parent.f5.misc.desc_prepared_spellcasting;
             }
             
             if(this.value.additionalDescription) {
@@ -428,8 +434,8 @@ var StatBlockFeature = {
                 spellDesc = spellDesc.replace(':at_will_spells', '');
             }
 
-            if(this.spellcastingClass) {
-                spellDesc = spellDesc.replace(':spellcasting_class', ' '+this.spellcastingClass);
+            if(this.value.spellcastingClass) {
+                spellDesc = spellDesc.replace(':spellcasting_class', ' '+this.value.spellcastingClass);
             } else {
                 spellDesc = spellDesc.replace(':spellcasting_class', '');
             }
@@ -800,17 +806,22 @@ var StatBlockFeature = {
             }
             
             for(let maGroup of this.value.multiattackReferences) {
+                console.log('maGroup');
                 for(let featureRef of maGroup) {
+                    console.log('featureRef');
                     if(featureRef.index !== null) {
+                        console.log('featureRef not null');
                         if(
                             featureRef.index === 'spellcasting' && 
                             this.$parent.value.features['spellcasting'][0].id === obj.id
                         ) {
                             console.log('Multiattack: DPR Changed of child: '+obj.id);
                             this.$forceUpdate();
+                            return;
                         } else if(this.$parent.value.features['action'][featureRef.index].id === obj.id) {
                             console.log('Multiattack: DPR Changed of child: '+obj.id);
                             this.$forceUpdate();
+                            return;
                         }
                     }
                 }

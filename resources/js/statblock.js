@@ -97,11 +97,11 @@ var StatBlock = {
                     let actionType = featureType;
                     if(actionType === 'mythic_action') {
                         actionType = 'legendary_action';
-                    } else if(actionType === 'spellcasting') {
+                    } else if(actionType === 'spellcasting' || actionType === 'multiattack') {
                         actionType = 'action';
                     }
 
-                    projections[actionType].options.push([...feature.damageProjection]);  //Clone projection
+                    projections[actionType].options.push([JSON.parse(JSON.stringify(feature.damageProjection))]);  //Clone projection
                 }
             }
 

@@ -32179,7 +32179,7 @@ var StatBlockFeature = {
         if (maAbilityDescs[1].length > 0) {
           maDesc = maDesc.replace(':multiattack_descriptions', this.$parent.createSentenceList(maAbilityDescs[1]));
         } else {
-          maDesc = '';
+          maDesc = ' ';
         }
       }
 
@@ -32190,10 +32190,12 @@ var StatBlockFeature = {
       return maDesc;
     },
     spellcastingDescription: function spellcastingDescription() {
-      var spellDesc = this.$parent.$parent.f5.misc.desc_spellcasting; //TODO prepared spellcasting
+      var spellDesc = this.$parent.$parent.f5.misc.desc_spellcasting;
 
       if (this.value.innateSpellcasting) {
         spellDesc = this.$parent.$parent.f5.misc.desc_innate_spellcasting;
+      } else if (this.value.spellcastingClass) {
+        spellDesc = this.$parent.$parent.f5.misc.desc_prepared_spellcasting;
       }
 
       if (this.value.additionalDescription) {
@@ -32212,8 +32214,8 @@ var StatBlockFeature = {
         spellDesc = spellDesc.replace(':at_will_spells', '');
       }
 
-      if (this.spellcastingClass) {
-        spellDesc = spellDesc.replace(':spellcasting_class', ' ' + this.spellcastingClass);
+      if (this.value.spellcastingClass) {
+        spellDesc = spellDesc.replace(':spellcasting_class', ' ' + this.value.spellcastingClass);
       } else {
         spellDesc = spellDesc.replace(':spellcasting_class', '');
       } //Spells
@@ -32627,6 +32629,7 @@ var StatBlockFeature = {
       try {
         for (_iterator12.s(); !(_step12 = _iterator12.n()).done;) {
           var maGroup = _step12.value;
+          console.log('maGroup');
 
           var _iterator13 = _createForOfIteratorHelper(maGroup),
               _step13;
@@ -32634,14 +32637,19 @@ var StatBlockFeature = {
           try {
             for (_iterator13.s(); !(_step13 = _iterator13.n()).done;) {
               var featureRef = _step13.value;
+              console.log('featureRef');
 
               if (featureRef.index !== null) {
+                console.log('featureRef not null');
+
                 if (featureRef.index === 'spellcasting' && this.$parent.value.features['spellcasting'][0].id === obj.id) {
                   console.log('Multiattack: DPR Changed of child: ' + obj.id);
                   this.$forceUpdate();
+                  return;
                 } else if (this.$parent.value.features['action'][featureRef.index].id === obj.id) {
                   console.log('Multiattack: DPR Changed of child: ' + obj.id);
                   this.$forceUpdate();
+                  return;
                 }
               }
             }
@@ -32685,14 +32693,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return StatBlock; });
 /* harmony import */ var _vueform_multiselect_dist_multiselect_vue2_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @vueform/multiselect/dist/multiselect.vue2.js */ "./node_modules/@vueform/multiselect/dist/multiselect.vue2.js");
 /* harmony import */ var _statblock_feature_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./statblock-feature.js */ "./resources/js/statblock-feature.js");
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
 function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -32808,11 +32808,11 @@ var StatBlock = {
 
             if (actionType === 'mythic_action') {
               actionType = 'legendary_action';
-            } else if (actionType === 'spellcasting') {
+            } else if (actionType === 'spellcasting' || actionType === 'multiattack') {
               actionType = 'action';
             }
 
-            projections[actionType].options.push(_toConsumableArray(feature.damageProjection)); //Clone projection
+            projections[actionType].options.push([JSON.parse(JSON.stringify(feature.damageProjection))]); //Clone projection
           }
         } catch (err) {
           _iterator2.e(err);
@@ -34071,8 +34071,8 @@ var StatBlock = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\PersonalProjects\Frankenstein5E\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\PersonalProjects\Frankenstein5E\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\GitHub\frankenstein5e\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\GitHub\frankenstein5e\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
