@@ -152,6 +152,7 @@ var StatBlockFeature = {
                 //set emit here?
                 console.log('calcAverageDPR set new DPR to "averageDPR" prop');
                 this.value.averageDPR = dpr;
+                this.$parent.$emit('feature-drp-change', {id: this.value.id, actionType: this.value.actionType, dpr: dpr});
             }
 
             return dpr;
@@ -762,9 +763,9 @@ var StatBlockFeature = {
             } else {
                 str = str.replace(':range', '');
             }
-            str = str.replace(':reach_distance', this.value.attackReach+' '+this.$parent.value.measure.measureUnit);
+            str = str.replace(':reach_distance', this.value.attackReach+' '+this.$parent.$parent.editor.measure.measureUnit);
             str = str.replace(':range_distance_low', this.value.attackRange.low);
-            str = str.replace(':range_distance_high', this.value.attackRange.high+' '+this.$parent.value.measure.measureUnit);
+            str = str.replace(':range_distance_high', this.value.attackRange.high+' '+this.$parent.$parent.editor.measure.measureUnit);
             str = str.replace(':targets', this.$parent.pluralize(this.$parent.$parent.f5.misc.num_of_targets, this.value.attackTargets).replace(':target_count', this.value.attackTargets));
 
             //Saving Throw
@@ -812,11 +813,11 @@ var StatBlockFeature = {
 
         updateDamageProperties: function() {
             //Set DPR value so it's accessible from outside
-            if(this.value.averageDPR != this.calcAverageDPR) {
-                this.value.averageDPR = this.calcAverageDPR;
-                console.log('DPR Change: '+this.value.name+' -> '+this.value.averageDPR);
-                this.$parent.$emit('feature-drp-change', {id: this.value.id, actionType: this.value.actionType});
-            }
+            // if(this.value.averageDPR != this.calcAverageDPR) {
+            //     this.value.averageDPR = this.calcAverageDPR;
+            //     console.log('DPR Change: '+this.value.name+' -> '+this.value.averageDPR);
+            //     this.$parent.$emit('feature-drp-change', {id: this.value.id, actionType: this.value.actionType});
+            // }
             if(this.value.damageProjection != this.damageProjection) {
                 this.value.damageProjection = this.damageProjection;
             }

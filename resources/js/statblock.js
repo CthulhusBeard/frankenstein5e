@@ -496,7 +496,7 @@ var StatBlock = {
                 if(!this.$parent.f5.speeds[i]['hide_name']) {
                     displayText += this.$parent.f5.speeds[i].name.toLowerCase()+' ';
                 }
-                displayText += this.value.speeds[i]+' '+this.value.measure.measureUnit; 
+                displayText += this.value.speeds[i]+' '+this.$parent.editor.measure.measureUnit; 
                 if(i === 'fly' && this.value.hover) {
                     displayText += ' ('+this.$parent.f5.misc.hover.toLowerCase()+')';
                 }
@@ -520,7 +520,7 @@ var StatBlock = {
                 if(!this.$parent.f5.senses[i]['hide_name']) {
                     displayText += this.$parent.f5.senses[i].name.toLowerCase()+' ';
                 }
-                displayText += this.value.senses[i].distance+' '+this.value.measure.measureUnit;
+                displayText += this.value.senses[i].distance+' '+this.$parent.editor.measure.measureUnit;
                 
                 if(this.value.senses[i].modifier) {
                     displayText += '('+this.$parent.f5.senses[i].modifier_name.toLowerCase()+')';
@@ -581,7 +581,6 @@ var StatBlock = {
                     optionsList.push(data);
                 }
             }
-
             return optionsList;
         },
 
@@ -604,7 +603,7 @@ var StatBlock = {
                 if(displayText !== '') {
                     displayText += ', ';
                 }
-                displayText += this.$parent.f5.misc.telepathy+' '+this.value.languages.telepathy +' '+ this.value.measure.measureUnit;
+                displayText += this.$parent.f5.misc.telepathy+' '+this.value.languages.telepathy +' '+ this.$parent.editor.measure.measureUnit;
             }
 
             //No Languages
@@ -688,7 +687,7 @@ var StatBlock = {
             displayText += ' to hit';
 
             if(this.newFeature.attack.meleeRanged !== 'ranged') {
-                displayText += ', reach '+this.newFeature.attack.reach+' '+this.value.measure.measureUnit;
+                displayText += ', reach '+this.newFeature.attack.reach+' '+this.$parent.editor.measure.measureUnit;
                 displayText += ', '+this.newFeature.attack.targets+' target';
                 if(this.newFeature.attack.targets !== 1) {
                     displayText += 's';
@@ -701,7 +700,7 @@ var StatBlock = {
                 if(this.newFeature.attack.rangeLong > this.newFeature.attack.rangeShort) {
                     displayText += '/'+this.newFeature.attack.rangeLong;
                 }
-                displayText += ' '+this.value.measure.measureUnit;
+                displayText += ' '+this.$parent.editor.measure.measureUnit;
                 displayText += ', '+this.newFeature.attack.targets+' target';
                 if(this.newFeature.attack.targets !== 1) {
                     displayText += 's';

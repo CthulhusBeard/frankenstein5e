@@ -2,7 +2,7 @@ export { monsters };
 
 let monsters = [
     {
-        "id": "1cOufA0o6UrWNcp",
+        "id": "c5CbRB5o8JkfilR",
         "name": "Devourer",
         "shortName": "",
         "isNameProperNoun": false,
@@ -15,7 +15,6 @@ let monsters = [
         "armorClass": {
             "type": "natural",
             "manual": 16,
-            "name": "No Armor",
             "bonus": "0",
             "stealthDis": false,
             "shield": false
@@ -71,7 +70,7 @@ let monsters = [
         "hover": false,
         "senses": {
             "darkvision": {
-                "distance": 120,
+                "distance": 0,
                 "modifier": false
             },
             "blindsight": {
@@ -87,13 +86,6 @@ let monsters = [
                 "modifier": false
             }
         },
-        "measure": {
-            "measureUnit": "ft.",
-            "measureIncrement": 5,
-            "measureUnitUp": 5280,
-            "measureUnitUpName": "miles"
-        },
-        "showNonCombat": true,
         "manualOverride": {
             "proficiency": 0,
             "casterLevel": 0
@@ -113,7 +105,7 @@ let monsters = [
             "spellcasting": [],
             "multiattack": [
                 {
-                    "id": "kcZrPa2z3o173Ry",
+                    "id": "IPDynjbgtqzN9d8",
                     "actionType": "multiattack",
                     "name": "Multiattack",
                     "template": "multiattack",
@@ -214,11 +206,13 @@ let monsters = [
                     ],
                     "legendaryActionCost": 1,
                     "manualDPR": -1,
-                },
+                    "averageDPR": 110,
+                    "damageProjection": []
+                }
             ],
             "action": [
                 {
-                    "id": "QtRklGvPMzjy85i",
+                    "id": "KZl4BaPjEVp7Dej",
                     "actionType": "action",
                     "name": "Claw",
                     "template": "attack",
@@ -308,9 +302,47 @@ let monsters = [
                     ],
                     "legendaryActionCost": 1,
                     "manualDPR": -1,
+                    "averageDPR": 33,
+                    "damageProjection": [
+                        {
+                            "name": "Claw",
+                            "damage": 33,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Claw",
+                            "damage": 33,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Claw",
+                            "damage": 33,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Claw",
+                            "damage": 33,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Claw",
+                            "damage": 33,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Claw",
+                            "damage": 33,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Claw",
+                            "damage": 33,
+                            "actionCost": 1
+                        }
+                    ]
                 },
                 {
-                    "id": "k0LJiIAKLzDLIhs",
+                    "id": "OHUVFsCqqNsZGWA",
                     "actionType": "action",
                     "name": "Imprison Soul",
                     "template": "custom",
@@ -393,9 +425,47 @@ let monsters = [
                     ],
                     "legendaryActionCost": 1,
                     "manualDPR": -1,
+                    "averageDPR": 0,
+                    "damageProjection": [
+                        {
+                            "name": "Imprison Soul",
+                            "damage": 0,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Imprison Soul",
+                            "damage": 0,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Imprison Soul",
+                            "damage": 0,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Imprison Soul",
+                            "damage": 0,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Imprison Soul",
+                            "damage": 0,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Imprison Soul",
+                            "damage": 0,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Imprison Soul",
+                            "damage": 0,
+                            "actionCost": 1
+                        }
+                    ]
                 },
                 {
-                    "id": "0FVljvmcPqLspFZ",
+                    "id": "D9Hpd09e45BhVIC",
                     "actionType": "action",
                     "name": "Soul Rend",
                     "template": "custom",
@@ -486,6 +556,24 @@ let monsters = [
                     ],
                     "legendaryActionCost": 1,
                     "manualDPR": -1,
+                    "averageDPR": 44,
+                    "damageProjection": [
+                        {
+                            "name": "Soul Rend",
+                            "damage": 44,
+                            "actionCost": 1
+                        },
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        {
+                            "name": "Soul Rend",
+                            "damage": 44,
+                            "actionCost": 1
+                        }
+                    ]
                 }
             ],
             "bonus_action": [],
@@ -496,7 +584,7 @@ let monsters = [
         },
         "display": {
             "columns": 2
-        },
+        }
     },
     {
         "id": "0rCTajunzGnVKZO",
@@ -580,14 +668,7 @@ let monsters = [
                 "distance": 0,
                 "modifier": false
             }
-        },
-        "measure": {
-            "measureUnit": "ft.",
-            "measureIncrement": 5,
-            "measureUnitUp": 5280,
-            "measureUnitUpName": "miles"
-        },
-        "showNonCombat": true,
+        },      
         "manualOverride": {
             "proficiency": 0,
             "casterLevel": 0
@@ -1046,13 +1127,6 @@ let monsters = [
                 "modifier": false
             }
         },
-        "measure": {
-            "measureUnit": "ft.",
-            "measureIncrement": 5,
-            "measureUnitUp": 5280,
-            "measureUnitUpName": "miles"
-        },
-        "showNonCombat": true,
         "manualOverride": {
             "proficiency": 0,
             "casterLevel": 0
@@ -1068,7 +1142,131 @@ let monsters = [
         "actions": 1,
         "bonusActions": 1,
         "features": {
-            "passive": [],
+            "passive": [
+                {
+                    "id": "M9yTsRg7xfkC6F7",
+                    "actionType": "passive",
+                    "name": "Magic Resistance",
+                    "template": "custom",
+                    "attackAbility": "str",
+                    "targetType": "melee",
+                    "attackType": "weapon",
+                    "attackRange": {
+                        "low": 20,
+                        "high": 60
+                    },
+                    "attackReach": 5,
+                    "attackDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": true,
+                            "type": "slashing"
+                        }
+                    ],
+                    "attackSavingThrow": false,
+                    "attackTargets": 1,
+                    "aoeRange": 30,
+                    "savingThrowMonsterAbility": "str",
+                    "savingThrowSaveAbilities": [
+                        "str"
+                    ],
+                    "savingThrowDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": false,
+                            "type": "slashing"
+                        }
+                    ],
+                    "savingThrowHalfOnSuccess": true,
+                    "savingThrowConditions": [],
+                    "hasOngoingDamage": false,
+                    "ongoingDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": false,
+                            "type": "slashing"
+                        }
+                    ],
+                    "ongoingDamageOccurs": "start_of_turn",
+                    "ongoingDamageOnFailedSave": true,
+                    "ongoingDamageRepeatSave": false,
+                    "ongoingDamageDuration": "ongoing",
+                    "recharge": {
+                        "type": "none",
+                        "diceType": 6,
+                        "minRoll": 5,
+                        "uses": 1
+                    },
+                    "spellcastingAbility": "int",
+                    "innateSpellcasting": false,
+                    "spellList": [],
+                    "spellSlots": {
+                        "0": 0,
+                        "1": 0,
+                        "2": 0,
+                        "3": 0,
+                        "4": 0,
+                        "5": 0,
+                        "6": 0,
+                        "7": 0,
+                        "8": 0,
+                        "9": 0
+                    },
+                    "customDamage": [],
+                    "customDescription": "The :creature_name has advantage on saving throws against spells and other magical effects.",
+                    "additionalDescription": "",
+                    "multiattackReferences": [
+                        [],
+                        []
+                    ],
+                    "legendaryActionCost": 1,
+                    "manualDPR": -1,
+                    "averageDPR": 0,
+                    "damageProjection": [
+                        {
+                            "name": "Magic Resistance",
+                            "damage": 0,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Magic Resistance",
+                            "damage": 0,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Magic Resistance",
+                            "damage": 0,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Magic Resistance",
+                            "damage": 0,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Magic Resistance",
+                            "damage": 0,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Magic Resistance",
+                            "damage": 0,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Magic Resistance",
+                            "damage": 0,
+                            "actionCost": 1
+                        }
+                    ]
+                }
+            ],
             "spellcasting": [
                 {
                     "id": "cQmrOCWMvMf25oy",
@@ -1347,13 +1545,13 @@ let monsters = [
             ],
             "multiattack": [
                 {
-                    "id": "vMY2qzoft7XlbXy",
+                    "id": "x8p8cosVgzYrXdN",
                     "actionType": "multiattack",
                     "name": "Multiattack",
                     "template": "multiattack",
                     "attackAbility": "str",
                     "targetType": "melee",
-                    "attackType": "none",
+                    "attackType": "weapon",
                     "attackRange": {
                         "low": 20,
                         "high": 60
@@ -1423,20 +1621,21 @@ let monsters = [
                     },
                     "customDamage": [],
                     "customDescription": "",
+                    "additionalDescription": "",
                     "multiattackReferences": [
                         [
                             {
-                                "index": 1,
+                                "index": 0,
                                 "uses": 2
                             },
                             {
-                                "index": 2,
+                                "index": 1,
                                 "uses": 2
                             }
                         ],
                         [
                             {
-                                "index": 1,
+                                "index": 0,
                                 "uses": 2
                             },
                             {
@@ -1447,9 +1646,9 @@ let monsters = [
                     ],
                     "legendaryActionCost": 1,
                     "manualDPR": -1,
-                    "averageDPR": 28,
+                    "averageDPR": 62,
                     "damageProjection": []
-                },
+                }
             ],
             "action": [
                 {
@@ -1775,14 +1974,7 @@ let monsters = [
             "blindsight": 0,
             "tremorsense": 0,
             "truesight": 0
-        },
-        "measure": {
-            "measureUnit": "ft.",
-            "measureIncrement": 5,
-            "measureUnitUp": 5280,
-            "measureUnitUpName": "miles"
-        },
-        "showNonCombat": true,
+        },  
         "manualOverride": {
             "proficiency": 0,
             "casterLevel": 0
@@ -2755,6 +2947,7 @@ let monsters = [
         }
     },
     {
+        "id": "AtgUZCoNl0oN8yb",
         "name": "Ancient Red Dragon",
         "shortName": "",
         "isNameProperNoun": false,
@@ -2765,9 +2958,8 @@ let monsters = [
         "alignment": "chaotic_evil",
         "showTypicalAlignment": false,
         "armorClass": {
-            "type": "natural",
-            "manual": 17,
-            "name": "No Armor",
+            "type": "splint",
+            "manual": "10",
             "bonus": "0",
             "stealthDis": false,
             "shield": false
@@ -2775,7 +2967,7 @@ let monsters = [
         "hitPoints": {
             "diceType": 20,
             "diceAmount": 28,
-            "additional": "0"
+            "additional": 0
         },
         "abilities": {
             "str": 30,
@@ -2805,7 +2997,8 @@ let monsters = [
         ],
         "languages": {
             "spokenWritten": [
-                "common"
+                "common",
+                "draconic"
             ],
             "doesntSpeak": [],
             "telepathy": 0
@@ -2819,20 +3012,26 @@ let monsters = [
         },
         "hover": false,
         "senses": {
-            "darkvision": 120,
-            "blindsight": 60,
-            "tremorsense": 0,
-            "truesight": 0
-        },
-        "measure": {
-            "measureUnit": "ft.",
-            "measureIncrement": 5,
-            "measureUnitUp": 5280,
-            "measureUnitUpName": "miles"
+            "darkvision": {
+                "distance": 120,
+                "modifier": false
+            },
+            "blindsight": {
+                "distance": 60,
+                "modifier": false
+            },
+            "tremorsense": {
+                "distance": 0,
+                "modifier": false
+            },
+            "truesight": {
+                "distance": 0,
+                "modifier": false
+            }
         },
         "showNonCombat": true,
         "manualOverride": {
-            "proficiency": 9,
+            "proficiency": 0,
             "casterLevel": 0
         },
         "targetCR": {
@@ -2844,12 +3043,14 @@ let monsters = [
         "legendaryActions": 3,
         "reactions": 1,
         "actions": 1,
+        "bonusActions": 1,
         "features": {
             "passive": [],
             "spellcasting": [],
+            "multiattack": [],
             "action": [
                 {
-                    "id": "ImEiH7PlXShaliO",
+                    "id": "KKlx3syxYqHGefD",
                     "actionType": "action",
                     "name": "Tail",
                     "template": "attack",
@@ -2912,7 +3113,7 @@ let monsters = [
                     "innateSpellcasting": false,
                     "spellList": [],
                     "spellSlots": {
-                        "0": 1,
+                        "0": 0,
                         "1": 0,
                         "2": 0,
                         "3": 0,
@@ -2925,11 +3126,51 @@ let monsters = [
                     },
                     "customDamage": [],
                     "customDescription": "",
-                    "multiattackReferences": [],
+                    "additionalDescription": "",
+                    "multiattackReferences": [
+                        [],
+                        []
+                    ],
                     "legendaryActionCost": 1,
                     "manualDPR": -1,
-                    "averageDPR": -1,
-                    "damageProjection": []
+                    "averageDPR": 19,
+                    "damageProjection": [
+                        {
+                            "name": "Tail",
+                            "damage": 19,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Tail",
+                            "damage": 19,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Tail",
+                            "damage": 19,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Tail",
+                            "damage": 19,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Tail",
+                            "damage": 19,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Tail",
+                            "damage": 19,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Tail",
+                            "damage": 19,
+                            "actionCost": 1
+                        }
+                    ]
                 }
             ],
             "bonus_action": [],
@@ -2937,10 +3178,13 @@ let monsters = [
             "legendary_action": [],
             "mythic_action": [],
             "lair_action": []
+        },
+        "display": {
+            "columns": 1
         }
     },
     {
-        "id": "sBWlsgjzkPDqLBR",
+        "id": "jO6DHIFtePHqNOf",
         "name": "Black Bear",
         "shortName": "",
         "isNameProperNoun": false,
@@ -2953,7 +3197,6 @@ let monsters = [
         "armorClass": {
             "type": "natural",
             "manual": 11,
-            "name": "No Armor",
             "bonus": "0",
             "stealthDis": false,
             "shield": false
@@ -2995,7 +3238,7 @@ let monsters = [
             "walk": 40,
             "fly": 0,
             "swim": 0,
-            "climb": 30,
+            "climb": 0,
             "burrow": 0
         },
         "hover": false,
@@ -3017,12 +3260,6 @@ let monsters = [
                 "modifier": false
             }
         },
-        "measure": {
-            "measureUnit": "ft.",
-            "measureIncrement": 5,
-            "measureUnitUp": 5280,
-            "measureUnitUpName": "miles"
-        },
         "showNonCombat": true,
         "manualOverride": {
             "proficiency": 0,
@@ -3041,7 +3278,7 @@ let monsters = [
         "features": {
             "passive": [
                 {
-                    "id": "ECPsauQX7J6Js8c",
+                    "id": "T3TKjjq2Px4rE1X",
                     "actionType": "passive",
                     "name": "Keen Smell",
                     "template": "custom",
@@ -3165,10 +3402,10 @@ let monsters = [
                 }
             ],
             "spellcasting": [],
-            "action": [
+            "multiattack": [
                 {
-                    "id": "pCVAqHFlJtxM8F2",
-                    "actionType": "action",
+                    "id": "adXufG2Jk9vTaNs",
+                    "actionType": "multiattack",
                     "name": "Multiattack",
                     "template": "multiattack",
                     "attackAbility": "str",
@@ -3247,11 +3484,11 @@ let monsters = [
                     "multiattackReferences": [
                         [
                             {
-                                "index": 1,
+                                "index": 0,
                                 "uses": 1
                             },
                             {
-                                "index": 2,
+                                "index": 1,
                                 "uses": 1
                             }
                         ],
@@ -3259,11 +3496,13 @@ let monsters = [
                     ],
                     "legendaryActionCost": 1,
                     "manualDPR": -1,
-                    "averageDPR": 0,
+                    "averageDPR": 12,
                     "damageProjection": []
-                },
+                }
+            ],
+            "action": [
                 {
-                    "id": "QQDk4D01gimSAfA",
+                    "id": "oInAX6OmpFRtvOh",
                     "actionType": "action",
                     "name": "Bite",
                     "template": "attack",
@@ -3386,7 +3625,7 @@ let monsters = [
                     ]
                 },
                 {
-                    "id": "kuuJBrymrRRaviv",
+                    "id": "3TJv85Tl3YIMQ1f",
                     "actionType": "action",
                     "name": "Claw",
                     "template": "attack",
@@ -3516,9 +3755,6 @@ let monsters = [
             "lair_action": []
         },
         "display": {
-            "columns": 1
-        },
-        "averageDPR": -1,
-        "damageProjection": []
-    }
-];
+            "columns": 2
+        }
+    }];

@@ -107,7 +107,7 @@
                                 <div :class="'options__speed option-box '+index" v-for="(item, index) in $parent.f5.speeds">
                                     <label :for="index">@{{item.name}}</label>
                                     <select :name="'options__speed_'+index" v-model="value.speeds[index]">
-                                        <option v-for="(val, i) in [0,5,10,15,20,25,30,35,40,45,50,60,70,80,90,100,120,140,160,180,200,250,300]" :value="val" >@{{val+' '+value.measure.measureUnit}}</option>
+                                        <option v-for="(val, i) in [0,5,10,15,20,25,30,35,40,45,50,60,70,80,90,100,120,140,160,180,200,250,300]" :value="val" >@{{val+' '+$parent.editor.measure.measureUnit}}</option>
                                     </select>
                                     <span v-if="index === 'fly' && value.speeds['fly'] > 0">
                                         @{{$parent.f5.misc.hover}}: <input type="checkbox" v-model="value.hover">
@@ -293,7 +293,7 @@
                                 <div :class="'options__senses option-box '+index" v-for="(item, index) in $parent.f5.senses">
                                     <label :for="'sense_'+index">@{{item.name}}</label>
                                     <select :name="'options__sense_'+index" v-model="value.senses[index].distance">
-                                        <option v-for="(val, i) in [0,5,10,15,20,25,30,35,40,45,50,60,70,80,90,100,120,140,160,180,200,250,300]" :value="val" >@{{val+' '+value.measure.measureUnit}}</option>
+                                        <option v-for="(val, i) in [0,5,10,15,20,25,30,35,40,45,50,60,70,80,90,100,120,140,160,180,200,250,300]" :value="val" >@{{val+' '+$parent.editor.measure.measureUnit}}</option>
                                     </select>
                                     <span v-if="item.modifier_name">
                                         <label :for="'sense_'+index+'_modifier'">@{{item.modifier_name}}</label>
@@ -330,7 +330,7 @@
                             
                             <span for="languages__telepathy" class="edit-field">@{{$parent.f5.misc.telepathy}}</span>
                             <select name="languages__telepathy" v-model="value.languages.telepathy" class="edit-field">
-                                <option v-for="(val, i) in [0,5,10,15,20,25,30,35,40,45,50,60,70,80,90,100,120,140,160,180,200,250,300]" :value="val" >@{{val+' '+value.measure.measureUnit}}</option>
+                                <option v-for="(val, i) in [0,5,10,15,20,25,30,35,40,45,50,60,70,80,90,100,120,140,160,180,200,250,300]" :value="val" >@{{val+' '+$parent.editor.measure.measureUnit}}</option>
                             </select>
                         </div>
 

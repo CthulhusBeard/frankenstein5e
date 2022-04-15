@@ -3,7 +3,7 @@
 return [
     'melee' => [
         'name' => 'f5/ranges.melee',
-        'range' => [5, 10, 15, 20],
+        'range' => [5, 10, 15, 20, 25, 30],
         'types' => ['attack'],
         'targets_at_30' => 1,
     ],

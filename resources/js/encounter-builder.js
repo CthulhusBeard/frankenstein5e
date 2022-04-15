@@ -13,6 +13,12 @@ export function initVue(f5data) {
                     number: 4,
                     level: 1,
                 },
+                measure: {
+                    measureUnit: 'ft.',
+                    measureIncrement: 5,
+                    measureUnitUp: 5280,
+                    measureUnitUpName: 'miles',
+                },
                 round_tracker: 7,
                 import_monster: 0,
             },
@@ -99,14 +105,6 @@ export function initVue(f5data) {
                     hover: false,
                     senses: {},
         
-                    measure: {
-                        measureUnit: 'ft.',
-                        measureIncrement: 5,
-                        measureUnitUp: 5280,
-                        measureUnitUpName: 'miles',
-                    },
-        
-                    showNonCombat: true,
                     manualOverride: {
                         proficiency: 0,
                         casterLevel: 0,

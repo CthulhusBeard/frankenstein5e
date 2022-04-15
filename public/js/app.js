@@ -28306,6 +28306,12 @@ function initVue(f5data) {
           number: 4,
           level: 1
         },
+        measure: {
+          measureUnit: 'ft.',
+          measureIncrement: 5,
+          measureUnitUp: 5280,
+          measureUnitUpName: 'miles'
+        },
         round_tracker: 7,
         import_monster: 0
       },
@@ -28385,13 +28391,6 @@ function initVue(f5data) {
           speeds: {},
           hover: false,
           senses: {},
-          measure: {
-            measureUnit: 'ft.',
-            measureIncrement: 5,
-            measureUnitUp: 5280,
-            measureUnitUpName: 'miles'
-          },
-          showNonCombat: true,
           manualOverride: {
             proficiency: 0,
             casterLevel: 0
@@ -28481,7 +28480,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "monsters", function() { return monsters; });
 
 var monsters = [{
-  "id": "1cOufA0o6UrWNcp",
+  "id": "c5CbRB5o8JkfilR",
   "name": "Devourer",
   "shortName": "",
   "isNameProperNoun": false,
@@ -28494,7 +28493,6 @@ var monsters = [{
   "armorClass": {
     "type": "natural",
     "manual": 16,
-    "name": "No Armor",
     "bonus": "0",
     "stealthDis": false,
     "shield": false
@@ -28540,7 +28538,7 @@ var monsters = [{
   "hover": false,
   "senses": {
     "darkvision": {
-      "distance": 120,
+      "distance": 0,
       "modifier": false
     },
     "blindsight": {
@@ -28556,13 +28554,6 @@ var monsters = [{
       "modifier": false
     }
   },
-  "measure": {
-    "measureUnit": "ft.",
-    "measureIncrement": 5,
-    "measureUnitUp": 5280,
-    "measureUnitUpName": "miles"
-  },
-  "showNonCombat": true,
   "manualOverride": {
     "proficiency": 0,
     "casterLevel": 0
@@ -28581,7 +28572,7 @@ var monsters = [{
     "passive": [],
     "spellcasting": [],
     "multiattack": [{
-      "id": "kcZrPa2z3o173Ry",
+      "id": "IPDynjbgtqzN9d8",
       "actionType": "multiattack",
       "name": "Multiattack",
       "template": "multiattack",
@@ -28664,10 +28655,12 @@ var monsters = [{
         "uses": 1
       }]],
       "legendaryActionCost": 1,
-      "manualDPR": -1
+      "manualDPR": -1,
+      "averageDPR": 110,
+      "damageProjection": []
     }],
     "action": [{
-      "id": "QtRklGvPMzjy85i",
+      "id": "KZl4BaPjEVp7Dej",
       "actionType": "action",
       "name": "Claw",
       "template": "attack",
@@ -28744,9 +28737,39 @@ var monsters = [{
       "additionalDescription": "",
       "multiattackReferences": [[], []],
       "legendaryActionCost": 1,
-      "manualDPR": -1
+      "manualDPR": -1,
+      "averageDPR": 33,
+      "damageProjection": [{
+        "name": "Claw",
+        "damage": 33,
+        "actionCost": 1
+      }, {
+        "name": "Claw",
+        "damage": 33,
+        "actionCost": 1
+      }, {
+        "name": "Claw",
+        "damage": 33,
+        "actionCost": 1
+      }, {
+        "name": "Claw",
+        "damage": 33,
+        "actionCost": 1
+      }, {
+        "name": "Claw",
+        "damage": 33,
+        "actionCost": 1
+      }, {
+        "name": "Claw",
+        "damage": 33,
+        "actionCost": 1
+      }, {
+        "name": "Claw",
+        "damage": 33,
+        "actionCost": 1
+      }]
     }, {
-      "id": "k0LJiIAKLzDLIhs",
+      "id": "OHUVFsCqqNsZGWA",
       "actionType": "action",
       "name": "Imprison Soul",
       "template": "custom",
@@ -28817,9 +28840,39 @@ var monsters = [{
       "additionalDescription": "",
       "multiattackReferences": [[], []],
       "legendaryActionCost": 1,
-      "manualDPR": -1
+      "manualDPR": -1,
+      "averageDPR": 0,
+      "damageProjection": [{
+        "name": "Imprison Soul",
+        "damage": 0,
+        "actionCost": 1
+      }, {
+        "name": "Imprison Soul",
+        "damage": 0,
+        "actionCost": 1
+      }, {
+        "name": "Imprison Soul",
+        "damage": 0,
+        "actionCost": 1
+      }, {
+        "name": "Imprison Soul",
+        "damage": 0,
+        "actionCost": 1
+      }, {
+        "name": "Imprison Soul",
+        "damage": 0,
+        "actionCost": 1
+      }, {
+        "name": "Imprison Soul",
+        "damage": 0,
+        "actionCost": 1
+      }, {
+        "name": "Imprison Soul",
+        "damage": 0,
+        "actionCost": 1
+      }]
     }, {
-      "id": "0FVljvmcPqLspFZ",
+      "id": "D9Hpd09e45BhVIC",
       "actionType": "action",
       "name": "Soul Rend",
       "template": "custom",
@@ -28896,7 +28949,17 @@ var monsters = [{
       "additionalDescription": "",
       "multiattackReferences": [[], []],
       "legendaryActionCost": 1,
-      "manualDPR": -1
+      "manualDPR": -1,
+      "averageDPR": 44,
+      "damageProjection": [{
+        "name": "Soul Rend",
+        "damage": 44,
+        "actionCost": 1
+      }, null, null, null, null, null, {
+        "name": "Soul Rend",
+        "damage": 44,
+        "actionCost": 1
+      }]
     }],
     "bonus_action": [],
     "reaction": [],
@@ -28983,13 +29046,6 @@ var monsters = [{
       "modifier": false
     }
   },
-  "measure": {
-    "measureUnit": "ft.",
-    "measureIncrement": 5,
-    "measureUnitUp": 5280,
-    "measureUnitUpName": "miles"
-  },
-  "showNonCombat": true,
   "manualOverride": {
     "proficiency": 0,
     "casterLevel": 0
@@ -29380,13 +29436,6 @@ var monsters = [{
       "modifier": false
     }
   },
-  "measure": {
-    "measureUnit": "ft.",
-    "measureIncrement": 5,
-    "measureUnitUp": 5280,
-    "measureUnitUpName": "miles"
-  },
-  "showNonCombat": true,
   "manualOverride": {
     "proficiency": 0,
     "casterLevel": 0
@@ -29634,93 +29683,7 @@ var monsters = [{
         "actionCost": 1
       }]
     }],
-    "multiattack": [{
-      "id": "vMY2qzoft7XlbXy",
-      "actionType": "multiattack",
-      "name": "Multiattack",
-      "template": "multiattack",
-      "attackAbility": "str",
-      "targetType": "melee",
-      "attackType": "none",
-      "attackRange": {
-        "low": 20,
-        "high": 60
-      },
-      "attackReach": 5,
-      "attackDamage": [{
-        "diceType": 4,
-        "diceAmount": 1,
-        "additional": 0,
-        "abilityBonus": true,
-        "type": "slashing"
-      }],
-      "attackSavingThrow": false,
-      "attackTargets": 1,
-      "aoeRange": 30,
-      "savingThrowMonsterAbility": "str",
-      "savingThrowSaveAbilities": ["str"],
-      "savingThrowDamage": [{
-        "diceType": 4,
-        "diceAmount": 1,
-        "additional": 0,
-        "abilityBonus": false,
-        "type": "slashing"
-      }],
-      "savingThrowHalfOnSuccess": true,
-      "savingThrowConditions": [],
-      "hasOngoingDamage": false,
-      "ongoingDamage": [{
-        "diceType": 4,
-        "diceAmount": 1,
-        "additional": 0,
-        "abilityBonus": false,
-        "type": "slashing"
-      }],
-      "ongoingDamageOccurs": "start_of_turn",
-      "ongoingDamageOnFailedSave": true,
-      "ongoingDamageRepeatSave": false,
-      "ongoingDamageDuration": "ongoing",
-      "recharge": {
-        "type": "none",
-        "diceType": 6,
-        "minRoll": 5,
-        "uses": 1
-      },
-      "spellcastingAbility": "int",
-      "innateSpellcasting": false,
-      "spellList": [],
-      "spellSlots": {
-        "0": 0,
-        "1": 0,
-        "2": 0,
-        "3": 0,
-        "4": 0,
-        "5": 0,
-        "6": 0,
-        "7": 0,
-        "8": 0,
-        "9": 0
-      },
-      "customDamage": [],
-      "customDescription": "",
-      "multiattackReferences": [[{
-        "index": 1,
-        "uses": 2
-      }, {
-        "index": 2,
-        "uses": 2
-      }], [{
-        "index": 1,
-        "uses": 2
-      }, {
-        "index": "spellcasting",
-        "uses": 1
-      }]],
-      "legendaryActionCost": 1,
-      "manualDPR": -1,
-      "averageDPR": 28,
-      "damageProjection": []
-    }],
+    "multiattack": [],
     "action": [{
       "id": "xn6a7ZKckpTAAl2",
       "actionType": "action",
@@ -30002,13 +29965,6 @@ var monsters = [{
     "tremorsense": 0,
     "truesight": 0
   },
-  "measure": {
-    "measureUnit": "ft.",
-    "measureIncrement": 5,
-    "measureUnitUp": 5280,
-    "measureUnitUpName": "miles"
-  },
-  "showNonCombat": true,
   "manualOverride": {
     "proficiency": 0,
     "casterLevel": 0
@@ -30833,6 +30789,7 @@ var monsters = [{
     "columns": 2
   }
 }, {
+  "id": "AtgUZCoNl0oN8yb",
   "name": "Ancient Red Dragon",
   "shortName": "",
   "isNameProperNoun": false,
@@ -30843,9 +30800,8 @@ var monsters = [{
   "alignment": "chaotic_evil",
   "showTypicalAlignment": false,
   "armorClass": {
-    "type": "natural",
-    "manual": 17,
-    "name": "No Armor",
+    "type": "splint",
+    "manual": "10",
     "bonus": "0",
     "stealthDis": false,
     "shield": false
@@ -30853,7 +30809,7 @@ var monsters = [{
   "hitPoints": {
     "diceType": 20,
     "diceAmount": 28,
-    "additional": "0"
+    "additional": 0
   },
   "abilities": {
     "str": 30,
@@ -30877,7 +30833,7 @@ var monsters = [{
   "conditionImmunities": [],
   "skills": ["perception", "stealth"],
   "languages": {
-    "spokenWritten": ["common"],
+    "spokenWritten": ["common", "draconic"],
     "doesntSpeak": [],
     "telepathy": 0
   },
@@ -30890,20 +30846,26 @@ var monsters = [{
   },
   "hover": false,
   "senses": {
-    "darkvision": 120,
-    "blindsight": 60,
-    "tremorsense": 0,
-    "truesight": 0
-  },
-  "measure": {
-    "measureUnit": "ft.",
-    "measureIncrement": 5,
-    "measureUnitUp": 5280,
-    "measureUnitUpName": "miles"
+    "darkvision": {
+      "distance": 120,
+      "modifier": false
+    },
+    "blindsight": {
+      "distance": 60,
+      "modifier": false
+    },
+    "tremorsense": {
+      "distance": 0,
+      "modifier": false
+    },
+    "truesight": {
+      "distance": 0,
+      "modifier": false
+    }
   },
   "showNonCombat": true,
   "manualOverride": {
-    "proficiency": 9,
+    "proficiency": 0,
     "casterLevel": 0
   },
   "targetCR": {
@@ -30915,11 +30877,13 @@ var monsters = [{
   "legendaryActions": 3,
   "reactions": 1,
   "actions": 1,
+  "bonusActions": 1,
   "features": {
     "passive": [],
     "spellcasting": [],
+    "multiattack": [],
     "action": [{
-      "id": "ImEiH7PlXShaliO",
+      "id": "KKlx3syxYqHGefD",
       "actionType": "action",
       "name": "Tail",
       "template": "attack",
@@ -30974,7 +30938,7 @@ var monsters = [{
       "innateSpellcasting": false,
       "spellList": [],
       "spellSlots": {
-        "0": 1,
+        "0": 0,
         "1": 0,
         "2": 0,
         "3": 0,
@@ -30987,20 +30951,52 @@ var monsters = [{
       },
       "customDamage": [],
       "customDescription": "",
-      "multiattackReferences": [],
+      "additionalDescription": "",
+      "multiattackReferences": [[], []],
       "legendaryActionCost": 1,
       "manualDPR": -1,
-      "averageDPR": -1,
-      "damageProjection": []
+      "averageDPR": 19,
+      "damageProjection": [{
+        "name": "Tail",
+        "damage": 19,
+        "actionCost": 1
+      }, {
+        "name": "Tail",
+        "damage": 19,
+        "actionCost": 1
+      }, {
+        "name": "Tail",
+        "damage": 19,
+        "actionCost": 1
+      }, {
+        "name": "Tail",
+        "damage": 19,
+        "actionCost": 1
+      }, {
+        "name": "Tail",
+        "damage": 19,
+        "actionCost": 1
+      }, {
+        "name": "Tail",
+        "damage": 19,
+        "actionCost": 1
+      }, {
+        "name": "Tail",
+        "damage": 19,
+        "actionCost": 1
+      }]
     }],
     "bonus_action": [],
     "reaction": [],
     "legendary_action": [],
     "mythic_action": [],
     "lair_action": []
+  },
+  "display": {
+    "columns": 1
   }
 }, {
-  "id": "sBWlsgjzkPDqLBR",
+  "id": "jO6DHIFtePHqNOf",
   "name": "Black Bear",
   "shortName": "",
   "isNameProperNoun": false,
@@ -31013,7 +31009,6 @@ var monsters = [{
   "armorClass": {
     "type": "natural",
     "manual": 11,
-    "name": "No Armor",
     "bonus": "0",
     "stealthDis": false,
     "shield": false
@@ -31053,7 +31048,7 @@ var monsters = [{
     "walk": 40,
     "fly": 0,
     "swim": 0,
-    "climb": 30,
+    "climb": 0,
     "burrow": 0
   },
   "hover": false,
@@ -31075,12 +31070,6 @@ var monsters = [{
       "modifier": false
     }
   },
-  "measure": {
-    "measureUnit": "ft.",
-    "measureIncrement": 5,
-    "measureUnitUp": 5280,
-    "measureUnitUpName": "miles"
-  },
   "showNonCombat": true,
   "manualOverride": {
     "proficiency": 0,
@@ -31098,7 +31087,7 @@ var monsters = [{
   "bonusActions": 1,
   "features": {
     "passive": [{
-      "id": "ECPsauQX7J6Js8c",
+      "id": "T3TKjjq2Px4rE1X",
       "actionType": "passive",
       "name": "Keen Smell",
       "template": "custom",
@@ -31202,9 +31191,9 @@ var monsters = [{
       }]
     }],
     "spellcasting": [],
-    "action": [{
-      "id": "pCVAqHFlJtxM8F2",
-      "actionType": "action",
+    "multiattack": [{
+      "id": "adXufG2Jk9vTaNs",
+      "actionType": "multiattack",
       "name": "Multiattack",
       "template": "multiattack",
       "attackAbility": "str",
@@ -31273,18 +31262,19 @@ var monsters = [{
       "customDescription": "",
       "additionalDescription": "",
       "multiattackReferences": [[{
-        "index": 1,
+        "index": 0,
         "uses": 1
       }, {
-        "index": 2,
+        "index": 1,
         "uses": 1
       }], []],
       "legendaryActionCost": 1,
       "manualDPR": -1,
-      "averageDPR": 0,
+      "averageDPR": 12,
       "damageProjection": []
-    }, {
-      "id": "QQDk4D01gimSAfA",
+    }],
+    "action": [{
+      "id": "oInAX6OmpFRtvOh",
       "actionType": "action",
       "name": "Bite",
       "template": "attack",
@@ -31387,7 +31377,7 @@ var monsters = [{
         "actionCost": 1
       }]
     }, {
-      "id": "kuuJBrymrRRaviv",
+      "id": "3TJv85Tl3YIMQ1f",
       "actionType": "action",
       "name": "Claw",
       "template": "attack",
@@ -31497,10 +31487,8 @@ var monsters = [{
     "lair_action": []
   },
   "display": {
-    "columns": 1
-  },
-  "averageDPR": -1,
-  "damageProjection": []
+    "columns": 2
+  }
 }];
 
 /***/ }),
@@ -31684,10 +31672,10 @@ var StatBlockFeature = {
 
                   if (featureRef.index === 'spellcasting') {
                     abilityDPR = this.$parent.value.features['spellcasting'][0].averageDPR * featureRef.uses;
-                    console.log('MA DPR feature: ' + this.$parent.value.features['spellcasting'][0].name + ': ' + abilityDPR);
+                    console.log('calcAverageDPR MA DPR feature: ' + this.$parent.value.features['spellcasting'][0].name + ': ' + abilityDPR);
                   } else {
                     abilityDPR = this.$parent.value.features['action'][featureRef.index].averageDPR * featureRef.uses;
-                    console.log('MA DPR feature: ' + this.$parent.value.features['action'][featureRef.index].name + ': ' + abilityDPR);
+                    console.log('calcAverageDPR MA DPR feature: ' + this.$parent.value.features['action'][featureRef.index].name + ': ' + abilityDPR);
                   }
 
                   groupDPR += !isNaN(abilityDPR) && abilityDPR > 0 ? abilityDPR : 0;
@@ -31710,7 +31698,7 @@ var StatBlockFeature = {
         }
 
         avgDPR = multiDPR;
-        console.log('MA DPR: ' + avgDPR);
+        console.log('calcAverageDPR MA DPR: ' + avgDPR);
       } else if (this.value.template === 'custom') {
         // Custom Ability Average DPR
         for (var _i4 in this.value.customDamage) {
@@ -31721,8 +31709,14 @@ var StatBlockFeature = {
       var dpr = avgDPR * avgTargets; //Set to value
 
       if (this.value.averageDPR !== dpr) {
-        this.$emit('dpr-change', this.value.id);
+        //set emit here?
+        console.log('calcAverageDPR set new DPR to "averageDPR" prop');
         this.value.averageDPR = dpr;
+        this.$parent.$emit('feature-drp-change', {
+          id: this.value.id,
+          actionType: this.value.actionType,
+          dpr: dpr
+        });
       }
 
       return dpr;
@@ -32400,9 +32394,9 @@ var StatBlockFeature = {
         str = str.replace(':range', '');
       }
 
-      str = str.replace(':reach_distance', this.value.attackReach + ' ' + this.$parent.value.measure.measureUnit);
+      str = str.replace(':reach_distance', this.value.attackReach + ' ' + this.$parent.$parent.editor.measure.measureUnit);
       str = str.replace(':range_distance_low', this.value.attackRange.low);
-      str = str.replace(':range_distance_high', this.value.attackRange.high + ' ' + this.$parent.value.measure.measureUnit);
+      str = str.replace(':range_distance_high', this.value.attackRange.high + ' ' + this.$parent.$parent.editor.measure.measureUnit);
       str = str.replace(':targets', this.$parent.pluralize(this.$parent.$parent.f5.misc.num_of_targets, this.value.attackTargets).replace(':target_count', this.value.attackTargets)); //Saving Throw
 
       str = str.replace(':saving_throw_dc', this.$parent.makeSavingThrowDC(this.value.savingThrowMonsterAbility));
@@ -32467,15 +32461,11 @@ var StatBlockFeature = {
     },
     updateDamageProperties: function updateDamageProperties() {
       //Set DPR value so it's accessible from outside
-      if (this.value.averageDPR != this.calcAverageDPR) {
-        this.value.averageDPR = this.calcAverageDPR;
-        console.log('DPR Change: ' + this.value.name + ' -> ' + this.value.averageDPR);
-        this.$parent.$emit('feature-drp-change', {
-          id: this.value.id,
-          actionType: this.value.actionType
-        });
-      }
-
+      // if(this.value.averageDPR != this.calcAverageDPR) {
+      //     this.value.averageDPR = this.calcAverageDPR;
+      //     console.log('DPR Change: '+this.value.name+' -> '+this.value.averageDPR);
+      //     this.$parent.$emit('feature-drp-change', {id: this.value.id, actionType: this.value.actionType});
+      // }
       if (this.value.damageProjection != this.damageProjection) {
         this.value.damageProjection = this.damageProjection;
       }
@@ -33049,7 +33039,7 @@ var StatBlock = {
           displayText += this.$parent.f5.speeds[i].name.toLowerCase() + ' ';
         }
 
-        displayText += this.value.speeds[i] + ' ' + this.value.measure.measureUnit;
+        displayText += this.value.speeds[i] + ' ' + this.$parent.editor.measure.measureUnit;
 
         if (i === 'fly' && this.value.hover) {
           displayText += ' (' + this.$parent.f5.misc.hover.toLowerCase() + ')';
@@ -33079,7 +33069,7 @@ var StatBlock = {
           displayText += this.$parent.f5.senses[i].name.toLowerCase() + ' ';
         }
 
-        displayText += this.value.senses[i].distance + ' ' + this.value.measure.measureUnit;
+        displayText += this.value.senses[i].distance + ' ' + this.$parent.editor.measure.measureUnit;
 
         if (this.value.senses[i].modifier) {
           displayText += '(' + this.$parent.f5.senses[i].modifier_name.toLowerCase() + ')';
@@ -33173,7 +33163,7 @@ var StatBlock = {
           displayText += ', ';
         }
 
-        displayText += this.$parent.f5.misc.telepathy + ' ' + this.value.languages.telepathy + ' ' + this.value.measure.measureUnit;
+        displayText += this.$parent.f5.misc.telepathy + ' ' + this.value.languages.telepathy + ' ' + this.$parent.editor.measure.measureUnit;
       } //No Languages
 
 
@@ -33263,7 +33253,7 @@ var StatBlock = {
       displayText += ' to hit';
 
       if (this.newFeature.attack.meleeRanged !== 'ranged') {
-        displayText += ', reach ' + this.newFeature.attack.reach + ' ' + this.value.measure.measureUnit;
+        displayText += ', reach ' + this.newFeature.attack.reach + ' ' + this.$parent.editor.measure.measureUnit;
         displayText += ', ' + this.newFeature.attack.targets + ' target';
 
         if (this.newFeature.attack.targets !== 1) {
@@ -33279,7 +33269,7 @@ var StatBlock = {
           displayText += '/' + this.newFeature.attack.rangeLong;
         }
 
-        displayText += ' ' + this.value.measure.measureUnit;
+        displayText += ' ' + this.$parent.editor.measure.measureUnit;
         displayText += ', ' + this.newFeature.attack.targets + ' target';
 
         if (this.newFeature.attack.targets !== 1) {
