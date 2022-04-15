@@ -76,8 +76,11 @@
                                     @{{$parent.f5.misc.title_magical_bonus}}: +<select name="options__armorclass_range" v-model="value.armorClass.bonus" >
                                         <option v-for="i in 6" :value="i-1" >@{{i-1}}</option>
                                     </select>     
-                                </span>  
-                                @{{$parent.f5.misc.title_shield}}: <input name="options__shield" v-model="value.armorClass.shield" type="checkbox" />        
+                                </span>
+                                <div>
+                                    @{{$parent.f5.misc.title_shield}}: <input name="options__shield" v-model="value.armorClass.shield" type="checkbox" />
+                                    @{{$parent.f5.misc.title_mage_armor}}: <input name="options__mage-armor" v-model="value.armorClass.mageArmor" type="checkbox" /> 
+                                </div>       
                             </div>
                         </div>
 

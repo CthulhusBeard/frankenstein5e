@@ -46,10 +46,11 @@ return [
 
     //Spellcasting
     'desc_spellcasting' => 'The :creature_name is :caster_level_article :caster_level level spellcaster. Its spellcasting ability is :spellcasting_ability (spell save DC :spell_save_dc, :spell_hit to hit with spell attacks). It:at_will_spells can cast the following spells:',
-    'desc_prepared_spellcasting' => 'The :creature_name is :caster_level_article :caster_level level spellcaster. Its spellcasting ability is :spellcasting_ability (spell save DC :spell_save_dc, :spell_hit to hit with spell attacks). It:at_will_spells has the following spells prepared:',
+    'desc_prepared_spellcasting' => 'The :creature_name is :caster_level_article :caster_level level spellcaster. Its spellcasting ability is :spellcasting_ability (spell save DC :spell_save_dc, :spell_hit to hit with spell attacks). It:at_will_spells has the following:spellcasting_class spells prepared:',
     'desc_innate_spellcasting' => 'The :creature_name\'s innate spellcasting ability is :spellcasting_ability (spell save DC :spell_save_dc, :spell_hit to hit with spell attacks). It can innately cast the following spells, requiring no components:',
     'desc_at_will_spells' => ' can cast :at_will_spell_list at will and',
     'title_innate_spellcasting' => 'Innate Spellcasting',
+    'title_prepared_spellcasting_class' => 'Prepared Spellcasting Class',
 
     //Feature Modifiers
     'additionally' => 'Additionally, :addition',

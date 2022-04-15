@@ -1,16 +1,8 @@
 //TODO: 
-- [ ] Loc pass
-- [ ] WOTC Fan Content legal
-- [ ] SEO meta
-- [ ] Change images to original ( add repeating ripped edge)
-- [ ] Convert units
-- [ ] Update Prof by CR (already in config)
+
+HIGH PRIORITY
 - [ ] Reorder Features / Move features to other columns
-- [ ] Mage armour ac?
-- [ ] Automatic column org or manual moving
-- [ ] Fix semantic usage on Conditions plus additional conditions
-- [ ] Remove external CDN references
-- [ ] Clean up label "for"s
+- [ ] Allow adding text replace codes to custom description
 - [ ] Minimum size for conditions (grappled, swallowed, etc)
 - [ ] Prepared spellcasting class spell lists "from the cleric spell list"
 - [ ] Life expectancy vs PC levels
@@ -36,4 +28,19 @@
 //      -> top lair action
 - [ ] Move at will spells to cantrip slots
 - [ ] Clean up feature object (only export the fields needed. There are many unused fields) "template: {type: attack, damage: etc}"
-- [ ] Import validation ?
+- [ ] Import Monster validation
+
+MEDIUM PRIORITY
+- [ ] Automatic column org or manual moving
+- [ ] Fix semantic usage on Conditions plus additional conditions
+
+FINAL TOUCHES
+- [ ] WOTC Fan Content legal
+- [ ] SEO meta
+- [ ] Change images to original ( add repeating ripped edge)
+- [ ] Remove external CDN references
+- [ ] Clean up label "for"s
+
+OPTIONAL
+- [ ] Loc cleanup
+- [ ] Convert units

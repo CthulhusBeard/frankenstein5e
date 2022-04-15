@@ -62,6 +62,7 @@ export function initVue(f5data) {
             importMonster: function(monster) {
                 console.log('import monster');
                 let importedStatBlock = monster;
+                console.log(importedStatBlock);
                 this.statblocks.unshift(importedStatBlock);
             },
 
@@ -83,6 +84,7 @@ export function initVue(f5data) {
                         bonus: '0',
                         stealthDis: false,
                         shield: false,
+                        mageArmor: false,
                     },
                     hitPoints: {
                         diceType: 4,
@@ -104,7 +106,6 @@ export function initVue(f5data) {
                     speeds: {},
                     hover: false,
                     senses: {},
-        
                     manualOverride: {
                         proficiency: 0,
                         casterLevel: 0,

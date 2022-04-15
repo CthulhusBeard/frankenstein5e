@@ -43,6 +43,7 @@ return [
     'passive_skill' => 'f5/misc.passive_skill',
     'none' => 'f5/misc.none',
     'shield' => 'f5/armor.shield',
+    'mage_armor' => 'f5/armor.mage_armor',
     'damage' => 'f5/misc.damage',
     'attack' => 'f5/misc.attack',
 
@@ -175,6 +176,7 @@ return [
 
 
     'title_innate_spellcasting' => 'f5/features.title_innate_spellcasting',
+    'title_prepared_spellcasting_class' => 'f5/features.title_prepared_spellcasting_class',
     'desc_spellcasting' => 'f5/features.desc_spellcasting',
     'desc_innate_spellcasting' => 'f5/features.desc_innate_spellcasting',
     'desc_prepared_spellcasting' => 'f5/features.desc_prepared_spellcasting',
@@ -233,6 +235,7 @@ return [
     'title_armor_class' => 'f5/armor.title_armor_class',
     'title_armor_name' => 'f5/armor.title_armor_name',
     'title_shield' => 'f5/armor.title_shield',
+    'title_mage_armor' => 'f5/armor.title_mage_armor',
     'title_abilities' => 'f5/abilities.title_abilities',
     'title_ability' => 'f5/abilities.title_ability',
     'title_challenge_rating' => 'f5/misc.title_challenge_rating',

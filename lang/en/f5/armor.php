@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'type_custom' => '-Manual Select-',
+    'type_custom' => 'Custom',
     'type_none' => 'No Armor',
     'type_natural' => 'Natural Armor',
     'type_light' => 'light',
@@ -9,7 +9,7 @@ return [
     'type_heavy' => 'heavy',
 
     'none' => 'No Armor',
-    'custom' => '-Manual Select-',
+    'custom' => 'Custom Armor',
     'natural' => 'Natural Armor',
     'padded' => 'Padded Armor',
     'leather' => 'Leather Armor',
@@ -25,11 +25,13 @@ return [
     'plate' => 'Plate Armor',
     
     'shield' => 'shield',
+    'mage_armor' => ':mage_armour_ac with Mage Armor',
 
     'stealth_dis' => 'Disadvantage on Stealth',
     
     'title_armor_class' => 'Armor Class',
     'title_armor_name' => 'Armor Name',
     'title_shield' => 'Shield',
+    'title_mage_armor' => 'Mage Armor',
     
 ];

@@ -28350,6 +28350,7 @@ function initVue(f5data) {
       importMonster: function importMonster(monster) {
         console.log('import monster');
         var importedStatBlock = monster;
+        console.log(importedStatBlock);
         this.statblocks.unshift(importedStatBlock);
       },
       createStatBlock: function createStatBlock() {
@@ -28369,7 +28370,8 @@ function initVue(f5data) {
             manual: '10',
             bonus: '0',
             stealthDis: false,
-            shield: false
+            shield: false,
+            mageArmor: false
           },
           hitPoints: {
             diceType: 4,
@@ -29451,7 +29453,110 @@ var monsters = [{
   "actions": 1,
   "bonusActions": 1,
   "features": {
-    "passive": [],
+    "passive": [{
+      "id": "M9yTsRg7xfkC6F7",
+      "actionType": "passive",
+      "name": "Magic Resistance",
+      "template": "custom",
+      "attackAbility": "str",
+      "targetType": "melee",
+      "attackType": "weapon",
+      "attackRange": {
+        "low": 20,
+        "high": 60
+      },
+      "attackReach": 5,
+      "attackDamage": [{
+        "diceType": 4,
+        "diceAmount": 1,
+        "additional": 0,
+        "abilityBonus": true,
+        "type": "slashing"
+      }],
+      "attackSavingThrow": false,
+      "attackTargets": 1,
+      "aoeRange": 30,
+      "savingThrowMonsterAbility": "str",
+      "savingThrowSaveAbilities": ["str"],
+      "savingThrowDamage": [{
+        "diceType": 4,
+        "diceAmount": 1,
+        "additional": 0,
+        "abilityBonus": false,
+        "type": "slashing"
+      }],
+      "savingThrowHalfOnSuccess": true,
+      "savingThrowConditions": [],
+      "hasOngoingDamage": false,
+      "ongoingDamage": [{
+        "diceType": 4,
+        "diceAmount": 1,
+        "additional": 0,
+        "abilityBonus": false,
+        "type": "slashing"
+      }],
+      "ongoingDamageOccurs": "start_of_turn",
+      "ongoingDamageOnFailedSave": true,
+      "ongoingDamageRepeatSave": false,
+      "ongoingDamageDuration": "ongoing",
+      "recharge": {
+        "type": "none",
+        "diceType": 6,
+        "minRoll": 5,
+        "uses": 1
+      },
+      "spellcastingAbility": "int",
+      "innateSpellcasting": false,
+      "spellList": [],
+      "spellSlots": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "customDamage": [],
+      "customDescription": "The :creature_name has advantage on saving throws against spells and other magical effects.",
+      "additionalDescription": "",
+      "multiattackReferences": [[], []],
+      "legendaryActionCost": 1,
+      "manualDPR": -1,
+      "averageDPR": 0,
+      "damageProjection": [{
+        "name": "Magic Resistance",
+        "damage": 0,
+        "actionCost": 1
+      }, {
+        "name": "Magic Resistance",
+        "damage": 0,
+        "actionCost": 1
+      }, {
+        "name": "Magic Resistance",
+        "damage": 0,
+        "actionCost": 1
+      }, {
+        "name": "Magic Resistance",
+        "damage": 0,
+        "actionCost": 1
+      }, {
+        "name": "Magic Resistance",
+        "damage": 0,
+        "actionCost": 1
+      }, {
+        "name": "Magic Resistance",
+        "damage": 0,
+        "actionCost": 1
+      }, {
+        "name": "Magic Resistance",
+        "damage": 0,
+        "actionCost": 1
+      }]
+    }],
     "spellcasting": [{
       "id": "cQmrOCWMvMf25oy",
       "actionType": "spellcasting",
@@ -29683,7 +29788,94 @@ var monsters = [{
         "actionCost": 1
       }]
     }],
-    "multiattack": [],
+    "multiattack": [{
+      "id": "x8p8cosVgzYrXdN",
+      "actionType": "multiattack",
+      "name": "Multiattack",
+      "template": "multiattack",
+      "attackAbility": "str",
+      "targetType": "melee",
+      "attackType": "weapon",
+      "attackRange": {
+        "low": 20,
+        "high": 60
+      },
+      "attackReach": 5,
+      "attackDamage": [{
+        "diceType": 4,
+        "diceAmount": 1,
+        "additional": 0,
+        "abilityBonus": true,
+        "type": "slashing"
+      }],
+      "attackSavingThrow": false,
+      "attackTargets": 1,
+      "aoeRange": 30,
+      "savingThrowMonsterAbility": "str",
+      "savingThrowSaveAbilities": ["str"],
+      "savingThrowDamage": [{
+        "diceType": 4,
+        "diceAmount": 1,
+        "additional": 0,
+        "abilityBonus": false,
+        "type": "slashing"
+      }],
+      "savingThrowHalfOnSuccess": true,
+      "savingThrowConditions": [],
+      "hasOngoingDamage": false,
+      "ongoingDamage": [{
+        "diceType": 4,
+        "diceAmount": 1,
+        "additional": 0,
+        "abilityBonus": false,
+        "type": "slashing"
+      }],
+      "ongoingDamageOccurs": "start_of_turn",
+      "ongoingDamageOnFailedSave": true,
+      "ongoingDamageRepeatSave": false,
+      "ongoingDamageDuration": "ongoing",
+      "recharge": {
+        "type": "none",
+        "diceType": 6,
+        "minRoll": 5,
+        "uses": 1
+      },
+      "spellcastingAbility": "int",
+      "innateSpellcasting": false,
+      "spellList": [],
+      "spellSlots": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0
+      },
+      "customDamage": [],
+      "customDescription": "",
+      "additionalDescription": "",
+      "multiattackReferences": [[{
+        "index": 0,
+        "uses": 2
+      }, {
+        "index": 1,
+        "uses": 2
+      }], [{
+        "index": 0,
+        "uses": 2
+      }, {
+        "index": "spellcasting",
+        "uses": 1
+      }]],
+      "legendaryActionCost": 1,
+      "manualDPR": -1,
+      "averageDPR": 62,
+      "damageProjection": []
+    }],
     "action": [{
       "id": "xn6a7ZKckpTAAl2",
       "actionType": "action",
@@ -32018,6 +32210,12 @@ var StatBlockFeature = {
         spellDesc = spellDesc.replace(':at_will_spell_list', atWillSpellList.toLowerCase());
       } else {
         spellDesc = spellDesc.replace(':at_will_spells', '');
+      }
+
+      if (this.spellcastingClass) {
+        spellDesc = spellDesc.replace(':spellcasting_class', ' ' + this.spellcastingClass);
+      } else {
+        spellDesc = spellDesc.replace(':spellcasting_class', '');
       } //Spells
 
 
@@ -32559,9 +32757,9 @@ var StatBlock = {
 
       var dpr = Object.values(dprGroups).reduce(function (a, b) {
         return a + b;
-      });
-      console.log(this.value.name + ' averageDPR -> ' + dpr);
-      console.log(dprGroups);
+      }); //console.log(this.value.name + ' averageDPR -> '+dpr);
+      //console.log(dprGroups);
+
       return dpr;
     },
     damageProjection: function damageProjection() {
@@ -32859,9 +33057,8 @@ var StatBlock = {
     acText: function acText() {
       var acText = '';
       var name = '';
-      var acValue = 0;
+      var acValue = this.getAC;
       var magicalBonus = '';
-      var statBonus = 0;
       var stealthDis = '';
 
       if (this.value.armorClass && this.value.armorClass.type && this.$parent.f5.armor[this.value.armorClass.type]) {
@@ -32870,54 +33067,32 @@ var StatBlock = {
           name = this.value.armorClass.name;
         } else if (this.value.armorClass.type !== 'none' && this.$parent.f5.armor[this.value.armorClass.type].name) {
           name = this.$parent.f5.armor[this.value.armorClass.type].name;
-        } //set AC value
-
-
-        if (this.$parent.f5.armor[this.value.armorClass.type].range) {
-          //manual value
-          acValue = parseFloat(this.value.armorClass.manual);
-
-          if (this.value.armorClass.stealthDis) {
-            stealthDis = ' (' + this.$parent.f5.misc.stealth_dis + ')';
-          }
-        } else if (this.$parent.f5.armor[this.value.armorClass.type].base) {
-          //base value
-          acValue = this.$parent.f5.armor[this.value.armorClass.type].base;
-
-          if (this.$parent.f5.armor[this.value.armorClass.type].bonus && this.value.abilities[this.$parent.f5.armor[this.value.armorClass.type].bonus]) {
-            //get stat bonus
-            statBonus = this.getAbilityMod(this.$parent.f5.armor[this.value.armorClass.type].bonus);
-
-            if (this.$parent.f5.armor[this.value.armorClass.type].max_bonus && statBonus > this.$parent.f5.armor[this.value.armorClass.type].max_bonus) {
-              //set to max bonus
-              statBonus = this.$parent.f5.armor[this.value.armorClass.type].max_bonus;
-            }
-
-            acValue += parseFloat(statBonus);
-          }
-
-          if (this.$parent.f5.armor[this.value.armorClass.type].stealth_dis) {
-            stealthDis = ' (' + this.$parent.f5.misc.stealth_dis + ')';
-          }
-        } else {
-          console.error('Couldn\'t calculate AC');
-        }
-
-        if (this.allowAcBonus && this.value.armorClass.bonus && this.value.armorClass.bonus > 0) {
-          acValue += parseFloat(this.value.armorClass.bonus);
-          magicalBonus = "+" + this.value.armorClass.bonus + ' ';
         }
 
         var shieldText = '';
 
         if (this.value.armorClass.shield) {
-          shieldText = ', ' + this.$parent.f5.misc.shield;
+          shieldText = this.$parent.f5.misc.shield;
+        }
+
+        var mageArmorText = '';
+
+        if (this.value.armorClass.mageArmor) {
+          var mageArmorAc = 13 + this.getAbilityMod('dex');
+
+          if (this.value.armorClass.shield) {
+            mageArmorAc += 2;
+          }
+
+          if (mageArmorAc > acValue) {
+            mageArmorText = this.$parent.f5.misc.mage_armor.replace(':mage_armour_ac', mageArmorAc);
+          }
         }
 
         acText = String(acValue);
 
-        if (magicalBonus || shieldText || name) {
-          acText += ' (' + magicalBonus + name + shieldText + ')'; // +stealthDis?;
+        if (magicalBonus || shieldText || name || mageArmorText) {
+          acText += ' (' + this.createSimpleList([magicalBonus + name, shieldText, mageArmorText]) + ')'; // +stealthDis?;
         }
       }
 
@@ -33520,6 +33695,7 @@ var StatBlock = {
         },
         spellcastingAbility: 'int',
         innateSpellcasting: false,
+        spellcastingClass: '',
         spellList: [],
         spellSlots: {},
         customDamage: [],
@@ -33678,6 +33854,7 @@ var StatBlock = {
       return descText;
     },
     createSimpleList: function createSimpleList(input) {
+      var allowEmpty = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
       var len = input.length;
 
       if (isNaN(len)) {
@@ -33689,11 +33866,14 @@ var StatBlock = {
       var descText = '';
 
       for (var i in input) {
-        if (descText) {
-          descText += this.$parent.f5.misc.sentence_list_separator + ' ';
-        }
+        if (input[i] || allowEmpty) {
+          if (descText) {
+            ;
+            descText += this.$parent.f5.misc.sentence_list_separator + ' ';
+          }
 
-        descText += input[i];
+          descText += input[i];
+        }
       }
 
       return descText;

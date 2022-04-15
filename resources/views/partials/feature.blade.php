@@ -114,6 +114,13 @@
                     <label class="title-label" for="feature__innate-spellcasting">@{{$parent.$parent.f5.misc.title_innate_spellcasting}}:</label>
                     <input type="checkbox" v-model="value.innateSpellcasting">
                 </div>
+                <div> 
+                    <label class="title-label" for="feature__prepared-spellcasting">@{{$parent.$parent.f5.misc.title_prepared_spellcasting_class}}:</label>
+                    <select v-model="value.spellcastingClass">
+                        <option value="">@{{$parent.$parent.f5.misc.none}}</option>
+                        <option v-for="(class, i) in $parent.$parent.f5.classes" v-if="class.prepared_spellcasting" :value="i">@{{class.name}}</option>
+                    </select>
+                </div>
 
                 <div v-if="!value.innateSpellcasting">
                     <label class="title-label">@{{$parent.$parent.f5.misc.title_spell_slots}}:</label>

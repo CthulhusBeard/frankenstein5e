@@ -427,6 +427,12 @@ var StatBlockFeature = {
             } else {
                 spellDesc = spellDesc.replace(':at_will_spells', '');
             }
+
+            if(this.spellcastingClass) {
+                spellDesc = spellDesc.replace(':spellcasting_class', ' '+this.spellcastingClass);
+            } else {
+                spellDesc = spellDesc.replace(':spellcasting_class', '');
+            }
             
 
             //Spells

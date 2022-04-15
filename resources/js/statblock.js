@@ -49,8 +49,8 @@ var StatBlock = {
 
             let dpr = Object.values(dprGroups).reduce((a, b) => a + b);
             
-            console.log(this.value.name + ' averageDPR -> '+dpr);
-            console.log(dprGroups);
+            //console.log(this.value.name + ' averageDPR -> '+dpr);
+            //console.log(dprGroups);
             
             return dpr;
         },
@@ -337,9 +337,8 @@ var StatBlock = {
         acText: function() {
             let acText = '';
             let name = '';
-            let acValue = 0;
+            let acValue = this.getAC;
             let magicalBonus = '';
-            let statBonus = 0;
             let stealthDis = '';
 
             if(
@@ -354,46 +353,25 @@ var StatBlock = {
                     name = this.$parent.f5.armor[this.value.armorClass.type].name;
                 }
 
-                //set AC value
-                if(this.$parent.f5.armor[this.value.armorClass.type].range) {
-                    //manual value
-                    acValue = parseFloat(this.value.armorClass.manual);
-                    if(this.value.armorClass.stealthDis) {
-                        stealthDis = ' ('+this.$parent.f5.misc.stealth_dis+')';
-                    }
-
-                } else if(this.$parent.f5.armor[this.value.armorClass.type].base) {
-                    //base value
-                    acValue = this.$parent.f5.armor[this.value.armorClass.type].base;
-                    if(this.$parent.f5.armor[this.value.armorClass.type].bonus && this.value.abilities[this.$parent.f5.armor[this.value.armorClass.type].bonus]) {
-                        //get stat bonus
-                        statBonus = this.getAbilityMod(this.$parent.f5.armor[this.value.armorClass.type].bonus);
-                        if(this.$parent.f5.armor[this.value.armorClass.type].max_bonus && statBonus > this.$parent.f5.armor[this.value.armorClass.type].max_bonus) {
-                            //set to max bonus
-                            statBonus = this.$parent.f5.armor[this.value.armorClass.type].max_bonus;
-                        }
-                        acValue += parseFloat(statBonus);
-                    }
-                    if(this.$parent.f5.armor[this.value.armorClass.type].stealth_dis) {
-                        stealthDis = ' ('+this.$parent.f5.misc.stealth_dis+')';
-                    }
-                } else {
-                    console.error('Couldn\'t calculate AC');
-                }
-                
-                if(this.allowAcBonus && this.value.armorClass.bonus && this.value.armorClass.bonus > 0) {
-                    acValue += parseFloat(this.value.armorClass.bonus);
-                    magicalBonus = "+"+this.value.armorClass.bonus+' ';
-                }
-
                 let shieldText = '';
                 if(this.value.armorClass.shield) {
-                    shieldText = ', '+this.$parent.f5.misc.shield;
+                    shieldText = this.$parent.f5.misc.shield;
+                }
+
+                let mageArmorText = '';
+                if(this.value.armorClass.mageArmor) {
+                    let mageArmorAc = 13 + this.getAbilityMod('dex');
+                    if(this.value.armorClass.shield) {
+                        mageArmorAc += 2;
+                    }
+                    if(mageArmorAc > acValue) {
+                        mageArmorText = this.$parent.f5.misc.mage_armor.replace(':mage_armour_ac', mageArmorAc);
+                    }
                 }
 
                 acText = String(acValue);
-                if(magicalBonus || shieldText || name) {
-                    acText += ' (' + magicalBonus + name + shieldText + ')';// +stealthDis?;
+                if(magicalBonus || shieldText || name || mageArmorText) {
+                    acText += ' (' + this.createSimpleList([magicalBonus + name, shieldText, mageArmorText]) + ')';// +stealthDis?;
                 }
             }
             return acText.toLowerCase();
@@ -920,6 +898,7 @@ var StatBlock = {
                 },
                 spellcastingAbility: 'int',
                 innateSpellcasting: false,
+                spellcastingClass: '',
                 spellList: [],
                 spellSlots: {},
                 customDamage: [],
@@ -1063,7 +1042,7 @@ var StatBlock = {
             return descText;
         },
 
-        createSimpleList: function(input) {
+        createSimpleList: function(input, allowEmpty = false) {
             let len = input.length;
             if(isNaN(len)) {
                 if(!isNaN(Object.keys(input).length)) {
@@ -1072,10 +1051,12 @@ var StatBlock = {
             }
             let descText = '';
             for(let i in input) {
-                if(descText) {
-                    descText += this.$parent.f5.misc.sentence_list_separator+' ';
+                if(input[i] || allowEmpty) {
+                    if(descText) {;
+                        descText += this.$parent.f5.misc.sentence_list_separator+' ';
+                    }
+                    descText += input[i];
                 }
-                descText += input[i];
             }
             return descText;
         },
