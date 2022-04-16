@@ -28420,6 +28420,16 @@ function initVue(f5data) {
           },
           display: {
             columns: 1
+          },
+          graph: {// chartOptions: 
+            // chartData: 
+            // chartId: 
+            // datasetIdKey: 
+            // plugins: 
+            // cssClasses: 
+            // styles: 
+            // width: 
+            // height: 300,
           }
         };
 
@@ -28467,6 +28477,75 @@ function initVue(f5data) {
   });
   return app;
 }
+
+/***/ }),
+
+/***/ "./resources/js/projection-graph.js":
+/*!******************************************!*\
+  !*** ./resources/js/projection-graph.js ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ProjectionGraph; });
+!(function webpackMissingModule() { var e = new Error("Cannot find module 'vue-chartjs/legacy'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/chart.esm.js");
+
+
+chart_js__WEBPACK_IMPORTED_MODULE_1__["Chart"].register(chart_js__WEBPACK_IMPORTED_MODULE_1__["Title"], chart_js__WEBPACK_IMPORTED_MODULE_1__["Tooltip"], chart_js__WEBPACK_IMPORTED_MODULE_1__["Legend"], chart_js__WEBPACK_IMPORTED_MODULE_1__["BarElement"], chart_js__WEBPACK_IMPORTED_MODULE_1__["CategoryScale"], chart_js__WEBPACK_IMPORTED_MODULE_1__["LinearScale"]);
+
+var ProjectionGraph = {
+  name: 'BarChart',
+  template: '#projection-graph',
+  components: {
+    Bar: !(function webpackMissingModule() { var e = new Error("Cannot find module 'vue-chartjs/legacy'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())
+  },
+  props: {
+    chartId: {
+      type: String,
+      "default": 'bar-chart'
+    },
+    datasetIdKey: {
+      type: String,
+      "default": 'label'
+    },
+    width: {
+      type: Number,
+      "default": 400
+    },
+    height: {
+      type: Number,
+      "default": 400
+    },
+    cssClasses: {
+      "default": '',
+      type: String
+    },
+    styles: {
+      type: Object,
+      "default": function _default() {}
+    },
+    plugins: {
+      type: Object,
+      "default": function _default() {}
+    }
+  },
+  data: function data() {
+    return {
+      chartData: {
+        labels: ['January', 'February', 'March'],
+        datasets: [{
+          data: [40, 20, 12]
+        }]
+      },
+      chartOptions: {
+        responsive: true
+      }
+    };
+  }
+};
 
 /***/ }),
 
@@ -31896,6 +31975,11 @@ var StatBlockFeature = {
         for (var _i4 in this.value.customDamage) {
           avgDPR += this.$parent.averageDamage(this.value.customDamage[_i4], 0);
         }
+      } //Limit targets to number of players
+
+
+      if (avgTargets > this.$parent.$parent.editor.player_characters.number) {
+        avgTargets = this.$parent.$parent.editor.player_characters.number;
       }
 
       var dpr = avgDPR * avgTargets; //Set to value
@@ -32693,6 +32777,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return StatBlock; });
 /* harmony import */ var _vueform_multiselect_dist_multiselect_vue2_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @vueform/multiselect/dist/multiselect.vue2.js */ "./node_modules/@vueform/multiselect/dist/multiselect.vue2.js");
 /* harmony import */ var _statblock_feature_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./statblock-feature.js */ "./resources/js/statblock-feature.js");
+/* harmony import */ var _projection_graph_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./projection-graph.js */ "./resources/js/projection-graph.js");
 function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -32702,12 +32787,14 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 
 
+
 var StatBlock = {
   props: ['value'],
   template: '#statblock',
   components: {
     'Multiselect': _vueform_multiselect_dist_multiselect_vue2_js__WEBPACK_IMPORTED_MODULE_0__["default"],
-    'statblock-feature': _statblock_feature_js__WEBPACK_IMPORTED_MODULE_1__["default"]
+    'statblock-feature': _statblock_feature_js__WEBPACK_IMPORTED_MODULE_1__["default"],
+    'projection-graph': _projection_graph_js__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   created: function created() {
     this.$on('feature-drp-change', this.featureDPRChanged);

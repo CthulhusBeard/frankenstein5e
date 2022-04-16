@@ -1,6 +1,6 @@
 import Multiselect from '@vueform/multiselect/dist/multiselect.vue2.js';
-import StatBlockFeature from './statblock-feature.js'
-import StatBlock from './statblock.js'
+import StatBlockFeature from './statblock-feature.js';
+import StatBlock from './statblock.js';
 
 export function initVue(f5data) {
     
@@ -135,6 +135,17 @@ export function initVue(f5data) {
                     },
                     display: {
                         columns: 1,
+                    }, 
+                    graph: {
+                        // chartOptions: 
+                        // chartData: 
+                        // chartId: 
+                        // datasetIdKey: 
+                        // plugins: 
+                        // cssClasses: 
+                        // styles: 
+                        // width: 
+                        // height: 300,
                     }
                 };
 

@@ -528,8 +528,8 @@
             </div>
             
             <div class="dpr-controller popup-overlay">
-                <!-- <projection-graph
-                    :chart-options="graph.chartOptions"
+                <projection-graph
+                    <!-- :chart-options="graph.chartOptions"
                     :chart-data="graph.chartData"
                     :chart-id="graph.chartId"
                     :dataset-id-key="graph.datasetIdKey"
@@ -537,8 +537,8 @@
                     :css-classes="graph.cssClasses"
                     :styles="graph.styles"
                     :width="graph.width"
-                    :height="graph.height" 
-                ></projection-graph>-->
+                    :height="graph.height" -->
+                ></projection-graph>
 
                 <div>
                     <label class="option-label" for="options__damage-projection">
