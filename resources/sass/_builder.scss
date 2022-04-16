@@ -17,6 +17,7 @@
 .popup-overlay {
     border: 1px black solid;
     border-radius: 7px;
+    color: black;
     background-color: bisque;
     z-index: 1000;
     padding: 10px;
@@ -24,18 +25,14 @@
     box-shadow: 5px 5px rgba(0, 0, 0, 0.5);
 }
 
+.dpr-controller {
+    position: relative;
+    width: 600px;
+}
+
 .cr-controller {
     position: relative;
-    color: black;
     width: 300px;
-    //height: 150px;
-    border: 1px black solid;
-    border-radius: 7px;
-    background-color: bisque;
-    z-index: 1000;
-    padding: 3px;
-    margin: 4px;
-    box-shadow: 5px 5px rgba(0, 0, 0, 0.5);
 }
 
 .statblock-data {

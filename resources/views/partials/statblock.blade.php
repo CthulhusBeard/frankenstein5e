@@ -480,6 +480,16 @@
 
         <div class="statblock-data">
             <div class="cr-controller popup-overlay">
+                <div>
+                    <div>
+                        <label class="control-label" for="controls__columns">@{{$parent.f5.misc.title_columns}}: </label>
+                        <select v-model="value.display.columns">
+                                <option v-for="i in 3" :value="i">@{{i}}</option>
+                        </select>
+                    </div>
+                    <button @click="exportMonster()">@{{$parent.f5.misc.title_export}}</button>
+                </div>
+                
                 <strong>@{{$parent.f5.misc.title_cr_manager}}</strong>
                 <div>
                     @{{$parent.f5.misc.title_approx_dpr}}: @{{averageDPR}}<br/>
@@ -517,7 +527,19 @@
                 </div>
             </div>
             
-            <div class="cr-controller popup-overlay">
+            <div class="dpr-controller popup-overlay">
+                <!-- <projection-graph
+                    :chart-options="graph.chartOptions"
+                    :chart-data="graph.chartData"
+                    :chart-id="graph.chartId"
+                    :dataset-id-key="graph.datasetIdKey"
+                    :plugins="graph.plugins"
+                    :css-classes="graph.cssClasses"
+                    :styles="graph.styles"
+                    :width="graph.width"
+                    :height="graph.height" 
+                ></projection-graph>-->
+
                 <div>
                     <label class="option-label" for="options__damage-projection">
                         <strong>@{{$parent.f5.misc.title_damage_projection}}:</strong>
@@ -526,16 +548,6 @@
                         @{{damageProjection}}
                     </div>
                 </div>
-            </div>
-
-            <div class="cr-controller popup-overlay">
-                <div>
-                    <label class="control-label" for="controls__columns">@{{$parent.f5.misc.title_columns}}: </label>
-                    <select v-model="value.display.columns">
-                            <option v-for="i in 3" :value="i">@{{i}}</option>
-                    </select>
-                </div>
-                <button @click="exportMonster()">@{{$parent.f5.misc.title_export}}</button>
             </div>
         </div>
 

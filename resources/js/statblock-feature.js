@@ -2,7 +2,7 @@ import Multiselect from '@vueform/multiselect/dist/multiselect.vue2.js';
 
 export {StatBlockFeature as default}
 
-var StatBlockFeature = {
+let StatBlockFeature = {
     props: ['value'],
     template: '#stat-block__feature',  
     components: {

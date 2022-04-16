@@ -1,6 +1,9 @@
 //TODO: 
 
 HIGH PRIORITY
+- [ ] DPR Projection Graph
+- [ ] Multiattack feature list in projection
+- [ ] Tips and suggestions
 - [ ] Allow adding text replace codes to custom description
 - [ ] Figure out which dpr events are actually necessary
 - [ ] Minimum size for conditions (grappled, swallowed, etc)
