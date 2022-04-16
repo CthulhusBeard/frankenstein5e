@@ -1,4 +1,4 @@
-import Multiselect from '@vueform/multiselect/dist/multiselect.vue2.js';
+import Multiselect from '@vueform/multiselect';
 
 export {StatBlockFeature as default}
 

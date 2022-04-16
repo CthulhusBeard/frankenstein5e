@@ -6,7 +6,6 @@
 
         <title>Frankenstein 5</title>
         
-        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
         <script src="{{mix('js/app.js')}}" defer></script>
         <link rel="stylesheet" type="text/css" href="{{mix('css/app.css')}}">
     </head>
