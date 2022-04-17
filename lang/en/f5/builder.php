@@ -27,5 +27,6 @@ return [
     'title_import' => 'Import Monster',
     'title_use_automatic' => 'Determined by CR',
     
+    'title_new_statblock' => 'Create New Statblock',
     'title_clear_all' => 'Clear All Data',
 ];

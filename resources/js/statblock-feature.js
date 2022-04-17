@@ -4,7 +4,7 @@ export {StatBlockFeature as default}
 
 let StatBlockFeature = {
     props: ['value'],
-    template: '#stat-block__feature',  
+    template: '#template-statblockfeature',  
     components: {
         'multiselect': Multiselect,
     },

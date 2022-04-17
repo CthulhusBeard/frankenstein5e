@@ -1,20 +1,17 @@
 import Multiselect from '@vueform/multiselect/dist/multiselect.vue2.js';
 import StatBlockFeature from './statblock-feature.js';
-//import {Line} from 'vue-chartjs';
-
-//import ProjectionGraph from './projection-graph.js';
+import ProjectionGraph from './projection-graph.js';
 
 export {StatBlock as default}
 
-var StatBlock = {
+let StatBlock = {
     props: ['value'],
-    template: '#statblock',
+    template: '#template-statblock',
     
     components: {
         'multiselect': Multiselect,
         'statblock-feature': StatBlockFeature,
-        //'projection-graph': ProjectionGraph,
-        //'projection-graph': Line,
+        'projection-graph': ProjectionGraph,
     },
 
     created() {

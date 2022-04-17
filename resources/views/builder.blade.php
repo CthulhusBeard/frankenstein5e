@@ -46,6 +46,10 @@
                     </div>
                     <div>
                         <br/>
+                        <button @click="createStatBlock()">@{{f5.misc.title_new_statblock}}</button>
+                    </div>
+                    <div>
+                        <br/>
                         <button @click="clearAllData()">@{{f5.misc.title_clear_all}}</button>
                     </div>
                 </div>
@@ -91,6 +95,7 @@
 
         @include('partials.statblock')
         @include('partials.feature')
+        @include('partials.projection-graph')
 
     </body>
 </html>

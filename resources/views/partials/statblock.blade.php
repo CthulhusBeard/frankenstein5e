@@ -1,4 +1,4 @@
-<script type="text/x-template" id="statblock"> 
+<script type="text/x-template" id="template-statblock"> 
     <div>
         <div class="stat-block-container">
             <div class="stat-block" v-bind:class="[{'edit-mode': $parent.editor.edit_mode}, statblockColumns]">
@@ -528,28 +528,15 @@
             </div>
             
             <div class="dpr-controller popup-overlay">
-                <!--<projection-graph
-                 
-                    :chart-options="graph.chartOptions"
-                    :chart-data="graph.chartData"
-                    :chart-id="graph.chartId"
-                    :dataset-id-key="graph.datasetIdKey"
-                    :plugins="graph.plugins"
-                    :css-classes="graph.cssClasses"
-                    :styles="graph.styles"
-                    :width="graph.width"
-                    :height="graph.height" 
-                    
-                ></projection-graph>-->
-
                 <div>
                     <label class="option-label" for="options__damage-projection">
                         <strong>@{{$parent.f5.misc.title_damage_projection}}:</strong>
                     </label>
-                    <div id="option options__damage-projection" name="options__damage-projection">
-                        @{{damageProjection}}
-                    </div>
                 </div>
+
+                <projection-graph
+                    v-bind:data="damageProjection"
+                ></projection-graph>
             </div>
         </div>
 

@@ -269,6 +269,7 @@ return [
     'title_import' => 'f5/builder.title_import',
     'title_use_automatic' => 'f5/builder.title_use_automatic',
     'title_clear_all' => 'f5/builder.title_clear_all',
+    'title_new_statblock' => 'f5/builder.title_new_statblock',
 
     'title_recharge' => 'f5/recharge.title_recharge',
     'title_recharge_min_roll' => 'f5/recharge.title_recharge_min_roll',

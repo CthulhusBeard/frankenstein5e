@@ -1,4 +1,4 @@
-<script type="text/x-template" id="stat-block__feature"> 
+<script type="text/x-template" id="template-statblockfeature"> 
     <div class="stat-block__feature focus-edit">
         <div class="feature__display">
             <span class="feature__title {{--display-field--}}">@{{displayName}}</span>
