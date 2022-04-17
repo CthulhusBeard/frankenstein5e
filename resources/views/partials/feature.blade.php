@@ -274,7 +274,7 @@
                     <br/>
 
                     <label class="title-label">@{{$parent.$parent.f5.misc.title_saving_throw_ability}}:</label>
-                    <Multiselect class="edit-field edit-field--flex"
+                    <multiselect class="edit-field edit-field--flex"
                         :placeholder="$parent.$parent.f5.misc.choose_abilities"
                         v-model="value.savingThrowSaveAbilities" 
                         :options="$parent.$parent.f5.abilities" 
@@ -295,11 +295,11 @@
                         <template v-slot:option="{ option }">
                             @{{ option.label.name }}
                         </template>
-                    </Multiselect>
+                    </multiselect>
                     <br/>
 
                     <label class="title-label">@{{$parent.$parent.f5.misc.title_saving_throw_conditions}}:</label>
-                    <Multiselect class="edit-field edit-field--flex"
+                    <multiselect class="edit-field edit-field--flex"
                         :placeholder="$parent.$parent.f5.misc.choose_conditions"
                         v-model="value.savingThrowConditions" 
                         :options="$parent.$parent.f5.conditions" 
@@ -320,7 +320,7 @@
                         <template v-slot:option="{ option }">
                             @{{ option.label.name }}
                         </template>
-                    </Multiselect>
+                    </multiselect>
                     <br/>
 
                     <label class="title-label">@{{$parent.$parent.f5.misc.title_half_on_success}}:</label>

@@ -27,7 +27,7 @@ export function initVue(f5data) {
         },
 
         components: {
-            'Multiselect': Multiselect,
+            'multiselect': Multiselect,
             'statblock': StatBlock,
             'statblock-feature': StatBlockFeature,
         },

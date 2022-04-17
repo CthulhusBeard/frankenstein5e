@@ -152,7 +152,7 @@
                             <span v-if="skillText" class="title">@{{$parent.f5.misc.title_skills}}:</span>
                             <span v-else class="title">+ @{{$parent.f5.misc.title_skills}}</span>
                             <span>@{{skillText}}</span>
-                            <Multiselect class="edit-field edit-field--flex"
+                            <multiselect class="edit-field edit-field--flex"
                                 :placeholder="$parent.f5.misc.choose_skill"
                                 v-model="value.skills" 
                                 :options="$parent.f5.skills" 
@@ -173,14 +173,14 @@
                                     <template v-slot:option="{ option }">
                                         @{{ option.label.name }}
                                     </template>
-                            </Multiselect>
+                            </multiselect>
                         </div>
 
                         <div class="stat-block__attribute focus-edit" v-bind:class="{'edit-show': !damageResistanceText}">
                             <span v-if="damageResistanceText" class="title">@{{$parent.f5.misc.title_damage_resistances}}:</span>
                             <span v-else class="title">+ @{{$parent.f5.misc.title_damage_resistances}}</span>
                             <span>@{{damageResistanceText}}</span>
-                            <Multiselect class="edit-field edit-field--flex"
+                            <multiselect class="edit-field edit-field--flex"
                                 v-model="value.damageResistances" 
                                 :placeholder="$parent.f5.misc.choose_a.replace(':choice', 'damage type')"
                                 :options="eligableDamageTypes" 
@@ -201,14 +201,14 @@
                                     <template v-slot:option="{ option }">
                                         @{{ option.label }}
                                     </template>
-                            </Multiselect>
+                            </multiselect>
                         </div>
 
                         <div class="stat-block__attribute focus-edit" v-bind:class="{'edit-show': !damageImmunitiesText}">
                             <span v-if="damageImmunitiesText" class="title">@{{$parent.f5.misc.title_damage_immunities}}:</span>
                             <span v-else class="title">+ @{{$parent.f5.misc.title_damage_immunities}}</span>
                             <span>@{{damageImmunitiesText}}</span>
-                            <Multiselect class="edit-field edit-field--flex"
+                            <multiselect class="edit-field edit-field--flex"
                                 v-model="value.damageImmunities" 
                                 :placeholder="$parent.f5.misc.choose_a.replace(':choice', 'damage type')"
                                 :options="eligableDamageTypes" 
@@ -229,14 +229,14 @@
                                     <template v-slot:option="{ option }">
                                         @{{ option.label }}
                                     </template>
-                            </Multiselect>
+                            </multiselect>
                         </div>
 
                         <div class="stat-block__attribute focus-edit" v-bind:class="{'edit-show': !damageVulnerabilitiesText}">
                             <span v-if="damageVulnerabilitiesText" class="title">@{{$parent.f5.misc.title_damage_vulnerabilities}}:</span>
                             <span v-else class="title">+ @{{$parent.f5.misc.title_damage_vulnerabilities}}</span>
                             <span>@{{damageVulnerabilitiesText}}</span>
-                            <Multiselect class="edit-field edit-field--flex"
+                            <multiselect class="edit-field edit-field--flex"
                                 v-model="value.damageVulnerabilites" 
                                 :placeholder="$parent.f5.misc.choose_a.replace(':choice', 'damage type')"
                                 :options="eligableDamageTypes" 
@@ -257,14 +257,14 @@
                                     <template v-slot:option="{ option }">
                                         @{{ option.label }}
                                     </template>
-                            </Multiselect>
+                            </multiselect>
                         </div>
 
                         <div class="stat-block__attribute focus-edit" v-bind:class="{'edit-show': !conditionImmunitiesText}">
                             <span v-if="conditionImmunitiesText" class="title">@{{$parent.f5.misc.title_condition_immunities}}:</span>
                             <span v-else class="title">+ @{{$parent.f5.misc.title_condition_immunities}}</span>
                             <span>@{{conditionImmunitiesText}}</span>
-                            <Multiselect class="edit-field edit-field--flex"
+                            <multiselect class="edit-field edit-field--flex"
                                 v-model="value.conditionImmunities" 
                                 :placeholder="$parent.f5.misc.choose_a.replace(':choice', 'condition')"
                                 :options="$parent.f5.conditions" 
@@ -285,7 +285,7 @@
                                     <template v-slot:option="{ option }">
                                         @{{ option.label.name }}
                                     </template>
-                            </Multiselect>
+                            </multiselect>
                         </div>
 
                         <div class="stat-block__attribute focus-edit" v-bind:class="{'edit-show': !sensesText}">
@@ -309,7 +309,7 @@
                         <div class="stat-block__attribute focus-edit">
                             <span class="title">@{{$parent.f5.misc.title_languages}}:</span>
                             <span>@{{languageText}}</span>
-                            <Multiselect class="edit-field edit-field--flex"
+                            <multiselect class="edit-field edit-field--flex"
                                 v-model="value.languages.spokenWritten" 
                                 :options="$parent.f5.languages" 
                                 mode="tags"
@@ -329,7 +329,7 @@
                                     <template v-slot:option="{ option }">
                                         @{{ option.label.name }}
                                     </template>
-                            </Multiselect>
+                            </multiselect>
                             
                             <span for="languages__telepathy" class="edit-field">@{{$parent.f5.misc.telepathy}}</span>
                             <select name="languages__telepathy" v-model="value.languages.telepathy" class="edit-field">
@@ -528,7 +528,8 @@
             </div>
             
             <div class="dpr-controller popup-overlay">
-                <!-- <projection-graph
+                <!--<projection-graph
+                 
                     :chart-options="graph.chartOptions"
                     :chart-data="graph.chartData"
                     :chart-id="graph.chartId"
@@ -538,6 +539,7 @@
                     :styles="graph.styles"
                     :width="graph.width"
                     :height="graph.height" 
+                    
                 ></projection-graph>-->
 
                 <div>

@@ -6,7 +6,7 @@ let StatBlockFeature = {
     props: ['value'],
     template: '#stat-block__feature',  
     components: {
-        'Multiselect': Multiselect,
+        'multiselect': Multiselect,
     },
 
     mounted() {

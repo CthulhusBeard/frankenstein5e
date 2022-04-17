@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Frankenstein 5</title>
+        <title>Frankenstein 5E</title>
         
         <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
         <script src="{{mix('js/app.js')}}" defer></script>
@@ -52,9 +52,9 @@
             </div>
 
             <statblock 
-                    v-for="statblock in statblocks"
-                    v-model="statblock"
-                    v-on:remove-statblock="removeStatBlock">
+                v-for="statblock in statblocks"
+                v-model="statblock"
+                v-on:remove-statblock="removeStatBlock">
             </statblock>
 
         </div>
