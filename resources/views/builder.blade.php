@@ -58,7 +58,8 @@
             <statblock 
                 v-for="statblock in statblocks"
                 v-model="statblock"
-                v-on:remove-statblock="removeStatBlock">
+                v-on:remove-statblock="removeStatBlock"
+                ref="statblocks">
             </statblock>
 
         </div>

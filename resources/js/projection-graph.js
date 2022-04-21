@@ -26,35 +26,48 @@ var ProjectionGraph = {
     },
 
     graphData: function() {
+
+      let labelsList = [];
+      for(let i = 0; i < this.$parent.$parent.editor.round_tracker; i++) {
+        labelsList.push('[PH] Turn '+(i+1));
+      }
+
+      let data = {
+        labels: labelsList,
+        datasets: [
+          {
+            label: "Actions: "+this.$parent.value.name,
+            data: [0, 0, 1, 2, 79, 82, 27, 14],
+            backgroundColor: "rgba(54,73,93,.5)",
+            borderColor: "#36495d",
+            borderWidth: 3,
+            pointStyle: 'circle',
+            pointRadius: 5,
+            pointHoverRadius: 10
+          },
+          {
+            label: "Bonus Actions: ",
+            data: [0.166, 2.081, 3.003, 0.323, 954.792, 285.886, 43.662, 51.514],
+            backgroundColor: "rgba(71, 183,132,.5)",
+            borderColor: "#47b784",
+            borderWidth: 3,
+            pointStyle: 'circle',
+            pointRadius: 5,
+            pointHoverRadius: 10
+          }
+        ]
+      };
+
+      return data;
+    },
+
+    graphProperties: function() {
+      console.log('graphData');
       console.log(this.data);
 
       let data = {
         type: "line",
-        data: {
-          labels: ["Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune"],
-          datasets: [
-            {
-              label: "Number of Moons",
-              data: [0, 0, 1, 2, 79, 82, 27, 14],
-              backgroundColor: "rgba(54,73,93,.5)",
-              borderColor: "#36495d",
-              borderWidth: 3,
-              pointStyle: 'circle',
-              pointRadius: 5,
-              pointHoverRadius: 10
-            },
-            {
-              label: "Planetary Mass (relative to the Sun x 10^-6)",
-              data: [0.166, 2.081, 3.003, 0.323, 954.792, 285.886, 43.662, 51.514],
-              backgroundColor: "rgba(71, 183,132,.5)",
-              borderColor: "#47b784",
-              borderWidth: 3,
-              pointStyle: 'circle',
-              pointRadius: 5,
-              pointHoverRadius: 10
-            }
-          ]
-        },
+        data: this.graphData,
         options: {
           responsive: true,
           plugins: {
@@ -75,16 +88,28 @@ var ProjectionGraph = {
 
   methods: {
     buildGraph: function() {
-      const ctx = document.getElementById('projection-graph-'+this.$parent.value.id);
-      if(ctx) {
-        this.graphInstance = ctx.getContext("2d");
+      const canvasId = 'projection-graph-'+this.$parent.value.id;
+      console.log('Build graph: '+this.$parent.value.name+' - '+this.$parent.value.id);
+      let graphInstance = Chart.getChart(canvasId);
+      if(graphInstance) {
+        this.graphInstance = graphInstance;
       } else {
-        this.graphInstance = new Chart(ctx, this.graphData);  
+        const ctx = document.getElementById(canvasId);
+        this.graphInstance = new Chart(ctx, this.graphProperties);
       }
     },
 
     destroyGraph: function() {
       this.graphInstance.destroy();
+    },
+
+    updateGraph: function() {
+      console.log('updateGraph '+this.$parent.value.id);
+      if(!this.graphInstance) {
+        this.buildGraph();
+      }
+      this.graphInstance.data = this.graphData;
+      this.graphInstance.update();
     },
   
   },

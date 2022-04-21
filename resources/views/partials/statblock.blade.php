@@ -536,6 +536,7 @@
 
                 <projection-graph
                     v-bind:data="damageProjection"
+                    ref="graph"
                 ></projection-graph>
             </div>
         </div>

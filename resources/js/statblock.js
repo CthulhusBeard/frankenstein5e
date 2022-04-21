@@ -1217,7 +1217,8 @@ let StatBlock = {
         featureDPRChanged: function(obj) {
             console.log('featureDPRChanged');
             console.log(obj);
-            this.$forceUpdate();
+            this.$forceUpdate();//TODO Does this do anything
+            this.$refs.graph.updateGraph();
         }
     }
 }
