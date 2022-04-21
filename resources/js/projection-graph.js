@@ -76,7 +76,11 @@ var ProjectionGraph = {
   methods: {
     buildGraph: function() {
       const ctx = document.getElementById('projection-graph-'+this.$parent.value.id);
-      this.graphInstance = new Chart(ctx, this.graphData);  
+      if(ctx) {
+        this.graphInstance = ctx.getContext("2d");
+      } else {
+        this.graphInstance = new Chart(ctx, this.graphData);  
+      }
     },
 
     destroyGraph: function() {
