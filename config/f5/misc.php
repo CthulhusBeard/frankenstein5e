@@ -265,7 +265,6 @@ return [
     'title_set_offensive_cr' => 'f5/builder.title_set_offensive_cr',
     'title_set_hp_cr' => 'f5/builder.title_set_hp_cr',
     'title_set_ac_cr' => 'f5/builder.title_set_ac_cr',
-    'title_damage_projection' => 'f5/builder.title_damage_projection',
 
     'title_export' => 'f5/builder.title_export',
     'title_import' => 'f5/builder.title_import',
@@ -278,4 +277,10 @@ return [
     'title_recharge_limited_use' => 'f5/recharge.title_recharge_limited_use',
     
     'title_save' => 'f5/misc.title_save',
+    
+    //Projection Graph
+    'title_combat_projection' => 'f5/builder.title_combat_projection',
+    'graph_data_monster_damage' => 'f5/builder.graph_data_monster_damage',
+    'graph_data_monster_hp' => 'f5/builder.graph_data_monster_hp',
+    'graph_data_player_hp' => 'f5/builder.graph_data_player_hp',
 ];

@@ -57,7 +57,10 @@
 
             <statblock 
                 v-for="statblock in statblocks"
-                v-model="statblock"
+                v-bind:value="statblock"
+                v-bind:f5="f5"
+                v-bind:player_data="editor.player_characters"
+                v-bind:combat_rounds="editor.round_tracker"
                 v-on:remove-statblock="removeStatBlock"
                 ref="statblocks">
             </statblock>

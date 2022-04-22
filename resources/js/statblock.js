@@ -5,7 +5,12 @@ import ProjectionGraph from './projection-graph.js';
 export {StatBlock as default}
 
 let StatBlock = {
-    props: ['value'],
+    props: [
+        'value', 
+        'player_data',
+        'combat_rounds',
+        'f5', 
+    ],
     template: '#template-statblock',
     
     components: {
@@ -113,7 +118,7 @@ let StatBlock = {
 
             //Sort Projections
             for(let actionType in projections) {
-                for(let roundNum = 0; roundNum < this.$parent.editor.round_tracker; roundNum++) {
+                for(let roundNum = 0; roundNum < this.combat_rounds; roundNum++) {
                     //Sort by most damage
                     projections[actionType].options = projections[actionType].options.sort(function (a, b) {
                         let damageA = (a[roundNum] && a[roundNum].damage) ? a[roundNum].damage / a[roundNum].actionCost : 0;
@@ -152,7 +157,7 @@ let StatBlock = {
             //Create turn totals and action list
             let totals = [];
             for(let actionType in projections) { 
-                for(let roundNum = 0; roundNum < this.$parent.editor.round_tracker; roundNum++) {
+                for(let roundNum = 0; roundNum < this.combat_rounds; roundNum++) {
                     for(let i = 0; i < projections[actionType].rounds[roundNum].length; i++) {
                         if(!totals[roundNum]) {
                             totals[roundNum] = {abilities: [], damage: 0};
@@ -180,8 +185,8 @@ let StatBlock = {
             let dpr = this.averageDPR;
             let approxCr = 1;
             
-            for(let i in this.$parent.f5.challengerating) {
-                let cr = this.$parent.f5.challengerating[i];
+            for(let i in this.f5.challengerating) {
+                let cr = this.f5.challengerating[i];
                 if(dpr >= cr.dpr.low && dpr <= cr.dpr.high) {
                     approxCr = i;
                     break;
@@ -196,8 +201,8 @@ let StatBlock = {
             let hp = this.getHP;
             let approxCr = 31;
 
-            for(let i in this.$parent.f5.challengerating) {
-                let cr = this.$parent.f5.challengerating[i];
+            for(let i in this.f5.challengerating) {
+                let cr = this.f5.challengerating[i];
                 if(hp >= cr.hp.low && hp <= cr.hp.high) {
                     approxCr = i;
                     break;
@@ -212,16 +217,16 @@ let StatBlock = {
             let ac = this.getAC;
             if(!ac) {
                 return 'Unset';
-            } else if(ac < this.$parent.f5.challengerating[0].ac) {
+            } else if(ac < this.f5.challengerating[0].ac) {
                 return '0';
-            } else if(ac > this.$parent.f5.challengerating[20].ac) {
+            } else if(ac > this.f5.challengerating[20].ac) {
                 return '> 30';
             }
             let crLow = 31;
             let crHigh = 0;
 
-            for(let i in this.$parent.f5.challengerating) {
-                let cr = this.$parent.f5.challengerating[i];
+            for(let i in this.f5.challengerating) {
+                let cr = this.f5.challengerating[i];
                 if(ac == cr.ac) {
                     if(cr.cr > crHigh) {
                         crHigh = cr.cr;
@@ -253,19 +258,19 @@ let StatBlock = {
         descriptionText: function() {
             let descStr = '';
             if(this.value.size) {
-                descStr += this.getProp(this.$parent.f5.creaturesizes[this.value.size]);
-                this.value.hitPoints.diceType = this.$parent.f5.creaturesizes[this.value.size].hit_dice; 
+                descStr += this.getProp(this.f5.creaturesizes[this.value.size]);
+                this.value.hitPoints.diceType = this.f5.creaturesizes[this.value.size].hit_dice; 
                 //TODO check if hitdice were manually set
             }
             if(this.value.type) {
                 if(descStr != '') descStr += ' '; 
-                descStr += this.capitalize(this.getProp(this.$parent.f5.creaturetypes[this.value.type]));
+                descStr += this.capitalize(this.getProp(this.f5.creaturetypes[this.value.type]));
             }
             if(this.value.subtype /*|| (this.value.showtypeCategory && this.value.typeCategory)*/) { 
                 if(descStr != '') descStr += ' '; 
                 descStr += '('
                 if(this.value.subtype) {
-                    descStr += this.getProp(this.$parent.f5.creaturesubtypes[this.value.subtype]);
+                    descStr += this.getProp(this.f5.creaturesubtypes[this.value.subtype]);
                 }
                 /* TODO Do something with category?
                 if(this.value.subtype && (this.value.showtypeCategory && this.value.typeCategory)) { 
@@ -278,9 +283,9 @@ let StatBlock = {
             if(this.value.alignment) {
                 if(descStr != '') descStr += ', '; 
                 if(this.value.showTypicalAlignment) {
-                    descStr += this.$parent.f5.misc.alignments_typically.replace(":alignment", this.getProp(this.$parent.f5.alignments[this.value.alignment]));
+                    descStr += this.f5.misc.alignments_typically.replace(":alignment", this.getProp(this.f5.alignments[this.value.alignment]));
                 } else {
-                    descStr += this.getProp(this.$parent.f5.alignments[this.value.alignment]);
+                    descStr += this.getProp(this.f5.alignments[this.value.alignment]);
                 }
             }
             
@@ -290,14 +295,14 @@ let StatBlock = {
 
         //Armor Class
         allowAcSelector: function() {
-            if(this.value.armorClass && this.value.armorClass.type && this.$parent.f5.armor[this.value.armorClass.type]) {
-                return (this.$parent.f5.armor[this.value.armorClass.type].range);
+            if(this.value.armorClass && this.value.armorClass.type && this.f5.armor[this.value.armorClass.type]) {
+                return (this.f5.armor[this.value.armorClass.type].range);
             }
             return false;
         },
 
         allowAcBonus: function() {
-            if(this.$parent.f5.armor[this.value.armorClass.type] && this.$parent.f5.armor[this.value.armorClass.type].allow_bonus) {
+            if(this.f5.armor[this.value.armorClass.type] && this.f5.armor[this.value.armorClass.type].allow_bonus) {
                 return true;
             }
             return false;
@@ -307,13 +312,13 @@ let StatBlock = {
             if(
                 this.value.armorClass && 
                 this.value.armorClass.type && 
-                this.$parent.f5.armor[this.value.armorClass.type] && 
-                this.$parent.f5.armor[this.value.armorClass.type].range &&
-                this.$parent.f5.armor[this.value.armorClass.type].range.low &&
-                this.$parent.f5.armor[this.value.armorClass.type].range.high
+                this.f5.armor[this.value.armorClass.type] && 
+                this.f5.armor[this.value.armorClass.type].range &&
+                this.f5.armor[this.value.armorClass.type].range.low &&
+                this.f5.armor[this.value.armorClass.type].range.high
             ) {
                 let arr = [];
-                for(let i = this.$parent.f5.armor[this.value.armorClass.type].range.low; i < this.$parent.f5.armor[this.value.armorClass.type].range.high+1; i++) {
+                for(let i = this.f5.armor[this.value.armorClass.type].range.low; i < this.f5.armor[this.value.armorClass.type].range.high+1; i++) {
                     arr.push(i);
                 }
                 return arr;
@@ -328,23 +333,23 @@ let StatBlock = {
             if(
                 this.value.armorClass && 
                 this.value.armorClass.type && 
-                this.$parent.f5.armor[this.value.armorClass.type]
+                this.f5.armor[this.value.armorClass.type]
             ) {
 
                 //set AC value
-                if(this.$parent.f5.armor[this.value.armorClass.type].range) {
+                if(this.f5.armor[this.value.armorClass.type].range) {
                     //manual value
                     acValue = parseFloat(this.value.armorClass.manual);
 
-                } else if(this.$parent.f5.armor[this.value.armorClass.type].base) {
+                } else if(this.f5.armor[this.value.armorClass.type].base) {
                     //base value
-                    acValue = this.$parent.f5.armor[this.value.armorClass.type].base;
-                    if(this.$parent.f5.armor[this.value.armorClass.type].bonus && this.value.abilities[this.$parent.f5.armor[this.value.armorClass.type].bonus]) {
+                    acValue = this.f5.armor[this.value.armorClass.type].base;
+                    if(this.f5.armor[this.value.armorClass.type].bonus && this.value.abilities[this.f5.armor[this.value.armorClass.type].bonus]) {
                         //get stat bonus
-                        statBonus = this.getAbilityMod(this.$parent.f5.armor[this.value.armorClass.type].bonus);
-                        if(this.$parent.f5.armor[this.value.armorClass.type].max_bonus && statBonus > this.$parent.f5.armor[this.value.armorClass.type].max_bonus) {
+                        statBonus = this.getAbilityMod(this.f5.armor[this.value.armorClass.type].bonus);
+                        if(this.f5.armor[this.value.armorClass.type].max_bonus && statBonus > this.f5.armor[this.value.armorClass.type].max_bonus) {
                             //set to max bonus
-                            statBonus = this.$parent.f5.armor[this.value.armorClass.type].max_bonus;
+                            statBonus = this.f5.armor[this.value.armorClass.type].max_bonus;
                         }
                         acValue += parseFloat(statBonus);
                     }
@@ -374,18 +379,18 @@ let StatBlock = {
             if(
                 this.value.armorClass && 
                 this.value.armorClass.type && 
-                this.$parent.f5.armor[this.value.armorClass.type]
+                this.f5.armor[this.value.armorClass.type]
             ) {
                 //set name
                 if(this.value.armorClass.type === 'custom' && this.value.armorClass.name) {
                     name = this.value.armorClass.name;
-                } else if(this.value.armorClass.type !== 'none' && this.$parent.f5.armor[this.value.armorClass.type].name) {
-                    name = this.$parent.f5.armor[this.value.armorClass.type].name;
+                } else if(this.value.armorClass.type !== 'none' && this.f5.armor[this.value.armorClass.type].name) {
+                    name = this.f5.armor[this.value.armorClass.type].name;
                 }
 
                 let shieldText = '';
                 if(this.value.armorClass.shield) {
-                    shieldText = this.$parent.f5.misc.shield;
+                    shieldText = this.f5.misc.shield;
                 }
 
                 let mageArmorText = '';
@@ -395,7 +400,7 @@ let StatBlock = {
                         mageArmorAc += 2;
                     }
                     if(mageArmorAc > acValue) {
-                        mageArmorText = this.$parent.f5.misc.mage_armor.replace(':mage_armour_ac', mageArmorAc);
+                        mageArmorText = this.f5.misc.mage_armor.replace(':mage_armour_ac', mageArmorAc);
                     }
                 }
 
@@ -439,13 +444,13 @@ let StatBlock = {
 
             let hp = (Math.round((type / 2 + .5) * amount) + conHP) + additionalHP;
             if(isNaN(hp)) {
-                return this.$parent.f5.misc.undefined_health; 
+                return this.f5.misc.undefined_health; 
             }
             let conText = '';
             if(conHP > 0 || additionalHP > 0) {
                 conText = ' + '+(conHP + additionalHP);
             }
-            let hpText = hp+' ('+amount + this.$parent.f5.misc.die_symbol+type+conText;
+            let hpText = hp+' ('+amount + this.f5.misc.die_symbol+type+conText;
             hpText += ')';
             return hpText;
         },
@@ -466,15 +471,15 @@ let StatBlock = {
         
         eligableDamageTypes: function() {
             let list = [];
-            for(let i in this.$parent.f5.damagetypes) {
+            for(let i in this.f5.damagetypes) {
                 if(
                     this.value.damageResistances.includes(i) ||
                     this.value.damageImmunities.includes(i) ||
                     this.value.damageVulnerabilites.includes(i)
                 ) {
-                    list.push({ value: i, label: this.$parent.f5.damagetypes[i].name, disabled: true});
+                    list.push({ value: i, label: this.f5.damagetypes[i].name, disabled: true});
                 } else {
-                    list.push({ value: i, label: this.$parent.f5.damagetypes[i].name});
+                    list.push({ value: i, label: this.f5.damagetypes[i].name});
                 }
             }
             return list;
@@ -482,9 +487,9 @@ let StatBlock = {
 
         dealableDamageTypes: function() {
             let list = [];
-            for(let i in this.$parent.f5.damagetypes) {
-                if(!(this.$parent.f5.damagetypes[i].dealt === false)) {
-                    list.push({ value: i, label: this.$parent.f5.damagetypes[i].name});
+            for(let i in this.f5.damagetypes) {
+                if(!(this.f5.damagetypes[i].dealt === false)) {
+                    list.push({ value: i, label: this.f5.damagetypes[i].name});
                 }
             }
             
@@ -501,16 +506,16 @@ let StatBlock = {
                 if(displayText !== '') {
                     displayText += ', ';
                 }
-                if(!this.$parent.f5.speeds[i]['hide_name']) {
-                    displayText += this.$parent.f5.speeds[i].name.toLowerCase()+' ';
+                if(!this.f5.speeds[i]['hide_name']) {
+                    displayText += this.f5.speeds[i].name.toLowerCase()+' ';
                 }
                 displayText += this.value.speeds[i]+' '+this.$parent.editor.measure.measureUnit; 
                 if(i === 'fly' && this.value.hover) {
-                    displayText += ' ('+this.$parent.f5.misc.hover.toLowerCase()+')';
+                    displayText += ' ('+this.f5.misc.hover.toLowerCase()+')';
                 }
             }
             if(!displayText) {
-                displayText = this.$parent.f5.misc.cant_move;
+                displayText = this.f5.misc.cant_move;
             }
             return displayText;
         },
@@ -525,13 +530,13 @@ let StatBlock = {
                 if(displayText !== '') {
                     displayText += ', ';
                 }
-                if(!this.$parent.f5.senses[i]['hide_name']) {
-                    displayText += this.$parent.f5.senses[i].name.toLowerCase()+' ';
+                if(!this.f5.senses[i]['hide_name']) {
+                    displayText += this.f5.senses[i].name.toLowerCase()+' ';
                 }
                 displayText += this.value.senses[i].distance+' '+this.$parent.editor.measure.measureUnit;
                 
                 if(this.value.senses[i].modifier) {
-                    displayText += '('+this.$parent.f5.senses[i].modifier_name.toLowerCase()+')';
+                    displayText += '('+this.f5.senses[i].modifier_name.toLowerCase()+')';
                 }
             }
 
@@ -540,23 +545,23 @@ let StatBlock = {
                 if(displayText !== '') {
                     displayText += ', ';
                 }
-                displayText += this.$parent.f5.misc.passive_skill.replace(':skill', this.$parent.f5.skills['perception'].name)+' '+(this.calcSkillMod('perception')+10);
+                displayText += this.f5.misc.passive_skill.replace(':skill', this.f5.skills['perception'].name)+' '+(this.calcSkillMod('perception')+10);
             //}
             return displayText;
         },
 
         //Subtypes
         orderedSubtypes: function() {
-            if(this.$parent.f5.creaturetypes.hasOwnProperty(this.value.type) && this.$parent.f5.creaturetypes[this.value.type]['subtypes']) {
+            if(this.f5.creaturetypes.hasOwnProperty(this.value.type) && this.f5.creaturetypes[this.value.type]['subtypes']) {
                 let topSubtypes = [];
                 let count = 0;
 
-                for (let i in this.$parent.f5.creaturesubtypes) {
+                for (let i in this.f5.creaturesubtypes) {
                     
-                    let subtypeObj = this.$parent.f5.creaturesubtypes[i];
+                    let subtypeObj = this.f5.creaturesubtypes[i];
                     subtypeObj.id = i;
 
-                    if(this.$parent.f5.creaturetypes[this.value.type]['subtypes'].includes(i)) {
+                    if(this.f5.creaturetypes[this.value.type]['subtypes'].includes(i)) {
                         topSubtypes.splice(count, 0, subtypeObj);
                         count++;
                     } else {
@@ -567,24 +572,24 @@ let StatBlock = {
                 return topSubtypes;
             }
     
-            return this.$parent.f5.creaturesubtypes;
+            return this.f5.creaturesubtypes;
         },
 
         //Type Options
         typeCategoryList: function() {
             let optionsList = [];
 
-            if(this.$parent.f5.creaturetypes.hasOwnProperty(this.value.type) && this.$parent.f5.creaturetypes[this.value.type].hasOwnProperty('options')) {
-                for (let i in this.$parent.f5.creaturetypes[this.value.type]['options']) {
-                    let data = this.$parent.f5.creaturetypes[this.value.type]['options'][i];
+            if(this.f5.creaturetypes.hasOwnProperty(this.value.type) && this.f5.creaturetypes[this.value.type].hasOwnProperty('options')) {
+                for (let i in this.f5.creaturetypes[this.value.type]['options']) {
+                    let data = this.f5.creaturetypes[this.value.type]['options'][i];
                     data.id = i;
                     optionsList.push(data);
                 }
             }
 
-            if(this.$parent.f5.creaturesubtypes.hasOwnProperty(this.value.subtype) && this.$parent.f5.creaturesubtypes[this.value.subtype].hasOwnProperty('options')) {
-                for (let i in this.$parent.f5.creaturesubtypes[this.value.subtype]['options']) {
-                    let data = this.$parent.f5.creaturesubtypes[this.value.subtype]['options'][i];
+            if(this.f5.creaturesubtypes.hasOwnProperty(this.value.subtype) && this.f5.creaturesubtypes[this.value.subtype].hasOwnProperty('options')) {
+                for (let i in this.f5.creaturesubtypes[this.value.subtype]['options']) {
+                    let data = this.f5.creaturesubtypes[this.value.subtype]['options'][i];
                     data.id = i;
                     optionsList.push(data);
                 }
@@ -597,26 +602,26 @@ let StatBlock = {
             let displayText = '';
 
             if(this.value.languages.spokenWritten.includes('all')) {
-                return this.$parent.f5.languages['all'].name;
+                return this.f5.languages['all'].name;
             }
 
             for(let lang of this.value.languages.spokenWritten) {
                 if(displayText !== '') {
                     displayText += ', ';
                 }
-                displayText += this.$parent.f5.languages[lang].name; 
+                displayText += this.f5.languages[lang].name; 
             }
 
             if(this.value.languages.telepathy) {
                 if(displayText !== '') {
                     displayText += ', ';
                 }
-                displayText += this.$parent.f5.misc.telepathy+' '+this.value.languages.telepathy +' '+ this.$parent.editor.measure.measureUnit;
+                displayText += this.f5.misc.telepathy+' '+this.value.languages.telepathy +' '+ this.$parent.editor.measure.measureUnit;
             }
 
             //No Languages
             if(!displayText) {
-                displayText = this.$parent.f5.misc.languages_none;
+                displayText = this.f5.misc.languages_none;
             }
             return displayText;
         },
@@ -625,7 +630,7 @@ let StatBlock = {
         skillText: function() {
             let displayText = '';
 
-            for(let skill in this.$parent.f5.skills) {
+            for(let skill in this.f5.skills) {
                 if(!this.value.skills.includes(skill)) {
                     continue;
                 }
@@ -636,7 +641,7 @@ let StatBlock = {
                     displayText += ', ';
                 }
 
-                displayText += this.$parent.f5.skills[skill].name + ' '+this.addPlus(this.calcSkillMod(skill)); 
+                displayText += this.f5.skills[skill].name + ' '+this.addPlus(this.calcSkillMod(skill)); 
             }
             return displayText;
         },
@@ -666,10 +671,10 @@ let StatBlock = {
         //Challenge Rating
         crText: function() {
             let averageCRKey = this.toCRFormat(this.averageCR);
-            let crText = this.$parent.f5.misc.display_challenge_rating.replace(':cr', averageCRKey);
-            let cr = this.$parent.f5.challengerating[averageCRKey];
+            let crText = this.f5.misc.display_challenge_rating.replace(':cr', averageCRKey);
+            let cr = this.f5.challengerating[averageCRKey];
             if(cr && cr.xp) {
-                crText += ' '+this.$parent.f5.misc.display_challenge_rating_xp.replace(':xp', cr.xp);
+                crText += ' '+this.f5.misc.display_challenge_rating_xp.replace(':xp', cr.xp);
             }
             return crText;
         },
@@ -745,7 +750,7 @@ let StatBlock = {
                 return this.value.manualOverride.proficiency;
             }
 
-            let cr = this.$parent.f5.challengerating[this.toCRFormat(this.averageCR)];
+            let cr = this.f5.challengerating[this.toCRFormat(this.averageCR)];
             if(cr && cr.prof > 0) {
                 proficiency = cr.prof;
             }
@@ -754,26 +759,42 @@ let StatBlock = {
         },
         
         playerChanceToHit: function() {
-            let playerData = this.$parent.f5.playerlevels[this.$parent.editor.player_characters.level];
-            let toHitModifier = playerData.proficiency + playerData.average_modifier
+            let levelData = this.f5.playerlevels[this.player_data.level];
+            let toHitModifier = levelData.proficiency + levelData.average_modifier;
             let hitChance = ( 21 - ( this.getAC - (toHitModifier) )) / 20;
             return hitChance;
+        },
+
+        statblockPlayerData: function() {
+            let sbPlayerData = this.player_data;
+            sbPlayerData.hit_chance = this.playerChanceToHit;
+            return sbPlayerData;
+        },
+        
+        hasInstantKillPotential: function() {
+            //TODO
+            let playerHP = this.f5.playerlevels[this.player_data.level].average_hp;
+            //if(this.maxDPR > playerHP) {
+                //Make maxDPR
+                //return true;
+            //}
+            return false;
         },
     },
 
     methods: {
 
         damageList: function(input) {
-            let sortArr = Object.keys(this.$parent.f5.damagetypes);
+            let sortArr = Object.keys(this.f5.damagetypes);
             input.sort((a, b) => sortArr.indexOf(a) - sortArr.indexOf(b));
             let displayText = '';
             for(let i of input) {
-                if(this.$parent.f5.damagetypes[i].long_name) {
+                if(this.f5.damagetypes[i].long_name) {
                     if(displayText !== '') displayText += '; ';
-                    displayText += this.$parent.f5.damagetypes[i].long_name;
+                    displayText += this.f5.damagetypes[i].long_name;
                 } else {
                     if(displayText !== '') displayText += ', ';
-                    displayText += this.$parent.f5.damagetypes[i].name;
+                    displayText += this.f5.damagetypes[i].name;
                 }
             }
             return displayText;
@@ -797,7 +818,7 @@ let StatBlock = {
                 if(displayText !== '') {
                     displayText += ', ';
                 }
-                displayText += this.$parent.f5.conditions[i].name;
+                displayText += this.f5.conditions[i].name;
             }
             return displayText;
         },
@@ -806,7 +827,7 @@ let StatBlock = {
             let displayText = '';
             
             if(this.$data.options[list].hasOwnProperty('all')) {
-                return this.$parent.f5[list]['all'].name;
+                return this.f5[list]['all'].name;
             }
 
             for(let i in this.value[list]) {
@@ -816,7 +837,7 @@ let StatBlock = {
                 if(displayText !== '') {
                     displayText += ', ';
                 }
-                displayText += this.$parent.f5[list][i].name; 
+                displayText += this.f5[list][i].name; 
             }
             return displayText;
         },
@@ -843,16 +864,16 @@ let StatBlock = {
             //Warning for armor that's too heavy 'str_requirement' vs STR
             if(
                 this.value.armorClass.type && 
-                this.$parent.f5.armor[this.value.armorClass.type] && 
-                this.$parent.f5.armor[this.value.armorClass.type].str_requirement && 
-                this.abilities.str < this.$parent.f5.armor[this.value.armorClass.type].str_requirement
+                this.f5.armor[this.value.armorClass.type] && 
+                this.f5.armor[this.value.armorClass.type].str_requirement && 
+                this.abilities.str < this.f5.armor[this.value.armorClass.type].str_requirement
             ) {
                 //TODO CREATE WARNING
             }
         },
 
         calcSkillMod: function (skill) {
-            let ability = this.$parent.f5.skills[skill].ability;
+            let ability = this.f5.skills[skill].ability;
             let abilityMod = this.getAbilityMod(ability);
             if(this.value.skills.includes(skill)) {
                 abilityMod += this.proficiency;
@@ -905,7 +926,7 @@ let StatBlock = {
             let newFeature = {
                 id: this.$parent.randChars(15),
                 actionType: type,
-                name: this.$parent.f5.misc.title_new_feature,
+                name: this.f5.misc.title_new_feature,
                 template: 'custom', 
                 attackAbility: 'str',
                 targetType: 'melee',
@@ -957,10 +978,10 @@ let StatBlock = {
 
             if(type === 'spellcasting') {
                 newFeature.template = 'spellcasting';
-                newFeature.name = this.$parent.f5.misc.title_spellcasting;
+                newFeature.name = this.f5.misc.title_spellcasting;
             }else if(type === 'multiattack') {
                 newFeature.template = 'multiattack';
-                newFeature.name = this.$parent.f5.misc.title_multiattack;
+                newFeature.name = this.f5.misc.title_multiattack;
             }
 
             this.value.features[type].push(newFeature);
@@ -1003,7 +1024,7 @@ let StatBlock = {
             let descText = '';
             if(damageObj.diceAmount > 0) {
                 descText += this.averageDamage(damageObj, ability);
-                descText += ' ('+this.$parent.f5.misc.die_structure.replace(':die_amount', damageObj.diceAmount).replace(':die_type', damageObj.diceType);
+                descText += ' ('+this.f5.misc.die_structure.replace(':die_amount', damageObj.diceAmount).replace(':die_type', damageObj.diceType);
 
                 let additionalDamage = Number(damageObj.additional);
                 if(damageObj.abilityBonus) {
@@ -1017,7 +1038,7 @@ let StatBlock = {
             } else {
                 descText = damageObj.additional+' ';
             }
-            descText += this.$parent.f5.misc.damage.replace(':type', this.$parent.f5.damagetypes[damageObj.type].name.toLowerCase());
+            descText += this.f5.misc.damage.replace(':type', this.f5.damagetypes[damageObj.type].name.toLowerCase());
             return descText;
         },
 
@@ -1033,13 +1054,13 @@ let StatBlock = {
                 //TODO this might need to change in other languages
                 if(descText) {
                     if(len > 2) {
-                        descText += this.$parent.f5.misc.sentence_list_separator+' ';
+                        descText += this.f5.misc.sentence_list_separator+' ';
                     }
                     if(i == len-1) {
                         if(inclusive) {
-                            descText += ' '+this.$parent.f5.misc.and+' ';
+                            descText += ' '+this.f5.misc.and+' ';
                         } else {
-                            descText += ' '+this.$parent.f5.misc.or+' ';
+                            descText += ' '+this.f5.misc.or+' ';
                         }
                     }
                 }
@@ -1064,13 +1085,13 @@ let StatBlock = {
                 //TODO this might need to change in other languages
                 if(descText) {
                     if(len > 2) {
-                        descText += this.$parent.f5.misc.sentence_list_separator+' ';
+                        descText += this.f5.misc.sentence_list_separator+' ';
                     }
                     if(i == len-1) {
                         if(inclusive) {
-                            descText += ' '+this.$parent.f5.misc.and+' ';
+                            descText += ' '+this.f5.misc.and+' ';
                         } else {
-                            descText += ' '+this.$parent.f5.misc.or+' ';
+                            descText += ' '+this.f5.misc.or+' ';
                         }
                     }
                 }
@@ -1090,7 +1111,7 @@ let StatBlock = {
             for(let i in input) {
                 if(input[i] || allowEmpty) {
                     if(descText) {;
-                        descText += this.$parent.f5.misc.sentence_list_separator+' ';
+                        descText += this.f5.misc.sentence_list_separator+' ';
                     }
                     descText += input[i];
                 }
@@ -1117,13 +1138,13 @@ let StatBlock = {
             let lastDigit = String(num).slice(-1);
 
             if(lastDigit == 1 && num != 11) {
-                ordinal = this.$parent.f5.misc.ordinal_one;
+                ordinal = this.f5.misc.ordinal_one;
             } else if(lastDigit == 2 && num != 12) {
-                ordinal = this.$parent.f5.misc.ordinal_two;
+                ordinal = this.f5.misc.ordinal_two;
             } else if(lastDigit == 3 && num != 13) {
-                ordinal = this.$parent.f5.misc.ordinal_three;
+                ordinal = this.f5.misc.ordinal_three;
             } else {
-                ordinal = this.$parent.f5.misc.ordinal_other;
+                ordinal = this.f5.misc.ordinal_other;
             }
 
             return String(num)+ordinal;
@@ -1131,27 +1152,27 @@ let StatBlock = {
 
         numberOfTimesSemantics: function(num) {
             if(num == 1) {
-                return this.$parent.f5.misc.once;
+                return this.f5.misc.once;
             }
             if(num == 2) {
-                return this.$parent.f5.misc.twice;
+                return this.f5.misc.twice;
             }
-            return this.$parent.f5.misc.three_or_more_times.replace(':number', num);
+            return this.f5.misc.three_or_more_times.replace(':number', num);
         },
 
         numberToWord: function(num) {
             let words = [
-                this.$parent.f5.misc.zero, 
-                this.$parent.f5.misc.one, 
-                this.$parent.f5.misc.two, 
-                this.$parent.f5.misc.three,
-                this.$parent.f5.misc.four,
-                this.$parent.f5.misc.five,
-                this.$parent.f5.misc.six,
-                this.$parent.f5.misc.seven,
-                this.$parent.f5.misc.eight,
-                this.$parent.f5.misc.nine,
-                this.$parent.f5.misc.ten,
+                this.f5.misc.zero, 
+                this.f5.misc.one, 
+                this.f5.misc.two, 
+                this.f5.misc.three,
+                this.f5.misc.four,
+                this.f5.misc.five,
+                this.f5.misc.six,
+                this.f5.misc.seven,
+                this.f5.misc.eight,
+                this.f5.misc.nine,
+                this.f5.misc.ten,
             ];
 
             if(words[num]) {
@@ -1172,18 +1193,18 @@ let StatBlock = {
                 vowels.includes(firstChar) ||
                 vowelNumbers.includes(Number(str))
             ) {
-                return this.$parent.f5.misc.indefinite_article_an;
+                return this.f5.misc.indefinite_article_an;
             } else {
-                return this.$parent.f5.misc.indefinite_article_a;
+                return this.f5.misc.indefinite_article_a;
             }
         },
 
         averageAOETargets: function(targetType) {
-            let targets = this.$parent.f5.areaofeffect[targetType].targets_at_30;
+            let targets = this.f5.areaofeffect[targetType].targets_at_30;
             if(targets > 1) {
                 targets = (targets/(distanceBaseline*2)) * (distanceBaseline + this.value.aoeRange); //basic formula to assume average number of targets hit
-                if(targets > this.$parent.editor.player_characters.number) {
-                    targets = this.$parent.editor.player_characters.number;
+                if(targets > this.player_data.number) {
+                    targets = this.player_data.number;
                 }
             }
             return targets;
@@ -1253,17 +1274,6 @@ let StatBlock = {
             console.log('featureDPRChanged');
             console.log(obj);
             this.$forceUpdate();//TODO Does this do anything
-            this.$refs.graph.updateGraph();
-        },
-
-        playerAverageDamage: function() {
-            let playerData = this.$parent.f5.playerlevels[this.$parent.editor.player_characters.level];
-            let playerDamage = this.$parent.editor.player_characters.number * playerData.average_dpr;
-            return playerDamage * this.playerChanceToHit;
-        },
-
-        returnHP: function() {
-            return this.getHP;
         },
     }
 }

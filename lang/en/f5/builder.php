@@ -21,7 +21,6 @@ return [
     'title_set_offensive_cr' => 'Set Offensive CR',
     'title_set_hp_cr' => 'Set Hit Points CR',
     'title_set_ac_cr' => 'Set Armor Class CR',
-    'title_damage_projection' => 'Damage Projection',
 
     'title_export' => 'Export Monster',
     'title_import' => 'Import Monster',
@@ -29,4 +28,10 @@ return [
     
     'title_new_statblock' => 'Create New Statblock',
     'title_clear_all' => 'Clear All Data',
+
+    //Projection Graph
+    'title_combat_projection' => ':creature_name Combat Analysis',
+    'graph_data_monster_damage' => ':creature_name Damage Per Round',
+    'graph_data_monster_hp' => ':creature_name Hit Points',
+    'graph_data_player_hp' => 'Single Target Player Hit Points',
 ];

@@ -5,7 +5,7 @@
         <button @click="updateGraph">FORCE UPDATE</button>
         
         <div class="raw">
-            <div id="option options__damage-projection" name="options__damage-projection" v-html="data">
+            <div id="option options__damage-projection" name="options__damage-projection" v-html="monster_damage">
             </div>
         </div>
     </div>
