@@ -93,6 +93,10 @@ let StatBlock = {
 
             //Gather Projections
             for(const featureType in this.value.features) {
+                if(!this.value.features[featureType].length) {
+                    delete projections[featureType];
+                    continue;
+                }
                 for(const feature of this.value.features[featureType]) {
 
                     //Merge similar action types
@@ -103,48 +107,72 @@ let StatBlock = {
                         actionType = 'action';
                     }
 
-                    projections[actionType].options.push([JSON.parse(JSON.stringify(feature.damageProjection))]);  //Clone projection
+                    projections[actionType].options.push(JSON.parse(JSON.stringify(feature.damageProjection)));  //Clone projection
                 }
             }
 
             //Sort Projections
             for(let actionType in projections) {
-                for(let i = 0; i < this.$parent.editor.round_tracker; i++) {
-                    projections[actionType].options.sort(function (a, b) {
-                        let damageA = (a[i] && a[i].damage) ? a[i].damage/a[i].actionCost : 0;
-                        let damageB = (b[i] && b[i].damage) ? b[i].damage/b[i].actionCost : 0;
+                for(let roundNum = 0; roundNum < this.$parent.editor.round_tracker; roundNum++) {
+                    //Sort by most damage
+                    projections[actionType].options = projections[actionType].options.sort(function (a, b) {
+                        let damageA = (a[roundNum] && a[roundNum].damage) ? a[roundNum].damage / a[roundNum].actionCost : 0;
+                        let damageB = (b[roundNum] && b[roundNum].damage) ? b[roundNum].damage / b[roundNum].actionCost : 0;
                         return damageB - damageA;
                     });
 
                     let actionCount = 0;
                     for(let j = 0; j < projections[actionType].options.length; j++) {
-                        let actionObj = projections[actionType].options[j][i];
+                        let actionObj = projections[actionType].options[j][roundNum];
                         let actionCost = (actionObj && actionObj.actionCost) ? actionObj.actionCost : 0;
                         if(actionCount + actionCost <= projections[actionType].count) {
                             //Action fits
                             if(actionObj) {
                                 //Add action
-                                if(!projections[actionType].rounds[i]) {
-                                    projections[actionType].rounds[i] = [];
+                                if(!projections[actionType].rounds[roundNum]) {
+                                    projections[actionType].rounds[roundNum] = [];
                                 }
-                                projections[actionType].rounds[i][j] = actionObj;
+                                projections[actionType].rounds[roundNum][j] = actionObj;
                                 actionCount += actionCost;
                             } else if(actionObj) {
                                 //Not enough actions
                                 actionCount += projections[actionType].count;
                             }
+
                         } else if(actionObj.damage > 0) {
                             //push out viable damage options until later turns
-                            projections[actionType].options[j].splice(i, 0, 0);
+                            projections[actionType].options[j].splice(roundNum, 0, 0);
+                        }
+                    }
+                }
+            }
+            //console.log('Damage Projections:');
+            //console.log(projections);
+
+            //Create turn totals and action list
+            let totals = [];
+            for(let actionType in projections) { 
+                for(let roundNum = 0; roundNum < this.$parent.editor.round_tracker; roundNum++) {
+                    for(let i = 0; i < projections[actionType].rounds[roundNum].length; i++) {
+                        if(!totals[roundNum]) {
+                            totals[roundNum] = {abilities: [], damage: 0};
+                        }
+                        if(projections[actionType].rounds[roundNum][i].damage > 0) {
+                            //Add This Action
+                            if(!totals[roundNum].abilities[actionType]) {
+                                totals[roundNum].abilities[actionType] = [];
+                            }
+                            totals[roundNum].abilities[actionType].push(projections[actionType].rounds[roundNum][i].name);
+                            totals[roundNum].damage += projections[actionType].rounds[roundNum][i].damage;
                         }
                     }
                 }
             }
 
-            console.log('Damage Projections:');
-            console.log(projections);
+            console.log('Final Projections:');
+            console.log(totals);
 
-            return projections;
+            return totals;
         },
 
         //Challenge Rating
@@ -724,6 +752,13 @@ let StatBlock = {
 
             return proficiency;
         },
+        
+        playerChanceToHit: function() {
+            let playerData = this.$parent.f5.playerlevels[this.$parent.editor.player_characters.level];
+            let toHitModifier = playerData.proficiency + playerData.average_modifier
+            let hitChance = ( 21 - ( this.getAC - (toHitModifier) )) / 20;
+            return hitChance;
+        },
     },
 
     methods: {
@@ -1219,6 +1254,16 @@ let StatBlock = {
             console.log(obj);
             this.$forceUpdate();//TODO Does this do anything
             this.$refs.graph.updateGraph();
-        }
+        },
+
+        playerAverageDamage: function() {
+            let playerData = this.$parent.f5.playerlevels[this.$parent.editor.player_characters.level];
+            let playerDamage = this.$parent.editor.player_characters.number * playerData.average_dpr;
+            return playerDamage * this.playerChanceToHit;
+        },
+
+        returnHP: function() {
+            return this.getHP;
+        },
     }
 }

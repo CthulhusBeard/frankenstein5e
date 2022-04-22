@@ -24,20 +24,68 @@ var ProjectionGraph = {
     graphId: function() {
       return this.$parent.value.id;
     },
+  },
+
+  methods: {
+    buildGraph: function() {
+      const canvasId = 'projection-graph-'+this.$parent.value.id;
+      console.log('Build graph: '+this.$parent.value.name+' - '+this.$parent.value.id);
+      let graphInstance = Chart.getChart(canvasId);
+      if(graphInstance) {
+        this.graphInstance = graphInstance;
+        this.updateGraph()
+      } else {
+        const ctx = document.getElementById(canvasId);
+        this.graphInstance = new Chart(ctx, this.graphProperties());
+      }
+    },
+
+    destroyGraph: function() {
+      this.graphInstance.destroy();
+    },
+
+    updateGraph: function() {
+      console.log('updateGraph '+this.$parent.value.id+ ' / '+this.$parent.value.name );
+      if(!this.graphInstance) {
+        this.buildGraph();
+      }
+      this.graphInstance.data = this.graphData();
+      this.graphInstance.options.plugins.title.text = this.$parent.value.name+' Fight Projection';
+      this.graphInstance.update();
+    },
 
     graphData: function() {
+      console.log('graphData '+this.$parent.value.id+ ' / '+this.$parent.value.name );
+      console.log(this.data);
 
+      //X-Axis Labels and Health Over Time
       let labelsList = [];
+      let monsterHPData = [];
+      let playerHPData = [];
+      let damageData = [];
+
+      let monsterHP = this.$parent.returnHP();
+      let playerDamage = this.$parent.playerAverageDamage();
+      let playerHP = this.$parent.$parent.f5.playerlevels[this.$parent.$parent.editor.player_characters.level].average_hp;
+      
       for(let i = 0; i < this.$parent.$parent.editor.round_tracker; i++) {
-        labelsList.push('[PH] Turn '+(i+1));
+        labelsList.push(this.$parent.$parent.f5.misc.round_num.replace(':round_number', i+1));
+        let roundDamage = (this.data[i]) ? this.data[i].damage : 0;
+        damageData.push(roundDamage);
+
+        monsterHPData.push(monsterHP);
+        monsterHP = (monsterHP > playerDamage) ? monsterHP - playerDamage : 0;
+
+        playerHPData.push(playerHP);
+        playerHP = (playerHP > roundDamage) ? playerHP - roundDamage : 0;
       }
 
       let data = {
         labels: labelsList,
         datasets: [
           {
-            label: "Actions: "+this.$parent.value.name,
-            data: [0, 0, 1, 2, 79, 82, 27, 14],
+            label: this.$parent.value.name+" Damage",
+            data: damageData,
             backgroundColor: "rgba(54,73,93,.5)",
             borderColor: "#36495d",
             borderWidth: 3,
@@ -46,10 +94,20 @@ var ProjectionGraph = {
             pointHoverRadius: 10
           },
           {
-            label: "Bonus Actions: ",
-            data: [0.166, 2.081, 3.003, 0.323, 954.792, 285.886, 43.662, 51.514],
-            backgroundColor: "rgba(71, 183,132,.5)",
+            label: this.$parent.value.name+" Hit Points",
+            data: monsterHPData,
+            backgroundColor: "rgba(71,183,132,.5)",
             borderColor: "#47b784",
+            borderWidth: 3,
+            pointStyle: 'circle',
+            pointRadius: 5,
+            pointHoverRadius: 10
+          },
+          {
+            label: "Player Hit Points",
+            data: playerHPData,
+            backgroundColor: "rgba(183,71,132,.5)",
+            borderColor: "#b74784",
             borderWidth: 3,
             pointStyle: 'circle',
             pointRadius: 5,
@@ -62,12 +120,10 @@ var ProjectionGraph = {
     },
 
     graphProperties: function() {
-      console.log('graphData');
-      console.log(this.data);
 
       let data = {
         type: "line",
-        data: this.graphData,
+        data: this.graphData(),
         options: {
           responsive: true,
           plugins: {
@@ -76,7 +132,7 @@ var ProjectionGraph = {
             },
             title: {
               display: true,
-              text: 'Chart.js Line Chart'
+              text: this.$parent.value.name+' Fight Projection'
             }
           }
         }
@@ -84,33 +140,6 @@ var ProjectionGraph = {
 
       return data;
     }
-  },
-
-  methods: {
-    buildGraph: function() {
-      const canvasId = 'projection-graph-'+this.$parent.value.id;
-      console.log('Build graph: '+this.$parent.value.name+' - '+this.$parent.value.id);
-      let graphInstance = Chart.getChart(canvasId);
-      if(graphInstance) {
-        this.graphInstance = graphInstance;
-      } else {
-        const ctx = document.getElementById(canvasId);
-        this.graphInstance = new Chart(ctx, this.graphProperties);
-      }
-    },
-
-    destroyGraph: function() {
-      this.graphInstance.destroy();
-    },
-
-    updateGraph: function() {
-      console.log('updateGraph '+this.$parent.value.id);
-      if(!this.graphInstance) {
-        this.buildGraph();
-      }
-      this.graphInstance.data = this.graphData;
-      this.graphInstance.update();
-    },
   
   },
 }

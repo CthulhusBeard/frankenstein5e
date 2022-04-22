@@ -10,6 +10,8 @@ return [
     'indefinite_article_a' => 'f5/misc.indefinite_article_a',
     'indefinite_article_an' => 'f5/misc.indefinite_article_an',
 
+    'round_num' => 'f5/misc.round_num',    
+
     'zero' => 'f5/misc.zero', 
     'one' => 'f5/misc.one', 
     'two' => 'f5/misc.two', 

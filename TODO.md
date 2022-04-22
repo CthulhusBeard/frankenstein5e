@@ -8,6 +8,7 @@ HIGH PRIORITY
 - [ ] Figure out which dpr events are actually necessary
 - [ ] Minimum size for conditions (grappled, swallowed, etc)
 - [ ] Life expectancy vs PC levels
+- [ ] Min/max damage as well as average
 - [ ] Make better lists: //function createConditionSentenceList
 //  -> from "... and are blinded and are deafened, or half as much damage on a successful one and are not blinded and are not deafened."
 //      -> to "... and becomes blinded and deafened, or half as much damage on a successful one and are not blinded or deafened."

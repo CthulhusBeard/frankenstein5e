@@ -10,6 +10,8 @@ return [
     'indefinite_article_a' => 'a',
     'indefinite_article_an' => 'an',
 
+    'round_num' => 'Round :round_number',
+
     'zero' => 'zero', 
     'one' => 'one', 
     'two' => 'two', 

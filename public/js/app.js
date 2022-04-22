@@ -28464,7 +28464,7 @@ function initVue(f5data) {
           }
         }
 
-        var i = this.statblocks.push(statblock);
+        var i = this.statblocks.unshift(statblock);
         return i - 1;
       },
       removeStatBlock: function removeStatBlock(id) {
@@ -28516,33 +28516,95 @@ var ProjectionGraph = {
   computed: {
     graphId: function graphId() {
       return this.$parent.value.id;
+    }
+  },
+  methods: {
+    buildGraph: function buildGraph() {
+      var canvasId = 'projection-graph-' + this.$parent.value.id;
+      console.log('Build graph: ' + this.$parent.value.name + ' - ' + this.$parent.value.id);
+      var graphInstance = chart_js_auto__WEBPACK_IMPORTED_MODULE_0__["default"].getChart(canvasId);
+
+      if (graphInstance) {
+        this.graphInstance = graphInstance;
+        this.updateGraph();
+      } else {
+        var ctx = document.getElementById(canvasId);
+        this.graphInstance = new chart_js_auto__WEBPACK_IMPORTED_MODULE_0__["default"](ctx, this.graphProperties());
+      }
+    },
+    destroyGraph: function destroyGraph() {
+      this.graphInstance.destroy();
+    },
+    updateGraph: function updateGraph() {
+      console.log('updateGraph ' + this.$parent.value.id + ' / ' + this.$parent.value.name);
+
+      if (!this.graphInstance) {
+        this.buildGraph();
+      }
+
+      this.graphInstance.data = this.graphData();
+      this.graphInstance.options.plugins.title.text = this.$parent.value.name + ' Fight Projection';
+      this.graphInstance.update();
     },
     graphData: function graphData() {
-      console.log(this.data);
+      console.log('graphData ' + this.$parent.value.id + ' / ' + this.$parent.value.name);
+      console.log(this.data); //X-Axis Labels and Health Over Time
+
+      var labelsList = [];
+      var monsterHPData = [];
+      var playerHPData = [];
+      var damageData = [];
+      var monsterHP = this.$parent.returnHP();
+      var playerDamage = this.$parent.playerAverageDamage();
+      var playerHP = this.$parent.$parent.f5.playerlevels[this.$parent.$parent.editor.player_characters.level].average_hp;
+
+      for (var i = 0; i < this.$parent.$parent.editor.round_tracker; i++) {
+        labelsList.push(this.$parent.$parent.f5.misc.round_num.replace(':round_number', i + 1));
+        var roundDamage = this.data[i] ? this.data[i].damage : 0;
+        damageData.push(roundDamage);
+        monsterHPData.push(monsterHP);
+        monsterHP = monsterHP > playerDamage ? monsterHP - playerDamage : 0;
+        playerHPData.push(playerHP);
+        playerHP = playerHP > roundDamage ? playerHP - roundDamage : 0;
+      }
+
+      var data = {
+        labels: labelsList,
+        datasets: [{
+          label: this.$parent.value.name + " Damage",
+          data: damageData,
+          backgroundColor: "rgba(54,73,93,.5)",
+          borderColor: "#36495d",
+          borderWidth: 3,
+          pointStyle: 'circle',
+          pointRadius: 5,
+          pointHoverRadius: 10
+        }, {
+          label: this.$parent.value.name + " Hit Points",
+          data: monsterHPData,
+          backgroundColor: "rgba(71,183,132,.5)",
+          borderColor: "#47b784",
+          borderWidth: 3,
+          pointStyle: 'circle',
+          pointRadius: 5,
+          pointHoverRadius: 10
+        }, {
+          label: "Player Hit Points",
+          data: playerHPData,
+          backgroundColor: "rgba(183,71,132,.5)",
+          borderColor: "#b74784",
+          borderWidth: 3,
+          pointStyle: 'circle',
+          pointRadius: 5,
+          pointHoverRadius: 10
+        }]
+      };
+      return data;
+    },
+    graphProperties: function graphProperties() {
       var data = {
         type: "line",
-        data: {
-          labels: ["Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune"],
-          datasets: [{
-            label: "Number of Moons",
-            data: [0, 0, 1, 2, 79, 82, 27, 14],
-            backgroundColor: "rgba(54,73,93,.5)",
-            borderColor: "#36495d",
-            borderWidth: 3,
-            pointStyle: 'circle',
-            pointRadius: 5,
-            pointHoverRadius: 10
-          }, {
-            label: "Planetary Mass (relative to the Sun x 10^-6)",
-            data: [0.166, 2.081, 3.003, 0.323, 954.792, 285.886, 43.662, 51.514],
-            backgroundColor: "rgba(71, 183,132,.5)",
-            borderColor: "#47b784",
-            borderWidth: 3,
-            pointStyle: 'circle',
-            pointRadius: 5,
-            pointHoverRadius: 10
-          }]
-        },
+        data: this.graphData(),
         options: {
           responsive: true,
           plugins: {
@@ -28551,21 +28613,12 @@ var ProjectionGraph = {
             },
             title: {
               display: true,
-              text: 'Chart.js Line Chart'
+              text: this.$parent.value.name + ' Fight Projection'
             }
           }
         }
       };
       return data;
-    }
-  },
-  methods: {
-    buildGraph: function buildGraph() {
-      var ctx = document.getElementById('projection-graph-' + this.$parent.value.id);
-      this.graphInstance = new chart_js_auto__WEBPACK_IMPORTED_MODULE_0__["default"](ctx, this.graphData);
-    },
-    destroyGraph: function destroyGraph() {
-      this.graphInstance.destroy();
     }
   }
 };
@@ -32907,6 +32960,11 @@ var StatBlock = {
       }; //Gather Projections
 
       for (var featureType in this.value.features) {
+        if (!this.value.features[featureType].length) {
+          delete projections[featureType];
+          continue;
+        }
+
         var _iterator2 = _createForOfIteratorHelper(this.value.features[featureType]),
             _step2;
 
@@ -32922,7 +32980,7 @@ var StatBlock = {
               actionType = 'action';
             }
 
-            projections[actionType].options.push([JSON.parse(JSON.stringify(feature.damageProjection))]); //Clone projection
+            projections[actionType].options.push(JSON.parse(JSON.stringify(feature.damageProjection))); //Clone projection
           }
         } catch (err) {
           _iterator2.e(err);
@@ -32933,28 +32991,28 @@ var StatBlock = {
 
 
       for (var _actionType in projections) {
-        var _loop = function _loop(i) {
-          projections[_actionType].options.sort(function (a, b) {
-            var damageA = a[i] && a[i].damage ? a[i].damage / a[i].actionCost : 0;
-            var damageB = b[i] && b[i].damage ? b[i].damage / b[i].actionCost : 0;
+        var _loop = function _loop(roundNum) {
+          //Sort by most damage
+          projections[_actionType].options = projections[_actionType].options.sort(function (a, b) {
+            var damageA = a[roundNum] && a[roundNum].damage ? a[roundNum].damage / a[roundNum].actionCost : 0;
+            var damageB = b[roundNum] && b[roundNum].damage ? b[roundNum].damage / b[roundNum].actionCost : 0;
             return damageB - damageA;
           });
-
           var actionCount = 0;
 
           for (var j = 0; j < projections[_actionType].options.length; j++) {
-            var actionObj = projections[_actionType].options[j][i];
+            var actionObj = projections[_actionType].options[j][roundNum];
             var actionCost = actionObj && actionObj.actionCost ? actionObj.actionCost : 0;
 
             if (actionCount + actionCost <= projections[_actionType].count) {
               //Action fits
               if (actionObj) {
                 //Add action
-                if (!projections[_actionType].rounds[i]) {
-                  projections[_actionType].rounds[i] = [];
+                if (!projections[_actionType].rounds[roundNum]) {
+                  projections[_actionType].rounds[roundNum] = [];
                 }
 
-                projections[_actionType].rounds[i][j] = actionObj;
+                projections[_actionType].rounds[roundNum][j] = actionObj;
                 actionCount += actionCost;
               } else if (actionObj) {
                 //Not enough actions
@@ -32962,19 +33020,48 @@ var StatBlock = {
               }
             } else if (actionObj.damage > 0) {
               //push out viable damage options until later turns
-              projections[_actionType].options[j].splice(i, 0, 0);
+              projections[_actionType].options[j].splice(roundNum, 0, 0);
             }
           }
         };
 
-        for (var i = 0; i < this.$parent.editor.round_tracker; i++) {
-          _loop(i);
+        for (var roundNum = 0; roundNum < this.$parent.editor.round_tracker; roundNum++) {
+          _loop(roundNum);
+        }
+      } //console.log('Damage Projections:');
+      //console.log(projections);
+      //Create turn totals and action list
+
+
+      var totals = [];
+
+      for (var _actionType2 in projections) {
+        for (var _roundNum = 0; _roundNum < this.$parent.editor.round_tracker; _roundNum++) {
+          for (var i = 0; i < projections[_actionType2].rounds[_roundNum].length; i++) {
+            if (!totals[_roundNum]) {
+              totals[_roundNum] = {
+                abilities: [],
+                damage: 0
+              };
+            }
+
+            if (projections[_actionType2].rounds[_roundNum][i].damage > 0) {
+              //Add This Action
+              if (!totals[_roundNum].abilities[_actionType2]) {
+                totals[_roundNum].abilities[_actionType2] = [];
+              }
+
+              totals[_roundNum].abilities[_actionType2].push(projections[_actionType2].rounds[_roundNum][i].name);
+
+              totals[_roundNum].damage += projections[_actionType2].rounds[_roundNum][i].damage;
+            }
+          }
         }
       }
 
-      console.log('Damage Projections:');
-      console.log(projections);
-      return projections;
+      console.log('Final Projections:');
+      console.log(totals);
+      return totals;
     },
     //Challenge Rating
     damageCr: function damageCr() {
@@ -33596,6 +33683,12 @@ var StatBlock = {
       }
 
       return proficiency;
+    },
+    playerChanceToHit: function playerChanceToHit() {
+      var playerData = this.$parent.f5.playerlevels[this.$parent.editor.player_characters.level];
+      var toHitModifier = playerData.proficiency + playerData.average_modifier;
+      var hitChance = (21 - (this.getAC - toHitModifier)) / 20;
+      return hitChance;
     }
   },
   methods: {
@@ -34156,7 +34249,17 @@ var StatBlock = {
     featureDPRChanged: function featureDPRChanged(obj) {
       console.log('featureDPRChanged');
       console.log(obj);
-      this.$forceUpdate();
+      this.$forceUpdate(); //TODO Does this do anything
+
+      this.$refs.graph.updateGraph();
+    },
+    playerAverageDamage: function playerAverageDamage() {
+      var playerData = this.$parent.f5.playerlevels[this.$parent.editor.player_characters.level];
+      var playerDamage = this.$parent.editor.player_characters.number * playerData.average_dpr;
+      return playerDamage * this.playerChanceToHit;
+    },
+    returnHP: function returnHP() {
+      return this.getHP;
     }
   }
 };

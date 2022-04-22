@@ -497,6 +497,7 @@
                     @{{$parent.f5.misc.title_hp_cr}}: @{{healthCr}}<br/>
                     @{{$parent.f5.misc.title_ac_cr}}: @{{armorCr}}
                 </div>
+                {{--
                 <div> 
                     <label class="option-label" for="options__set-cr">@{{$parent.f5.misc.title_set_cr}}: </label>
                     <select id="option options__set-cr" name="options__set-cr">
@@ -525,6 +526,7 @@
                     </select>
                     <button>@{{$parent.f5.misc.title_apply}}</button>
                 </div>
+                --}}
             </div>
             
             <div class="dpr-controller popup-overlay">

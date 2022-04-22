@@ -164,7 +164,7 @@ export function initVue(f5data) {
                     }
                 }
 
-                let i = this.statblocks.push(statblock);
+                let i = this.statblocks.unshift(statblock);
                 return i-1;
             },
 
