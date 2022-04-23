@@ -1,6 +1,7 @@
 //TODO: 
 
 HIGH PRIORITY
+- [ ] Fix Glabrezu import
 - [ ] Design UI
 - [ ] DPR Projection Graph
 - [ ] Multiattack feature list in projection

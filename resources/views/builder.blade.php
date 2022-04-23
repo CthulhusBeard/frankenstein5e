@@ -56,7 +56,7 @@
             </div>
 
             <statblock 
-                v-for="statblock in statblocks"
+                v-for="statblock in statblocks.slice().reverse()"
                 v-bind:value="statblock"
                 v-bind:f5="f5"
                 v-bind:player_data="editor.player_characters"
