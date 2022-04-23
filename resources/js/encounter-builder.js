@@ -61,9 +61,11 @@ export function initVue(f5data) {
 
             importMonster: function(monster) {
                 console.log('import monster');
-                let importedStatBlock = monster;
+                let importedStatBlock = JSON.parse(JSON.stringify(monster));
+                importedStatBlock.id = this.randChars(15);
                 console.log(importedStatBlock);
-                this.statblocks.unshift(importedStatBlock);
+                this.statblocks.push(importedStatBlock);
+                console.log(this.statblocks.length);
             },
 
             createStatBlock: function() {
@@ -164,7 +166,7 @@ export function initVue(f5data) {
                     }
                 }
 
-                let i = this.statblocks.unshift(statblock);
+                let i = this.statblocks.push(statblock);
                 return i-1;
             },
 

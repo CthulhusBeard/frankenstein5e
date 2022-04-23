@@ -1,6 +1,7 @@
 //TODO: 
 
 HIGH PRIORITY
+- [ ] Design UI
 - [ ] DPR Projection Graph
 - [ ] Multiattack feature list in projection
 - [ ] Tips and suggestions
