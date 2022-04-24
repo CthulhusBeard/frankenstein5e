@@ -98,12 +98,7 @@ let StatBlock = {
 
             //Gather Projections
             for(const featureType in this.value.features) {
-                if(!this.value.features[featureType].length) {
-                    delete projections[featureType];
-                    continue;
-                }
                 for(const feature of this.value.features[featureType]) {
-
                     //Merge similar action types
                     let actionType = featureType;
                     if(actionType === 'mythic_action') {
@@ -112,12 +107,20 @@ let StatBlock = {
                         actionType = 'action';
                     }
 
+                    console.log('/Merge similar action types');
+                    console.log(projections[actionType]);
+                    console.log(actionType);
+
                     projections[actionType].options.push(JSON.parse(JSON.stringify(feature.damageProjection)));  //Clone projection
                 }
             }
 
             //Sort Projections
             for(let actionType in projections) {
+                if(!projections[actionType].length) {
+                    delete projections[actionType];
+                    continue;
+                }
                 for(let roundNum = 0; roundNum < this.combat_rounds; roundNum++) {
                     //Sort by most damage
                     projections[actionType].options = projections[actionType].options.sort(function (a, b) {
@@ -158,11 +161,14 @@ let StatBlock = {
             let totals = [];
             for(let actionType in projections) { 
                 for(let roundNum = 0; roundNum < this.combat_rounds; roundNum++) {
+                    if(!projections[actionType].rounds[roundNum]) {
+                        continue;
+                    }
                     for(let i = 0; i < projections[actionType].rounds[roundNum].length; i++) {
                         if(!totals[roundNum]) {
                             totals[roundNum] = {abilities: [], damage: 0};
                         }
-                        if(projections[actionType].rounds[roundNum][i].damage > 0) {
+                        if(projections[actionType].rounds[roundNum][i].damage && projections[actionType].rounds[roundNum][i].damage > 0) {
                             //Add This Action
                             if(!totals[roundNum].abilities[actionType]) {
                                 totals[roundNum].abilities[actionType] = [];
@@ -1274,6 +1280,20 @@ let StatBlock = {
             console.log('featureDPRChanged');
             console.log(obj);
             this.$forceUpdate();//TODO Does this do anything
+        },
+
+        getChildClass:function(e, childClass) {
+            console.log(e.currentTarget);
+            console.log(childClass);
+            console.log(e.currentTarget.querySelector('.'+childClass));
+            return e.currentTarget.querySelector('.'+childClass);
+        },
+
+        setFocusOnChild: function(e, childClass) {
+            let child = this.getChildClass(e, childClass);
+            if(child) {
+                child.focus();
+            }
         },
     }
 }

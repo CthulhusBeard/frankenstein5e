@@ -123,7 +123,7 @@
 
                     <div class="stat-block__ability-scores">
                         <div class="stat-block__ability-scores__holder">
-                            <div class="stat-block__ability focus-edit" v-for="(item, index) in f5.abilities" >
+                            <div class="stat-block__ability focus-edit" v-for="(item, index) in f5.abilities" @click="setFocusOnChild($event, 'stat-block__ability-score-'+index.toLowerCase())" >
                                 <div class="stat-block__ability-name">
                                     @{{index.toUpperCase()}}
                                 </div>
@@ -132,7 +132,7 @@
                                 </div>
                                 <div :class="'edit-field options__ability option-box '+index">
                                     Score: 
-                                    <select :name="'options__ability_'+index" v-model="value.abilities[index]">
+                                    <select :class="'stat-block__ability-score-'+index.toLowerCase()" :name="'options__ability_'+index" v-model="value.abilities[index]">
                                         <option v-for="i in 31" :value="i-1" >@{{i-1}}</option>
                                     </select>
                                     <br/>
@@ -331,7 +331,7 @@
                                     </template>
                             </multiselect>
                             
-                            <span for="languages__telepathy" class="edit-field">@{{f5.misc.telepathy}}</span>
+                            <span for="languages__telepathy" class="edit-field edit-field--inlineBlock">@{{f5.misc.telepathy}}</span>
                             <select name="languages__telepathy" v-model="value.languages.telepathy" class="edit-field">
                                 <option v-for="(val, i) in [0,5,10,15,20,25,30,35,40,45,50,60,70,80,90,100,120,140,160,180,200,250,300]" :value="val" >@{{val+' '+$parent.editor.measure.measureUnit}}</option>
                             </select>

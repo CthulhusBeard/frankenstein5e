@@ -27,8 +27,11 @@ HIGH PRIORITY
 - [ ] Clean up feature object (only export the fields needed. There are many unused fields) "template: {type: attack, damage: etc}"
 - [ ] Import Monster validation
 
+BUG FIXES
+- [ ] Make element ids unique between different statblocks
+
 MEDIUM PRIORITY
-- [ ] MOve Buttons to Reorder Features / Move features to other columns
+- [ ] Move Buttons to Reorder Features / Move features to other columns
 - [ ] Automatic column org or manual moving
 - [ ] Fix semantic usage on Conditions plus additional conditions
 
