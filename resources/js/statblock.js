@@ -97,27 +97,35 @@ let StatBlock = {
             };
 
             //Gather Projections
+            let mergeActions = {
+                'spellcasting': 'action',
+                'mythic_action': 'legendary_action',
+            };
+
             for(const featureType in this.value.features) {
+                if(featureType === 'multiattack') {
+                    //TODO: Is this necessary???
+                    //Create other damage projections before multiattack
+                    continue;
+                }
                 for(const feature of this.value.features[featureType]) {
                     //Merge similar action types
                     let actionType = featureType;
-                    if(actionType === 'mythic_action') {
-                        actionType = 'legendary_action';
-                    } else if(actionType === 'spellcasting' || actionType === 'multiattack') {
-                        actionType = 'action';
+                    if(mergeActions.hasOwnProperty(actionType)) {
+                        actionType = mergeActions[actionType];
                     }
-
-                    console.log('/Merge similar action types');
-                    console.log(projections[actionType]);
-                    console.log(actionType);
 
                     projections[actionType].options.push(JSON.parse(JSON.stringify(feature.damageProjection)));  //Clone projection
                 }
             }
-
+            //Merge Multiattack into actions
+            for(const feature of this.value.features['multiattack']) {
+                projections['action'].options.push(JSON.parse(JSON.stringify(feature.damageProjection)));  //Clone projection
+            }
+            
             //Sort Projections
             for(let actionType in projections) {
-                if(!projections[actionType].length) {
+                if(!projections[actionType].options.length) {
                     delete projections[actionType];
                     continue;
                 }
@@ -154,8 +162,8 @@ let StatBlock = {
                     }
                 }
             }
-            //console.log('Damage Projections:');
-            //console.log(projections);
+            console.log('Damage Projections:');
+            console.log(projections);
 
             //Create turn totals and action list
             let totals = [];
@@ -1283,15 +1291,16 @@ let StatBlock = {
         },
 
         getChildClass:function(e, childClass) {
-            console.log(e.currentTarget);
-            console.log(childClass);
-            console.log(e.currentTarget.querySelector('.'+childClass));
+            //console.log(e.currentTarget);
+            //console.log(childClass);
+            //console.log(e.currentTarget.querySelector('.'+childClass));
             return e.currentTarget.querySelector('.'+childClass);
         },
 
         setFocusOnChild: function(e, childClass) {
             let child = this.getChildClass(e, childClass);
             if(child) {
+                console.log('setFocusOnChild: '+e.currentTarget);
                 child.focus();
             }
         },

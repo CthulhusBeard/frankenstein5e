@@ -3,7 +3,10 @@ import Multiselect from '@vueform/multiselect/dist/multiselect.vue2.js';
 export {StatBlockFeature as default}
 
 let StatBlockFeature = {
-    props: ['value'],
+    props: [
+        'value',
+        'combat_rounds',
+    ],
     template: '#template-statblockfeature',  
     components: {
         'multiselect': Multiselect,
@@ -124,10 +127,10 @@ let StatBlockFeature = {
                             let abilityDPR = 0;
                             if(featureRef.index === 'spellcasting') {
                                 abilityDPR = this.$parent.value.features['spellcasting'][0].averageDPR * featureRef.uses;
-                                console.log('calcAverageDPR MA DPR feature: '+this.$parent.value.features['spellcasting'][0].name+': '+abilityDPR);
+                                //console.log('calcAverageDPR MA DPR feature: '+this.$parent.value.features['spellcasting'][0].name+': '+abilityDPR);
                             } else {
                                 abilityDPR = this.$parent.value.features['action'][featureRef.index].averageDPR * featureRef.uses;
-                                console.log('calcAverageDPR MA DPR feature: '+this.$parent.value.features['action'][featureRef.index].name+': '+abilityDPR);
+                                //console.log('calcAverageDPR MA DPR feature: '+this.$parent.value.features['action'][featureRef.index].name+': '+abilityDPR);
                             }
                             groupDPR += (!isNaN(abilityDPR) && abilityDPR > 0) ? abilityDPR : 0;
                         }
@@ -137,7 +140,7 @@ let StatBlockFeature = {
                     }
                 }
                 avgDPR = multiDPR;
-                console.log('calcAverageDPR MA DPR: '+avgDPR);
+                //console.log('calcAverageDPR MA DPR: '+avgDPR);
             } else if(this.value.template === 'custom') { 
                 // Custom Ability Average DPR
                 for(let i in this.value.customDamage) {
@@ -155,7 +158,7 @@ let StatBlockFeature = {
             //Set to value
             if(this.value.averageDPR !== dpr) {
                 //set emit here?
-                console.log('calcAverageDPR set new DPR to "averageDPR" prop');
+                console.log(this.value.name+' calcAverageDPR set new DPR to "averageDPR" prop');
                 this.value.averageDPR = dpr;
                 this.$parent.$emit('feature-drp-change', {id: this.value.id, actionType: this.value.actionType, dpr: dpr});
             }
@@ -607,11 +610,12 @@ let StatBlockFeature = {
         },
 
         damageProjection: function() {
+            console.log('=== Feature: Damage Projection ('+this.value.name+') ===');
             let turnDamage = [];
             let averageRechargeTurns = 1;
 
             //Spellcasting Projections
-            if(this.value.template ==='spellcasting') {
+            if(this.value.template === 'spellcasting') {
                 let spellSlotsTracker = [];
                 spellLoop: for(const spell of this.value.spellList) {
                     let addIndex = turnDamage.length;
@@ -624,7 +628,7 @@ let StatBlockFeature = {
 
                     let spellUses = 0;
                     if(spell.at_will || spell.level === 0) {
-                        spellUses = this.$parent.$parent.editor.round_tracker;
+                        spellUses = this.combat_rounds;
                     } else if(!this.value.innateSpellcasting && !spellSlotsTracker[spell.level] && this.value.spellSlots[spell.level] > 0) {
                         spellUses = this.value.spellSlots[spell.level];
                         spellSlotsTracker[spell.level] = true;
@@ -641,22 +645,38 @@ let StatBlockFeature = {
                         });
                     }
                 }
-
                 return turnDamage;
+
             } else if(this.value.template === 'multiattack') {
                 console.log('Multiattack projection');
+                let mergedProjections = [];
+                
+                for(var i = 0; i < this.combat_rounds; i++) {
+                    mergedProjections.push({
+                        name: this.$parent.$parent.f5.misc.title_multiattack+': ',
+                        damage: 0,
+                        actionCost: 1,
+                    });
+                }
+
+                //Loop both Multiattack Option
                 for(let maGroup of this.value.multiattackReferences) {
+                    //Loop through each group
                     for(let featureRef of maGroup) {
                         if(featureRef.index !== null) {
                             if(featureRef.index === 'spellcasting') {
-                                console.log(this.$parent.value.features['spellcasting'][0].damageProjection);
+                                //Merge in Spellcasting
+                                mergedProjections = this.mergeMultiattackProjections(mergedProjections, this.$parent.value.features['spellcasting'][0], featureRef.uses);
                             } else {
-                                console.log(this.$parent.value.features['action'][featureRef.index].damageProjection);
+                                //Merge in features
+                                mergedProjections = this.mergeMultiattackProjections(mergedProjections, this.$parent.value.features['action'][featureRef.index], featureRef.uses);
                             }
                         }
                     }
                 }
-                return turnDamage;
+                console.log('mergedProjections');
+                console.log(mergedProjections);
+                return mergedProjections;
             }
 
             //Not Spellcasting
@@ -682,7 +702,7 @@ let StatBlockFeature = {
                 averageRechargeTurns = Math.round(1 / ((this.value.recharge.diceType - this.value.recharge.minRoll + 1) / this.value.recharge.diceType));
             }
 
-            for(let i = 0; i < this.$parent.$parent.editor.round_tracker; i++) {
+            for(let i = 0; i < this.combat_rounds; i++) {
                 if(i % averageRechargeTurns === 0) {
                     turnDamage[i] = {
                         name: this.value.name,
@@ -838,6 +858,22 @@ let StatBlockFeature = {
             if(this.value.damageProjection != this.damageProjection) {
                 this.value.damageProjection = this.damageProjection;
             }
+        },
+
+        mergeMultiattackProjections: function(maProj, newProj, uses) {
+            if(!newProj) {
+                return maProj;
+            }
+
+            for(var i = 0; i < this.combat_rounds; i++) {
+                if(maProj[i].name !== this.$parent.$parent.f5.misc.title_multiattack+': ') {
+                    maProj[i].name += ', ';
+                }
+                maProj[i].name += newProj[i].name;
+                maProj[i].damage += newProj[i].damage * uses;
+            }
+
+            return null;
         },
     },       
 };

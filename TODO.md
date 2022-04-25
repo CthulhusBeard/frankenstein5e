@@ -1,10 +1,10 @@
 //TODO: 
 
 HIGH PRIORITY
+- [ ] Multiattack projection: Multiattack projection isn't changing because MA property values aren't changing. Requires an event or some sort of connective reactivity to multiattack reference features.
 - [ ] Fix Glabrezu import
 - [ ] Design UI
 - [ ] DPR Projection Graph
-- [ ] Multiattack feature list in projection
 - [ ] Tips and suggestions
 - [ ] Allow adding text replace codes to custom description
 - [ ] Figure out which dpr events are actually necessary

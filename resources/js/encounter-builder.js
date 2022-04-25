@@ -60,12 +60,10 @@ export function initVue(f5data) {
             },
 
             importMonster: function(monster) {
-                console.log('import monster');
+                console.log('== import monster ==');
                 let importedStatBlock = JSON.parse(JSON.stringify(monster));
                 importedStatBlock.id = this.randChars(15);
-                console.log(importedStatBlock);
                 this.statblocks.push(importedStatBlock);
-                console.log(this.statblocks.length);
             },
 
             createStatBlock: function() {

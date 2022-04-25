@@ -12,7 +12,9 @@ var ProjectionGraph = {
     'combat_rounds',
     'f5'
   ],
+
   template: '#template-projection-graph',
+
   data: function () {
     return {
       graphInstance: null,
@@ -91,7 +93,6 @@ var ProjectionGraph = {
     },
 
     graphData: function() {
-      console.log('graphData '+this.id+ ' / '+this.name );
       console.log(this.monster_damage);
 
       //X-Axis Labels and Health Over Time
