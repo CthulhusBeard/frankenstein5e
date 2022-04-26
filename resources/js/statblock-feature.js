@@ -23,6 +23,7 @@ let StatBlockFeature = {
         if(this.value.actionType === 'multiattack') {
             this.$parent.$on('feature-drp-change', this.compareIdToMultiattackFeatures);
         }
+        this.forceUpdateToggle = !this.forceUpdateToggle;
     },
 
     watch: {
@@ -617,7 +618,7 @@ let StatBlockFeature = {
         },
 
         damageProjection: function() {
-            console.log('=== Feature: Damage Projection ('+this.value.name+') ===');
+            console.log('=== Feature: Damage Projection ('+this.value.name+'/'+this.forceUpdateToggle+') ===');
             let updateToggle = this.forceUpdateToggle;
             let turnDamage = [];
             let averageRechargeTurns = 1;
@@ -692,10 +693,12 @@ let StatBlockFeature = {
 
                 let finalMerge = [];
                 for(var i = 0; i < this.combat_rounds; i++) {
-                    if(mergedProjections[0][i].damage >= mergedProjections[1][i].damage) {
+                    if(!mergedProjections[1][i] || mergedProjections[0][i].damage >= mergedProjections[1][i].damage) {
                         finalMerge[i] = mergedProjections[0][i];
-                    } else if(mergedProjections[1][i].damage > mergedProjections[0][i].damage) {
+                    } else if(!mergedProjections[0][i] || mergedProjections[1][i].damage > mergedProjections[0][i].damage) {
                         finalMerge[i] = mergedProjections[1][i];
+                    } else {
+                        finalMerge[i] = null;
                     }
                 }
 

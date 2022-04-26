@@ -206,43 +206,8 @@ let monsters = [
                     ],
                     "legendaryActionCost": 1,
                     "manualDPR": -1,
-                    "averageDPR": 110,
+                    "averageDPR": -1,
                     "damageProjection": [
-                        {
-                            "name": "Multiattack: Claw x2, Soul Rend",
-                            "damage": 110,
-                            "actionCost": 1
-                        },
-                        {
-                            "name": "Multiattack: Claw x2, Imprison Soul",
-                            "damage": 66,
-                            "actionCost": 1
-                        },
-                        {
-                            "name": "Multiattack: Claw x2, Imprison Soul",
-                            "damage": 66,
-                            "actionCost": 1
-                        },
-                        {
-                            "name": "Multiattack: Claw x2, Imprison Soul",
-                            "damage": 66,
-                            "actionCost": 1
-                        },
-                        {
-                            "name": "Multiattack: Claw x2, Imprison Soul",
-                            "damage": 66,
-                            "actionCost": 1
-                        },
-                        {
-                            "name": "Multiattack: Claw x2, Imprison Soul",
-                            "damage": 66,
-                            "actionCost": 1
-                        },
-                        {
-                            "name": "Multiattack: Claw x2, Soul Rend",
-                            "damage": 110,
-                            "actionCost": 1
-                        }
                     ]
                 }
             ],
@@ -338,44 +303,8 @@ let monsters = [
                     ],
                     "legendaryActionCost": 1,
                     "manualDPR": -1,
-                    "averageDPR": 33,
-                    "damageProjection": [
-                        {
-                            "name": "Claw",
-                            "damage": 33,
-                            "actionCost": 1
-                        },
-                        {
-                            "name": "Claw",
-                            "damage": 33,
-                            "actionCost": 1
-                        },
-                        {
-                            "name": "Claw",
-                            "damage": 33,
-                            "actionCost": 1
-                        },
-                        {
-                            "name": "Claw",
-                            "damage": 33,
-                            "actionCost": 1
-                        },
-                        {
-                            "name": "Claw",
-                            "damage": 33,
-                            "actionCost": 1
-                        },
-                        {
-                            "name": "Claw",
-                            "damage": 33,
-                            "actionCost": 1
-                        },
-                        {
-                            "name": "Claw",
-                            "damage": 33,
-                            "actionCost": 1
-                        }
-                    ]
+                    "averageDPR": -1,
+                    "damageProjection": []
                 },
                 {
                     "id": "OHUVFsCqqNsZGWA",
@@ -461,44 +390,8 @@ let monsters = [
                     ],
                     "legendaryActionCost": 1,
                     "manualDPR": -1,
-                    "averageDPR": 0,
-                    "damageProjection": [
-                        {
-                            "name": "Imprison Soul",
-                            "damage": 0,
-                            "actionCost": 1
-                        },
-                        {
-                            "name": "Imprison Soul",
-                            "damage": 0,
-                            "actionCost": 1
-                        },
-                        {
-                            "name": "Imprison Soul",
-                            "damage": 0,
-                            "actionCost": 1
-                        },
-                        {
-                            "name": "Imprison Soul",
-                            "damage": 0,
-                            "actionCost": 1
-                        },
-                        {
-                            "name": "Imprison Soul",
-                            "damage": 0,
-                            "actionCost": 1
-                        },
-                        {
-                            "name": "Imprison Soul",
-                            "damage": 0,
-                            "actionCost": 1
-                        },
-                        {
-                            "name": "Imprison Soul",
-                            "damage": 0,
-                            "actionCost": 1
-                        }
-                    ]
+                    "averageDPR": -1,
+                    "damageProjection": []
                 },
                 {
                     "id": "D9Hpd09e45BhVIC",
@@ -592,24 +485,8 @@ let monsters = [
                     ],
                     "legendaryActionCost": 1,
                     "manualDPR": -1,
-                    "averageDPR": 44,
-                    "damageProjection": [
-                        {
-                            "name": "Soul Rend",
-                            "damage": 44,
-                            "actionCost": 1
-                        },
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        {
-                            "name": "Soul Rend",
-                            "damage": 44,
-                            "actionCost": 1
-                        }
-                    ]
+                    "averageDPR": -1,
+                    "damageProjection": []
                 }
             ],
             "bonus_action": [],

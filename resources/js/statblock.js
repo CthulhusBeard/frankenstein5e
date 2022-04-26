@@ -120,8 +120,8 @@ let StatBlock = {
             }
             //Merge Multiattack into actions
             for(const feature of this.value.features['multiattack']) {
-                //feature.forceUpdateToggle = !feature.forceUpdateToggle; //Change value to force multiattacks to update projections
-                console.log('******');
+                feature.forceUpdateToggle = !feature.forceUpdateToggle; //Change value to force multiattacks to update projections
+                console.log('***'+feature.forceUpdateToggle+'***');
                 console.log(feature.name);
                 console.log(feature.damageProjection);
                 projections['action'].options.push(JSON.parse(JSON.stringify(feature.damageProjection)));  //Clone projection
@@ -180,7 +180,11 @@ let StatBlock = {
                         if(!totals[roundNum]) {
                             totals[roundNum] = {abilities: [], damage: 0};
                         }
-                        if(projections[actionType].rounds[roundNum][i].damage && projections[actionType].rounds[roundNum][i].damage > 0) {
+                        if(
+                            projections[actionType].rounds[roundNum][i] && 
+                            projections[actionType].rounds[roundNum][i].damage && 
+                            projections[actionType].rounds[roundNum][i].damage > 0
+                        ) {
                             //Add This Action
                             if(!totals[roundNum].abilities[actionType]) {
                                 totals[roundNum].abilities[actionType] = [];
