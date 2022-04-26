@@ -2,7 +2,7 @@ export { monsters };
 
 let monsters = [
     {
-        "id": "c5CbRB5o8JkfilR",
+        "id": "luYYQ84zau1UBlJ",
         "name": "Devourer",
         "shortName": "",
         "isNameProperNoun": false,
@@ -207,7 +207,43 @@ let monsters = [
                     "legendaryActionCost": 1,
                     "manualDPR": -1,
                     "averageDPR": 110,
-                    "damageProjection": []
+                    "damageProjection": [
+                        {
+                            "name": "Multiattack: Claw x2, Soul Rend",
+                            "damage": 110,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Multiattack: Claw x2, Imprison Soul",
+                            "damage": 66,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Multiattack: Claw x2, Imprison Soul",
+                            "damage": 66,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Multiattack: Claw x2, Imprison Soul",
+                            "damage": 66,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Multiattack: Claw x2, Imprison Soul",
+                            "damage": 66,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Multiattack: Claw x2, Imprison Soul",
+                            "damage": 66,
+                            "actionCost": 1
+                        },
+                        {
+                            "name": "Multiattack: Claw x2, Soul Rend",
+                            "damage": 110,
+                            "actionCost": 1
+                        }
+                    ]
                 }
             ],
             "action": [

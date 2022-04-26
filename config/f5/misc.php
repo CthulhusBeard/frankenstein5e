@@ -33,6 +33,8 @@ return [
     'twice' => 'f5/misc.twice',
     'three_or_more_times' => 'f5/misc.three_or_more_times',
 
+    'times' => 'f5/misc.times',
+
     'max' => 'f5/misc.max',
     'count' => 'f5/misc.count',
     'amount' => 'f5/misc.amount',

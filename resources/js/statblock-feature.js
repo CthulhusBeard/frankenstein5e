@@ -6,10 +6,17 @@ let StatBlockFeature = {
     props: [
         'value',
         'combat_rounds',
+        'f5',
     ],
     template: '#template-statblockfeature',  
     components: {
         'multiselect': Multiselect,
+    },
+
+    data: function() {
+        return {
+            forceUpdateToggle: false
+        }
     },
 
     mounted() {
@@ -29,9 +36,9 @@ let StatBlockFeature = {
 
                 //If AOE target area doesn't apply to this template, change it 
                 //TODO: make AOE target type?
-                if(!this.$parent.$parent.f5.areaofeffect[this.value.targetType].types.includes(this.value.template)) {
-                    for(const key in this.$parent.$parent.f5.areaofeffect) {
-                        let element = this.$parent.$parent.f5.areaofeffect[key];
+                if(!this.f5.areaofeffect[this.value.targetType].types.includes(this.value.template)) {
+                    for(const key in this.f5.areaofeffect) {
+                        let element = this.f5.areaofeffect[key];
                         if(element.types.includes(this.value.template)) {
                             this.value.targetType = key;
                             break;
@@ -76,9 +83,9 @@ let StatBlockFeature = {
                 return this.value.manualDPR;
             } else if(this.value.template === 'spellcasting') { 
                 // Spellcasting Average DPR
-                if(this.$parent.$parent.f5.spelllevels[this.highestCastableSpell]) { 
+                if(this.f5.spelllevels[this.highestCastableSpell]) { 
                     //Target count should already be considered in average damage of spells
-                    return this.$parent.$parent.f5.spelllevels[this.highestCastableSpell].average_damage;
+                    return this.f5.spelllevels[this.highestCastableSpell].average_damage;
                 }
 
             } else if(this.value.template === 'attack') { 
@@ -112,7 +119,7 @@ let StatBlockFeature = {
                 }
 
                 let distanceBaseline = 30;
-                avgTargets = this.$parent.$parent.f5.areaofeffect[this.value.targetType].targets_at_30;
+                avgTargets = this.f5.areaofeffect[this.value.targetType].targets_at_30;
                 if(avgTargets > 1) {
                     avgTargets = (avgTargets/(distanceBaseline*2)) * (distanceBaseline + this.value.aoeRange); //basic formula to assume average number of targets hit
                 }
@@ -174,7 +181,7 @@ let StatBlockFeature = {
             if(brackets) {
                 nameText += ' ('+brackets+')';
             }
-            return (nameText + this.$parent.$parent.f5.misc.sentence_end).trim();
+            return (nameText + this.f5.misc.sentence_end).trim();
         },
 
         bracketText: function() {
@@ -192,21 +199,21 @@ let StatBlockFeature = {
                 ) &&
                 this.value.legendaryActionCost > 1
             ) {
-                brackets += this.$parent.$parent.f5.misc.action_cost.replace(':cost', this.value.legendaryActionCost);
+                brackets += this.f5.misc.action_cost.replace(':cost', this.value.legendaryActionCost);
             }
 
             //Recharge rate
             if(this.value.recharge.type !== 'none') {
                 if(brackets) {
-                    brackets += this.$parent.$parent.f5.misc.sentence_list_separator_secondary+' ';
+                    brackets += this.f5.misc.sentence_list_separator_secondary+' ';
                 }
                 if(this.value.recharge.type === 'dice_roll') {
-                    brackets += this.$parent.$parent.f5.misc.title_recharge+' '+this.value.recharge.minRoll;
+                    brackets += this.f5.misc.title_recharge+' '+this.value.recharge.minRoll;
                     if(this.value.recharge.minRoll !== this.value.recharge.diceType) {
                         brackets += '-'+this.value.recharge.diceType;
                     }
-                } else if(this.$parent.$parent.f5.recharge[this.value.recharge.type].desc) {
-                    brackets += this.$parent.$parent.f5.recharge[this.value.recharge.type].desc.replace(':uses', this.value.recharge.uses);
+                } else if(this.f5.recharge[this.value.recharge.type].desc) {
+                    brackets += this.f5.recharge[this.value.recharge.type].desc.replace(':uses', this.value.recharge.uses);
                 }
             }
             return brackets; 
@@ -228,13 +235,13 @@ let StatBlockFeature = {
 
         getValidTemplateTypes: function() {
             let options = {};
-            for(let i in this.$parent.$parent.f5.featuretemplates) {
+            for(let i in this.f5.featuretemplates) {
                 if(
-                    this.$parent.$parent.f5.featuretemplates[i].action_options && 
-                    this.$parent.$parent.f5.featuretemplates[i].action_options.includes(this.value.actionType)
+                    this.f5.featuretemplates[i].action_options && 
+                    this.f5.featuretemplates[i].action_options.includes(this.value.actionType)
                 ) {
 
-                    options[i] = this.$parent.$parent.f5.featuretemplates[i];
+                    options[i] = this.f5.featuretemplates[i];
                 }
             }
             return options;
@@ -334,14 +341,14 @@ let StatBlockFeature = {
                 descText = this.savingThrowDescription;
             }
 
-            descText+this.$parent.$parent.f5.misc.sentence_end;
+            descText+this.f5.misc.sentence_end;
             
             return this.descriptionTextReplace(descText);
         },
 
         multiattackDescription: function() {
-            let maDesc = this.$parent.$parent.f5.misc.desc_multiattack;
-            let maAltDesc = this.$parent.$parent.f5.misc.desc_multiattack_alternative;
+            let maDesc = this.f5.misc.desc_multiattack;
+            let maAltDesc = this.f5.misc.desc_multiattack_alternative;
             let maAbilityDescs = [
                 [],[]
             ]; // Multiattacks will only have 2 options
@@ -352,19 +359,19 @@ let StatBlockFeature = {
                 for(let j in group) {
                     let featureRef = group[j];
 
-                    let featDesc = this.$parent.$parent.f5.misc.desc_multiattack_ability;
+                    let featDesc = this.f5.misc.desc_multiattack_ability;
                     let feature;
                     if(featureRef.index !== null) {
                         if(featureRef.index === 'spellcasting') {
                             feature = this.$parent.value.features['spellcasting'][0];
-                            featDesc = this.$parent.pluralize(this.$parent.$parent.f5.misc.desc_multiattack_spell, featureRef.uses);
+                            featDesc = this.$parent.pluralize(this.f5.misc.desc_multiattack_spell, featureRef.uses);
                         } else {
                             feature = this.$parent.value.features['action'][featureRef.index];
                             if(feature.template === 'attack') {
-                                let attackString = this.$parent.pluralize(this.$parent.$parent.f5.misc.attack, featureRef.uses);
-                                let attackSingular = this.$parent.pluralize(this.$parent.$parent.f5.misc.attack);
-                                let attackPlural = this.$parent.pluralize(this.$parent.$parent.f5.misc.attack, 2);
-                                featDesc = this.$parent.$parent.f5.misc.desc_multiattack_attack;
+                                let attackString = this.$parent.pluralize(this.f5.misc.attack, featureRef.uses);
+                                let attackSingular = this.$parent.pluralize(this.f5.misc.attack);
+                                let attackPlural = this.$parent.pluralize(this.f5.misc.attack, 2);
+                                featDesc = this.f5.misc.desc_multiattack_attack;
                                 featDesc = featDesc.replace(':ability_name', feature.name);
                                 
                                 if(feature.name.toLowerCase().substr(-attackSingular.length) == attackSingular) {
@@ -380,7 +387,7 @@ let StatBlockFeature = {
                         }
 
                         if(prevTemplate !== feature.template) {
-                            featDesc = featDesc.replace(':can_use', this.$parent.$parent.f5.misc.desc_can_use);
+                            featDesc = featDesc.replace(':can_use', this.f5.misc.desc_can_use);
                         } else {
                             featDesc = featDesc.replace(':can_use ', '');
                         }
@@ -418,11 +425,11 @@ let StatBlockFeature = {
         },
 
         spellcastingDescription: function() {
-            let spellDesc = this.$parent.$parent.f5.misc.desc_spellcasting;
+            let spellDesc = this.f5.misc.desc_spellcasting;
             if(this.value.innateSpellcasting) { 
-                spellDesc = this.$parent.$parent.f5.misc.desc_innate_spellcasting;
+                spellDesc = this.f5.misc.desc_innate_spellcasting;
             } else if(this.value.spellcastingClass) {
-                spellDesc = this.$parent.$parent.f5.misc.desc_prepared_spellcasting;
+                spellDesc = this.f5.misc.desc_prepared_spellcasting;
             }
             
             if(this.value.additionalDescription) {
@@ -431,7 +438,7 @@ let StatBlockFeature = {
 
             if(this.atWillSpells.length > 0) {
                 let atWillSpellList = this.$parent.createSentenceList(this.atWillSpells.map(x => x.name), true, function(str) {return '<i>'+str+'</i>'});
-                spellDesc = spellDesc.replace(':at_will_spells', this.$parent.$parent.f5.misc.desc_at_will_spells);
+                spellDesc = spellDesc.replace(':at_will_spells', this.f5.misc.desc_at_will_spells);
                 spellDesc = spellDesc.replace(':at_will_spell_list', atWillSpellList.toLowerCase());
             } else {
                 spellDesc = spellDesc.replace(':at_will_spells', '');
@@ -476,15 +483,15 @@ let StatBlockFeature = {
                 
                 if(level == 0) {
                     if(this.value.innateSpellcasting) {
-                        spellDesc += this.$parent.capitalize(this.$parent.$parent.f5.misc.at_will)+': ';
+                        spellDesc += this.$parent.capitalize(this.f5.misc.at_will)+': ';
                     } else {
-                        spellDesc += this.$parent.$parent.f5.spelllevels[level].name+' ('+this.$parent.$parent.f5.misc.at_will+'): ';
+                        spellDesc += this.f5.spelllevels[level].name+' ('+this.f5.misc.at_will+'): ';
                     }
                 } else {
                     if(!this.value.innateSpellcasting) {
-                        spellDesc += this.$parent.$parent.f5.spelllevels[level].name+' ('+this.$parent.pluralize(this.$parent.$parent.f5.misc.spell_slots, this.value.spellSlots[level]).replace(':slot_quantity',this.value.spellSlots[level])+'): ';
+                        spellDesc += this.f5.spelllevels[level].name+' ('+this.$parent.pluralize(this.f5.misc.spell_slots, this.value.spellSlots[level]).replace(':slot_quantity',this.value.spellSlots[level])+'): ';
                     } else {
-                        spellDesc += this.$parent.$parent.f5.misc.spell_uses.replace(':slot_uses',level)+': ';
+                        spellDesc += this.f5.misc.spell_uses.replace(':slot_uses',level)+': ';
                     }
                 }
                 
@@ -497,24 +504,24 @@ let StatBlockFeature = {
                         castsBefore = true;
                     }
                     if(i < spellSlotList.length - 1) {
-                        spellDesc += this.$parent.$parent.f5.misc.sentence_list_separator+' ';
+                        spellDesc += this.f5.misc.sentence_list_separator+' ';
                     }
                 }
                 spellDesc += '</i><br/><br/>';
             }
 
             if(castsBefore) {
-                spellDesc += this.$parent.$parent.f5.misc.casts_spells_before;
+                spellDesc += this.f5.misc.casts_spells_before;
             }
             
             return spellDesc;
         },
 
         attackDescription: function() {
-            let attackDesc = this.$parent.$parent.f5.misc.desc_attack;
+            let attackDesc = this.f5.misc.desc_attack;
 
             //Hit
-            attackDesc += ' <i>'+this.$parent.$parent.f5.misc.desc_attack_hit+'</i> ';
+            attackDesc += ' <i>'+this.f5.misc.desc_attack_hit+'</i> ';
             let damageList = [];
             for(let i in this.value.attackDamage) {
                 damageList.push(this.$parent.createDamageText(this.value.attackDamage[i], this.value.attackAbility));
@@ -522,7 +529,7 @@ let StatBlockFeature = {
             attackDesc += this.$parent.createSentenceList(damageList);
 
             if(!this.value.attackSavingThrow) {
-                attackDesc += this.$parent.$parent.f5.misc.sentence_end;
+                attackDesc += this.f5.misc.sentence_end;
                 if(this.value.additionalDescription) {
                     attackDesc += ' '+this.value.additionalDescription;
                 }
@@ -534,13 +541,13 @@ let StatBlockFeature = {
         savingThrowDescription: function() {
             let savingThrowText = '';
             if(this.value.savingThrowDamage.length >= 1 && this.value.savingThrowConditions.length >= 2) {
-                savingThrowText = this.$parent.$parent.f5.misc.desc_attack_saving_throw_damage_condition;
+                savingThrowText = this.f5.misc.desc_attack_saving_throw_damage_condition;
             } else if(this.value.savingThrowDamage.length >= 1 && this.value.savingThrowConditions.length >= 1) {
-                savingThrowText = this.$parent.$parent.f5.misc.desc_attack_saving_throw_damage_condition;
+                savingThrowText = this.f5.misc.desc_attack_saving_throw_damage_condition;
             } else if(this.value.savingThrowDamage.length >= 1) {
-                savingThrowText = this.$parent.$parent.f5.misc.desc_attack_saving_throw_damage;
+                savingThrowText = this.f5.misc.desc_attack_saving_throw_damage;
             } else if(this.value.savingThrowConditions.length >= 1) {
-                savingThrowText = this.$parent.$parent.f5.misc.desc_attack_saving_throw_condition;
+                savingThrowText = this.f5.misc.desc_attack_saving_throw_condition;
             }
 
             if(this.value.additionalDescription) {
@@ -556,17 +563,17 @@ let StatBlockFeature = {
             }
 
             if(this.value.template == 'attack') {
-                savingThrowText = savingThrowText.replace(':target_text', this.$parent.pluralize(this.$parent.$parent.f5.misc.the_target, this.value.attackTargets));
+                savingThrowText = savingThrowText.replace(':target_text', this.$parent.pluralize(this.f5.misc.the_target, this.value.attackTargets));
             } else {
-                savingThrowText = savingThrowText.replace(':target_text', this.$parent.pluralize(this.$parent.$parent.f5.misc.each_target, stTargetCount));
+                savingThrowText = savingThrowText.replace(':target_text', this.$parent.pluralize(this.f5.misc.each_target, stTargetCount));
             }
             
             //Adjust for run-on sentences
             if(this.value.template == 'attack' && this.value.attackSavingThrow && this.value.attackDamage.length > 0) {
                 if(this.hasRunOnSentence) {
-                    savingThrowText = this.$parent.$parent.f5.misc.sentence_end+' '+this.$parent.$parent.f5.misc.additionally.replace(':addition', savingThrowText);
+                    savingThrowText = this.f5.misc.sentence_end+' '+this.f5.misc.additionally.replace(':addition', savingThrowText);
                 } else {
-                    savingThrowText = this.$parent.$parent.f5.misc.sentence_list_separator+' '+this.$parent.$parent.f5.misc.and+' '+savingThrowText;
+                    savingThrowText = this.f5.misc.sentence_list_separator+' '+this.f5.misc.and+' '+savingThrowText;
                 }
             } else {
                 savingThrowText = this.$parent.capitalize(savingThrowText);
@@ -574,7 +581,7 @@ let StatBlockFeature = {
             
             //Half as much
             if(this.value.savingThrowHalfOnSuccess) {
-                savingThrowText = savingThrowText.replace(':half_as_much', this.$parent.$parent.f5.misc.desc_saving_throw_half_on_success);
+                savingThrowText = savingThrowText.replace(':half_as_much', this.f5.misc.desc_saving_throw_half_on_success);
             } else {
                 savingThrowText = savingThrowText.replace(':half_as_much', '');
                 savingThrowText = savingThrowText.replace(':not_condition', '');
@@ -595,15 +602,15 @@ let StatBlockFeature = {
                 let stNotConditionList = [];
                 for(let i in this.value.savingThrowConditions) {
                     stConditionList.push(
-                        this.$parent.pluralize(this.$parent.$parent.f5.conditions[this.value.savingThrowConditions[i]].is, stTargetCount).replace(':condition', this.$parent.$parent.f5.conditions[this.value.savingThrowConditions[i]].name.toLowerCase()
+                        this.$parent.pluralize(this.f5.conditions[this.value.savingThrowConditions[i]].is, stTargetCount).replace(':condition', this.f5.conditions[this.value.savingThrowConditions[i]].name.toLowerCase()
                     ));
                     stNotConditionList.push(
-                        this.$parent.pluralize(this.$parent.$parent.f5.conditions[this.value.savingThrowConditions[i]].not, stTargetCount).replace(':condition', this.$parent.$parent.f5.conditions[this.value.savingThrowConditions[i]].name.toLowerCase()
+                        this.$parent.pluralize(this.f5.conditions[this.value.savingThrowConditions[i]].not, stTargetCount).replace(':condition', this.f5.conditions[this.value.savingThrowConditions[i]].name.toLowerCase()
                     ));
                     //TODO replace distance for pushed
                 }
                 savingThrowText = savingThrowText.replace(':condition', this.$parent.createConditionSentenceList(stConditionList));
-                savingThrowText = savingThrowText.replace(':not_condition', this.$parent.$parent.f5.misc.and + ' ' + this.$parent.createConditionSentenceList(stNotConditionList));
+                savingThrowText = savingThrowText.replace(':not_condition', this.f5.misc.and + ' ' + this.$parent.createConditionSentenceList(stNotConditionList));
             }
 
             return savingThrowText;
@@ -611,11 +618,12 @@ let StatBlockFeature = {
 
         damageProjection: function() {
             console.log('=== Feature: Damage Projection ('+this.value.name+') ===');
+            let updateToggle = this.forceUpdateToggle;
             let turnDamage = [];
             let averageRechargeTurns = 1;
 
-            //Spellcasting Projections
             if(this.value.template === 'spellcasting') {
+                //Spellcasting Projections
                 let spellSlotsTracker = [];
                 spellLoop: for(const spell of this.value.spellList) {
                     let addIndex = turnDamage.length;
@@ -638,8 +646,8 @@ let StatBlockFeature = {
 
                     for(let j = 0; j < spellUses; j++) {
                         turnDamage.splice(addIndex, 0, {
-                            name: this.$parent.$parent.f5.misc.title_spellcasting+': '+this.$parent.$parent.f5.spelllevels[spell.level].name,
-                            damage: this.$parent.$parent.f5.spelllevels[spell.level].average_damage,
+                            name: this.f5.misc.title_spellcasting+': '+this.f5.spelllevels[spell.level].name,
+                            damage: this.f5.spelllevels[spell.level].average_damage,
                             spellLevel: spell.level,
                             actionCost: 1,
                         });
@@ -648,38 +656,53 @@ let StatBlockFeature = {
                 return turnDamage;
 
             } else if(this.value.template === 'multiattack') {
-                console.log('Multiattack projection');
-                let mergedProjections = [];
+                //Multiattack Projections
+                console.log('--> Multiattack projection');
+                let mergedProjections = [[],[]];
                 
                 for(var i = 0; i < this.combat_rounds; i++) {
-                    mergedProjections.push({
-                        name: this.$parent.$parent.f5.misc.title_multiattack+': ',
+                    mergedProjections[0].push({
+                        name: this.f5.misc.title_multiattack+': ',
+                        damage: 0,
+                        actionCost: 1,
+                    });
+                    mergedProjections[1].push({
+                        name: this.f5.misc.title_multiattack+': ',
                         damage: 0,
                         actionCost: 1,
                     });
                 }
 
-                //Loop both Multiattack Option
-                for(let maGroup of this.value.multiattackReferences) {
-                    //Loop through each group
+                //Loop both Multiattack Group Options
+                for(let maGroupIndex in this.value.multiattackReferences) {
+                    let maGroup = this.value.multiattackReferences[maGroupIndex];
+                    //Loop through each feature
                     for(let featureRef of maGroup) {
                         if(featureRef.index !== null) {
                             if(featureRef.index === 'spellcasting') {
                                 //Merge in Spellcasting
-                                mergedProjections = this.mergeMultiattackProjections(mergedProjections, this.$parent.value.features['spellcasting'][0], featureRef.uses);
+                                mergedProjections[maGroupIndex] = this.mergeMultiattackProjections(mergedProjections[maGroupIndex], this.$parent.value.features['spellcasting'][0].damageProjection, featureRef.uses);
                             } else {
                                 //Merge in features
-                                mergedProjections = this.mergeMultiattackProjections(mergedProjections, this.$parent.value.features['action'][featureRef.index], featureRef.uses);
+                                mergedProjections[maGroupIndex] = this.mergeMultiattackProjections(mergedProjections[maGroupIndex], this.$parent.value.features['action'][featureRef.index].damageProjection, featureRef.uses);
                             }
                         }
                     }
                 }
-                console.log('mergedProjections');
-                console.log(mergedProjections);
-                return mergedProjections;
+
+                let finalMerge = [];
+                for(var i = 0; i < this.combat_rounds; i++) {
+                    if(mergedProjections[0][i].damage >= mergedProjections[1][i].damage) {
+                        finalMerge[i] = mergedProjections[0][i];
+                    } else if(mergedProjections[1][i].damage > mergedProjections[0][i].damage) {
+                        finalMerge[i] = mergedProjections[1][i];
+                    }
+                }
+
+                return finalMerge;
             }
 
-            //Not Spellcasting
+            //Not Spellcasting or Multiattack
             let actionCost = (['legendary_action', 'mythic_action'].includes(this.value.type)) ? legendaryActionCost : 1;
 
             if(this.value.recharge.type === 'long_rest' || this.value.recharge.type === 'short_rest') {
@@ -744,7 +767,7 @@ let StatBlockFeature = {
         addSpell: function(spellLevel = 0) {
             this.value.spellList.push(
                 {
-                    'name': this.$parent.$parent.f5.misc.title_add_spell_name,
+                    'name': this.f5.misc.title_add_spell_name,
                     'level': spellLevel,
                     'cast_before': false,
                     'at_will': false,
@@ -783,35 +806,35 @@ let StatBlockFeature = {
             }
 
             //Attacks
-            str = str.replace(':attack_range', this.$parent.$parent.f5.areaofeffect[this.value.targetType].name);
-            str = str.replace(':attack_type', this.$parent.$parent.f5.attacktypes[this.value.attackType].name);
+            str = str.replace(':attack_range', this.f5.areaofeffect[this.value.targetType].name);
+            str = str.replace(':attack_type', this.f5.attacktypes[this.value.attackType].name);
             str = str.replace(':attack_bonus', this.$parent.addPlus(this.$parent.getAbilityMod(this.value.attackAbility) + this.$parent.proficiency));
             if(this.value.targetType == 'melee') {
-                str = str.replace(':range', this.$parent.$parent.f5.misc.reach);
+                str = str.replace(':range', this.f5.misc.reach);
             } else if(this.value.targetType == 'melee_or_ranged') {
-                str = str.replace(':range', this.$parent.$parent.f5.misc.reach_or_range);
+                str = str.replace(':range', this.f5.misc.reach_or_range);
             } else if(this.value.targetType == 'ranged'){
-                str = str.replace(':range', this.$parent.$parent.f5.misc.range);
+                str = str.replace(':range', this.f5.misc.range);
             } else {
                 str = str.replace(':range', '');
             }
             str = str.replace(':reach_distance', this.value.attackReach+' '+this.$parent.$parent.editor.measure.measureUnit);
             str = str.replace(':range_distance_low', this.value.attackRange.low);
             str = str.replace(':range_distance_high', this.value.attackRange.high+' '+this.$parent.$parent.editor.measure.measureUnit);
-            str = str.replace(':targets', this.$parent.pluralize(this.$parent.$parent.f5.misc.num_of_targets, this.value.attackTargets).replace(':target_count', this.value.attackTargets));
+            str = str.replace(':targets', this.$parent.pluralize(this.f5.misc.num_of_targets, this.value.attackTargets).replace(':target_count', this.value.attackTargets));
 
             //Saving Throw
             str = str.replace(':saving_throw_dc', this.$parent.makeSavingThrowDC(this.value.savingThrowMonsterAbility));
             let abilityList = [];
             for(let i in this.value.savingThrowSaveAbilities) {
-                abilityList.push(this.$parent.$parent.f5.abilities[this.value.savingThrowSaveAbilities[i]].name);
+                abilityList.push(this.f5.abilities[this.value.savingThrowSaveAbilities[i]].name);
             }
             str = str.replace(':saving_throw_ability', this.$parent.createSentenceList(abilityList, false));
 
             //Spells
             str = str.replace(':caster_level_article', this.$parent.determineIndefiniteArticle(this.$parent.casterLevel, true)); 
             str = str.replace(':caster_level', this.$parent.ordinalNumber(this.$parent.casterLevel)); 
-            str = str.replace(':spellcasting_ability', this.$parent.$parent.f5.abilities[this.value.spellcastingAbility].name);
+            str = str.replace(':spellcasting_ability', this.f5.abilities[this.value.spellcastingAbility].name);
             str = str.replace(':spell_save_dc', this.$parent.makeSavingThrowDC(this.value.spellcastingAbility));
             str = str.replace(':spell_hit', this.$parent.addPlus(this.$parent.proficiency + this.$parent.getAbilityMod(this.value.spellcastingAbility)));
 
@@ -866,14 +889,20 @@ let StatBlockFeature = {
             }
 
             for(var i = 0; i < this.combat_rounds; i++) {
-                if(maProj[i].name !== this.$parent.$parent.f5.misc.title_multiattack+': ') {
+                if(!newProj[i]) {
+                    continue;
+                }
+                if(maProj[i].name !== this.f5.misc.title_multiattack+': ') {
                     maProj[i].name += ', ';
                 }
                 maProj[i].name += newProj[i].name;
+                if(uses > 1) {
+                    maProj[i].name += ' '+this.f5.misc.times.replace(':number_of_times',uses);
+                }
                 maProj[i].damage += newProj[i].damage * uses;
             }
 
-            return null;
+            return maProj;
         },
     },       
 };

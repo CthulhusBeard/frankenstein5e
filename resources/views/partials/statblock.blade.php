@@ -362,6 +362,7 @@
                         v-for="passive in value.features.passive"
                         v-bind:value="passive"
                         v-bind:combat_rounds="combat_rounds"
+                        v-bind:f5="f5"
                         @remove-feature="removeFeature"
                     ></statblock-feature>
                 </div>
@@ -374,6 +375,7 @@
                         v-for="spellcasting in value.features.spellcasting"
                         v-bind:value="spellcasting"
                         v-bind:combat_rounds="combat_rounds"
+                        v-bind:f5="f5"
                         @remove-feature="removeFeature"
                     ></statblock-feature>
                 </div>
@@ -389,6 +391,7 @@
                         v-for="multiattack in value.features.multiattack"
                         v-bind:value="multiattack"
                         v-bind:combat_rounds="combat_rounds"
+                        v-bind:f5="f5"
                         @remove-feature="removeFeature"
                     ></statblock-feature>
                 </div>
@@ -401,6 +404,7 @@
                         v-for="action in value.features.action"
                         v-bind:value="action"
                         v-bind:combat_rounds="combat_rounds"
+                        v-bind:f5="f5"
                         @remove-feature="removeFeature"
                     ></statblock-feature>
                 </div>
@@ -416,6 +420,7 @@
                         v-for="bonusAction in value.features.bonus_action"
                         v-bind:value="bonusAction"
                         v-bind:combat_rounds="combat_rounds"
+                        v-bind:f5="f5"
                         @remove-feature="removeFeature"
                     ></statblock-feature>
                 </div>
@@ -431,6 +436,7 @@
                         v-for="reaction in value.features.reaction"
                         v-bind:value="reaction"
                         v-bind:combat_rounds="combat_rounds"
+                        v-bind:f5="f5"
                         @remove-feature="removeFeature"
                     ></statblock-feature>
                 </div>
@@ -447,6 +453,7 @@
                         v-for="legendaryAction in value.features.legendary_action"
                         v-bind:value="legendaryAction"
                         v-bind:combat_rounds="combat_rounds"
+                        v-bind:f5="f5"
                         @remove-feature="removeFeature"
                     ></statblock-feature>
                 </div>
@@ -463,6 +470,7 @@
                         v-for="mythicAction in value.features.mythic_action"
                         v-bind:value="mythicAction"
                         v-bind:combat_rounds="combat_rounds"
+                        v-bind:f5="f5"
                         @remove-feature="removeFeature"
                     ></statblock-feature>
                 </div>
@@ -479,6 +487,7 @@
                         v-for="lairAction in value.features.lair_action"
                         v-bind:value="lairAction"
                         v-bind:combat_rounds="combat_rounds"
+                        v-bind:f5="f5"
                         @remove-feature="removeFeature"
                     ></statblock-feature>
                 </div>

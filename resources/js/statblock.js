@@ -120,6 +120,10 @@ let StatBlock = {
             }
             //Merge Multiattack into actions
             for(const feature of this.value.features['multiattack']) {
+                //feature.forceUpdateToggle = !feature.forceUpdateToggle; //Change value to force multiattacks to update projections
+                console.log('******');
+                console.log(feature.name);
+                console.log(feature.damageProjection);
                 projections['action'].options.push(JSON.parse(JSON.stringify(feature.damageProjection)));  //Clone projection
             }
             
@@ -1171,7 +1175,7 @@ let StatBlock = {
             if(num == 2) {
                 return this.f5.misc.twice;
             }
-            return this.f5.misc.three_or_more_times.replace(':number', num);
+            return this.f5.misc.three_or_more_times.replace(':number_of_times', num);
         },
 
         numberToWord: function(num) {

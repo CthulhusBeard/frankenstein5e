@@ -31,7 +31,9 @@ return [
 
     'once' => 'once',
     'twice' => 'twice',
-    'three_or_more_times' => ':number times',
+    'three_or_more_times' => ':number_of_times times',
+
+    'times' => 'x:number_of_times',
     
     'max' => 'Max.',
     'count' => 'Count',
