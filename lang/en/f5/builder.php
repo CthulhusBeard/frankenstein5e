@@ -34,4 +34,6 @@ return [
     'graph_data_monster_damage' => ':creature_name Damage Per Round',
     'graph_data_monster_hp' => ':creature_name Hit Points',
     'graph_data_player_hp' => 'Single Target Player Hit Points',
+    'title_average_damage' => 'Average Damage',
+    'title_max_damage' => 'Max Damage',
 ];

@@ -15,15 +15,16 @@ let StatBlockFeature = {
 
     data: function() {
         return {
-            forceUpdateToggle: false
+            projectionIncrementer: 0
         }
     },
 
     mounted() {
+        console.log('Feature Mount');
         if(this.value.actionType === 'multiattack') {
-            this.$parent.$on('feature-drp-change', this.compareIdToMultiattackFeatures);
+            //this.$parent.$on('feature-projection-change', this.compareIdToMultiattackFeatures);
         }
-        this.forceUpdateToggle = !this.forceUpdateToggle;
+        //this.forceProjectionUpdate(); //Forces an update on an import //Unneccessary??
     },
 
     watch: {
@@ -166,9 +167,8 @@ let StatBlockFeature = {
             //Set to value
             if(this.value.averageDPR !== dpr) {
                 //set emit here?
-                console.log(this.value.name+' calcAverageDPR set new DPR to "averageDPR" prop');
+                //console.log(this.value.name+' calcAverageDPR set new DPR to "averageDPR" prop');
                 this.value.averageDPR = dpr;
-                this.$parent.$emit('feature-drp-change', {id: this.value.id, actionType: this.value.actionType, dpr: dpr});
             }
 
             return dpr;
@@ -618,92 +618,112 @@ let StatBlockFeature = {
         },
 
         damageProjection: function() {
-            console.log('=== Feature: Damage Projection ('+this.value.name+'/'+this.forceUpdateToggle+') ===');
-            let updateToggle = this.forceUpdateToggle;
+            console.log('=== Feature: Generate Damage Projection ('+this.value.name+'/'+this.projectionIncrementer+') ===');
+            let updateIncrementer = this.projectionIncrementer;
             let turnDamage = [];
-            let averageRechargeTurns = 1;
 
             if(this.value.template === 'spellcasting') {
-                //Spellcasting Projections
-                let spellSlotsTracker = [];
-                spellLoop: for(const spell of this.value.spellList) {
-                    let addIndex = turnDamage.length;
-                    for(const i in turnDamage) {
-                        if(spell.level > turnDamage[i].spellLevel) {
-                            addIndex = i;
-                            break;
-                        }
-                    }
-
-                    let spellUses = 0;
-                    if(spell.at_will || spell.level === 0) {
-                        spellUses = this.combat_rounds;
-                    } else if(!this.value.innateSpellcasting && !spellSlotsTracker[spell.level] && this.value.spellSlots[spell.level] > 0) {
-                        spellUses = this.value.spellSlots[spell.level];
-                        spellSlotsTracker[spell.level] = true;
-                    } else if(this.value.innateSpellcasting) {
-                        spellUses = spell.uses;
-                    }
-
-                    for(let j = 0; j < spellUses; j++) {
-                        turnDamage.splice(addIndex, 0, {
-                            name: this.f5.misc.title_spellcasting+': '+this.f5.spelllevels[spell.level].name,
-                            damage: this.f5.spelllevels[spell.level].average_damage,
-                            spellLevel: spell.level,
-                            actionCost: 1,
-                        });
-                    }
-                }
-                return turnDamage;
-
+                turnDamage = this.spellcastingProjection;
             } else if(this.value.template === 'multiattack') {
-                //Multiattack Projections
-                console.log('--> Multiattack projection');
-                let mergedProjections = [[],[]];
-                
-                for(var i = 0; i < this.combat_rounds; i++) {
-                    mergedProjections[0].push({
-                        name: this.f5.misc.title_multiattack+': ',
-                        damage: 0,
-                        actionCost: 1,
-                    });
-                    mergedProjections[1].push({
-                        name: this.f5.misc.title_multiattack+': ',
-                        damage: 0,
-                        actionCost: 1,
-                    });
-                }
+                turnDamage = this.multiattackProjection;
+            } else {
+                turnDamage = this.standardProjection;
+            }
 
-                //Loop both Multiattack Group Options
-                for(let maGroupIndex in this.value.multiattackReferences) {
-                    let maGroup = this.value.multiattackReferences[maGroupIndex];
-                    //Loop through each feature
-                    for(let featureRef of maGroup) {
-                        if(featureRef.index !== null) {
-                            if(featureRef.index === 'spellcasting') {
-                                //Merge in Spellcasting
-                                mergedProjections[maGroupIndex] = this.mergeMultiattackProjections(mergedProjections[maGroupIndex], this.$parent.value.features['spellcasting'][0].damageProjection, featureRef.uses);
-                            } else {
-                                //Merge in features
-                                mergedProjections[maGroupIndex] = this.mergeMultiattackProjections(mergedProjections[maGroupIndex], this.$parent.value.features['action'][featureRef.index].damageProjection, featureRef.uses);
-                            }
+            //Set property
+            if(this.value.damageProjection != turnDamage) {
+                this.value.damageProjection = turnDamage;
+            }
+
+            return turnDamage;
+        },
+
+        multiattackProjection: function() {
+            //Multiattack Projections
+            console.log('--> Multiattack projection');
+            let mergedProjections = [[],[]];
+
+            for(var i = 0; i < this.combat_rounds; i++) {
+                mergedProjections[0].push({
+                    name: this.f5.misc.title_multiattack+': ',
+                    damage: 0,
+                    actionCost: 1,
+                });
+                mergedProjections[1].push({
+                    name: this.f5.misc.title_multiattack+': ',
+                    damage: 0,
+                    actionCost: 1,
+                });
+            }
+
+            //Loop both Multiattack Group Options
+            for(let maGroupIndex in this.value.multiattackReferences) {
+                let maGroup = this.value.multiattackReferences[maGroupIndex];
+                //Loop through each feature
+                for(let featureRef of maGroup) {
+                    if(featureRef.index !== null) {
+                        if(featureRef.index === 'spellcasting') {
+                            //Merge in Spellcasting
+                            mergedProjections[maGroupIndex] = this.mergeMultiattackProjections(mergedProjections[maGroupIndex], this.$parent.value.features['spellcasting'][0].damageProjection, featureRef.uses);
+                        } else {
+                            //Merge in features
+                            mergedProjections[maGroupIndex] = this.mergeMultiattackProjections(mergedProjections[maGroupIndex], this.$parent.value.features['action'][featureRef.index].damageProjection, featureRef.uses);
                         }
                     }
                 }
+            }
 
-                let finalMerge = [];
-                for(var i = 0; i < this.combat_rounds; i++) {
-                    if(!mergedProjections[1][i] || mergedProjections[0][i].damage >= mergedProjections[1][i].damage) {
-                        finalMerge[i] = mergedProjections[0][i];
-                    } else if(!mergedProjections[0][i] || mergedProjections[1][i].damage > mergedProjections[0][i].damage) {
-                        finalMerge[i] = mergedProjections[1][i];
-                    } else {
-                        finalMerge[i] = null;
+            let finalMerge = [];
+            for(var i = 0; i < this.combat_rounds; i++) {
+                if(!mergedProjections[1][i] || mergedProjections[0][i].damage >= mergedProjections[1][i].damage) {
+                    finalMerge[i] = mergedProjections[0][i];
+                } else if(!mergedProjections[0][i] || mergedProjections[1][i].damage > mergedProjections[0][i].damage) {
+                    finalMerge[i] = mergedProjections[1][i];
+                } else {
+                    finalMerge[i] = null;
+                }
+            }
+
+            return finalMerge;
+        },
+
+        spellcastingProjection: function() {
+            //Spellcasting Projections
+            let spellSlotsTracker = [];
+            spellLoop: for(const spell of this.value.spellList) {
+                let addIndex = turnDamage.length;
+                for(const i in turnDamage) {
+                    if(spell.level > turnDamage[i].spellLevel) {
+                        addIndex = i;
+                        break;
                     }
                 }
 
-                return finalMerge;
+                let spellUses = 0;
+                if(spell.at_will || spell.level === 0) {
+                    spellUses = this.combat_rounds;
+                } else if(!this.value.innateSpellcasting && !spellSlotsTracker[spell.level] && this.value.spellSlots[spell.level] > 0) {
+                    spellUses = this.value.spellSlots[spell.level];
+                    spellSlotsTracker[spell.level] = true;
+                } else if(this.value.innateSpellcasting) {
+                    spellUses = spell.uses;
+                }
+
+                for(let j = 0; j < spellUses; j++) {
+                    turnDamage.splice(addIndex, 0, {
+                        name: this.f5.misc.title_spellcasting+': '+this.f5.spelllevels[spell.level].name,
+                        damage: this.f5.spelllevels[spell.level].average_damage,
+                        spellLevel: spell.level,
+                        actionCost: 1,
+                    });
+                }
             }
+            return turnDamage;
+        },
+
+        standardProjection: function() {
+            let turnDamage = [];
+            let averageRechargeTurns = 1;
 
             //Not Spellcasting or Multiattack
             let actionCost = (['legendary_action', 'mythic_action'].includes(this.value.type)) ? legendaryActionCost : 1;
@@ -845,6 +865,7 @@ let StatBlockFeature = {
         },
 
         compareIdToMultiattackFeatures: function(obj) {
+            //TODO: Remove this?
             console.log('compareIdToMultiattackFeatures: ');
             console.log(obj);
             if(!(obj.actionType === 'spellcasting' || obj.actionType === 'action')) {
@@ -852,21 +873,18 @@ let StatBlockFeature = {
             }
             
             for(let maGroup of this.value.multiattackReferences) {
-                console.log('maGroup');
                 for(let featureRef of maGroup) {
-                    console.log('featureRef');
                     if(featureRef.index !== null) {
-                        console.log('featureRef not null');
                         if(
                             featureRef.index === 'spellcasting' && 
                             this.$parent.value.features['spellcasting'][0].id === obj.id
                         ) {
                             console.log('Multiattack: DPR Changed of child: '+obj.id);
-                            this.$forceUpdate();
+                            this.forceProjectionUpdate(); //Forces a projection update 
                             return;
                         } else if(this.$parent.value.features['action'][featureRef.index].id === obj.id) {
                             console.log('Multiattack: DPR Changed of child: '+obj.id);
-                            this.$forceUpdate();
+                            this.forceProjectionUpdate(); //Forces a projection update 
                             return;
                         }
                     }
@@ -883,6 +901,7 @@ let StatBlockFeature = {
             // }
             if(this.value.damageProjection != this.damageProjection) {
                 this.value.damageProjection = this.damageProjection;
+                //this.$parent.$emit('feature-projection-change', {id: this.value.id, actionType: this.value.actionType, projection: this.value.damageProjection});
             }
         },
 
@@ -907,5 +926,12 @@ let StatBlockFeature = {
 
             return maProj;
         },
+
+        forceProjectionUpdate: function() {
+            this.projectionIncrementer++;
+            if(this.projectionIncrementer > 50) {
+                this.projectionIncrementer = 0;
+            }
+        }
     },       
 };

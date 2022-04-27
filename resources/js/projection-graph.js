@@ -23,19 +23,16 @@ var ProjectionGraph = {
 
   watch: {
     name(val) {
-      console.log('watch name');
       this.updateGraph();
     },
     monster_damage: {
       handler(val) {
-        console.log('watch data');
         this.updateGraph();
       },
       deep: true
     },
     player_data: {
       handler(val) {
-        console.log('watch player_data');
         this.updateGraph();
       },
       deep: true
@@ -43,7 +40,7 @@ var ProjectionGraph = {
   },
 
   mounted() {
-    console.log('mounted graphInstance '+this.id+ ' / '+this.name );
+    //console.log('mounted graphInstance '+this.id+ ' / '+this.name );
     this.buildGraph();
   },
 

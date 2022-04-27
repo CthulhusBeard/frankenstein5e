@@ -120,10 +120,9 @@ let StatBlock = {
             }
             //Merge Multiattack into actions
             for(const feature of this.value.features['multiattack']) {
-                feature.forceUpdateToggle = !feature.forceUpdateToggle; //Change value to force multiattacks to update projections
-                console.log('***'+feature.forceUpdateToggle+'***');
-                console.log(feature.name);
-                console.log(feature.damageProjection);
+                console.log("Gather Projections: Multiattack");
+                console.log(feature);
+                //feature.value.projectionIncrementer++; //Change value to force multiattacks to update projections
                 projections['action'].options.push(JSON.parse(JSON.stringify(feature.damageProjection)));  //Clone projection
             }
             
