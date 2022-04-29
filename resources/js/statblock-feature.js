@@ -15,13 +15,18 @@ let StatBlockFeature = {
 
     data: function() {
         return {
-            projectionIncrementer: 0
+            damageUpdateIncrementer: 0
         }
     },
 
+    created() {
+        this.updateDamageProperties();
+    },
+
     mounted() {
-        console.log('Feature Mount');
+        console.log('--Mount Feature: '+this.value.name+' --');
         if(this.value.actionType === 'multiattack') {
+            this.forceProjectionUpdate();
             //this.$parent.$on('feature-projection-change', this.compareIdToMultiattackFeatures);
         }
         //this.forceProjectionUpdate(); //Forces an update on an import //Unneccessary??
@@ -48,7 +53,7 @@ let StatBlockFeature = {
                     }
                 }
 
-                this.updateDamageProperties();
+                this.updateDamageProperties(); //I don't think this needs to be here
 
             }, 
             deep: true
@@ -79,6 +84,7 @@ let StatBlockFeature = {
         },
 
         calcAverageDPR: function() {
+            let updateIncrementer = this.damageUpdateIncrementer;
             let avgDPR = 0;
             let avgTargets = 1;
             if(this.value.manualDPR >= 0) {
@@ -618,9 +624,9 @@ let StatBlockFeature = {
         },
 
         damageProjection: function() {
-            console.log('=== Feature: Generate Damage Projection ('+this.value.name+'/'+this.projectionIncrementer+') ===');
-            let updateIncrementer = this.projectionIncrementer;
-            let turnDamage = [];
+            console.log('=== Feature: Generate Damage Projection ('+this.value.name+'/'+this.damageUpdateIncrementer+') ===');
+            let updateIncrementer = this.damageUpdateIncrementer;
+            let turnDamage;
 
             if(this.value.template === 'spellcasting') {
                 turnDamage = this.spellcastingProjection;
@@ -630,17 +636,13 @@ let StatBlockFeature = {
                 turnDamage = this.standardProjection;
             }
 
-            //Set property
-            if(this.value.damageProjection != turnDamage) {
-                this.value.damageProjection = turnDamage;
-            }
-
             return turnDamage;
         },
 
         multiattackProjection: function() {
             //Multiattack Projections
-            console.log('--> Multiattack projection');
+            console.log('--> multiattackProjection');
+            let updateIncrementer = this.damageUpdateIncrementer;
             let mergedProjections = [[],[]];
 
             for(var i = 0; i < this.combat_rounds; i++) {
@@ -689,6 +691,9 @@ let StatBlockFeature = {
 
         spellcastingProjection: function() {
             //Spellcasting Projections
+            console.log('--> spellcastingProjection');
+            let updateIncrementer = this.damageUpdateIncrementer;
+            let turnDamage = [];
             let spellSlotsTracker = [];
             spellLoop: for(const spell of this.value.spellList) {
                 let addIndex = turnDamage.length;
@@ -722,6 +727,8 @@ let StatBlockFeature = {
         },
 
         standardProjection: function() {
+            console.log('--> standardProjection');
+            let updateIncrementer = this.damageUpdateIncrementer;
             let turnDamage = [];
             let averageRechargeTurns = 1;
 
@@ -893,14 +900,16 @@ let StatBlockFeature = {
         },
 
         updateDamageProperties: function() {
+            console.log('==updateDamageProperties==');
             //Set DPR value so it's accessible from outside
-            // if(this.value.averageDPR != this.calcAverageDPR) {
-            //     this.value.averageDPR = this.calcAverageDPR;
-            //     console.log('DPR Change: '+this.value.name+' -> '+this.value.averageDPR);
-            //     this.$parent.$emit('feature-drp-change', {id: this.value.id, actionType: this.value.actionType});
-            // }
+            if(this.value.averageDPR != this.calcAverageDPR) {
+                this.value.averageDPR = this.calcAverageDPR;
+                console.log('Set AvgDPR: '+this.value.averageDPR);
+            }
             if(this.value.damageProjection != this.damageProjection) {
                 this.value.damageProjection = this.damageProjection;
+                console.log('Set Projection: ');
+                console.log(this.value.damageProjection);
                 //this.$parent.$emit('feature-projection-change', {id: this.value.id, actionType: this.value.actionType, projection: this.value.damageProjection});
             }
         },
@@ -928,10 +937,12 @@ let StatBlockFeature = {
         },
 
         forceProjectionUpdate: function() {
-            this.projectionIncrementer++;
-            if(this.projectionIncrementer > 50) {
-                this.projectionIncrementer = 0;
+            console.log('->forceProjectionUpdate');
+            this.damageUpdateIncrementer++;
+            if(this.damageUpdateIncrementer > 50) {
+                this.damageUpdateIncrementer = 0;
             }
+            this.updateDamageProperties();
         }
     },       
 };

@@ -25,6 +25,9 @@ var ProjectionGraph = {
     name(val) {
       this.updateGraph();
     },
+    monster_hp(val) {
+      this.updateGraph();
+    },
     monster_damage: {
       handler(val) {
         this.updateGraph();

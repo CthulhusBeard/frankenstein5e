@@ -67,7 +67,8 @@ export function initVue(f5data) {
             },
 
             createStatBlock: function() {
-                let statblock = {
+                
+                let newStatblock = {
                     id: this.randChars(15),
                     name: 'Monster',
                     shortName: '',
@@ -139,12 +140,12 @@ export function initVue(f5data) {
                 };
 
                 for(let ability in this.f5.abilities) {
-                    statblock.abilities[ability] = 10;
-                    statblock.savingThrows[ability] = false;
+                    newStatblock.abilities[ability] = 10;
+                    newStatblock.savingThrows[ability] = false;
                 }
             
                 for(let sense in this.f5.senses) {
-                    statblock.senses[sense] = {
+                    newStatblock.senses[sense] = {
                         distance: 0,
                         modifier: false,
                     };
@@ -152,19 +153,19 @@ export function initVue(f5data) {
             
                 for(let lang in this.f5.languages) {
                     if(this.f5.languages[lang]['default']) {
-                        statblock.languages.spokenWritten.push(lang);
+                        newStatblock.languages.spokenWritten.push(lang);
                     }
                 }
             
                 for(let speed in this.f5.speeds) {
                     if(this.f5.speeds[speed]['default']) {
-                        statblock.speeds[speed] = this.f5.speeds[speed]['default'];
+                        newStatblock.speeds[speed] = this.f5.speeds[speed]['default'];
                     } else {
-                        statblock.speeds[speed] = 0;
+                        newStatblock.speeds[speed] = 0;
                     }
                 }
 
-                let i = this.statblocks.push(statblock);
+                let i = this.statblocks.push(newStatblock);
                 return i-1;
             },
 

@@ -19,17 +19,28 @@ let StatBlock = {
         'projection-graph': ProjectionGraph,
     },
 
+    data: function() {
+        return {
+            mountedFeatures: 0,
+            damageUpdateIncrementer: 0
+        }
+    },
+
     created() {
-        this.$on('feature-drp-change', this.featureDPRChanged);
+
+    },
+
+    mounted() {
+        console.log('Statblock Mounted');
     },
 
     computed: {
-        //Editor
         statblockColumns: function() {
             return 'column-'+this.value.display.columns;
         },
 
         averageDPR: function() {
+            let updater = this.damageUpdateIncrementer;
             let dprGroups = {
                 passive: 0,
                 action: 0, //include spellcasting and multiattack
@@ -63,6 +74,7 @@ let StatBlock = {
         },
 
         damageProjection: function() {
+            let updater = this.damageUpdateIncrementer;
             let projections = {
                 action: {
                     count: this.value.actions,
@@ -98,32 +110,23 @@ let StatBlock = {
 
             //Gather Projections
             let mergeActions = {
+                'multiattack': 'action',
                 'spellcasting': 'action',
                 'mythic_action': 'legendary_action',
             };
 
             for(const featureType in this.value.features) {
-                if(featureType === 'multiattack') {
-                    //TODO: Is this necessary???
-                    //Create other damage projections before multiattack
-                    continue;
-                }
                 for(const feature of this.value.features[featureType]) {
                     //Merge similar action types
+                    if(!feature.damageProjection) {
+                        continue;
+                    }
                     let actionType = featureType;
                     if(mergeActions.hasOwnProperty(actionType)) {
                         actionType = mergeActions[actionType];
                     }
-
                     projections[actionType].options.push(JSON.parse(JSON.stringify(feature.damageProjection)));  //Clone projection
                 }
-            }
-            //Merge Multiattack into actions
-            for(const feature of this.value.features['multiattack']) {
-                console.log("Gather Projections: Multiattack");
-                console.log(feature);
-                //feature.value.projectionIncrementer++; //Change value to force multiattacks to update projections
-                projections['action'].options.push(JSON.parse(JSON.stringify(feature.damageProjection)));  //Clone projection
             }
             
             //Sort Projections
@@ -801,6 +804,13 @@ let StatBlock = {
             //}
             return false;
         },
+        featureCount: function() {
+            let count = 0;
+            for(let type in this.value.features) {
+                count += this.value.features[type].length;
+            }
+            return count;
+        },
     },
 
     methods: {
@@ -989,13 +999,11 @@ let StatBlock = {
                 ],
                 legendaryActionCost: 1,
                 manualDPR: -1,
-                averageDPR: -1,
-                damageProjection: [],
             };
 
             for(let i = 0; i < 10; i++) {
                 newFeature.spellSlots[i] = 0;
-            }
+            }        
 
             if(type === 'spellcasting') {
                 newFeature.template = 'spellcasting';
@@ -1263,12 +1271,12 @@ let StatBlock = {
 
         exportMonster: function() {
             let cloneOptions = JSON.parse(JSON.stringify(this.value));
-            //delete cloneOptions.averageDPR;
-            //delete cloneOptions.damageProjection;
+            delete cloneOptions.averageDPR;
+            delete cloneOptions.damageProjection;
             for(let featureType in cloneOptions.features) {
                 for(let feature of cloneOptions.features[featureType]) {
-                    //delete feature.averageDPR;
-                    //delete feature.damageProjection;
+                    delete feature.averageDPR;
+                    delete feature.damageProjection;
                 }
             }
             console.log('exportMonster');
@@ -1291,24 +1299,28 @@ let StatBlock = {
             }
         },
 
-        featureDPRChanged: function(obj) {
-            console.log('featureDPRChanged');
-            console.log(obj);
-            this.$forceUpdate();//TODO Does this do anything
-        },
-
         getChildClass:function(e, childClass) {
-            //console.log(e.currentTarget);
-            //console.log(childClass);
-            //console.log(e.currentTarget.querySelector('.'+childClass));
             return e.currentTarget.querySelector('.'+childClass);
         },
 
         setFocusOnChild: function(e, childClass) {
+            //TODO: Focus ability score dropdown when you click to edit ability scores
             let child = this.getChildClass(e, childClass);
             if(child) {
                 console.log('setFocusOnChild: '+e.currentTarget);
                 child.focus();
+            }
+        },
+
+        featureIsMounted: function() {
+            this.mountedFeatures++;
+            if(this.featureCount === this.mountedFeatures) {
+                if(this.$refs.multiattack_features && this.$refs.multiattack_features.length) {
+                    for(const feature of this.$refs.multiattack_features) {
+                        feature.forceProjectionUpdate();
+                    }
+                }
+                this.damageUpdateIncrementer++;
             }
         },
     }

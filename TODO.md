@@ -3,6 +3,7 @@
 HIGH PRIORITY
 - [ ] Multiattack projection: Multiattack projection isn't changing because MA property values aren't changing. Requires an event or some sort of connective reactivity to multiattack reference features.
 - [ ] Fix Glabrezu import
+- [ ] Restrict Recharge abilities on multiattack
 - [ ] Design UI
 - [ ] DPR Projection Graph
 - [ ] Tips and suggestions
