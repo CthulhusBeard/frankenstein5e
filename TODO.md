@@ -1,18 +1,12 @@
 //TODO: 
 
 HIGH PRIORITY
-- [ ] Multiattack projection: Multiattack projection isn't changing because MA property values aren't changing. Requires an event or some sort of connective reactivity to multiattack reference features.
-- [ ] Fix Glabrezu import
-- [ ] Restrict Recharge abilities on multiattack
 - [ ] Design UI
-- [ ] DPR Projection Graph
 - [ ] Tips and suggestions
 - [ ] Allow adding text replace codes to custom description
 - [ ] Figure out which dpr events are actually necessary
 - [ ] Minimum size for conditions (grappled, swallowed, etc)
-- [ ] Life expectancy vs PC levels
-- [ ] hasInstantKillPotential
-- [ ] Min/max damage as well as average
+- [ ] hasInstantKillPotential / Max damage as well as average
 - [ ] Make better lists: //function createConditionSentenceList
 //  -> from "... and are blinded and are deafened, or half as much damage on a successful one and are not blinded and are not deafened."
 //      -> to "... and becomes blinded and deafened, or half as much damage on a successful one and are not blinded or deafened."
@@ -30,6 +24,9 @@ HIGH PRIORITY
 
 BUG FIXES
 - [ ] Make element ids unique between different statblocks
+- [ ] Multiattack is not considered to be expending limited resources. Multiattack push out ability projections that are being used. (one 5th level spell slot/spell. Multiattack with 2 spell uses. Will display two uses of the 5th level slot in the multiattack and then use of the spell slot in turn 2)
+- [ ] Restrict Recharge abilities on multiattack
+- [ ] Fix multiple uses of spells on multiattack (one 5th level spell slot with 2 spell uses will display two uses of the 5th level slot)
 
 MEDIUM PRIORITY
 - [ ] Move Buttons to Reorder Features / Move features to other columns

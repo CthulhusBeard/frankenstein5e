@@ -873,7 +873,7 @@ let StatBlockFeature = {
 
         compareIdToMultiattackFeatures: function(obj) {
             //TODO: Remove this?
-            console.log('compareIdToMultiattackFeatures: ');
+            console.group('Feature compareIdToMultiattackFeatures: ');
             console.log(obj);
             if(!(obj.actionType === 'spellcasting' || obj.actionType === 'action')) {
                 return;
@@ -897,10 +897,11 @@ let StatBlockFeature = {
                     }
                 }
             }
+            console.groupEnd();
         },
 
         updateDamageProperties: function() {
-            console.log('==updateDamageProperties==');
+            console.group('==updateDamageProperties:'+this.value.name+'==');
             //Set DPR value so it's accessible from outside
             if(this.value.averageDPR != this.calcAverageDPR) {
                 this.value.averageDPR = this.calcAverageDPR;
@@ -908,10 +909,11 @@ let StatBlockFeature = {
             }
             if(this.value.damageProjection != this.damageProjection) {
                 this.value.damageProjection = this.damageProjection;
-                console.log('Set Projection: ');
+                console.log('Set Feature Projection: ');
                 console.log(this.value.damageProjection);
                 //this.$parent.$emit('feature-projection-change', {id: this.value.id, actionType: this.value.actionType, projection: this.value.damageProjection});
             }
+            console.groupEnd();
         },
 
         mergeMultiattackProjections: function(maProj, newProj, uses) {

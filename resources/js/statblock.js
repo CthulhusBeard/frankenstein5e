@@ -40,6 +40,7 @@ let StatBlock = {
         },
 
         averageDPR: function() {
+            console.group('Statblock '+this.value.name+' -> averageDPR');
             let updater = this.damageUpdateIncrementer;
             let dprGroups = {
                 passive: 0,
@@ -51,6 +52,7 @@ let StatBlock = {
             };
             
             for(const featureType in this.value.features) {
+                console.log('statblock averageDPR: '+featureType);
                 for(const feature of this.value.features[featureType]) {
                     let dprType = featureType;
                     if(dprType === 'mythic_action') {
@@ -60,6 +62,7 @@ let StatBlock = {
                     }
 
                     if(feature.averageDPR > dprGroups[dprType]) {
+                        console.log('statblock averageDPR: '+featureType);
                         dprGroups[dprType] = feature.averageDPR;
                     }
                 }
@@ -67,8 +70,9 @@ let StatBlock = {
 
             let dpr = Object.values(dprGroups).reduce((a, b) => a + b);
             
-            //console.log(this.value.name + ' averageDPR -> '+dpr);
-            //console.log(dprGroups);
+            console.log(this.value.name + ' averageDPR -> '+dpr);
+            console.log(dprGroups);
+            console.groupEnd();
             
             return dpr;
         },
@@ -999,6 +1003,8 @@ let StatBlock = {
                 ],
                 legendaryActionCost: 1,
                 manualDPR: -1,
+                averageDPR: -1,
+                damageProjection: [],
             };
 
             for(let i = 0; i < 10; i++) {
