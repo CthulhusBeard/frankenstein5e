@@ -93,7 +93,7 @@ let StatBlockFeature = {
                 // Spellcasting Average DPR
                 if(this.f5.spelllevels[this.highestCastableSpell]) { 
                     //Target count should already be considered in average damage of spells
-                    return this.f5.spelllevels[this.highestCastableSpell].average_damage;
+                    return this.$parent.averageDamage(this.f5.spelllevels[this.highestCastableSpell].damage_single_target);
                 }
 
             } else if(this.value.template === 'attack') { 

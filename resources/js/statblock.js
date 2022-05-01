@@ -195,7 +195,11 @@ let StatBlock = {
                             if(!totals[roundNum].abilities[actionType]) {
                                 totals[roundNum].abilities[actionType] = [];
                             }
-                            totals[roundNum].abilities[actionType].push(projections[actionType].rounds[roundNum][i].name);
+                            totals[roundNum].abilities[actionType].push({
+                                name: projections[actionType].rounds[roundNum][i].name,
+                                damage: projections[actionType].rounds[roundNum][i].damage,
+                                //maxDamage: projections[actionType].rounds[roundNum][i].maxDamage,
+                            });
                             totals[roundNum].damage += projections[actionType].rounds[roundNum][i].damage;
                         }
                     }
@@ -1004,6 +1008,8 @@ let StatBlock = {
                 legendaryActionCost: 1,
                 manualDPR: -1,
                 averageDPR: -1,
+                manualMaxDPR: -1,
+                maxDPR: -1,
                 damageProjection: [],
             };
 
@@ -1051,7 +1057,8 @@ let StatBlock = {
             } else if(typeof ability === 'number') {
                 abilityDamage = Number(ability);
             }
-            let damage = Math.floor(((damageObj.diceType / 2) + .5) * damageObj.diceAmount) + (Number(damageObj.additional) + Number(abilityDamage));
+            let additional = (damageObj.additional) ? Number(damageObj.additional) : 0;
+            let damage = Math.floor(((damageObj.diceType / 2) + .5) * damageObj.diceAmount) + additional + Number(abilityDamage);
             return damage > 0 ? damage : 1;
         },
 

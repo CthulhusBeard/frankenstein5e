@@ -12,7 +12,7 @@
                     <label><strong>@{{ f5.featureactiontypes[actionType].name }}:</strong></label>
                     <ul>
                         <li v-for="(action, j) in turn.abilities[actionType]"> 
-                            @{{ action }}: [Put ability damage here]
+                            @{{ action.name }}: @{{ action.damage }}
                         </li>
                     </ul>
                 </div>
