@@ -830,6 +830,7 @@ let StatBlockFeature = {
         },
 
         dprCalculator: function(useMax = false) {
+            console.log("-> dprCalculator: "+useMax);
             let avgDPR = 0;
             let avgTargets = 1;
             if(this.value.manualDPR >= 0) {
@@ -838,24 +839,24 @@ let StatBlockFeature = {
                 // Spellcasting Average DPR
                 if(this.f5.spelllevels[this.highestCastableSpell]) { 
                     //Target count should already be considered in average damage of spells
-                    return this.$parent.averageDamage(this.f5.spelllevels[this.highestCastableSpell].damage_single_target, 0);
+                    return this.$parent.averageDamage(this.f5.spelllevels[this.highestCastableSpell].damage_single_target, 0, useMax);
                 }
 
             } else if(this.value.template === 'attack') { 
                 // Attack Average DPR
                 for(let i in this.value.attackDamage) {
-                    avgDPR += this.$parent.averageDamage(this.value.attackDamage[i], this.value.attackAbility);
+                    avgDPR += this.$parent.averageDamage(this.value.attackDamage[i], this.value.attackAbility, useMax);
                 }
                 
                 if(this.value.hasOngoingDamage) {
                     for(let i in this.value.ongoingDamage) {
-                        avgDPR += this.$parent.averageDamage(this.value.ongoingDamage[i], 0);
+                        avgDPR += this.$parent.averageDamage(this.value.ongoingDamage[i], 0, useMax);
                     }
                 }
                 
                 if(this.value.attackSavingThrow) {
                     for(let i in this.value.savingThrowDamage) {
-                        avgDPR += this.$parent.averageDamage(this.value.savingThrowDamage[i], 0);
+                        avgDPR += this.$parent.averageDamage(this.value.savingThrowDamage[i], 0, useMax);
                     }
                 }
 
@@ -868,7 +869,7 @@ let StatBlockFeature = {
                 // Saving Throw Average DPR
 
                 for(let i in this.value.savingThrowDamage) {
-                    avgDPR += this.$parent.averageDamage(this.value.savingThrowDamage[i], 0);
+                    avgDPR += this.$parent.averageDamage(this.value.savingThrowDamage[i], 0, useMax);
                 }
 
                 let distanceBaseline = 30;
@@ -904,7 +905,7 @@ let StatBlockFeature = {
             } else if(this.value.template === 'custom') { 
                 // Custom Ability Average DPR
                 for(let i in this.value.customDamage) {
-                    avgDPR += this.$parent.averageDamage(this.value.customDamage[i], 0);
+                    avgDPR += this.$parent.averageDamage(this.value.customDamage[i], 0, useMax);
                 }
             }
 
@@ -915,11 +916,11 @@ let StatBlockFeature = {
 
             let dpr = avgDPR * avgTargets;
 
-            //Set to value
-            if(this.value.averageDPR !== dpr) {
-                //set emit here?
-                //console.log(this.value.name+' averageDPR set new DPR to "averageDPR" prop');
+            //Set to value //TODO Can this be moved or removed
+            if(!useMax && this.value.averageDPR !== dpr) {
                 this.value.averageDPR = dpr;
+            } else if(useMax && this.value.maxDPR !== dpr) {
+                this.value.maxDPR = dpr;
             }
 
             return dpr;
