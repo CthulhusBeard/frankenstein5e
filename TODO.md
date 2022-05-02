@@ -1,5 +1,8 @@
 //TODO: 
 
+- [ ] Cantrip display on prepared spellcasting
+- [ ] Use "ref"s to reference features and call computed values directly instead of reassigning to data values
+
 HIGH PRIORITY
 - [ ] Design UI
 - [ ] Tips and suggestions

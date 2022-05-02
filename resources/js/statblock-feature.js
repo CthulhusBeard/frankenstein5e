@@ -83,101 +83,14 @@ let StatBlockFeature = {
             return featureReferences;
         },
 
-        calcAverageDPR: function() {
+        averageDPR: function() {
             let updateIncrementer = this.damageUpdateIncrementer;
-            let avgDPR = 0;
-            let avgTargets = 1;
-            if(this.value.manualDPR >= 0) {
-                return this.value.manualDPR;
-            } else if(this.value.template === 'spellcasting') { 
-                // Spellcasting Average DPR
-                if(this.f5.spelllevels[this.highestCastableSpell]) { 
-                    //Target count should already be considered in average damage of spells
-                    return this.$parent.averageDamage(this.f5.spelllevels[this.highestCastableSpell].damage_single_target);
-                }
+            return this.dprCalculator();
+        },
 
-            } else if(this.value.template === 'attack') { 
-                // Attack Average DPR
-                for(let i in this.value.attackDamage) {
-                    avgDPR += this.$parent.averageDamage(this.value.attackDamage[i], this.value.attackAbility);
-                }
-                
-                if(this.value.hasOngoingDamage) {
-                    for(let i in this.value.ongoingDamage) {
-                        avgDPR += this.$parent.averageDamage(this.value.ongoingDamage[i], 0);
-                    }
-                }
-                
-                if(this.value.attackSavingThrow) {
-                    for(let i in this.value.savingThrowDamage) {
-                        avgDPR += this.$parent.averageDamage(this.value.savingThrowDamage[i], 0);
-                    }
-                }
-
-                avgTargets = this.value.attackTargets;
-
-                //Include average AC and chance to hit?? Average ~16
-
-
-            } else if(this.value.template === 'saving_throw') { 
-                // Saving Throw Average DPR
-
-                for(let i in this.value.savingThrowDamage) {
-                    avgDPR += this.$parent.averageDamage(this.value.savingThrowDamage[i], 0);
-                }
-
-                let distanceBaseline = 30;
-                avgTargets = this.f5.areaofeffect[this.value.targetType].targets_at_30;
-                if(avgTargets > 1) {
-                    avgTargets = (avgTargets/(distanceBaseline*2)) * (distanceBaseline + this.value.aoeRange); //basic formula to assume average number of targets hit
-                }
-
-            } else if(this.value.template === 'multiattack') { 
-                // Multiattack DPR
-                let multiDPR = 0;
-                for(let maGroup of this.value.multiattackReferences) {
-                    let groupDPR = 0;
-                    for(let featureRef of maGroup) {
-                        if(featureRef.index !== null) {
-                            let abilityDPR = 0;
-                            if(featureRef.index === 'spellcasting') {
-                                abilityDPR = this.$parent.value.features['spellcasting'][0].averageDPR * featureRef.uses;
-                                //console.log('calcAverageDPR MA DPR feature: '+this.$parent.value.features['spellcasting'][0].name+': '+abilityDPR);
-                            } else {
-                                abilityDPR = this.$parent.value.features['action'][featureRef.index].averageDPR * featureRef.uses;
-                                //console.log('calcAverageDPR MA DPR feature: '+this.$parent.value.features['action'][featureRef.index].name+': '+abilityDPR);
-                            }
-                            groupDPR += (!isNaN(abilityDPR) && abilityDPR > 0) ? abilityDPR : 0;
-                        }
-                    }
-                    if(groupDPR > multiDPR) {
-                        multiDPR = groupDPR;
-                    }
-                }
-                avgDPR = multiDPR;
-                //console.log('calcAverageDPR MA DPR: '+avgDPR);
-            } else if(this.value.template === 'custom') { 
-                // Custom Ability Average DPR
-                for(let i in this.value.customDamage) {
-                    avgDPR += this.$parent.averageDamage(this.value.customDamage[i], 0);
-                }
-            }
-
-            //Limit targets to number of players
-            if(avgTargets > this.$parent.$parent.editor.player_characters.number) {
-                avgTargets = this.$parent.$parent.editor.player_characters.number;
-            }
-
-            let dpr = avgDPR * avgTargets;
-
-            //Set to value
-            if(this.value.averageDPR !== dpr) {
-                //set emit here?
-                //console.log(this.value.name+' calcAverageDPR set new DPR to "averageDPR" prop');
-                this.value.averageDPR = dpr;
-            }
-
-            return dpr;
+        maxDPR: function() {
+            let updateIncrementer = this.damageUpdateIncrementer;
+            return this.dprCalculator(true);
         },
 
         displayName: function() {
@@ -903,8 +816,8 @@ let StatBlockFeature = {
         updateDamageProperties: function() {
             console.group('==updateDamageProperties:'+this.value.name+'==');
             //Set DPR value so it's accessible from outside
-            if(this.value.averageDPR != this.calcAverageDPR) {
-                this.value.averageDPR = this.calcAverageDPR;
+            if(this.value.averageDPR != this.averageDPR) {
+                this.value.averageDPR = this.averageDPR;
                 console.log('Set AvgDPR: '+this.value.averageDPR);
             }
             if(this.value.damageProjection != this.damageProjection) {
@@ -914,6 +827,102 @@ let StatBlockFeature = {
                 //this.$parent.$emit('feature-projection-change', {id: this.value.id, actionType: this.value.actionType, projection: this.value.damageProjection});
             }
             console.groupEnd();
+        },
+
+        dprCalculator: function(useMax = false) {
+            let avgDPR = 0;
+            let avgTargets = 1;
+            if(this.value.manualDPR >= 0) {
+                return this.value.manualDPR;
+            } else if(this.value.template === 'spellcasting') { 
+                // Spellcasting Average DPR
+                if(this.f5.spelllevels[this.highestCastableSpell]) { 
+                    //Target count should already be considered in average damage of spells
+                    return this.$parent.averageDamage(this.f5.spelllevels[this.highestCastableSpell].damage_single_target, 0);
+                }
+
+            } else if(this.value.template === 'attack') { 
+                // Attack Average DPR
+                for(let i in this.value.attackDamage) {
+                    avgDPR += this.$parent.averageDamage(this.value.attackDamage[i], this.value.attackAbility);
+                }
+                
+                if(this.value.hasOngoingDamage) {
+                    for(let i in this.value.ongoingDamage) {
+                        avgDPR += this.$parent.averageDamage(this.value.ongoingDamage[i], 0);
+                    }
+                }
+                
+                if(this.value.attackSavingThrow) {
+                    for(let i in this.value.savingThrowDamage) {
+                        avgDPR += this.$parent.averageDamage(this.value.savingThrowDamage[i], 0);
+                    }
+                }
+
+                avgTargets = this.value.attackTargets;
+
+                //Include average AC and chance to hit?? Average ~16
+
+
+            } else if(this.value.template === 'saving_throw') { 
+                // Saving Throw Average DPR
+
+                for(let i in this.value.savingThrowDamage) {
+                    avgDPR += this.$parent.averageDamage(this.value.savingThrowDamage[i], 0);
+                }
+
+                let distanceBaseline = 30;
+                avgTargets = this.f5.areaofeffect[this.value.targetType].targets_at_30;
+                if(avgTargets > 1) {
+                    avgTargets = (avgTargets/(distanceBaseline*2)) * (distanceBaseline + this.value.aoeRange); //basic formula to assume average number of targets hit
+                }
+
+            } else if(this.value.template === 'multiattack') { 
+                // Multiattack DPR
+                let multiDPR = 0;
+                for(let maGroup of this.value.multiattackReferences) {
+                    let groupDPR = 0;
+                    for(let featureRef of maGroup) {
+                        if(featureRef.index !== null) {
+                            let abilityDPR = 0;
+                            if(featureRef.index === 'spellcasting') {
+                                abilityDPR = this.$parent.value.features['spellcasting'][0].averageDPR * featureRef.uses;
+                                //console.log('averageDPR MA DPR feature: '+this.$parent.value.features['spellcasting'][0].name+': '+abilityDPR);
+                            } else {
+                                abilityDPR = this.$parent.value.features['action'][featureRef.index].averageDPR * featureRef.uses;
+                                //console.log('averageDPR MA DPR feature: '+this.$parent.value.features['action'][featureRef.index].name+': '+abilityDPR);
+                            }
+                            groupDPR += (!isNaN(abilityDPR) && abilityDPR > 0) ? abilityDPR : 0;
+                        }
+                    }
+                    if(groupDPR > multiDPR) {
+                        multiDPR = groupDPR;
+                    }
+                }
+                avgDPR = multiDPR;
+                //console.log('averageDPR MA DPR: '+avgDPR);
+            } else if(this.value.template === 'custom') { 
+                // Custom Ability Average DPR
+                for(let i in this.value.customDamage) {
+                    avgDPR += this.$parent.averageDamage(this.value.customDamage[i], 0);
+                }
+            }
+
+            //Limit targets to number of players
+            if(avgTargets > this.$parent.$parent.editor.player_characters.number) {
+                avgTargets = this.$parent.$parent.editor.player_characters.number;
+            }
+
+            let dpr = avgDPR * avgTargets;
+
+            //Set to value
+            if(this.value.averageDPR !== dpr) {
+                //set emit here?
+                //console.log(this.value.name+' averageDPR set new DPR to "averageDPR" prop');
+                this.value.averageDPR = dpr;
+            }
+
+            return dpr;
         },
 
         mergeMultiattackProjections: function(maProj, newProj, uses) {

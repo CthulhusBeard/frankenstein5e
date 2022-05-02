@@ -363,6 +363,7 @@
                         v-bind:value="passive"
                         v-bind:combat_rounds="combat_rounds"
                         v-bind:f5="f5"
+                        ref="features"
                         @hook:mounted="featureIsMounted"
                         @remove-feature="removeFeature"
                     ></statblock-feature>
@@ -377,6 +378,7 @@
                         v-bind:value="spellcasting"
                         v-bind:combat_rounds="combat_rounds"
                         v-bind:f5="f5"
+                        ref="features"
                         @hook:mounted="featureIsMounted"
                         @remove-feature="removeFeature"
                     ></statblock-feature>
@@ -394,6 +396,7 @@
                         v-bind:value="multiattack"
                         v-bind:combat_rounds="combat_rounds"
                         v-bind:f5="f5"
+                        ref="features"
                         @hook:mounted="featureIsMounted"
                         @remove-feature="removeFeature"
                         ref="multiattack_features"
@@ -409,6 +412,7 @@
                         v-bind:value="action"
                         v-bind:combat_rounds="combat_rounds"
                         v-bind:f5="f5"
+                        ref="features"
                         @hook:mounted="featureIsMounted"
                         @remove-feature="removeFeature"
                     ></statblock-feature>
@@ -426,6 +430,7 @@
                         v-bind:value="bonusAction"
                         v-bind:combat_rounds="combat_rounds"
                         v-bind:f5="f5"
+                        ref="features"
                         @hook:mounted="featureIsMounted"
                         @remove-feature="removeFeature"
                     ></statblock-feature>
@@ -443,6 +448,7 @@
                         v-bind:value="reaction"
                         v-bind:combat_rounds="combat_rounds"
                         v-bind:f5="f5"
+                        ref="features"
                         @hook:mounted="featureIsMounted"
                         @remove-feature="removeFeature"
                     ></statblock-feature>
@@ -461,6 +467,7 @@
                         v-bind:value="legendaryAction"
                         v-bind:combat_rounds="combat_rounds"
                         v-bind:f5="f5"
+                        ref="features"
                         @hook:mounted="featureIsMounted"
                         @remove-feature="removeFeature"
                     ></statblock-feature>
@@ -479,6 +486,7 @@
                         v-bind:value="mythicAction"
                         v-bind:combat_rounds="combat_rounds"
                         v-bind:f5="f5"
+                        ref="features"
                         @hook:mounted="featureIsMounted"
                         @remove-feature="removeFeature"
                     ></statblock-feature>
@@ -497,6 +505,7 @@
                         v-bind:value="lairAction"
                         v-bind:combat_rounds="combat_rounds"
                         v-bind:f5="f5"
+                        ref="features"
                         @hook:mounted="featureIsMounted"
                         @remove-feature="removeFeature"
                     ></statblock-feature>
