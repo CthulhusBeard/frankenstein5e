@@ -1047,7 +1047,7 @@ let StatBlock = {
             }
         },
 
-        averageDamage: function(damageObj, ability = 0) { //ability accepts Number or ability name
+        averageDamage: function(damageObj, ability = 0, useMax = false) { //ability accepts Number or ability name
             let abilityDamage = 0;
             if(typeof ability === 'string' && damageObj.abilityBonus) {
                 abilityDamage = Number(this.getAbilityMod(ability));
@@ -1058,7 +1058,12 @@ let StatBlock = {
                 abilityDamage = Number(ability);
             }
             let additional = (damageObj.additional) ? Number(damageObj.additional) : 0;
-            let damage = Math.floor(((damageObj.diceType / 2) + .5) * damageObj.diceAmount) + additional + Number(abilityDamage);
+            let damage;
+            if(useMax) {
+                damage = Math.floor(damageObj.diceType * damageObj.diceAmount) + additional + Number(abilityDamage);
+            } else {
+                damage = Math.floor(((damageObj.diceType / 2) + .5) * damageObj.diceAmount) + additional + Number(abilityDamage);
+            }
             return damage > 0 ? damage : 1;
         },
 
