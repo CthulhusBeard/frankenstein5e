@@ -394,8 +394,9 @@ let StatBlockFeature = {
                 if(!spellSlotList || spellSlotList.length === 0) { //there are no spells at this level
                     continue;
                 }
+
                 if(!this.value.innateSpellcasting && //there are no spell slots for this level
-                    level !== 0 && 
+                    level != 0 && 
                     this.value.spellSlots[level] <= 0
                 ) {
                     continue;
