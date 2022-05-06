@@ -102,6 +102,7 @@ var ProjectionGraph = {
       let playerHPData = [];
       let playerHPPointStyles = [];
       let damageData = [];
+      let maxDamageData = [];
 
       let defaultPointStyle = 'circle';
       let deathPointStyle = 'crossRot';
@@ -114,6 +115,7 @@ var ProjectionGraph = {
         labelsList.push(this.f5.misc.round_num.replace(':round_number', i+1));
         let roundDamage = (this.monster_damage[i]) ? this.monster_damage[i].damage : 0;
         damageData.push(roundDamage);
+        maxDamageData.push((this.monster_damage[i]) ? this.monster_damage[i].maxDamage : 0);
 
         monsterHPData.push(monsterHP);
         if(monsterHP === 0) {
@@ -138,6 +140,16 @@ var ProjectionGraph = {
           {
             label: this.f5.misc.graph_data_monster_damage.replace(':creature_name', this.name),
             data: damageData,
+            backgroundColor: "rgba(183,71,132,.5)",
+            borderColor: "#b74784",
+            borderWidth: 3,
+            pointStyle: defaultPointStyle,
+            pointRadius: 5,
+            pointHoverRadius: 10
+          },
+          {
+            label: this.f5.misc.graph_data_monster_max_damage.replace(':creature_name', this.name),
+            data: maxDamageData,
             backgroundColor: "rgba(54,73,93,.5)",
             borderColor: "#36495d",
             borderWidth: 3,
@@ -158,8 +170,8 @@ var ProjectionGraph = {
           {
             label: this.f5.misc.graph_data_player_hp,
             data: playerHPData,
-            backgroundColor: "rgba(183,71,132,.5)",
-            borderColor: "#b74784",
+            backgroundColor: "rgba(71,132,183,.5)",
+            borderColor: "#4784b7",
             borderWidth: 3,
             pointStyle: playerHPPointStyles,
             pointRadius: 5,

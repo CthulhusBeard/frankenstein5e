@@ -21,7 +21,7 @@
                     @{{f5.misc.title_average_damage}}: @{{turn.damage}}
                 </div>
                 <div>
-                @{{f5.misc.title_max_damage}}: ??
+                @{{f5.misc.title_max_damage}}: @{{turn.maxDamage}}
                 </div>
             </div>
         </div>

@@ -543,31 +543,50 @@ let StatBlockFeature = {
             let turnDamage;
 
             if(this.value.template === 'spellcasting') {
-                turnDamage = this.spellcastingProjection;
+                turnDamage = this.spellcastingProjection();
             } else if(this.value.template === 'multiattack') {
-                turnDamage = this.multiattackProjection;
+                turnDamage = this.multiattackProjection();
             } else {
-                turnDamage = this.standardProjection;
+                turnDamage = this.standardProjection();
             }
 
             return turnDamage;
         },
 
+        multiattackMatches: function() {
+            let maMatches = [];
+            let maUnique = [];
+            this.value.multiattackReferences.forEach(function (group, i) {
+                group.forEach(function (feature, j) {
+                    if(maUnique[j] !== undefined) {
+                        maMatches.push(feature.id);
+                    } else {
+                        maUnique[j] = feature.id;
+                    }
+                });
+            });
+            return maMatches;
+        },
+    },
+
+    methods: {
+
+
         multiattackProjection: function() {
             //Multiattack Projections
-            console.log('--> multiattackProjection');
-            let updateIncrementer = this.damageUpdateIncrementer;
             let mergedProjections = [[],[]];
 
             for(var i = 0; i < this.combat_rounds; i++) {
                 mergedProjections[0].push({
                     name: this.f5.misc.title_multiattack+': ',
                     damage: 0,
+                    maxDamage: 0,
                     actionCost: 1,
                 });
                 mergedProjections[1].push({
                     name: this.f5.misc.title_multiattack+': ',
                     damage: 0,
+                    maxDamage: 0,
                     actionCost: 1,
                 });
             }
@@ -604,12 +623,9 @@ let StatBlockFeature = {
         },
 
         spellcastingProjection: function() {
-            //Spellcasting Projections
-            console.log('--> spellcastingProjection');
-            let updateIncrementer = this.damageUpdateIncrementer;
             let turnDamage = [];
             let spellSlotsTracker = [];
-            spellLoop: for(const spell of this.value.spellList) {
+            for(const spell of this.value.spellList) {
                 let addIndex = turnDamage.length;
                 for(const i in turnDamage) {
                     if(spell.level > turnDamage[i].spellLevel) {
@@ -631,7 +647,8 @@ let StatBlockFeature = {
                 for(let j = 0; j < spellUses; j++) {
                     turnDamage.splice(addIndex, 0, {
                         name: this.f5.misc.title_spellcasting+': '+this.f5.spelllevels[spell.level].name,
-                        damage: this.f5.spelllevels[spell.level].average_damage,
+                        damage: this.$parent.averageDamage(this.f5.spelllevels[spell.level].damage_single_target),
+                        maxDamage: this.$parent.averageDamage(this.f5.spelllevels[spell.level].damage_single_target, true),
                         spellLevel: spell.level,
                         actionCost: 1,
                     });
@@ -641,8 +658,6 @@ let StatBlockFeature = {
         },
 
         standardProjection: function() {
-            console.log('--> standardProjection');
-            let updateIncrementer = this.damageUpdateIncrementer;
             let turnDamage = [];
             let averageRechargeTurns = 1;
 
@@ -653,6 +668,7 @@ let StatBlockFeature = {
                 return [{
                     name: this.value.name,
                     damage: this.value.averageDPR,
+                    maxDamage: this.value.maxDPR,
                     actionCost: actionCost,
                 }]; //Only once
             } else if(this.value.recharge.type === 'limited_use') {
@@ -661,6 +677,7 @@ let StatBlockFeature = {
                     damageArray.push({
                         name: this.value.name,
                         damage: this.value.averageDPR,
+                        maxDamage: this.value.maxDPR,
                         actionCost: actionCost,
                     });
                 }
@@ -674,6 +691,7 @@ let StatBlockFeature = {
                     turnDamage[i] = {
                         name: this.value.name,
                         damage: this.value.averageDPR,
+                        maxDamage: this.value.maxDPR,
                         actionCost: actionCost,
                     };
                 }
@@ -682,23 +700,6 @@ let StatBlockFeature = {
             return turnDamage;
         },
 
-        multiattackMatches: function() {
-            let maMatches = [];
-            let maUnique = [];
-            this.value.multiattackReferences.forEach(function (group, i) {
-                group.forEach(function (feature, j) {
-                    if(maUnique[j] !== undefined) {
-                        maMatches.push(feature.id);
-                    } else {
-                        maUnique[j] = feature.id;
-                    }
-                });
-            });
-            return maMatches;
-        },
-    },
-
-    methods: {
         addDamageDie: function(type) {
             let damageDie = this.$parent.createDamageDie(this.value[type].length > 0 ? false : true); //false for each damage set after the first
             this.value[type].push(damageDie);
@@ -944,6 +945,7 @@ let StatBlockFeature = {
                     maProj[i].name += ' '+this.f5.misc.times.replace(':number_of_times',uses);
                 }
                 maProj[i].damage += newProj[i].damage * uses;
+                maProj[i].maxDamage += newProj[i].maxDamage * uses;
             }
 
             return maProj;

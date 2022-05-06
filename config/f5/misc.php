@@ -283,6 +283,7 @@ return [
     //Projection Graph
     'title_combat_projection' => 'f5/builder.title_combat_projection',
     'graph_data_monster_damage' => 'f5/builder.graph_data_monster_damage',
+    'graph_data_monster_max_damage' => 'f5/builder.graph_data_monster_max_damage',
     'graph_data_monster_hp' => 'f5/builder.graph_data_monster_hp',
     'graph_data_player_hp' => 'f5/builder.graph_data_player_hp',
     'title_average_damage' => 'f5/builder.title_average_damage',

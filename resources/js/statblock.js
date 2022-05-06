@@ -184,7 +184,11 @@ let StatBlock = {
                     }
                     for(let i = 0; i < projections[actionType].rounds[roundNum].length; i++) {
                         if(!totals[roundNum]) {
-                            totals[roundNum] = {abilities: [], damage: 0};
+                            totals[roundNum] = {
+                                abilities: [], 
+                                damage: 0, 
+                                maxDamage: 0
+                            };
                         }
                         if(
                             projections[actionType].rounds[roundNum][i] && 
@@ -198,9 +202,10 @@ let StatBlock = {
                             totals[roundNum].abilities[actionType].push({
                                 name: projections[actionType].rounds[roundNum][i].name,
                                 damage: projections[actionType].rounds[roundNum][i].damage,
-                                //maxDamage: projections[actionType].rounds[roundNum][i].maxDamage,
+                                maxDamage: projections[actionType].rounds[roundNum][i].maxDamage,
                             });
                             totals[roundNum].damage += projections[actionType].rounds[roundNum][i].damage;
+                            totals[roundNum].maxDamage += projections[actionType].rounds[roundNum][i].maxDamage;
                         }
                     }
                 }

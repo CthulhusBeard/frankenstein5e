@@ -31,9 +31,10 @@ return [
 
     //Projection Graph
     'title_combat_projection' => ':creature_name Combat Analysis',
-    'graph_data_monster_damage' => ':creature_name Damage Per Round',
+    'graph_data_monster_damage' => ':creature_name Average Damage',
+    'graph_data_monster_max_damage' => ':creature_name Damage Potential',
     'graph_data_monster_hp' => ':creature_name Hit Points',
-    'graph_data_player_hp' => 'Single Target Player Hit Points',
+    'graph_data_player_hp' => 'Single Target PC Hit Points',
     'title_average_damage' => 'Average Damage',
-    'title_max_damage' => 'Max Damage',
+    'title_max_damage' => 'Damage Potential',
 ];
