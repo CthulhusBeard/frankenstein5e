@@ -37,4 +37,6 @@ return [
     'graph_data_player_hp' => 'Single Target PC Hit Points',
     'title_average_damage' => 'Average Damage',
     'title_max_damage' => 'Damage Potential',
+    'expected_player_death' => 'Expect a PC to drop to 0 HP around this turn.',
+    'expected_monster_death' => 'Expect :creature_name to drop to 0 HP around this turn.',
 ];

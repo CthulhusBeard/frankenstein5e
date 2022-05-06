@@ -288,4 +288,6 @@ return [
     'graph_data_player_hp' => 'f5/builder.graph_data_player_hp',
     'title_average_damage' => 'f5/builder.title_average_damage',
     'title_max_damage' => 'f5/builder.title_max_damage',
+    'expected_player_death' => 'f5/builder.expected_player_death',
+    'expected_monster_death' => 'f5/builder.expected_monster_death',
 ];

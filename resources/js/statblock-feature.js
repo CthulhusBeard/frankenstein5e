@@ -889,11 +889,17 @@ let StatBlockFeature = {
                         if(featureRef.index !== null) {
                             let abilityDPR = 0;
                             if(featureRef.index === 'spellcasting') {
-                                abilityDPR = this.$parent.value.features['spellcasting'][0].averageDPR * featureRef.uses;
-                                //console.log('averageDPR MA DPR feature: '+this.$parent.value.features['spellcasting'][0].name+': '+abilityDPR);
+                                if(useMax) {
+                                    abilityDPR = this.$parent.value.features['spellcasting'][0].maxDPR * featureRef.uses;
+                                } else { 
+                                    abilityDPR = this.$parent.value.features['spellcasting'][0].averageDPR * featureRef.uses;
+                                }
                             } else {
-                                abilityDPR = this.$parent.value.features['action'][featureRef.index].averageDPR * featureRef.uses;
-                                //console.log('averageDPR MA DPR feature: '+this.$parent.value.features['action'][featureRef.index].name+': '+abilityDPR);
+                                if(useMax) {
+                                    abilityDPR = this.$parent.value.features['action'][featureRef.index].maxDPR * featureRef.uses;
+                                } else { 
+                                    abilityDPR = this.$parent.value.features['action'][featureRef.index].averageDPR * featureRef.uses;
+                                }
                             }
                             groupDPR += (!isNaN(abilityDPR) && abilityDPR > 0) ? abilityDPR : 0;
                         }
@@ -933,6 +939,7 @@ let StatBlockFeature = {
                 return maProj;
             }
 
+            console.log('mergeMultiattackProjections');
             for(var i = 0; i < this.combat_rounds; i++) {
                 if(!newProj[i]) {
                     continue;
@@ -946,7 +953,10 @@ let StatBlockFeature = {
                 }
                 maProj[i].damage += newProj[i].damage * uses;
                 maProj[i].maxDamage += newProj[i].maxDamage * uses;
+                console.log(newProj[i]);
             }
+            console.log('maProj');
+            console.log(maProj);
 
             return maProj;
         },
