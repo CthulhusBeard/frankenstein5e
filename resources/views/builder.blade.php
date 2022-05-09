@@ -11,6 +11,26 @@
         <link rel="stylesheet" type="text/css" href="{{mix('css/app.css')}}">
     </head>
     <body ng-app="f5App" ng-controller="f5Ctrl">
+
+        <div id="sidenav">
+                <div class="nav-option">
+                    <div></div>
+                    <div>Statblocks</div>
+                </div>
+                <div class="nav-option">
+                    <div></div>
+                    <div>Player Characters</div>
+                </div>
+                <div class="nav-option">
+                    <div></div>
+                    <div>Combat Analysis</div>
+                </div>
+                <div class="nav-option">
+                    <div></div>
+                    <div>Recommendations</div>
+                </div>
+            </div>
+
         <div id="f5" class="main-content full-height">
 
             <div class="controls-holder">
