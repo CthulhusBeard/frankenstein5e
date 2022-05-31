@@ -44,6 +44,7 @@ return [
     'stunned' => 'Stunned',
     'unconsious' => 'Unconscious',
     'pushed' => 'Pushed',
+    'surprised' => 'Surprised',
 
     'swallowed' => 'Swallowed',
     'swallowed_description' => '',

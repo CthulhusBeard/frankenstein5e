@@ -123,6 +123,12 @@ return [
         'distance' => [1,2,3,4,5,6],
         'rank' => 1,
     ],
+    'surprised' => [
+        'name' => 'f5/conditions.surprised',
+        'is' => 'f5/conditions.condition_desc_is',
+        'not' => 'f5/conditions.condition_desc_not',
+        'rank' => 1,
+    ],
 
 
 ];

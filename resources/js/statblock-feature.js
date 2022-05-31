@@ -889,6 +889,7 @@ let StatBlockFeature = {
                         if(featureRef.index !== null) {
                             let abilityDPR = 0;
                             if(featureRef.index === 'spellcasting') {
+                                //TODO adjust to use projections instead of DPR
                                 if(useMax) {
                                     abilityDPR = this.$parent.value.features['spellcasting'][0].maxDPR * featureRef.uses;
                                 } else { 

@@ -1,6 +1,7 @@
 //TODO: 
 
 - [ ] Multiattack graph reactivity
+- [ ] Multiattack projection needs to expend resources (shift arrays left)
 - [ ] Use "ref"s to reference features and call computed values directly instead of reassigning to data values
 
 HIGH PRIORITY
@@ -8,7 +9,7 @@ HIGH PRIORITY
 - [ ] Tips and suggestions
 - [ ] Allow adding text replace codes to custom description
 - [ ] Figure out which dpr events are actually necessary
-- [ ] Minimum size for conditions (grappled, swallowed, etc)
+- [ ] Minimum creature size for conditions (grappled, swallowed, etc)
 - [ ] hasInstantKillPotential
 - [ ] Make better lists: //function createConditionSentenceList
 //  -> from "... and are blinded and are deafened, or half as much damage on a successful one and are not blinded and are not deafened."
