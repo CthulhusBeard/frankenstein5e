@@ -12,79 +12,89 @@
     </head>
     <body ng-app="f5App" ng-controller="f5Ctrl">
 
-        <div id="sidenav">
-                <div class="nav-option">
-                    <div></div>
-                    <div>Statblocks</div>
-                </div>
-                <div class="nav-option">
-                    <div></div>
-                    <div>Player Characters</div>
-                </div>
-                <div class="nav-option">
-                    <div></div>
-                    <div>Combat Analysis</div>
-                </div>
-                <div class="nav-option">
-                    <div></div>
-                    <div>Recommendations</div>
-                </div>
+        <div id="main-grid">
+            <div id="logo">
+                Logo
             </div>
 
-        <div id="f5" class="main-content full-height">
+            <div id="top-nav">
+                Stuff here
+            </div>
 
-            <div class="controls-holder">
-                <div class="builder-controls">
-                    <div class="slide-button" v-bind:class="{ selected : editor.edit_mode }" @click="editor.edit_mode = !editor.edit_mode">
-                        <label>@{{f5.misc.title_edit_mode}}</label>
+            <div id="side-nav">
+                    <div class="nav-option">
+                        <div></div>
+                        <div>Statblocks</div>
                     </div>
-                    <div class="builder-controls_player-characters">
-                        <strong>@{{f5.misc.title_player_characters}}</strong>
+                    <div class="nav-option">
+                        <div></div>
+                        <div>Player Characters</div>
+                    </div>
+                    <div class="nav-option">
+                        <div></div>
+                        <div>Combat Analysis</div>
+                    </div>
+                    <div class="nav-option">
+                        <div></div>
+                        <div>Tips & Recommendations</div>
+                    </div>
+                </div>
+
+            <div id="f5" class="main-content full-height">
+
+                <div class="controls-holder">
+                    <div class="builder-controls">
+                        <div class="slide-button" v-bind:class="{ selected : editor.edit_mode }" @click="editor.edit_mode = !editor.edit_mode">
+                            <label>@{{f5.misc.title_edit_mode}}</label>
+                        </div>
+                        <div class="builder-controls_player-characters">
+                            <strong>@{{f5.misc.title_player_characters}}</strong>
+                            <div>
+                                <label class="control-label" for="controls__player-count">@{{f5.misc.title_player_characters_count}}: </label>
+                                <select v-model="editor.player_characters.number">
+                                        <option v-for="i in 12" :value="i">@{{i}}</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="control-label" for="controls__player-levels">@{{f5.misc.title_player_characters_level}}: </label>
+                                <select v-model="editor.player_characters.level">
+                                        <option v-for="(obj, i) in f5.playerlevels" :value="i">@{{i}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="builder-controls">
                         <div>
-                            <label class="control-label" for="controls__player-count">@{{f5.misc.title_player_characters_count}}: </label>
-                            <select v-model="editor.player_characters.number">
-                                    <option v-for="i in 12" :value="i">@{{i}}</option>
+                            <select v-model="editor.import_monster">
+                                <option v-for="(monster, i) in SampleMonsters.monsters" :value="i">@{{monster.name}}</option>
                             </select>
                         </div>
                         <div>
-                            <label class="control-label" for="controls__player-levels">@{{f5.misc.title_player_characters_level}}: </label>
-                            <select v-model="editor.player_characters.level">
-                                    <option v-for="(obj, i) in f5.playerlevels" :value="i">@{{i}}</option>
-                            </select>
+                            <button @click="importMonster(SampleMonsters.monsters[editor.import_monster])">@{{f5.misc.title_import}}</button>
+                        </div>
+                        <div>
+                            <br/>
+                            <button @click="createStatBlock()">@{{f5.misc.title_new_statblock}}</button>
+                        </div>
+                        <div>
+                            <br/>
+                            <button @click="clearAllData()">@{{f5.misc.title_clear_all}}</button>
                         </div>
                     </div>
                 </div>
 
-                <div class="builder-controls">
-                    <div>
-                        <select v-model="editor.import_monster">
-                            <option v-for="(monster, i) in SampleMonsters.monsters" :value="i">@{{monster.name}}</option>
-                        </select>
-                    </div>
-                    <div>
-                        <button @click="importMonster(SampleMonsters.monsters[editor.import_monster])">@{{f5.misc.title_import}}</button>
-                    </div>
-                    <div>
-                        <br/>
-                        <button @click="createStatBlock()">@{{f5.misc.title_new_statblock}}</button>
-                    </div>
-                    <div>
-                        <br/>
-                        <button @click="clearAllData()">@{{f5.misc.title_clear_all}}</button>
-                    </div>
-                </div>
+                <statblock 
+                    v-for="statblock in statblocks.slice().reverse()"
+                    v-bind:value="statblock"
+                    v-bind:f5="f5"
+                    v-bind:player_data="editor.player_characters"
+                    v-bind:combat_rounds="editor.round_tracker"
+                    v-on:remove-statblock="removeStatBlock"
+                    ref="statblocks">
+                </statblock>
+
             </div>
-
-            <statblock 
-                v-for="statblock in statblocks.slice().reverse()"
-                v-bind:value="statblock"
-                v-bind:f5="f5"
-                v-bind:player_data="editor.player_characters"
-                v-bind:combat_rounds="editor.round_tracker"
-                v-on:remove-statblock="removeStatBlock"
-                ref="statblocks">
-            </statblock>
-
         </div>
         
         <script>
