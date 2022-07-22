@@ -101,6 +101,7 @@
                 >
                 </statblock>
 
+                {{--
                 <encounter-graph 
                     v-bind:monster_hp="getHP"
                     v-bind:monster_damage="damageProjection"
@@ -110,6 +111,7 @@
                     ref="graph"
                 >
                 </encounter-graph>
+                --}}
 
             </div>
         </div>
