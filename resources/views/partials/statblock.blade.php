@@ -564,6 +564,7 @@
                 --}}
             </div>
             
+            {{--
             <div class="dpr-controller popup-overlay">
                 <projection-graph
                     v-bind:id="value.id"
@@ -576,6 +577,8 @@
                     ref="graph"
                 ></projection-graph>
             </div>
+            --}}
+
         </div>
 
     </div>

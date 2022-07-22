@@ -68,7 +68,7 @@ class FrankensteinController extends Controller
             
         }
 
-        return view('builder', [
+        return view('encounter-builder', [
             'translatedData' => $translatedData
         ]);
     }

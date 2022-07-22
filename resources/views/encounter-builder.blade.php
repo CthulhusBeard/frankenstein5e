@@ -43,12 +43,17 @@
             <div id="f5" class="main-content full-height">
 
                 <div class="controls-holder">
+
                     <div class="builder-controls">
+                        <div><strong>Stat Block</strong></div>
                         <div class="slide-button" v-bind:class="{ selected : editor.edit_mode }" @click="editor.edit_mode = !editor.edit_mode">
                             <label>@{{f5.misc.title_edit_mode}}</label>
                         </div>
+                    </div>
+
+                    <div class="builder-controls">
+                        <div><strong>@{{f5.misc.title_player_characters}}</strong></div>
                         <div class="builder-controls_player-characters">
-                            <strong>@{{f5.misc.title_player_characters}}</strong>
                             <div>
                                 <label class="control-label" for="controls__player-count">@{{f5.misc.title_player_characters_count}}: </label>
                                 <select v-model="editor.player_characters.number">
@@ -65,6 +70,7 @@
                     </div>
 
                     <div class="builder-controls">
+                        <div>Importer</div>
                         <div>
                             <select v-model="editor.import_monster">
                                 <option v-for="(monster, i) in SampleMonsters.monsters" :value="i">@{{monster.name}}</option>
@@ -91,8 +97,19 @@
                     v-bind:player_data="editor.player_characters"
                     v-bind:combat_rounds="editor.round_tracker"
                     v-on:remove-statblock="removeStatBlock"
-                    ref="statblocks">
+                    ref="statblocks"
+                >
                 </statblock>
+
+                <encounter-graph 
+                    v-bind:monster_hp="getHP"
+                    v-bind:monster_damage="damageProjection"
+                    v-bind:player_data="editor.player_characters"
+                    v-bind:combat_rounds="editor.round_tracker"
+                    v-bind:f5="f5"
+                    ref="graph"
+                >
+                </encounter-graph>
 
             </div>
         </div>

@@ -1,6 +1,7 @@
 import Multiselect from '@vueform/multiselect/dist/multiselect.vue2.js';
 import StatBlockFeature from './statblock-feature.js'
 import StatBlock from './statblock.js'
+import EncounterGraph from './encounter-graph.js';
 
 export function initVue(f5data) {
     
@@ -30,6 +31,7 @@ export function initVue(f5data) {
             'multiselect': Multiselect,
             'statblock': StatBlock,
             'statblock-feature': StatBlockFeature,
+            'encounter-graph': EncounterGraph,
         },
 
         created() {
