@@ -1,7 +1,83 @@
 <script type="text/x-template" id="template-statblock"> 
     <div>
+
+        <div class="statblock-data">
+            <div class="cr-controller popup-overlay">
+                
+                <strong>@{{f5.misc.title_cr_manager}}</strong>
+                <div>
+                    @{{f5.misc.title_approx_dpr}}: @{{averageDPR}}<br/>
+                    @{{f5.misc.title_offensive_cr}}: @{{damageCr}}<br/>
+                    @{{f5.misc.title_hp_cr}}: @{{healthCr}}<br/>
+                    @{{f5.misc.title_ac_cr}}: @{{armorCr}}<br/>
+                    @{{f5.misc.title_challenge_rating}}: @{{crText}}
+                </div>
+                {{--
+                <div> 
+                    <label class="option-label" for="options__set-cr">@{{f5.misc.title_set_cr}}: </label>
+                    <select id="option options__set-cr" name="options__set-cr">
+                        <option v-for="(item, index) in f5.challengerating" :value="index">@{{index}}</option>
+                    </select>
+                    <button>@{{f5.misc.title_apply}}</button>
+                </div>
+                <div> 
+                    <label class="option-label" for="options__set-o-cr">@{{f5.misc.title_set_offensive_cr}}: </label>
+                    <select id="option options__set-o-cr" name="options__set-cr">
+                        <option v-for="(item, index) in f5.challengerating" :value="index">@{{index}}</option>
+                    </select>
+                    <button>@{{f5.misc.title_apply}}</button>
+                </div>
+                <div> 
+                    <label class="option-label" for="options__set-hp-cr">@{{f5.misc.title_set_hp_cr}}: </label>
+                    <select id="option options__set-hp-cr" name="options__set-cr">
+                        <option v-for="(item, index) in f5.challengerating" :value="index">@{{index}}</option>
+                    </select>
+                    <button>@{{f5.misc.title_apply}}</button>
+                </div>
+                <div> 
+                    <label class="option-label" for="options__set-ac-cr">@{{f5.misc.title_set_ac_cr}}: </label>
+                    <select id="option options__set-ac-cr" name="options__set-cr">
+                        <option v-for="(item, index) in f5.challengerating" :value="index">@{{index}}</option>
+                    </select>
+                    <button>@{{f5.misc.title_apply}}</button>
+                </div>
+                --}}
+            </div>
+
+            <div class="cr-controller popup-overlay">
+                <div class="slide-button" v-bind:class="{ selected : edit_mode }" @click="edit_mode = !edit_mode">
+                    <label>@{{f5.misc.title_edit_mode}}</label>
+                </div>
+                <div>
+                    <label class="control-label" for="controls__columns">@{{f5.misc.title_columns}}: </label>
+                    <select v-model="value.display.columns">
+                            <option v-for="i in 3" :value="i">@{{i}}</option>
+                    </select>
+                </div>
+                <div>
+                    <button @click="exportMonster()">@{{f5.misc.title_export}}</button>
+                </div>
+            </div>
+            
+            {{--
+            <div class="dpr-controller popup-overlay">
+                <projection-graph
+                    v-bind:id="value.id"
+                    v-bind:name="value.name"
+                    v-bind:monster_hp="getHP"
+                    v-bind:monster_damage="damageProjection"
+                    v-bind:player_data="statblockPlayerData"
+                    v-bind:combat_rounds="combat_rounds"
+                    v-bind:f5="f5"
+                    ref="graph"
+                ></projection-graph>
+            </div>
+            --}}
+
+        </div>
+
         <div class="stat-block-container">
-            <div class="stat-block" v-bind:class="[{'edit-mode': $parent.editor.edit_mode}, statblockColumns]">
+            <div class="stat-block" v-bind:class="[{'edit-mode': edit_mode}, statblockColumns]">
                 <div class="stat-block__section">
                     <div class="stat-block__title focus-edit">
                         <span class="display-field">@{{value.name}}</span>
@@ -454,8 +530,11 @@
 
                 <div class="stat-block__section stat-block__legendary-actions">
                     <div v-if="value.features.legendary_action.length" class="stat-block__subtitle">
-                        <div class="header">@{{f5.misc.title_legendary_action}}</div>
-                        <div>@{{f5.misc.legendary_action_desc}}</div>
+                        <div class="header">
+                            @{{f5.misc.title_legendary_action}} &nbsp;
+                            <input class="stat-block__feature-option" type="number" v-model="value.legendaryActions" min="1" max="10"/>
+                        </div>
+                        <div>@{{legendaryActionText}}</div>
                     </div>
                     <div class="stat-block__add-feature-button" @click="createFeature('legendary_action')">
                         @{{f5.misc.title_add_legendary_action}}
@@ -474,7 +553,7 @@
                 <div class="stat-block__section stat-block__mythic-actions">
                     <div v-if="value.features.mythic_action.length" class="stat-block__subtitle">
                         <div class="header">@{{f5.misc.title_mythic_action}}</div>
-                        <div>@{{f5.misc.mythic_action_desc}}</div>
+                        <div>@{{mythicActionText}}</div>
                     </div>
                     <div class="stat-block__add-feature-button" @click="createFeature('mythic_action')">
                         @{{f5.misc.title_add_mythic_action}}
@@ -511,74 +590,6 @@
             </div>
             
             <div class="statblock__remove" @click="$emit('remove-statblock', value.id)">x</div>
-        </div>
-
-        <div class="statblock-data">
-            <div class="cr-controller popup-overlay">
-                <div>
-                    <div>
-                        <label class="control-label" for="controls__columns">@{{f5.misc.title_columns}}: </label>
-                        <select v-model="value.display.columns">
-                                <option v-for="i in 3" :value="i">@{{i}}</option>
-                        </select>
-                    </div>
-                    <button @click="exportMonster()">@{{f5.misc.title_export}}</button>
-                </div>
-                
-                <strong>@{{f5.misc.title_cr_manager}}</strong>
-                <div>
-                    @{{f5.misc.title_approx_dpr}}: @{{averageDPR}}<br/>
-                    @{{f5.misc.title_offensive_cr}}: @{{damageCr}}<br/>
-                    @{{f5.misc.title_hp_cr}}: @{{healthCr}}<br/>
-                    @{{f5.misc.title_ac_cr}}: @{{armorCr}}
-                </div>
-                {{--
-                <div> 
-                    <label class="option-label" for="options__set-cr">@{{f5.misc.title_set_cr}}: </label>
-                    <select id="option options__set-cr" name="options__set-cr">
-                        <option v-for="(item, index) in f5.challengerating" :value="index">@{{index}}</option>
-                    </select>
-                    <button>@{{f5.misc.title_apply}}</button>
-                </div>
-                <div> 
-                    <label class="option-label" for="options__set-o-cr">@{{f5.misc.title_set_offensive_cr}}: </label>
-                    <select id="option options__set-o-cr" name="options__set-cr">
-                        <option v-for="(item, index) in f5.challengerating" :value="index">@{{index}}</option>
-                    </select>
-                    <button>@{{f5.misc.title_apply}}</button>
-                </div>
-                <div> 
-                    <label class="option-label" for="options__set-hp-cr">@{{f5.misc.title_set_hp_cr}}: </label>
-                    <select id="option options__set-hp-cr" name="options__set-cr">
-                        <option v-for="(item, index) in f5.challengerating" :value="index">@{{index}}</option>
-                    </select>
-                    <button>@{{f5.misc.title_apply}}</button>
-                </div>
-                <div> 
-                    <label class="option-label" for="options__set-ac-cr">@{{f5.misc.title_set_ac_cr}}: </label>
-                    <select id="option options__set-ac-cr" name="options__set-cr">
-                        <option v-for="(item, index) in f5.challengerating" :value="index">@{{index}}</option>
-                    </select>
-                    <button>@{{f5.misc.title_apply}}</button>
-                </div>
-                --}}
-            </div>
-            
-            {{--
-            <div class="dpr-controller popup-overlay">
-                <projection-graph
-                    v-bind:id="value.id"
-                    v-bind:name="value.name"
-                    v-bind:monster_hp="getHP"
-                    v-bind:monster_damage="damageProjection"
-                    v-bind:player_data="statblockPlayerData"
-                    v-bind:combat_rounds="combat_rounds"
-                    v-bind:f5="f5"
-                    ref="graph"
-                ></projection-graph>
-            </div>
-            --}}
-
         </div>
 
     </div>

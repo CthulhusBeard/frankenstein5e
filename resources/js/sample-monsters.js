@@ -2855,7 +2855,7 @@ let monsters = [
         }
     },
     {
-        "id": "AtgUZCoNl0oN8yb",
+        "id": "qAmbWRKRL0qKOeH",
         "name": "Ancient Red Dragon",
         "shortName": "",
         "isNameProperNoun": false,
@@ -2866,8 +2866,8 @@ let monsters = [
         "alignment": "chaotic_evil",
         "showTypicalAlignment": false,
         "armorClass": {
-            "type": "splint",
-            "manual": "10",
+            "type": "natural",
+            "manual": 22,
             "bonus": "0",
             "stealthDis": false,
             "shield": false
@@ -2955,12 +2955,114 @@ let monsters = [
         "features": {
             "passive": [],
             "spellcasting": [],
-            "multiattack": [],
+            "multiattack": [
+                {
+                    "id": "7329E999fHmuhpA",
+                    "actionType": "multiattack",
+                    "name": "Multiattack",
+                    "template": "multiattack",
+                    "attackAbility": "str",
+                    "targetType": "melee",
+                    "attackType": "weapon",
+                    "attackRange": {
+                        "low": 20,
+                        "high": 60
+                    },
+                    "attackReach": 5,
+                    "attackDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": true,
+                            "type": "slashing"
+                        }
+                    ],
+                    "attackSavingThrow": false,
+                    "attackTargets": 1,
+                    "aoeRange": 30,
+                    "savingThrowMonsterAbility": "str",
+                    "savingThrowSaveAbilities": [
+                        "str"
+                    ],
+                    "savingThrowDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": false,
+                            "type": "slashing"
+                        }
+                    ],
+                    "savingThrowHalfOnSuccess": true,
+                    "savingThrowConditions": [],
+                    "hasOngoingDamage": false,
+                    "ongoingDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": false,
+                            "type": "slashing"
+                        }
+                    ],
+                    "ongoingDamageOccurs": "start_of_turn",
+                    "ongoingDamageOnFailedSave": true,
+                    "ongoingDamageRepeatSave": false,
+                    "ongoingDamageDuration": "ongoing",
+                    "recharge": {
+                        "type": "none",
+                        "diceType": 6,
+                        "minRoll": 5,
+                        "uses": 1
+                    },
+                    "spellcastingAbility": "int",
+                    "innateSpellcasting": false,
+                    "spellcastingClass": "",
+                    "spellList": [],
+                    "spellSlots": {
+                        "0": 0,
+                        "1": 0,
+                        "2": 0,
+                        "3": 0,
+                        "4": 0,
+                        "5": 0,
+                        "6": 0,
+                        "7": 0,
+                        "8": 0,
+                        "9": 0
+                    },
+                    "customDamage": [],
+                    "customDescription": "",
+                    "additionalDescription": "",
+                    "multiattackReferences": [
+                        [
+                            {
+                                "index": 3,
+                                "uses": 1
+                            },
+                            {
+                                "index": 0,
+                                "uses": 1
+                            },
+                            {
+                                "index": 1,
+                                "uses": 2
+                            }
+                        ],
+                        []
+                    ],
+                    "legendaryActionCost": 1,
+                    "manualDPR": -1,
+                    "manualMaxDPR": -1,
+                    "maxDPR": 106
+                }
+            ],
             "action": [
                 {
                     "id": "KKlx3syxYqHGefD",
                     "actionType": "action",
-                    "name": "Tail",
+                    "name": "Bite",
                     "template": "attack",
                     "attackAbility": "str",
                     "targetType": "melee",
@@ -2969,14 +3071,21 @@ let monsters = [
                         "low": 20,
                         "high": 60
                     },
-                    "attackReach": 20,
+                    "attackReach": 15,
                     "attackDamage": [
                         {
-                            "diceType": 8,
+                            "diceType": 10,
                             "diceAmount": 2,
                             "additional": 0,
                             "abilityBonus": true,
-                            "type": "bludgeoning"
+                            "type": "piercing"
+                        },
+                        {
+                            "diceType": 6,
+                            "diceAmount": 4,
+                            "additional": 0,
+                            "abilityBonus": false,
+                            "type": "fire"
                         }
                     ],
                     "attackSavingThrow": false,
@@ -3041,44 +3150,359 @@ let monsters = [
                     ],
                     "legendaryActionCost": 1,
                     "manualDPR": -1,
-                    "averageDPR": 19,
-                    "damageProjection": [
+                    "maxDPR": 54
+                },
+                {
+                    "id": "xsUNW80WEeGcGsm",
+                    "actionType": "action",
+                    "name": "Claw",
+                    "template": "attack",
+                    "attackAbility": "str",
+                    "targetType": "melee",
+                    "attackType": "weapon",
+                    "attackRange": {
+                        "low": 20,
+                        "high": 60
+                    },
+                    "attackReach": 10,
+                    "attackDamage": [
                         {
-                            "name": "Tail",
-                            "damage": 19,
-                            "actionCost": 1
-                        },
-                        {
-                            "name": "Tail",
-                            "damage": 19,
-                            "actionCost": 1
-                        },
-                        {
-                            "name": "Tail",
-                            "damage": 19,
-                            "actionCost": 1
-                        },
-                        {
-                            "name": "Tail",
-                            "damage": 19,
-                            "actionCost": 1
-                        },
-                        {
-                            "name": "Tail",
-                            "damage": 19,
-                            "actionCost": 1
-                        },
-                        {
-                            "name": "Tail",
-                            "damage": 19,
-                            "actionCost": 1
-                        },
-                        {
-                            "name": "Tail",
-                            "damage": 19,
-                            "actionCost": 1
+                            "diceType": 8,
+                            "diceAmount": 2,
+                            "additional": 0,
+                            "abilityBonus": true,
+                            "type": "slashing"
                         }
-                    ]
+                    ],
+                    "attackSavingThrow": false,
+                    "attackTargets": 1,
+                    "aoeRange": 30,
+                    "savingThrowMonsterAbility": "str",
+                    "savingThrowSaveAbilities": [
+                        "str"
+                    ],
+                    "savingThrowDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": false,
+                            "type": "slashing"
+                        }
+                    ],
+                    "savingThrowHalfOnSuccess": true,
+                    "savingThrowConditions": [],
+                    "hasOngoingDamage": false,
+                    "ongoingDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": false,
+                            "type": "slashing"
+                        }
+                    ],
+                    "ongoingDamageOccurs": "start_of_turn",
+                    "ongoingDamageOnFailedSave": true,
+                    "ongoingDamageRepeatSave": false,
+                    "ongoingDamageDuration": "ongoing",
+                    "recharge": {
+                        "type": "none",
+                        "diceType": 6,
+                        "minRoll": 5,
+                        "uses": 1
+                    },
+                    "spellcastingAbility": "int",
+                    "innateSpellcasting": false,
+                    "spellcastingClass": "",
+                    "spellList": [],
+                    "spellSlots": {
+                        "0": 0,
+                        "1": 0,
+                        "2": 0,
+                        "3": 0,
+                        "4": 0,
+                        "5": 0,
+                        "6": 0,
+                        "7": 0,
+                        "8": 0,
+                        "9": 0
+                    },
+                    "customDamage": [],
+                    "customDescription": "",
+                    "additionalDescription": "",
+                    "multiattackReferences": [
+                        [],
+                        []
+                    ],
+                    "legendaryActionCost": 1,
+                    "manualDPR": -1,
+                    "manualMaxDPR": -1,
+                    "maxDPR": 26
+                },
+                {
+                    "id": "R0cS1dxnHX4S98L",
+                    "actionType": "action",
+                    "name": "Tail",
+                    "template": "attack",
+                    "attackAbility": "str",
+                    "targetType": "melee",
+                    "attackType": "weapon",
+                    "attackRange": {
+                        "low": 20,
+                        "high": 60
+                    },
+                    "attackReach": 20,
+                    "attackDamage": [
+                        {
+                            "diceType": 8,
+                            "diceAmount": 2,
+                            "additional": 0,
+                            "abilityBonus": true,
+                            "type": "slashing"
+                        }
+                    ],
+                    "attackSavingThrow": false,
+                    "attackTargets": 1,
+                    "aoeRange": 30,
+                    "savingThrowMonsterAbility": "str",
+                    "savingThrowSaveAbilities": [
+                        "str"
+                    ],
+                    "savingThrowDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": false,
+                            "type": "slashing"
+                        }
+                    ],
+                    "savingThrowHalfOnSuccess": true,
+                    "savingThrowConditions": [],
+                    "hasOngoingDamage": false,
+                    "ongoingDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": false,
+                            "type": "slashing"
+                        }
+                    ],
+                    "ongoingDamageOccurs": "start_of_turn",
+                    "ongoingDamageOnFailedSave": true,
+                    "ongoingDamageRepeatSave": false,
+                    "ongoingDamageDuration": "ongoing",
+                    "recharge": {
+                        "type": "none",
+                        "diceType": 6,
+                        "minRoll": 5,
+                        "uses": 1
+                    },
+                    "spellcastingAbility": "int",
+                    "innateSpellcasting": false,
+                    "spellcastingClass": "",
+                    "spellList": [],
+                    "spellSlots": {
+                        "0": 0,
+                        "1": 0,
+                        "2": 0,
+                        "3": 0,
+                        "4": 0,
+                        "5": 0,
+                        "6": 0,
+                        "7": 0,
+                        "8": 0,
+                        "9": 0
+                    },
+                    "customDamage": [],
+                    "customDescription": "",
+                    "additionalDescription": "",
+                    "multiattackReferences": [
+                        [],
+                        []
+                    ],
+                    "legendaryActionCost": 1,
+                    "manualDPR": -1,
+                    "manualMaxDPR": -1,
+                    "maxDPR": 26
+                },
+                {
+                    "id": "NTZOExy5Sk5NtyF",
+                    "actionType": "action",
+                    "name": "Frightful Presence",
+                    "template": "custom",
+                    "attackAbility": "str",
+                    "targetType": "touch",
+                    "attackType": "weapon",
+                    "attackRange": {
+                        "low": 20,
+                        "high": 60
+                    },
+                    "attackReach": 5,
+                    "attackDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": true,
+                            "type": "slashing"
+                        }
+                    ],
+                    "attackSavingThrow": false,
+                    "attackTargets": 1,
+                    "aoeRange": 30,
+                    "savingThrowMonsterAbility": "str",
+                    "savingThrowSaveAbilities": [
+                        "str"
+                    ],
+                    "savingThrowDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": false,
+                            "type": "slashing"
+                        }
+                    ],
+                    "savingThrowHalfOnSuccess": true,
+                    "savingThrowConditions": [],
+                    "hasOngoingDamage": false,
+                    "ongoingDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": false,
+                            "type": "slashing"
+                        }
+                    ],
+                    "ongoingDamageOccurs": "start_of_turn",
+                    "ongoingDamageOnFailedSave": true,
+                    "ongoingDamageRepeatSave": false,
+                    "ongoingDamageDuration": "ongoing",
+                    "recharge": {
+                        "type": "none",
+                        "diceType": 6,
+                        "minRoll": 5,
+                        "uses": 1
+                    },
+                    "spellcastingAbility": "int",
+                    "innateSpellcasting": false,
+                    "spellcastingClass": "",
+                    "spellList": [],
+                    "spellSlots": {
+                        "0": 0,
+                        "1": 0,
+                        "2": 0,
+                        "3": 0,
+                        "4": 0,
+                        "5": 0,
+                        "6": 0,
+                        "7": 0,
+                        "8": 0,
+                        "9": 0
+                    },
+                    "customDamage": [],
+                    "customDescription": "Each creature of the dragon's choice that is within 120 feet of the dragon and aware of it must succeed on a DC 21 Wisdom saving throw or become frightened for 1 minute. A creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. If a creature's saving throw is successful or the effect ends for it, the creature is immune to the dragon's Frightful Presence for the next 24 hours.",
+                    "additionalDescription": "",
+                    "multiattackReferences": [
+                        [],
+                        []
+                    ],
+                    "legendaryActionCost": 1,
+                    "manualDPR": -1,
+                    "manualMaxDPR": -1,
+                    "maxDPR": 0
+                },
+                {
+                    "id": "vmWqDjXQpMsCpdO",
+                    "actionType": "action",
+                    "name": "Fire Breath",
+                    "template": "saving_throw",
+                    "attackAbility": "str",
+                    "targetType": "cone",
+                    "attackType": "weapon",
+                    "attackRange": {
+                        "low": 20,
+                        "high": 60
+                    },
+                    "attackReach": 5,
+                    "attackDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": true,
+                            "type": "slashing"
+                        }
+                    ],
+                    "attackSavingThrow": false,
+                    "attackTargets": 1,
+                    "aoeRange": 30,
+                    "savingThrowMonsterAbility": "con",
+                    "savingThrowSaveAbilities": [
+                        "dex"
+                    ],
+                    "savingThrowDamage": [
+                        {
+                            "diceType": 6,
+                            "diceAmount": 26,
+                            "additional": 0,
+                            "abilityBonus": false,
+                            "type": "fire"
+                        }
+                    ],
+                    "savingThrowHalfOnSuccess": true,
+                    "savingThrowConditions": [],
+                    "hasOngoingDamage": false,
+                    "ongoingDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": false,
+                            "type": "slashing"
+                        }
+                    ],
+                    "ongoingDamageOccurs": "start_of_turn",
+                    "ongoingDamageOnFailedSave": true,
+                    "ongoingDamageRepeatSave": false,
+                    "ongoingDamageDuration": "ongoing",
+                    "recharge": {
+                        "type": "dice_roll",
+                        "diceType": 6,
+                        "minRoll": 5,
+                        "uses": 1
+                    },
+                    "spellcastingAbility": "int",
+                    "innateSpellcasting": false,
+                    "spellcastingClass": "",
+                    "spellList": [],
+                    "spellSlots": {
+                        "0": 0,
+                        "1": 0,
+                        "2": 0,
+                        "3": 0,
+                        "4": 0,
+                        "5": 0,
+                        "6": 0,
+                        "7": 0,
+                        "8": 0,
+                        "9": 0
+                    },
+                    "customDamage": [],
+                    "customDescription": "",
+                    "additionalDescription": "",
+                    "multiattackReferences": [
+                        [],
+                        []
+                    ],
+                    "legendaryActionCost": 1,
+                    "manualDPR": -1,
+                    "manualMaxDPR": -1,
+                    "maxDPR": 312
                 }
             ],
             "bonus_action": [],

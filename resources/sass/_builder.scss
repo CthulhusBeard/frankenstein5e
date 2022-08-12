@@ -51,6 +51,10 @@
     margin-top: 5px;
 }
 
+.control-title {
+    font-weight: bold;
+}
+
 .popup-overlay {
     border: 1px black solid;
     border-radius: 7px;
@@ -74,6 +78,7 @@
 
 .statblock-data {
     position: relative;
+    display: flex;
 }
 
 .slide-button {

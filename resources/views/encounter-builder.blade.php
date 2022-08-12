@@ -22,37 +22,38 @@
             </div>
 
             <div id="side-nav">
-                    <div class="nav-option">
-                        <div></div>
-                        <div>Statblocks</div>
-                    </div>
-                    <div class="nav-option">
-                        <div></div>
-                        <div>Player Characters</div>
-                    </div>
-                    <div class="nav-option">
-                        <div></div>
-                        <div>Combat Analysis</div>
-                    </div>
-                    <div class="nav-option">
-                        <div></div>
-                        <div>Tips & Recommendations</div>
-                    </div>
+                <div class="nav-option">
+                    <div></div>
+                    <div>Statblocks</div>
                 </div>
+                <div class="nav-option">
+                    <div></div>
+                    <div>Player Characters</div>
+                </div>
+                <div class="nav-option">
+                    <div></div>
+                    <div>Combat Analysis</div>
+                </div>
+                <div class="nav-option">
+                    <div></div>
+                    <div>Tips & Recommendations</div>
+                </div>
+            </div>
 
             <div id="f5" class="main-content full-height">
 
                 <div class="controls-holder">
 
-                    <div class="builder-controls">
-                        <div><strong>Stat Block</strong></div>
+                    <!-- <div class="builder-controls popup-overlay">
+                        <div class="control-title">Stat Block</div>
                         <div class="slide-button" v-bind:class="{ selected : editor.edit_mode }" @click="editor.edit_mode = !editor.edit_mode">
                             <label>@{{f5.misc.title_edit_mode}}</label>
                         </div>
-                    </div>
+                    </div> -->
 
-                    <div class="builder-controls">
-                        <div><strong>@{{f5.misc.title_player_characters}}</strong></div>
+                    <div class="builder-controls popup-overlay">
+                        <div class="control-title">Encounter Settings</div>
+                        <div>@{{f5.misc.title_player_characters}}</div>
                         <div class="builder-controls_player-characters">
                             <div>
                                 <label class="control-label" for="controls__player-count">@{{f5.misc.title_player_characters_count}}: </label>
@@ -67,10 +68,21 @@
                                 </select>
                             </div>
                         </div>
+
+                        <div>Monster Count</div>
+                        <div>                    
+                            <div v-for="statblock in statblocks.slice().reverse()">
+                                <label class="control-label" for="controls__monsters">@{{statblock.name}}: </label>
+                                <select>
+                                        <option v-for="i in 10" :value="i">@{{i}}</option>
+                                </select>
+                            </div>
+
+                        </div>
                     </div>
 
-                    <div class="builder-controls">
-                        <div>Importer</div>
+                    <div class="builder-controls popup-overlay">
+                        <div class="control-title">Importer</div>
                         <div>
                             <select v-model="editor.import_monster">
                                 <option v-for="(monster, i) in SampleMonsters.monsters" :value="i">@{{monster.name}}</option>

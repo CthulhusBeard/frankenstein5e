@@ -30,12 +30,12 @@ return [
     */
     'legendary_action' => [ //option for "Uses 2 or 3"
         'name' => 'f5/featureactiontypes.title_legendary_action',
-        'desc' => 'f5/featureactiontypes.legendary_action_desc',
+        'desc' => 'f5/featureactiontypes.legendary_action_cost',
         'rank' => '3',
     ],
     'mythic_action' => [
         'name' => 'f5/featureactiontypes.title_mythic_action',
-        'desc' => 'f5/featureactiontypes.mythic_action_desc',
+        'desc' => 'f5/featureactiontypes.mythic_action_cost',
         'rank' => '3',
     ],
     'lair_action' => [

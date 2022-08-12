@@ -22,12 +22,12 @@ let StatBlock = {
     data: function() {
         return {
             mountedFeatures: 0,
-            damageUpdateIncrementer: 0
+            damageUpdateIncrementer: 0,
+            edit_mode: true,
         }
     },
 
     created() {
-
     },
 
     mounted() {
@@ -280,6 +280,7 @@ let StatBlock = {
 
         averageCR: function() {
             let armorCr = this.armorCr;
+            armorCr = armorCr.replace('> ','');
             if(String(armorCr).includes('-')) {
                 let splitArmor = armorCr.split('-');
                 armorCr = this.$parent.toNumber(this.$parent.toNumber(splitArmor[0]) + this.$parent.toNumber(splitArmor[1])) / 2;
@@ -714,6 +715,36 @@ let StatBlock = {
                 crText += ' '+this.f5.misc.display_challenge_rating_xp.replace(':xp', cr.xp);
             }
             return crText;
+        },
+
+        //Legendary, Mythic, and Lair Actions
+        legendaryActionText: function() {
+            let legendaryActionText = this.pluralize(this.f5.misc.legendary_action_desc, this.value.legendaryActions);
+
+            let creatureName = this.value.name.toLowerCase();
+            if(this.value.isNameProperNoun) {
+                legendaryActionText = legendaryActionText.replace(/the :creature_name/ig, this.capitalize(creatureName));
+                legendaryActionText = legendaryActionText.replaceAll(':creature_name', this.capitalize(creatureName));
+            } else {
+                legendaryActionText = legendaryActionText.replaceAll(':creature_name', creatureName);
+            }
+            legendaryActionText = legendaryActionText.replaceAll(':legendary_action_count', this.value.legendaryActions);
+
+            return legendaryActionText;
+        },
+
+        mythicActionText: function() {
+            let mythicActionText = this.f5.misc.mythic_action_desc;
+            let creatureName = this.value.name.toLowerCase();
+            if(this.value.isNameProperNoun) {
+                mythicActionText = mythicActionText.replace(/the :creature_name/ig, this.capitalize(creatureName));
+                mythicActionText = mythicActionText.replaceAll(':creature_name', this.capitalize(creatureName));
+            } else {
+                mythicActionText = mythicActionText.replaceAll(':creature_name', creatureName);
+            }
+            mythicActionText = mythicActionText.replaceAll(':mythic_trait_name', "MYTHIC TRAIT NAME GOES HERE");
+
+            return mythicActionText;
         },
 
         ///////////////// NEW FEATURE /////////////////

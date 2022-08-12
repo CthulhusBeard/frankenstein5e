@@ -36,15 +36,15 @@ return [
     'bonus_action_desc' => 'As a bonus action, ',
     'reaction_desc' => 'As a reaction, ',
     'free_action_desc' => 'As a free action',
-    'legendary_action_desc' => 'Costs :cost Legendary Actions',
-    'mythic_action_desc' => 'Costs :cost Legendary Actions',
+    'legendary_action_cost' => 'Costs :cost Legendary Actions',
+    'mythic_action_cost' => 'Costs :cost Legendary Actions',
     'lair_action_desc' => 'Lair Action',
 
     'action_cost' => ':cost Actions',
 
     'recharge' => 'Recharge (:recharge)',
 
-    'legendary_action_desc' => 'the creature does cool legendary stuffs',
-    'mythic_action_desc' => 'the creature does cool mythic stuffs',
-    'lair_action_desc' => 'the creature does cool lair stuffs',
+    'legendary_action_desc' => 'The :creature_name can take :legendary_action_count legendary action, choosing from the options below. A legendary action can only be used at the end of another creature\'s turn. The :creature_name regains spent legendary actions at the start of its turn.|The :creature_name can take :legendary_action_count legendary actions, choosing from the options below. Only one legendary action option can be used at a time and only at the end of another creature\'s turn. The :creature_name regains spent legendary actions at the start of its turn.',
+    'mythic_action_desc' => 'If the :creature_name\'s mythic trait is active, it can use the options below as legendary actions for 1 hour after using :mythic_trait_name.',
+    'lair_action_desc' => 'The :creature_name does cool lair stuffs',
 ];

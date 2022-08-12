@@ -234,6 +234,10 @@ i {
         }
     }
 
+    .stat-block__feature-option {
+        display: none;
+    }
+
     .stat-block__feature {
         color: black;
         margin-bottom: 12px;
@@ -360,6 +364,9 @@ i {
         .stat-block__add-feature-button {
             display: block;
             padding: 0 4px;
+        }
+        .stat-block__feature-option {
+            display: inline;
         }
         .hidden-holder {
             .edit-show {

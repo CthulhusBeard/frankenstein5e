@@ -39,7 +39,19 @@ export function initVue(f5data) {
         },
 
         computed: {
+            encounterData: function() {
+                let graphData = [];
 
+                for(let statblock in this.statblocks) {
+                    let monsterData = {
+                        name: statblock.value.name,
+                        dpr: statblock.averageDPR,
+                        projection: statblock.damageProjection,
+                    };
+
+                    graphData.push(monsterData);
+                }
+            }
         },
 
         methods: {

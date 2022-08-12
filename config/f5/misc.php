@@ -154,6 +154,9 @@ return [
 
     'action_cost' => 'f5/featureactiontypes.action_cost',
 
+    'legendary_action_desc' => 'f5/featureactiontypes.legendary_action_desc',
+    'mythic_action_desc' => 'f5/featureactiontypes.mythic_action_desc',
+
     //--
 
     'additionally' => 'f5/features.additionally',

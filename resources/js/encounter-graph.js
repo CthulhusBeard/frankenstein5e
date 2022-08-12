@@ -4,8 +4,6 @@ export {EncounterGraph as default}
 
 var EncounterGraph = {
   props: [
-    'id', 
-    'name', 
     'monster_hp', 
     'monster_damage', 
     'player_data',
@@ -22,9 +20,6 @@ var EncounterGraph = {
   },
 
   watch: {
-    name(val) {
-      this.updateGraph();
-    },
     monster_hp(val) {
       this.updateGraph();
     },
