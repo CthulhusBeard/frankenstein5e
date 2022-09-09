@@ -6,10 +6,10 @@ export {StatBlock as default}
 
 let StatBlock = {
     props: [
-        'value', 
         'player_data',
         'combat_rounds',
         'f5', 
+        'measure', 
     ],
     template: '#template-statblock',
     
@@ -24,6 +24,72 @@ let StatBlock = {
             mountedFeatures: 0,
             damageUpdateIncrementer: 0,
             edit_mode: true,
+            value: {
+                id: this.randChars(15),
+                name: 'Monster',
+                shortName: '',
+                isNameProperNoun: false,
+                size: 'medium',
+                type: 'dragon',
+                subtype: '',
+                typeCategory: '',
+                alignment: '',
+                showTypicalAlignment: true,
+                armorClass: {
+                    type: 'none',
+                    manual: '10',
+                    bonus: '0',
+                    stealthDis: false,
+                    shield: false,
+                    mageArmor: false,
+                },
+                hitPoints: {
+                    diceType: 4,
+                    diceAmount: 1,
+                    additional: 0,
+                },
+                abilities: this.createDefaultAbilityScores(),
+                savingThrows: this.createDefaultSavingThrows(),
+                damageResistances: [],
+                damageImmunities: [],
+                damageVulnerabilites: [],
+                conditionImmunities: [],
+                skills: [],
+                languages: this.createDefaultLanguages(),
+                speeds: this.createDefaultSpeeds(),
+                hover: false,
+                senses: this.createDefaultSenses(),
+                manualOverride: {
+                    proficiency: 0,
+                    casterLevel: 0,
+                },
+                targetCR: {
+                    offensive: {
+                    }, 
+                    defensive: {
+                    }
+                },
+                hasLegendaryActions: true,
+                hasMythicActions: false,
+                legendaryActions: 3,
+                reactions: 1,
+                actions: 1,
+                bonusActions: 1,
+                features: {
+                    passive: [],
+                    spellcasting: [],
+                    multiattack: [],
+                    action: [],
+                    bonus_action: [],
+                    reaction: [],
+                    legendary_action: [],
+                    mythic_action: [],
+                    lair_action: [],
+                },
+                display: {
+                    columns: 1,
+                }
+            }
         }
     },
 
@@ -32,6 +98,7 @@ let StatBlock = {
 
     mounted() {
         console.log('Statblock Mounted');
+        console.log(this.value);
     },
 
     computed: {
@@ -283,11 +350,11 @@ let StatBlock = {
             armorCr = armorCr.replace('> ','');
             if(String(armorCr).includes('-')) {
                 let splitArmor = armorCr.split('-');
-                armorCr = this.$parent.toNumber(this.$parent.toNumber(splitArmor[0]) + this.$parent.toNumber(splitArmor[1])) / 2;
+                armorCr = this.toNumber(this.toNumber(splitArmor[0]) + this.toNumber(splitArmor[1])) / 2;
             }
-            let defensiveCr = (Number(armorCr) + this.$parent.toNumber(this.healthCr)) / 2;
+            let defensiveCr = (Number(armorCr) + this.toNumber(this.healthCr)) / 2;
 
-            let average = (defensiveCr + this.$parent.toNumber(this.damageCr)) / 2;
+            let average = (defensiveCr + this.toNumber(this.damageCr)) / 2;
 
             return average;
         },
@@ -466,7 +533,7 @@ let StatBlock = {
             let hp = (Math.round((type / 2 + .5) * amount) + conHP) + additionalHP;
             return hp;
         },
-
+        
         hitPointsText: function() {
             let type = this.value.hitPoints.diceType;
             let amount = this.value.hitPoints.diceAmount;
@@ -547,7 +614,7 @@ let StatBlock = {
                 if(!this.f5.speeds[i]['hide_name']) {
                     displayText += this.f5.speeds[i].name.toLowerCase()+' ';
                 }
-                displayText += this.value.speeds[i]+' '+this.$parent.editor.measure.measureUnit; 
+                displayText += this.value.speeds[i]+' '+this.measure.measureUnit; 
                 if(i === 'fly' && this.value.hover) {
                     displayText += ' ('+this.f5.misc.hover.toLowerCase()+')';
                 }
@@ -571,7 +638,7 @@ let StatBlock = {
                 if(!this.f5.senses[i]['hide_name']) {
                     displayText += this.f5.senses[i].name.toLowerCase()+' ';
                 }
-                displayText += this.value.senses[i].distance+' '+this.$parent.editor.measure.measureUnit;
+                displayText += this.value.senses[i].distance+' '+this.measure.measureUnit;
                 
                 if(this.value.senses[i].modifier) {
                     displayText += '('+this.f5.senses[i].modifier_name.toLowerCase()+')';
@@ -654,7 +721,7 @@ let StatBlock = {
                 if(displayText !== '') {
                     displayText += ', ';
                 }
-                displayText += this.f5.misc.telepathy+' '+this.value.languages.telepathy +' '+ this.$parent.editor.measure.measureUnit;
+                displayText += this.f5.misc.telepathy+' '+this.value.languages.telepathy +' '+ this.measure.measureUnit;
             }
 
             //No Languages
@@ -748,63 +815,63 @@ let StatBlock = {
         },
 
         ///////////////// NEW FEATURE /////////////////
-        newFeatureAttackText: function() {
-            let abilityMod = this.getAbilityMod(this.newFeature.attack.ability);
-            let displayText = '<span class="i">';
-            if(this.newFeature.attack.meleeRanged == 'meleeranged') {
-                displayText += 'Melee or Ranged';
-            } else if(this.newFeature.attack.meleeRanged == 'melee') {
-                displayText += 'Melee';
-            } else if(this.newFeature.attack.meleeRanged == 'ranged') {
-                displayText += 'Ranged';
-            }
-            if(this.newFeature.attack.weaponSpell == 'weapon') {
-                displayText += ' Weapon ';
-            } else if(this.newFeature.attack.weaponSpell == 'spell') {
-                displayText += ' Spell ';
-            }
-            displayText += 'Attack:</span> +';
-            displayText += (abilityMod+this.proficiency);
-            displayText += ' to hit';
+        // newFeatureAttackText: function() {
+        //     let abilityMod = this.getAbilityMod(this.newFeature.attack.ability);
+        //     let displayText = '<span class="i">';
+        //     if(this.newFeature.attack.meleeRanged == 'meleeranged') {
+        //         displayText += 'Melee or Ranged';
+        //     } else if(this.newFeature.attack.meleeRanged == 'melee') {
+        //         displayText += 'Melee';
+        //     } else if(this.newFeature.attack.meleeRanged == 'ranged') {
+        //         displayText += 'Ranged';
+        //     }
+        //     if(this.newFeature.attack.weaponSpell == 'weapon') {
+        //         displayText += ' Weapon ';
+        //     } else if(this.newFeature.attack.weaponSpell == 'spell') {
+        //         displayText += ' Spell ';
+        //     }
+        //     displayText += 'Attack:</span> +';
+        //     displayText += (abilityMod+this.proficiency);
+        //     displayText += ' to hit';
 
-            if(this.newFeature.attack.meleeRanged !== 'ranged') {
-                displayText += ', reach '+this.newFeature.attack.reach+' '+this.$parent.editor.measure.measureUnit;
-                displayText += ', '+this.newFeature.attack.targets+' target';
-                if(this.newFeature.attack.targets !== 1) {
-                    displayText += 's';
-                }
-            }
+        //     if(this.newFeature.attack.meleeRanged !== 'ranged') {
+        //         displayText += ', reach '+this.newFeature.attack.reach+' '+this.measure.measureUnit;
+        //         displayText += ', '+this.newFeature.attack.targets+' target';
+        //         if(this.newFeature.attack.targets !== 1) {
+        //             displayText += 's';
+        //         }
+        //     }
 
-            if(this.newFeature.attack.meleeRanged !== 'melee') {
-                displayText += ', range ';
-                displayText += this.newFeature.attack.rangeShort;
-                if(this.newFeature.attack.rangeLong > this.newFeature.attack.rangeShort) {
-                    displayText += '/'+this.newFeature.attack.rangeLong;
-                }
-                displayText += ' '+this.$parent.editor.measure.measureUnit;
-                displayText += ', '+this.newFeature.attack.targets+' target';
-                if(this.newFeature.attack.targets !== 1) {
-                    displayText += 's';
-                }
-            }
+        //     if(this.newFeature.attack.meleeRanged !== 'melee') {
+        //         displayText += ', range ';
+        //         displayText += this.newFeature.attack.rangeShort;
+        //         if(this.newFeature.attack.rangeLong > this.newFeature.attack.rangeShort) {
+        //             displayText += '/'+this.newFeature.attack.rangeLong;
+        //         }
+        //         displayText += ' '+this.measure.measureUnit;
+        //         displayText += ', '+this.newFeature.attack.targets+' target';
+        //         if(this.newFeature.attack.targets !== 1) {
+        //             displayText += 's';
+        //         }
+        //     }
 
-            displayText += '. <span class="i">Hit: </span> (';
-            displayText += this.newFeature.attack.diceAmount+'d'+this.newFeature.attack.damageDice;
-            if(abilityMod > 0) {
-                displayText += ' + '+abilityMod;
-            } else if(abilityMod < 0) {
-                displayText += ' - '+(abilityMod*-1);
-            } 
-            displayText += ')';
+        //     displayText += '. <span class="i">Hit: </span> (';
+        //     displayText += this.newFeature.attack.diceAmount+'d'+this.newFeature.attack.damageDice;
+        //     if(abilityMod > 0) {
+        //         displayText += ' + '+abilityMod;
+        //     } else if(abilityMod < 0) {
+        //         displayText += ' - '+(abilityMod*-1);
+        //     } 
+        //     displayText += ')';
 
-            return displayText;
-        },
+        //     return displayText;
+        // },
 
-        newFeatureSpellText: function() {
-            let displayText = '';
+        // newFeatureSpellText: function() {
+        //     let displayText = '';
 
-            return displayText;
-        },
+        //     return displayText;
+        // },
 
         casterLevel: function() {
             let casterLevel = this.value.hitPoints.diceAmount;
@@ -857,7 +924,61 @@ let StatBlock = {
         },
     },
 
+
+
+
+
     methods: {
+
+        createDefaultAbilityScores: function() {
+            let abilities = {};
+            for(let ability in this.f5.abilities) {
+                abilities[ability] = 10;
+            }
+            return abilities;
+        },
+        createDefaultSavingThrows: function() {
+            let savingThrows = {};
+            for(let ability in this.f5.abilities) {
+                savingThrows[ability] = false;
+            }
+            return savingThrows;
+        },
+        createDefaultSenses: function() {
+            let senses = {};
+            for(let sense in this.f5.senses) {
+                senses[sense] = {
+                    distance: 0,
+                    modifier: false,
+                };
+            }
+            return senses;
+        },
+        createDefaultLanguages: function() {
+            let languages = {
+                spokenWritten: [],
+                doesntSpeak: [],
+                telepathy: 0,
+            };
+            for(let lang in this.f5.languages) {
+                if(this.f5.languages[lang]['default']) {
+                    languages.spokenWritten.push(lang);
+                }
+            }
+            return languages;
+        },
+        createDefaultSpeeds: function() {
+            let speeds = {};
+            for(let speed in this.f5.speeds) {
+                if(this.f5.speeds[speed]['default']) {
+                    speeds[speed] = this.f5.speeds[speed]['default'];
+                } else {
+                    speeds[speed] = 0;
+                }
+            }
+            return speeds;
+        },
+
 
         damageList: function(input) {
             let sortArr = Object.keys(this.f5.damagetypes);
@@ -1376,6 +1497,24 @@ let StatBlock = {
                 }
                 this.damageUpdateIncrementer++;
             }
+        },
+        
+        toNumber: function(input) {
+            if(String(input).includes('/')) {
+                let divideArray = input.split('/');
+                input = divideArray[0] / divideArray[1];
+            }
+            return Number(input);
+        },
+        
+        randChars: function(len) {
+            const base = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvyxyz0123456789"];
+            const generator = (base, len) => {
+                return [...Array(len)]
+                  .map(i => base[Math.random()*base.length|0])
+                  .join('');
+            };
+            return generator(base, len);
         },
     }
 }

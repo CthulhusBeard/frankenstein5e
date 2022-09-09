@@ -4,8 +4,7 @@ export {EncounterGraph as default}
 
 var EncounterGraph = {
   props: [
-    'monster_hp', 
-    'monster_damage', 
+    'encounter_data', 
     'player_data',
     'combat_rounds',
     'f5'
@@ -58,8 +57,10 @@ var EncounterGraph = {
     },
 
     formattedData: function() {
+      let monsterDamage = 0;
 
-      console.log(this.monster_damage);
+      console.log('encounter_data');
+      console.log(this.encounter_data);
 
       let projectedPCDeath = -1;
       let projectedMonsterDeath = -1;

@@ -58,13 +58,13 @@
                             <div>
                                 <label class="control-label" for="controls__player-count">@{{f5.misc.title_player_characters_count}}: </label>
                                 <select v-model="editor.player_characters.number">
-                                        <option v-for="i in 12" :value="i">@{{i}}</option>
+                                    <option v-for="i in 12" :value="i">@{{i}}</option>
                                 </select>
                             </div>
                             <div>
                                 <label class="control-label" for="controls__player-levels">@{{f5.misc.title_player_characters_level}}: </label>
                                 <select v-model="editor.player_characters.level">
-                                        <option v-for="(obj, i) in f5.playerlevels" :value="i">@{{i}}</option>
+                                    <option v-for="(obj, i) in f5.playerlevels" :value="i">@{{i}}</option>
                                 </select>
                             </div>
                         </div>
@@ -74,7 +74,7 @@
                             <div v-for="statblock in statblocks.slice().reverse()">
                                 <label class="control-label" for="controls__monsters">@{{statblock.name}}: </label>
                                 <select>
-                                        <option v-for="i in 10" :value="i">@{{i}}</option>
+                                    <option v-for="i in 10" :value="i">@{{i}}</option>
                                 </select>
                             </div>
 
@@ -102,28 +102,26 @@
                     </div>
                 </div>
 
-                <statblock 
+                <component 
                     v-for="statblock in statblocks.slice().reverse()"
-                    v-bind:value="statblock"
+                    :is="statblockclass"
                     v-bind:f5="f5"
                     v-bind:player_data="editor.player_characters"
                     v-bind:combat_rounds="editor.round_tracker"
+                    v-bind:measure="editor.measure"
                     v-on:remove-statblock="removeStatBlock"
                     ref="statblocks"
                 >
-                </statblock>
-
-                {{--
+                </component>
+<!-- 
                 <encounter-graph 
-                    v-bind:monster_hp="getHP"
-                    v-bind:monster_damage="damageProjection"
+                    v-bind:encounter_data="encounterData"
                     v-bind:player_data="editor.player_characters"
                     v-bind:combat_rounds="editor.round_tracker"
                     v-bind:f5="f5"
                     ref="graph"
                 >
-                </encounter-graph>
-                --}}
+                </encounter-graph> -->
 
             </div>
         </div>

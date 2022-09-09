@@ -2,8 +2,11 @@ import Multiselect from '@vueform/multiselect/dist/multiselect.vue2.js';
 import StatBlockFeature from './statblock-feature.js'
 import StatBlock from './statblock.js'
 import EncounterGraph from './encounter-graph.js';
+import statblock from './statblock.js';
 
 export function initVue(f5data) {
+
+    let StatBlockClass = Vue.extend(StatBlock);
     
     let app = new Vue({
         el: '#f5',
@@ -24,6 +27,7 @@ export function initVue(f5data) {
                 import_monster: 0,
             },
             statblocks: [],
+            statblockclass: StatBlock,
             f5: f5data,
         },
 
@@ -42,16 +46,19 @@ export function initVue(f5data) {
             encounterData: function() {
                 let graphData = [];
 
-                for(let statblock in this.statblocks) {
+                for(let statblock of this.statblocks) {
                     let monsterData = {
-                        name: statblock.value.name,
+                        name: statblock.name,
+                        hp: statblock.getHP,
                         dpr: statblock.averageDPR,
                         projection: statblock.damageProjection,
                     };
 
                     graphData.push(monsterData);
                 }
-            }
+
+                return graphData;
+            },
         },
 
         methods: {
@@ -65,14 +72,6 @@ export function initVue(f5data) {
                 return generator(base, len);
             },
 
-            toNumber: function(input) {
-                if(String(input).includes('/')) {
-                    let divideArray = input.split('/');
-                    input = divideArray[0] / divideArray[1];
-                }
-                return Number(input);
-            },
-
             importMonster: function(monster) {
                 console.log('== import monster ==');
                 let importedStatBlock = JSON.parse(JSON.stringify(monster));
@@ -80,106 +79,23 @@ export function initVue(f5data) {
                 this.statblocks.push(importedStatBlock);
             },
 
-            createStatBlock: function() {
+            createStatBlock: function() {            
+
+                let instance = new StatBlockClass({
+                    propsData: { 
+                        f5: this.f5,
+                        player_data: this.editor.player_characters,
+                        combat_rounds: this.editor.round_tracker,
+                        measure: this.editor.measure,
+                    }
+                });
+//                instance.$mount();
                 
-                let newStatblock = {
-                    id: this.randChars(15),
-                    name: 'Monster',
-                    shortName: '',
-                    isNameProperNoun: false,
-                    size: 'medium',
-                    type: 'dragon',
-                    subtype: '',
-                    typeCategory: '',
-                    alignment: '',
-                    showTypicalAlignment: true,
-                    armorClass: {
-                        type: 'none',
-                        manual: '10',
-                        bonus: '0',
-                        stealthDis: false,
-                        shield: false,
-                        mageArmor: false,
-                    },
-                    hitPoints: {
-                        diceType: 4,
-                        diceAmount: 1,
-                        additional: 0,
-                    },
-                    abilities: {},
-                    savingThrows: {},
-                    damageResistances: [],
-                    damageImmunities: [],
-                    damageVulnerabilites: [],
-                    conditionImmunities: [],
-                    skills: [],
-                    languages: {
-                        spokenWritten: [],
-                        doesntSpeak: [],
-                        telepathy: 0,
-                    },
-                    speeds: {},
-                    hover: false,
-                    senses: {},
-                    manualOverride: {
-                        proficiency: 0,
-                        casterLevel: 0,
-                    },
-                    targetCR: {
-                        offensive: {
-                        }, 
-                        defensive: {
-                        }
-                    },
-                    hasLegendaryActions: true,
-                    hasMythicActions: false,
-                    legendaryActions: 3,
-                    reactions: 1,
-                    actions: 1,
-                    bonusActions: 1,
-                    features: {
-                        passive: [],
-                        spellcasting: [],
-                        multiattack: [],
-                        action: [],
-                        bonus_action: [],
-                        reaction: [],
-                        legendary_action: [],
-                        mythic_action: [],
-                        lair_action: [],
-                    },
-                    display: {
-                        columns: 1,
-                    }
-                };
+                let i = this.statblocks.push(instance);
 
-                for(let ability in this.f5.abilities) {
-                    newStatblock.abilities[ability] = 10;
-                    newStatblock.savingThrows[ability] = false;
-                }
-            
-                for(let sense in this.f5.senses) {
-                    newStatblock.senses[sense] = {
-                        distance: 0,
-                        modifier: false,
-                    };
-                }
-            
-                for(let lang in this.f5.languages) {
-                    if(this.f5.languages[lang]['default']) {
-                        newStatblock.languages.spokenWritten.push(lang);
-                    }
-                }
-            
-                for(let speed in this.f5.speeds) {
-                    if(this.f5.speeds[speed]['default']) {
-                        newStatblock.speeds[speed] = this.f5.speeds[speed]['default'];
-                    } else {
-                        newStatblock.speeds[speed] = 0;
-                    }
-                }
+                console.log('List all statblocks');
+                console.log(this.statblocks);
 
-                let i = this.statblocks.push(newStatblock);
                 return i-1;
             },
 
