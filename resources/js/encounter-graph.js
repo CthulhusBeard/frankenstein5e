@@ -1,12 +1,10 @@
 import Chart from 'chart.js/auto';
 
-export {EncounterGraph as default}
-
-var EncounterGraph = {
+export default {
   props: [
-    'encounter_data', 
-    'player_data',
-    'combat_rounds',
+    'encounterData', 
+    'playerData',
+    'combatRounds',
     'f5'
   ],
 
@@ -19,16 +17,7 @@ var EncounterGraph = {
   },
 
   watch: {
-    monster_hp(val) {
-      this.updateGraph();
-    },
-    monster_damage: {
-      handler(val) {
-        this.updateGraph();
-      },
-      deep: true
-    },
-    player_data: {
+    playerData: {
       handler(val) {
         this.updateGraph();
       },
@@ -51,16 +40,16 @@ var EncounterGraph = {
     },
 
     playerAverageDamage: function() {
-        let levelData = this.f5.playerlevels[this.player_data.level];
-        let playerDamage = this.player_data.number * levelData.average_dpr;
-        return playerDamage * this.player_data.hit_chance;
+        let levelData = this.f5.playerlevels[this.playerData.level];
+        let playerDamage = this.playerData.number * levelData.average_dpr;
+        return playerDamage * this.playerData.hit_chance;
     },
 
     formattedData: function() {
       let monsterDamage = 0;
 
-      console.log('encounter_data');
-      console.log(this.encounter_data);
+      console.log('encounterData');
+      console.log(this.encounterData);
 
       let projectedPCDeath = -1;
       let projectedMonsterDeath = -1;
@@ -79,10 +68,10 @@ var EncounterGraph = {
 
       let monsterHP = this.monster_hp;
       let playerDamage = this.playerAverageDamage;
-      let playerHP = this.f5.playerlevels[this.player_data.level].average_hp;
+      let playerHP = this.f5.playerlevels[this.playerData.level].average_hp;
       let cumulativeAverageDamage = 0;
       
-      for(let i = 0; i < this.combat_rounds; i++) {
+      for(let i = 0; i < this.combatRounds; i++) {
         labelsList.push(this.f5.misc.round_num.replace(':round_number', i+1));
         let roundDamage = (this.monster_damage[i]) ? this.monster_damage[i].damage : 0;
         damageData.push(roundDamage);

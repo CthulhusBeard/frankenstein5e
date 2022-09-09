@@ -8,8 +8,8 @@ var ProjectionGraph = {
     'name', 
     'monster_hp', 
     'monster_damage', 
-    'player_data',
-    'combat_rounds',
+    'playerData',
+    'combatRounds',
     'f5'
   ],
 

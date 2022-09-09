@@ -1,11 +1,10 @@
 import Multiselect from '@vueform/multiselect/dist/multiselect.vue2.js';
 
-export {StatBlockFeature as default}
-
-let StatBlockFeature = {
+export default {
     props: [
         'value',
-        'combat_rounds',
+        'playerData',
+        'combatRounds',
         'f5',
     ],
     template: '#template-statblockfeature',  
@@ -576,7 +575,7 @@ let StatBlockFeature = {
             //Multiattack Projections
             let mergedProjections = [[],[]];
 
-            for(var i = 0; i < this.combat_rounds; i++) {
+            for(var i = 0; i < this.combatRounds; i++) {
                 mergedProjections[0].push({
                     name: this.f5.misc.title_multiattack+': ',
                     damage: 0,
@@ -609,7 +608,7 @@ let StatBlockFeature = {
             }
 
             let finalMerge = [];
-            for(var i = 0; i < this.combat_rounds; i++) {
+            for(var i = 0; i < this.combatRounds; i++) {
                 if(!mergedProjections[1][i] || mergedProjections[0][i].damage >= mergedProjections[1][i].damage) {
                     finalMerge[i] = mergedProjections[0][i];
                 } else if(!mergedProjections[0][i] || mergedProjections[1][i].damage > mergedProjections[0][i].damage) {
@@ -636,7 +635,7 @@ let StatBlockFeature = {
 
                 let spellUses = 0;
                 if(spell.at_will || spell.level === 0) {
-                    spellUses = this.combat_rounds;
+                    spellUses = this.combatRounds;
                 } else if(!this.value.innateSpellcasting && !spellSlotsTracker[spell.level] && this.value.spellSlots[spell.level] > 0) {
                     spellUses = this.value.spellSlots[spell.level];
                     spellSlotsTracker[spell.level] = true;
@@ -686,7 +685,7 @@ let StatBlockFeature = {
                 averageRechargeTurns = Math.round(1 / ((this.value.recharge.diceType - this.value.recharge.minRoll + 1) / this.value.recharge.diceType));
             }
 
-            for(let i = 0; i < this.combat_rounds; i++) {
+            for(let i = 0; i < this.combatRounds; i++) {
                 if(i % averageRechargeTurns === 0) {
                     turnDamage[i] = {
                         name: this.value.name,
@@ -919,8 +918,8 @@ let StatBlockFeature = {
             }
 
             //Limit targets to number of players
-            if(avgTargets > this.$parent.$parent.editor.player_characters.number) {
-                avgTargets = this.$parent.$parent.editor.player_characters.number;
+            if(avgTargets > this.playerData.number) {
+                avgTargets = this.playerData.number;
             }
 
             let dpr = avgDPR * avgTargets;
@@ -941,7 +940,7 @@ let StatBlockFeature = {
             }
 
             console.log('mergeMultiattackProjections');
-            for(var i = 0; i < this.combat_rounds; i++) {
+            for(var i = 0; i < this.combatRounds; i++) {
                 if(!newProj[i]) {
                     continue;
                 }

@@ -10,9 +10,9 @@
         <script src="{{mix('js/app.js')}}" defer></script>
         <link rel="stylesheet" type="text/css" href="{{mix('css/app.css')}}">
     </head>
-    <body ng-app="f5App" ng-controller="f5Ctrl">
+    <body>
 
-        <div id="main-grid">
+        <div class="main-grid">
             <div id="logo">
                 Logo
             </div>
@@ -46,7 +46,7 @@
 
                     <!-- <div class="builder-controls popup-overlay">
                         <div class="control-title">Stat Block</div>
-                        <div class="slide-button" v-bind:class="{ selected : editor.edit_mode }" @click="editor.edit_mode = !editor.edit_mode">
+                        <div class="slide-button" v-bind:class="{ selected : editor.editMode }" @click="editor.editMode = !editor.editMode">
                             <label>@{{f5.misc.title_edit_mode}}</label>
                         </div>
                     </div> -->
@@ -57,39 +57,28 @@
                         <div class="builder-controls_player-characters">
                             <div>
                                 <label class="control-label" for="controls__player-count">@{{f5.misc.title_player_characters_count}}: </label>
-                                <select v-model="editor.player_characters.number">
+                                <select v-model="editor.playerData.number">
                                     <option v-for="i in 12" :value="i">@{{i}}</option>
                                 </select>
                             </div>
                             <div>
                                 <label class="control-label" for="controls__player-levels">@{{f5.misc.title_player_characters_level}}: </label>
-                                <select v-model="editor.player_characters.level">
+                                <select v-model="editor.playerData.level">
                                     <option v-for="(obj, i) in f5.playerlevels" :value="i">@{{i}}</option>
                                 </select>
                             </div>
-                        </div>
-
-                        <div>Monster Count</div>
-                        <div>                    
-                            <div v-for="statblock in statblocks.slice().reverse()">
-                                <label class="control-label" for="controls__monsters">@{{statblock.name}}: </label>
-                                <select>
-                                    <option v-for="i in 10" :value="i">@{{i}}</option>
-                                </select>
-                            </div>
-
                         </div>
                     </div>
 
                     <div class="builder-controls popup-overlay">
                         <div class="control-title">Importer</div>
                         <div>
-                            <select v-model="editor.import_monster">
+                            <select v-model="editor.importMonster">
                                 <option v-for="(monster, i) in SampleMonsters.monsters" :value="i">@{{monster.name}}</option>
                             </select>
                         </div>
                         <div>
-                            <button @click="importMonster(SampleMonsters.monsters[editor.import_monster])">@{{f5.misc.title_import}}</button>
+                            <button @click="importMonster(SampleMonsters.monsters[editor.importMonster])">@{{f5.misc.title_import}}</button>
                         </div>
                         <div>
                             <br/>
@@ -102,22 +91,24 @@
                     </div>
                 </div>
 
-                <component 
-                    v-for="statblock in statblocks.slice().reverse()"
-                    :is="statblockclass"
-                    v-bind:f5="f5"
-                    v-bind:player_data="editor.player_characters"
-                    v-bind:combat_rounds="editor.round_tracker"
-                    v-bind:measure="editor.measure"
-                    v-on:remove-statblock="removeStatBlock"
-                    ref="statblocks"
-                >
-                </component>
+                <div class="statblock-group">
+                    <statblock 
+                        v-for="statblock in statblocks"
+                        v-bind:initial-statblock="statblock"
+                        v-bind:f5="f5"
+                        v-bind:player-data="editor.playerData"
+                        v-bind:combat-rounds="editor.roundTracker"
+                        v-bind:measure="editor.measure"
+                        v-on:remove-statblock="removeStatBlock"
+                        ref="statblocks"
+                    >
+                    </statblock>
+                </div>
 <!-- 
                 <encounter-graph 
-                    v-bind:encounter_data="encounterData"
-                    v-bind:player_data="editor.player_characters"
-                    v-bind:combat_rounds="editor.round_tracker"
+                    v-bind:encounter-data="encounterData"
+                    v-bind:player-data="editor.playerData"
+                    v-bind:combat-rounds="editor.roundTracker"
                     v-bind:f5="f5"
                     ref="graph"
                 >

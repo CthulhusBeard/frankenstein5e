@@ -2,7 +2,7 @@
     <div>
 
         <div class="statblock-data">
-            <div class="cr-controller popup-overlay">
+            <div class="builder-controls popup-overlay">
                 
                 <strong>@{{f5.misc.title_cr_manager}}</strong>
                 <div>
@@ -44,8 +44,9 @@
                 --}}
             </div>
 
-            <div class="cr-controller popup-overlay">
-                <div class="slide-button" v-bind:class="{ selected : edit_mode }" @click="edit_mode = !edit_mode">
+            <div class="builder-controls popup-overlay">
+                <strong>@{{f5.misc.title_controls}}</strong>
+                <div class="slide-button" v-bind:class="{ selected : editMode }" @click="editMode = !editMode">
                     <label>@{{f5.misc.title_edit_mode}}</label>
                 </div>
                 <div>
@@ -66,8 +67,8 @@
                     v-bind:name="value.name"
                     v-bind:monster_hp="getHP"
                     v-bind:monster_damage="damageProjection"
-                    v-bind:player_data="statblockPlayerData"
-                    v-bind:combat_rounds="combat_rounds"
+                    v-bind:playerData="statblockPlayerData"
+                    v-bind:combatRounds="combatRounds"
                     v-bind:f5="f5"
                     ref="graph"
                 ></projection-graph>
@@ -77,7 +78,7 @@
         </div>
 
         <div class="stat-block-container">
-            <div class="stat-block" v-bind:class="[{'edit-mode': edit_mode}, statblockColumns]">
+            <div class="stat-block" v-bind:class="[{'edit-mode': editMode}, statblockColumns]">
                 <div class="stat-block__section">
                     <div class="stat-block__title focus-edit">
                         <span class="display-field">@{{value.name}}</span>
@@ -435,7 +436,8 @@
                     <statblock-feature 
                         v-for="passive in value.features.passive"
                         v-bind:value="passive"
-                        v-bind:combat_rounds="combat_rounds"
+                        v-bind:combat-rounds="combatRounds"
+                        v-bind:player-data="playerData"
                         v-bind:f5="f5"
                         ref="features"
                         @hook:mounted="featureIsMounted"
@@ -450,7 +452,8 @@
                     <statblock-feature 
                         v-for="spellcasting in value.features.spellcasting"
                         v-bind:value="spellcasting"
-                        v-bind:combat_rounds="combat_rounds"
+                        v-bind:combat-rounds="combatRounds"
+                        v-bind:player-data="playerData"
                         v-bind:f5="f5"
                         ref="features"
                         @hook:mounted="featureIsMounted"
@@ -468,7 +471,8 @@
                     <statblock-feature 
                         v-for="multiattack in value.features.multiattack"
                         v-bind:value="multiattack"
-                        v-bind:combat_rounds="combat_rounds"
+                        v-bind:combat-rounds="combatRounds"
+                        v-bind:player-data="playerData"
                         v-bind:f5="f5"
                         ref="features"
                         @hook:mounted="featureIsMounted"
@@ -484,7 +488,8 @@
                     <statblock-feature 
                         v-for="action in value.features.action"
                         v-bind:value="action"
-                        v-bind:combat_rounds="combat_rounds"
+                        v-bind:combat-rounds="combatRounds"
+                        v-bind:player-data="playerData"
                         v-bind:f5="f5"
                         ref="features"
                         @hook:mounted="featureIsMounted"
@@ -502,7 +507,8 @@
                     <statblock-feature 
                         v-for="bonusAction in value.features.bonus_action"
                         v-bind:value="bonusAction"
-                        v-bind:combat_rounds="combat_rounds"
+                        v-bind:combat-rounds="combatRounds"
+                        v-bind:player-data="playerData"
                         v-bind:f5="f5"
                         ref="features"
                         @hook:mounted="featureIsMounted"
@@ -520,7 +526,8 @@
                     <statblock-feature 
                         v-for="reaction in value.features.reaction"
                         v-bind:value="reaction"
-                        v-bind:combat_rounds="combat_rounds"
+                        v-bind:combat-rounds="combatRounds"
+                        v-bind:player-data="playerData"
                         v-bind:f5="f5"
                         ref="features"
                         @hook:mounted="featureIsMounted"
@@ -542,7 +549,8 @@
                     <statblock-feature 
                         v-for="legendaryAction in value.features.legendary_action"
                         v-bind:value="legendaryAction"
-                        v-bind:combat_rounds="combat_rounds"
+                        v-bind:combat-rounds="combatRounds"
+                        v-bind:player-data="playerData"
                         v-bind:f5="f5"
                         ref="features"
                         @hook:mounted="featureIsMounted"
@@ -561,7 +569,8 @@
                     <statblock-feature 
                         v-for="mythicAction in value.features.mythic_action"
                         v-bind:value="mythicAction"
-                        v-bind:combat_rounds="combat_rounds"
+                        v-bind:combat-rounds="combatRounds"
+                        v-bind:player-data="playerData"
                         v-bind:f5="f5"
                         ref="features"
                         @hook:mounted="featureIsMounted"
@@ -580,7 +589,8 @@
                     <statblock-feature 
                         v-for="lairAction in value.features.lair_action"
                         v-bind:value="lairAction"
-                        v-bind:combat_rounds="combat_rounds"
+                        v-bind:combat-rounds="combatRounds"
+                        v-bind:player-data="playerData"
                         v-bind:f5="f5"
                         ref="features"
                         @hook:mounted="featureIsMounted"

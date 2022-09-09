@@ -2,12 +2,11 @@ import Multiselect from '@vueform/multiselect/dist/multiselect.vue2.js';
 import StatBlockFeature from './statblock-feature.js';
 import ProjectionGraph from './projection-graph.js';
 
-export {StatBlock as default}
-
-let StatBlock = {
+export default {
     props: [
-        'player_data',
-        'combat_rounds',
+        'initialStatblock',
+        'playerData',
+        'combatRounds',
         'f5', 
         'measure', 
     ],
@@ -19,11 +18,13 @@ let StatBlock = {
         'projection-graph': ProjectionGraph,
     },
 
+    //expose: ['value.name'],
+
     data: function() {
         return {
             mountedFeatures: 0,
             damageUpdateIncrementer: 0,
-            edit_mode: true,
+            editMode: true,
             value: {
                 id: this.randChars(15),
                 name: 'Monster',
@@ -94,10 +95,18 @@ let StatBlock = {
     },
 
     created() {
+        console.log('--------on create-------------');
+        console.log(this.playerData);
+        console.log(this.initialStatblock);
+        for(let prop in this.initialStatblock) {
+            if(prop === 'id') continue;
+            this.value[prop] = this.initialStatblock[prop]; 
+        }
     },
 
     mounted() {
-        console.log('Statblock Mounted');
+        console.log('-------------Statblock Mounted------------');
+        console.log(this.playerData);
         console.log(this.value);
     },
 
@@ -206,7 +215,7 @@ let StatBlock = {
                     delete projections[actionType];
                     continue;
                 }
-                for(let roundNum = 0; roundNum < this.combat_rounds; roundNum++) {
+                for(let roundNum = 0; roundNum < this.combatRounds; roundNum++) {
                     //Sort by most damage
                     projections[actionType].options = projections[actionType].options.sort(function (a, b) {
                         let damageA = (a[roundNum] && a[roundNum].damage) ? a[roundNum].damage / a[roundNum].actionCost : 0;
@@ -245,7 +254,7 @@ let StatBlock = {
             //Create turn totals and action list
             let totals = [];
             for(let actionType in projections) { 
-                for(let roundNum = 0; roundNum < this.combat_rounds; roundNum++) {
+                for(let roundNum = 0; roundNum < this.combatRounds; roundNum++) {
                     if(!projections[actionType].rounds[roundNum]) {
                         continue;
                     }
@@ -894,21 +903,21 @@ let StatBlock = {
         },
         
         playerChanceToHit: function() {
-            let levelData = this.f5.playerlevels[this.player_data.level];
+            let levelData = this.f5.playerlevels[this.playerData.level];
             let toHitModifier = levelData.proficiency + levelData.average_modifier;
             let hitChance = ( 21 - ( this.getAC - (toHitModifier) )) / 20;
             return hitChance;
         },
 
         statblockPlayerData: function() {
-            let sbPlayerData = this.player_data;
+            let sbPlayerData = this.playerData;
             sbPlayerData.hit_chance = this.playerChanceToHit;
             return sbPlayerData;
         },
         
         hasInstantKillPotential: function() {
             //TODO
-            let playerHP = this.f5.playerlevels[this.player_data.level].average_hp;
+            let playerHP = this.f5.playerlevels[this.playerData.level].average_hp;
             //if(this.maxDPR > playerHP) {
                 //Make maxDPR
                 //return true;
@@ -1407,8 +1416,8 @@ let StatBlock = {
             let targets = this.f5.areaofeffect[targetType].targets_at_30;
             if(targets > 1) {
                 targets = (targets/(distanceBaseline*2)) * (distanceBaseline + this.value.aoeRange); //basic formula to assume average number of targets hit
-                if(targets > this.player_data.number) {
-                    targets = this.player_data.number;
+                if(targets > this.playerData.number) {
+                    targets = this.playerData.number;
                 }
             }
             return targets;
