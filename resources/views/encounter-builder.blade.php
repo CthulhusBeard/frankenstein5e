@@ -92,7 +92,7 @@
                 </div>
 
                 <div class="statblock-group">
-                    <statblock 
+                    <Statblock 
                         v-for="statblock in statblocks"
                         v-bind:initial-statblock="statblock"
                         v-bind:f5="f5"
@@ -102,17 +102,17 @@
                         v-on:remove-statblock="removeStatBlock"
                         ref="statblocks"
                     >
-                    </statblock>
+                    </Statblock>
                 </div>
 <!-- 
-                <encounter-graph 
+                <EncounterGraph 
                     v-bind:encounter-data="encounterData"
                     v-bind:player-data="editor.playerData"
                     v-bind:combat-rounds="editor.roundTracker"
                     v-bind:f5="f5"
                     ref="graph"
                 >
-                </encounter-graph> -->
+                </EncounterGraph> -->
 
             </div>
         </div>

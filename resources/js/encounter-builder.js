@@ -28,10 +28,10 @@ export function initVue(f5data) {
         },
 
         components: {
-            'multiselect': Multiselect,
-            'statblock': StatBlock,
-            'statblock-feature': StatBlockFeature,
-            'encounter-graph': EncounterGraph,
+            'Multiselect': Multiselect,
+            'Statblock': StatBlock,
+            'StatblockFeature': StatBlockFeature,
+            'EncounterGraph': EncounterGraph,
         },
 
         mounted() {

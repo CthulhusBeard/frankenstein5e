@@ -13,9 +13,8 @@ export default {
     template: '#template-statblock',
     
     components: {
-        'multiselect': Multiselect,
-        'statblock-feature': StatBlockFeature,
-        'projection-graph': ProjectionGraph,
+        'Multiselect': Multiselect,
+        'StatblockFeature': StatBlockFeature,
     },
 
     //expose: ['value.name'],

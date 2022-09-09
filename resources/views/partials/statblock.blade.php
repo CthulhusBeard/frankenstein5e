@@ -227,7 +227,7 @@
                             <span v-if="skillText" class="title">@{{f5.misc.title_skills}}:</span>
                             <span v-else class="title">+ @{{f5.misc.title_skills}}</span>
                             <span>@{{skillText}}</span>
-                            <multiselect class="edit-field edit-field--flex"
+                            <Multiselect class="edit-field edit-field--flex"
                                 :placeholder="f5.misc.choose_skill"
                                 v-model="value.skills" 
                                 :options="f5.skills" 
@@ -248,14 +248,14 @@
                                     <template v-slot:option="{ option }">
                                         @{{ option.label.name }}
                                     </template>
-                            </multiselect>
+                            </Multiselect>
                         </div>
 
                         <div class="stat-block__attribute focus-edit" v-bind:class="{'edit-show': !damageResistanceText}">
                             <span v-if="damageResistanceText" class="title">@{{f5.misc.title_damage_resistances}}:</span>
                             <span v-else class="title">+ @{{f5.misc.title_damage_resistances}}</span>
                             <span>@{{damageResistanceText}}</span>
-                            <multiselect class="edit-field edit-field--flex"
+                            <Multiselect class="edit-field edit-field--flex"
                                 v-model="value.damageResistances" 
                                 :placeholder="f5.misc.choose_a.replace(':choice', 'damage type')"
                                 :options="eligableDamageTypes" 
@@ -276,14 +276,14 @@
                                     <template v-slot:option="{ option }">
                                         @{{ option.label }}
                                     </template>
-                            </multiselect>
+                            </Multiselect>
                         </div>
 
                         <div class="stat-block__attribute focus-edit" v-bind:class="{'edit-show': !damageImmunitiesText}">
                             <span v-if="damageImmunitiesText" class="title">@{{f5.misc.title_damage_immunities}}:</span>
                             <span v-else class="title">+ @{{f5.misc.title_damage_immunities}}</span>
                             <span>@{{damageImmunitiesText}}</span>
-                            <multiselect class="edit-field edit-field--flex"
+                            <Multiselect class="edit-field edit-field--flex"
                                 v-model="value.damageImmunities" 
                                 :placeholder="f5.misc.choose_a.replace(':choice', 'damage type')"
                                 :options="eligableDamageTypes" 
@@ -304,14 +304,14 @@
                                     <template v-slot:option="{ option }">
                                         @{{ option.label }}
                                     </template>
-                            </multiselect>
+                            </Multiselect>
                         </div>
 
                         <div class="stat-block__attribute focus-edit" v-bind:class="{'edit-show': !damageVulnerabilitiesText}">
                             <span v-if="damageVulnerabilitiesText" class="title">@{{f5.misc.title_damage_vulnerabilities}}:</span>
                             <span v-else class="title">+ @{{f5.misc.title_damage_vulnerabilities}}</span>
                             <span>@{{damageVulnerabilitiesText}}</span>
-                            <multiselect class="edit-field edit-field--flex"
+                            <Multiselect class="edit-field edit-field--flex"
                                 v-model="value.damageVulnerabilites" 
                                 :placeholder="f5.misc.choose_a.replace(':choice', 'damage type')"
                                 :options="eligableDamageTypes" 
@@ -332,14 +332,14 @@
                                     <template v-slot:option="{ option }">
                                         @{{ option.label }}
                                     </template>
-                            </multiselect>
+                            </Multiselect>
                         </div>
 
                         <div class="stat-block__attribute focus-edit" v-bind:class="{'edit-show': !conditionImmunitiesText}">
                             <span v-if="conditionImmunitiesText" class="title">@{{f5.misc.title_condition_immunities}}:</span>
                             <span v-else class="title">+ @{{f5.misc.title_condition_immunities}}</span>
                             <span>@{{conditionImmunitiesText}}</span>
-                            <multiselect class="edit-field edit-field--flex"
+                            <Multiselect class="edit-field edit-field--flex"
                                 v-model="value.conditionImmunities" 
                                 :placeholder="f5.misc.choose_a.replace(':choice', 'condition')"
                                 :options="f5.conditions" 
@@ -360,7 +360,7 @@
                                     <template v-slot:option="{ option }">
                                         @{{ option.label.name }}
                                     </template>
-                            </multiselect>
+                            </Multiselect>
                         </div>
 
                         <div class="stat-block__attribute focus-edit" v-bind:class="{'edit-show': !sensesText}">
@@ -384,7 +384,7 @@
                         <div class="stat-block__attribute focus-edit">
                             <span class="title">@{{f5.misc.title_languages}}:</span>
                             <span>@{{languageText}}</span>
-                            <multiselect class="edit-field edit-field--flex"
+                            <Multiselect class="edit-field edit-field--flex"
                                 v-model="value.languages.spokenWritten" 
                                 :options="f5.languages" 
                                 mode="tags"
@@ -404,7 +404,7 @@
                                     <template v-slot:option="{ option }">
                                         @{{ option.label.name }}
                                     </template>
-                            </multiselect>
+                            </Multiselect>
                             
                             <span for="languages__telepathy" class="edit-field edit-field--inlineBlock">@{{f5.misc.telepathy}}</span>
                             <select name="languages__telepathy" v-model="value.languages.telepathy" class="edit-field">
@@ -433,7 +433,7 @@
                     <div class="stat-block__add-feature-button" @click="createFeature('passive')">
                         @{{f5.misc.title_add_passive}}
                     </div>
-                    <statblock-feature 
+                    <StatblockFeature 
                         v-for="passive in value.features.passive"
                         v-bind:value="passive"
                         v-bind:combat-rounds="combatRounds"
@@ -442,14 +442,14 @@
                         ref="features"
                         @hook:mounted="featureIsMounted"
                         @remove-feature="removeFeature"
-                    ></statblock-feature>
+                    ></StatblockFeature>
                 </div>
 
                 <div class="stat-block__spellcasting">
                     <div v-if="!value.features.spellcasting.length" class="stat-block__add-feature-button" @click="createFeature('spellcasting')">
                         @{{f5.misc.title_add_spellcasting}}
                     </div>
-                    <statblock-feature 
+                    <StatblockFeature 
                         v-for="spellcasting in value.features.spellcasting"
                         v-bind:value="spellcasting"
                         v-bind:combat-rounds="combatRounds"
@@ -458,7 +458,7 @@
                         ref="features"
                         @hook:mounted="featureIsMounted"
                         @remove-feature="removeFeature"
-                    ></statblock-feature>
+                    ></StatblockFeature>
                 </div>
 
                 <div class="stat-block__multiattack">
@@ -468,7 +468,7 @@
                     <div v-if="!value.features.multiattack.length" class="stat-block__add-feature-button" @click="createFeature('multiattack')">
                         @{{f5.misc.title_add_multiattack}}
                     </div>
-                    <statblock-feature 
+                    <StatblockFeature 
                         v-for="multiattack in value.features.multiattack"
                         v-bind:value="multiattack"
                         v-bind:combat-rounds="combatRounds"
@@ -478,14 +478,14 @@
                         @hook:mounted="featureIsMounted"
                         @remove-feature="removeFeature"
                         ref="multiattack_features"
-                    ></statblock-feature>
+                    ></StatblockFeature>
                 </div>
 
                 <div class="stat-block__section stat-block__actions">
                     <div class="stat-block__add-feature-button" @click="createFeature('action')">
                         @{{f5.misc.title_add_action}}
                     </div>
-                    <statblock-feature 
+                    <StatblockFeature 
                         v-for="action in value.features.action"
                         v-bind:value="action"
                         v-bind:combat-rounds="combatRounds"
@@ -494,7 +494,7 @@
                         ref="features"
                         @hook:mounted="featureIsMounted"
                         @remove-feature="removeFeature"
-                    ></statblock-feature>
+                    ></StatblockFeature>
                 </div>
 
                 <div class="stat-block__section stat-block__bonus-actions">
@@ -504,7 +504,7 @@
                     <div class="stat-block__add-feature-button" @click="createFeature('bonus_action')">
                         @{{f5.misc.title_add_bonus_action}}
                     </div>
-                    <statblock-feature 
+                    <StatblockFeature 
                         v-for="bonusAction in value.features.bonus_action"
                         v-bind:value="bonusAction"
                         v-bind:combat-rounds="combatRounds"
@@ -513,7 +513,7 @@
                         ref="features"
                         @hook:mounted="featureIsMounted"
                         @remove-feature="removeFeature"
-                    ></statblock-feature>
+                    ></StatblockFeature>
                 </div>
 
                 <div class="stat-block__section stat-block__reactions">
@@ -523,7 +523,7 @@
                     <div class="stat-block__add-feature-button" @click="createFeature('reaction')">
                         @{{f5.misc.title_add_reaction}}
                     </div>
-                    <statblock-feature 
+                    <StatblockFeature 
                         v-for="reaction in value.features.reaction"
                         v-bind:value="reaction"
                         v-bind:combat-rounds="combatRounds"
@@ -532,7 +532,7 @@
                         ref="features"
                         @hook:mounted="featureIsMounted"
                         @remove-feature="removeFeature"
-                    ></statblock-feature>
+                    ></StatblockFeature>
                 </div>
 
                 <div class="stat-block__section stat-block__legendary-actions">
@@ -546,7 +546,7 @@
                     <div class="stat-block__add-feature-button" @click="createFeature('legendary_action')">
                         @{{f5.misc.title_add_legendary_action}}
                     </div>
-                    <statblock-feature 
+                    <StatblockFeature 
                         v-for="legendaryAction in value.features.legendary_action"
                         v-bind:value="legendaryAction"
                         v-bind:combat-rounds="combatRounds"
@@ -555,7 +555,7 @@
                         ref="features"
                         @hook:mounted="featureIsMounted"
                         @remove-feature="removeFeature"
-                    ></statblock-feature>
+                    ></StatblockFeature>
                 </div>
 
                 <div class="stat-block__section stat-block__mythic-actions">
@@ -566,7 +566,7 @@
                     <div class="stat-block__add-feature-button" @click="createFeature('mythic_action')">
                         @{{f5.misc.title_add_mythic_action}}
                     </div>
-                    <statblock-feature 
+                    <StatblockFeature 
                         v-for="mythicAction in value.features.mythic_action"
                         v-bind:value="mythicAction"
                         v-bind:combat-rounds="combatRounds"
@@ -575,7 +575,7 @@
                         ref="features"
                         @hook:mounted="featureIsMounted"
                         @remove-feature="removeFeature"
-                    ></statblock-feature>
+                    ></StatblockFeature>
                 </div>
                 
                 <div class="stat-block__section stat-block__lair-actions">
@@ -586,7 +586,7 @@
                     <div class="stat-block__add-feature-button" @click="createFeature('lair_action')">
                         @{{f5.misc.title_add_lair_action}}
                     </div>
-                    <statblock-feature 
+                    <StatblockFeature 
                         v-for="lairAction in value.features.lair_action"
                         v-bind:value="lairAction"
                         v-bind:combat-rounds="combatRounds"
@@ -595,7 +595,7 @@
                         ref="features"
                         @hook:mounted="featureIsMounted"
                         @remove-feature="removeFeature"
-                    ></statblock-feature>
+                    ></StatblockFeature>
                 </div>
             </div>
             

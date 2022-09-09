@@ -9,7 +9,7 @@ export default {
     ],
     template: '#template-statblockfeature',  
     components: {
-        'multiselect': Multiselect,
+        'Multiselect': Multiselect,
     },
 
     data: function() {
