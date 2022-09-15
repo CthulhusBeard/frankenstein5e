@@ -2,7 +2,7 @@ import Multiselect from '@vueform/multiselect/dist/multiselect.vue2.js';
 
 export default {
     props: [
-        'value',
+        'initialType',
         'playerData',
         'combatRounds',
         'f5',
@@ -14,7 +14,58 @@ export default {
 
     data: function() {
         return {
-            damageUpdateIncrementer: 0
+            damageUpdateIncrementer: 0,
+
+            value: {
+                id: this.$parent.randChars(15),
+                actionType: this.initialType,
+                name:  (this.initialType == 'spellcasting' || this.initialType == 'multiattack' ) ? this.f5.misc['title_'+this.initialType] : this.f5.misc.title_new_feature,
+                template: (this.initialType == 'spellcasting' || this.initialType == 'multiattack' ) ? this.initialType : 'custom', 
+                attackAbility: 'str',
+                targetType: 'melee',
+                attackType: 'weapon',
+                attackRange: {'low': 20, 'high': 60},
+                attackReach: 5,
+                attackDamage: [this.createDamageDie(true)],
+                attackSavingThrow: false,
+                attackTargets: 1,
+                aoeRange: 30,
+                savingThrowMonsterAbility: 'str',
+                savingThrowSaveAbilities: ['str'],
+                savingThrowDamage: [this.createDamageDie()],
+                savingThrowHalfOnSuccess: true,
+                savingThrowConditions: [],
+                hasOngoingDamage: false,
+                ongoingDamage: [this.createDamageDie()],
+                ongoingDamageOccurs: 'start_of_turn',
+                ongoingDamageOnFailedSave: true,
+                ongoingDamageRepeatSave: false,
+                ongoingDamageDuration: 'ongoing',
+                recharge: {
+                    type: 'none',
+                    diceType: 6,
+                    minRoll: 5,
+                    uses: 1,
+                },
+                spellcastingAbility: 'int',
+                innateSpellcasting: false,
+                spellcastingClass: '',
+                spellList: [],
+                spellSlots: this.createDefaultSpellSlots(),
+                customDamage: [],
+                customDescription: '',
+                additionalDescription: '',
+                multiattackReferences: [
+                    [],
+                    []
+                ],
+                legendaryActionCost: 1,
+                manualDPR: -1,
+                averageDPR: -1,
+                manualMaxDPR: -1,
+                maxDPR: -1,
+                damageProjection: [],
+            }
         }
     },
 
@@ -23,7 +74,6 @@ export default {
     },
 
     mounted() {
-        console.log('--Mount Feature: '+this.value.name+' --');
         if(this.value.actionType === 'multiattack') {
             this.forceProjectionUpdate();
             //this.$parent.$on('feature-projection-change', this.compareIdToMultiattackFeatures);
@@ -537,7 +587,6 @@ export default {
         },
 
         damageProjection: function() {
-            console.log('=== Feature: Generate Damage Projection ('+this.value.name+'/'+this.damageUpdateIncrementer+') ===');
             let updateIncrementer = this.damageUpdateIncrementer;
             let turnDamage;
 
@@ -570,6 +619,23 @@ export default {
 
     methods: {
 
+        createDefaultSpellSlots: function() {
+            let spellSlots = {};
+            for(let i = 0; i < 10; i++) {
+                spellSlots[i] = 0;
+            } 
+            return spellSlots;
+        },
+
+        createDamageDie: function(setAbilityBonus = false) {
+            return {
+                diceType: 4,
+                diceAmount: 1,
+                additional: 0,
+                abilityBonus: setAbilityBonus,
+                type: 'slashing',
+            }
+        },
 
         multiattackProjection: function() {
             //Multiattack Projections
@@ -700,7 +766,7 @@ export default {
         },
 
         addDamageDie: function(type) {
-            let damageDie = this.$parent.createDamageDie(this.value[type].length > 0 ? false : true); //false for each damage set after the first
+            let damageDie = this.createDamageDie(this.value[type].length > 0 ? false : true); //false for each damage set after the first
             this.value[type].push(damageDie);
         },
 
@@ -786,9 +852,6 @@ export default {
         },
 
         compareIdToMultiattackFeatures: function(obj) {
-            //TODO: Remove this?
-            console.group('Feature compareIdToMultiattackFeatures: ');
-            console.log(obj);
             if(!(obj.actionType === 'spellcasting' || obj.actionType === 'action')) {
                 return;
             }
@@ -800,38 +863,29 @@ export default {
                             featureRef.index === 'spellcasting' && 
                             this.$parent.value.features['spellcasting'][0].id === obj.id
                         ) {
-                            console.log('Multiattack: DPR Changed of child: '+obj.id);
                             this.forceProjectionUpdate(); //Forces a projection update 
                             return;
                         } else if(this.$parent.value.features['action'][featureRef.index].id === obj.id) {
-                            console.log('Multiattack: DPR Changed of child: '+obj.id);
                             this.forceProjectionUpdate(); //Forces a projection update 
                             return;
                         }
                     }
                 }
             }
-            console.groupEnd();
         },
 
         updateDamageProperties: function() {
-            console.group('==updateDamageProperties:'+this.value.name+'==');
             //Set DPR value so it's accessible from outside
             if(this.value.averageDPR != this.averageDPR) {
                 this.value.averageDPR = this.averageDPR;
-                console.log('Set AvgDPR: '+this.value.averageDPR);
             }
             if(this.value.damageProjection != this.damageProjection) {
                 this.value.damageProjection = this.damageProjection;
-                console.log('Set Feature Projection: ');
-                console.log(this.value.damageProjection);
                 //this.$parent.$emit('feature-projection-change', {id: this.value.id, actionType: this.value.actionType, projection: this.value.damageProjection});
             }
-            console.groupEnd();
         },
 
         dprCalculator: function(useMax = false) {
-            console.log("-> dprCalculator: "+useMax);
             let avgDPR = 0;
             let avgTargets = 1;
             if(this.value.manualDPR >= 0) {
@@ -909,7 +963,6 @@ export default {
                     }
                 }
                 avgDPR = multiDPR;
-                //console.log('averageDPR MA DPR: '+avgDPR);
             } else if(this.value.template === 'custom') { 
                 // Custom Ability Average DPR
                 for(let i in this.value.customDamage) {
@@ -939,7 +992,6 @@ export default {
                 return maProj;
             }
 
-            console.log('mergeMultiattackProjections');
             for(var i = 0; i < this.combatRounds; i++) {
                 if(!newProj[i]) {
                     continue;
@@ -953,16 +1005,12 @@ export default {
                 }
                 maProj[i].damage += newProj[i].damage * uses;
                 maProj[i].maxDamage += newProj[i].maxDamage * uses;
-                console.log(newProj[i]);
             }
-            console.log('maProj');
-            console.log(maProj);
 
             return maProj;
         },
 
         forceProjectionUpdate: function() {
-            console.log('->forceProjectionUpdate');
             this.damageUpdateIncrementer++;
             if(this.damageUpdateIncrementer > 50) {
                 this.damageUpdateIncrementer = 0;

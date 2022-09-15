@@ -94,9 +94,6 @@ export default {
     },
 
     created() {
-        console.log('--------on create-------------');
-        console.log(this.playerData);
-        console.log(this.initialStatblock);
         for(let prop in this.initialStatblock) {
             if(prop === 'id') continue;
             this.value[prop] = this.initialStatblock[prop]; 
@@ -104,9 +101,6 @@ export default {
     },
 
     mounted() {
-        console.log('-------------Statblock Mounted------------');
-        console.log(this.playerData);
-        console.log(this.value);
     },
 
     computed: {
@@ -115,7 +109,6 @@ export default {
         },
 
         averageDPR: function() {
-            console.group('Statblock '+this.value.name+' -> averageDPR');
             let updater = this.damageUpdateIncrementer;
             let dprGroups = {
                 passive: 0,
@@ -127,7 +120,6 @@ export default {
             };
             
             for(const featureType in this.value.features) {
-                console.log('statblock averageDPR: '+featureType);
                 for(const feature of this.value.features[featureType]) {
                     let dprType = featureType;
                     if(dprType === 'mythic_action') {
@@ -137,18 +129,12 @@ export default {
                     }
 
                     if(feature.averageDPR > dprGroups[dprType]) {
-                        console.log('statblock averageDPR: '+featureType);
                         dprGroups[dprType] = feature.averageDPR;
                     }
                 }
             }
 
             let dpr = Object.values(dprGroups).reduce((a, b) => a + b);
-            
-            console.log(this.value.name + ' averageDPR -> '+dpr);
-            console.log(dprGroups);
-            console.groupEnd();
-            
             return dpr;
         },
 
@@ -247,8 +233,6 @@ export default {
                     }
                 }
             }
-            console.log('Damage Projections:');
-            console.log(projections);
 
             //Create turn totals and action list
             let totals = [];
@@ -285,10 +269,6 @@ export default {
                     }
                 }
             }
-
-            console.log('Final Projections:');
-            console.log(totals);
-
             return totals;
         },
 
@@ -1127,70 +1107,7 @@ export default {
         },
 
         createFeature: function(type) {
-            let newFeature = {
-                id: this.$parent.randChars(15),
-                actionType: type,
-                name: this.f5.misc.title_new_feature,
-                template: 'custom', 
-                attackAbility: 'str',
-                targetType: 'melee',
-                attackType: 'weapon',
-                attackRange: {'low': 20, 'high': 60},
-                attackReach: 5,
-                attackDamage: [this.createDamageDie(true)],
-                attackSavingThrow: false,
-                attackTargets: 1,
-                aoeRange: 30,
-                savingThrowMonsterAbility: 'str',
-                savingThrowSaveAbilities: ['str'],
-                savingThrowDamage: [this.createDamageDie()],
-                savingThrowHalfOnSuccess: true,
-                savingThrowConditions: [],
-                hasOngoingDamage: false,
-                ongoingDamage: [this.createDamageDie()],
-                ongoingDamageOccurs: 'start_of_turn',
-                ongoingDamageOnFailedSave: true,
-                ongoingDamageRepeatSave: false,
-                ongoingDamageDuration: 'ongoing',
-                recharge: {
-                    type: 'none',
-                    diceType: 6,
-                    minRoll: 5,
-                    uses: 1,
-                },
-                spellcastingAbility: 'int',
-                innateSpellcasting: false,
-                spellcastingClass: '',
-                spellList: [],
-                spellSlots: {},
-                customDamage: [],
-                customDescription: '',
-                additionalDescription: '',
-                multiattackReferences: [
-                    [],
-                    []
-                ],
-                legendaryActionCost: 1,
-                manualDPR: -1,
-                averageDPR: -1,
-                manualMaxDPR: -1,
-                maxDPR: -1,
-                damageProjection: [],
-            };
-
-            for(let i = 0; i < 10; i++) {
-                newFeature.spellSlots[i] = 0;
-            }        
-
-            if(type === 'spellcasting') {
-                newFeature.template = 'spellcasting';
-                newFeature.name = this.f5.misc.title_spellcasting;
-            }else if(type === 'multiattack') {
-                newFeature.template = 'multiattack';
-                newFeature.name = this.f5.misc.title_multiattack;
-            }
-
-            this.value.features[type].push(newFeature);
+            this.value.features[type].push({});
         },
 
         removeFeature: function(type, id) {
@@ -1199,16 +1116,6 @@ export default {
                     this.value.features[type].splice(i, 1);
                     return;
                 }
-            }
-        },
-
-        createDamageDie: function(setAbilityBonus = false) {
-            return {
-                diceType: 4,
-                diceAmount: 1,
-                additional: 0,
-                abilityBonus: setAbilityBonus,
-                type: 'slashing',
             }
         },
 
@@ -1462,8 +1369,6 @@ export default {
                     delete feature.damageProjection;
                 }
             }
-            console.log('exportMonster');
-            console.log(cloneOptions);
         },
 
         getFeatureById: function(id, types = null) {
@@ -1479,19 +1384,6 @@ export default {
                         }
                     }
                 }
-            }
-        },
-
-        getChildClass:function(e, childClass) {
-            return e.currentTarget.querySelector('.'+childClass);
-        },
-
-        setFocusOnChild: function(e, childClass) {
-            //TODO: Focus ability score dropdown when you click to edit ability scores
-            let child = this.getChildClass(e, childClass);
-            if(child) {
-                console.log('setFocusOnChild: '+e.currentTarget);
-                child.focus();
             }
         },
 

@@ -198,7 +198,7 @@
 
                     <div class="stat-block__ability-scores">
                         <div class="stat-block__ability-scores__holder">
-                            <div class="stat-block__ability focus-edit" v-for="(item, index) in f5.abilities" @click="setFocusOnChild($event, 'stat-block__ability-score-'+index.toLowerCase())" >
+                            <div class="stat-block__ability focus-edit" v-for="(item, index) in f5.abilities">
                                 <div class="stat-block__ability-name">
                                     @{{index.toUpperCase()}}
                                 </div>
@@ -435,7 +435,7 @@
                     </div>
                     <StatblockFeature 
                         v-for="passive in value.features.passive"
-                        v-bind:value="passive"
+                        v-bind:initial-type="'passive'"
                         v-bind:combat-rounds="combatRounds"
                         v-bind:player-data="playerData"
                         v-bind:f5="f5"
@@ -451,7 +451,7 @@
                     </div>
                     <StatblockFeature 
                         v-for="spellcasting in value.features.spellcasting"
-                        v-bind:value="spellcasting"
+                        v-bind:initial-type="'spellcasting'"
                         v-bind:combat-rounds="combatRounds"
                         v-bind:player-data="playerData"
                         v-bind:f5="f5"
@@ -470,7 +470,7 @@
                     </div>
                     <StatblockFeature 
                         v-for="multiattack in value.features.multiattack"
-                        v-bind:value="multiattack"
+                        v-bind:initial-type="'multiattack'"
                         v-bind:combat-rounds="combatRounds"
                         v-bind:player-data="playerData"
                         v-bind:f5="f5"
@@ -487,7 +487,7 @@
                     </div>
                     <StatblockFeature 
                         v-for="action in value.features.action"
-                        v-bind:value="action"
+                        v-bind:initial-type="'action'"
                         v-bind:combat-rounds="combatRounds"
                         v-bind:player-data="playerData"
                         v-bind:f5="f5"
@@ -506,7 +506,7 @@
                     </div>
                     <StatblockFeature 
                         v-for="bonusAction in value.features.bonus_action"
-                        v-bind:value="bonusAction"
+                        v-bind:initial-type="'bonus_action'"
                         v-bind:combat-rounds="combatRounds"
                         v-bind:player-data="playerData"
                         v-bind:f5="f5"
@@ -525,7 +525,7 @@
                     </div>
                     <StatblockFeature 
                         v-for="reaction in value.features.reaction"
-                        v-bind:value="reaction"
+                        v-bind:initial-type="'reaction'"
                         v-bind:combat-rounds="combatRounds"
                         v-bind:player-data="playerData"
                         v-bind:f5="f5"
@@ -548,7 +548,7 @@
                     </div>
                     <StatblockFeature 
                         v-for="legendaryAction in value.features.legendary_action"
-                        v-bind:value="legendaryAction"
+                        v-bind:initial-type="'legendary_action'"
                         v-bind:combat-rounds="combatRounds"
                         v-bind:player-data="playerData"
                         v-bind:f5="f5"
@@ -568,7 +568,7 @@
                     </div>
                     <StatblockFeature 
                         v-for="mythicAction in value.features.mythic_action"
-                        v-bind:value="mythicAction"
+                        v-bind:initial-type="'mythic_action'"
                         v-bind:combat-rounds="combatRounds"
                         v-bind:player-data="playerData"
                         v-bind:f5="f5"
@@ -588,7 +588,7 @@
                     </div>
                     <StatblockFeature 
                         v-for="lairAction in value.features.lair_action"
-                        v-bind:value="lairAction"
+                        v-bind:initial-type="'lair_action'"
                         v-bind:combat-rounds="combatRounds"
                         v-bind:player-data="playerData"
                         v-bind:f5="f5"

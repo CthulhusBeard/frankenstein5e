@@ -148,7 +148,7 @@
         </script>
 
         @include('partials.statblock')
-        @include('partials.feature')
+        @include('partials.statblock-feature')
         @include('partials.projection-graph')
 
     </body>
