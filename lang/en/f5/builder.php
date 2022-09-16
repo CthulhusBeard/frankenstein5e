@@ -40,4 +40,7 @@ return [
     'title_max_damage' => 'Damage Potential',
     'expected_player_death' => 'Expect a PC to drop to 0 HP around this turn.',
     'expected_monster_death' => 'Expect :creature_name to drop to 0 HP around this turn.',
+    
+    'warning_fatal_attack' => 'Warning: :creature_name can kill some PCs in one hit.',
+    'warning_fatal_crit' => 'Warning: :creature_name can kill some PCs with one critical hit.',
 ];

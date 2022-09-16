@@ -10,14 +10,17 @@ class FrankensteinController extends Controller
 {
     
     public function builder (Request $request) {
+        $cacheKey = 'f5';
+        $cacheExpiryKey = 'f5-expiry';
+
         if (App::environment('local')) {
             $cacheSeconds = 2;
         } else {
             $cacheSeconds = 60 * 60;
         }
 
-        if(Cache::has('f5')) {
-            $translatedData = Cache::get('f5');
+        if(Cache::has($cacheKey) && Cache::has($cacheExpiryKey)) {
+            $translatedData = Cache::get($cacheKey);
 
         } else {
 
@@ -64,7 +67,15 @@ class FrankensteinController extends Controller
 
             $translatedData = $this->translateJSON(json_encode($rawData));
 
-            Cache::put('f5', $translatedData, $cacheSeconds);
+            //Replace cache
+            $prevCache = Cache::get($cacheKey, []);
+            if(md5(json_encode($prevCache)) != md5(json_encode($translatedData))) {
+                $dataFile = '../public/data/frankenstein5.json';
+                file_put_contents($dataFile, json_encode($translatedData));
+                Cache::forever($cacheKey, $translatedData);
+            }
+
+            Cache::put($cacheExpiryKey, true, $cacheSeconds);
             
         }
 

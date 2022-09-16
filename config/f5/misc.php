@@ -294,4 +294,7 @@ return [
     'title_max_damage' => 'f5/builder.title_max_damage',
     'expected_player_death' => 'f5/builder.expected_player_death',
     'expected_monster_death' => 'f5/builder.expected_monster_death',
+
+    'warning_fatal_attack' => 'f5/builder.warning_fatal_attack',
+    'warning_fatal_crit' => 'f5/builder.warning_fatal_crit',
 ];
