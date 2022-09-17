@@ -122,13 +122,7 @@
                 fetch('data/frankenstein5.json')
                     .then((response) => response.json())
                     .then((f5data) => init(f5data));
-
-            };
-
-            function init(f5data) {
-                f5data = JSON.parse(f5data) ;
-                console.log(f5data);
-                let app = EncounterBuilder.initVue(f5data);
+                    
             
                 //Edit Fields. Allow focused objects to be editted while making others uneditable
                 document.addEventListener('click', function(e) {
@@ -150,6 +144,13 @@
                         element.closest(".focus-edit").classList.add('focused');
                     }
                 }
+
+            };
+
+            function init(f5data) {
+                f5data = JSON.parse(f5data) ;
+                console.log(f5data);
+                let app = EncounterBuilder.initVue(f5data);
             }
         </script>
 
