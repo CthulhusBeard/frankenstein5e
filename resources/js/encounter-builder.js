@@ -73,19 +73,10 @@ export function initVue(f5data) {
                 let importedStatBlock = JSON.parse(JSON.stringify(monster));
                 console.log(importedStatBlock);
                 this.statblocks.push(importedStatBlock);
-
-                
-                console.log('List all statblocks');
-                console.log(this.statblocks);
-                console.log(this.$refs.statblocks);
             },
 
             createStatBlock: function() {            
                 let i = this.statblocks.push({});
-                console.log('List all statblocks');
-                console.log(this.statblocks);
-                console.log(this.$refs.statblocks);
-
                 return i-1;
             },
 

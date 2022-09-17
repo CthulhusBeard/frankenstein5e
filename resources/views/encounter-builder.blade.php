@@ -119,7 +119,14 @@
         
         <script>
             window.onload = function() {
-                let f5data = JSON.parse({!! json_encode($translatedData) !!}) ;
+                fetch('data/frankenstein5.json')
+                    .then((response) => response.json())
+                    .then((f5data) => init(f5data));
+
+            };
+
+            function init(f5data) {
+                f5data = JSON.parse(f5data) ;
                 console.log(f5data);
                 let app = EncounterBuilder.initVue(f5data);
             
@@ -143,8 +150,7 @@
                         element.closest(".focus-edit").classList.add('focused');
                     }
                 }
-
-            };
+            }
         </script>
 
         @include('partials.statblock')
