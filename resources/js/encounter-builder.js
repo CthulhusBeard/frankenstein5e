@@ -100,8 +100,11 @@ export function initVue(f5data) {
             },
 
             updateMonsterName: function(id, name) {
-                console.log(id+' name changed: '+name);
-                console.log(this.statblocks);
+                for(let statblock of this.statblocks) {
+                    if(statblock.trackingId == id) {
+                        statblock.name = name;
+                    }
+                }
             }
         },
     });

@@ -442,6 +442,7 @@
                         :f5="f5"
                         ref="features"
                         @hook:mounted="featureIsMounted"
+                        @update-name="updateFeatureName"
                         @remove-feature="removeFeature"
                     ></StatblockFeature>
                 </div>
@@ -459,6 +460,7 @@
                         :f5="f5"
                         ref="features"
                         @hook:mounted="featureIsMounted"
+                        @update-name="updateFeatureName"
                         @remove-feature="removeFeature"
                     ></StatblockFeature>
                 </div>
@@ -480,6 +482,7 @@
                         ref="features"
                         @hook:mounted="featureIsMounted"
                         @remove-feature="removeFeature"
+                        @update-name="updateFeatureName"
                         ref="multiattack_features"
                     ></StatblockFeature>
                 </div>
@@ -497,6 +500,7 @@
                         :f5="f5"
                         ref="features"
                         @hook:mounted="featureIsMounted"
+                        @update-name="updateFeatureName"
                         @remove-feature="removeFeature"
                     ></StatblockFeature>
                 </div>
@@ -517,6 +521,7 @@
                         :f5="f5"
                         ref="features"
                         @hook:mounted="featureIsMounted"
+                        @update-name="updateFeatureName"
                         @remove-feature="removeFeature"
                     ></StatblockFeature>
                 </div>
@@ -537,6 +542,7 @@
                         :f5="f5"
                         ref="features"
                         @hook:mounted="featureIsMounted"
+                        @update-name="updateFeatureName"
                         @remove-feature="removeFeature"
                     ></StatblockFeature>
                 </div>
@@ -561,6 +567,7 @@
                         :f5="f5"
                         ref="features"
                         @hook:mounted="featureIsMounted"
+                        @update-name="updateFeatureName"
                         @remove-feature="removeFeature"
                     ></StatblockFeature>
                 </div>
@@ -582,6 +589,7 @@
                         :f5="f5"
                         ref="features"
                         @hook:mounted="featureIsMounted"
+                        @update-name="updateFeatureName"
                         @remove-feature="removeFeature"
                     ></StatblockFeature>
                 </div>
@@ -603,6 +611,7 @@
                         :f5="f5"
                         ref="features"
                         @hook:mounted="featureIsMounted"
+                        @update-name="updateFeatureName"
                         @remove-feature="removeFeature"
                     ></StatblockFeature>
                 </div>

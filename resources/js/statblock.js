@@ -1412,5 +1412,13 @@ export default {
             }
             return Number(input);
         },
+
+        updateFeatureName: function(type, id, name) {
+            for(let feature of this.value.features[type]) {
+                if(feature.trackingId == id) {
+                    feature.name = name;
+                }
+            }
+        }
     }
 }

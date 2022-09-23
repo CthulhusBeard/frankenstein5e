@@ -154,6 +154,7 @@ export default {
             }
 
             let finalName = (nameText + this.f5.misc.sentence_end).trim();
+            this.$emit('update-name', this.value.actionType, this.trackingId, this.value.name);
             return finalName;
         },
 
