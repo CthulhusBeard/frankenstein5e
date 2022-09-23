@@ -95,7 +95,7 @@ export default {
 
     created() {
         for(let prop in this.initialStatblock) {
-            if(prop === 'id') continue;
+            if(prop === 'id' || prop === 'trackingId') continue;
             this.value[prop] = this.initialStatblock[prop]; 
         }
     },

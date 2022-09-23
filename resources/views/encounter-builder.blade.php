@@ -94,7 +94,7 @@
                 <div class="statblock-group">
                     <Statblock 
                         v-for="statblock in statblocks"
-                        :initial-statblock.sync="statblock"
+                        :initial-statblock="statblock"
                         :f5="f5"
                         :player-data="editor.playerData"
                         :combat-rounds="editor.roundTracker"

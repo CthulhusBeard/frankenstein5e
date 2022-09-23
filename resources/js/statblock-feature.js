@@ -70,6 +70,10 @@ export default {
     },
 
     created() {
+        for(let prop in this.initialData) {
+            if(prop === 'id' || prop === 'trackingId') continue;
+            this.value[prop] = this.initialData[prop]; 
+        }
         this.updateDamageProperties();
     },
 
