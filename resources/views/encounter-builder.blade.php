@@ -46,7 +46,7 @@
 
                     <!-- <div class="builder-controls popup-overlay">
                         <div class="control-title">Stat Block</div>
-                        <div class="slide-button" v-bind:class="{ selected : editor.editMode }" @click="editor.editMode = !editor.editMode">
+                        <div class="slide-button" :class="{ selected : editor.editMode }" @click="editor.editMode = !editor.editMode">
                             <label>@{{f5.misc.title_edit_mode}}</label>
                         </div>
                     </div> -->
@@ -94,22 +94,23 @@
                 <div class="statblock-group">
                     <Statblock 
                         v-for="statblock in statblocks"
-                        v-bind:initial-statblock="statblock"
-                        v-bind:f5="f5"
-                        v-bind:player-data="editor.playerData"
-                        v-bind:combat-rounds="editor.roundTracker"
-                        v-bind:measure="editor.measure"
-                        v-on:remove-statblock="removeStatBlock"
+                        :initial-statblock.sync="statblock"
+                        :f5="f5"
+                        :player-data="editor.playerData"
+                        :combat-rounds="editor.roundTracker"
+                        :measure="editor.measure"
+                        @remove-statblock="removeStatBlock"
+                        @update-name="updateMonsterName"
                         ref="statblocks"
                     >
                     </Statblock>
                 </div>
 <!-- 
                 <EncounterGraph 
-                    v-bind:encounter-data="encounterData"
-                    v-bind:player-data="editor.playerData"
-                    v-bind:combat-rounds="editor.roundTracker"
-                    v-bind:f5="f5"
+                    :encounter-data="encounterData"
+                    :player-data="editor.playerData"
+                    :combat-rounds="editor.roundTracker"
+                    :f5="f5"
                     ref="graph"
                 >
                 </EncounterGraph> -->

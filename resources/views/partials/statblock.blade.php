@@ -46,7 +46,7 @@
 
             <div class="builder-controls popup-overlay">
                 <strong>@{{f5.misc.title_controls}}</strong>
-                <div class="slide-button" v-bind:class="{ selected : editMode }" @click="editMode = !editMode">
+                <div class="slide-button" :class="{ selected : editMode }" @click="editMode = !editMode">
                     <label>@{{f5.misc.title_edit_mode}}</label>
                 </div>
                 <div>
@@ -63,13 +63,13 @@
             {{--
             <div class="dpr-controller popup-overlay">
                 <projection-graph
-                    v-bind:id="value.id"
-                    v-bind:name="value.name"
-                    v-bind:monster_hp="getHP"
-                    v-bind:monster_damage="damageProjection"
-                    v-bind:playerData="statblockPlayerData"
-                    v-bind:combatRounds="combatRounds"
-                    v-bind:f5="f5"
+                    :id="value.id"
+                    :name="value.name"
+                    :monster_hp="getHP"
+                    :monster_damage="damageProjection"
+                    :playerData="statblockPlayerData"
+                    :combatRounds="combatRounds"
+                    :f5="f5"
                     ref="graph"
                 ></projection-graph>
             </div>
@@ -78,10 +78,10 @@
         </div>
 
         <div class="stat-block-container">
-            <div class="stat-block" v-bind:class="[{'edit-mode': editMode}, statblockColumns]">
+            <div class="stat-block" :class="[{'edit-mode': editMode}, statblockColumns]">
                 <div class="stat-block__section">
                     <div class="stat-block__title focus-edit">
-                        <span class="display-field">@{{value.name}}</span>
+                        <span class="display-field">@{{displayName}}</span>
                         <input type="text" class="edit-field" v-model="value.name" />
                         <label for="is_proper_noun" class="edit-field edit-field--inlineBlock proper-noun">@{{ f5.misc.title_proper_noun }}</label>
                         <input id="is_proper_noun" type="checkbox" class="edit-field edit-field--inlineBlock" v-model="value.isNameProperNoun" />
@@ -223,7 +223,7 @@
                             <span class="title">@{{f5.misc.title_saving_throws}}:</span>
                             <span class="display-field">@{{savingThrowText}}</span>
                         </div>
-                        <div class="stat-block__attribute focus-edit" v-bind:class="{'edit-show': !skillText}">
+                        <div class="stat-block__attribute focus-edit" :class="{'edit-show': !skillText}">
                             <span v-if="skillText" class="title">@{{f5.misc.title_skills}}:</span>
                             <span v-else class="title">+ @{{f5.misc.title_skills}}</span>
                             <span>@{{skillText}}</span>
@@ -251,7 +251,7 @@
                             </Multiselect>
                         </div>
 
-                        <div class="stat-block__attribute focus-edit" v-bind:class="{'edit-show': !damageResistanceText}">
+                        <div class="stat-block__attribute focus-edit" :class="{'edit-show': !damageResistanceText}">
                             <span v-if="damageResistanceText" class="title">@{{f5.misc.title_damage_resistances}}:</span>
                             <span v-else class="title">+ @{{f5.misc.title_damage_resistances}}</span>
                             <span>@{{damageResistanceText}}</span>
@@ -279,7 +279,7 @@
                             </Multiselect>
                         </div>
 
-                        <div class="stat-block__attribute focus-edit" v-bind:class="{'edit-show': !damageImmunitiesText}">
+                        <div class="stat-block__attribute focus-edit" :class="{'edit-show': !damageImmunitiesText}">
                             <span v-if="damageImmunitiesText" class="title">@{{f5.misc.title_damage_immunities}}:</span>
                             <span v-else class="title">+ @{{f5.misc.title_damage_immunities}}</span>
                             <span>@{{damageImmunitiesText}}</span>
@@ -307,7 +307,7 @@
                             </Multiselect>
                         </div>
 
-                        <div class="stat-block__attribute focus-edit" v-bind:class="{'edit-show': !damageVulnerabilitiesText}">
+                        <div class="stat-block__attribute focus-edit" :class="{'edit-show': !damageVulnerabilitiesText}">
                             <span v-if="damageVulnerabilitiesText" class="title">@{{f5.misc.title_damage_vulnerabilities}}:</span>
                             <span v-else class="title">+ @{{f5.misc.title_damage_vulnerabilities}}</span>
                             <span>@{{damageVulnerabilitiesText}}</span>
@@ -335,7 +335,7 @@
                             </Multiselect>
                         </div>
 
-                        <div class="stat-block__attribute focus-edit" v-bind:class="{'edit-show': !conditionImmunitiesText}">
+                        <div class="stat-block__attribute focus-edit" :class="{'edit-show': !conditionImmunitiesText}">
                             <span v-if="conditionImmunitiesText" class="title">@{{f5.misc.title_condition_immunities}}:</span>
                             <span v-else class="title">+ @{{f5.misc.title_condition_immunities}}</span>
                             <span>@{{conditionImmunitiesText}}</span>
@@ -363,7 +363,7 @@
                             </Multiselect>
                         </div>
 
-                        <div class="stat-block__attribute focus-edit" v-bind:class="{'edit-show': !sensesText}">
+                        <div class="stat-block__attribute focus-edit" :class="{'edit-show': !sensesText}">
                             <span v-if="sensesText" class="title">@{{f5.misc.title_senses}}:</span>
                             <span v-else class="title">+ @{{f5.misc.title_senses}}</span>
                             <span>@{{sensesText}}</span>
@@ -435,10 +435,11 @@
                     </div>
                     <StatblockFeature 
                         v-for="passive in value.features.passive"
-                        v-bind:initial-type="'passive'"
-                        v-bind:combat-rounds="combatRounds"
-                        v-bind:player-data="playerData"
-                        v-bind:f5="f5"
+                        :initial-type="'passive'"
+                        :initial-data="passive"
+                        :combat-rounds="combatRounds"
+                        :player-data="playerData"
+                        :f5="f5"
                         ref="features"
                         @hook:mounted="featureIsMounted"
                         @remove-feature="removeFeature"
@@ -451,10 +452,11 @@
                     </div>
                     <StatblockFeature 
                         v-for="spellcasting in value.features.spellcasting"
-                        v-bind:initial-type="'spellcasting'"
-                        v-bind:combat-rounds="combatRounds"
-                        v-bind:player-data="playerData"
-                        v-bind:f5="f5"
+                        :initial-type="'spellcasting'"
+                        :initial-data="spellcasting"
+                        :combat-rounds="combatRounds"
+                        :player-data="playerData"
+                        :f5="f5"
                         ref="features"
                         @hook:mounted="featureIsMounted"
                         @remove-feature="removeFeature"
@@ -470,10 +472,11 @@
                     </div>
                     <StatblockFeature 
                         v-for="multiattack in value.features.multiattack"
-                        v-bind:initial-type="'multiattack'"
-                        v-bind:combat-rounds="combatRounds"
-                        v-bind:player-data="playerData"
-                        v-bind:f5="f5"
+                        :initial-type="'multiattack'"
+                        :initial-data="multiattack"
+                        :combat-rounds="combatRounds"
+                        :player-data="playerData"
+                        :f5="f5"
                         ref="features"
                         @hook:mounted="featureIsMounted"
                         @remove-feature="removeFeature"
@@ -487,10 +490,11 @@
                     </div>
                     <StatblockFeature 
                         v-for="action in value.features.action"
-                        v-bind:initial-type="'action'"
-                        v-bind:combat-rounds="combatRounds"
-                        v-bind:player-data="playerData"
-                        v-bind:f5="f5"
+                        :initial-type="'action'"
+                        :initial-data="action"
+                        :combat-rounds="combatRounds"
+                        :player-data="playerData"
+                        :f5="f5"
                         ref="features"
                         @hook:mounted="featureIsMounted"
                         @remove-feature="removeFeature"
@@ -506,10 +510,11 @@
                     </div>
                     <StatblockFeature 
                         v-for="bonusAction in value.features.bonus_action"
-                        v-bind:initial-type="'bonus_action'"
-                        v-bind:combat-rounds="combatRounds"
-                        v-bind:player-data="playerData"
-                        v-bind:f5="f5"
+                        :initial-type="'bonus_action'"
+                        :initial-data="bonusAction"
+                        :combat-rounds="combatRounds"
+                        :player-data="playerData"
+                        :f5="f5"
                         ref="features"
                         @hook:mounted="featureIsMounted"
                         @remove-feature="removeFeature"
@@ -525,10 +530,11 @@
                     </div>
                     <StatblockFeature 
                         v-for="reaction in value.features.reaction"
-                        v-bind:initial-type="'reaction'"
-                        v-bind:combat-rounds="combatRounds"
-                        v-bind:player-data="playerData"
-                        v-bind:f5="f5"
+                        :initial-type="'reaction'"
+                        :initial-data="reaction"
+                        :combat-rounds="combatRounds"
+                        :player-data="playerData"
+                        :f5="f5"
                         ref="features"
                         @hook:mounted="featureIsMounted"
                         @remove-feature="removeFeature"
@@ -548,10 +554,11 @@
                     </div>
                     <StatblockFeature 
                         v-for="legendaryAction in value.features.legendary_action"
-                        v-bind:initial-type="'legendary_action'"
-                        v-bind:combat-rounds="combatRounds"
-                        v-bind:player-data="playerData"
-                        v-bind:f5="f5"
+                        :initial-type="'legendary_action'"
+                        :initial-data="legendaryAction"
+                        :combat-rounds="combatRounds"
+                        :player-data="playerData"
+                        :f5="f5"
                         ref="features"
                         @hook:mounted="featureIsMounted"
                         @remove-feature="removeFeature"
@@ -568,10 +575,11 @@
                     </div>
                     <StatblockFeature 
                         v-for="mythicAction in value.features.mythic_action"
-                        v-bind:initial-type="'mythic_action'"
-                        v-bind:combat-rounds="combatRounds"
-                        v-bind:player-data="playerData"
-                        v-bind:f5="f5"
+                        :initial-type="'mythic_action'"
+                        :initial-data="mythicAction"
+                        :combat-rounds="combatRounds"
+                        :player-data="playerData"
+                        :f5="f5"
                         ref="features"
                         @hook:mounted="featureIsMounted"
                         @remove-feature="removeFeature"
@@ -588,10 +596,11 @@
                     </div>
                     <StatblockFeature 
                         v-for="lairAction in value.features.lair_action"
-                        v-bind:initial-type="'lair_action'"
-                        v-bind:combat-rounds="combatRounds"
-                        v-bind:player-data="playerData"
-                        v-bind:f5="f5"
+                        :initial-type="'lair_action'"
+                        :initial-data="lairAction"
+                        :combat-rounds="combatRounds"
+                        :player-data="playerData"
+                        :f5="f5"
                         ref="features"
                         @hook:mounted="featureIsMounted"
                         @remove-feature="removeFeature"
@@ -599,7 +608,7 @@
                 </div>
             </div>
             
-            <div class="statblock__remove" @click="$emit('remove-statblock', value.id)">x</div>
+            <div class="statblock__remove" @click="$emit('remove-statblock', trackingId)">x</div>
         </div>
 
     </div>

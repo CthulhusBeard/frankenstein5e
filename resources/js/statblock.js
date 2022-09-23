@@ -24,8 +24,8 @@ export default {
             mountedFeatures: 0,
             damageUpdateIncrementer: 0,
             editMode: true,
+            trackingId: this.initialStatblock.trackingId,
             value: {
-                id: this.randChars(15),
                 name: 'Monster',
                 shortName: '',
                 isNameProperNoun: false,
@@ -104,6 +104,12 @@ export default {
     },
 
     computed: {
+
+        displayName: function() {
+            this.$emit('update-name', this.trackingId, this.value.name);
+            return this.value.name;
+        },
+
         statblockColumns: function() {
             return 'column-'+this.value.display.columns;
         },
@@ -1107,7 +1113,7 @@ export default {
         },
 
         createFeature: function(type) {
-            this.value.features[type].push({});
+            this.value.features[type].push({trackingId: this.$parent.randChars(15)});
         },
 
         removeFeature: function(type, id) {
@@ -1405,16 +1411,6 @@ export default {
                 input = divideArray[0] / divideArray[1];
             }
             return Number(input);
-        },
-        
-        randChars: function(len) {
-            const base = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvyxyz0123456789"];
-            const generator = (base, len) => {
-                return [...Array(len)]
-                  .map(i => base[Math.random()*base.length|0])
-                  .join('');
-            };
-            return generator(base, len);
         },
     }
 }

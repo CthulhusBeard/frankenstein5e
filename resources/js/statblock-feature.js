@@ -1,8 +1,10 @@
 import Multiselect from '@vueform/multiselect/dist/multiselect.vue2.js';
+import _ from 'lodash';
 
 export default {
     props: [
         'initialType',
+        'initialData',
         'playerData',
         'combatRounds',
         'f5',
@@ -14,10 +16,8 @@ export default {
 
     data: function() {
         return {
-            damageUpdateIncrementer: 0,
-
+            trackingId: this.initialData.trackingId,
             value: {
-                id: this.$parent.randChars(15),
                 actionType: this.initialType,
                 name:  (this.initialType == 'spellcasting' || this.initialType == 'multiattack' ) ? this.f5.misc['title_'+this.initialType] : this.f5.misc.title_new_feature,
                 template: (this.initialType == 'spellcasting' || this.initialType == 'multiattack' ) ? this.initialType : 'custom', 
@@ -133,12 +133,10 @@ export default {
         },
 
         averageDPR: function() {
-            let updateIncrementer = this.damageUpdateIncrementer;
             return this.dprCalculator();
         },
 
         maxDPR: function() {
-            let updateIncrementer = this.damageUpdateIncrementer;
             return this.dprCalculator(true);
         },
 
@@ -150,7 +148,9 @@ export default {
             if(brackets) {
                 nameText += ' ('+brackets+')';
             }
-            return (nameText + this.f5.misc.sentence_end).trim();
+
+            let finalName = (nameText + this.f5.misc.sentence_end).trim();
+            return finalName;
         },
 
         bracketText: function() {
@@ -400,10 +400,6 @@ export default {
             } else if(this.value.spellcastingClass) {
                 spellDesc = this.f5.misc.desc_prepared_spellcasting;
             }
-            
-            if(this.value.additionalDescription) {
-                spellDesc += ' '+this.value.additionalDescription;
-            }
 
             if(this.atWillSpells.length > 0) {
                 let atWillSpellList = this.$parent.createSentenceList(this.atWillSpells.map(x => x.name), true, function(str) {return '<i>'+str+'</i>'});
@@ -482,6 +478,11 @@ export default {
 
             if(castsBefore) {
                 spellDesc += this.f5.misc.casts_spells_before;
+            }
+            
+            if(this.value.additionalDescription) {
+                spellDesc += '<br/><br/>';
+                spellDesc += ' '+this.value.additionalDescription;
             }
             
             return spellDesc;
@@ -587,7 +588,6 @@ export default {
         },
 
         damageProjection: function() {
-            let updateIncrementer = this.damageUpdateIncrementer;
             let turnDamage;
 
             if(this.value.template === 'spellcasting') {
@@ -881,7 +881,7 @@ export default {
             }
             if(this.value.damageProjection != this.damageProjection) {
                 this.value.damageProjection = this.damageProjection;
-                //this.$parent.$emit('feature-projection-change', {id: this.value.id, actionType: this.value.actionType, projection: this.value.damageProjection});
+                //this.$parent.$emit('feature-projection-change', {id: this.trackingId, actionType: this.value.actionType, projection: this.value.damageProjection});
             }
         },
 
@@ -1011,10 +1011,10 @@ export default {
         },
 
         forceProjectionUpdate: function() {
-            this.damageUpdateIncrementer++;
-            if(this.damageUpdateIncrementer > 50) {
-                this.damageUpdateIncrementer = 0;
-            }
+            // this.damageUpdateIncrementer++;
+            // if(this.damageUpdateIncrementer > 50) {
+            //     this.damageUpdateIncrementer = 0;
+            // }
             this.updateDamageProperties();
         }
     },       

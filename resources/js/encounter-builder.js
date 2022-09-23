@@ -71,18 +71,22 @@ export function initVue(f5data) {
             importMonster: function(monster) {
                 console.log('== import monster ==');
                 let importedStatBlock = JSON.parse(JSON.stringify(monster));
+                importedStatBlock.trackingId = this.randChars(15);
                 console.log(importedStatBlock);
                 this.statblocks.push(importedStatBlock);
             },
 
-            createStatBlock: function() {            
-                let i = this.statblocks.push({});
+            createStatBlock: function() {
+                let i = this.statblocks.push({trackingId: this.randChars(15)});
+                console.log('List all statblocks');
+                console.log(this.statblocks);
+                console.log(this.$refs.statblocks);
                 return i-1;
             },
 
             removeStatBlock: function(id) {
                 for(let i in this.statblocks) {
-                    if(this.statblocks[i].id === id) {
+                    if(this.statblocks[i].trackingId === id) {
                         this.statblocks.splice(i, 1);
                     }
                 }
@@ -92,6 +96,11 @@ export function initVue(f5data) {
                 this.statblocks = [];
                 this.createStatBlock();
             },
+
+            updateMonsterName: function(id, name) {
+                console.log(id+' name changed: '+name);
+                console.log(this.statblocks);
+            }
         },
     });
 

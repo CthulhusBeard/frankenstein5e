@@ -266,7 +266,7 @@
                 <label class="title-label" v-if="value.template === 'attack'">@{{f5.misc.title_additional_saving_throw}}</label>
                 <input type="checkbox" v-model="value.attackSavingThrow" v-if="value.template === 'attack'">
 
-                <div v-if="(value.template === 'attack' && value.attackSavingThrow) || value.template === 'saving_throw'" v-bind:class="{'attack-border' : value.template === 'attack'}">
+                <div v-if="(value.template === 'attack' && value.attackSavingThrow) || value.template === 'saving_throw'" :class="{'attack-border' : value.template === 'attack'}">
                     <label class="title-label">@{{f5.misc.title_saving_throw_monster_ability}}:</label>
                     <select v-model="value.savingThrowMonsterAbility">
                         <option v-for="(ability, i) in f5.abilities" :value="i">@{{ability.name}}</option>
