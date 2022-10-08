@@ -8,6 +8,7 @@ HIGH PRIORITY
 - [ ] Design UI
 - [ ] Tips and suggestions
 - [ ] Allow adding text replace codes to custom description
+- [ ] Legendary and Mythic Actions can select from existing actions
 - [ ] Figure out which dpr events are actually necessary
 - [ ] Minimum creature size for conditions (grappled, swallowed, etc)
 - [ ] hasInstantKillPotential

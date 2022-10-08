@@ -1347,6 +1347,8 @@ export default {
                     delete feature.damageProjection;
                 }
             }
+            console.log('Export Monster');
+            console.log(this.value);
         },
 
         getFeatureById: function(id, types = null) {
@@ -1397,15 +1399,13 @@ export default {
             for(let feature of this.value.features[type]) {
                 if(feature.trackingId == id && feature.damageProjection != projection) {
                     feature.damageProjection = projection;
-                    console.log('updateProjections');
-                    console.log(feature);
-                    console.log(this.value.features[type]);
                     changesMade = true;
                 }
             }
             if(changesMade) {
                 this.generated.averageDPR = this.getAverageDPR();
                 this.generated.maxDPR = this.getMaxDPR();
+                this.$emit('update-projections', this.trackingId, this.value.features);
             }
         },
 
@@ -1439,6 +1439,8 @@ export default {
                     }
                 }
             }
+
+            //TODO: This doesn't take into consideration multiple actions/legendary actions etc
 
             let dpr = Object.values(dprGroups).reduce((a, b) => a + b);
             console.log(dpr);

@@ -24,6 +24,7 @@ export function initVue(f5data) {
                 importMonster: 0,
             },
             statblocks: [],
+            projections: [],
             f5: f5data,
         },
 
@@ -102,6 +103,16 @@ export function initVue(f5data) {
                         statblock.name = name;
                     }
                 }
+            },
+
+            updateProjections: function(id, projections) {
+                for(let statblock of this.statblocks) {
+                    if(statblock.trackingId == id) {
+                        statblock.projections = projections;
+                    }
+                }
+                console.log('encounter: update projections');
+                console.log(this.statblocks);
             }
         },
     });

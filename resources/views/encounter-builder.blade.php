@@ -101,6 +101,7 @@
                         :measure="editor.measure"
                         @remove-statblock="removeStatBlock"
                         @update-name="updateMonsterName"
+                        @update-projections="updateProjections"
                         ref="statblocks"
                     >
                     </Statblock>

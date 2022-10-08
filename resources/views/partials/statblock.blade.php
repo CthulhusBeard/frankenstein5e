@@ -210,7 +210,7 @@
                                 <div :class="'edit-field options__ability option-box '+index">
                                     Score: 
                                     <select :class="'stat-block__ability-score-'+index.toLowerCase()" :name="'options__ability_'+index" v-model="value.abilities[index]">
-                                        <option v-for="i in 31" :value="i-1" >@{{i-1}}</option>
+                                        <option v-for="i in 31" :value="i-1" >@{{i-1}} (@{{addPlus(calcAbilityMod(i-1))}})</option>
                                     </select>
                                     <br/>
                                     Save: <input :name="'options__saving-throws_'+index" v-model="value.savingThrows[index]" type="checkbox" />
