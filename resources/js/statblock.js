@@ -92,6 +92,7 @@ export default {
             generated: {
                 averageDPR: 0,
                 maxDPR: 0,
+                damageProjection: {},
             }
         }
     },
@@ -117,142 +118,10 @@ export default {
             return 'column-'+this.value.display.columns;
         },
 
-        damageProjection: function() {
-            let projections = {
-                action: {
-                    count: this.value.actions,
-                    rounds: [],
-                    options: [],
-                },
-                bonus_action: {
-                    count: this.value.bonusActions,
-                    rounds: [],
-                    options: [],
-                },
-                reaction: {
-                    count: this.value.reactions,
-                    rounds: [],
-                    options: [],
-                },
-                legendary_action: {
-                    count: this.value.legendaryActions,
-                    rounds: [],
-                    options: [],
-                },
-                lair_action: {
-                    count: 1,
-                    rounds: [],
-                    options: [],
-                },
-                passive: {
-                    count: false,
-                    rounds: [],
-                    options: [],
-                },
-            };
-
-            //Gather Projections
-            let mergeActions = {
-                'multiattack': 'action',
-                'spellcasting': 'action',
-                'mythic_action': 'legendary_action',
-            };
-
-            for(const featureType in this.value.features) {
-                for(const feature of this.value.features[featureType]) {
-                    //Merge similar action types
-                    if(!feature.damageProjection) {
-                        continue;
-                    }
-                    let actionType = featureType;
-                    if(mergeActions.hasOwnProperty(actionType)) {
-                        actionType = mergeActions[actionType];
-                    }
-                    projections[actionType].options.push(JSON.parse(JSON.stringify(feature.damageProjection)));  //Clone projection
-                }
-            }
-            
-            //Sort Projections
-            for(let actionType in projections) {
-                if(!projections[actionType].options.length) {
-                    delete projections[actionType];
-                    continue;
-                }
-                for(let roundNum = 0; roundNum < this.combatRounds; roundNum++) {
-                    //Sort by most damage
-                    projections[actionType].options = projections[actionType].options.sort(function (a, b) {
-                        let damageA = (a[roundNum] && a[roundNum].damage) ? a[roundNum].damage / a[roundNum].actionCost : 0;
-                        let damageB = (b[roundNum] && b[roundNum].damage) ? b[roundNum].damage / b[roundNum].actionCost : 0;
-                        return damageB - damageA;
-                    });
-
-                    let actionCount = 0;
-                    for(let j = 0; j < projections[actionType].options.length; j++) {
-                        let actionObj = projections[actionType].options[j][roundNum];
-                        let actionCost = (actionObj && actionObj.actionCost) ? actionObj.actionCost : 0;
-                        if(actionCount + actionCost <= projections[actionType].count) {
-                            //Action fits
-                            if(actionObj) {
-                                //Add action
-                                if(!projections[actionType].rounds[roundNum]) {
-                                    projections[actionType].rounds[roundNum] = [];
-                                }
-                                projections[actionType].rounds[roundNum][j] = actionObj;
-                                actionCount += actionCost;
-                            } else if(actionObj) {
-                                //Not enough actions
-                                actionCount += projections[actionType].count;
-                            }
-
-                        } else if(actionObj.damage > 0) {
-                            //push out viable damage options until later turns
-                            projections[actionType].options[j].splice(roundNum, 0, 0);
-                        }
-                    }
-                }
-            }
-
-            //Create turn totals and action list
-            let totals = [];
-            for(let actionType in projections) { 
-                for(let roundNum = 0; roundNum < this.combatRounds; roundNum++) {
-                    if(!projections[actionType].rounds[roundNum]) {
-                        continue;
-                    }
-                    for(let i = 0; i < projections[actionType].rounds[roundNum].length; i++) {
-                        if(!totals[roundNum]) {
-                            totals[roundNum] = {
-                                abilities: [], 
-                                damage: 0, 
-                                maxDamage: 0
-                            };
-                        }
-                        if(
-                            projections[actionType].rounds[roundNum][i] && 
-                            projections[actionType].rounds[roundNum][i].damage && 
-                            projections[actionType].rounds[roundNum][i].damage > 0
-                        ) {
-                            //Add This Action
-                            if(!totals[roundNum].abilities[actionType]) {
-                                totals[roundNum].abilities[actionType] = [];
-                            }
-                            totals[roundNum].abilities[actionType].push({
-                                name: projections[actionType].rounds[roundNum][i].name,
-                                damage: projections[actionType].rounds[roundNum][i].damage,
-                                maxDamage: projections[actionType].rounds[roundNum][i].maxDamage,
-                            });
-                            totals[roundNum].damage += projections[actionType].rounds[roundNum][i].damage;
-                            totals[roundNum].maxDamage += projections[actionType].rounds[roundNum][i].maxDamage;
-                        }
-                    }
-                }
-            }
-            return totals;
-        },
 
         //Challenge Rating
         damageCr: function() {
-            let dpr = this.averageDPR;
+            let dpr = this.generated.averageDPR;
             let approxCr = 1;
             
             for(let i in this.f5.challengerating) {
@@ -1339,8 +1208,6 @@ export default {
 
         exportMonster: function() {
             let cloneOptions = JSON.parse(JSON.stringify(this.value));
-            delete cloneOptions.averageDPR;
-            delete cloneOptions.damageProjection;
             for(let featureType in cloneOptions.features) {
                 for(let feature of cloneOptions.features[featureType]) {
                     delete feature.averageDPR;
@@ -1395,6 +1262,7 @@ export default {
         },
 
         updateProjections: function(type, id, projection) {
+            console.log('--update stat block projections--');
             let changesMade = false;
             for(let feature of this.value.features[type]) {
                 if(feature.trackingId == id && feature.damageProjection != projection) {
@@ -1403,9 +1271,10 @@ export default {
                 }
             }
             if(changesMade) {
+                this.generated.damageProjection = this.getDamageProjection();
                 this.generated.averageDPR = this.getAverageDPR();
                 this.generated.maxDPR = this.getMaxDPR();
-                this.$emit('update-projections', this.trackingId, this.value.features);
+                //this.$emit('update-projections', this.trackingId, this.generated.damageProjection);
             }
         },
 
@@ -1481,6 +1350,139 @@ export default {
             let dpr = Object.values(dprGroups).reduce((a, b) => a + b);
             console.log(dpr);
             return dpr;
+        },
+
+        getDamageProjection: function() {
+            let projections = {
+                action: {
+                    count: this.value.actions,
+                    rounds: [],
+                    options: [],
+                },
+                bonus_action: {
+                    count: this.value.bonusActions,
+                    rounds: [],
+                    options: [],
+                },
+                reaction: {
+                    count: this.value.reactions,
+                    rounds: [],
+                    options: [],
+                },
+                legendary_action: {
+                    count: this.value.legendaryActions,
+                    rounds: [],
+                    options: [],
+                },
+                lair_action: {
+                    count: 1,
+                    rounds: [],
+                    options: [],
+                },
+                passive: {
+                    count: false,
+                    rounds: [],
+                    options: [],
+                },
+            };
+
+            //Gather Projections
+            let mergeActions = {
+                'multiattack': 'action',
+                'spellcasting': 'action',
+                'mythic_action': 'legendary_action',
+            };
+
+            for(const featureType in this.value.features) {
+                for(const feature of this.value.features[featureType]) {
+                    //Merge similar action types
+                    if(!feature.damageProjection) {
+                        continue;
+                    }
+                    let actionType = featureType;
+                    if(mergeActions.hasOwnProperty(actionType)) {
+                        actionType = mergeActions[actionType];
+                    }
+                    projections[actionType].options.push(JSON.parse(JSON.stringify(feature.damageProjection)));  //Clone projection
+                }
+            }
+            
+            //Sort Projections
+            for(let actionType in projections) {
+                if(!projections[actionType].options.length) {
+                    delete projections[actionType];
+                    continue;
+                }
+                for(let roundNum = 0; roundNum < this.combatRounds; roundNum++) {
+                    //Sort by most damage
+                    projections[actionType].options = projections[actionType].options.sort(function (a, b) {
+                        let damageA = (a[roundNum] && a[roundNum].damage) ? a[roundNum].damage / a[roundNum].actionCost : 0;
+                        let damageB = (b[roundNum] && b[roundNum].damage) ? b[roundNum].damage / b[roundNum].actionCost : 0;
+                        return damageB - damageA;
+                    });
+
+                    let actionCount = 0;
+                    for(let j = 0; j < projections[actionType].options.length; j++) {
+                        let actionObj = projections[actionType].options[j][roundNum];
+                        let actionCost = (actionObj && actionObj.actionCost) ? actionObj.actionCost : 0;
+                        if(actionCount + actionCost <= projections[actionType].count) {
+                            //Action fits
+                            if(actionObj) {
+                                //Add action
+                                if(!projections[actionType].rounds[roundNum]) {
+                                    projections[actionType].rounds[roundNum] = [];
+                                }
+                                projections[actionType].rounds[roundNum][j] = actionObj;
+                                actionCount += actionCost;
+                            } else if(actionObj) {
+                                //Not enough actions
+                                actionCount += projections[actionType].count;
+                            }
+
+                        } else if(actionObj.damage > 0) {
+                            //push out viable damage options until later turns
+                            projections[actionType].options[j].splice(roundNum, 0, 0);
+                        }
+                    }
+                }
+            }
+
+            //Create turn totals and action list
+            let totals = [];
+            for(let actionType in projections) { 
+                for(let roundNum = 0; roundNum < this.combatRounds; roundNum++) {
+                    if(!projections[actionType].rounds[roundNum]) {
+                        continue;
+                    }
+                    for(let i = 0; i < projections[actionType].rounds[roundNum].length; i++) {
+                        if(!totals[roundNum]) {
+                            totals[roundNum] = {
+                                abilities: [], 
+                                damage: 0, 
+                                maxDamage: 0
+                            };
+                        }
+                        if(
+                            projections[actionType].rounds[roundNum][i] && 
+                            projections[actionType].rounds[roundNum][i].damage && 
+                            projections[actionType].rounds[roundNum][i].damage > 0
+                        ) {
+                            //Add This Action
+                            if(!totals[roundNum].abilities[actionType]) {
+                                totals[roundNum].abilities[actionType] = [];
+                            }
+                            totals[roundNum].abilities[actionType].push({
+                                name: projections[actionType].rounds[roundNum][i].name,
+                                damage: projections[actionType].rounds[roundNum][i].damage,
+                                maxDamage: projections[actionType].rounds[roundNum][i].maxDamage,
+                            });
+                            totals[roundNum].damage += projections[actionType].rounds[roundNum][i].damage;
+                            totals[roundNum].maxDamage += projections[actionType].rounds[roundNum][i].maxDamage;
+                        }
+                    }
+                }
+            }
+            return totals;
         },
     }
 }

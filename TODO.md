@@ -7,6 +7,7 @@
 HIGH PRIORITY
 - [ ] Design UI
 - [ ] Tips and suggestions
+- [ ] Consider displaying assumed average target count for AOE attacks (to make better sense of DPR). Consider having "single target DPR" vs "total DPR"
 - [ ] Allow adding text replace codes to custom description
 - [ ] Legendary and Mythic Actions can select from existing actions
 - [ ] Figure out which dpr events are actually necessary

@@ -106,13 +106,13 @@ export function initVue(f5data) {
             },
 
             updateProjections: function(id, projections) {
-                for(let statblock of this.statblocks) {
-                    if(statblock.trackingId == id) {
-                        statblock.projections = projections;
-                    }
-                }
-                console.log('encounter: update projections');
-                console.log(this.statblocks);
+                // for(let statblock of this.statblocks) {
+                //     if(statblock.trackingId == id) {
+                //         statblock.projections = projections;
+                //     }
+                // }
+                // console.log('encounter: update projections');
+                // console.log(this.statblocks);
             }
         },
     });

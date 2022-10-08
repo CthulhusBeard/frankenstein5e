@@ -61,8 +61,10 @@ export default {
                 ],
                 legendaryActionCost: 1,
                 manualDPR: -1,
-                averageDPR: -1,
                 manualMaxDPR: -1,
+            },
+            generated: {
+                averageDPR: -1,
                 maxDPR: -1,
                 damageProjection: [],
             }
@@ -587,6 +589,9 @@ export default {
         },
 
         damageProjection: function() {
+//TODO: change the emit so it doesn't happen twice
+console.log('--FEATURE - generate damage projection--');
+
             let turnDamage;
 
             if(this.value.template === 'spellcasting') {
@@ -733,8 +738,8 @@ export default {
             if(this.value.recharge.type === 'long_rest' || this.value.recharge.type === 'short_rest') {
                 return [{
                     name: this.value.name,
-                    damage: this.value.averageDPR,
-                    maxDamage: this.value.maxDPR,
+                    damage: this.generated.averageDPR,
+                    maxDamage: this.generated.maxDPR,
                     actionCost: actionCost,
                 }]; //Only once
             } else if(this.value.recharge.type === 'limited_use') {
@@ -742,8 +747,8 @@ export default {
                 for(let i = 0; i < this.value.recharge.uses; i++) {
                     damageArray.push({
                         name: this.value.name,
-                        damage: this.value.averageDPR,
-                        maxDamage: this.value.maxDPR,
+                        damage: this.generated.averageDPR,
+                        maxDamage: this.generated.maxDPR,
                         actionCost: actionCost,
                     });
                 }
@@ -756,8 +761,8 @@ export default {
                 if(i % averageRechargeTurns === 0) {
                     turnDamage[i] = {
                         name: this.value.name,
-                        damage: this.value.averageDPR,
-                        maxDamage: this.value.maxDPR,
+                        damage: this.generated.averageDPR,
+                        maxDamage: this.generated.maxDPR,
                         actionCost: actionCost,
                     };
                 }
@@ -864,10 +869,10 @@ export default {
                             featureRef.index === 'spellcasting' && 
                             this.$parent.value.features['spellcasting'][0].id === obj.id
                         ) {
-                            this.forceProjectionUpdate(); //Forces a projection update 
+                            //this.forceProjectionUpdate(); //Forces a projection update 
                             return;
                         } else if(this.$parent.value.features['action'][featureRef.index].id === obj.id) {
-                            this.forceProjectionUpdate(); //Forces a projection update 
+                            //this.forceProjectionUpdate(); //Forces a projection update 
                             return;
                         }
                     }
@@ -875,16 +880,17 @@ export default {
             }
         },
 
-        updateDamageProperties: function() {
-            //Set DPR value so it's accessible from outside
-            if(this.value.averageDPR != this.averageDPR) {
-                this.value.averageDPR = this.averageDPR;
-            }
-            if(this.value.damageProjection != this.damageProjection) {
-                this.value.damageProjection = this.damageProjection;
-                //this.$parent.$emit('feature-projection-change', {id: this.trackingId, actionType: this.value.actionType, projection: this.value.damageProjection});
-            }
-        },
+        // updateDamageProperties: function() {
+        //     //Set DPR value so it's accessible from outside
+        //     if(this.generated.averageDPR != this.averageDPR) {
+        //         console.log('updateDamageProperties - averageDPR');
+        //         this.generated.averageDPR = this.averageDPR;
+        //     }
+        //     if(this.generated.damageProjection != this.damageProjection) {
+        //         console.log('updateDamageProperties - damageProjection');
+        //         this.generated.damageProjection = this.damageProjection;
+        //     }
+        // },
 
         dprCalculator: function(useMax = false) {
             let avgDPR = 0;
@@ -979,12 +985,14 @@ export default {
             let dpr = avgDPR * avgTargets;
 
             //Set to value //TODO Can this be moved or removed
-            if(!useMax && this.value.averageDPR !== dpr) {
-                this.value.averageDPR = dpr;
-            } else if(useMax && this.value.maxDPR !== dpr) {
-                this.value.maxDPR = dpr;
+            if(!useMax && this.generated.averageDPR !== dpr) {
+                this.generated.averageDPR = dpr;
+            } else if(useMax && this.generated.maxDPR !== dpr) {
+                this.generated.maxDPR = dpr;
             }
 
+            console.log('-FIX THIS! - FEATURE - dprCalculator');
+            //TODO: IMPORTANT! This needs to move
             let createProjection = this.damageProjection;
 
             return dpr;
@@ -1013,12 +1021,12 @@ export default {
             return maProj;
         },
 
-        forceProjectionUpdate: function() {
-            // this.damageUpdateIncrementer++;
-            // if(this.damageUpdateIncrementer > 50) {
-            //     this.damageUpdateIncrementer = 0;
-            // }
-            this.updateDamageProperties();
-        }
+        // forceProjectionUpdate: function() {
+        //     // this.damageUpdateIncrementer++;
+        //     // if(this.damageUpdateIncrementer > 50) {
+        //     //     this.damageUpdateIncrementer = 0;
+        //     // }
+        //     this.updateDamageProperties();
+        // }
     },       
 };
