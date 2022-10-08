@@ -6,11 +6,13 @@
                 
                 <strong>@{{f5.misc.title_cr_manager}}</strong>
                 <div>
-                    @{{f5.misc.title_approx_dpr}}: @{{averageDPR}}<br/>
                     @{{f5.misc.title_offensive_cr}}: @{{damageCr}}<br/>
                     @{{f5.misc.title_hp_cr}}: @{{healthCr}}<br/>
                     @{{f5.misc.title_ac_cr}}: @{{armorCr}}<br/>
-                    @{{f5.misc.title_challenge_rating}}: @{{crText}}
+                    @{{f5.misc.title_challenge_rating}}: @{{crText}}<br/>
+                    <br/>
+                    @{{f5.misc.title_average_dpr}}: @{{generated.averageDPR}}<br/>
+                    @{{f5.misc.title_max_dpr}}: @{{generated.maxDPR}}<br/>
                 </div>
                 {{--
                 <div> 
@@ -443,6 +445,7 @@
                         ref="features"
                         @hook:mounted="featureIsMounted"
                         @update-name="updateFeatureName"
+                        @update-projection="updateProjections"
                         @remove-feature="removeFeature"
                     ></StatblockFeature>
                 </div>
@@ -461,6 +464,7 @@
                         ref="features"
                         @hook:mounted="featureIsMounted"
                         @update-name="updateFeatureName"
+                        @update-projection="updateProjections"
                         @remove-feature="removeFeature"
                     ></StatblockFeature>
                 </div>
@@ -483,6 +487,7 @@
                         @hook:mounted="featureIsMounted"
                         @remove-feature="removeFeature"
                         @update-name="updateFeatureName"
+                        @update-projection="updateProjections"
                         ref="multiattack_features"
                     ></StatblockFeature>
                 </div>
@@ -501,6 +506,7 @@
                         ref="features"
                         @hook:mounted="featureIsMounted"
                         @update-name="updateFeatureName"
+                        @update-projection="updateProjections"
                         @remove-feature="removeFeature"
                     ></StatblockFeature>
                 </div>
@@ -522,6 +528,7 @@
                         ref="features"
                         @hook:mounted="featureIsMounted"
                         @update-name="updateFeatureName"
+                        @update-projection="updateProjections"
                         @remove-feature="removeFeature"
                     ></StatblockFeature>
                 </div>
@@ -543,6 +550,7 @@
                         ref="features"
                         @hook:mounted="featureIsMounted"
                         @update-name="updateFeatureName"
+                        @update-projection="updateProjections"
                         @remove-feature="removeFeature"
                     ></StatblockFeature>
                 </div>
@@ -568,6 +576,7 @@
                         ref="features"
                         @hook:mounted="featureIsMounted"
                         @update-name="updateFeatureName"
+                        @update-projection="updateProjections"
                         @remove-feature="removeFeature"
                     ></StatblockFeature>
                 </div>
@@ -590,6 +599,7 @@
                         ref="features"
                         @hook:mounted="featureIsMounted"
                         @update-name="updateFeatureName"
+                        @update-projection="updateProjections"
                         @remove-feature="removeFeature"
                     ></StatblockFeature>
                 </div>
@@ -612,6 +622,7 @@
                         ref="features"
                         @hook:mounted="featureIsMounted"
                         @update-name="updateFeatureName"
+                        @update-projection="updateProjections"
                         @remove-feature="removeFeature"
                     ></StatblockFeature>
                 </div>

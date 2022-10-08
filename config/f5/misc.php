@@ -260,7 +260,8 @@ return [
     'title_offensive_cr' => 'f5/builder.title_offensive_cr',
     'title_hp_cr' => 'f5/builder.title_hp_cr',
     'title_ac_cr' => 'f5/builder.title_ac_cr',
-    'title_approx_dpr' => 'f5/builder.title_approx_dpr',
+    'title_average_dpr' => 'f5/builder.title_average_dpr',
+    'title_max_dpr' => 'f5/builder.title_max_dpr',
 
     'title_edit_mode' => 'f5/builder.title_edit_mode',
     'title_use_spell_slots' => 'f5/builder.title_use_spell_slots',

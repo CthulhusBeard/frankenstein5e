@@ -80,9 +80,6 @@ export function initVue(f5data) {
                 let i = this.statblocks.push({
                     trackingId: this.randChars(15), 
                 });
-                console.log('List all statblocks');
-                console.log(this.statblocks);
-                console.log(this.$refs.statblocks);
                 return i-1;
             },
 

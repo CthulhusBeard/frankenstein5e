@@ -22,7 +22,6 @@ export default {
     data: function() {
         return {
             mountedFeatures: 0,
-            damageUpdateIncrementer: 0,
             editMode: true,
             trackingId: this.initialStatblock.trackingId,
             value: {
@@ -89,6 +88,10 @@ export default {
                 display: {
                     columns: 1,
                 }
+            },
+            generated: {
+                averageDPR: 0,
+                maxDPR: 0,
             }
         }
     },
@@ -114,38 +117,7 @@ export default {
             return 'column-'+this.value.display.columns;
         },
 
-        averageDPR: function() {
-            let updater = this.damageUpdateIncrementer;
-            let dprGroups = {
-                passive: 0,
-                action: 0, //include spellcasting and multiattack
-                reaction: 0,
-                bonus_action: 0,
-                legendary_action: 0, //include mythic_action
-                lair_action: 0,
-            };
-            
-            for(const featureType in this.value.features) {
-                for(const feature of this.value.features[featureType]) {
-                    let dprType = featureType;
-                    if(dprType === 'mythic_action') {
-                        dprType = 'legendary_action';
-                    } else if(dprType === 'spellcasting' || dprType === 'multiattack') {
-                        dprType = 'action';
-                    }
-
-                    if(feature.averageDPR > dprGroups[dprType]) {
-                        dprGroups[dprType] = feature.averageDPR;
-                    }
-                }
-            }
-
-            let dpr = Object.values(dprGroups).reduce((a, b) => a + b);
-            return dpr;
-        },
-
         damageProjection: function() {
-            let updater = this.damageUpdateIncrementer;
             let projections = {
                 action: {
                     count: this.value.actions,
@@ -1401,7 +1373,6 @@ export default {
                         feature.forceProjectionUpdate();
                     }
                 }
-                this.damageUpdateIncrementer++;
             }
         },
         
@@ -1419,6 +1390,95 @@ export default {
                     feature.name = name;
                 }
             }
-        }
+        },
+
+        updateProjections: function(type, id, projection) {
+            let changesMade = false;
+            for(let feature of this.value.features[type]) {
+                if(feature.trackingId == id && feature.damageProjection != projection) {
+                    feature.damageProjection = projection;
+                    console.log('updateProjections');
+                    console.log(feature);
+                    console.log(this.value.features[type]);
+                    changesMade = true;
+                }
+            }
+            if(changesMade) {
+                this.generated.averageDPR = this.getAverageDPR();
+                this.generated.maxDPR = this.getMaxDPR();
+            }
+        },
+
+        getAverageDPR: function() {
+            console.log('-averageDPR-');
+
+            let dprGroups = {
+                passive: 0,
+                action: 0, //include spellcasting and multiattack
+                reaction: 0,
+                bonus_action: 0,
+                legendary_action: 0, //include mythic_action
+                lair_action: 0,
+            };
+            
+            for(const featureType in this.value.features) {
+                for(const feature of this.value.features[featureType]) {
+                    if(!feature.damageProjection) {
+                        continue;
+                    }
+
+                    let dprType = featureType;
+                    if(dprType === 'mythic_action') {
+                        dprType = 'legendary_action';
+                    } else if(dprType === 'spellcasting' || dprType === 'multiattack') {
+                        dprType = 'action';
+                    }
+
+                    if(feature.damageProjection[0].damage > dprGroups[dprType]) {
+                        dprGroups[dprType] = feature.damageProjection[0].damage;
+                    }
+                }
+            }
+
+            let dpr = Object.values(dprGroups).reduce((a, b) => a + b);
+            console.log(dpr);
+            return dpr;
+        },
+
+        getMaxDPR: function() {
+            console.log('-maxDPR-');
+
+            let dprGroups = {
+                passive: 0,
+                action: 0, //include spellcasting and multiattack
+                reaction: 0,
+                bonus_action: 0,
+                legendary_action: 0, //include mythic_action
+                lair_action: 0,
+            };
+            
+            for(const featureType in this.value.features) {
+                for(const feature of this.value.features[featureType]) {
+                    if(!feature.damageProjection) {
+                        continue;
+                    }
+
+                    let dprType = featureType;
+                    if(dprType === 'mythic_action') {
+                        dprType = 'legendary_action';
+                    } else if(dprType === 'spellcasting' || dprType === 'multiattack') {
+                        dprType = 'action';
+                    }
+
+                    if(feature.damageProjection[0].maxDamage > dprGroups[dprType]) {
+                        dprGroups[dprType] = feature.damageProjection[0].maxDamage;
+                    }
+                }
+            }
+
+            let dpr = Object.values(dprGroups).reduce((a, b) => a + b);
+            console.log(dpr);
+            return dpr;
+        },
     }
 }

@@ -74,15 +74,12 @@ export default {
             if(prop === 'id' || prop === 'trackingId') continue;
             this.value[prop] = this.initialData[prop]; 
         }
-        this.updateDamageProperties();
     },
 
     mounted() {
         if(this.value.actionType === 'multiattack') {
-            this.forceProjectionUpdate();
-            //this.$parent.$on('feature-projection-change', this.compareIdToMultiattackFeatures);
+
         }
-        //this.forceProjectionUpdate(); //Forces an update on an import //Unneccessary??
     },
 
     watch: {
@@ -105,9 +102,6 @@ export default {
                         }
                     }
                 }
-
-                this.updateDamageProperties(); //I don't think this needs to be here
-
             }, 
             deep: true
         }
@@ -603,6 +597,8 @@ export default {
                 turnDamage = this.standardProjection();
             }
 
+            this.$emit('update-projection', this.value.actionType, this.trackingId, turnDamage);
+
             return turnDamage;
         },
 
@@ -988,6 +984,8 @@ export default {
             } else if(useMax && this.value.maxDPR !== dpr) {
                 this.value.maxDPR = dpr;
             }
+
+            let createProjection = this.damageProjection;
 
             return dpr;
         },
