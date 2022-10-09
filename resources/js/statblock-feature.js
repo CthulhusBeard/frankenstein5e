@@ -87,6 +87,7 @@ export default {
     watch: {
         value: {
             handler(val) {
+                //TODO: Can these be optimized to not be "deep"
 
                 //Must have one or more saving throw
                 if(this.value.savingThrowSaveAbilities.length === 0) {
@@ -133,10 +134,12 @@ export default {
         },
 
         averageDPR: function() {
+            console.log('computed: averageDPR');
             return this.dprCalculator();
         },
 
         maxDPR: function() {
+            console.log('computed: maxDPR');
             return this.dprCalculator(true);
         },
 
@@ -893,6 +896,7 @@ console.log('--FEATURE - generate damage projection--');
         // },
 
         dprCalculator: function(useMax = false) {
+            console.log('--dprCalculator--');
             let avgDPR = 0;
             let avgTargets = 1;
             if(this.value.manualDPR >= 0) {
