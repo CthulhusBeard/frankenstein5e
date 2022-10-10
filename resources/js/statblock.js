@@ -121,7 +121,13 @@ export default {
 
         //Challenge Rating
         damageCr: function() {
-            let dpr = this.generated.averageDPR;
+            let dpr = 0;
+            if(
+                this.generated.damageProjection[0] && 
+                this.generated.damageProjection[0].hasOwnProperty('damage')
+            ) {
+                dpr = this.generated.damageProjection[0].damage;
+            }
             let approxCr = 1;
             
             for(let i in this.f5.challengerating) {
@@ -1272,14 +1278,14 @@ export default {
             }
             if(changesMade) {
                 this.generated.damageProjection = this.getDamageProjection();
-                this.generated.averageDPR = this.getAverageDPR();
-                this.generated.maxDPR = this.getMaxDPR();
+                //this.generated.averageDPR = this.getAverageDPR();
+                //this.generated.maxDPR = this.getMaxDPR();
                 //this.$emit('update-projections', this.trackingId, this.generated.damageProjection);
             }
         },
 
         getAverageDPR: function() {
-
+            console.log('statblock->getAverageDPR()');
             let dprGroups = {
                 passive: 0,
                 action: 0, //include spellcasting and multiattack
@@ -1315,6 +1321,7 @@ export default {
         },
 
         getMaxDPR: function() {
+            console.log('statblock->getMaxDPR()');
             let dprGroups = {
                 passive: 0,
                 action: 0, //include spellcasting and multiattack
@@ -1348,6 +1355,7 @@ export default {
         },
 
         getDamageProjection: function() {
+            console.log('statblock->getDamageProjection()');
             let projections = {
                 action: {
                     count: this.value.actions,
@@ -1477,6 +1485,8 @@ export default {
                     }
                 }
             }
+
+            console.log(totals);
             return totals;
         },
     }

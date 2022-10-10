@@ -64,8 +64,6 @@ export default {
                 manualMaxDPR: -1,
             },
             generated: {
-                averageDPR: -1,
-                maxDPR: -1,
                 damageProjection: [],
             }
         }
@@ -134,10 +132,14 @@ export default {
         },
 
         averageDPR: function() {
+            console.log('averageDPR');
+            console.log(this.damageProjection[0].damage);
             return this.damageProjection[0].damage;
         },
 
         maxDPR: function() {
+            console.log('maxDPR');
+            console.log(this.damageProjection[0].maxDamage);
             return this.damageProjection[0].maxDamage;
         },
 
@@ -727,6 +729,7 @@ export default {
         },
 
         standardProjection: function() {
+            console.log('----standardProjection----');
             let turnDamage = [];
             let averageRechargeTurns = 1;
 
@@ -881,6 +884,7 @@ export default {
         },
 
         dprCalculator: function(useMax = false) {
+            console.log('-dprCalculator-');
             let avgDPR = 0;
             let avgTargets = 1;
             if(this.value.manualDPR >= 0) {
@@ -971,13 +975,6 @@ export default {
             }
 
             let dpr = avgDPR * avgTargets;
-
-            //Set to value //TODO Can this be moved or removed
-            if(!useMax && this.generated.averageDPR !== dpr) {
-                this.generated.averageDPR = dpr;
-            } else if(useMax && this.generated.maxDPR !== dpr) {
-                this.generated.maxDPR = dpr;
-            }
 
             return dpr;
         },
