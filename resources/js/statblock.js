@@ -1,6 +1,5 @@
 import Multiselect from '@vueform/multiselect/dist/multiselect.vue2.js';
 import StatBlockFeature from './statblock-feature.js';
-import ProjectionGraph from './projection-graph.js';
 
 export default {
     props: [
@@ -787,9 +786,6 @@ export default {
     },
 
 
-
-
-
     methods: {
 
         createDefaultAbilityScores: function() {
@@ -799,6 +795,7 @@ export default {
             }
             return abilities;
         },
+
         createDefaultSavingThrows: function() {
             let savingThrows = {};
             for(let ability in this.f5.abilities) {
@@ -806,6 +803,7 @@ export default {
             }
             return savingThrows;
         },
+
         createDefaultSenses: function() {
             let senses = {};
             for(let sense in this.f5.senses) {
@@ -816,6 +814,7 @@ export default {
             }
             return senses;
         },
+
         createDefaultLanguages: function() {
             let languages = {
                 spokenWritten: [],
@@ -829,6 +828,7 @@ export default {
             }
             return languages;
         },
+
         createDefaultSpeeds: function() {
             let speeds = {};
             for(let speed in this.f5.speeds) {
@@ -840,7 +840,6 @@ export default {
             }
             return speeds;
         },
-
 
         damageList: function(input) {
             let sortArr = Object.keys(this.f5.damagetypes);
@@ -1283,7 +1282,7 @@ export default {
         },
 
         updateProjections: function(type, id, projection) {
-            console.log('--update stat block projections--');
+            //console.log('--update stat block ('+id+') projections--');
             let changesMade = false;
             for(let feature of this.value.features[type]) {
                 if(feature.trackingId == id && feature.damageProjection != projection) {
@@ -1293,14 +1292,11 @@ export default {
             }
             if(changesMade) {
                 this.generated.damageProjection = this.getDamageProjection();
-                //this.generated.averageDPR = this.getAverageDPR();
-                //this.generated.maxDPR = this.getMaxDPR();
-                //this.$emit('update-projections', this.trackingId, this.generated.damageProjection);
+                this.$emit('update-projections', this.trackingId, this.getDamageProjection());
             }
         },
 
         getAverageDPR: function() {
-            console.log('statblock->getAverageDPR()');
             let dprGroups = {
                 passive: 0,
                 action: 0, //include spellcasting and multiattack
@@ -1336,7 +1332,6 @@ export default {
         },
 
         getMaxDPR: function() {
-            console.log('statblock->getMaxDPR()');
             let dprGroups = {
                 passive: 0,
                 action: 0, //include spellcasting and multiattack
@@ -1370,7 +1365,6 @@ export default {
         },
 
         getDamageProjection: function() {
-            console.log('statblock->getDamageProjection()');
             let projections = {
                 action: {
                     count: this.value.actions,
@@ -1501,7 +1495,6 @@ export default {
                 }
             }
 
-            console.log(totals);
             return totals;
         },
     }

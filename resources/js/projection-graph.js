@@ -6,8 +6,7 @@ var ProjectionGraph = {
   props: [
     'id', 
     'name', 
-    'monster_hp', 
-    'monster_damage', 
+    'monsterData', 
     'playerData',
     'combatRounds',
     'f5'
@@ -21,26 +20,26 @@ var ProjectionGraph = {
     }
   },
 
-  watch: {
-    name(val) {
-      this.updateGraph();
-    },
-    monster_hp(val) {
-      this.updateGraph();
-    },
-    monster_damage: {
-      handler(val) {
-        this.updateGraph();
-      },
-      deep: true
-    },
-    player_data: {
-      handler(val) {
-        this.updateGraph();
-      },
-      deep: true
-    },
-  },
+  // watch: {
+  //   name(val) {
+  //     this.updateGraph();
+  //   },
+  //   monster_hp(val) {
+  //     this.updateGraph();
+  //   },
+  //   monster_damage: {
+  //     handler(val) {
+  //       this.updateGraph();
+  //     },
+  //     deep: true
+  //   },
+  //   player_data: {
+  //     handler(val) {
+  //       this.updateGraph();
+  //     },
+  //     deep: true
+  //   },
+  // },
 
   mounted() {
     //console.log('mounted graphInstance '+this.id+ ' / '+this.name );

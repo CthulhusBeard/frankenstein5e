@@ -111,7 +111,7 @@ export function initVue(f5data) {
                 //         statblock.projections = projections;
                 //     }
                 // }
-                // console.log('encounter: update projections');
+                console.log('encounter: update projections');
                 // console.log(this.statblocks);
             }
         },

@@ -62,21 +62,6 @@
                 </div>
             </div>
             
-            {{--
-            <div class="dpr-controller popup-overlay">
-                <projection-graph
-                    :id="value.id"
-                    :name="value.name"
-                    :monster_hp="getHP"
-                    :monster_damage="damageProjection"
-                    :playerData="statblockPlayerData"
-                    :combatRounds="combatRounds"
-                    :f5="f5"
-                    ref="graph"
-                ></projection-graph>
-            </div>
-            --}}
-
         </div>
 
         <div class="stat-block-container">

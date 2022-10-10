@@ -725,7 +725,6 @@ export default {
         },
 
         standardProjection: function() {
-            console.log('----standardProjection----');
             let turnDamage = [];
             let averageRechargeTurns = 1;
 
@@ -880,7 +879,6 @@ export default {
         },
 
         dprCalculator: function(useMax = false) {
-            console.log('-dprCalculator-');
             let avgDPR = 0;
             let avgTargets = 1;
             if(this.value.manualDPR >= 0) {
