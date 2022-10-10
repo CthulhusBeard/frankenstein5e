@@ -1279,7 +1279,6 @@ export default {
         },
 
         getAverageDPR: function() {
-            console.log('-averageDPR-');
 
             let dprGroups = {
                 passive: 0,
@@ -1312,13 +1311,10 @@ export default {
             //TODO: This doesn't take into consideration multiple actions/legendary actions etc
 
             let dpr = Object.values(dprGroups).reduce((a, b) => a + b);
-            console.log(dpr);
             return dpr;
         },
 
         getMaxDPR: function() {
-            console.log('-maxDPR-');
-
             let dprGroups = {
                 passive: 0,
                 action: 0, //include spellcasting and multiattack
@@ -1348,7 +1344,6 @@ export default {
             }
 
             let dpr = Object.values(dprGroups).reduce((a, b) => a + b);
-            console.log(dpr);
             return dpr;
         },
 
