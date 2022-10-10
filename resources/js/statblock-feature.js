@@ -134,13 +134,11 @@ export default {
         },
 
         averageDPR: function() {
-            console.log('computed: averageDPR');
-            return this.dprCalculator();
+            return this.damageProjection[0].damage;
         },
 
         maxDPR: function() {
-            console.log('computed: maxDPR');
-            return this.dprCalculator(true);
+            return this.damageProjection[0].maxDamage;
         },
 
         displayName: function() {
@@ -592,9 +590,6 @@ export default {
         },
 
         damageProjection: function() {
-//TODO: change the emit so it doesn't happen twice
-console.log('--FEATURE - generate damage projection--');
-
             let turnDamage;
 
             if(this.value.template === 'spellcasting') {
@@ -737,12 +732,14 @@ console.log('--FEATURE - generate damage projection--');
 
             //Not Spellcasting or Multiattack
             let actionCost = (['legendary_action', 'mythic_action'].includes(this.value.type)) ? legendaryActionCost : 1;
+            let averageDamage = this.dprCalculator();
+            let maxDamage = this.dprCalculator(true);
 
             if(this.value.recharge.type === 'long_rest' || this.value.recharge.type === 'short_rest') {
                 return [{
                     name: this.value.name,
-                    damage: this.generated.averageDPR,
-                    maxDamage: this.generated.maxDPR,
+                    damage: averageDamage,
+                    maxDamage: maxDamage,
                     actionCost: actionCost,
                 }]; //Only once
             } else if(this.value.recharge.type === 'limited_use') {
@@ -750,8 +747,8 @@ console.log('--FEATURE - generate damage projection--');
                 for(let i = 0; i < this.value.recharge.uses; i++) {
                     damageArray.push({
                         name: this.value.name,
-                        damage: this.generated.averageDPR,
-                        maxDamage: this.generated.maxDPR,
+                        damage: averageDamage,
+                        maxDamage: maxDamage,
                         actionCost: actionCost,
                     });
                 }
@@ -764,8 +761,8 @@ console.log('--FEATURE - generate damage projection--');
                 if(i % averageRechargeTurns === 0) {
                     turnDamage[i] = {
                         name: this.value.name,
-                        damage: this.generated.averageDPR,
-                        maxDamage: this.generated.maxDPR,
+                        damage: averageDamage,
+                        maxDamage: maxDamage,
                         actionCost: actionCost,
                     };
                 }
@@ -883,20 +880,7 @@ console.log('--FEATURE - generate damage projection--');
             }
         },
 
-        // updateDamageProperties: function() {
-        //     //Set DPR value so it's accessible from outside
-        //     if(this.generated.averageDPR != this.averageDPR) {
-        //         console.log('updateDamageProperties - averageDPR');
-        //         this.generated.averageDPR = this.averageDPR;
-        //     }
-        //     if(this.generated.damageProjection != this.damageProjection) {
-        //         console.log('updateDamageProperties - damageProjection');
-        //         this.generated.damageProjection = this.damageProjection;
-        //     }
-        // },
-
         dprCalculator: function(useMax = false) {
-            console.log('--dprCalculator--');
             let avgDPR = 0;
             let avgTargets = 1;
             if(this.value.manualDPR >= 0) {
@@ -995,10 +979,6 @@ console.log('--FEATURE - generate damage projection--');
                 this.generated.maxDPR = dpr;
             }
 
-            console.log('-FIX THIS! - FEATURE - dprCalculator');
-            //TODO: IMPORTANT! This needs to move
-            let createProjection = this.damageProjection;
-
             return dpr;
         },
 
@@ -1024,13 +1004,5 @@ console.log('--FEATURE - generate damage projection--');
 
             return maProj;
         },
-
-        // forceProjectionUpdate: function() {
-        //     // this.damageUpdateIncrementer++;
-        //     // if(this.damageUpdateIncrementer > 50) {
-        //     //     this.damageUpdateIncrementer = 0;
-        //     // }
-        //     this.updateDamageProperties();
-        // }
     },       
 };

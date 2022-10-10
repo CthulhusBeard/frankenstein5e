@@ -182,7 +182,7 @@ export default {
 
         averageCR: function() {
             let armorCr = this.armorCr;
-            armorCr = armorCr.replace('> ','');
+            armorCr = armorCr.toString().replace('> ','');
             if(String(armorCr).includes('-')) {
                 let splitArmor = armorCr.split('-');
                 armorCr = this.toNumber(this.toNumber(splitArmor[0]) + this.toNumber(splitArmor[1])) / 2;
