@@ -756,12 +756,33 @@ export default {
             //}
             return false;
         },
+
         featureCount: function() {
             let count = 0;
             for(let type in this.value.features) {
                 count += this.value.features[type].length;
             }
             return count;
+        },
+
+        averageDPR: function() {
+            if(
+                this.generated.damageProjection[0] && 
+                this.generated.damageProjection[0].hasOwnProperty('damage')
+            ) {
+                 return this.generated.damageProjection[0].damage;
+            }
+            return 0;
+        },
+
+        maxDPR: function() {
+            if(
+                this.generated.damageProjection[0] && 
+                this.generated.damageProjection[0].hasOwnProperty('maxDamage')
+            ) {
+                 return this.generated.damageProjection[0].maxDamage;
+            }
+            return 0;
         },
     },
 
@@ -1214,14 +1235,8 @@ export default {
 
         exportMonster: function() {
             let cloneOptions = JSON.parse(JSON.stringify(this.value));
-            for(let featureType in cloneOptions.features) {
-                for(let feature of cloneOptions.features[featureType]) {
-                    delete feature.averageDPR;
-                    delete feature.damageProjection;
-                }
-            }
             console.log('Export Monster');
-            console.log(this.value);
+            console.log(cloneOptions);
         },
 
         getFeatureById: function(id, types = null) {

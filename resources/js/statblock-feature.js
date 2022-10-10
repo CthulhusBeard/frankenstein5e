@@ -132,14 +132,10 @@ export default {
         },
 
         averageDPR: function() {
-            console.log('averageDPR');
-            console.log(this.damageProjection[0].damage);
             return this.damageProjection[0].damage;
         },
 
         maxDPR: function() {
-            console.log('maxDPR');
-            console.log(this.damageProjection[0].maxDamage);
             return this.damageProjection[0].maxDamage;
         },
 

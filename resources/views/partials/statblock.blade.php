@@ -11,8 +11,8 @@
                     @{{f5.misc.title_ac_cr}}: @{{armorCr}}<br/>
                     @{{f5.misc.title_challenge_rating}}: @{{crText}}<br/>
                     <br/>
-                    @{{f5.misc.title_average_dpr}}: @{{generated.averageDPR}}<br/>
-                    @{{f5.misc.title_max_dpr}}: @{{generated.maxDPR}}<br/>
+                    @{{f5.misc.title_average_dpr}}: @{{averageDPR}}<br/>
+                    @{{f5.misc.title_max_dpr}}: @{{maxDPR}}<br/>
                 </div>
                 {{--
                 <div> 
