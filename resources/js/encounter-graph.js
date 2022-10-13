@@ -16,17 +16,21 @@ export default {
     }
   },
 
-  watch: {
-    playerData: {
-      handler(val) {
-        this.updateGraph();
-      },
-      deep: true
-    },
+  // watch: {
+  //   playerData: {
+  //     handler(val) {
+  //       this.updateGraph();
+  //     },
+  //     deep: true
+  //   },
+  // },
+
+  created() {
+    console.log('created graphInstance '+this.id+ ' / '+this.name );
   },
 
   mounted() {
-    //console.log('mounted graphInstance '+this.id+ ' / '+this.name );
+    console.log('mounted graphInstance '+this.id+ ' / '+this.name );
     this.buildGraph();
   },
 
@@ -125,7 +129,7 @@ export default {
       let graphInstance = Chart.getChart(canvasId);
       if(graphInstance) {
         this.graphInstance = graphInstance;
-        this.updateGraph()
+        this.updateGraph();
       } else {
         const ctx = document.getElementById(canvasId);
         this.graphInstance = new Chart(ctx, this.graphProperties());

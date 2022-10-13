@@ -1,5 +1,5 @@
 <script type="text/x-template" id="template-statblock"> 
-    <div>
+    <div class="statblock-section">
 
         <div class="statblock-data">
             <div class="builder-controls popup-overlay">
@@ -64,7 +64,7 @@
             
         </div>
 
-        <div class="stat-block-container">
+        <div class="statblock-container">
             <div class="stat-block" :class="[{'edit-mode': editMode}, statblockColumns]">
                 <div class="stat-block__section">
                     <div class="stat-block__title focus-edit">

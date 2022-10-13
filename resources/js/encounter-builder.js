@@ -2,6 +2,7 @@ import Multiselect from '@vueform/multiselect/dist/multiselect.vue2.js';
 import StatBlockFeature from './statblock-feature.js'
 import StatBlock from './statblock.js'
 import EncounterGraph from './encounter-graph.js';
+import * as SampleMonsters from './sample-monsters';
 
 export function initVue(f5data) {
     
@@ -23,6 +24,7 @@ export function initVue(f5data) {
                 roundTracker: 7,
                 importMonster: 0,
             },
+            sampleMonsters: SampleMonsters.monsters,
             statblocks: [],
             projections: [],
             f5: f5data,
@@ -37,25 +39,10 @@ export function initVue(f5data) {
 
         mounted() {
             this.createStatBlock();
+            console.log(this.sampleMonsters);
         },
 
         computed: {
-            encounterData: function() {
-                let graphData = [];
-
-                for(let statblock of this.$refs.statblocks) {
-                    let monsterData = {
-                        name: statblock.name,
-                        hp: statblock.getHP,
-                        dpr: statblock.averageDPR,
-                        projection: statblock.damageProjection,
-                    };
-
-                    graphData.push(monsterData);
-                }
-
-                return graphData;
-            },
         },
 
         methods: {
@@ -106,13 +93,13 @@ export function initVue(f5data) {
             },
 
             updateProjections: function(id, projections) {
-                // for(let statblock of this.statblocks) {
-                //     if(statblock.trackingId == id) {
-                //         statblock.projections = projections;
-                //     }
-                // }
+                for(let statblock of this.statblocks) {
+                    if(statblock.trackingId == id) {
+                        statblock.projections = projections;
+                    }
+                }
                 console.log('encounter: update projections');
-                // console.log(this.statblocks);
+                console.log(this.statblocks);
             }
         },
     });

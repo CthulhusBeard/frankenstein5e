@@ -74,11 +74,11 @@
                         <div class="control-title">Importer</div>
                         <div>
                             <select v-model="editor.importMonster">
-                                <option v-for="(monster, i) in SampleMonsters.monsters" :value="i">@{{monster.name}}</option>
+                                <option v-for="(monster, i) in sampleMonsters" :value="i">@{{monster.name}}</option>
                             </select>
                         </div>
                         <div>
-                            <button @click="importMonster(SampleMonsters.monsters[editor.importMonster])">@{{f5.misc.title_import}}</button>
+                            <button @click="importMonster(sampleMonsters[editor.importMonster])">@{{f5.misc.title_import}}</button>
                         </div>
                         <div>
                             <br/>
@@ -106,15 +106,15 @@
                     >
                     </Statblock>
                 </div>
-<!-- 
+
                 <EncounterGraph 
-                    :encounter-data="encounterData"
+                    :encounter-data="statblocks"
                     :player-data="editor.playerData"
                     :combat-rounds="editor.roundTracker"
                     :f5="f5"
                     ref="graph"
                 >
-                </EncounterGraph> -->
+                </EncounterGraph>
 
             </div>
         </div>
@@ -158,7 +158,7 @@
 
         @include('partials.statblock')
         @include('partials.statblock-feature')
-        @include('partials.projection-graph')
+        @include('partials.encounter-graph')
 
     </body>
 </html>

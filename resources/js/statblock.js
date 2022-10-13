@@ -1291,8 +1291,9 @@ export default {
                 }
             }
             if(changesMade) {
-                this.generated.damageProjection = this.getDamageProjection();
-                this.$emit('update-projections', this.trackingId, this.getDamageProjection());
+                let projection = this.getDamageProjection();
+                this.generated.damageProjection = projection;
+                this.$emit('update-projections', this.trackingId, projection);
             }
         },
 
