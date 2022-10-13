@@ -371,6 +371,8 @@ export default {
                 conHP = conMod * amount;
             }
             let hp = (Math.round((type / 2 + .5) * amount) + conHP) + additionalHP;
+
+            this.$emit('update-hp', this.trackingId, hp);
             return hp;
         },
         

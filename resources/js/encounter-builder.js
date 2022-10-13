@@ -5,6 +5,7 @@ import EncounterGraph from './encounter-graph.js';
 import * as SampleMonsters from './sample-monsters';
 
 export function initVue(f5data) {
+    Vue.config.devtools = true;
     
     let app = new Vue({
         el: '#f5',
@@ -34,12 +35,11 @@ export function initVue(f5data) {
             'Multiselect': Multiselect,
             'Statblock': StatBlock,
             'StatblockFeature': StatBlockFeature,
-            'EncounterGraph': EncounterGraph,
+            'Encountergraph': EncounterGraph, //TODO: Find out why "Encountergraph" works and "EncounterGraph" doesnt
         },
 
         mounted() {
             this.createStatBlock();
-            console.log(this.sampleMonsters);
         },
 
         computed: {
@@ -92,14 +92,20 @@ export function initVue(f5data) {
                 }
             },
 
-            updateProjections: function(id, projections) {
+            updateMonsterHP: function(id, hp) {
+                for(let statblock of this.statblocks) {
+                    if(statblock.trackingId == id) {
+                        statblock.hp = hp;
+                    }
+                }
+            },
+
+            updateMonsterProjections: function(id, projections) {
                 for(let statblock of this.statblocks) {
                     if(statblock.trackingId == id) {
                         statblock.projections = projections;
                     }
                 }
-                console.log('encounter: update projections');
-                console.log(this.statblocks);
             }
         },
     });

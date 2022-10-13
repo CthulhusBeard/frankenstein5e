@@ -101,20 +101,20 @@
                         :measure="editor.measure"
                         @remove-statblock="removeStatBlock"
                         @update-name="updateMonsterName"
-                        @update-projections="updateProjections"
+                        @update-hp="updateMonsterHP"
+                        @update-projections="updateMonsterProjections"
                         ref="statblocks"
                     >
                     </Statblock>
                 </div>
 
-                <EncounterGraph 
+                <Encountergraph 
                     :encounter-data="statblocks"
                     :player-data="editor.playerData"
                     :combat-rounds="editor.roundTracker"
                     :f5="f5"
-                    ref="graph"
                 >
-                </EncounterGraph>
+                </Encountergraph>
 
             </div>
         </div>

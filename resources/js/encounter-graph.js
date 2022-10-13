@@ -26,11 +26,11 @@ export default {
   // },
 
   created() {
-    console.log('created graphInstance '+this.id+ ' / '+this.name );
+    console.log('created graphInstance');
   },
 
   mounted() {
-    console.log('mounted graphInstance '+this.id+ ' / '+this.name );
+    console.log('mounted graphInstance');
     this.buildGraph();
   },
 
@@ -39,10 +39,6 @@ export default {
   },
 
   computed: {
-    graphId: function() {
-      return this.id;
-    },
-
     playerAverageDamage: function() {
         let levelData = this.f5.playerlevels[this.playerData.level];
         let playerDamage = this.playerData.number * levelData.average_dpr;
