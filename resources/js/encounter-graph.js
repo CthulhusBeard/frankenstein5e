@@ -66,7 +66,15 @@ export default {
       let defaultPointStyle = 'circle';
       let deathPointStyle = 'crossRot';
 
-      let monsterHP = this.monster_hp;
+      console.log('this.encounterData');
+      console.log(this.encounterData);
+      console.log(Object.values(this.encounterData));
+
+
+      let monsterHP = Object.values(this.encounterData).map(monster => monster.hp);
+      
+      console.log('monsterHP');
+      console.log(monsterHP);
       let playerDamage = this.playerAverageDamage;
       let playerHP = this.f5.playerlevels[this.playerData.level].average_hp;
       let cumulativeAverageDamage = 0;
