@@ -1258,13 +1258,13 @@ export default {
 
         featureIsMounted: function() {
             this.mountedFeatures++;
-            if(this.featureCount === this.mountedFeatures) {
-                if(this.$refs.multiattack_features && this.$refs.multiattack_features.length) {
-                    for(const feature of this.$refs.multiattack_features) {
-                        feature.forceProjectionUpdate();
-                    }
-                }
-            }
+            // if(this.featureCount === this.mountedFeatures) {
+            //     if(this.$refs.multiattack_features && this.$refs.multiattack_features.length) {
+            //         for(const feature of this.$refs.multiattack_features) {
+            //             feature.forceProjectionUpdate();
+            //         }
+            //     }
+            // }
         },
         
         toNumber: function(input) {

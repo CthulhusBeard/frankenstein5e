@@ -16,14 +16,20 @@ export default {
         }
     },
 
-    // watch: {
-    //   playerData: {
-    //     handler(val) {
-    //       this.updateGraph();
-    //     },
-    //     deep: true
-    //   },
-    // },
+    watch: {
+      playerData: {
+        handler(val) {
+          this.updateGraph();
+        },
+        deep: true
+      },
+      encounterData: {
+        handler(val) {
+          this.updateGraph();
+        },
+        deep: true
+      },
+    },
 
     created() {
         console.log('created graphInstance');
@@ -69,10 +75,8 @@ export default {
                 labelsList[roundIndex] = this.f5.misc.round_num.replace(':round_number', roundIndex + 1);
 
                 //Loop through all monsters in the encounter
-                for (let monsterIndex = 0; monsterIndex < this.encounterData; monsterIndex++) {
+                for (let monsterIndex = 0; monsterIndex < this.encounterData.length; monsterIndex++) {
                     let monster = this.encounterData[monsterIndex];
-                    console.log('monsterIndex: '+monsterIndex);
-                    console.log(monster);
                     
                     //Initialize monster data if it doesn't exist
                     if(!monsterData[monsterIndex]) {
@@ -88,10 +92,10 @@ export default {
                     }
 
                     //TODO: Assumes monster goes first (damage is cumulated before checking HP). Does that need to change?
-                    let roundDamage = (monster.projections[roundIndex]) ? monster.projections[roundIndex].damage : 0;
+                    let roundDamage = (monster.hasOwnProperty('projections') && monster.projections[roundIndex]) ? monster.projections[roundIndex].damage : 0;
                     monsterData[monsterIndex].damageData[roundIndex] = roundDamage;
                     cumulativeMonsterDamagePerRound[roundIndex] += roundDamage;
-                    monsterData[monsterIndex].maxDamageData[roundIndex] = (monster.projections[roundIndex]) ? monster.projections[roundIndex].maxDamage : 0;
+                    monsterData[monsterIndex].maxDamageData[roundIndex] = (monster.hasOwnProperty('projections') && monster.projections[roundIndex]) ? monster.projections[roundIndex].maxDamage : 0;
                     monsterData[monsterIndex].hpData[roundIndex] = monsterData[monsterIndex].currentHP;
 
                     //Reduce Monster Current HP
@@ -141,8 +145,8 @@ export default {
 
     methods: {
         buildGraph: function () {
-            const canvasId = 'projection-graph-' + this.id;
-            console.log('Build graph: ' + this.name + ' - ' + this.id);
+            const canvasId = 'encounter-graph';
+            console.log('Build graph');
             let graphInstance = Chart.getChart(canvasId);
             if (graphInstance) {
                 this.graphInstance = graphInstance;
@@ -158,7 +162,7 @@ export default {
         },
 
         updateGraph: function () {
-            console.log('updateGraph ' + this.id + ' / ' + this.name);
+            console.log('updateGraph');
             if (!this.graphInstance) {
                 this.buildGraph();
             }
@@ -190,38 +194,38 @@ export default {
                 ]
             };
 
-            // for(let monster of formattedData.monsterData) {
-            //     data.datasets.push({
-            //         label: this.f5.misc.graph_data_monster_damage.replace(':creature_name', monster.name),
-            //         data: monster.damageData,
-            //         backgroundColor: "rgba(183,71,132,.5)",
-            //         borderColor: "#b74784",
-            //         borderWidth: 3,
-            //         pointStyle: monster.defaultPointStyle,
-            //         pointRadius: 5,
-            //         pointHoverRadius: 10
-            //     });
-            //     data.datasets.push({
-            //         label: this.f5.misc.graph_data_monster_max_damage.replace(':creature_name', monster.name),
-            //         data: monster.maxDamageData,
-            //         backgroundColor: "rgba(54,73,93,.5)",
-            //         borderColor: "#36495d",
-            //         borderWidth: 3,
-            //         pointStyle: monster.defaultPointStyle,
-            //         pointRadius: 5,
-            //         pointHoverRadius: 10
-            //     });
-            //     data.datasets.push({
-            //         label: this.f5.misc.graph_data_monster_hp.replace(':creature_name', monster.name),
-            //         data: monster.monstersHPData,
-            //         backgroundColor: "rgba(71,183,132,.5)",
-            //         borderColor: "#47b784",
-            //         borderWidth: 3,
-            //         pointStyle: monster.hpPointStyles,
-            //         pointRadius: 5,
-            //         pointHoverRadius: 10
-            //     });
-            // }
+            for(let monster of formattedData.monsterData) {
+                data.datasets.push({
+                    label: this.f5.misc.graph_data_monster_damage.replace(':creature_name', monster.name),
+                    data: monster.damageData,
+                    backgroundColor: "rgba(183,71,132,.5)",
+                    borderColor: "#b74784",
+                    borderWidth: 3,
+                    pointStyle: monster.defaultPointStyle,
+                    pointRadius: 5,
+                    pointHoverRadius: 10
+                });
+                data.datasets.push({
+                    label: this.f5.misc.graph_data_monster_max_damage.replace(':creature_name', monster.name),
+                    data: monster.maxDamageData,
+                    backgroundColor: "rgba(54,73,93,.5)",
+                    borderColor: "#36495d",
+                    borderWidth: 3,
+                    pointStyle: monster.defaultPointStyle,
+                    pointRadius: 5,
+                    pointHoverRadius: 10
+                });
+                data.datasets.push({
+                    label: this.f5.misc.graph_data_monster_hp.replace(':creature_name', monster.name),
+                    data: monster.monstersHPData,
+                    backgroundColor: "rgba(71,183,132,.5)",
+                    borderColor: "#47b784",
+                    borderWidth: 3,
+                    pointStyle: monster.hpPointStyles,
+                    pointRadius: 5,
+                    pointHoverRadius: 10
+                });
+            }
             console.log('graphData');
             console.log(data);
 
