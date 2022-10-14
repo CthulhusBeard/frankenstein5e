@@ -136,7 +136,7 @@ export default {
         },
 
         maxDPR: function() {
-            return this.damageProjection[0].maxDamage;
+            return this.damageProjection[0].maxDamage; 
         },
 
         displayName: function() {
@@ -879,6 +879,9 @@ export default {
         },
 
         dprCalculator: function(useMax = false) {
+            //TODO: Does "Max" consider crits?!?!? Should it??
+            //TODO: Does "Max" consider recharging?
+
             let avgDPR = 0;
             let avgTargets = 1;
             if(this.value.manualDPR >= 0) {

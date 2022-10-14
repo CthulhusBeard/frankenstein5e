@@ -1,233 +1,254 @@
 import Chart from 'chart.js/auto';
 
 export default {
-  props: [
-    'encounterData', 
-    'playerData',
-    'combatRounds',
-    'f5'
-  ],
+    props: [
+        'encounterData',
+        'playerData',
+        'combatRounds',
+        'f5'
+    ],
 
-  template: '#template-encounter-graph',
+    template: '#template-encounter-graph',
 
-  data: function () {
-    return {
-      graphInstance: null,
-    }
-  },
-
-  // watch: {
-  //   playerData: {
-  //     handler(val) {
-  //       this.updateGraph();
-  //     },
-  //     deep: true
-  //   },
-  // },
-
-  created() {
-    console.log('created graphInstance');
-  },
-
-  mounted() {
-    console.log('mounted graphInstance');
-    this.buildGraph();
-  },
-
-  beforeDestroy() {
-    this.destroyGraph();
-  },
-
-  computed: {
-    playerAverageDamage: function() {
-        let levelData = this.f5.playerlevels[this.playerData.level];
-        let playerDamage = this.playerData.number * levelData.average_dpr;
-        return playerDamage * this.playerData.hit_chance;
-    },
-
-    formattedData: function() {
-      let monsterDamage = 0;
-
-      console.log('encounterData');
-      console.log(this.encounterData);
-
-      let projectedPCDeath = -1;
-      let projectedMonsterDeath = -1;
-
-      //X-Axis Labels and Health Over Time
-      let labelsList = [];
-      let monsterHPData = [];
-      let monsterHPPointStyles = [];
-      let playerHPData = [];
-      let playerHPPointStyles = [];
-      let damageData = [];
-      let maxDamageData = [];
-
-      let defaultPointStyle = 'circle';
-      let deathPointStyle = 'crossRot';
-
-      console.log('this.encounterData');
-      console.log(this.encounterData);
-      console.log(Object.values(this.encounterData));
-
-
-      let monsterHP = Object.values(this.encounterData).map(monster => monster.hp);
-      
-      console.log('monsterHP');
-      console.log(monsterHP);
-      let playerDamage = this.playerAverageDamage;
-      let playerHP = this.f5.playerlevels[this.playerData.level].average_hp;
-      let cumulativeAverageDamage = 0;
-      
-      for(let i = 0; i < this.combatRounds; i++) {
-        labelsList.push(this.f5.misc.round_num.replace(':round_number', i+1));
-        let roundDamage = (this.monster_damage[i]) ? this.monster_damage[i].damage : 0;
-        damageData.push(roundDamage);
-        cumulativeAverageDamage += roundDamage;
-        maxDamageData.push((this.monster_damage[i]) ? this.monster_damage[i].maxDamage : 0);
-
-        monsterHPData.push(monsterHP);
-        if(monsterHP === 0) {
-          monsterHPPointStyles.push(deathPointStyle);
-          if(projectedMonsterDeath === -1) {
-            projectedMonsterDeath = i;
-          }
-        } else {
-          monsterHPPointStyles.push(defaultPointStyle);
+    data: function () {
+        return {
+            graphInstance: null,
         }
-        monsterHP = (monsterHP > playerDamage) ? monsterHP - playerDamage : 0;
-
-        playerHPData.push(playerHP);
-        if(playerHP === 0) {
-          playerHPPointStyles.push(deathPointStyle);
-          if(projectedPCDeath === -1) {
-            projectedPCDeath = i;
-          }
-        } else {
-          playerHPPointStyles.push(defaultPointStyle);
-        }
-        playerHP = (playerHP > roundDamage) ? playerHP - roundDamage : 0;
-      }
-
-      return {
-        damageData: damageData,
-        maxDamageData: maxDamageData,
-        cumulativeAverageDamage: cumulativeAverageDamage,
-        playerHPData: playerHPData,
-        monsterHPData: monsterHPData,
-        labelsList: labelsList,
-        defaultPointStyle: defaultPointStyle,
-        monsterHPPointStyles: monsterHPPointStyles,
-        playerHPPointStyles: playerHPPointStyles,
-        projectedMonsterDeath: projectedMonsterDeath,
-        projectedPCDeath: projectedPCDeath,
-      }
     },
 
-  },
+    // watch: {
+    //   playerData: {
+    //     handler(val) {
+    //       this.updateGraph();
+    //     },
+    //     deep: true
+    //   },
+    // },
 
-  methods: {
-    buildGraph: function() {
-      const canvasId = 'projection-graph-'+this.id;
-      console.log('Build graph: '+this.name+' - '+this.id);
-      let graphInstance = Chart.getChart(canvasId);
-      if(graphInstance) {
-        this.graphInstance = graphInstance;
-        this.updateGraph();
-      } else {
-        const ctx = document.getElementById(canvasId);
-        this.graphInstance = new Chart(ctx, this.graphProperties());
-      }
+    created() {
+        console.log('created graphInstance');
     },
 
-    destroyGraph: function() {
-      this.graphInstance.destroy();
-    },
-
-    updateGraph: function() {
-      console.log('updateGraph '+this.id+ ' / '+this.name );
-      if(!this.graphInstance) {
+    mounted() {
+        console.log('mounted graphInstance');
         this.buildGraph();
-      }
-      this.graphInstance.data = this.graphData();
-
-      this.graphInstance.options.plugins.title.text = this.f5.misc.title_combat_projection.replace(':creature_name', this.name);
-      this.graphInstance.update();
     },
 
-    graphData: function() {
-      let formattedData = this.formattedData;
-
-      let data = {
-        labels: formattedData.labelsList,
-        datasets: [
-          {
-            label: this.f5.misc.graph_data_monster_damage.replace(':creature_name', this.name),
-            data: formattedData.damageData,
-            backgroundColor: "rgba(183,71,132,.5)",
-            borderColor: "#b74784",
-            borderWidth: 3,
-            pointStyle: formattedData.defaultPointStyle,
-            pointRadius: 5,
-            pointHoverRadius: 10
-          },
-          {
-            label: this.f5.misc.graph_data_monster_max_damage.replace(':creature_name', this.name),
-            data: formattedData.maxDamageData,
-            backgroundColor: "rgba(54,73,93,.5)",
-            borderColor: "#36495d",
-            borderWidth: 3,
-            pointStyle: formattedData.defaultPointStyle,
-            pointRadius: 5,
-            pointHoverRadius: 10
-          },
-          {
-            label: this.f5.misc.graph_data_monster_hp.replace(':creature_name', this.name),
-            data: formattedData.monsterHPData,
-            backgroundColor: "rgba(71,183,132,.5)",
-            borderColor: "#47b784",
-            borderWidth: 3,
-            pointStyle: formattedData.monsterHPPointStyles,
-            pointRadius: 5,
-            pointHoverRadius: 10
-          },
-          {
-            label: this.f5.misc.graph_data_player_hp,
-            data: formattedData.playerHPData,
-            backgroundColor: "rgba(71,132,183,.5)",
-            borderColor: "#4784b7",
-            borderWidth: 3,
-            pointStyle: formattedData.playerHPPointStyles,
-            pointRadius: 5,
-            pointHoverRadius: 10
-          }
-        ]
-      };
-
-      return data;
+    beforeDestroy() {
+        this.destroyGraph();
     },
 
-    graphProperties: function() {
+    computed: {
+        playerAverageDamage: function () {
+            let levelData = this.f5.playerlevels[this.playerData.level];
+            let playerDamage = this.playerData.number * levelData.average_dpr;
+            return playerDamage * this.playerData.hit_chance;
+        },
 
-      let data = {
-        type: "line",
-        data: this.graphData(),
-        options: {
-          responsive: true,
-          plugins: {
-            legend: {
-              position: 'top',
-            },
-            title: {
-              display: true,
-              text: this.f5.misc.title_combat_projection.replace(':creature_name', this.name)
+        formattedData: function () {
+
+            let projectedPCDeath = -1;
+
+            //X-Axis Labels and Health Over Time
+            let labelsList = [];
+            let playerHPData = [];
+            let playerHPPointStyles = [];
+            let monsterData = [];
+
+            let defaultPointStyle = 'circle';
+            let deathPointStyle = 'crossRot';
+
+            let playerHP = this.f5.playerlevels[this.playerData.level].average_hp;
+            let cumulativeMonsterDamagePerRound = [];
+
+            //Loop through turns
+            for (let roundIndex = 0; roundIndex < this.combatRounds; roundIndex++) {
+                let playerDamageThisRound = this.playerAverageDamage;
+                cumulativeMonsterDamagePerRound[roundIndex] = 0;
+
+                labelsList[roundIndex] = this.f5.misc.round_num.replace(':round_number', roundIndex + 1);
+
+                //Loop through all monsters in the encounter
+                for (let monsterIndex = 0; monsterIndex < this.encounterData; monsterIndex++) {
+                    let monster = this.encounterData[monsterIndex];
+                    console.log('monsterIndex: '+monsterIndex);
+                    console.log(monster);
+                    
+                    //Initialize monster data if it doesn't exist
+                    if(!monsterData[monsterIndex]) {
+                        monsterData[monsterIndex] = {
+                            name: monster.name,
+                            damageData: [],
+                            maxDamageData: [],
+                            hpData: [],
+                            hpPointStyles: [],
+                            projectedDeath: -1,
+                            currentHP: monster.hp,
+                        };
+                    }
+
+                    //TODO: Assumes monster goes first (damage is cumulated before checking HP). Does that need to change?
+                    let roundDamage = (monster.projections[roundIndex]) ? monster.projections[roundIndex].damage : 0;
+                    monsterData[monsterIndex].damageData[roundIndex] = roundDamage;
+                    cumulativeMonsterDamagePerRound[roundIndex] += roundDamage;
+                    monsterData[monsterIndex].maxDamageData[roundIndex] = (monster.projections[roundIndex]) ? monster.projections[roundIndex].maxDamage : 0;
+                    monsterData[monsterIndex].hpData[roundIndex] = monsterData[monsterIndex].currentHP;
+
+                    //Reduce Monster Current HP
+                    if (monsterData[monsterIndex].currentHP === 0) {
+                        monsterData[monsterIndex].hpPointStyles[roundIndex] = deathPointStyle;
+                        if (monsterData[monsterIndex].projectedDeath === -1) {
+                            monsterData[monsterIndex].projectedDeath = roundIndex;
+                        }
+                    } else {
+                        monsterData[monsterIndex].hpPointStyles[roundIndex] = defaultPointStyle;
+                    }
+                    if (monsterData[monsterIndex].currentHP > playerDamageThisRound) {
+                        //Monster lives
+                        monsterData[monsterIndex].currentHP = monsterData[monsterIndex].currentHP - playerDamageThisRound;
+                        playerDamageThisRound = 0;
+                    } else {
+                        //Monster dies
+                        playerDamageThisRound -= monsterData[monsterIndex].currentHP;
+                        monsterData[monsterIndex].currentHP = 0
+                    }
+                }
+
+                //Player HP
+                playerHPData[roundIndex] = playerHP;
+                if (playerHP === 0) {
+                    playerHPPointStyles[roundIndex] = deathPointStyle;
+                    if (projectedPCDeath === -1) {
+                        projectedPCDeath = i;
+                    }
+                } else {
+                    playerHPPointStyles[roundIndex] = defaultPointStyle;
+                }
+                playerHP = (playerHP > cumulativeMonsterDamagePerRound[roundIndex]) ? playerHP - cumulativeMonsterDamagePerRound[roundIndex] : 0;
             }
-          }
-        }
-      };
 
-      return data;
-    }
-  
-  },
+            return {
+                monsterData: monsterData,
+                playerHPData: playerHPData,
+                labelsList: labelsList,
+                defaultPointStyle: defaultPointStyle,
+                playerHPPointStyles: playerHPPointStyles,
+                projectedPCDeath: projectedPCDeath,
+            }
+        },
+
+    },
+
+    methods: {
+        buildGraph: function () {
+            const canvasId = 'projection-graph-' + this.id;
+            console.log('Build graph: ' + this.name + ' - ' + this.id);
+            let graphInstance = Chart.getChart(canvasId);
+            if (graphInstance) {
+                this.graphInstance = graphInstance;
+                this.updateGraph();
+            } else {
+                const ctx = document.getElementById(canvasId);
+                this.graphInstance = new Chart(ctx, this.graphProperties());
+            }
+        },
+
+        destroyGraph: function () {
+            this.graphInstance.destroy();
+        },
+
+        updateGraph: function () {
+            console.log('updateGraph ' + this.id + ' / ' + this.name);
+            if (!this.graphInstance) {
+                this.buildGraph();
+            }
+            this.graphInstance.data = this.graphData();
+
+            this.graphInstance.options.plugins.title.text = this.f5.misc.title_combat_projection.replace(':creature_name', this.name);
+            this.graphInstance.update();
+        },
+
+        graphData: function () {
+            let formattedData = this.formattedData;
+
+            console.log('formattedData');
+            console.log(formattedData);
+
+            let data = {
+                labels: formattedData.labelsList,
+                datasets: [
+                    {
+                        label: this.f5.misc.graph_data_player_hp,
+                        data: formattedData.playerHPData,
+                        backgroundColor: "rgba(71,132,183,.5)",
+                        borderColor: "#4784b7",
+                        borderWidth: 3,
+                        pointStyle: formattedData.playerHPPointStyles,
+                        pointRadius: 5,
+                        pointHoverRadius: 10
+                    }
+                ]
+            };
+
+            // for(let monster of formattedData.monsterData) {
+            //     data.datasets.push({
+            //         label: this.f5.misc.graph_data_monster_damage.replace(':creature_name', monster.name),
+            //         data: monster.damageData,
+            //         backgroundColor: "rgba(183,71,132,.5)",
+            //         borderColor: "#b74784",
+            //         borderWidth: 3,
+            //         pointStyle: monster.defaultPointStyle,
+            //         pointRadius: 5,
+            //         pointHoverRadius: 10
+            //     });
+            //     data.datasets.push({
+            //         label: this.f5.misc.graph_data_monster_max_damage.replace(':creature_name', monster.name),
+            //         data: monster.maxDamageData,
+            //         backgroundColor: "rgba(54,73,93,.5)",
+            //         borderColor: "#36495d",
+            //         borderWidth: 3,
+            //         pointStyle: monster.defaultPointStyle,
+            //         pointRadius: 5,
+            //         pointHoverRadius: 10
+            //     });
+            //     data.datasets.push({
+            //         label: this.f5.misc.graph_data_monster_hp.replace(':creature_name', monster.name),
+            //         data: monster.monstersHPData,
+            //         backgroundColor: "rgba(71,183,132,.5)",
+            //         borderColor: "#47b784",
+            //         borderWidth: 3,
+            //         pointStyle: monster.hpPointStyles,
+            //         pointRadius: 5,
+            //         pointHoverRadius: 10
+            //     });
+            // }
+            console.log('graphData');
+            console.log(data);
+
+            return data;
+        },
+
+        graphProperties: function () {
+
+            let data = {
+                type: "line",
+                data: this.graphData(),
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: this.f5.misc.title_combat_projection.replace(':creature_name', this.name)
+                        }
+                    }
+                }
+            };
+
+            return data;
+        }
+
+    },
 }

@@ -5,6 +5,7 @@ return [
     'title_player_characters' => 'Player Characters',
     'title_player_characters_count' => 'Count',
     'title_player_characters_level' => 'Level',
+    'title_average_player_hp_at_level' => 'Average Player HP at level :level:',
     
     'title_controls' => 'Controls',
     'title_cr_manager' => 'Challenge Rating Manager',

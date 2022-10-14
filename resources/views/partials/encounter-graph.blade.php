@@ -4,7 +4,7 @@
 
         <button @click="updateGraph">FORCE UPDATE</button>
         
-        <div class="turn-breakdown">
+        <!-- <div class="turn-breakdown">
             <div v-for="(turn, i) in monster_damage" class="turn-display" :data-turn-id="i">
                 <label><strong>@{{ f5.misc.round_num.replace(':round_number', i+1) }}:</strong></label>
 
@@ -27,6 +27,6 @@
                 @{{f5.misc.title_max_damage}}: @{{turn.maxDamage}}
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </script>
