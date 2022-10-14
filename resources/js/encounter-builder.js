@@ -43,9 +43,6 @@ export function initVue(f5data) {
         },
 
         computed: {
-            averagePlayerHPAtLevel: function() {
-                return this.f5.playerlevels[this.editor.playerData.level].average_hp;
-            }
         },
 
         methods: {
@@ -99,6 +96,14 @@ export function initVue(f5data) {
                 for(let statblock of this.statblocks) {
                     if(statblock.trackingId == id) {
                         statblock.hp = hp;
+                    }
+                }
+            },
+
+            updateMonsterAC: function(id, ac) {
+                for(let statblock of this.statblocks) {
+                    if(statblock.trackingId == id) {
+                        statblock.ac = ac;
                     }
                 }
             },

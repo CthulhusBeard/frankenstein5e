@@ -255,6 +255,7 @@ return [
     'title_player_characters_count' => 'f5/builder.title_player_characters_count',
     'title_player_characters_level' => 'f5/builder.title_player_characters_level',
     'title_average_player_hp_at_level' => 'f5/builder.title_average_player_hp_at_level',
+    'title_average_player_dpr_at_level' => 'f5/builder.title_average_player_dpr_at_level',
 
     'title_controls' => 'f5/builder.title_controls',
     'title_cr_manager' => 'f5/builder.title_cr_manager',

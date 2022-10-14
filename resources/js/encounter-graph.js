@@ -16,19 +16,19 @@ export default {
         }
     },
 
-    watch: {
-      playerData: {
-        handler(val) {
-          this.updateGraph();
+    watch: { //TODO: Remove this and update when a user switches to the graph tab
+        playerData: {
+            handler(val) {
+                this.updateGraph();
+            },
+            deep: true
         },
-        deep: true
-      },
-      encounterData: {
-        handler(val) {
-          this.updateGraph();
+        encounterData: {
+            handler(val) {
+                this.updateGraph();
+            },
+            deep: true
         },
-        deep: true
-      },
     },
 
     created() {
@@ -45,11 +45,6 @@ export default {
     },
 
     computed: {
-        playerAverageDamage: function () {
-            let levelData = this.f5.playerlevels[this.playerData.level];
-            let playerDamage = this.playerData.number * levelData.average_dpr;
-            return playerDamage * this.playerData.hit_chance;
-        },
 
         formattedData: function () {
 
@@ -64,12 +59,12 @@ export default {
             let defaultPointStyle = 'circle';
             let deathPointStyle = 'crossRot';
 
-            let playerHP = this.f5.playerlevels[this.playerData.level].average_hp;
+            let currentPlayerHP = this.f5.playerlevels[this.playerData.level].average_hp;
             let cumulativeMonsterDamagePerRound = [];
 
             //Loop through turns
             for (let roundIndex = 0; roundIndex < this.combatRounds; roundIndex++) {
-                let playerDamageThisRound = this.playerAverageDamage;
+                let playerDamageThisRound = this.playerAverageDamage();
                 cumulativeMonsterDamagePerRound[roundIndex] = 0;
 
                 labelsList[roundIndex] = this.f5.misc.round_num.replace(':round_number', roundIndex + 1);
@@ -82,6 +77,7 @@ export default {
                     if(!monsterData[monsterIndex]) {
                         monsterData[monsterIndex] = {
                             name: monster.name,
+                            //hitChance: this.calcHitChance(monster.ac),
                             damageData: [],
                             maxDamageData: [],
                             hpData: [],
@@ -108,27 +104,27 @@ export default {
                         monsterData[monsterIndex].hpPointStyles[roundIndex] = defaultPointStyle;
                     }
                     if (monsterData[monsterIndex].currentHP > playerDamageThisRound) {
-                        //Monster lives
+                        //Player damage less than Monster HP: Monster lives
                         monsterData[monsterIndex].currentHP = monsterData[monsterIndex].currentHP - playerDamageThisRound;
                         playerDamageThisRound = 0;
                     } else {
-                        //Monster dies
-                        playerDamageThisRound -= monsterData[monsterIndex].currentHP;
+                        //Player damage greater than Monster HP: Monster dies
+                        playerDamageThisRound = playerDamageThisRound - monsterData[monsterIndex].currentHP;
                         monsterData[monsterIndex].currentHP = 0
                     }
                 }
 
                 //Player HP
-                playerHPData[roundIndex] = playerHP;
-                if (playerHP === 0) {
+                playerHPData[roundIndex] = currentPlayerHP;
+                if (currentPlayerHP === 0) {
                     playerHPPointStyles[roundIndex] = deathPointStyle;
                     if (projectedPCDeath === -1) {
-                        projectedPCDeath = i;
+                        projectedPCDeath = roundIndex;
                     }
                 } else {
                     playerHPPointStyles[roundIndex] = defaultPointStyle;
                 }
-                playerHP = (playerHP > cumulativeMonsterDamagePerRound[roundIndex]) ? playerHP - cumulativeMonsterDamagePerRound[roundIndex] : 0;
+                currentPlayerHP = (currentPlayerHP > cumulativeMonsterDamagePerRound[roundIndex]) ? currentPlayerHP - cumulativeMonsterDamagePerRound[roundIndex] : 0;
             }
 
             return {
@@ -146,14 +142,16 @@ export default {
     methods: {
         buildGraph: function () {
             const canvasId = 'encounter-graph';
-            console.log('Build graph');
             let graphInstance = Chart.getChart(canvasId);
             if (graphInstance) {
+                console.log('buildGraph(): exists');
                 this.graphInstance = graphInstance;
                 this.updateGraph();
             } else {
+                console.log('buildGraph(): instantiate');
                 const ctx = document.getElementById(canvasId);
                 this.graphInstance = new Chart(ctx, this.graphProperties());
+                this.graphInstance.options.plugins.title.text = this.f5.misc.title_combat_projection;
             }
         },
 
@@ -162,13 +160,11 @@ export default {
         },
 
         updateGraph: function () {
-            console.log('updateGraph');
+            console.log('updateGraph()');
             if (!this.graphInstance) {
                 this.buildGraph();
             }
             this.graphInstance.data = this.graphData();
-
-            this.graphInstance.options.plugins.title.text = this.f5.misc.title_combat_projection.replace(':creature_name', this.name);
             this.graphInstance.update();
         },
 
@@ -195,11 +191,15 @@ export default {
             };
 
             for(let monster of formattedData.monsterData) {
+                let colorSet1 = this.randomColourSet();
+                let colorSet2 = this.randomColourSet();
+                let colorSet3 = this.randomColourSet();
+
                 data.datasets.push({
                     label: this.f5.misc.graph_data_monster_damage.replace(':creature_name', monster.name),
                     data: monster.damageData,
-                    backgroundColor: "rgba(183,71,132,.5)",
-                    borderColor: "#b74784",
+                    backgroundColor: colorSet1.half,
+                    borderColor: colorSet1.full,
                     borderWidth: 3,
                     pointStyle: monster.defaultPointStyle,
                     pointRadius: 5,
@@ -208,8 +208,8 @@ export default {
                 data.datasets.push({
                     label: this.f5.misc.graph_data_monster_max_damage.replace(':creature_name', monster.name),
                     data: monster.maxDamageData,
-                    backgroundColor: "rgba(54,73,93,.5)",
-                    borderColor: "#36495d",
+                    backgroundColor: colorSet2.half,
+                    borderColor: colorSet2.full,
                     borderWidth: 3,
                     pointStyle: monster.defaultPointStyle,
                     pointRadius: 5,
@@ -217,15 +217,16 @@ export default {
                 });
                 data.datasets.push({
                     label: this.f5.misc.graph_data_monster_hp.replace(':creature_name', monster.name),
-                    data: monster.monstersHPData,
-                    backgroundColor: "rgba(71,183,132,.5)",
-                    borderColor: "#47b784",
+                    data: monster.hpData,
+                    backgroundColor: colorSet3.half,
+                    borderColor: colorSet3.full,
                     borderWidth: 3,
                     pointStyle: monster.hpPointStyles,
                     pointRadius: 5,
                     pointHoverRadius: 10
                 });
             }
+
             console.log('graphData');
             console.log(data);
 
@@ -252,7 +253,31 @@ export default {
             };
 
             return data;
-        }
+        },
+        
+        playerAverageDamage: function () {
+            let levelData = this.f5.playerlevels[this.playerData.level];
+            let playerDamage = this.playerData.number * levelData.average_dpr;
+            return playerDamage;; // * this.playerData.hit_chance; TODO: Add hit chance?? Maybe??
+        },
+        
+        randomColourSet: function(a = 0.5) {
+            let o = Math.round, r = Math.random, s = 255;
+            let colorBase = 'rgba(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s);
+            let colourSet = {
+                full: colorBase + ')',
+                half: colorBase+', '+a+')',
+            };
+            console.log(colourSet);
+            return colourSet;
+        },
+
+        calcHitChance: function(ac) {
+            let levelData = this.f5.playerlevels[this.playerData.level];
+            let toHitModifier = levelData.proficiency + levelData.average_modifier;
+            let hitChance = ( 21 - ( ac - (toHitModifier) )) / 20;
+            return hitChance;
+        },
 
     },
 }

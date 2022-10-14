@@ -132,11 +132,17 @@ export default {
         },
 
         averageDPR: function() {
-            return this.damageProjection[0].damage;
+            if(this.damageProjection[0] && this.damageProjection[0].hasOwnProperty('damage')) {
+                return this.damageProjection[0].damage;
+            } 
+            return 0;
         },
 
         maxDPR: function() {
-            return this.damageProjection[0].maxDamage; 
+            if(this.damageProjection[0] && this.damageProjection[0].hasOwnProperty('maxDamage')) {
+                return this.damageProjection[0].maxDamage;
+            } 
+            return 0;
         },
 
         displayName: function() {
@@ -721,6 +727,7 @@ export default {
                     });
                 }
             }
+
             return turnDamage;
         },
 
@@ -980,6 +987,10 @@ export default {
             if(!newProj) {
                 return maProj;
             }
+
+            console.log('mergeMultiattackProjections');
+            console.log(maProj);
+            console.log(newProj);
 
             for(var i = 0; i < this.combatRounds; i++) {
                 if(!newProj[i]) {

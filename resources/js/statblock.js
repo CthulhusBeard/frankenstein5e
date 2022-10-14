@@ -311,6 +311,7 @@ export default {
                 }
 
             }
+            this.$emit('update-ac', this.trackingId, acValue);
             return acValue;
         },
 

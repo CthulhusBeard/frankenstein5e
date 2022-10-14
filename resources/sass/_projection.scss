@@ -5,3 +5,14 @@
 .turn-display {
     border: 1px black solid;
 }
+
+#encounter-graph {
+    max-width: 900px;
+}
+
+.breakdown-monster {
+    margin-top: 5px;
+    label {
+        text-decoration: underline;
+    }
+}

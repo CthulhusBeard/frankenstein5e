@@ -67,7 +67,9 @@
                                     <option v-for="(obj, i) in f5.playerlevels" :value="i">@{{i}}</option>
                                 </select>
                             </div>
-                            <div>@{{f5.misc.title_average_player_hp_at_level.replace(':level', editor.playerData.level)}} @{{averagePlayerHPAtLevel}}</div>
+                            <br/>
+                            <div>@{{ f5.misc.title_average_player_hp_at_level }} @{{ this.f5.playerlevels[this.editor.playerData.level].average_hp }}</div>
+                            <div>@{{ f5.misc.title_average_player_dpr_at_level }} @{{ this.f5.playerlevels[this.editor.playerData.level].average_dpr }}</div>
                         </div>
                     </div>
 

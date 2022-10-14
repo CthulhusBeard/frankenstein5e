@@ -5,7 +5,8 @@ return [
     'title_player_characters' => 'Player Characters',
     'title_player_characters_count' => 'Count',
     'title_player_characters_level' => 'Level',
-    'title_average_player_hp_at_level' => 'Average Player HP at level :level:',
+    'title_average_player_hp_at_level' => 'Average Player HP:',
+    'title_average_player_dpr_at_level' => 'Average Player DPR:',
     
     'title_controls' => 'Controls',
     'title_cr_manager' => 'Challenge Rating Manager',
@@ -33,13 +34,13 @@ return [
     'title_clear_all' => 'Clear All Data',
 
     //Projection Graph
-    'title_combat_projection' => ':creature_name Combat Analysis',
+    'title_combat_projection' => 'Combat Analysis',
     'graph_data_monster_damage' => ':creature_name Average Damage',
-    'graph_data_monster_max_damage' => ':creature_name Damage Potential',
+    'graph_data_monster_max_damage' => ':creature_name Max Damage',
     'graph_data_monster_hp' => ':creature_name Hit Points',
     'graph_data_player_hp' => 'Single Target PC Hit Points',
     'title_average_damage' => 'Average Damage',
-    'title_max_damage' => 'Damage Potential',
+    'title_max_damage' => 'Max Damage',
     'expected_player_death' => 'Expect a PC to drop to 0 HP around this turn.',
     'expected_monster_death' => 'Expect :creature_name to drop to 0 HP around this turn.',
     
