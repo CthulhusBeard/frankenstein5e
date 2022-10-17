@@ -74,9 +74,9 @@
             <div class="feature__options feature__option-multiattack" v-if="value.template === 'multiattack'">
                 <div class="feature__multiattack__group" v-for="(group, i) of value.multiattackReferences">
                     <div class="feature__multiattack__featureRef" v-for="(feature, j) in group">
-                        <label :for="'feature__multiattack__ability__'+value.id" class="title-label">@{{f5.misc.title_multiattack_ability_name}}:</label>
+                        <label :for="'feature__multiattack__ability__'+value.id" class="title-label">@{{f5.misc.title_feature}}:</label>
                         <select :id="'feature__multiattack__ability__'+value.id" name="feature__multiattack__ability" v-model="feature.index">
-                            <option value="null" disabled selected>@{{f5.misc.title_multiattack_select_ability}}</option>
+                            <option value="null" disabled selected>@{{f5.misc.title_select_feature}}</option>
                             <option v-for="(featureRef, k) in $parent.value.features['action']" :value="k">@{{featureRef.name}}</option>
                             <option v-if="$parent.value.features['spellcasting'].length" value="spellcasting">@{{$parent.value.features['spellcasting'][0].name}}</option>
                         </select>
@@ -86,9 +86,19 @@
                         </select>
                         <div class="feature__multiattack__remove" @click="removeMultiattack(i, j)">x</div>
                     </div>
-                    <button @click="addMultiattack(i)">@{{f5.misc.title_add_multiattack_ability}}</button>
+                    <button @click="addMultiattack(i)">@{{f5.misc.title_add_feature}}</button>
                     <div v-if="i === 0">@{{f5.misc.or.toUpperCase()}}</div>
                 </div>
+            </div>
+
+            <!-- Existing Feature (for legendary / mythic actions) -->
+            <div class="feature__options feature__option-existing" v-if="value.template === 'existing'">
+                <label :for="'feature__existing__ability__'+value.id" class="title-label">@{{f5.misc.title_feature}}:</label>
+                <select :id="'feature__existing__ability__'+value.id" name="feature__existing__ability" v-model="value.existingFeatureReference">
+                    <option value="null" disabled selected>@{{f5.misc.title_select_feature}}</option>
+                    <option v-for="(featureRef, k) in $parent.value.features['action']" :value="k">@{{featureRef.name}}</option>
+                    <option v-if="$parent.value.features['spellcasting'].length" value="spellcasting">@{{$parent.value.features['spellcasting'][0].name}}</option>
+                </select>
             </div>
 
             <!-- Spellcasting -->
@@ -436,28 +446,30 @@
             </div>
 
             <div class="feature__options feature__options-global">
-                <div v-if="value.template !== 'spellcasting' && value.template !== 'multiattack'">
-                    <label class="title-label" for="feature__recharge">@{{f5.misc.title_recharge}}:</label>
-                    <select id="feature__recharge" name="feature__recharge" v-model="value.recharge.type">
-                        <option v-for="(recharge, i) in f5.recharge" :value="i" >@{{recharge.name}}</option>
-                    </select>
-                </div>
-                <div class="indent-margin" v-if="value.recharge.type === 'dice_roll'">
-                    <label class="title-label">@{{f5.misc.title_recharge_min_roll}}:</label>
-                    <select id="feature__recharge__hitdice-amount" name="feature__recharge__dice-amount" v-model="value.recharge.minRoll">
-                        <option v-for="i in value.recharge.diceType" :value="i" >@{{i}}</option>
-                    </select>
-                    <br/>
-                    <label class="title-label">@{{f5.misc.dice_type}}:</label>
-                    <select id="feature__recharge__dice-type" name="feature__recharge__dice-type" v-model="value.recharge.diceType">
-                        <option v-for="i in f5.dicetypes" :value="i" >@{{i}}</option>
-                    </select>
-                </div>
-                <div class="indent-margin" v-if="value.recharge.type === 'limited_use'">
-                    <label class="title-label">@{{f5.misc.title_recharge_limited_use}}:</label>
-                    <select id="feature__recharge__limited-use" name="feature__recharge__limited-use" v-model="value.recharge.uses">
-                        <option v-for="i in 5" :value="i" >@{{i}}</option>
-                    </select>
+                <div class="feature__recharge" v-if="value.template !== 'spellcasting' && value.template !== 'multiattack' && value.template !== 'existing'">
+                    <div>
+                        <label class="title-label" for="feature__recharge">@{{f5.misc.title_recharge}}:</label>
+                        <select id="feature__recharge" name="feature__recharge" v-model="value.recharge.type">
+                            <option v-for="(recharge, i) in f5.recharge" :value="i" >@{{recharge.name}}</option>
+                        </select>
+                    </div>
+                    <div class="indent-margin" v-if="value.recharge.type === 'dice_roll'">
+                        <label class="title-label">@{{f5.misc.title_recharge_min_roll}}:</label>
+                        <select id="feature__recharge__hitdice-amount" name="feature__recharge__dice-amount" v-model="value.recharge.minRoll">
+                            <option v-for="i in value.recharge.diceType" :value="i" >@{{i}}</option>
+                        </select>
+                        <br/>
+                        <label class="title-label">@{{f5.misc.dice_type}}:</label>
+                        <select id="feature__recharge__dice-type" name="feature__recharge__dice-type" v-model="value.recharge.diceType">
+                            <option v-for="i in f5.dicetypes" :value="i" >@{{i}}</option>
+                        </select>
+                    </div>
+                    <div class="indent-margin" v-if="value.recharge.type === 'limited_use'">
+                        <label class="title-label">@{{f5.misc.title_recharge_limited_use}}:</label>
+                        <select id="feature__recharge__limited-use" name="feature__recharge__limited-use" v-model="value.recharge.uses">
+                            <option v-for="i in 5" :value="i" >@{{i}}</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 

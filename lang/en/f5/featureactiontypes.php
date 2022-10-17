@@ -23,10 +23,10 @@ return [
     'title_add_mythic_action' => '+ Add a Mythic Action',
     'title_add_lair_action' => '+ Add a Lair Action',
 
-    'title_add_multiattack_ability' => '+ Add an Ability',
-    'title_multiattack_select_ability' => 'Select a Feature',
+    'title_feature' => 'Feature',
+    'title_add_feature' => '+ Add a Feature',
+    'title_select_feature' => 'Select a Feature',
     'title_multiattack_number_of_uses' => 'Number of Uses',
-    'title_multiattack_ability_name' => 'Feature',
     'title_multiattack_alternative' => 'Alternative',
 
     'title_legendary_action_cost' => 'Legendary Action Cost',
@@ -45,6 +45,9 @@ return [
     'recharge' => 'Recharge (:recharge)',
 
     'legendary_action_desc' => 'The :creature_name can take :legendary_action_count legendary action, choosing from the options below. A legendary action can only be used at the end of another creature\'s turn. The :creature_name regains spent legendary actions at the start of its turn.|The :creature_name can take :legendary_action_count legendary actions, choosing from the options below. Only one legendary action option can be used at a time and only at the end of another creature\'s turn. The :creature_name regains spent legendary actions at the start of its turn.',
+    'creature_uses_attack' => 'The :creature_name makes :attack_count :attack_name.',
+    'creature_uses_feature' => 'The :creature_name uses :feature_name.',
+    
     'mythic_action_desc' => 'If the :creature_name\'s mythic trait is active, it can use the options below as legendary actions for 1 hour after using :mythic_trait_name.',
     'lair_action_desc' => 'The :creature_name does cool lair stuffs',
 ];

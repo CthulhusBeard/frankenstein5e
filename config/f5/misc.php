@@ -144,10 +144,10 @@ return [
     'title_add_mythic_action' => 'f5/featureactiontypes.title_add_mythic_action',
     'title_add_lair_action' => 'f5/featureactiontypes.title_add_lair_action',
     
-    'title_add_multiattack_ability' => 'f5/featureactiontypes.title_add_multiattack_ability',
-    'title_multiattack_select_ability' => 'f5/featureactiontypes.title_multiattack_select_ability',
+    'title_add_feature' => 'f5/featureactiontypes.title_add_feature',
+    'title_select_feature' => 'f5/featureactiontypes.title_select_feature',
     'title_multiattack_number_of_uses' => 'f5/featureactiontypes.title_multiattack_number_of_uses',
-    'title_multiattack_ability_name' => 'f5/featureactiontypes.title_multiattack_ability_name',
+    'title_feature' => 'f5/featureactiontypes.title_feature',
     'title_multiattack_alternative' => 'f5/featureactiontypes.title_multiattack_alternative',
 
     'title_legendary_action_cost' => 'f5/featureactiontypes.title_legendary_action_cost',
@@ -155,6 +155,8 @@ return [
     'action_cost' => 'f5/featureactiontypes.action_cost',
 
     'legendary_action_desc' => 'f5/featureactiontypes.legendary_action_desc',
+    'creature_uses_feature' => 'f5/featureactiontypes.creature_uses_feature',
+    'creature_uses_attack' => 'f5/featureactiontypes.creature_uses_attack',
     'mythic_action_desc' => 'f5/featureactiontypes.mythic_action_desc',
 
     //--

@@ -1,5 +1,5 @@
 import Multiselect from '@vueform/multiselect/dist/multiselect.vue2.js';
-import _ from 'lodash';
+import _, { functions } from 'lodash';
 
 export default {
     props: [
@@ -59,6 +59,7 @@ export default {
                     [],
                     []
                 ],
+                existingFeatureReference: null,
                 legendaryActionCost: 1,
                 manualDPR: -1,
                 manualMaxDPR: -1,
@@ -109,6 +110,8 @@ export default {
     },
 
     computed: {
+
+        /*
         featureReferences: function() {
             let featureReferences = [];
             if(this.value.template === 'multiattack') {
@@ -130,8 +133,15 @@ export default {
             }
             return featureReferences;
         },
+        */
 
         averageDPR: function() {
+            // if(this.value.template == 'existing') {
+            //     let refFeature = this.getExistingFeature();
+            //     if(refFeature.damageProjection[0] && refFeature.damageProjection[0].hasOwnProperty('damage')) {
+            //         return refFeature.damageProjection[0].damage;
+            //     }
+            // }
             if(this.damageProjection[0] && this.damageProjection[0].hasOwnProperty('damage')) {
                 return this.damageProjection[0].damage;
             } 
@@ -139,6 +149,13 @@ export default {
         },
 
         maxDPR: function() {
+            // if(this.value.template == 'existing') {
+            //     let refFeature = this.getExistingFeature();
+            //     if(refFeature.damageProjection[0] && refFeature.damageProjection[0].hasOwnProperty('maxDamage')) {
+            //         return refFeature.damageProjection[0].maxDamage;
+            //     }
+
+            // }
             if(this.damageProjection[0] && this.damageProjection[0].hasOwnProperty('maxDamage')) {
                 return this.damageProjection[0].maxDamage;
             } 
@@ -178,7 +195,7 @@ export default {
             }
 
             //Recharge rate
-            if(this.value.recharge.type !== 'none') {
+            if(this.value.recharge.type !== 'none' && this.template !== 'existing') {
                 if(brackets) {
                     brackets += this.f5.misc.sentence_list_separator_secondary+' ';
                 }
@@ -314,6 +331,9 @@ export default {
             } else if(this.value.template == 'saving_throw') {
                 //Saving Throw Description
                 descText = this.savingThrowDescription;
+            } else if(this.value.template == 'existing') {
+                //Saving Throw Description
+                descText = this.existingAbilityDescription;
             }
 
             descText+this.f5.misc.sentence_end;
@@ -397,6 +417,20 @@ export default {
             }
 
             return maDesc;
+        },
+
+        existingAbilityDescription: function() {
+            let existingDesc = '';
+            let feature = this.getExistingFeature();
+
+            if(feature !== null) {
+                existingDesc = this.descriptionTextReplace(this.f5.misc.creature_uses_feature).replace(':feature_name', feature.name);
+            }
+            if(this.value.additionalDescription) {
+                existingDesc += ' '+this.value.additionalDescription;
+            }
+
+            return existingDesc;
         },
 
         spellcastingDescription: function() {
@@ -600,6 +634,15 @@ export default {
                 turnDamage = this.spellcastingProjection();
             } else if(this.value.template === 'multiattack') {
                 turnDamage = this.multiattackProjection();
+            } else if(this.value.template == 'existing') {
+                let refFeature = this.getExistingFeature();
+                if(refFeature) {
+                    //TODO: This is not as reactive as I'd like it to be. 
+                    turnDamage = refFeature.damageProjection;
+                } else {
+                    //TODO: Should this be something else?? TEST having standard stuff in it then switch to existing
+                    turnDamage = this.standardProjection();
+                }
             } else {
                 turnDamage = this.standardProjection();
             }
@@ -988,10 +1031,6 @@ export default {
                 return maProj;
             }
 
-            console.log('mergeMultiattackProjections');
-            console.log(maProj);
-            console.log(newProj);
-
             for(var i = 0; i < this.combatRounds; i++) {
                 if(!newProj[i]) {
                     continue;
@@ -1008,6 +1047,18 @@ export default {
             }
 
             return maProj;
+        },
+        
+        getExistingFeature: function() {
+            let feature = null;
+            if(this.value.existingFeatureReference !== null) {
+                if(this.value.existingFeatureReference === 'spellcasting') {
+                    feature = this.$parent.value.features['spellcasting'][0];
+                } else {
+                    feature = this.$parent.value.features['action'][this.value.existingFeatureReference];
+                }
+            }
+            return feature;
         },
     },       
 };
