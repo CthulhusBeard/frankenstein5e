@@ -67,8 +67,11 @@ export default {
                     defensive: {
                     }
                 },
-                hasLegendaryActions: true,
+                hasLegendaryActions: false,
                 hasMythicActions: false,
+                mythicTraitName: this.f5.misc.title_mythic_feature_name,
+                mythicTraitDescription: this.f5.misc.mythic_action_feature,
+                mythicRecharge: 'short_rest',
                 legendaryActions: 3,
                 reactions: 1,
                 actions: 1,
@@ -629,92 +632,38 @@ export default {
 
         //Legendary, Mythic, and Lair Actions
         legendaryActionText: function() {
-            let legendaryActionText = this.pluralize(this.f5.misc.legendary_action_desc, this.value.legendaryActions);
-
-            let creatureName = this.value.name.toLowerCase();
-            if(this.value.isNameProperNoun) {
-                legendaryActionText = legendaryActionText.replace(/the :creature_name/ig, this.capitalize(creatureName));
-                legendaryActionText = legendaryActionText.replaceAll(':creature_name', this.capitalize(creatureName));
-            } else {
-                legendaryActionText = legendaryActionText.replaceAll(':creature_name', creatureName);
-            }
-            legendaryActionText = legendaryActionText.replaceAll(':legendary_action_count', this.value.legendaryActions);
-
-            return legendaryActionText;
+            let str = this.pluralize(this.f5.misc.legendary_action_desc, this.value.legendaryActions);
+            str = this.creatureNameReplace(str);
+            str = str.replaceAll(':legendary_action_count', this.value.legendaryActions);
+            return str;
         },
 
         mythicActionText: function() {
-            let mythicActionText = this.f5.misc.mythic_action_desc;
-            let creatureName = this.value.name.toLowerCase();
-            if(this.value.isNameProperNoun) {
-                mythicActionText = mythicActionText.replace(/the :creature_name/ig, this.capitalize(creatureName));
-                mythicActionText = mythicActionText.replaceAll(':creature_name', this.capitalize(creatureName));
-            } else {
-                mythicActionText = mythicActionText.replaceAll(':creature_name', creatureName);
-            }
-            mythicActionText = mythicActionText.replaceAll(':mythic_trait_name', "MYTHIC TRAIT NAME GOES HERE");
-
-            return mythicActionText;
+            let str = this.creatureNameReplace(this.f5.misc.mythic_action_desc);
+            str = str.replaceAll(':mythic_trait_name', this.value.mythicTraitName);
+            return str;
         },
 
-        ///////////////// NEW FEATURE /////////////////
-        // newFeatureAttackText: function() {
-        //     let abilityMod = this.getAbilityMod(this.newFeature.attack.ability);
-        //     let displayText = '<span class="i">';
-        //     if(this.newFeature.attack.meleeRanged == 'meleeranged') {
-        //         displayText += 'Melee or Ranged';
-        //     } else if(this.newFeature.attack.meleeRanged == 'melee') {
-        //         displayText += 'Melee';
-        //     } else if(this.newFeature.attack.meleeRanged == 'ranged') {
-        //         displayText += 'Ranged';
-        //     }
-        //     if(this.newFeature.attack.weaponSpell == 'weapon') {
-        //         displayText += ' Weapon ';
-        //     } else if(this.newFeature.attack.weaponSpell == 'spell') {
-        //         displayText += ' Spell ';
-        //     }
-        //     displayText += 'Attack:</span> +';
-        //     displayText += (abilityMod+this.proficiency);
-        //     displayText += ' to hit';
+        mythicTraitTitleText: function() {
+            let str = this.value.mythicTraitName+' ('+this.f5.misc.mythic_trait;
+            if(this.value.mythicRecharge == 'long_rest') {
+                str += '; '+this.f5.recharge.long_rest.desc;
+            } else if(this.value.mythicRecharge == 'short_rest') {
+                str += '; '+this.f5.recharge.short_rest.desc;
+            }
+            str += ')';
+            return str;
+        },
 
-        //     if(this.newFeature.attack.meleeRanged !== 'ranged') {
-        //         displayText += ', reach '+this.newFeature.attack.reach+' '+this.measure.measureUnit;
-        //         displayText += ', '+this.newFeature.attack.targets+' target';
-        //         if(this.newFeature.attack.targets !== 1) {
-        //             displayText += 's';
-        //         }
-        //     }
+        mythicTraitDescriptionText: function() {
+            let str = this.creatureNameReplace(this.value.mythicTraitDescription);
+            return str;
+        },
 
-        //     if(this.newFeature.attack.meleeRanged !== 'melee') {
-        //         displayText += ', range ';
-        //         displayText += this.newFeature.attack.rangeShort;
-        //         if(this.newFeature.attack.rangeLong > this.newFeature.attack.rangeShort) {
-        //             displayText += '/'+this.newFeature.attack.rangeLong;
-        //         }
-        //         displayText += ' '+this.measure.measureUnit;
-        //         displayText += ', '+this.newFeature.attack.targets+' target';
-        //         if(this.newFeature.attack.targets !== 1) {
-        //             displayText += 's';
-        //         }
-        //     }
-
-        //     displayText += '. <span class="i">Hit: </span> (';
-        //     displayText += this.newFeature.attack.diceAmount+'d'+this.newFeature.attack.damageDice;
-        //     if(abilityMod > 0) {
-        //         displayText += ' + '+abilityMod;
-        //     } else if(abilityMod < 0) {
-        //         displayText += ' - '+(abilityMod*-1);
-        //     } 
-        //     displayText += ')';
-
-        //     return displayText;
-        // },
-
-        // newFeatureSpellText: function() {
-        //     let displayText = '';
-
-        //     return displayText;
-        // },
+        lairActionText: function() {
+            let str = this.creatureNameReplace(this.f5.misc.lair_action_desc);
+            return str;
+        },
 
         casterLevel: function() {
             let casterLevel = this.value.hitPoints.diceAmount;
@@ -1500,6 +1449,17 @@ export default {
             }
 
             return totals;
+        },
+
+        creatureNameReplace: function(str) {
+            let creatureName = this.value.name.toLowerCase();
+            if(this.value.isNameProperNoun) {
+                str = str.replace(/the :creature_name/ig, this.capitalize(creatureName));
+                str = str.replaceAll(':creature_name', this.capitalize(creatureName));
+            } else {
+                str = str.replaceAll(':creature_name', creatureName);
+            }
+            return str;
         },
     }
 }

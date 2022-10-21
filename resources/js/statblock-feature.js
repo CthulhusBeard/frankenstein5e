@@ -19,7 +19,7 @@ export default {
             trackingId: this.initialData.trackingId,
             value: {
                 actionType: this.initialType,
-                name:  (this.initialType == 'spellcasting' || this.initialType == 'multiattack' ) ? this.f5.misc['title_'+this.initialType] : this.f5.misc.title_new_feature,
+                name:  (this.initialType == 'spellcasting' || this.initialType == 'multiattack' ) ? this.f5.misc['title_'+this.initialType] : this.f5.misc.title_feature_name,
                 template: (this.initialType == 'spellcasting' || this.initialType == 'multiattack' ) ? this.initialType : 'custom', 
                 attackAbility: 'str',
                 targetType: 'melee',

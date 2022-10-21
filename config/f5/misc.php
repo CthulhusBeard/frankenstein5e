@@ -93,6 +93,7 @@ return [
     'title_additional_saving_throw' => 'f5/features.title_additional_saving_throw',
 
     'title_new_feature' => 'f5/features.title_new_feature',
+    'title_mythic_feature_name' => 'f5/features.title_mythic_feature_name',
     'title_feature_name' => 'f5/features.title_feature_name',
     'title_spellcasting' => 'f5/features.title_spellcasting',
     'title_spellcasting_feature_name' => 'f5/features.title_spellcasting_feature_name',
@@ -157,7 +158,10 @@ return [
     'legendary_action_desc' => 'f5/featureactiontypes.legendary_action_desc',
     'creature_uses_feature' => 'f5/featureactiontypes.creature_uses_feature',
     'creature_uses_attack' => 'f5/featureactiontypes.creature_uses_attack',
+    'mythic_action_feature' => 'f5/featureactiontypes.mythic_action_feature',
     'mythic_action_desc' => 'f5/featureactiontypes.mythic_action_desc',
+    'mythic_trait' => 'f5/featureactiontypes.mythic_trait',
+    'lair_action_desc' => 'f5/featureactiontypes.lair_action_desc',
 
     //--
 

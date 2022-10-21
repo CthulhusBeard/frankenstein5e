@@ -77,6 +77,7 @@ return [
     //Editor Titles
     'title_new_feature' => 'New Feature',
     'title_feature_name' => 'Feature Name',
+    'title_mythic_feature_name' => 'Mythic Feature Name',
     'title_spellcasting' => 'Spellcasting',
     'title_spellcasting_feature_name' => 'Spellcasting Feature Name',
     'title_feature_options' => 'Feature Options',

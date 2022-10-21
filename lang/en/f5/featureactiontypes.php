@@ -38,7 +38,6 @@ return [
     'free_action_desc' => 'As a free action',
     'legendary_action_cost' => 'Costs :cost Legendary Actions',
     'mythic_action_cost' => 'Costs :cost Legendary Actions',
-    'lair_action_desc' => 'Lair Action',
 
     'action_cost' => ':cost Actions',
 
@@ -48,6 +47,8 @@ return [
     'creature_uses_attack' => 'The :creature_name makes :attack_count :attack_name.',
     'creature_uses_feature' => 'The :creature_name uses :feature_name.',
     
+    'mythic_action_feature' => 'When the :creature_name is reduced to 0 hit points, it doesn\'t die or fall unconscious. Instead, it does something epic.',
     'mythic_action_desc' => 'If the :creature_name\'s mythic trait is active, it can use the options below as legendary actions for 1 hour after using :mythic_trait_name.',
-    'lair_action_desc' => 'The :creature_name does cool lair stuffs',
+    'mythic_trait' => 'Mythic Trait',
+    'lair_action_desc' => 'On initiative count 20 (losing initiative ties), the :creature_name takes a lair action to cause one of the following magical effects:',
 ];

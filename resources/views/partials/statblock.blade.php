@@ -416,6 +416,24 @@
                     <div class="stat-block__line-break"></div>
                 </div>
 
+                <div v-if="value.features.mythic_action.length" class="stat-block__feature focus-edit">
+                    <div class="feature__display mythic_feature">
+                        <div class="display-field">
+                            <span class="feature__title">@{{ mythicTraitTitleText }}</span> 
+                            <span class="feature__description" v-html="mythicTraitDescriptionText"></span>
+                        </div>
+                        <div class="edit-field">
+                            <input class="title-label" type="text" v-model="value.mythicTraitName"><br/>
+                            <textarea class="edit-field" v-model="value.mythicTraitDescription"></textarea>
+                            
+                            <label class="title-label" for="feature__recharge">@{{f5.misc.title_recharge}}:</label>
+                            <select id="feature__recharge" name="feature__recharge" v-model="value.mythicRecharge">
+                                <option v-for="(recharge, i) in f5.recharge" v-if="recharge.mythicOption" :value="i" >@{{recharge.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="stat-block__passives">
                     <div class="stat-block__add-feature-button" @click="createFeature('passive')">
                         @{{f5.misc.title_add_passive}}
@@ -592,7 +610,7 @@
                 <div class="stat-block__section stat-block__lair-actions">
                     <div v-if="value.features.lair_action.length" class="stat-block__subtitle">
                         <div class="header">@{{f5.misc.title_lair_action}}</div>
-                        <div>@{{f5.misc.lair_action_desc}}</div>
+                        <div>@{{lairActionText}}</div>
                     </div>
                     <div class="stat-block__add-feature-button" @click="createFeature('lair_action')">
                         @{{f5.misc.title_add_lair_action}}
