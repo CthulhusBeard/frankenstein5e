@@ -94,10 +94,11 @@
             <!-- Existing Feature (for legendary / mythic actions) -->
             <div class="feature__options feature__option-existing" v-if="value.template === 'existing'">
                 <label :for="'feature__existing__ability__'+value.id" class="title-label">@{{f5.misc.title_feature}}:</label>
-                <select :id="'feature__existing__ability__'+value.id" name="feature__existing__ability" v-model="value.existingFeatureReference">
+                <select :id="'feature__existing__ability__'+value.id" name="feature__existing__ability" v-model="value.existingFeatureReferenceId">
                     <option value="null" disabled selected>@{{f5.misc.title_select_feature}}</option>
-                    <option v-for="(featureRef, k) in $parent.value.features['action']" :value="k">@{{featureRef.name}}</option>
-                    <option v-if="$parent.value.features['spellcasting'].length" value="spellcasting">@{{$parent.value.features['spellcasting'][0].name}}</option>
+                    <option v-for="(featureRef, k) in $parent.value.features['spellcasting']" :value="featureRef.trackingId">@{{featureRef.name}}</option>
+                    <option v-for="(featureRef, k) in $parent.value.features['action']" :value="featureRef.trackingId">@{{featureRef.name}}</option>
+                    <option v-for="(featureRef, k) in $parent.value.features['bonus_action']" :value="featureRef.trackingId">@{{featureRef.name}}</option>
                 </select>
             </div>
 

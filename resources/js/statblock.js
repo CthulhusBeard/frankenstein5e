@@ -1234,7 +1234,7 @@ export default {
         },
 
         updateProjections: function(type, id, projection) {
-            //console.log('--update stat block ('+id+') projections--');
+            console.log('--update stat block ('+type+' / '+id+') projections--');
             let changesMade = false;
             for(let feature of this.value.features[type]) {
                 if(feature.trackingId == id && feature.damageProjection != projection) {
@@ -1242,6 +1242,8 @@ export default {
                     changesMade = true;
                 }
             }
+
+            //Emit updates on change
             if(changesMade) {
                 let projection = this.getDamageProjection();
                 this.generated.damageProjection = projection;

@@ -59,7 +59,7 @@ export default {
                     [],
                     []
                 ],
-                existingFeatureReference: null,
+                existingFeatureReferenceId: null,
                 legendaryActionCost: 1,
                 manualDPR: -1,
                 manualMaxDPR: -1,
@@ -111,37 +111,7 @@ export default {
 
     computed: {
 
-        /*
-        featureReferences: function() {
-            let featureReferences = [];
-            if(this.value.template === 'multiattack') {
-                for(let maGroup of this.value.multiattackReferences) {
-                    for(let featureRef of maGroup) {
-                        if(featureRef.index !== null) {
-                            let id = '';
-                            if(featureRef.index === 'spellcasting') {
-                                id = this.$parent.value.features['spellcasting'][0].id;
-                            } else {
-                                id = this.$parent.value.features['action'][featureRef.index].id;
-                            }
-                            if(id && !featureReferences.includes(id)) {
-                                featureReferences.push(id);
-                            }
-                        }
-                    }
-                }
-            }
-            return featureReferences;
-        },
-        */
-
         averageDPR: function() {
-            // if(this.value.template == 'existing') {
-            //     let refFeature = this.getExistingFeature();
-            //     if(refFeature.damageProjection[0] && refFeature.damageProjection[0].hasOwnProperty('damage')) {
-            //         return refFeature.damageProjection[0].damage;
-            //     }
-            // }
             if(this.damageProjection[0] && this.damageProjection[0].hasOwnProperty('damage')) {
                 return this.damageProjection[0].damage;
             } 
@@ -149,13 +119,6 @@ export default {
         },
 
         maxDPR: function() {
-            // if(this.value.template == 'existing') {
-            //     let refFeature = this.getExistingFeature();
-            //     if(refFeature.damageProjection[0] && refFeature.damageProjection[0].hasOwnProperty('maxDamage')) {
-            //         return refFeature.damageProjection[0].maxDamage;
-            //     }
-
-            // }
             if(this.damageProjection[0] && this.damageProjection[0].hasOwnProperty('maxDamage')) {
                 return this.damageProjection[0].maxDamage;
             } 
@@ -332,8 +295,8 @@ export default {
                 //Saving Throw Description
                 descText = this.savingThrowDescription;
             } else if(this.value.template == 'existing') {
-                //Saving Throw Description
-                descText = this.existingAbilityDescription;
+                //Existing Feature Description
+                descText = this.existingFeatureDescription;
             }
 
             descText+this.f5.misc.sentence_end;
@@ -419,7 +382,7 @@ export default {
             return maDesc;
         },
 
-        existingAbilityDescription: function() {
+        existingFeatureDescription: function() {
             let existingDesc = '';
             let feature = this.getExistingFeature();
 
@@ -1050,12 +1013,15 @@ export default {
         },
         
         getExistingFeature: function() {
+            let actionsToCheck = ['action', 'bonus_action', 'spellcasting'];
             let feature = null;
-            if(this.value.existingFeatureReference !== null) {
-                if(this.value.existingFeatureReference === 'spellcasting') {
-                    feature = this.$parent.value.features['spellcasting'][0];
-                } else {
-                    feature = this.$parent.value.features['action'][this.value.existingFeatureReference];
+            if(this.value.existingFeatureReferenceId !== null) {
+                for(let action of actionsToCheck) {
+                    for(let i in this.$parent.value.features[action]) {
+                        if(this.value.existingFeatureReferenceId == this.$parent.value.features[action][i].trackingId) {
+                            feature = this.$parent.value.features[action][i];
+                        }
+                    }
                 }
             }
             return feature;
