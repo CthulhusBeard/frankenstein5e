@@ -64,12 +64,8 @@ export default {
                 manualDPR: -1,
                 manualMaxDPR: -1,
             },
-            generated: {
-                damageProjection: [],
-            },
-            referenced: {
-                damageProjection: [],
-            },
+            generatedProjection: [],
+            referencedProjection: [],
         }
     },
 
@@ -92,11 +88,6 @@ export default {
             handler(val) {
                 //TODO: Can these be optimized to not be "deep"
 
-                //Must have one or more saving throw
-                if(this.value.savingThrowSaveAbilities.length === 0) {
-                    this.value.savingThrowSaveAbilities = ['str'];
-                }
-
                 //If AOE target area doesn't apply to this template, change it 
                 //TODO: make AOE target type?
                 if(!this.f5.areaofeffect[this.value.targetType].types.includes(this.value.template)) {
@@ -117,8 +108,8 @@ export default {
 
         averageDPR: function() {
             if(this.template == 'reference') {
-                if(this.referenced.damageProjection[0] && this.referenced.damageProjection[0].hasOwnProperty('damage')) {
-                    return this.referenced.damageProjection[0].damage;
+                if(this.referencedProjection[0] && this.referencedProjection[0].hasOwnProperty('damage')) {
+                    return this.referencedProjection[0].damage;
                 } else {  
                     return 0;
                 }
@@ -131,8 +122,8 @@ export default {
 
         maxDPR: function() {
             if(this.template == 'reference') {
-                if(this.referenced.damageProjection[0] && this.referenced.damageProjection[0].hasOwnProperty('maxDamage')) {
-                    return this.referenced.damageProjection[0].maxDamage;
+                if(this.referencedProjection[0] && this.referencedProjection[0].hasOwnProperty('maxDamage')) {
+                    return this.referencedProjection[0].maxDamage;
                 } else {  
                     return 0;
                 }
@@ -647,6 +638,13 @@ export default {
             });
             return maMatches;
         },
+
+        savingThrowSaveAbilities: function() {
+            if(this.value.savingThrowSaveAbilities.length === 0) {
+                this.value.savingThrowSaveAbilities = ['str'];
+            }
+            return this.value.savingThrowSaveAbilities;
+        },
     },
 
     methods: {
@@ -871,8 +869,8 @@ export default {
             //Saving Throw
             str = str.replace(':saving_throw_dc', this.$parent.makeSavingThrowDC(this.value.savingThrowMonsterAbility));
             let abilityList = [];
-            for(let i in this.value.savingThrowSaveAbilities) {
-                abilityList.push(this.f5.abilities[this.value.savingThrowSaveAbilities[i]].name);
+            for(let i in this.savingThrowSaveAbilities) {
+                abilityList.push(this.f5.abilities[this.savingThrowSaveAbilities[i]].name);
             }
             str = str.replace(':saving_throw_ability', this.$parent.createSentenceList(abilityList, false));
 

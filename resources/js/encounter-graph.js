@@ -161,6 +161,7 @@ export default {
 
         updateGraph: function () {
             console.log('updateGraph()');
+            console.log(this.encounterData);
             if (!this.graphInstance) {
                 this.buildGraph();
             }
@@ -191,6 +192,8 @@ export default {
             };
 
             for(let monster of formattedData.monsterData) {
+                console.log('monster');
+                console.log(monster);
                 let colorSet1 = this.randomColourSet();
                 let colorSet2 = this.randomColourSet();
                 let colorSet3 = this.randomColourSet();

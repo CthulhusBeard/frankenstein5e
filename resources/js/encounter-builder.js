@@ -112,6 +112,8 @@ export function initVue(f5data) {
                 for(let statblock of this.statblocks) {
                     if(statblock.trackingId == id) {
                         statblock.projections = projections;
+                        console.log('updateMonsterProjections');
+                        console.log(this.statblocks);
                     }
                 }
             }

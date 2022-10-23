@@ -91,11 +91,7 @@ export default {
                     columns: 1,
                 }
             },
-            generated: {
-                averageDPR: 0,
-                maxDPR: 0,
-                damageProjection: {},
-            }
+            generatedProjection: {},
         }
     },
 
@@ -125,10 +121,10 @@ export default {
         damageCr: function() {
             let dpr = 0;
             if(
-                this.generated.damageProjection[0] && 
-                this.generated.damageProjection[0].hasOwnProperty('damage')
+                this.generatedProjection[0] && 
+                this.generatedProjection[0].hasOwnProperty('damage')
             ) {
-                dpr = this.generated.damageProjection[0].damage;
+                dpr = this.generatedProjection[0].damage;
             }
             let approxCr = 1;
             
@@ -718,20 +714,20 @@ export default {
 
         averageDPR: function() {
             if(
-                this.generated.damageProjection[0] && 
-                this.generated.damageProjection[0].hasOwnProperty('damage')
+                this.generatedProjection[0] && 
+                this.generatedProjection[0].hasOwnProperty('damage')
             ) {
-                 return this.generated.damageProjection[0].damage;
+                 return this.generatedProjection[0].damage;
             }
             return 0;
         },
 
         maxDPR: function() {
             if(
-                this.generated.damageProjection[0] && 
-                this.generated.damageProjection[0].hasOwnProperty('maxDamage')
+                this.generatedProjection[0] && 
+                this.generatedProjection[0].hasOwnProperty('maxDamage')
             ) {
-                 return this.generated.damageProjection[0].maxDamage;
+                 return this.generatedProjection[0].maxDamage;
             }
             return 0;
         },
@@ -1252,7 +1248,7 @@ export default {
                     if(Array.isArray(this.$refs['features_'+actionType])) {
                         for(let feature of this.$refs['features_'+actionType]) {
                             if(feature.value.existingFeatureReferenceId == id) {
-                                feature.referenced.damageProjection = projection;
+                                feature.referencedProjection = projection;
                                 console.log(feature.referenced);
                             }
                         }
@@ -1263,7 +1259,7 @@ export default {
             //Emit updates on change
             if(changesMade) {
                 let projection = this.getDamageProjection();
-                this.generated.damageProjection = projection;
+                this.generatedProjection = projection;
                 this.$emit('update-projections', this.trackingId, projection);
             }
         },
