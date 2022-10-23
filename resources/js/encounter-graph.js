@@ -13,6 +13,7 @@ export default {
     data: function () {
         return {
             graphInstance: null,
+            refreshToggle: true, //TODO Make this not necessary
         }
     },
 
@@ -47,6 +48,9 @@ export default {
     computed: {
 
         formattedData: function () {
+            console.log('----start formattedData----');
+            console.log(this.encounterData);
+            console.log(this.refreshToggle); //this is actually needed. TODO: Make it not needed
 
             let projectedPCDeath = -1;
 
@@ -162,6 +166,7 @@ export default {
         updateGraph: function () {
             console.log('updateGraph()');
             console.log(this.encounterData);
+            this.refreshToggle = !this.refreshToggle;
             if (!this.graphInstance) {
                 this.buildGraph();
             }

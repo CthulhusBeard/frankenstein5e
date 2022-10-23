@@ -1230,12 +1230,11 @@ export default {
         },
 
         updateProjections: function(type, id, projection) {
-            console.log('--update stat block ('+type+' / '+id+') projections--');
             let changesMade = false;
             for(let feature of this.value.features[type]) {
                 if(feature.trackingId == id && feature.damageProjection != projection) {
                     feature.damageProjection = projection;
-                    feature.averageDPR = projection.damage;
+                    feature.averageDPR = projection.damage; //TODO: Do we need these? probably not
                     feature.maxDPR = projection.maxDamage;
                     changesMade = true;
                 }
@@ -1249,7 +1248,8 @@ export default {
                         for(let feature of this.$refs['features_'+actionType]) {
                             if(feature.value.existingFeatureReferenceId == id) {
                                 feature.referencedProjection = projection;
-                                console.log(feature.referenced);
+                                console.log('Referencing: ');
+                                console.log(feature.referencedProjection);
                             }
                         }
                     }
@@ -1386,7 +1386,8 @@ export default {
                     projections[actionType].options.push(JSON.parse(JSON.stringify(feature.damageProjection)));  //Clone projection
                 }
             }
-            
+
+
             //Sort Projections
             for(let actionType in projections) {
                 if(!projections[actionType].options.length) {
@@ -1401,8 +1402,9 @@ export default {
                         return damageB - damageA;
                     });
 
-                    let actionCount = 0;
+                    let actionCount = 0; //Counts the actions spent
                     for(let j = 0; j < projections[actionType].options.length; j++) {
+
                         let actionObj = projections[actionType].options[j][roundNum];
                         let actionCost = (actionObj && actionObj.actionCost) ? actionObj.actionCost : 0;
                         if(actionCount + actionCost <= projections[actionType].count) {
@@ -1412,8 +1414,14 @@ export default {
                                 if(!projections[actionType].rounds[roundNum]) {
                                     projections[actionType].rounds[roundNum] = [];
                                 }
-                                projections[actionType].rounds[roundNum][j] = actionObj;
+                                projections[actionType].rounds[roundNum].push(actionObj);
                                 actionCount += actionCost;
+
+                                //If this action fits again, use it again
+                                if(actionCount + actionCost <= projections[actionType].count) { 
+                                    j--;
+                                    console.log('still fits. do it again');
+                                }
                             } else if(actionObj) {
                                 //Not enough actions
                                 actionCount += projections[actionType].count;
@@ -1462,7 +1470,6 @@ export default {
                     }
                 }
             }
-
             return totals;
         },
 
