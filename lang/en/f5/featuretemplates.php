@@ -7,5 +7,5 @@ return [
     'saving_throw' => 'Saving Throw',
     'spellcasting' => 'Spellcasting',
     'multiattack' => 'Multiattack',
-    'existing' => 'Existing Ability',
+    'reference' => 'Existing Ability',
 ];

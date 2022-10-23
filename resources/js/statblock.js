@@ -1239,7 +1239,24 @@ export default {
             for(let feature of this.value.features[type]) {
                 if(feature.trackingId == id && feature.damageProjection != projection) {
                     feature.damageProjection = projection;
+                    feature.averageDPR = projection.damage;
+                    feature.maxDPR = projection.maxDamage;
                     changesMade = true;
+                }
+            }
+
+            //Set referencing actions
+            let referencableActions = ['multiattack', 'legendary_action', 'mythic_action'];
+            if(!referencableActions.includes(type)) {
+                for(let actionType of referencableActions) {
+                    if(Array.isArray(this.$refs['features_'+actionType])) {
+                        for(let feature of this.$refs['features_'+actionType]) {
+                            if(feature.value.existingFeatureReferenceId == id) {
+                                feature.referenced.damageProjection = projection;
+                                console.log(feature.referenced);
+                            }
+                        }
+                    }
                 }
             }
 

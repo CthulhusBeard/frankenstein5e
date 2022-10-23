@@ -66,13 +66,17 @@ export default {
             },
             generated: {
                 damageProjection: [],
-            }
+            },
+            referenced: {
+                damageProjection: [],
+            },
         }
     },
 
     created() {
+        let skipProps = ['id', 'trackingId'];
         for(let prop in this.initialData) {
-            if(prop === 'id' || prop === 'trackingId') continue;
+            if(skipProps.includes(prop)) continue;
             this.value[prop] = this.initialData[prop]; 
         }
     },
@@ -112,6 +116,13 @@ export default {
     computed: {
 
         averageDPR: function() {
+            if(this.template == 'reference') {
+                if(this.referenced.damageProjection[0] && this.referenced.damageProjection[0].hasOwnProperty('damage')) {
+                    return this.referenced.damageProjection[0].damage;
+                } else {  
+                    return 0;
+                }
+            }
             if(this.damageProjection[0] && this.damageProjection[0].hasOwnProperty('damage')) {
                 return this.damageProjection[0].damage;
             } 
@@ -119,6 +130,13 @@ export default {
         },
 
         maxDPR: function() {
+            if(this.template == 'reference') {
+                if(this.referenced.damageProjection[0] && this.referenced.damageProjection[0].hasOwnProperty('maxDamage')) {
+                    return this.referenced.damageProjection[0].maxDamage;
+                } else {  
+                    return 0;
+                }
+            }
             if(this.damageProjection[0] && this.damageProjection[0].hasOwnProperty('maxDamage')) {
                 return this.damageProjection[0].maxDamage;
             } 
@@ -158,7 +176,7 @@ export default {
             }
 
             //Recharge rate
-            if(this.value.recharge.type !== 'none' && this.template !== 'existing') {
+            if(this.value.recharge.type !== 'none' && this.template !== 'reference') {
                 if(brackets) {
                     brackets += this.f5.misc.sentence_list_separator_secondary+' ';
                 }
@@ -294,9 +312,9 @@ export default {
             } else if(this.value.template == 'saving_throw') {
                 //Saving Throw Description
                 descText = this.savingThrowDescription;
-            } else if(this.value.template == 'existing') {
+            } else if(this.value.template == 'reference') {
                 //Existing Feature Description
-                descText = this.existingFeatureDescription;
+                descText = this.referencedFeatureDescription;
             }
 
             descText+this.f5.misc.sentence_end;
@@ -382,18 +400,18 @@ export default {
             return maDesc;
         },
 
-        existingFeatureDescription: function() {
-            let existingDesc = '';
-            let feature = this.getExistingFeature();
+        referencedFeatureDescription: function() {
+            let featureDesc = '';
+            let feature = this.getReferencedFeature();
 
             if(feature !== null) {
-                existingDesc = this.descriptionTextReplace(this.f5.misc.creature_uses_feature).replace(':feature_name', feature.name);
+                featureDesc = this.descriptionTextReplace(this.f5.misc.creature_uses_feature).replace(':feature_name', feature.name);
             }
             if(this.value.additionalDescription) {
-                existingDesc += ' '+this.value.additionalDescription;
+                featureDesc += ' '+this.value.additionalDescription;
             }
 
-            return existingDesc;
+            return featureDesc;
         },
 
         spellcastingDescription: function() {
@@ -597,8 +615,8 @@ export default {
                 turnDamage = this.spellcastingProjection();
             } else if(this.value.template === 'multiattack') {
                 turnDamage = this.multiattackProjection();
-            } else if(this.value.template == 'existing') {
-                let refFeature = this.getExistingFeature();
+            } else if(this.value.template == 'reference') {
+                let refFeature = this.getReferencedFeature();
                 if(refFeature) {
                     //TODO: This is not as reactive as I'd like it to be. 
                     turnDamage = refFeature.damageProjection;
@@ -1012,7 +1030,7 @@ export default {
             return maProj;
         },
         
-        getExistingFeature: function() {
+        getReferencedFeature: function() {
             let actionsToCheck = ['action', 'bonus_action', 'spellcasting'];
             let feature = null;
             if(this.value.existingFeatureReferenceId !== null) {

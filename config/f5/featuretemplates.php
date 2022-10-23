@@ -36,8 +36,8 @@ return [
             'multiattack',
         ],
     ],
-    'existing' => [
-        'name' => 'f5/featuretemplates.existing',
+    'reference' => [
+        'name' => 'f5/featuretemplates.reference',
         'action_options' => [
             'legendary_action',
             'mythic_action',

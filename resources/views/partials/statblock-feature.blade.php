@@ -91,10 +91,10 @@
                 </div>
             </div>
 
-            <!-- Existing Feature (for legendary / mythic actions) -->
-            <div class="feature__options feature__option-existing" v-if="value.template === 'existing'">
-                <label :for="'feature__existing__ability__'+value.id" class="title-label">@{{f5.misc.title_feature}}:</label>
-                <select :id="'feature__existing__ability__'+value.id" name="feature__existing__ability" v-model="value.existingFeatureReferenceId">
+            <!-- Existing Feature Reference (for legendary / mythic actions) -->
+            <div class="feature__options feature__option-reference" v-if="value.template === 'reference'">
+                <label :for="'feature__reference__ability__'+value.id" class="title-label">@{{f5.misc.title_feature}}:</label>
+                <select :id="'feature__reference__ability__'+value.id" name="feature__reference__ability" v-model="value.existingFeatureReferenceId">
                     <option value="null" disabled selected>@{{f5.misc.title_select_feature}}</option>
                     <option v-for="(featureRef, k) in $parent.value.features['spellcasting']" :value="featureRef.trackingId">@{{featureRef.name}}</option>
                     <option v-for="(featureRef, k) in $parent.value.features['action']" :value="featureRef.trackingId">@{{featureRef.name}}</option>
@@ -447,7 +447,7 @@
             </div>
 
             <div class="feature__options feature__options-global">
-                <div class="feature__recharge" v-if="value.template !== 'spellcasting' && value.template !== 'multiattack' && value.template !== 'existing'">
+                <div class="feature__recharge" v-if="value.template !== 'spellcasting' && value.template !== 'multiattack' && value.template !== 'reference'">
                     <div>
                         <label class="title-label" for="feature__recharge">@{{f5.misc.title_recharge}}:</label>
                         <select id="feature__recharge" name="feature__recharge" v-model="value.recharge.type">
