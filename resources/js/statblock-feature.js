@@ -673,12 +673,16 @@ export default {
 
             for(var i = 0; i < this.combatRounds; i++) {
                 mergedProjections[0].push({
+                    id: this.trackingId,
+                    referenceId: this.existingFeatureReferenceId,
                     name: this.f5.misc.title_multiattack+': ',
                     damage: 0,
                     maxDamage: 0,
                     actionCost: 1,
                 });
                 mergedProjections[1].push({
+                    id: this.trackingId,
+                    referenceId: this.existingFeatureReferenceId,
                     name: this.f5.misc.title_multiattack+': ',
                     damage: 0,
                     maxDamage: 0,
@@ -740,13 +744,20 @@ export default {
                 }
 
                 for(let j = 0; j < spellUses; j++) {
-                    turnDamage.splice(addIndex, 0, {
+                    let damageObj = {
+                        id: this.trackingId,
+                        referenceId: this.existingFeatureReferenceId,
                         name: this.f5.misc.title_spellcasting+': '+this.f5.spelllevels[spell.level].name,
                         damage: this.$parent.averageDamage(this.f5.spelllevels[spell.level].damage_single_target),
                         maxDamage: this.$parent.averageDamage(this.f5.spelllevels[spell.level].damage_single_target, true),
                         spellLevel: spell.level,
                         actionCost: 1,
-                    });
+                    };
+                    if(!spell.at_will && !spell.level === 0) {
+                        damageObj.uses = spellUses;
+                    }
+
+                    turnDamage.splice(addIndex, 0, damageObj);
                 }
             }
 
@@ -764,19 +775,25 @@ export default {
 
             if(this.value.recharge.type === 'long_rest' || this.value.recharge.type === 'short_rest') {
                 return [{
+                    id: this.trackingId,
+                    referenceId: this.existingFeatureReferenceId,
                     name: this.value.name,
                     damage: averageDamage,
                     maxDamage: maxDamage,
                     actionCost: actionCost,
+                    uses: 1,
                 }]; //Only once
             } else if(this.value.recharge.type === 'limited_use') {
                 let damageArray = [];
                 for(let i = 0; i < this.value.recharge.uses; i++) {
                     damageArray.push({
+                        id: this.trackingId,
+                        referenceId: this.existingFeatureReferenceId,
                         name: this.value.name,
                         damage: averageDamage,
                         maxDamage: maxDamage,
                         actionCost: actionCost,
+                        uses: this.value.recharge.uses,
                     });
                 }
                 return damageArray;
@@ -787,10 +804,13 @@ export default {
             for(let i = 0; i < this.combatRounds; i++) {
                 if(i % averageRechargeTurns === 0) {
                     turnDamage[i] = {
+                        id: this.trackingId,
+                        referenceId: this.existingFeatureReferenceId,
                         name: this.value.name,
                         damage: averageDamage,
                         maxDamage: maxDamage,
                         actionCost: actionCost,
+                        rechargeTurns: averageRechargeTurns,
                     };
                 }
             }

@@ -1387,6 +1387,9 @@ export default {
                 }
             }
 
+            console.log('projections');
+            console.log(projections);
+
 
             //Sort Projections
             for(let actionType in projections) {
@@ -1420,7 +1423,6 @@ export default {
                                 //If this action fits again, use it again
                                 if(actionCount + actionCost <= projections[actionType].count) { 
                                     j--;
-                                    console.log('still fits. do it again');
                                 }
                             } else if(actionObj) {
                                 //Not enough actions
