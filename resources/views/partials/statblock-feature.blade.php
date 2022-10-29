@@ -75,10 +75,11 @@
                 <div class="feature__multiattack__group" v-for="(group, i) of value.multiattackReferences">
                     <div class="feature__multiattack__featureRef" v-for="(feature, j) in group">
                         <label :for="'feature__multiattack__ability__'+value.id" class="title-label">@{{f5.misc.title_feature}}:</label>
-                        <select :id="'feature__multiattack__ability__'+value.id" name="feature__multiattack__ability" v-model="feature.index">
+                        <select :id="'feature__multiattack__ability__'+value.id" name="feature__multiattack__ability" v-model="feature.id">
                             <option value="null" disabled selected>@{{f5.misc.title_select_feature}}</option>
-                            <option v-for="(featureRef, k) in $parent.value.features['action']" :value="k">@{{featureRef.name}}</option>
-                            <option v-if="$parent.value.features['spellcasting'].length" value="spellcasting">@{{$parent.value.features['spellcasting'][0].name}}</option>
+                            <option v-for="(featureRef, k) in $parent.value.features['action']" :value="featureRef.trackingId">@{{featureRef.name}}</option>
+                            <option v-for="(featureRef, k) in $parent.value.features['bonus_action']" :value="featureRef.trackingId">@{{featureRef.name}}</option>
+                            <option v-for="(featureRef, k) in $parent.value.features['spellcasting']" :value="featureRef.trackingId">@{{featureRef.name}}</option>
                         </select>
                         <label :for="'feature__multiattack__num-of-attacks__'+value.id" class="title-label">@{{f5.misc.title_multiattack_number_of_uses}}:</label>
                         <select :id="'feature__multiattack__num-of-attacks__'+value.id" name="feature__multiattack__num-of-attacks" v-model="feature.uses">

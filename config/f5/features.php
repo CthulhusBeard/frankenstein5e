@@ -7,6 +7,7 @@ return [
         'desc' => 'f5/features.desc_multiattack',
         'action_type' => 'action',
         'combine_nonpassives' => true,
+        'references' => ['spellcasting', 'action', 'bonus_action'],
     ],
 
     //Passive

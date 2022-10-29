@@ -1248,8 +1248,6 @@ export default {
                         for(let feature of this.$refs['features_'+actionType]) {
                             if(feature.value.existingFeatureReferenceId == id) {
                                 feature.referencedProjection = projection;
-                                console.log('Referencing: ');
-                                console.log(feature.referencedProjection);
                             }
                         }
                     }
@@ -1333,6 +1331,11 @@ export default {
         },
 
         getDamageProjection: function() {
+            console.group('getDamageProjection');
+
+            let referencableProjections = [];
+            let referencingProjections = [];
+
             let projections = {
                 action: {
                     count: this.value.actions,
@@ -1375,65 +1378,112 @@ export default {
 
             for(const featureType in this.value.features) {
                 for(const feature of this.value.features[featureType]) {
-                    //Merge similar action types
                     if(!feature.damageProjection) {
                         continue;
                     }
-                    let actionType = featureType;
+
+                    //Build reference lookups
+                    if(this.getProjectionReferences(feature.damageProjection).length > 0) {
+                        referencingProjections.push(feature.damageProjection); 
+                    } else {
+                        referencableProjections[feature.trackingId] = feature.damageProjection;
+                    }
+
+                    //Merge similar action types
+                    let actionType = featureType; //Do this so we don't change the iterator when we change the type
                     if(mergeActions.hasOwnProperty(actionType)) {
                         actionType = mergeActions[actionType];
                     }
-                    projections[actionType].options.push(JSON.parse(JSON.stringify(feature.damageProjection)));  //Clone projection
+                    if(Array.isArray(feature.damageProjection)) {
+                        for(let i in feature.damageProjection) {
+                            projections[actionType].options.push(feature.damageProjection[i]); 
+                        }
+                    } else {
+                        projections[actionType].options.push(feature.damageProjection);  
+                    }
                 }
             }
 
-            console.log('projections');
-            console.log(projections);
+            //Fill out referenced projections
+            if(referencingProjections.length) {
+                for(let projection of referencingProjections) {
+                    this.fillReferencingProjections(projection, referencableProjections);
+                }
+            }
 
 
-            //Sort Projections
+            console.log('Projections Data');
+            console.log(JSON.parse(JSON.stringify(projections)));
+
+
+            //Simulate combat rounds
+            console.log('Simulate combat rounds');
             for(let actionType in projections) {
                 if(!projections[actionType].options.length) {
                     delete projections[actionType];
                     continue;
                 }
+
+                //Simulate rounds of combat
                 for(let roundNum = 0; roundNum < this.combatRounds; roundNum++) {
+
+                    //Start of turn
+                    for(let projection of projections[actionType].options) {
+                        if(roundNum === 0) {
+                            this.resetProjection(projection);
+                        }
+                        this.prepareProjectionFields(projection);
+                        // projection.damage = this.getProjectionDamage(projection);
+                        // projection.maxDamage = this.getProjectionDamage(projection, true);
+                        // projection.damagePerAction = projection.damage / projection.actionCost;
+                        this.incrementProjectionTurn(projection); //Increments cooldowns etc
+                    }
+
+                    console.log('---start round '+roundNum);
+                    console.log(actionType);
+                    console.log(JSON.parse(JSON.stringify(projections[actionType].options)));
+
                     //Sort by most damage
                     projections[actionType].options = projections[actionType].options.sort(function (a, b) {
-                        let damageA = (a[roundNum] && a[roundNum].damage) ? a[roundNum].damage / a[roundNum].actionCost : 0;
-                        let damageB = (b[roundNum] && b[roundNum].damage) ? b[roundNum].damage / b[roundNum].actionCost : 0;
-                        return damageB - damageA;
+                        return b.damagePerAction - a.damagePerAction;
                     });
 
                     let actionCount = 0; //Counts the actions spent
-                    for(let j = 0; j < projections[actionType].options.length; j++) {
+                    for(let projection of projections[actionType].options) {
 
-                        let actionObj = projections[actionType].options[j][roundNum];
-                        let actionCost = (actionObj && actionObj.actionCost) ? actionObj.actionCost : 0;
+                        //check if usable
+                        let isUsable = this.isProjectionUsable(projection);
+
+                        if(!isUsable) {
+                            continue;
+                        }
+
+                        //Check if action fits within alotted actions (e.g. If it costs 2 Legendary actions but you only have 1 left)
+                        let actionCost = (projection && projection.actionCost) ? projection.actionCost : 0;
                         if(actionCount + actionCost <= projections[actionType].count) {
                             //Action fits
-                            if(actionObj) {
+                            if(projection) {
                                 //Add action
                                 if(!projections[actionType].rounds[roundNum]) {
                                     projections[actionType].rounds[roundNum] = [];
                                 }
-                                projections[actionType].rounds[roundNum].push(actionObj);
+                                projections[actionType].rounds[roundNum].push(JSON.parse(JSON.stringify(projection))); //Copy a clone of the feature in its current state
                                 actionCount += actionCost;
 
-                                //If this action fits again, use it again
-                                if(actionCount + actionCost <= projections[actionType].count) { 
+                                //Sets cooldowns and decrements "uses" for limited use features
+                                this.useFeature(projection);
+
+                                //If this action fits again (and it's not on a cooldown), use it again
+                                if(!projection.hasOwnProperty('rechargeCooldown') && actionCount + actionCost <= projections[actionType].count) { 
                                     j--;
                                 }
-                            } else if(actionObj) {
+                            } else if(projection) {
                                 //Not enough actions
                                 actionCount += projections[actionType].count;
                             }
-
-                        } else if(actionObj.damage > 0) {
-                            //push out viable damage options until later turns
-                            projections[actionType].options[j].splice(roundNum, 0, 0);
                         }
                     }
+                    
                 }
             }
 
@@ -1444,35 +1494,219 @@ export default {
                     if(!projections[actionType].rounds[roundNum]) {
                         continue;
                     }
-                    for(let i = 0; i < projections[actionType].rounds[roundNum].length; i++) {
+                    for(let featureObj of projections[actionType].rounds[roundNum]) {
                         if(!totals[roundNum]) {
                             totals[roundNum] = {
-                                abilities: [], 
+                                abilities: {}, 
                                 damage: 0, 
                                 maxDamage: 0
                             };
                         }
                         if(
-                            projections[actionType].rounds[roundNum][i] && 
-                            projections[actionType].rounds[roundNum][i].damage && 
-                            projections[actionType].rounds[roundNum][i].damage > 0
+                            featureObj && 
+                            featureObj.damage && 
+                            featureObj.damage > 0
                         ) {
                             //Add This Action
                             if(!totals[roundNum].abilities[actionType]) {
                                 totals[roundNum].abilities[actionType] = [];
                             }
-                            totals[roundNum].abilities[actionType].push({
-                                name: projections[actionType].rounds[roundNum][i].name,
-                                damage: projections[actionType].rounds[roundNum][i].damage,
-                                maxDamage: projections[actionType].rounds[roundNum][i].maxDamage,
-                            });
-                            totals[roundNum].damage += projections[actionType].rounds[roundNum][i].damage;
-                            totals[roundNum].maxDamage += projections[actionType].rounds[roundNum][i].maxDamage;
+                            totals[roundNum].abilities[actionType].push(featureObj);
+                            totals[roundNum].damage += featureObj.damage;
+                            totals[roundNum].maxDamage += featureObj.maxDamage;
                         }
                     }
                 }
             }
+            
+            console.log('totals');
+            console.log(totals);
+            console.groupEnd();
+
             return totals;
+        },
+
+        isProjectionUsable: function(projection) { //takes projection object
+            if(!projection) {
+                return false;
+            }
+
+            //no uses
+            if(projection.hasOwnProperty('remainingUses') && projection.remainingUses <= 0) {
+                return false;
+            }
+            //on cooldown
+            if(projection.hasOwnProperty('rechargeTurns') && projection.hasOwnProperty('rechargeCooldown') && projection.rechargeTurns > projection.rechargeCooldown) {
+                return false;
+            }
+
+            //check references
+            if(projection.hasOwnProperty('references')) {
+                for(let ref of projection.references) {
+                    if(!ref || !ref.hasOwnProperty('feature') || !ref.feature || !this.isProjectionUsable(ref.feature)) {
+                        return false;
+                    }
+                }
+            }
+
+            //recursively check nested projections
+            if(Array.isArray(projection)) {
+                let usable = 0;
+                for(let projChild of projection) {
+                    if(this.isProjectionUsable(projChild)) {
+                        usable++;
+                    }
+                }
+                if(usable === 0) {
+                    return false;
+                }
+            }
+
+            return true;
+        },
+
+        incrementProjectionTurn: function(projection) {
+            if(projection.hasOwnProperty('rechargeTurns')) {
+                if(!projection.hasOwnProperty('rechargeCooldown')) {
+                    projection.rechargeCooldown = projection.rechargeTurns;
+                }
+                if(projection.rechargeCooldown !== projection.rechargeTurns) {
+                    projection.rechargeCooldown++;
+                }
+            }
+        },
+
+        resetProjection: function(projection) {
+            if(projection.hasOwnProperty('rechargeTurns')) {
+                projection.rechargeCooldown = projection.rechargeTurns;
+            }
+            if(projection.hasOwnProperty('totalUses')) {
+                projection.remainingUses = projection.totalUses;
+            }
+        },
+
+        prepareProjectionFields: function(projection) {
+            if(!projection) {
+                return;
+            }
+            console.group('--prepareProjectionFields--');
+
+            let damage = 0;
+            let maxDamage = 0;
+            
+            if(projection.hasOwnProperty('references')) {
+                for(let refProjection of projection.references) {
+                    if(refProjection.hasOwnProperty('feature') && refProjection.feature) {
+                        let uses = 1;
+                        if(refProjection.hasOwnProperty('uses')) { 
+                            uses = refProjection.uses;
+                        }
+
+                        //If features are an array (spellcasting)
+                        if(Array.isArray(refProjection.feature)) {
+                            for(let featureRef of refProjection.feature) {
+                                this.prepareProjectionFields(featureRef);
+                            }
+                            refProjection.feature = refProjection.feature.sort(function (a, b) {
+                                return b.damagePerAction - a.damagePerAction;
+                            });
+                            let totalFeatureUses = 0;
+                            for(let featureRef of refProjection.feature) {
+                                let featureUses = 0;
+                                if(featureRef.hasOwnProperty('remainingUses')) { 
+                                    featureUses = featureRef.remainingUses;
+                                    if(uses < featureUses) {
+                                        featureUses = uses;
+                                    }
+                                }
+                                totalFeatureUses += featureUses;
+                                damage += featureRef.damage * totalFeatureUses;
+                                maxDamage += featureRef.maxDamage * totalFeatureUses;
+
+                                if(totalFeatureUses >= uses) {
+                                    break;
+                                }
+                            }
+        
+                        } else {
+                            if(refProjection.feature.hasOwnProperty('remainingUses') && refProjection.feature.remainingUses < uses) {
+                                uses = refProjection.feature.remainingUses;
+                            }
+                            this.prepareProjectionFields(refProjection.feature);
+                            damage += refProjection.feature.damage * uses;
+                            maxDamage += refProjection.feature.maxDamage * uses;
+                        }
+                    }
+                }
+                projection.damage = damage;
+                projection.maxDamage = maxDamage;
+            } 
+            
+            projection.damagePerAction = projection.damage / projection.actionCost;
+            console.log(JSON.parse(JSON.stringify(projection)));
+            console.groupEnd();
+            return;
+            
+        },
+
+        getProjectionReferences: function(projection) {
+            let references = [];
+            if(Array.isArray(projection)) {
+                for(let proj of projection) {
+                    if(proj.hasOwnProperty('references')) {
+                        references.push(proj.references.id);
+                    }
+                }
+            } else if(projection.hasOwnProperty('references')) {
+                references.push(projection.references.id);
+            }
+            return references;
+        },
+
+        fillReferencingProjections: function(projection, references) {
+            let nameList = [];
+
+            //fill references
+            if(Array.isArray(projection)) {
+                for(let projectionOption of projection) {
+                    this.fillReferencingProjections(projectionOption, references);
+                }
+            } else {
+                for(let reference of projection.references) {
+                    if(references[reference.id]) {
+                        reference.feature = references[reference.id];
+                        if(projection.multiattack) {
+                            nameList.push(reference.feature.name);
+                        }
+                    }
+                }
+            }
+
+            //Set multiattack name
+            if(projection.multiattack) {
+                projection.name = this.f5.misc.title_multiattack+': '+nameList.join(' / ');
+            }
+        },
+        
+        useFeature: function(feature) {
+            //set uses
+            if(feature.hasOwnProperty('remainingUses')) {
+                feature.remainingUses--;
+            }
+            
+            //start cooldown
+            if(feature.hasOwnProperty('rechargeCooldown')) {
+                feature.rechargeCooldown = 0;
+            }
+
+            //Recursively run on references
+            if(feature.hasOwnProperty('references')) {
+                for(let reference of feature.references) {
+                    if(reference.hasOwnProperty('feature') && reference.feature) {
+                        this.useFeature(reference.feature);
+                    }
+                }
+            }
         },
 
         creatureNameReplace: function(str) {
@@ -1484,6 +1718,25 @@ export default {
                 str = str.replaceAll(':creature_name', creatureName);
             }
             return str;
+        },
+
+        findFeatureById(id, group = null) {
+            if(group) {
+                for(let feature of this.value.features[group]) {
+                    if(feature.trackingId === id) {
+                        return feature;
+                    }
+                }
+            } else {
+                for(let actionType in this.value.features) {
+                    for(let feature of this.value.features[actionType]) {
+                        if(feature.trackingId === id) {
+                            return feature;
+                        }
+                    }
+                }
+            }
+            return null;
         },
     }
 }

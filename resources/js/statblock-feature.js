@@ -328,12 +328,15 @@ export default {
 
                     let featDesc = this.f5.misc.desc_multiattack_ability;
                     let feature;
-                    if(featureRef.index !== null) {
-                        if(featureRef.index === 'spellcasting') {
-                            feature = this.$parent.value.features['spellcasting'][0];
+                    if(featureRef.id !== null) {
+                        feature = this.$parent.findFeatureById(featureRef.id);
+                        if(!feature) {
+                            continue;
+                        }
+
+                        if(feature.actionType === 'spellcasting') {
                             featDesc = this.$parent.pluralize(this.f5.misc.desc_multiattack_spell, featureRef.uses);
                         } else {
-                            feature = this.$parent.value.features['action'][featureRef.index];
                             if(feature.template === 'attack') {
                                 let attackString = this.$parent.pluralize(this.f5.misc.attack, featureRef.uses);
                                 let attackSingular = this.$parent.pluralize(this.f5.misc.attack);
@@ -603,9 +606,9 @@ export default {
             let turnDamage;
 
             if(this.value.template === 'spellcasting') {
-                turnDamage = this.spellcastingProjection();
+                turnDamage = this.createSpellcastingProjection();
             } else if(this.value.template === 'multiattack') {
-                turnDamage = this.multiattackProjection();
+                turnDamage = this.createMultiattackProjection();
             } else if(this.value.template == 'reference') {
                 let refFeature = this.getReferencedFeature();
                 if(refFeature) {
@@ -613,10 +616,10 @@ export default {
                     turnDamage = refFeature.damageProjection;
                 } else {
                     //TODO: Should this be something else?? TEST having standard stuff in it then switch to existing
-                    turnDamage = this.standardProjection();
+                    turnDamage = this.createStandardProjection();
                 }
             } else {
-                turnDamage = this.standardProjection();
+                turnDamage = this.createStandardProjection();
             }
 
             this.$emit('update-projection', this.value.actionType, this.trackingId, turnDamage);
@@ -667,155 +670,113 @@ export default {
             }
         },
 
-        multiattackProjection: function() {
+        createMultiattackProjection: function() {
             //Multiattack Projections
-            let mergedProjections = [[],[]];
-
-            for(var i = 0; i < this.combatRounds; i++) {
-                mergedProjections[0].push({
-                    id: this.trackingId,
-                    referenceId: this.existingFeatureReferenceId,
-                    name: this.f5.misc.title_multiattack+': ',
-                    damage: 0,
-                    maxDamage: 0,
-                    actionCost: 1,
-                });
-                mergedProjections[1].push({
-                    id: this.trackingId,
-                    referenceId: this.existingFeatureReferenceId,
-                    name: this.f5.misc.title_multiattack+': ',
-                    damage: 0,
-                    maxDamage: 0,
-                    actionCost: 1,
-                });
-            }
+            let mergedProjections = [];
 
             //Loop both Multiattack Group Options
-            for(let maGroupIndex in this.value.multiattackReferences) {
-                let maGroup = this.value.multiattackReferences[maGroupIndex];
-                //Loop through each feature
-                for(let featureRef of maGroup) {
-                    if(featureRef.index !== null) {
-                        if(featureRef.index === 'spellcasting') {
-                            //Merge in Spellcasting
-                            mergedProjections[maGroupIndex] = this.mergeMultiattackProjections(mergedProjections[maGroupIndex], this.$parent.value.features['spellcasting'][0].damageProjection, featureRef.uses);
-                        } else {
-                            //Merge in features
-                            mergedProjections[maGroupIndex] = this.mergeMultiattackProjections(mergedProjections[maGroupIndex], this.$parent.value.features['action'][featureRef.index].damageProjection, featureRef.uses);
-                        }
-                    }
-                }
-            }
+            for(let maGroupIndex in this.value.multiattackReferences) {                
+                mergedProjections.push({
+                    id: this.trackingId,
+                    actionCost: 1,
+                    references: this.value.multiattackReferences[maGroupIndex],
+                    multiattack: true,
+                });
 
-            let finalMerge = [];
-            for(var i = 0; i < this.combatRounds; i++) {
-                if(!mergedProjections[1][i] || mergedProjections[0][i].damage >= mergedProjections[1][i].damage) {
-                    finalMerge[i] = mergedProjections[0][i];
-                } else if(!mergedProjections[0][i] || mergedProjections[1][i].damage > mergedProjections[0][i].damage) {
-                    finalMerge[i] = mergedProjections[1][i];
-                } else {
-                    finalMerge[i] = null;
-                }
+                
+                // let maGroup = this.value.multiattackReferences[maGroupIndex];
+                // //Loop through each feature
+                // for(let featureRef of maGroup) {
+                //     if(featureRef.index !== null) {
+                //         if(featureRef.index === 'spellcasting') {
+                //             //Merge in Spellcasting
+                //             mergedProjections[maGroupIndex] = this.mergeMultiattackProjections(mergedProjections[maGroupIndex], this.$parent.value.features['spellcasting'][0].damageProjection, featureRef.uses);
+                //         } else {
+                //             //Merge in features
+                //             mergedProjections[maGroupIndex] = this.mergeMultiattackProjections(mergedProjections[maGroupIndex], this.$parent.value.features['action'][featureRef.index].damageProjection, featureRef.uses);
+                //         }
+                //     }
+                // }
             }
+            return mergedProjections;
 
-            return finalMerge;
+            // let finalMerge = [];
+            // for(var i = 0; i < this.combatRounds; i++) {
+            //     if(!mergedProjections[1][i] || mergedProjections[0][i].damage >= mergedProjections[1][i].damage) {
+            //         finalMerge[i] = mergedProjections[0][i];
+            //     } else if(!mergedProjections[0][i] || mergedProjections[1][i].damage > mergedProjections[0][i].damage) {
+            //         finalMerge[i] = mergedProjections[1][i];
+            //     } else {
+            //         finalMerge[i] = null;
+            //     }
+            // }
+
+            // return finalMerge;
         },
 
-        spellcastingProjection: function() {
-            let turnDamage = [];
+        createSpellcastingProjection: function() {
+            //Spellcasting projections come in an array because it's 1 feature with multiple options
+            let spellProjections = [];
             let spellSlotsTracker = [];
-            for(const spell of this.value.spellList) {
-                let addIndex = turnDamage.length;
-                for(const i in turnDamage) {
-                    if(spell.level > turnDamage[i].spellLevel) {
-                        addIndex = i;
-                        break;
+
+            for(const i in this.value.spellList) {
+                let spell = this.value.spellList[i];
+
+                let projectionObj = {
+                    id: this.trackingId,
+                    name: this.f5.misc.title_spellcasting+': '+this.f5.spelllevels[spell.level].name,
+                    damage: this.$parent.averageDamage(this.f5.spelllevels[spell.level].damage_single_target),
+                    maxDamage: this.$parent.averageDamage(this.f5.spelllevels[spell.level].damage_single_target, true),
+                    actionCost: 1,
+                };
+
+                //Get number of castings
+                if(!spell.at_will && parseInt(spell.level) !== 0) {
+                    if(this.value.innateSpellcasting) {
+                        projectionObj.totalUses = spell.uses;
+                    } else if(!spellSlotsTracker[spell.level] && this.value.spellSlots[spell.level] > 0) {
+                        projectionObj.totalUses = this.value.spellSlots[spell.level];
+                        projectionObj.name = this.f5.misc.title_spellcasting+': '+this.f5.spelllevels[spell.level].name;
+                        spellSlotsTracker[spell.level] = true;
+                    } else {
+                        //Doesn't have slots or uses
+                        continue;
                     }
                 }
 
-                let spellUses = 0;
-                if(spell.at_will || spell.level === 0) {
-                    spellUses = this.combatRounds;
-                } else if(!this.value.innateSpellcasting && !spellSlotsTracker[spell.level] && this.value.spellSlots[spell.level] > 0) {
-                    spellUses = this.value.spellSlots[spell.level];
-                    spellSlotsTracker[spell.level] = true;
-                } else if(this.value.innateSpellcasting) {
-                    spellUses = spell.uses;
-                }
-
-                for(let j = 0; j < spellUses; j++) {
-                    let damageObj = {
-                        id: this.trackingId,
-                        referenceId: this.existingFeatureReferenceId,
-                        name: this.f5.misc.title_spellcasting+': '+this.f5.spelllevels[spell.level].name,
-                        damage: this.$parent.averageDamage(this.f5.spelllevels[spell.level].damage_single_target),
-                        maxDamage: this.$parent.averageDamage(this.f5.spelllevels[spell.level].damage_single_target, true),
-                        spellLevel: spell.level,
-                        actionCost: 1,
-                    };
-                    if(!spell.at_will && !spell.level === 0) {
-                        damageObj.uses = spellUses;
-                    }
-
-                    turnDamage.splice(addIndex, 0, damageObj);
-                }
+                spellProjections.push(projectionObj);
             }
 
-            return turnDamage;
+            return spellProjections;
         },
 
-        standardProjection: function() {
-            let turnDamage = [];
-            let averageRechargeTurns = 1;
-
+        createStandardProjection: function() {
             //Not Spellcasting or Multiattack
             let actionCost = (['legendary_action', 'mythic_action'].includes(this.value.type)) ? legendaryActionCost : 1;
             let averageDamage = this.dprCalculator();
             let maxDamage = this.dprCalculator(true);
 
+            let projectionObj = {
+                id: this.trackingId,
+                name: this.value.name,
+                damage: averageDamage,
+                maxDamage: maxDamage,
+                actionCost: actionCost,
+            };
+            if(this.value.template === 'reference') {
+                projectionObj.references = [{
+                    id: this.existingFeatureReferenceId,
+                }];
+            }
+
             if(this.value.recharge.type === 'long_rest' || this.value.recharge.type === 'short_rest') {
-                return [{
-                    id: this.trackingId,
-                    referenceId: this.existingFeatureReferenceId,
-                    name: this.value.name,
-                    damage: averageDamage,
-                    maxDamage: maxDamage,
-                    actionCost: actionCost,
-                    uses: 1,
-                }]; //Only once
-            } else if(this.value.recharge.type === 'limited_use') {
-                let damageArray = [];
-                for(let i = 0; i < this.value.recharge.uses; i++) {
-                    damageArray.push({
-                        id: this.trackingId,
-                        referenceId: this.existingFeatureReferenceId,
-                        name: this.value.name,
-                        damage: averageDamage,
-                        maxDamage: maxDamage,
-                        actionCost: actionCost,
-                        uses: this.value.recharge.uses,
-                    });
-                }
-                return damageArray;
+                projectionObj.totalUses = 1;
+            } else if(this.value.recharge.type === 'limited_use') {       
+                projectionObj.totalUses = this.value.recharge.uses;
             } else if(this.value.recharge.type === 'dice_roll') {
-                averageRechargeTurns = Math.round(1 / ((this.value.recharge.diceType - this.value.recharge.minRoll + 1) / this.value.recharge.diceType));
+                projectionObj.rechargeTurns = Math.round(1 / ((this.value.recharge.diceType - this.value.recharge.minRoll + 1) / this.value.recharge.diceType));
             }
-
-            for(let i = 0; i < this.combatRounds; i++) {
-                if(i % averageRechargeTurns === 0) {
-                    turnDamage[i] = {
-                        id: this.trackingId,
-                        referenceId: this.existingFeatureReferenceId,
-                        name: this.value.name,
-                        damage: averageDamage,
-                        maxDamage: maxDamage,
-                        actionCost: actionCost,
-                        rechargeTurns: averageRechargeTurns,
-                    };
-                }
-            }
-
-            return turnDamage;
+            return projectionObj
         },
 
         addDamageDie: function(type) {
@@ -849,7 +810,7 @@ export default {
 
         addMultiattack: function(index) {
             this.value.multiattackReferences[index].push({
-                index: null,
+                id: null,
                 uses: 1
             });
         },
