@@ -69,8 +69,9 @@ class FrankensteinController extends Controller
 
             //Replace cache
             $prevCache = Cache::get($cacheKey, []);
-            if(md5(json_encode($prevCache)) != md5(json_encode($translatedData))) {
-                $dataFile = '../public/data/frankenstein5.json';
+            $dataFile = '../public/data/frankenstein5.json';
+
+            if(!file_exists($dataFile) || md5(json_encode($prevCache)) != md5(json_encode($translatedData))) {
                 file_put_contents($dataFile, json_encode($translatedData));
                 Cache::forever($cacheKey, $translatedData);
             }
