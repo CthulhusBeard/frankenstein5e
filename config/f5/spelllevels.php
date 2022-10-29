@@ -20,6 +20,12 @@ return [
             'diceType' => 6,
             'diceAmount' => 1,
         ],
+        'level_scaling' => [
+            1 => 1,
+            5 => 2,
+            11 => 3,
+            17 => 4,
+        ],
     ],
     '1' => [
         'name' => 'f5/spells.level_one',

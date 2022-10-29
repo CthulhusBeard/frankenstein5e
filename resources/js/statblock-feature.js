@@ -744,6 +744,21 @@ export default {
                     }
                 }
 
+                //Cantrips scale with caster level
+                if(parseInt(spell.level) !== 0) {
+                    let cantripScalingData = this.f5.spelllevels[0]['level_scaling'];
+                    let casterLevel = this.$parent.casterLevel;
+                    let matchingLevel = 1;
+                    for(let i in cantripScalingData) {
+                        if(i <= casterLevel && i >= matchingLevel) {
+                            matchingLevel = i;
+                        }
+                    }
+                    let cantripMultiplier = cantripScalingData[matchingLevel];
+                    projectionObj.damage = projectionObj.damage * cantripMultiplier;
+                    projectionObj.maxDamage = projectionObj.maxDamage * cantripMultiplier;
+                }
+
                 spellProjections.push(projectionObj);
             }
 
