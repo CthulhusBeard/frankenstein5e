@@ -1593,6 +1593,7 @@ export default {
 
             let damage = 0;
             let maxDamage = 0;
+            let nameList = [];
             
             if(projection.hasOwnProperty('references')) {
                 for(let refProjection of projection.references) {
@@ -1619,9 +1620,22 @@ export default {
                                         featureUses = uses;
                                     }
                                 }
+                                if(
+                                    featureRef.hasOwnProperty('rechargeTurns') && 
+                                    featureRef.hasOwnProperty('rechargeCooldown')
+                                ) {
+                                    if(featureRef.rechargeTurns > featureRef.rechargeCooldown) {
+                                        uses = 0;
+                                    } else {
+                                        uses = 1;
+                                    }
+                                }
                                 totalFeatureUses += featureUses;
                                 damage += featureRef.damage * totalFeatureUses;
                                 maxDamage += featureRef.maxDamage * totalFeatureUses;
+                                if(totalFeatureUses > 0) {
+                                    nameList.push(featureRef.name);
+                                }
 
                                 if(totalFeatureUses >= uses) {
                                     break;
@@ -1641,6 +1655,11 @@ export default {
                 projection.damage = damage;
                 projection.maxDamage = maxDamage;
             } 
+            
+            //Set multiattack name
+            if(projection.multiattack) {
+                projection.name = this.f5.misc.title_multiattack+': '+nameList.join(' / ');
+            }
             
             projection.damagePerAction = projection.damage / projection.actionCost;
             console.log(JSON.parse(JSON.stringify(projection)));
@@ -1664,8 +1683,6 @@ export default {
         },
 
         fillReferencingProjections: function(projection, references) {
-            let nameList = [];
-
             //fill references
             if(Array.isArray(projection)) {
                 for(let projectionOption of projection) {
@@ -1675,16 +1692,8 @@ export default {
                 for(let reference of projection.references) {
                     if(references[reference.id]) {
                         reference.feature = references[reference.id];
-                        if(projection.multiattack) {
-                            nameList.push(reference.feature.name);
-                        }
                     }
                 }
-            }
-
-            //Set multiattack name
-            if(projection.multiattack) {
-                projection.name = this.f5.misc.title_multiattack+': '+nameList.join(' / ');
             }
         },
         
@@ -1703,7 +1712,32 @@ export default {
             if(feature.hasOwnProperty('references')) {
                 for(let reference of feature.references) {
                     if(reference.hasOwnProperty('feature') && reference.feature) {
-                        this.useFeature(reference.feature);
+                        let uses = 1;
+                        if(reference.hasOwnProperty('uses')) { 
+                            uses = reference.uses;
+                        }
+                        if(Array.isArray(reference.feature)) {
+                            //TODO stuff here
+                            for(let featureRef of reference.feature) {
+                                if(featureRef.hasOwnProperty('remainingUses')) { 
+                                    //reduce uses
+                                    while(featureRef.remainingUses > 0 && uses > 0) {
+                                        featureRef.remainingUses--;
+                                        uses--;
+                                    }
+                                }else if(
+                                    featureRef.hasOwnProperty('rechargeTurns') && 
+                                    featureRef.hasOwnProperty('rechargeCooldown')
+                                ) {
+                                    if(featureRef.rechargeTurns == featureRef.rechargeCooldown) {
+                                        uses--;
+                                        featureRef.rechargeCooldown = 0;
+                                    }
+                                }
+                            }
+                        } else {
+                            this.useFeature(reference.feature);
+                        }
                     }
                 }
             }
