@@ -745,13 +745,13 @@ export default {
                 }
 
                 //Cantrips scale with caster level
-                if(parseInt(spell.level) !== 0) {
+                if(parseInt(spell.level) === 0) {
                     let cantripScalingData = this.f5.spelllevels[0]['level_scaling'];
-                    let casterLevel = this.$parent.casterLevel;
+                    let casterLevel = parseInt(this.$parent.casterLevel);
                     let matchingLevel = 1;
                     for(let i in cantripScalingData) {
-                        if(i <= casterLevel && i >= matchingLevel) {
-                            matchingLevel = i;
+                        if(parseInt(i) <= casterLevel && parseInt(i) >= matchingLevel) {
+                            matchingLevel = parseInt(i);
                         }
                     }
                     let cantripMultiplier = cantripScalingData[matchingLevel];
