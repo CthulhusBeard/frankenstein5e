@@ -195,6 +195,12 @@ export default {
 
             let average = (defensiveCr + this.toNumber(this.damageCr)) / 2;
 
+            //Extra modifiers
+            if(average < 10 && this.value.speeds['fly'] > 0) {
+                //Flying monsters with CR below 10 are considered effectively 2 AC higher
+                average = average + 2;
+            }
+
             return average;
         },
 
@@ -1331,7 +1337,7 @@ export default {
         },
 
         getDamageProjection: function() {
-            console.group('getDamageProjection');
+            //console.group('getDamageProjection');
 
             let referencableProjections = [];
             let referencingProjections = [];
@@ -1412,12 +1418,12 @@ export default {
             }
 
 
-            console.log('Projections Data');
-            console.log(JSON.parse(JSON.stringify(projections)));
+            //console.log('Projections Data');
+            //console.log(JSON.parse(JSON.stringify(projections)));
 
 
             //Simulate combat rounds
-            console.log('Simulate combat rounds');
+            //console.log('Simulate combat rounds');
             for(let actionType in projections) {
                 if(!projections[actionType].options.length) {
                     delete projections[actionType];
@@ -1436,9 +1442,9 @@ export default {
                         this.incrementProjectionTurn(projection); //Increments cooldowns etc
                     }
 
-                    console.log('---start round '+roundNum);
-                    console.log(actionType);
-                    console.log(JSON.parse(JSON.stringify(projections[actionType].options)));
+                    // console.log('---start round '+roundNum);
+                    // console.log(actionType);
+                    // console.log(JSON.parse(JSON.stringify(projections[actionType].options)));
 
                     //Sort by most damage
                     projections[actionType].options = projections[actionType].options.sort(function (a, b) {
@@ -1516,9 +1522,9 @@ export default {
                 }
             }
             
-            console.log('totals');
-            console.log(totals);
-            console.groupEnd();
+            // console.log('totals');
+            // console.log(totals);
+            // console.groupEnd();
 
             return totals;
         },

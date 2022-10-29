@@ -1,15 +1,12 @@
 //TODO: 
 
 - [ ] Multiattack graph reactivity
-- [ ] Multiattack projection needs to expend resources (shift arrays left)
-- [ ] Use "ref"s to reference features and call computed values directly instead of reassigning to data values
 
 HIGH PRIORITY
 - [ ] Design UI
 - [ ] Tips and suggestions
 - [ ] Consider displaying assumed average target count for AOE attacks (to make better sense of DPR). Consider having "single target DPR" vs "total DPR"
 - [ ] Allow adding text replace codes to custom description
-- [ ] Legendary and Mythic Actions can select from existing actions
 - [ ] Figure out which dpr events are actually necessary
 - [ ] Minimum creature size for conditions (grappled, swallowed, etc)
 - [ ] hasInstantKillPotential
@@ -21,7 +18,6 @@ HIGH PRIORITY
 //      -> ref: https://www.reddit.com/r/DMAcademy/comments/nc3i47/the_cr_calculator_in_the_dmg_is_wack_it_doesnt/gy34lun/
 //      -> Effective health pool - DMG 277
 //      -> Features that increase CR - DMG 280 ("Does this feature alter CR? By how much?")
-//      -> Flying monsters with CR below 10 are considered effectively 2 AC higher
 - [ ] Encounter calculator
 - [ ] Merge projections for Multiattack
 //      -> Consider Action Surge/Multiattack combo
