@@ -3,6 +3,7 @@
 /public/storage
 /public/js
 /public/css
+/public/data/frankenstein5.json
 /storage/*.key
 /vendor
 .env
