@@ -1433,9 +1433,6 @@ export default {
                             this.resetProjection(projection);
                         }
                         this.prepareProjectionFields(projection);
-                        // projection.damage = this.getProjectionDamage(projection);
-                        // projection.maxDamage = this.getProjectionDamage(projection, true);
-                        // projection.damagePerAction = projection.damage / projection.actionCost;
                         this.incrementProjectionTurn(projection); //Increments cooldowns etc
                     }
 
@@ -1589,7 +1586,6 @@ export default {
             if(!projection) {
                 return;
             }
-            console.group('--prepareProjectionFields--');
 
             let damage = 0;
             let maxDamage = 0;
@@ -1613,26 +1609,26 @@ export default {
                             });
                             let totalFeatureUses = 0;
                             for(let featureRef of refProjection.feature) {
-                                let featureUses = 0;
-                                if(featureRef.hasOwnProperty('remainingUses')) { 
-                                    featureUses = featureRef.remainingUses;
-                                    if(uses < featureUses) {
-                                        featureUses = uses;
-                                    }
-                                }
+                                let featureUses = uses - totalFeatureUses;
                                 if(
                                     featureRef.hasOwnProperty('rechargeTurns') && 
                                     featureRef.hasOwnProperty('rechargeCooldown')
                                 ) {
                                     if(featureRef.rechargeTurns > featureRef.rechargeCooldown) {
-                                        uses = 0;
+                                        featureUses = 0;
                                     } else {
-                                        uses = 1;
+                                        featureUses = 1; //It'll get put on cooldown as soon as it's used the first time
+                                    }
+                                }
+                                if(featureRef.hasOwnProperty('remainingUses')) { 
+                                    featureUses = featureRef.remainingUses;
+                                    if(featureUses > uses) {
+                                        featureUses = uses;
                                     }
                                 }
                                 totalFeatureUses += featureUses;
-                                damage += featureRef.damage * totalFeatureUses;
-                                maxDamage += featureRef.maxDamage * totalFeatureUses;
+                                damage += featureRef.damage * featureUses;
+                                maxDamage += featureRef.maxDamage * featureUses;
                                 if(totalFeatureUses > 0) {
                                     nameList.push(featureRef.name);
                                 }
@@ -1649,6 +1645,9 @@ export default {
                             this.prepareProjectionFields(refProjection.feature);
                             damage += refProjection.feature.damage * uses;
                             maxDamage += refProjection.feature.maxDamage * uses;
+                            if(uses > 0) {
+                                nameList.push(refProjection.feature.name);
+                            }
                         }
                     }
                 }
@@ -1662,8 +1661,6 @@ export default {
             }
             
             projection.damagePerAction = projection.damage / projection.actionCost;
-            console.log(JSON.parse(JSON.stringify(projection)));
-            console.groupEnd();
             return;
             
         },
