@@ -635,13 +635,13 @@ export default {
         //Legendary, Mythic, and Lair Actions
         legendaryActionText: function() {
             let str = this.pluralize(this.f5.misc.legendary_action_desc, this.value.legendaryActions);
-            str = this.creatureNameReplace(str);
+            str = this.keyWordReplace(str);
             str = str.replaceAll(':legendary_action_count', this.value.legendaryActions);
             return str;
         },
 
         mythicActionText: function() {
-            let str = this.creatureNameReplace(this.f5.misc.mythic_action_desc);
+            let str = this.keyWordReplace(this.f5.misc.mythic_action_desc);
             str = str.replaceAll(':mythic_trait_name', this.value.mythicTraitName);
             return str;
         },
@@ -658,12 +658,12 @@ export default {
         },
 
         mythicTraitDescriptionText: function() {
-            let str = this.creatureNameReplace(this.value.mythicTraitDescription);
+            let str = this.keyWordReplace(this.value.mythicTraitDescription);
             return str;
         },
 
         lairActionText: function() {
-            let str = this.creatureNameReplace(this.f5.misc.lair_action_desc);
+            let str = this.keyWordReplace(this.f5.misc.lair_action_desc);
             return str;
         },
 
@@ -1442,8 +1442,8 @@ export default {
                         this.incrementProjectionTurn(projection); //Increments cooldowns etc
                     }
 
-                    // console.log('---start round '+roundNum);
-                    // console.log(actionType);
+                    console.log('---start round '+roundNum);
+                    console.log(actionType);
                     // console.log(JSON.parse(JSON.stringify(projections[actionType].options)));
 
                     //Sort by most damage
@@ -1452,7 +1452,8 @@ export default {
                     });
 
                     let actionCount = 0; //Counts the actions spent
-                    for(let projection of projections[actionType].options) {
+                    for(let j in projections[actionType].options) {
+                        let projection = projections[actionType].options[j];
 
                         //check if usable
                         let isUsable = this.isProjectionUsable(projection);
@@ -1522,8 +1523,8 @@ export default {
                 }
             }
             
-            // console.log('totals');
-            // console.log(totals);
+            console.log('totals');
+            console.log(totals);
             // console.groupEnd();
 
             return totals;
@@ -1746,7 +1747,7 @@ export default {
             }
         },
 
-        creatureNameReplace: function(str) {
+        keyWordReplace: function(str) {
             let creatureName = this.value.name.toLowerCase();
             if(this.value.isNameProperNoun) {
                 str = str.replace(/the :creature_name/ig, this.capitalize(creatureName));
@@ -1754,6 +1755,25 @@ export default {
             } else {
                 str = str.replaceAll(':creature_name', creatureName);
             }
+
+            let keywords = {
+            }
+
+            //create ability related string keys
+            for(let ability in this.f5.abilities) {
+                keywords[':target_save_vs_'+ability] = this.makeSavingThrowDC(ability);
+            }
+
+            //create skill related string keys
+            for(let skill in this.f5.skills) {
+                keywords[':creature_skill_'+skill] = this.calcSkillMod(skill);
+            }
+
+            //Replace sting keys
+            for(let key in keywords) {
+                str = str.replaceAll(key, keywords[key]);
+            }
+
             return str;
         },
 

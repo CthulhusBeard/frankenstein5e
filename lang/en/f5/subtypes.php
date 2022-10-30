@@ -48,6 +48,7 @@ return [
     'tabaxi' => 'Tabaxi',
     'thri_kreen' => 'Thri-kreen',
     'tiefling' => 'Tiefling',
+    'titan' => 'Titan',
     'tortle' => 'Tortle',
     'troglodyte' => 'Troglodyte',
     'xvart' => 'Xvart',

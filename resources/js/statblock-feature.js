@@ -835,14 +835,6 @@ export default {
         },
 
         descriptionTextReplace: function(str) {
-            //Creature Name
-            let creatureName = this.$parent.value.name.toLowerCase();
-            if(this.value.isNameProperNoun) {
-                str = str.replace(/the :creature_name/ig, this.capitalize(creatureName));
-                str = str.replaceAll(':creature_name', this.capitalize(creatureName));
-            } else {
-                str = str.replaceAll(':creature_name', creatureName);
-            }
 
             //Attacks
             str = str.replace(':attack_range', this.f5.areaofeffect[this.value.targetType].name);
@@ -877,6 +869,8 @@ export default {
             str = str.replace(':spell_save_dc', this.$parent.makeSavingThrowDC(this.value.spellcastingAbility));
             str = str.replace(':spell_hit', this.$parent.addPlus(this.$parent.proficiency + this.$parent.getAbilityMod(this.value.spellcastingAbility)));
 
+
+            str = this.$parent.keyWordReplace(str);
             return str;
         },
 

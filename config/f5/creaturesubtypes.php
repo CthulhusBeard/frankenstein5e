@@ -362,6 +362,12 @@ return [
 
         ],
     ],
+    'titan' => [
+        'name' => 'f5/subtypes.titan',
+        'tags' => [
+
+        ],
+    ],
     'tortle' => [
         'name' => 'f5/subtypes.tortle',
         'tags' => [
