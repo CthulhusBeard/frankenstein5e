@@ -473,6 +473,47 @@
                         </select>
                     </div>
                 </div>
+
+                <div class="feature__regenerate" v-if="value.template !== 'spellcasting' && value.template !== 'multiattack' && value.template !== 'reference'">
+                    <label class="title-label">@{{ f5.misc.title_regenerate }}:</label>
+                    <select class="feature__regenerate__options" name="feature__regenerate__options" v-model="value.regenerate.type">
+                        <option v-for="(type, i) in f5.regenerate" :value="i" >@{{type.name}}</option>
+                    </select>
+                    <div v-if="value.regenerate.type == 'custom' || value.regenerate.type == 'automatic'">
+                        <!-- Regeneration Options -->
+                        <div>
+                            <label class="title-label">@{{f5.misc.title_regeneration_dice}}:</label>
+                            <div class="feature__regen indent-margin" v-for="(regen, index) in value.regenerate.amount">
+                                <div>
+                                    <label class="title-label">@{{f5.misc.dice_amount}}:</label>
+                                    <select id="feature__regen__dice-amount" name="feature__regen__dice-amount" v-model="regen.diceAmount">
+                                        <option value="0" >0</option>
+                                        <option v-for="i in 30" :value="i" >@{{i}}</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="title-label">@{{f5.misc.dice_type}}:</label>
+                                    <select id="feature__regen__dice-type" name="feature__regen__dice-type" v-model="regen.diceType">
+                                        <option v-for="i in f5.dicetypes" :value="i" >@{{i}}</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="title-label">@{{f5.misc.title_ability_bonus}}</label>
+                                    <input type="checkbox" v-model="regen.abilityBonus">
+                                </div>
+                                <div>
+                                    <label :for="'feature__regen__hitpoints-additional__'+value.id" class="title-label">@{{f5.misc.additional}}:</label>
+                                    <input type="number" min="0" max="9999" :id="'feature__regen__hitpoints-additional'+value.id" name="feature__regen__hitpoints-additional" v-model="regen.additional" value="0" />
+                                </div>
+
+                                <div class="feature__remove-regen" @click="removeRegenDie(index)">x</div>
+                            </div>
+                            <button @click="addRegenDie()">@{{f5.misc.title_add_regeneration_die}}</button>
+                            <br/>
+                            <br/>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <button class="feature__save">@{{f5.misc.title_save}}</button>

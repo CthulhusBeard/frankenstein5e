@@ -105,6 +105,7 @@ return [
     'title_reach_distance' => 'f5/features.title_reach_distance',
     'title_range_distance' => 'f5/features.title_range_distance',
     'title_damage_dice' => 'f5/features.title_damage_dice',
+    'title_regeneration_dice' => 'f5/features.title_regeneration_dice',
     'title_saving_throw_ability' => 'f5/features.title_saving_throw_ability',
     'title_saving_throw_monster_ability' => 'f5/features.title_saving_throw_monster_ability',
     'title_attack_ability' => 'f5/features.title_attack_ability',
@@ -173,6 +174,7 @@ return [
     'reach_or_range' => 'f5/features.reach_or_range',
 
     'title_add_damage_die' => 'f5/features.title_add_damage_die',
+    'title_add_regeneration_die' => 'f5/features.title_add_regeneration_die',
 
     'desc_attack_saving_throw_damage' => 'f5/features.desc_attack_saving_throw_damage',
     'desc_attack_saving_throw_condition' => 'f5/features.desc_attack_saving_throw_condition',
@@ -255,6 +257,8 @@ return [
     'title_hit_points' => 'f5/misc.title_hit_points',
     'title_hit_dice' => 'f5/misc.title_hit_dice',
 
+    'title_regenerate' => 'f5/regenerate.title_regenerate',
+
     //--
     
     'title_player_characters' => 'f5/builder.title_player_characters',
@@ -306,4 +310,5 @@ return [
 
     'warning_fatal_attack' => 'f5/builder.warning_fatal_attack',
     'warning_fatal_crit' => 'f5/builder.warning_fatal_crit',
+
 ];

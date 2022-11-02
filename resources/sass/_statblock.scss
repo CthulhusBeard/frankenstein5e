@@ -261,13 +261,13 @@ i {
             //column-count: 2;
             //column-gap: 2px;
         }
-        .feature__damage {
+        .feature__damage, .feature__regen {
             position: relative;
             border: 1px black solid;
             background-color: #f3efdd;
             border-radius: 8px;
             padding: 2px;
-            .feature__remove-damage {
+            .feature__remove-damage, .feature__remove-regen {
                 @extend .x;
             }
         }

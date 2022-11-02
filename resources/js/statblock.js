@@ -69,9 +69,12 @@ export default {
                 },
                 hasLegendaryActions: false,
                 hasMythicActions: false,
-                mythicTraitName: this.f5.misc.title_mythic_feature_name,
-                mythicTraitDescription: this.f5.misc.mythic_action_feature,
-                mythicRecharge: 'short_rest',
+                mythicTrait: {
+                    name: this.f5.misc.title_mythic_feature_name,
+                    description: this.f5.misc.mythic_action_feature,
+                    recharge: this.f5.misc.title_mythic_feature_name,
+                    restoreHitPoints: true,
+                },
                 legendaryActions: 3,
                 reactions: 1,
                 actions: 1,
@@ -378,8 +381,18 @@ export default {
             }
             let hp = (Math.round((type / 2 + .5) * amount) + conHP) + additionalHP;
 
-            this.$emit('update-hp', this.trackingId, hp);
             return hp;
+        },
+
+        getEffectiveHP: function() {
+
+            let effectiveHP = this.getHP;
+            if(this.value.hasMythicActions && this.value.mythicTrait.restoreHitPoints) {
+                effectiveHP = effectiveHP * 2;
+            }
+
+            this.$emit('update-hp', this.trackingId, effectiveHP);
+            return effectiveHP;
         },
         
         hitPointsText: function() {
@@ -642,15 +655,15 @@ export default {
 
         mythicActionText: function() {
             let str = this.keyWordReplace(this.f5.misc.mythic_action_desc);
-            str = str.replaceAll(':mythic_trait_name', this.value.mythicTraitName);
+            str = str.replaceAll(':mythic_trait_name', this.value.mythicTrait.name);
             return str;
         },
 
         mythicTraitTitleText: function() {
-            let str = this.value.mythicTraitName+' ('+this.f5.misc.mythic_trait;
-            if(this.value.mythicRecharge == 'long_rest') {
+            let str = this.value.mythicTrait.name+' ('+this.f5.misc.mythic_trait;
+            if(this.value.mythicTrait.recharge == 'long_rest') {
                 str += '; '+this.f5.recharge.long_rest.desc;
-            } else if(this.value.mythicRecharge == 'short_rest') {
+            } else if(this.value.mythicTrait.recharge == 'short_rest') {
                 str += '; '+this.f5.recharge.short_rest.desc;
             }
             str += ')';
@@ -658,7 +671,7 @@ export default {
         },
 
         mythicTraitDescriptionText: function() {
-            let str = this.keyWordReplace(this.value.mythicTraitDescription);
+            let str = this.keyWordReplace(this.value.mythicTrait.description);
             return str;
         },
 
@@ -1444,7 +1457,7 @@ export default {
 
                     console.log('---start round '+roundNum);
                     console.log(actionType);
-                    // console.log(JSON.parse(JSON.stringify(projections[actionType].options)));
+                    console.log(JSON.parse(JSON.stringify(projections[actionType])));
 
                     //Sort by most damage
                     projections[actionType].options = projections[actionType].options.sort(function (a, b) {
@@ -1452,7 +1465,7 @@ export default {
                     });
 
                     let actionCount = 0; //Counts the actions spent
-                    for(let j in projections[actionType].options) {
+                    for(let j = 0; j < projections[actionType].options.length; j++) {
                         let projection = projections[actionType].options[j];
 
                         //check if usable

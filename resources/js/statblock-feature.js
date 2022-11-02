@@ -47,6 +47,10 @@ export default {
                     minRoll: 5,
                     uses: 1,
                 },
+                regenerate: {
+                    type: 'none',
+                    amount: [this.createDamageDie(false, false)],
+                },
                 spellcastingAbility: 'int',
                 innateSpellcasting: false,
                 spellcastingClass: '',
@@ -64,8 +68,7 @@ export default {
                 manualDPR: -1,
                 manualMaxDPR: -1,
             },
-            generatedProjection: [],
-            referencedProjection: [],
+            referencedProjection: [], //do we need this??
         }
     },
 
@@ -603,28 +606,28 @@ export default {
         },
 
         damageProjection: function() {
-            let turnDamage;
+            let projection;
 
             if(this.value.template === 'spellcasting') {
-                turnDamage = this.createSpellcastingProjection();
+                projection = this.createSpellcastingProjection();
             } else if(this.value.template === 'multiattack') {
-                turnDamage = this.createMultiattackProjection();
+                projection = this.createMultiattackProjection();
             } else if(this.value.template == 'reference') {
                 let refFeature = this.getReferencedFeature();
                 if(refFeature) {
                     //TODO: This is not as reactive as I'd like it to be. 
-                    turnDamage = refFeature.damageProjection;
+                    projection = refFeature.damageProjection;
                 } else {
                     //TODO: Should this be something else?? TEST having standard stuff in it then switch to existing
-                    turnDamage = this.createStandardProjection();
+                    projection = this.createStandardProjection();
                 }
             } else {
-                turnDamage = this.createStandardProjection();
+                projection = this.createStandardProjection();
             }
 
-            this.$emit('update-projection', this.value.actionType, this.trackingId, turnDamage);
+            this.$emit('update-projection', this.value.actionType, this.trackingId, projection);
 
-            return turnDamage;
+            return projection;
         },
 
         multiattackMatches: function() {
@@ -660,14 +663,17 @@ export default {
             return spellSlots;
         },
 
-        createDamageDie: function(setAbilityBonus = false) {
-            return {
+        createDamageDie: function(setAbilityBonus = false, requireDamageType = true) {
+            let damageDie = {
                 diceType: 4,
                 diceAmount: 1,
                 additional: 0,
                 abilityBonus: setAbilityBonus,
-                type: 'slashing',
+            };
+            if(requireDamageType) {
+                damageDie.type = 'slashing';
             }
+            return damageDie;
         },
 
         createMultiattackProjection: function() {
@@ -784,6 +790,7 @@ export default {
                 }];
             }
 
+            //Use/Recharge options
             if(this.value.recharge.type === 'long_rest' || this.value.recharge.type === 'short_rest') {
                 projectionObj.totalUses = 1;
             } else if(this.value.recharge.type === 'limited_use') {       
@@ -791,6 +798,13 @@ export default {
             } else if(this.value.recharge.type === 'dice_roll') {
                 projectionObj.rechargeTurns = Math.round(1 / ((this.value.recharge.diceType - this.value.recharge.minRoll + 1) / this.value.recharge.diceType));
             }
+
+            //HP Regeneration
+            if(this.value.regenerate.type !== 'none') {
+                //TODO: add to projection
+                projectionObj.regenerate = 0; //Fix this
+            }
+
             return projectionObj
         },
 
@@ -801,6 +815,15 @@ export default {
 
         removeDamageDie: function(type, i) {
             this.value[type].splice(i, 1);
+        },
+
+        addRegenDie: function() {
+            let damageDie = this.createDamageDie(this.value.regenerate.amount.length > 0 ? false : true); //false for each damage set after the first
+            this.value.regenerate.amount.push(damageDie);
+        },
+
+        removeRegenDie: function(i) {
+            this.value.regenerate.amount.splice(i, 1);
         },
 
         addSpell: function(spellLevel = 0) {

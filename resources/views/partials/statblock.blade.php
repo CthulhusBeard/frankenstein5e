@@ -423,14 +423,19 @@
                             <span class="feature__description" v-html="mythicTraitDescriptionText"></span>
                         </div>
                         <div class="edit-field">
-                            <input class="title-label" type="text" v-model="value.mythicTraitName"><br/>
-                            <textarea class="edit-field" v-model="value.mythicTraitDescription"></textarea>
+                            <input class="title-label" type="text" v-model="value.mythicTrait.name"><br/>
+                            <textarea class="edit-field" v-model="value.mythicTrait.description"></textarea>
                             
                             <label class="title-label" for="feature__recharge">@{{f5.misc.title_recharge}}:</label>
-                            <select id="feature__recharge" name="feature__recharge" v-model="value.mythicRecharge">
+                            <select id="feature__recharge" name="feature__recharge" v-model="value.mythicTrait.recharge">
                                 <option v-for="(recharge, i) in f5.recharge" v-if="recharge.mythicOption" :value="i" >@{{recharge.name}}</option>
                             </select>
                         </div>
+                        <div>
+                            <label>[PH] Restores hit points?</label>
+                            <input type="checkbox" v-model="value.mythicTrait.restoreHitPoints" />
+                        </div>
+                            
                     </div>
                 </div>
 

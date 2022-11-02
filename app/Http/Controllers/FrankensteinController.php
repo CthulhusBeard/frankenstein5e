@@ -30,6 +30,7 @@ class FrankensteinController extends Controller
                 'playerlevels',
                 'tags',
                 'recharge',
+                'regenerate',
                 'dicetypes',
                 'challengerating',
                 'abilities',

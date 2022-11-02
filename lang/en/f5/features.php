@@ -90,6 +90,7 @@ return [
     'title_reach_distance' => 'Reach Distance',
     'title_range_distance' => 'Range Distance',
     'title_damage_dice' => 'Damage Dice',
+    'title_regeneration_dice' => 'Regeneration Dice',
     'title_saving_throw_ability' => 'Ability for Save',
     'title_saving_throw_monster_ability' => 'Ability Used For Effect',
     'title_additional_saving_throw' => 'Additional Saving Throw',
@@ -100,6 +101,7 @@ return [
     'title_saving_throw_conditions' => 'Conditions Applied',
     'title_ongoing_damage' => 'Ongoing Damage',
     'title_add_damage_die' => '+ Damage Die',
+    'title_add_regeneration_die' => '+ Regeneration Die',
 
     'title_on_failed_save' => 'Requires Failed Save',
     'title_damage_occurance' => 'Damage Occurs',

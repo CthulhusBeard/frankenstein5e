@@ -1,6 +1,7 @@
 //TODO: 
 
 - [ ] Multiattack graph reactivity
+- [ ] Don't count Mythics in the first few actions
 
 HIGH PRIORITY
 - [ ] Design UI
@@ -41,6 +42,7 @@ FINAL TOUCHES
 - [ ] Change images to original ( add repeating ripped edge)
 - [ ] Remove external CDN references
 - [ ] Clean up label "for"s
+- [ ] Replace some drop downs with input number fields
 
 OPTIONAL
 - [ ] Loc cleanup

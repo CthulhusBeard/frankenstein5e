@@ -55,4 +55,16 @@ return [
             'lair_action',
         ],
     ],
+    'regenerate' => [
+        'name' => 'f5/featuretemplates.regenerate',
+        'action_options' => [
+            'passive',
+            'action',
+            'bonus_action',
+            'reaction',
+            'legendary_action',
+            'mythic_action',
+            'lair_action',
+        ],
+    ],
 ];
