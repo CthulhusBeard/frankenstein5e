@@ -10,6 +10,9 @@ return [
     'title_one_hour' => 'One Hour',
     'title_one_day' => 'One Day',
 
+    'start_of_turn_desc' => 'At the start of its turn, ',
+    'end_of_turn_desc' => 'At the end of its turn, ',
+
     'until_start_of_turn' => 'until the start of its next turn',
     'start_of_each_turn' => 'at the start of each of its turns',
     'until_end_of_turn' => 'until the end of its next turn',

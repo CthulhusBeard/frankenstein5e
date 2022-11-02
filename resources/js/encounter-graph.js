@@ -88,11 +88,15 @@ export default {
                             hpPointStyles: [],
                             projectedDeath: -1,
                             currentHP: monster.hp,
+                            maxHP: monster.hp,
+                            regeneration: 0,
+                            mythicRecovery: false,
                         };
                     }
 
                     //TODO: Assumes monster goes first (damage is cumulated before checking HP). Does that need to change?
                     let roundDamage = (monster.hasOwnProperty('projections') && monster.projections[roundIndex]) ? monster.projections[roundIndex].damage : 0;
+                    let roundRegen = (monster.hasOwnProperty('projections') && monster.projections[roundIndex]) ? monster.projections[roundIndex].regeneration : 0;
                     monsterData[monsterIndex].damageData[roundIndex] = roundDamage;
                     cumulativeMonsterDamagePerRound[roundIndex] += roundDamage;
                     monsterData[monsterIndex].maxDamageData[roundIndex] = (monster.hasOwnProperty('projections') && monster.projections[roundIndex]) ? monster.projections[roundIndex].maxDamage : 0;
@@ -107,14 +111,20 @@ export default {
                     } else {
                         monsterData[monsterIndex].hpPointStyles[roundIndex] = defaultPointStyle;
                     }
-                    if (monsterData[monsterIndex].currentHP > playerDamageThisRound) {
-                        //Player damage less than Monster HP: Monster lives
-                        monsterData[monsterIndex].currentHP = monsterData[monsterIndex].currentHP - playerDamageThisRound;
+                    if (monsterData[monsterIndex].currentHP + monsterData[monsterIndex].regeneration + roundRegen > playerDamageThisRound) {
+                        //Player damage less than Monster HP / regeneration: Monster lives
+                        monsterData[monsterIndex].currentHP = monsterData[monsterIndex].currentHP + monsterData[monsterIndex].regeneration + roundRegen - playerDamageThisRound;
                         playerDamageThisRound = 0;
                     } else {
                         //Player damage greater than Monster HP: Monster dies
                         playerDamageThisRound = playerDamageThisRound - monsterData[monsterIndex].currentHP;
-                        monsterData[monsterIndex].currentHP = 0
+                        if(monsterData[monsterIndex].mythicRecovery) {
+                            monsterData[monsterIndex].currentHP = monsterData[monsterIndex].maxHP;
+                            monsterData[monsterIndex].mythicRecovery = false;
+                            //TODO: Announce this somehow
+                        } else {
+                            monsterData[monsterIndex].currentHP = 0;
+                        }
                     }
                 }
 

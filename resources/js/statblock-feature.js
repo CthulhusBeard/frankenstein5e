@@ -21,6 +21,7 @@ export default {
                 actionType: this.initialType,
                 name:  (this.initialType == 'spellcasting' || this.initialType == 'multiattack' ) ? this.f5.misc['title_'+this.initialType] : this.f5.misc.title_feature_name,
                 template: (this.initialType == 'spellcasting' || this.initialType == 'multiattack' ) ? this.initialType : 'custom', 
+                passiveTrigger: 'start_of_turn',
                 attackAbility: 'str',
                 targetType: 'melee',
                 attackType: 'weapon',
@@ -50,6 +51,7 @@ export default {
                 regenerate: {
                     type: 'none',
                     amount: [this.createDamageDie(false, false)],
+                    customText: this.f5.regenerate['custom']['desc'],
                 },
                 spellcastingAbility: 'int',
                 innateSpellcasting: false,
@@ -286,34 +288,51 @@ export default {
 
         descriptionText: function() {
             let descText = '';
+            let prefixText = '';
+
+            if(this.value.actionType === 'passive' && this.value.template !== 'custom') {
+                prefixText += this.f5.durations[this.value.passiveTrigger]['desc'];
+            }
 
             if(this.value.template == 'custom') {
                 //Custom Description
-                descText = this.value.customDescription;
+                descText += this.value.customDescription;
             } else if(this.value.template == 'multiattack') {
                 //Multiattack Description
-                descText = this.multiattackDescription;
+                descText += this.multiattackDescription;
             } else if(this.value.template == 'spellcasting') {
                 //Spellcasting Description
-                descText = this.spellcastingDescription;
+                descText += this.spellcastingDescription;
             } else if(this.value.template == 'attack') {
                 //Attack Description
-                descText = this.attackDescription;
+                descText += this.attackDescription;
                 if(this.value.attackSavingThrow) {
                     //Add Saving Throw
                     descText += this.savingThrowDescription;
                 }
+                if(this.value.regenerate.type !== 'none') {
+                    //Add Regen
+                    descText += this.regenerateDescription;
+                }
             } else if(this.value.template == 'saving_throw') {
                 //Saving Throw Description
-                descText = this.savingThrowDescription;
+                descText += this.savingThrowDescription;
             } else if(this.value.template == 'reference') {
                 //Existing Feature Description
-                descText = this.referencedFeatureDescription;
+                descText += this.referencedFeatureDescription;
+            } else if(this.value.template == 'regenerate') {
+                //Regeneration Feature Description
+                descText += this.regenerateDescription;
             }
 
-            descText+this.f5.misc.sentence_end;
+            //descText = descText+this.f5.misc.sentence_end;
+            descText = this.descriptionTextReplace(descText);
+
+            if(prefixText.length) {
+                descText = prefixText + descText.charAt(0).toLowerCase() + descText.slice(1);
+            }
             
-            return this.descriptionTextReplace(descText);
+            return descText
         },
 
         multiattackDescription: function() {
@@ -605,6 +624,24 @@ export default {
             return savingThrowText;
         },
 
+        regenerateDescription: function() {
+            let regenObj = this.f5.regenerate[this.value.regenerate.type];
+            let desc = regenObj.desc;
+            let regenList = [];
+
+            if(this.value.regenerate.type === 'custom') {
+                desc = this.value.regenerate.customText;
+            }
+
+            if(!regenObj['requires_damage'] || this.value.regenerate.type === 'custom') {
+                for(let i = 0; i < this.value.regenerate.amount.length; i++) {
+                    regenList.push(this.$parent.createDamageText(this.value.regenerate.amount[i]));
+                }
+                desc = desc.replace(':regenerate_hit_point_amount', this.$parent.createSentenceList(regenList));
+            }
+            return desc;
+        },
+
         damageProjection: function() {
             let projection;
 
@@ -801,8 +838,18 @@ export default {
 
             //HP Regeneration
             if(this.value.regenerate.type !== 'none') {
-                //TODO: add to projection
                 projectionObj.regenerate = 0; //Fix this
+                
+                if(this.value.regenerate.type === 'custom' || this.value.regenerate.type === 'automatic') {
+                    for(let i in this.value.regenerate.amount) {
+                        let regen = this.$parent.averageDamage(this.value.regenerate.amount[i]);
+                        projectionObj.regenerate += regen; //Fix this
+                    }
+                } else if(this.value.regenerate.type === 'damage_dealt') {
+                    projectionObj.regenerate = projectionObj.damage;
+                } else if(this.value.regenerate.type === 'half_damage_dealt') {
+                    projectionObj.regenerate = projectionObj.damage / 2;
+                }
             }
 
             return projectionObj
@@ -818,7 +865,7 @@ export default {
         },
 
         addRegenDie: function() {
-            let damageDie = this.createDamageDie(this.value.regenerate.amount.length > 0 ? false : true); //false for each damage set after the first
+            let damageDie = this.createDamageDie(false, true); //false for each damage set after the first
             this.value.regenerate.amount.push(damageDie);
         },
 

@@ -92,12 +92,17 @@ export function initVue(f5data) {
                 }
             },
 
-            updateMonsterHP: function(id, hp) {
+            updateMonsterHP: function(id, hp, mythicRecovery) {
                 for(let statblock of this.statblocks) {
                     if(statblock.trackingId == id) {
                         statblock.hp = hp;
+                        if(mythicRecovery) {
+                            statblock.mythicRecovery = mythicRecovery;
+                        }
                     }
                 }
+                console.log('updateMonsterHP');
+                console.log(this.statblocks);
             },
 
             updateMonsterAC: function(id, ac) {

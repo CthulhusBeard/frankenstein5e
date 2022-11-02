@@ -370,6 +370,7 @@ export default {
         getHP: function() {
             let type = this.value.hitPoints.diceType;
             let amount = this.value.hitPoints.diceAmount;
+            let mythicHealthRestore = false;
             let additionalHP = this.value.hitPoints.additional > 0 ? Math.floor(this.value.hitPoints.additional) : 0;
             if(additionalHP > 9999) {
                 this.value.hitPoints.additional = additionalHP = 9999;
@@ -381,19 +382,25 @@ export default {
             }
             let hp = (Math.round((type / 2 + .5) * amount) + conHP) + additionalHP;
 
+            if(this.value.hasMythicActions && this.value.mythicTrait.restoreHitPoints) {
+                mythicHealthRestore = true;
+            }
+
+            this.$emit('update-hp', this.trackingId, hp, mythicHealthRestore);
+
             return hp;
         },
 
-        getEffectiveHP: function() {
+        // getEffectiveHP: function() {
+        //     let effectiveHP = this.getHP;
 
-            let effectiveHP = this.getHP;
-            if(this.value.hasMythicActions && this.value.mythicTrait.restoreHitPoints) {
-                effectiveHP = effectiveHP * 2;
-            }
+        //     if(this.value.hasMythicActions && this.value.mythicTrait.restoreHitPoints) {
+        //         effectiveHP = effectiveHP * 2;
+        //     }
+        //TODO: ??  Doesn't take into account regen abilities
 
-            this.$emit('update-hp', this.trackingId, effectiveHP);
-            return effectiveHP;
-        },
+        //     return effectiveHP;
+        // },
         
         hitPointsText: function() {
             let type = this.value.hitPoints.diceType;
@@ -997,7 +1004,9 @@ export default {
             } else {
                 descText = damageObj.additional+' ';
             }
-            descText += this.f5.misc.damage.replace(':type', this.f5.damagetypes[damageObj.type].name.toLowerCase());
+            if(damageObj.hasOwnProperty('type')) {
+                descText += this.f5.misc.damage.replace(':type', this.f5.damagetypes[damageObj.type].name.toLowerCase());
+            }
             return descText;
         },
 
@@ -1169,13 +1178,13 @@ export default {
             return targets;
         },
 
-        morphFeatureProjection: function(featureProjection) {
-            return featureProjection;
-        },
+        // morphFeatureProjection: function(featureProjection) {
+        //     return featureProjection;
+        // },
 
-        mergeProjections: function(monsterProjection, inject, featureProjection) {
-            return monsterProjection.splice(inject, 0, this.morphFeatureProjection(featureProjection));
-        },
+        // mergeProjections: function(monsterProjection, inject, featureProjection) {
+        //     return monsterProjection.splice(inject, 0, this.morphFeatureProjection(featureProjection));
+        // },
 
         toCRFormat: function(input) {
             if(input > 0 && input < 1) {
@@ -1223,13 +1232,6 @@ export default {
 
         featureIsMounted: function() {
             this.mountedFeatures++;
-            // if(this.featureCount === this.mountedFeatures) {
-            //     if(this.$refs.multiattack_features && this.$refs.multiattack_features.length) {
-            //         for(const feature of this.$refs.multiattack_features) {
-            //             feature.forceProjectionUpdate();
-            //         }
-            //     }
-            // }
         },
         
         toNumber: function(input) {
@@ -1267,6 +1269,8 @@ export default {
                         for(let feature of this.$refs['features_'+actionType]) {
                             if(feature.value.existingFeatureReferenceId == id) {
                                 feature.referencedProjection = projection;
+                                //TODO: Is this happening here? Should it?
+                                console.log('referencableActions -> !!');
                             }
                         }
                     }
@@ -1275,9 +1279,9 @@ export default {
 
             //Emit updates on change
             if(changesMade) {
-                let projection = this.getDamageProjection();
-                this.generatedProjection = projection;
-                this.$emit('update-projections', this.trackingId, projection);
+                let statblockProjection = this.getDamageProjection();
+                this.generatedProjection = statblockProjection;
+                this.$emit('update-projections', this.trackingId, statblockProjection);
             }
         },
 
@@ -1350,7 +1354,6 @@ export default {
         },
 
         getDamageProjection: function() {
-            //console.group('getDamageProjection');
 
             let referencableProjections = [];
             let referencingProjections = [];
@@ -1382,7 +1385,7 @@ export default {
                     options: [],
                 },
                 passive: {
-                    count: false,
+                    count: 1000, //big number to let as many passive features through as possible
                     rounds: [],
                     options: [],
                 },
@@ -1490,8 +1493,13 @@ export default {
                                 //Sets cooldowns and decrements "uses" for limited use features
                                 this.useFeature(projection);
 
-                                //If this action fits again (and it's not on a cooldown), use it again
-                                if(!projection.hasOwnProperty('rechargeCooldown') && actionCount + actionCost <= projections[actionType].count) { 
+                                //If this action fits again (and it's not a passive or on a cooldown), 
+                                //  decrement the interator variable to use it again
+                                if(
+                                    actionType != 'passive' && 
+                                    !projection.hasOwnProperty('rechargeCooldown') && 
+                                    actionCount + actionCost <= projections[actionType].count
+                                ) { 
                                     j--;
                                 }
                             } else if(projection) {

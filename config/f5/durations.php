@@ -4,10 +4,12 @@ return [
     'start_of_turn' => [
         'name' => 'f5/durations.title_start_of_turn',
         'repeat_save' => 'f5/durations.start_of_turn_repeat',
+        'desc' => 'f5/durations.start_of_turn_desc'
     ],
     'end_of_turn' =>  [
         'name' => 'f5/durations.title_end_of_turn',
         'repeat_save' => 'f5/durations.end_of_turn_repeat',
+        'desc' => 'f5/durations.end_of_turn_desc'
     ],
     'one_round' =>  [
         'name' => 'f5/durations.title_one_round',

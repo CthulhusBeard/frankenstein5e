@@ -2,7 +2,7 @@
 
 return[
     'none' => 'None',
-    'custom' => 'Custom',
+    'custom' => 'Custom Regeneration',
     'half_damage_dealt' => 'Half of Damage Dealt',
     'half_damage_dealt_desc' => 'The :creature_name regains hit points equal to half of the damage dealt.',
     'damage_dealt' => 'Damage Dealt',

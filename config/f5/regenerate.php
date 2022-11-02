@@ -3,9 +3,11 @@
 return [
     'none' => [
         'name' => 'f5/regenerate.none',
+        'desc' => '',
     ],
     'custom' => [
         'name' => 'f5/regenerate.custom',
+        'desc' => 'f5/regenerate.automatic_desc',
     ],
     'half_damage_dealt' => [
         'name' => 'f5/regenerate.half_damage_dealt',

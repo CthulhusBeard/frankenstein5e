@@ -78,5 +78,7 @@ return [
     'title_magical_bonus' => 'Magical Bonus',
     
     'title_save' => 'Save',
+    
+    'title_passive_trigger' => 'Feature Trigger',
 
 ];

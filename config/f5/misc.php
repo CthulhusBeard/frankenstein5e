@@ -256,6 +256,7 @@ return [
     'title_challenge_rating' => 'f5/misc.title_challenge_rating',
     'title_hit_points' => 'f5/misc.title_hit_points',
     'title_hit_dice' => 'f5/misc.title_hit_dice',
+    'title_passive_trigger' => 'f5/misc.title_passive_trigger',
 
     'title_regenerate' => 'f5/regenerate.title_regenerate',
 

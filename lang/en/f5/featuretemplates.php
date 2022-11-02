@@ -8,4 +8,5 @@ return [
     'spellcasting' => 'Spellcasting',
     'multiattack' => 'Multiattack',
     'reference' => 'Existing Ability',
+    'regenerate' => 'Regenerate',
 ];
