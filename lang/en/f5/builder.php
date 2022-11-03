@@ -39,6 +39,7 @@ return [
     'graph_data_monster_max_damage' => ':creature_name Max Damage',
     'graph_data_monster_hp' => ':creature_name Hit Points',
     'graph_data_player_hp' => 'Single Target PC Hit Points',
+    'graph_data_player_hp_spread' => 'Spread Damage PC Hit Points',
     'title_average_damage' => 'Average Damage',
     'title_max_damage' => 'Max Damage',
     'expected_player_death' => 'Expect a PC to drop to 0 HP around this turn.',

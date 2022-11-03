@@ -304,6 +304,7 @@ return [
     'graph_data_monster_max_damage' => 'f5/builder.graph_data_monster_max_damage',
     'graph_data_monster_hp' => 'f5/builder.graph_data_monster_hp',
     'graph_data_player_hp' => 'f5/builder.graph_data_player_hp',
+    'graph_data_player_hp_spread' => 'f5/builder.graph_data_player_hp_spread',
     'title_average_damage' => 'f5/builder.title_average_damage',
     'title_max_damage' => 'f5/builder.title_max_damage',
     'expected_player_death' => 'f5/builder.expected_player_death',

@@ -52,18 +52,22 @@ export default {
             console.log(this.encounterData);
             console.log(this.refreshToggle); //this is actually needed. TODO: Make it not needed
 
-            let projectedPCDeath = -1;
+            let projectedPCDeathSingleTarget = -1;
+            let projectedPCDeathSpreadDamage = -1;
 
             //X-Axis Labels and Health Over Time
             let labelsList = [];
-            let playerHPData = [];
-            let playerHPPointStyles = [];
+            let playerHPSingleTargetData = [];
+            let playerHPSpreadDamageData = [];
+            let playerHPPointStylesSingleTarget = [];
+            let playerHPPointStylesSpreadDamage = [];
             let monsterData = [];
 
             let defaultPointStyle = 'circle';
             let deathPointStyle = 'crossRot';
 
-            let currentPlayerHP = this.f5.playerlevels[this.playerData.level].average_hp;
+            let currentPlayerHPSingleTarget = this.f5.playerlevels[this.playerData.level].average_hp;
+            let currentPlayerHPSpreadDamage = this.f5.playerlevels[this.playerData.level].average_hp;
             let cumulativeMonsterDamagePerRound = [];
 
             //Loop through turns
@@ -89,14 +93,17 @@ export default {
                             projectedDeath: -1,
                             currentHP: monster.hp,
                             maxHP: monster.hp,
-                            regeneration: 0,
+                            regenerate: 0,
                             mythicRecovery: false,
                         };
                     }
 
                     //TODO: Assumes monster goes first (damage is cumulated before checking HP). Does that need to change?
+                    console.log('monster.projections');
+                    console.log(monster.projections);
+
                     let roundDamage = (monster.hasOwnProperty('projections') && monster.projections[roundIndex]) ? monster.projections[roundIndex].damage : 0;
-                    let roundRegen = (monster.hasOwnProperty('projections') && monster.projections[roundIndex]) ? monster.projections[roundIndex].regeneration : 0;
+                    let roundRegen = (monster.hasOwnProperty('projections') && monster.projections[roundIndex] && monster.projections[roundIndex].regenerate > 0) ? monster.projections[roundIndex].regenerate : 0;
                     monsterData[monsterIndex].damageData[roundIndex] = roundDamage;
                     cumulativeMonsterDamagePerRound[roundIndex] += roundDamage;
                     monsterData[monsterIndex].maxDamageData[roundIndex] = (monster.hasOwnProperty('projections') && monster.projections[roundIndex]) ? monster.projections[roundIndex].maxDamage : 0;
@@ -111,11 +118,20 @@ export default {
                     } else {
                         monsterData[monsterIndex].hpPointStyles[roundIndex] = defaultPointStyle;
                     }
-                    if (monsterData[monsterIndex].currentHP + monsterData[monsterIndex].regeneration + roundRegen > playerDamageThisRound) {
-                        //Player damage less than Monster HP / regeneration: Monster lives
-                        monsterData[monsterIndex].currentHP = monsterData[monsterIndex].currentHP + monsterData[monsterIndex].regeneration + roundRegen - playerDamageThisRound;
+
+                    console.log(monsterData[monsterIndex].currentHP +' / '+ monsterData[monsterIndex].regenerate + ' / ' + roundRegen +' > '+ playerDamageThisRound);
+                    if (monsterData[monsterIndex].currentHP + monsterData[monsterIndex].regenerate + roundRegen > playerDamageThisRound) {
+                        //Player damage less than Monster HP / regenerate: Monster lives
+                        console.log('change monster health');
+                        console.log('was '+monsterData[monsterIndex].currentHP);
+                        monsterData[monsterIndex].currentHP = monsterData[monsterIndex].currentHP + monsterData[monsterIndex].regenerate + roundRegen - playerDamageThisRound;
                         playerDamageThisRound = 0;
+                        if(monsterData[monsterIndex].currentHP > monsterData[monsterIndex].maxHP) {
+                            monsterData[monsterIndex].currentHP = monsterData[monsterIndex].maxHP;
+                        }
+                        console.log('was '+monsterData[monsterIndex].currentHP);
                     } else {
+                        console.log('monster should die');
                         //Player damage greater than Monster HP: Monster dies
                         playerDamageThisRound = playerDamageThisRound - monsterData[monsterIndex].currentHP;
                         if(monsterData[monsterIndex].mythicRecovery) {
@@ -129,25 +145,41 @@ export default {
                 }
 
                 //Player HP
-                playerHPData[roundIndex] = currentPlayerHP;
-                if (currentPlayerHP === 0) {
-                    playerHPPointStyles[roundIndex] = deathPointStyle;
-                    if (projectedPCDeath === -1) {
-                        projectedPCDeath = roundIndex;
+                //Single Target
+                playerHPSingleTargetData[roundIndex] = currentPlayerHPSingleTarget;
+                if (currentPlayerHPSingleTarget === 0) {
+                    playerHPPointStylesSingleTarget[roundIndex] = deathPointStyle;
+                    if (projectedPCDeathSingleTarget === -1) {
+                        projectedPCDeathSingleTarget = roundIndex;
                     }
                 } else {
-                    playerHPPointStyles[roundIndex] = defaultPointStyle;
+                    playerHPPointStylesSingleTarget[roundIndex] = defaultPointStyle;
                 }
-                currentPlayerHP = (currentPlayerHP > cumulativeMonsterDamagePerRound[roundIndex]) ? currentPlayerHP - cumulativeMonsterDamagePerRound[roundIndex] : 0;
+                currentPlayerHPSingleTarget = (currentPlayerHPSingleTarget > cumulativeMonsterDamagePerRound[roundIndex]) ? currentPlayerHPSingleTarget - cumulativeMonsterDamagePerRound[roundIndex] : 0;
+                
+                //Multitarget Spread Damage
+                playerHPSpreadDamageData[roundIndex] = currentPlayerHPSpreadDamage;
+                if (currentPlayerHPSpreadDamage === 0) {
+                    playerHPPointStylesSpreadDamage[roundIndex] = deathPointStyle;
+                    if (projectedPCDeathSpreadDamage === -1) {
+                        projectedPCDeathSpreadDamage = roundIndex;
+                    }
+                } else {
+                    playerHPPointStylesSpreadDamage[roundIndex] = defaultPointStyle;
+                }
+                currentPlayerHPSpreadDamage = (currentPlayerHPSpreadDamage > cumulativeMonsterDamagePerRound[roundIndex] / this.playerData.number) ? currentPlayerHPSpreadDamage - (cumulativeMonsterDamagePerRound[roundIndex] / this.playerData.number) : 0;
             }
 
             return {
                 monsterData: monsterData,
-                playerHPData: playerHPData,
+                playerHPSingleTargetData: playerHPSingleTargetData,
+                playerHPSpreadDamageData: playerHPSpreadDamageData,
                 labelsList: labelsList,
                 defaultPointStyle: defaultPointStyle,
-                playerHPPointStyles: playerHPPointStyles,
-                projectedPCDeath: projectedPCDeath,
+                playerHPPointStylesSingleTarget: playerHPPointStylesSingleTarget,
+                playerHPPointStylesSpreadDamage: playerHPPointStylesSpreadDamage,
+                projectedPCDeathSingleTarget: projectedPCDeathSingleTarget,
+                projectedPCDeathSpreadDamage: projectedPCDeathSpreadDamage,
             }
         },
 
@@ -190,16 +222,29 @@ export default {
             console.log('formattedData');
             console.log(formattedData);
 
+            let colorSet1 = this.randomColourSet();
+            let colorSet2 = this.randomColourSet();
+
             let data = {
                 labels: formattedData.labelsList,
                 datasets: [
                     {
                         label: this.f5.misc.graph_data_player_hp,
-                        data: formattedData.playerHPData,
-                        backgroundColor: "rgba(71,132,183,.5)",
-                        borderColor: "#4784b7",
+                        data: formattedData.playerHPSingleTargetData,
+                        backgroundColor: colorSet1.half,
+                        borderColor: colorSet1.full,
                         borderWidth: 3,
-                        pointStyle: formattedData.playerHPPointStyles,
+                        pointStyle: formattedData.playerHPPointStylesSingleTarget,
+                        pointRadius: 5,
+                        pointHoverRadius: 10
+                    },
+                    {
+                        label: this.f5.misc.graph_data_player_hp_spread,
+                        data: formattedData.playerHPSpreadDamageData,
+                        backgroundColor: colorSet2.half,
+                        borderColor: colorSet2.full,
+                        borderWidth: 3,
+                        pointStyle: formattedData.playerHPPointStylesSpreadDamage,
                         pointRadius: 5,
                         pointHoverRadius: 10
                     }
@@ -213,26 +258,26 @@ export default {
                 let colorSet2 = this.randomColourSet();
                 let colorSet3 = this.randomColourSet();
 
-                data.datasets.push({
-                    label: this.f5.misc.graph_data_monster_damage.replace(':creature_name', monster.name),
-                    data: monster.damageData,
-                    backgroundColor: colorSet1.half,
-                    borderColor: colorSet1.full,
-                    borderWidth: 3,
-                    pointStyle: monster.defaultPointStyle,
-                    pointRadius: 5,
-                    pointHoverRadius: 10
-                });
-                data.datasets.push({
-                    label: this.f5.misc.graph_data_monster_max_damage.replace(':creature_name', monster.name),
-                    data: monster.maxDamageData,
-                    backgroundColor: colorSet2.half,
-                    borderColor: colorSet2.full,
-                    borderWidth: 3,
-                    pointStyle: monster.defaultPointStyle,
-                    pointRadius: 5,
-                    pointHoverRadius: 10
-                });
+                // data.datasets.push({
+                //     label: this.f5.misc.graph_data_monster_damage.replace(':creature_name', monster.name),
+                //     data: monster.damageData,
+                //     backgroundColor: colorSet1.half,
+                //     borderColor: colorSet1.full,
+                //     borderWidth: 3,
+                //     pointStyle: monster.defaultPointStyle,
+                //     pointRadius: 5,
+                //     pointHoverRadius: 10
+                // });
+                // data.datasets.push({
+                //     label: this.f5.misc.graph_data_monster_max_damage.replace(':creature_name', monster.name),
+                //     data: monster.maxDamageData,
+                //     backgroundColor: colorSet2.half,
+                //     borderColor: colorSet2.full,
+                //     borderWidth: 3,
+                //     pointStyle: monster.defaultPointStyle,
+                //     pointRadius: 5,
+                //     pointHoverRadius: 10
+                // });
                 data.datasets.push({
                     label: this.f5.misc.graph_data_monster_hp.replace(':creature_name', monster.name),
                     data: monster.hpData,

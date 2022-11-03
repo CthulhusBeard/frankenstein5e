@@ -1524,21 +1524,27 @@ export default {
                             totals[roundNum] = {
                                 abilities: {}, 
                                 damage: 0, 
-                                maxDamage: 0
+                                maxDamage: 0,
+                                regenerate: 0,
                             };
                         }
                         if(
                             featureObj && 
-                            featureObj.damage && 
-                            featureObj.damage > 0
+                            (featureObj.damage && featureObj.damage > 0) ||
+                            (featureObj.regenerate && featureObj.regenerate > 0) 
                         ) {
                             //Add This Action
                             if(!totals[roundNum].abilities[actionType]) {
                                 totals[roundNum].abilities[actionType] = [];
                             }
                             totals[roundNum].abilities[actionType].push(featureObj);
-                            totals[roundNum].damage += featureObj.damage;
-                            totals[roundNum].maxDamage += featureObj.maxDamage;
+                            if(featureObj.damage) {
+                                totals[roundNum].damage += featureObj.damage;
+                                totals[roundNum].maxDamage += featureObj.maxDamage;
+                            }
+                            if(featureObj.regenerate) {
+                                totals[roundNum].regenerate += featureObj.regenerate;
+                            }
                         }
                     }
                 }
