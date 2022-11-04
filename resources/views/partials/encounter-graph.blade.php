@@ -13,7 +13,8 @@
                 <div class="breakdown-monster" v-for="monster in formattedData.monsterData">
                     <label> @{{monster.name}} </label>
 
-                    <div v-if="round-1 === monster.projectedDeath">@{{f5.misc.expected_monster_death.replace(':creature_name', monster.name)}}</div>
+                    <div v-if="round-1 === monster.projectedDeathRound">@{{f5.misc.expected_monster_death.replace(':creature_name', monster.name)}}</div>
+                    <div v-if="round-1 === monster.mythicRecoveryRound">@{{f5.misc.expected_monster_mythic_trait.replace(':creature_name', monster.name)}}</div>
 <!-- 
                     <div v-for="actionType in ['passive', 'action', 'bonus_action', 'reaction', 'legendary_action', 'lair_action']" v-if="turn.abilities[actionType]" class="turn-ability" :data-ability="actionType">
                         <label><strong>@{{ f5.featureactiontypes[actionType].name }}:</strong></label>

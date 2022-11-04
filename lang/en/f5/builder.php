@@ -44,6 +44,7 @@ return [
     'title_max_damage' => 'Max Damage',
     'expected_player_death' => 'Expect a PC to drop to 0 HP around this turn.',
     'expected_monster_death' => 'Expect :creature_name to drop to 0 HP around this turn.',
+    'expected_monster_mythic_trait' => 'Expect :creature_name to drop to 0 HP and activate its mythic trait around this turn.',
     
     'warning_fatal_attack' => 'Warning: :creature_name has the potential to kill some PCs in one hit.',
     'warning_fatal_crit' => 'Warning: :creature_name has the potential to kill some PCs with one critical hit.',

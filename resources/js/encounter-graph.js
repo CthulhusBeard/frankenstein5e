@@ -90,53 +90,71 @@ export default {
                             maxDamageData: [],
                             hpData: [],
                             hpPointStyles: [],
-                            projectedDeath: -1,
+                            projectedDeathRound: -1,
+                            mythicRecoveryRound: -1,
                             currentHP: monster.hp,
                             maxHP: monster.hp,
                             regenerate: 0,
-                            mythicRecovery: false,
+                            mythicRecovery: monster.mythicRecovery,
+                            mythicTraitActive: false,
                         };
                     }
 
                     //TODO: Assumes monster goes first (damage is cumulated before checking HP). Does that need to change?
-                    console.log('monster.projections');
-                    console.log(monster.projections);
+                    console.log('monster data');
+                    console.log(monster);
 
-                    let roundDamage = (monster.hasOwnProperty('projections') && monster.projections[roundIndex]) ? monster.projections[roundIndex].damage : 0;
-                    let roundRegen = (monster.hasOwnProperty('projections') && monster.projections[roundIndex] && monster.projections[roundIndex].regenerate > 0) ? monster.projections[roundIndex].regenerate : 0;
+                    let roundDamage = 0;
+                    let roundMaxDamage = 0;
+                    let roundRegen = 0;
+
+                    //Set turn data based on mythics or not
+                    if(monster.hasOwnProperty('projections') && monster.projections[roundIndex]) {
+                        let turnData = monster.projections[roundIndex].standardTurn;
+                        if(monsterData[monsterIndex].mythicTraitActive) {
+                            turnData = monster.projections[roundIndex].mythicTurn;
+                        }
+                        if(turnData.hasOwnProperty('damage') && turnData.damage > 0) {
+                            roundDamage = turnData.damage;
+                        }
+                        if(turnData.hasOwnProperty('maxDamage') && turnData.maxDamage > 0) {
+                            roundMaxDamage = turnData.maxDamage;
+                        }
+                        if(turnData.hasOwnProperty('regenerate') && turnData.regenerate > 0) {
+                            roundRegen = turnData.regenerate;
+                        }
+                    }
+
                     monsterData[monsterIndex].damageData[roundIndex] = roundDamage;
                     cumulativeMonsterDamagePerRound[roundIndex] += roundDamage;
-                    monsterData[monsterIndex].maxDamageData[roundIndex] = (monster.hasOwnProperty('projections') && monster.projections[roundIndex]) ? monster.projections[roundIndex].maxDamage : 0;
+                    monsterData[monsterIndex].maxDamageData[roundIndex] = roundMaxDamage;
                     monsterData[monsterIndex].hpData[roundIndex] = monsterData[monsterIndex].currentHP;
 
                     //Reduce Monster Current HP
                     if (monsterData[monsterIndex].currentHP === 0) {
                         monsterData[monsterIndex].hpPointStyles[roundIndex] = deathPointStyle;
-                        if (monsterData[monsterIndex].projectedDeath === -1) {
-                            monsterData[monsterIndex].projectedDeath = roundIndex;
+                        if (monsterData[monsterIndex].projectedDeathRound === -1) {
+                            monsterData[monsterIndex].projectedDeathRound = roundIndex;
                         }
                     } else {
                         monsterData[monsterIndex].hpPointStyles[roundIndex] = defaultPointStyle;
                     }
 
-                    console.log(monsterData[monsterIndex].currentHP +' / '+ monsterData[monsterIndex].regenerate + ' / ' + roundRegen +' > '+ playerDamageThisRound);
                     if (monsterData[monsterIndex].currentHP + monsterData[monsterIndex].regenerate + roundRegen > playerDamageThisRound) {
                         //Player damage less than Monster HP / regenerate: Monster lives
-                        console.log('change monster health');
-                        console.log('was '+monsterData[monsterIndex].currentHP);
                         monsterData[monsterIndex].currentHP = monsterData[monsterIndex].currentHP + monsterData[monsterIndex].regenerate + roundRegen - playerDamageThisRound;
                         playerDamageThisRound = 0;
                         if(monsterData[monsterIndex].currentHP > monsterData[monsterIndex].maxHP) {
                             monsterData[monsterIndex].currentHP = monsterData[monsterIndex].maxHP;
                         }
-                        console.log('was '+monsterData[monsterIndex].currentHP);
                     } else {
-                        console.log('monster should die');
                         //Player damage greater than Monster HP: Monster dies
                         playerDamageThisRound = playerDamageThisRound - monsterData[monsterIndex].currentHP;
                         if(monsterData[monsterIndex].mythicRecovery) {
                             monsterData[monsterIndex].currentHP = monsterData[monsterIndex].maxHP;
                             monsterData[monsterIndex].mythicRecovery = false;
+                            monsterData[monsterIndex].mythicRecoveryRound = roundIndex;
+                            monsterData[monsterIndex].mythicTraitActive = true;
                             //TODO: Announce this somehow
                         } else {
                             monsterData[monsterIndex].currentHP = 0;

@@ -92,17 +92,12 @@ export function initVue(f5data) {
                 }
             },
 
-            updateMonsterHP: function(id, hp, mythicRecovery) {
+            updateMonsterHP: function(id, hp) {
                 for(let statblock of this.statblocks) {
                     if(statblock.trackingId == id) {
                         statblock.hp = hp;
-                        if(mythicRecovery) {
-                            statblock.mythicRecovery = mythicRecovery;
-                        }
                     }
                 }
-                console.log('updateMonsterHP');
-                console.log(this.statblocks);
             },
 
             updateMonsterAC: function(id, ac) {
@@ -113,10 +108,11 @@ export function initVue(f5data) {
                 }
             },
 
-            updateMonsterProjections: function(id, projections) {
+            updateMonsterProjections: function(id, projections, mythicRecovery) {
                 for(let statblock of this.statblocks) {
                     if(statblock.trackingId == id) {
                         statblock.projections = projections;
+                        statblock.mythicRecovery = mythicRecovery;
                     }
                 }
             }

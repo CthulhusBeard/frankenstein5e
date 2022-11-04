@@ -158,7 +158,6 @@ export default {
             
             //Legendary action cost
             if(
-                this.$parent.value.hasLegendaryActions &&
                 (
                     this.value.actionType === 'legendary_action' || 
                     (

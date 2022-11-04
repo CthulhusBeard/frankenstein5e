@@ -430,12 +430,7 @@
                             <select id="feature__recharge" name="feature__recharge" v-model="value.mythicTrait.recharge">
                                 <option v-for="(recharge, i) in f5.recharge" v-if="recharge.mythicOption" :value="i" >@{{recharge.name}}</option>
                             </select>
-                        </div>
-                        <div>
-                            <label>[PH] Restores hit points?</label>
-                            <input type="checkbox" v-model="value.mythicTrait.restoreHitPoints" />
-                        </div>
-                            
+                        </div>                            
                     </div>
                 </div>
 

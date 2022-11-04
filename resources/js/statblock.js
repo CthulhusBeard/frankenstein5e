@@ -67,8 +67,6 @@ export default {
                     defensive: {
                     }
                 },
-                hasLegendaryActions: false,
-                hasMythicActions: false,
                 mythicTrait: {
                     name: this.f5.misc.title_mythic_feature_name,
                     description: this.f5.misc.mythic_action_feature,
@@ -146,6 +144,11 @@ export default {
             //TODO: Factor in AC, HP, and defensive features
             let hp = this.getHP;
             let approxCr = 31;
+
+            //Double health for mythic encounters
+            if(this.value.features.mythic_action.length && this.value.mythicTrait.restoreHitPoints) {
+                hp = hp * 2;
+            }
 
             for(let i in this.f5.challengerating) {
                 let cr = this.f5.challengerating[i];
@@ -370,7 +373,6 @@ export default {
         getHP: function() {
             let type = this.value.hitPoints.diceType;
             let amount = this.value.hitPoints.diceAmount;
-            let mythicHealthRestore = false;
             let additionalHP = this.value.hitPoints.additional > 0 ? Math.floor(this.value.hitPoints.additional) : 0;
             if(additionalHP > 9999) {
                 this.value.hitPoints.additional = additionalHP = 9999;
@@ -381,12 +383,8 @@ export default {
                 conHP = conMod * amount;
             }
             let hp = (Math.round((type / 2 + .5) * amount) + conHP) + additionalHP;
-
-            if(this.value.hasMythicActions && this.value.mythicTrait.restoreHitPoints) {
-                mythicHealthRestore = true;
-            }
-
-            this.$emit('update-hp', this.trackingId, hp, mythicHealthRestore);
+            
+            this.$emit('update-hp', this.trackingId, hp);
 
             return hp;
         },
@@ -394,7 +392,7 @@ export default {
         // getEffectiveHP: function() {
         //     let effectiveHP = this.getHP;
 
-        //     if(this.value.hasMythicActions && this.value.mythicTrait.restoreHitPoints) {
+        //     if(this.value.features.mythic_action.length && this.value.mythicTrait.restoreHitPoints) {
         //         effectiveHP = effectiveHP * 2;
         //     }
         //TODO: ??  Doesn't take into account regen abilities
@@ -1279,9 +1277,14 @@ export default {
 
             //Emit updates on change
             if(changesMade) {
+                let mythicHealthRestore = false;
+                if(this.value.features.mythic_action.length && this.value.mythicTrait.restoreHitPoints) {
+                    mythicHealthRestore = true;
+                }
+    
                 let statblockProjection = this.getDamageProjection();
                 this.generatedProjection = statblockProjection;
-                this.$emit('update-projections', this.trackingId, statblockProjection);
+                this.$emit('update-projections', this.trackingId, statblockProjection, mythicHealthRestore);
             }
         },
 
@@ -1379,6 +1382,11 @@ export default {
                     rounds: [],
                     options: [],
                 },
+                mythic_action: {
+                    count: this.value.legendaryActions,
+                    rounds: [],
+                    options: [],
+                },
                 lair_action: {
                     count: 1,
                     rounds: [],
@@ -1395,7 +1403,6 @@ export default {
             let mergeActions = {
                 'multiattack': 'action',
                 'spellcasting': 'action',
-                'mythic_action': 'legendary_action',
             };
 
             for(const featureType in this.value.features) {
@@ -1431,6 +1438,11 @@ export default {
                 for(let projection of referencingProjections) {
                     this.fillReferencingProjections(projection, referencableProjections);
                 }
+            }
+
+            //Mythic actions are linked to legendary actions
+            if(projections['mythic_action'].options.length && projections['legendary_action'].options.length) {
+                projections['mythic_action'].options.push(...projections['legendary_action'].options)
             }
 
 
@@ -1512,8 +1524,10 @@ export default {
                 }
             }
 
+
             //Create turn totals and action list
             let totals = [];
+            let hasMythicActions = (projections.hasOwnProperty('mythic_action'));
             for(let actionType in projections) { 
                 for(let roundNum = 0; roundNum < this.combatRounds; roundNum++) {
                     if(!projections[actionType].rounds[roundNum]) {
@@ -1522,28 +1536,57 @@ export default {
                     for(let featureObj of projections[actionType].rounds[roundNum]) {
                         if(!totals[roundNum]) {
                             totals[roundNum] = {
-                                abilities: {}, 
-                                damage: 0, 
-                                maxDamage: 0,
-                                regenerate: 0,
+                                standardTurn: {
+                                    abilities: {},
+                                    damage: 0, 
+                                    maxDamage: 0,
+                                    regenerate: 0,
+                                },
                             };
+                            if(hasMythicActions) {
+                                totals[roundNum].mythicTurn = {
+                                    abilities: {},
+                                    damage: 0, 
+                                    maxDamage: 0,
+                                    regenerate: 0,
+                                }
+                            }
                         }
+
                         if(
                             featureObj && 
                             (featureObj.damage && featureObj.damage > 0) ||
                             (featureObj.regenerate && featureObj.regenerate > 0) 
                         ) {
-                            //Add This Action
-                            if(!totals[roundNum].abilities[actionType]) {
-                                totals[roundNum].abilities[actionType] = [];
+
+                            //Add This Action to Standard Turns
+                            if(actionType != 'mythic_action') {
+                                if(!totals[roundNum]['standardTurn'].abilities[actionType]) {
+                                    totals[roundNum]['standardTurn'].abilities[actionType] = [];
+                                }
+                                totals[roundNum]['standardTurn'].abilities[actionType].push(featureObj);
+                                if(featureObj.damage) {
+                                    totals[roundNum]['standardTurn'].damage += featureObj.damage;
+                                    totals[roundNum]['standardTurn'].maxDamage += featureObj.maxDamage;
+                                }
+                                if(featureObj.regenerate) {
+                                    totals[roundNum]['standardTurn'].regenerate += featureObj.regenerate;
+                                }
                             }
-                            totals[roundNum].abilities[actionType].push(featureObj);
-                            if(featureObj.damage) {
-                                totals[roundNum].damage += featureObj.damage;
-                                totals[roundNum].maxDamage += featureObj.maxDamage;
-                            }
-                            if(featureObj.regenerate) {
-                                totals[roundNum].regenerate += featureObj.regenerate;
+
+                            //Add This Action to Mythic Turns
+                            if(hasMythicActions && actionType != 'legendary_action') {
+                                if(!totals[roundNum]['mythicTurn'].abilities[actionType]) {
+                                    totals[roundNum]['mythicTurn'].abilities[actionType] = [];
+                                }
+                                totals[roundNum]['mythicTurn'].abilities[actionType].push(featureObj);
+                                if(featureObj.damage) {
+                                    totals[roundNum]['mythicTurn'].damage += featureObj.damage;
+                                    totals[roundNum]['mythicTurn'].maxDamage += featureObj.maxDamage;
+                                }
+                                if(featureObj.regenerate) {
+                                    totals[roundNum]['mythicTurn'].regenerate += featureObj.regenerate;
+                                }
                             }
                         }
                     }
