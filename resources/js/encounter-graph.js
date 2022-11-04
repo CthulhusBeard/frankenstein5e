@@ -240,8 +240,8 @@ export default {
             console.log('formattedData');
             console.log(formattedData);
 
-            let colorSet1 = this.randomColourSet();
-            let colorSet2 = this.randomColourSet();
+            let colorSet1 = this.randomColourSet('green');
+            let colorSet2 = this.randomColourSet('blue');
 
             let data = {
                 labels: formattedData.labelsList,
@@ -272,9 +272,9 @@ export default {
             for(let monster of formattedData.monsterData) {
                 console.log('monster');
                 console.log(monster);
-                let colorSet1 = this.randomColourSet();
-                let colorSet2 = this.randomColourSet();
-                let colorSet3 = this.randomColourSet();
+                let colorSet1 = this.randomColourSet('red');
+                let colorSet2 = this.randomColourSet('red');
+                let colorSet3 = this.randomColourSet('red');
 
                 // data.datasets.push({
                 //     label: this.f5.misc.graph_data_monster_damage.replace(':creature_name', monster.name),
@@ -342,12 +342,16 @@ export default {
             return playerDamage;; // * this.playerData.hit_chance; TODO: Add hit chance?? Maybe??
         },
         
-        randomColourSet: function(a = 0.5) {
-            let o = Math.round, r = Math.random, s = 255;
-            let colorBase = 'rgba(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s);
+        randomColourSet: function(defaultColor = null, alpha = 0.5) {
+            let s = 255;
+            let r = (defaultColor == 'red') ? s : Math.round(Math.random()*s);
+            let g = (defaultColor == 'green') ? s : Math.round(Math.random()*s);
+            let b = (defaultColor == 'blue') ? s : Math.round(Math.random()*s);
+
+            let colorBase = 'rgba(' + r + ',' + g + ',' + b;
             let colourSet = {
                 full: colorBase + ')',
-                half: colorBase+', '+a+')',
+                half: colorBase+', '+alpha+')',
             };
             console.log(colourSet);
             return colourSet;
