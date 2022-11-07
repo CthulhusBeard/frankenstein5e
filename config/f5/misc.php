@@ -262,7 +262,8 @@ return [
 
     //--
     
-    'title_player_characters' => 'f5/builder.title_player_characters',
+    'title_monster_settings' => 'f5/builder.title_monster_settings',
+    'title_player_settings' => 'f5/builder.title_player_settings',
     'title_player_characters_count' => 'f5/builder.title_player_characters_count',
     'title_player_characters_level' => 'f5/builder.title_player_characters_level',
     'title_average_player_hp_at_level' => 'f5/builder.title_average_player_hp_at_level',

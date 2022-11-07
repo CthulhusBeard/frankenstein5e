@@ -2,7 +2,8 @@
 
 return [
 
-    'title_player_characters' => 'Player Characters',
+    'title_monster_settings' => 'Monster Settings',
+    'title_player_settings' => 'Player Settings',
     'title_player_characters_count' => 'Count',
     'title_player_characters_level' => 'Level',
     'title_average_player_hp_at_level' => 'Average Player HP:',

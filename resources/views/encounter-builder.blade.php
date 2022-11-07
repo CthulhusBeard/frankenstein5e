@@ -41,57 +41,79 @@
             </div>
 
             <div id="f5" class="main-content full-height">
+                <div class="encounter-display">
+                    <div class="controls-holder">
 
-                <div class="controls-holder">
+                        <!-- <div class="builder-controls popup-overlay">
+                            <div class="control-title">Stat Block</div>
+                            <div class="slide-button" :class="{ selected : editor.editMode }" @click="editor.editMode = !editor.editMode">
+                                <label>@{{f5.misc.title_edit_mode}}</label>
+                            </div>
+                        </div> -->
 
-                    <!-- <div class="builder-controls popup-overlay">
-                        <div class="control-title">Stat Block</div>
-                        <div class="slide-button" :class="{ selected : editor.editMode }" @click="editor.editMode = !editor.editMode">
-                            <label>@{{f5.misc.title_edit_mode}}</label>
+                        <div class="builder-controls popup-overlay">
+                            <div class="control-title">Encounter Settings</div>
+
+                            <div class="builder-controls-group">
+                                <div class="control-title">@{{f5.misc.title_player_settings}}</div>
+                                <div>
+                                    <label class="control-label" for="controls__player-count">@{{f5.misc.title_player_characters_count}}: </label>
+                                    <select v-model="editor.playerData.number">
+                                        <option v-for="i in 12" :value="i">@{{i}}</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="control-label" for="controls__player-levels">@{{f5.misc.title_player_characters_level}}: </label>
+                                    <select v-model="editor.playerData.level">
+                                        <option v-for="(obj, i) in f5.playerlevels" :value="i">@{{i}}</option>
+                                    </select>
+                                </div>
+                                <br/>
+                                <div>@{{ f5.misc.title_average_player_hp_at_level }} @{{ this.f5.playerlevels[this.editor.playerData.level].average_hp }}</div>
+                                <div>@{{ f5.misc.title_average_player_dpr_at_level }} @{{ this.f5.playerlevels[this.editor.playerData.level].average_dpr }}</div>
+                            </div>
+                            
+                            <div class="builder-controls-group">
+                                <div class="control-title">@{{f5.misc.title_monster_settings}}</div>
+                                <div v-for="statblock in statblocks" >
+                                    <div>
+                                        <label class="control-label" for="controls__player-count">@{{ statblock.name }}: </label>
+                                        <select v-model="statblock.number">
+                                            <option v-for="i in 10" :value="i">@{{i}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div> -->
 
-                    <div class="builder-controls popup-overlay">
-                        <div class="control-title">Encounter Settings</div>
-                        <div>@{{f5.misc.title_player_characters}}</div>
-                        <div class="builder-controls_player-characters">
+                        <div class="builder-controls popup-overlay">
+                            <div class="control-title">Importer</div>
                             <div>
-                                <label class="control-label" for="controls__player-count">@{{f5.misc.title_player_characters_count}}: </label>
-                                <select v-model="editor.playerData.number">
-                                    <option v-for="i in 12" :value="i">@{{i}}</option>
+                                <select v-model="editor.importMonster">
+                                    <option v-for="(monster, i) in sampleMonsters" :value="i">@{{monster.name}}</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="control-label" for="controls__player-levels">@{{f5.misc.title_player_characters_level}}: </label>
-                                <select v-model="editor.playerData.level">
-                                    <option v-for="(obj, i) in f5.playerlevels" :value="i">@{{i}}</option>
-                                </select>
+                                <button @click="importMonster(sampleMonsters[editor.importMonster])">@{{f5.misc.title_import}}</button>
                             </div>
-                            <br/>
-                            <div>@{{ f5.misc.title_average_player_hp_at_level }} @{{ this.f5.playerlevels[this.editor.playerData.level].average_hp }}</div>
-                            <div>@{{ f5.misc.title_average_player_dpr_at_level }} @{{ this.f5.playerlevels[this.editor.playerData.level].average_dpr }}</div>
+                            <div>
+                                <br/>
+                                <button @click="createStatBlock()">@{{f5.misc.title_new_statblock}}</button>
+                            </div>
+                            <div>
+                                <br/>
+                                <button @click="clearAllData()">@{{f5.misc.title_clear_all}}</button>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="builder-controls popup-overlay">
-                        <div class="control-title">Importer</div>
-                        <div>
-                            <select v-model="editor.importMonster">
-                                <option v-for="(monster, i) in sampleMonsters" :value="i">@{{monster.name}}</option>
-                            </select>
-                        </div>
-                        <div>
-                            <button @click="importMonster(sampleMonsters[editor.importMonster])">@{{f5.misc.title_import}}</button>
-                        </div>
-                        <div>
-                            <br/>
-                            <button @click="createStatBlock()">@{{f5.misc.title_new_statblock}}</button>
-                        </div>
-                        <div>
-                            <br/>
-                            <button @click="clearAllData()">@{{f5.misc.title_clear_all}}</button>
-                        </div>
-                    </div>
+                    <Encountergraph 
+                        :encounter-data="statblocks"
+                        :player-data="editor.playerData"
+                        :combat-rounds="editor.roundTracker"
+                        :f5="f5"
+                    >
+                    </Encountergraph>
                 </div>
 
                 <div class="statblock-group">
@@ -110,14 +132,6 @@
                     >
                     </Statblock>
                 </div>
-
-                <Encountergraph 
-                    :encounter-data="statblocks"
-                    :player-data="editor.playerData"
-                    :combat-rounds="editor.roundTracker"
-                    :f5="f5"
-                >
-                </Encountergraph>
 
             </div>
         </div>

@@ -60,6 +60,7 @@ export function initVue(f5data) {
                 console.log('== import monster ==');
                 let importedStatBlock = JSON.parse(JSON.stringify(monster));
                 importedStatBlock.trackingId = this.randChars(15);
+                importedStatBlock.number = 1;
                 console.log(importedStatBlock);
                 this.statblocks.push(importedStatBlock);
             },
@@ -67,6 +68,7 @@ export function initVue(f5data) {
             createStatBlock: function() {
                 let i = this.statblocks.push({
                     trackingId: this.randChars(15), 
+                    number: 1,
                 });
                 return i-1;
             },
@@ -90,6 +92,9 @@ export function initVue(f5data) {
                         statblock.name = name;
                     }
                 }
+                console.log('updateMonsterName');
+                console.log('this.statblocks');
+                console.log(this.statblocks);
             },
 
             updateMonsterHP: function(id, hp) {

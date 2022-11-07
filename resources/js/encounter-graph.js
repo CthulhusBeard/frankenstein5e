@@ -49,7 +49,6 @@ export default {
 
         formattedData: function () {
             console.log('----start formattedData----');
-            console.log(this.encounterData);
             console.log(this.refreshToggle); //this is actually needed. TODO: Make it not needed
 
             let projectedPCDeathSingleTarget = -1;
@@ -101,19 +100,17 @@ export default {
                     }
 
                     //TODO: Assumes monster goes first (damage is cumulated before checking HP). Does that need to change?
-                    console.log('monster data');
-                    console.log(monster);
-
                     let roundDamage = 0;
                     let roundMaxDamage = 0;
                     let roundRegen = 0;
 
-                    //Set turn data based on mythics or not
-                    if(monster.hasOwnProperty('projections') && monster.projections[roundIndex]) {
+                    if(monsterData[monsterIndex].currentHP > 0 && monster.hasOwnProperty('projections') && monster.projections[roundIndex]) {
+                        //Set turn data based on mythics or not
                         let turnData = monster.projections[roundIndex].standardTurn;
                         if(monsterData[monsterIndex].mythicTraitActive) {
                             turnData = monster.projections[roundIndex].mythicTurn;
                         }
+
                         if(turnData.hasOwnProperty('damage') && turnData.damage > 0) {
                             roundDamage = turnData.damage;
                         }
@@ -240,8 +237,8 @@ export default {
             console.log('formattedData');
             console.log(formattedData);
 
-            let colorSet1 = this.randomColourSet('green');
-            let colorSet2 = this.randomColourSet('blue');
+            let colorSet1 = this.randomColourSet('blue');
+            let colorSet2 = this.randomColourSet('green');
 
             let data = {
                 labels: formattedData.labelsList,
@@ -272,8 +269,6 @@ export default {
             for(let monster of formattedData.monsterData) {
                 console.log('monster');
                 console.log(monster);
-                let colorSet1 = this.randomColourSet('red');
-                let colorSet2 = this.randomColourSet('red');
                 let colorSet3 = this.randomColourSet('red');
 
                 // data.datasets.push({
@@ -353,7 +348,6 @@ export default {
                 full: colorBase + ')',
                 half: colorBase+', '+alpha+')',
             };
-            console.log(colourSet);
             return colourSet;
         },
 
