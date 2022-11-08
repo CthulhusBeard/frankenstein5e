@@ -6,7 +6,6 @@
 
         <title>Frankenstein 5E</title>
         
-        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
         <script src="{{mix('js/app.js')}}" defer></script>
         <link rel="stylesheet" type="text/css" href="{{mix('css/app.css')}}">
     </head>
@@ -119,6 +118,7 @@
                 <div class="statblock-group">
                     <Statblock 
                         v-for="statblock in statblocks"
+                        v-bind:key="statblock.trackingId"
                         :initial-statblock="statblock"
                         :f5="f5"
                         :player-data="editor.playerData"

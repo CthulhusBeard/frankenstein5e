@@ -10,11 +10,8 @@
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
   "devDependencies": {
-    "@vue/composition-api": "^1.4.5",
-    "axios": "^0.19",
     "cross-env": "^7.0",
     "laravel-mix": "^5.0.1",
-    "lodash": "^4.17.19",
     "resolve-url-loader": "^3.1.0",
     "sass": "^1.15.2",
     "sass-loader": "^8.0.0",
@@ -23,15 +20,14 @@
     "webpack-cli": "^3.3.12"
   },
   "dependencies": {
-    "@vueform/multiselect": "^2.3.1",
-    "angular": "^1.8.0",
+    "@vueform/multiselect": "^2.4.2",
+    "@vue/composition-api": "^1.4.5",
     "chart.js": "^3.7.1",
     "jquery": "^3.5.1",
-    "vue": "^2.6.14",
-    "vue-chartjs": "^4.0.5"
+    "vue": "^2.7.13"
   },
   "name": "Frankenstein5E",
-  "description": "<p align=\"center\"><img src=\"https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg\" width=\"400\"></p>",
+  "description": "A D&D 5E toolset for creating monsters and encounters!",
   "version": "1.0.0",
   "main": "webpack.mix.js",
   "directories": {

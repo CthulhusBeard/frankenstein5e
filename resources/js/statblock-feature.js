@@ -1,5 +1,4 @@
 import Multiselect from '@vueform/multiselect/dist/multiselect.vue2.js';
-import _, { functions } from 'lodash';
 
 export default {
     props: [
