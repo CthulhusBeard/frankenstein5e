@@ -1,7 +1,7 @@
 <script type="text/x-template" id="template-encounter-graph"> 
     <div class="graph">
 
-        <button @click="updateGraph"> UPDATE GRAPH </button>
+        <!-- <button @click="updateGraph"> UPDATE GRAPH </button> -->
 
         <canvas id="encounter-graph"></canvas>
 

@@ -11,7 +11,7 @@
     </head>
     <body>
 
-        <div class="main-grid">
+        <div id="f5" class="main-grid">
             <div id="logo">
                 Logo
             </div>
@@ -21,34 +21,19 @@
             </div>
 
             <div id="side-nav">
-                <div class="nav-option">
+                <div class="nav-option nav-statblocks" @click="editor.activeSection = 'statblock-display'">
                     <div></div>
                     <div>Statblocks</div>
                 </div>
-                <div class="nav-option">
+                <div class="nav-option nav-encounter" @click="changeActiveDisplay('encounter-display')">
                     <div></div>
-                    <div>Player Characters</div>
-                </div>
-                <div class="nav-option">
-                    <div></div>
-                    <div>Combat Analysis</div>
-                </div>
-                <div class="nav-option">
-                    <div></div>
-                    <div>Tips & Recommendations</div>
+                    <div>Encounter Analysis</div>
                 </div>
             </div>
 
-            <div id="f5" class="main-content full-height">
-                <div class="encounter-display">
+            <div class="main-content full-height">
+                <div class="display-section encounter-display" :class="{'active-display': (editor.activeSection == 'encounter-display')}">
                     <div class="controls-holder">
-
-                        <!-- <div class="builder-controls popup-overlay">
-                            <div class="control-title">Stat Block</div>
-                            <div class="slide-button" :class="{ selected : editor.editMode }" @click="editor.editMode = !editor.editMode">
-                                <label>@{{f5.misc.title_edit_mode}}</label>
-                            </div>
-                        </div> -->
 
                         <div class="builder-controls popup-overlay">
                             <div class="control-title">Encounter Settings</div>
@@ -84,26 +69,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="builder-controls popup-overlay">
-                            <div class="control-title">Importer</div>
-                            <div>
-                                <select v-model="editor.importMonster">
-                                    <option v-for="(monster, i) in sampleMonsters" :value="i">@{{monster.name}}</option>
-                                </select>
-                            </div>
-                            <div>
-                                <button @click="importMonster(sampleMonsters[editor.importMonster])">@{{f5.misc.title_import}}</button>
-                            </div>
-                            <div>
-                                <br/>
-                                <button @click="createStatBlock()">@{{f5.misc.title_new_statblock}}</button>
-                            </div>
-                            <div>
-                                <br/>
-                                <button @click="clearAllData()">@{{f5.misc.title_clear_all}}</button>
-                            </div>
-                        </div>
                     </div>
 
                     <Encountergraph 
@@ -111,26 +76,50 @@
                         :player-data="editor.playerData"
                         :combat-rounds="editor.roundTracker"
                         :f5="f5"
+                        ref="encounterGraph"
                     >
                     </Encountergraph>
                 </div>
 
-                <div class="statblock-group">
-                    <Statblock 
-                        v-for="statblock in statblocks"
-                        v-bind:key="statblock.trackingId"
-                        :initial-statblock="statblock"
-                        :f5="f5"
-                        :player-data="editor.playerData"
-                        :combat-rounds="editor.roundTracker"
-                        :measure="editor.measure"
-                        @remove-statblock="removeStatBlock"
-                        @update-name="updateMonsterName"
-                        @update-hp="updateMonsterHP"
-                        @update-projections="updateMonsterProjections"
-                        ref="statblocks"
-                    >
-                    </Statblock>
+                <div class="display-section statblock-display" :class="{'active-display': (editor.activeSection == 'statblock-display')}">
+                
+                    <div class="builder-controls popup-overlay">
+                        <div class="control-title">Importer</div>
+                        <div>
+                            <select v-model="editor.importMonster">
+                                <option v-for="(monster, i) in sampleMonsters" :value="i">@{{monster.name}}</option>
+                            </select>
+                        </div>
+                        <div>
+                            <button @click="importMonster(sampleMonsters[editor.importMonster])">@{{f5.misc.title_import}}</button>
+                        </div>
+                        <div>
+                            <br/>
+                            <button @click="createStatBlock()">@{{f5.misc.title_new_statblock}}</button>
+                        </div>
+                        <div>
+                            <br/>
+                            <button @click="clearAllData()">@{{f5.misc.title_clear_all}}</button>
+                        </div>
+                    </div>    
+
+                    <div class="statblock-group">
+                        <Statblock 
+                            v-for="statblock in statblocks"
+                            v-bind:key="statblock.trackingId"
+                            :initial-statblock="statblock"
+                            :f5="f5"
+                            :player-data="editor.playerData"
+                            :combat-rounds="editor.roundTracker"
+                            :measure="editor.measure"
+                            @remove-statblock="removeStatBlock"
+                            @update-name="updateMonsterName"
+                            @update-hp="updateMonsterHP"
+                            @update-projections="updateMonsterProjections"
+                            ref="statblocks"
+                        >
+                        </Statblock>
+                    </div>
                 </div>
 
             </div>
@@ -171,6 +160,7 @@
                 console.log(f5data);
                 let app = EncounterBuilder.initVue(f5data);
             }
+            
         </script>
 
         @include('partials.statblock')

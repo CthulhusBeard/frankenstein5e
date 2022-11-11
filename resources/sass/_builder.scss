@@ -79,7 +79,22 @@
     width: 300px;
 }
 
+.display-section {
+    display: none;
+    &.active-display {
+        display: block;
+    }
+}
+
+.statblock-display {
+    display: flex;
+}
+
 .statblock-group {
+    display: flex;
+}
+
+.statblock-container {
     display: flex;
 }
 

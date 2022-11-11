@@ -11,6 +11,7 @@ export function initVue(f5data) {
         el: '#f5',
         data: {
             editor: {
+                activeSection: 'statblock-display',
                 editMode: true,
                 playerData: {
                     number: 4,
@@ -120,7 +121,14 @@ export function initVue(f5data) {
                         statblock.mythicRecovery = mythicRecovery;
                     }
                 }
-            }
+            },
+
+            changeActiveDisplay: function(activeDisplayName) {
+                this.editor.activeSection = activeDisplayName;
+                if(activeDisplayName == 'encounter-display') {
+                    this.$refs['encounterGraph'].updateGraph();
+                }
+            },
         },
     });
 
