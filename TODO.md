@@ -7,14 +7,13 @@ HIGH PRIORITY
 - [ ] Design UI
 - [ ] Tips and suggestions
 - [ ] Consider displaying assumed average target count for AOE attacks (to make better sense of DPR). Consider having "single target DPR" vs "total DPR"
-- [ ] Allow adding text replace codes to custom description
+- [ ] Allow adding text replace codes to custom description (make this easier)
 - [ ] Figure out which dpr events are actually necessary
 - [ ] Minimum creature size for conditions (grappled, swallowed, etc)
 - [ ] hasInstantKillPotential
 - [ ] Make better lists: //function createConditionSentenceList
 //  -> from "... and are blinded and are deafened, or half as much damage on a successful one and are not blinded and are not deafened."
 //      -> to "... and becomes blinded and deafened, or half as much damage on a successful one and are not blinded or deafened."
-- [ ] Common passives like regen
 - [ ] Adjust offensive and defensive CR calculations (beware cyclical updates)
 //      -> ref: https://www.reddit.com/r/DMAcademy/comments/nc3i47/the_cr_calculator_in_the_dmg_is_wack_it_doesnt/gy34lun/
 //      -> Effective health pool - DMG 277
@@ -37,13 +36,13 @@ MEDIUM PRIORITY
 - [ ] Fix semantic usage on Conditions plus additional conditions
 
 FINAL TOUCHES
+- [ ] Make a logo (no bolts)
 - [ ] WOTC Fan Content legal
 - [ ] SEO meta
-- [ ] Change images to original ( add repeating ripped edge)
-- [ ] Remove external CDN references
 - [ ] Clean up label "for"s
 - [ ] Replace some drop downs with input number fields
 
 OPTIONAL
 - [ ] Loc cleanup
 - [ ] Convert units
+- [ ] Regional effects
