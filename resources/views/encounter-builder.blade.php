@@ -8,6 +8,7 @@
         
         <script src="{{mix('js/app.js')}}" defer></script>
         <link rel="stylesheet" type="text/css" href="{{mix('css/app.css')}}">
+        <link rel="icon" type="image/x-icon" href="/images/favicon.png">
     </head>
     <body>
 
