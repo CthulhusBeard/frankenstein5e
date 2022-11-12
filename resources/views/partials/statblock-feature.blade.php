@@ -8,9 +8,12 @@
 
         <div class="edit-feature edit-field">
             <label v-if="value.template === 'spellcasting'" class="title-label">@{{f5.misc.title_spellcasting_feature_name}}:</label>
+            <label v-if="value.template === 'legendary_resistance'" class="title-label">@{{f5.featuretemplates.legendary_resistance.name}}:</label>
             <label v-else class="title-label">@{{f5.misc.title_feature_name}}:</label>
-            <input type="text" class="feature__title" v-model="value.name" />
+            <input v-if="value.template !== 'legendary_resistance'" type="text" class="feature__title" v-model="value.name" />
+            <!-- TODO: REMOVE THIS -->
             <span>Avg DPR: @{{averageDPR}} / Max DPR: @{{maxDPR}}</span>
+
             <div v-if="value.template !== 'spellcasting' && value.template !== 'multiattack'">
                 <label class="title-label">@{{f5.misc.title_feature_template}}:</label>
                 <select v-model="value.template">
@@ -19,6 +22,15 @@
             </div>
             <!--<label v-if="value.template !== 'custom'">@{{f5.misc.title_feature_options}}:</label>-->
             <div class="feature__description" v-if="value.template !== 'custom'" v-html="descriptionEditText"></div>
+
+            <!--Legendary Resistances -->
+            <div v-if="value.template === 'legendary_resistance'">
+                <label class="title-label">@{{f5.featuretemplates.legendary_resistance.name}}:</label>
+                <select v-model="value.legendaryResistances">
+                    <option v-for="i in 5" :value="i">@{{i}}</option>
+                </select>
+            </div>
+
 
             <!-- Custom -->
             <div class="feature__options feature__option-custom" v-if="value.template === 'custom'">
@@ -443,7 +455,7 @@
             </div>
 
             <div class="feature__options feature__options-global">
-                <div class="feature__passiveTrigger" v-if="value.actionType === 'passive' && value.template !== 'custom'">
+                <div class="feature__passiveTrigger" v-if="value.actionType === 'passive' && value.template !== 'custom' && value.template !== 'legendary_resistance'">
                     <label class="title-label">@{{ this.f5.misc.title_passive_trigger }}: </label>
                     <select v-model="value.passiveTrigger">
                         <option value="start_of_turn">@{{this.f5.durations.start_of_turn.name}}</option>
@@ -451,7 +463,7 @@
                     </select>
                 </div>
 
-                <div class="feature__regenerate" v-if="value.template !== 'custom' && value.template !== 'spellcasting' && value.template !== 'multiattack' && value.template !== 'reference'">
+                <div class="feature__regenerate" v-if="value.template !== 'custom' && value.template !== 'spellcasting' && value.template !== 'multiattack' && value.template !== 'reference' && value.template !== 'legendary_resistance'">
                     <label class="title-label">@{{ f5.misc.title_regenerate }}:</label>
                     <select class="feature__regenerate__options" name="feature__regenerate__options" v-model="value.regenerate.type">
                         <option v-for="(type, i) in f5.regenerate" v-if="value.actionType !== 'passive' || !(i == 'damage_dealt' || i == 'half_damage_dealt')" :value="i" >@{{type.name}}</option>
@@ -496,7 +508,7 @@
                     </div>
                 </div>
                 
-                <div class="feature__recharge" v-if="value.template !== 'spellcasting' && value.template !== 'multiattack' && value.template !== 'reference'">
+                <div class="feature__recharge" v-if="value.template !== 'spellcasting' && value.template !== 'multiattack' && value.template !== 'reference' && value.template !== 'legendary_resistance'">
                     <div>
                         <label class="title-label" for="feature__recharge">@{{f5.misc.title_recharge}}:</label>
                         <select id="feature__recharge" name="feature__recharge" v-model="value.recharge.type">

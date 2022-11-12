@@ -43,8 +43,8 @@ return [
             'mythic_action',
         ],
     ],
-    'custom' => [
-        'name' => 'f5/featuretemplates.custom',
+    'regenerate' => [
+        'name' => 'f5/featuretemplates.regenerate',
         'action_options' => [
             'passive',
             'action',
@@ -55,8 +55,16 @@ return [
             'lair_action',
         ],
     ],
-    'regenerate' => [
-        'name' => 'f5/featuretemplates.regenerate',
+    'legendary_resistance' => [
+        'name' => 'f5/featuretemplates.legendary_resistance',
+        'title' => 'f5/featuretemplates.title_legendary_resistance_feature_name',
+        'desc' => 'f5/featuretemplates.legendary_resistance_desc',
+        'action_options' => [
+            'passive',
+        ],
+    ],
+    'custom' => [
+        'name' => 'f5/featuretemplates.custom',
         'action_options' => [
             'passive',
             'action',

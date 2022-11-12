@@ -66,6 +66,7 @@ export default {
                 ],
                 existingFeatureReferenceId: null,
                 legendaryActionCost: 1,
+                legendaryResistances: 3,
                 manualDPR: -1,
                 manualMaxDPR: -1,
             },
@@ -111,7 +112,7 @@ export default {
     computed: {
 
         averageDPR: function() {
-            if(this.template == 'reference') {
+            if(this.value.template == 'reference') {
                 if(this.referencedProjection[0] && this.referencedProjection[0].hasOwnProperty('damage')) {
                     return this.referencedProjection[0].damage;
                 } else {  
@@ -125,7 +126,7 @@ export default {
         },
 
         maxDPR: function() {
-            if(this.template == 'reference') {
+            if(this.value.template == 'reference') {
                 if(this.referencedProjection[0] && this.referencedProjection[0].hasOwnProperty('maxDamage')) {
                     return this.referencedProjection[0].maxDamage;
                 } else {  
@@ -139,6 +140,10 @@ export default {
         },
 
         displayName: function() {
+            if(this.value.template == 'legendary_resistance') {
+                return this.f5.featuretemplates.legendary_resistance.title.replace(':legendary_resistance_count', this.value.legendaryResistances);
+            }
+
             let nameText = this.value.name;
             //anything that triggers brackets //Different forms?
             let brackets = this.bracketText; //separated by "sentence_list_separator_secondary"
@@ -288,7 +293,7 @@ export default {
             let descText = '';
             let prefixText = '';
 
-            if(this.value.actionType === 'passive' && this.value.template !== 'custom') {
+            if(this.value.actionType === 'passive' && this.value.template !== 'custom' && this.value.template !== 'legendary_resistance') {
                 prefixText += this.f5.durations[this.value.passiveTrigger]['desc'];
             }
 
@@ -321,6 +326,9 @@ export default {
             } else if(this.value.template == 'regenerate') {
                 //Regeneration Feature Description
                 descText += this.regenerateDescription;
+            }else if(this.value.template == 'legendary_resistance') {
+                //Legendary Resistance Feature Description
+                descText += this.legendaryResistanceDescription;
             }
 
             //descText = descText+this.f5.misc.sentence_end;
@@ -637,6 +645,16 @@ export default {
                 }
                 desc = desc.replace(':regenerate_hit_point_amount', this.$parent.createSentenceList(regenList));
             }
+            return desc;
+        },
+
+        legendaryResistanceDescription: function() {
+            let desc = this.f5.featuretemplates.legendary_resistance.desc;
+            
+            if(this.value.additionalDescription) {
+                desc += ' '+this.value.additionalDescription;
+            }
+
             return desc;
         },
 
