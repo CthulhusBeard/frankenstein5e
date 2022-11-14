@@ -438,40 +438,48 @@
                     <div class="stat-block__add-feature-button" @click="createFeature('passive')">
                         @{{f5.misc.title_add_passive}}
                     </div>
-                    <StatblockFeature 
-                        v-for="passive in value.features.passive"
-                        v-bind:key="passive.trackingId"
-                        :initial-type="'passive'"
-                        :initial-data="passive"
-                        :combat-rounds="combatRounds"
-                        :player-data="playerData"
-                        :f5="f5"
-                        ref="features_passive"
-                        @hook:mounted="featureIsMounted"
-                        @update-name="updateFeatureName"
-                        @update-projection="updateProjections"
-                        @remove-feature="removeFeature"
-                    ></StatblockFeature>
+                    <div class="stat-block__feature-list">
+                        <StatblockFeature 
+                            v-for="passive in value.features.passive"
+                            v-bind:key="passive.trackingId"
+                            :initial-type="'passive'"
+                            :initial-data="passive"
+                            :combat-rounds="combatRounds"
+                            :player-data="playerData"
+                            :f5="f5"
+                            ref="features_passive"
+                            @hook:mounted="featureIsMounted"
+                            @update-name="updateFeatureName"
+                            @update-projection="updateProjections"
+                            @remove-feature="removeFeature"
+                            @move-feature-up="moveFeatureUp"
+                            @move-feature-down="moveFeatureDown"
+                        ></StatblockFeature>
+                    </div>
                 </div>
 
                 <div class="stat-block__spellcasting">
                     <div v-if="!value.features.spellcasting.length" class="stat-block__add-feature-button" @click="createFeature('spellcasting')">
                         @{{f5.misc.title_add_spellcasting}}
                     </div>
-                    <StatblockFeature 
-                        v-for="spellcasting in value.features.spellcasting"
-                        v-bind:key="spellcasting.trackingId"
-                        :initial-type="'spellcasting'"
-                        :initial-data="spellcasting"
-                        :combat-rounds="combatRounds"
-                        :player-data="playerData"
-                        :f5="f5"
-                        ref="features_spellcasting"
-                        @hook:mounted="featureIsMounted"
-                        @update-name="updateFeatureName"
-                        @update-projection="updateProjections"
-                        @remove-feature="removeFeature"
-                    ></StatblockFeature>
+                    <div class="stat-block__feature-list">
+                        <StatblockFeature 
+                            v-for="spellcasting in value.features.spellcasting"
+                            v-bind:key="spellcasting.trackingId"
+                            :initial-type="'spellcasting'"
+                            :initial-data="spellcasting"
+                            :combat-rounds="combatRounds"
+                            :player-data="playerData"
+                            :f5="f5"
+                            ref="features_spellcasting"
+                            @hook:mounted="featureIsMounted"
+                            @update-name="updateFeatureName"
+                            @update-projection="updateProjections"
+                            @remove-feature="removeFeature"
+                            @move-feature-up="moveFeatureUp"
+                            @move-feature-down="moveFeatureDown"
+                        ></StatblockFeature>
+                    </div>
                 </div>
 
                 <div class="stat-block__multiattack">
@@ -481,40 +489,48 @@
                     <div v-if="!value.features.multiattack.length" class="stat-block__add-feature-button" @click="createFeature('multiattack')">
                         @{{f5.misc.title_add_multiattack}}
                     </div>
-                    <StatblockFeature 
-                        v-for="multiattack in value.features.multiattack"
-                        v-bind:key="multiattack.trackingId"
-                        :initial-type="'multiattack'"
-                        :initial-data="multiattack"
-                        :combat-rounds="combatRounds"
-                        :player-data="playerData"
-                        :f5="f5"
-                        ref="features_multiattack"
-                        @hook:mounted="featureIsMounted"
-                        @remove-feature="removeFeature"
-                        @update-name="updateFeatureName"
-                        @update-projection="updateProjections"
-                    ></StatblockFeature>
+                    <div class="stat-block__feature-list">
+                        <StatblockFeature 
+                            v-for="multiattack in value.features.multiattack"
+                            v-bind:key="multiattack.trackingId"
+                            :initial-type="'multiattack'"
+                            :initial-data="multiattack"
+                            :combat-rounds="combatRounds"
+                            :player-data="playerData"
+                            :f5="f5"
+                            ref="features_multiattack"
+                            @hook:mounted="featureIsMounted"
+                            @update-name="updateFeatureName"
+                            @update-projection="updateProjections"
+                            @remove-feature="removeFeature"
+                            @move-feature-up="moveFeatureUp"
+                            @move-feature-down="moveFeatureDown"
+                        ></StatblockFeature>
+                    </div>
                 </div>
 
                 <div class="stat-block__section stat-block__actions">
                     <div class="stat-block__add-feature-button" @click="createFeature('action')">
                         @{{f5.misc.title_add_action}}
                     </div>
-                    <StatblockFeature 
-                        v-for="action in value.features.action"
-                        v-bind:key="action.trackingId"
-                        :initial-type="'action'"
-                        :initial-data="action"
-                        :combat-rounds="combatRounds"
-                        :player-data="playerData"
-                        :f5="f5"
-                        ref="features_action"
-                        @hook:mounted="featureIsMounted"
-                        @update-name="updateFeatureName"
-                        @update-projection="updateProjections"
-                        @remove-feature="removeFeature"
-                    ></StatblockFeature>
+                    <div class="stat-block__feature-list">
+                        <StatblockFeature 
+                            v-for="action in value.features.action"
+                            v-bind:key="action.trackingId"
+                            :initial-type="'action'"
+                            :initial-data="action"
+                            :combat-rounds="combatRounds"
+                            :player-data="playerData"
+                            :f5="f5"
+                            ref="features_action"
+                            @hook:mounted="featureIsMounted"
+                            @update-name="updateFeatureName"
+                            @update-projection="updateProjections"
+                            @remove-feature="removeFeature"
+                            @move-feature-up="moveFeatureUp"
+                            @move-feature-down="moveFeatureDown"
+                        ></StatblockFeature>
+                    </div>
                 </div>
 
                 <div class="stat-block__section stat-block__bonus-actions">
@@ -524,20 +540,24 @@
                     <div class="stat-block__add-feature-button" @click="createFeature('bonus_action')">
                         @{{f5.misc.title_add_bonus_action}}
                     </div>
-                    <StatblockFeature 
-                        v-for="bonusAction in value.features.bonus_action"
-                        v-bind:key="bonusAction.trackingId"
-                        :initial-type="'bonus_action'"
-                        :initial-data="bonusAction"
-                        :combat-rounds="combatRounds"
-                        :player-data="playerData"
-                        :f5="f5"
-                        ref="features_bonus_action"
-                        @hook:mounted="featureIsMounted"
-                        @update-name="updateFeatureName"
-                        @update-projection="updateProjections"
-                        @remove-feature="removeFeature"
-                    ></StatblockFeature>
+                    <div class="stat-block__feature-list">
+                        <StatblockFeature 
+                            v-for="bonusAction in value.features.bonus_action"
+                            v-bind:key="bonusAction.trackingId"
+                            :initial-type="'bonus_action'"
+                            :initial-data="bonusAction"
+                            :combat-rounds="combatRounds"
+                            :player-data="playerData"
+                            :f5="f5"
+                            ref="features_bonus_action"
+                            @hook:mounted="featureIsMounted"
+                            @update-name="updateFeatureName"
+                            @update-projection="updateProjections"
+                            @remove-feature="removeFeature"
+                            @move-feature-up="moveFeatureUp"
+                            @move-feature-down="moveFeatureDown"
+                        ></StatblockFeature>
+                    </div>
                 </div>
 
                 <div class="stat-block__section stat-block__reactions">
@@ -547,20 +567,24 @@
                     <div class="stat-block__add-feature-button" @click="createFeature('reaction')">
                         @{{f5.misc.title_add_reaction}}
                     </div>
-                    <StatblockFeature 
-                        v-for="reaction in value.features.reaction"
-                        v-bind:key="reaction.trackingId"
-                        :initial-type="'reaction'"
-                        :initial-data="reaction"
-                        :combat-rounds="combatRounds"
-                        :player-data="playerData"
-                        :f5="f5"
-                        ref="features_reaction"
-                        @hook:mounted="featureIsMounted"
-                        @update-name="updateFeatureName"
-                        @update-projection="updateProjections"
-                        @remove-feature="removeFeature"
-                    ></StatblockFeature>
+                    <div class="stat-block__feature-list">
+                        <StatblockFeature 
+                            v-for="reaction in value.features.reaction"
+                            v-bind:key="reaction.trackingId"
+                            :initial-type="'reaction'"
+                            :initial-data="reaction"
+                            :combat-rounds="combatRounds"
+                            :player-data="playerData"
+                            :f5="f5"
+                            ref="features_reaction"
+                            @hook:mounted="featureIsMounted"
+                            @update-name="updateFeatureName"
+                            @update-projection="updateProjections"
+                            @remove-feature="removeFeature"
+                            @move-feature-up="moveFeatureUp"
+                            @move-feature-down="moveFeatureDown"
+                        ></StatblockFeature>
+                    </div>
                 </div>
 
                 <div class="stat-block__section stat-block__legendary-actions">
@@ -574,20 +598,24 @@
                     <div class="stat-block__add-feature-button" @click="createFeature('legendary_action')">
                         @{{f5.misc.title_add_legendary_action}}
                     </div>
-                    <StatblockFeature 
-                        v-for="legendaryAction in value.features.legendary_action"
-                        v-bind:key="legendaryAction.trackingId"
-                        :initial-type="'legendary_action'"
-                        :initial-data="legendaryAction"
-                        :combat-rounds="combatRounds"
-                        :player-data="playerData"
-                        :f5="f5"
-                        ref="features_legendary_action"
-                        @hook:mounted="featureIsMounted"
-                        @update-name="updateFeatureName"
-                        @update-projection="updateProjections"
-                        @remove-feature="removeFeature"
-                    ></StatblockFeature>
+                    <div class="stat-block__feature-list">
+                        <StatblockFeature 
+                            v-for="legendaryAction in value.features.legendary_action"
+                            v-bind:key="legendaryAction.trackingId"
+                            :initial-type="'legendary_action'"
+                            :initial-data="legendaryAction"
+                            :combat-rounds="combatRounds"
+                            :player-data="playerData"
+                            :f5="f5"
+                            ref="features_legendary_action"
+                            @hook:mounted="featureIsMounted"
+                            @update-name="updateFeatureName"
+                            @update-projection="updateProjections"
+                            @remove-feature="removeFeature"
+                            @move-feature-up="moveFeatureUp"
+                            @move-feature-down="moveFeatureDown"
+                        ></StatblockFeature>
+                    </div>
                 </div>
 
                 <div class="stat-block__section stat-block__mythic-actions">
@@ -598,20 +626,24 @@
                     <div class="stat-block__add-feature-button" @click="createFeature('mythic_action')">
                         @{{f5.misc.title_add_mythic_action}}
                     </div>
-                    <StatblockFeature 
-                        v-for="mythicAction in value.features.mythic_action"
-                        v-bind:key="mythicAction.trackingId"
-                        :initial-type="'mythic_action'"
-                        :initial-data="mythicAction"
-                        :combat-rounds="combatRounds"
-                        :player-data="playerData"
-                        :f5="f5"
-                        ref="features_mythic_action"
-                        @hook:mounted="featureIsMounted"
-                        @update-name="updateFeatureName"
-                        @update-projection="updateProjections"
-                        @remove-feature="removeFeature"
-                    ></StatblockFeature>
+                    <div class="stat-block__feature-list">
+                        <StatblockFeature 
+                            v-for="mythicAction in value.features.mythic_action"
+                            v-bind:key="mythicAction.trackingId"
+                            :initial-type="'mythic_action'"
+                            :initial-data="mythicAction"
+                            :combat-rounds="combatRounds"
+                            :player-data="playerData"
+                            :f5="f5"
+                            ref="features_mythic_action"
+                            @hook:mounted="featureIsMounted"
+                            @update-name="updateFeatureName"
+                            @update-projection="updateProjections"
+                            @remove-feature="removeFeature"
+                            @move-feature-up="moveFeatureUp"
+                            @move-feature-down="moveFeatureDown"
+                        ></StatblockFeature>
+                    </div>
                 </div>
                 
                 <div class="stat-block__section stat-block__lair-actions">
@@ -622,20 +654,24 @@
                     <div class="stat-block__add-feature-button" @click="createFeature('lair_action')">
                         @{{f5.misc.title_add_lair_action}}
                     </div>
-                    <StatblockFeature 
-                        v-for="lairAction in value.features.lair_action"
-                        v-bind:key="lairAction.trackingId"
-                        :initial-type="'lair_action'"
-                        :initial-data="lairAction"
-                        :combat-rounds="combatRounds"
-                        :player-data="playerData"
-                        :f5="f5"
-                        ref="features_lair_action"
-                        @hook:mounted="featureIsMounted"
-                        @update-name="updateFeatureName"
-                        @update-projection="updateProjections"
-                        @remove-feature="removeFeature"
-                    ></StatblockFeature>
+                    <div class="stat-block__feature-list">
+                        <StatblockFeature 
+                            v-for="lairAction in value.features.lair_action"
+                            v-bind:key="lairAction.trackingId"
+                            :initial-type="'lair_action'"
+                            :initial-data="lairAction"
+                            :combat-rounds="combatRounds"
+                            :player-data="playerData"
+                            :f5="f5"
+                            ref="features_lair_action"
+                            @hook:mounted="featureIsMounted"
+                            @update-name="updateFeatureName"
+                            @update-projection="updateProjections"
+                            @remove-feature="removeFeature"
+                            @move-feature-up="moveFeatureUp"
+                            @move-feature-down="moveFeatureDown"
+                        ></StatblockFeature>
+                    </div>
                 </div>
             </div>
             

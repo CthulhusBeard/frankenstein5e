@@ -70,7 +70,7 @@ export default {
                 mythicTrait: {
                     name: this.f5.misc.title_mythic_feature_name,
                     description: this.f5.misc.mythic_action_feature,
-                    recharge: this.f5.misc.title_mythic_feature_name,
+                    recharge: 'short_rest',
                     restoreHitPoints: true,
                 },
                 legendaryActions: 3,
@@ -957,11 +957,37 @@ export default {
 
         removeFeature: function(type, id) {
             for(let i in this.value.features[type]) {
-                if(this.value.features[type][i].id === id) {
+                if(this.value.features[type][i].trackingId === id) {
                     this.value.features[type].splice(i, 1);
                     return;
                 }
             }
+        },
+
+        moveFeatureUp: function(type, id) {
+            for(let i in this.value.features[type]) {
+                if(this.value.features[type][i].trackingId === id) {
+                    if(i !== 0) {
+                        this.swapFeatures(type, (parseInt(i)-1), i);
+                    }
+                    return;
+                }
+            }
+        },
+
+        moveFeatureDown: function(type, id) {
+            for(let i in this.value.features[type]) {
+                if(this.value.features[type][i].trackingId === id) {
+                    if(i !== this.value.features[type].length) {
+                        this.swapFeatures(type, i, (parseInt(i)+1));
+                    }
+                    return;
+                }
+            }
+        },
+
+        swapFeatures: function(type, featIndex1, featIndex2) {
+            this.value.features[type].splice(featIndex1, 0, this.value.features[type].splice(featIndex2, 1)[0])
         },
 
         averageDamage: function(damageObj, ability = 0, useMax = false) { //ability accepts Number or ability name

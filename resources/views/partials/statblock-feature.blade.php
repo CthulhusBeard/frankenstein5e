@@ -3,7 +3,9 @@
         <div class="feature__display">
             <span class="feature__title {{--display-field--}}">@{{displayName}}</span>
             <span class="feature__description {{--display-field--}}" v-html="descriptionText"></span>
-            <div class="feature__remove" @click="$emit('remove-feature', value.actionType, value.id)">x</div>
+            <div class="feature__remove" @click="$emit('remove-feature', value.actionType, trackingId)">x</div>
+            <div class="feature__move-up" @click="$emit('move-feature-up', value.actionType, trackingId)">↑</div>
+            <div class="feature__move-down" @click="$emit('move-feature-down', value.actionType, trackingId)">↓</div>
         </div>
 
         <div class="edit-feature edit-field">

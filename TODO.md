@@ -1,8 +1,5 @@
 //TODO: 
 
-- [ ] Multiattack graph reactivity
-- [ ] Don't count Mythics in the first few actions
-
 HIGH PRIORITY
 - [ ] Design UI
 - [ ] Tips and suggestions
@@ -26,18 +23,13 @@ HIGH PRIORITY
 
 BUG FIXES
 - [ ] Make element ids unique between different statblocks
-- [ ] Multiattack is not considered to be expending limited resources. Multiattack push out ability projections that are being used. (one 5th level spell slot/spell. Multiattack with 2 spell uses. Will display two uses of the 5th level slot in the multiattack and then use of the spell slot in turn 2)
-- [ ] Restrict Recharge abilities on multiattack
-- [ ] Fix multiple uses of spells on multiattack (one 5th level spell slot with 2 spell uses will display two uses of the 5th level slot)
 
 MEDIUM PRIORITY
-- [ ] Move Buttons to Reorder Features / Move features to other columns
 - [ ] Automatic column org or manual moving
 - [ ] Fix semantic usage on Conditions plus additional conditions
 
 FINAL TOUCHES
 - [ ] Make a logo (no bolts)
-- [ ] WOTC Fan Content legal
 - [ ] SEO meta
 - [ ] Clean up label "for"s
 - [ ] Replace some drop downs with input number fields

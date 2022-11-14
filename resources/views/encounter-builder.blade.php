@@ -168,5 +168,7 @@
         @include('partials.statblock-feature')
         @include('partials.encounter-graph')
 
+        <footer>Frankenstein 5E is unofficial Fan Content permitted under the Fan Content Policy. Not approved/endorsed by Wizards. Portions of the materials used are property of Wizards of the Coast. ©Wizards of the Coast LLC.</footer>
+
     </body>
 </html>

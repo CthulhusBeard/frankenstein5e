@@ -240,112 +240,137 @@ i {
         display: none;
     }
 
-    .stat-block__feature {
-        color: black;
-        margin-bottom: 12px;
-        .feature__display {
-            position: relative;
-        }
-        .feature__title {
-            font-weight: bold;
-            font-style: italic;
-        }
-        .feature__description {
-            width: 98%;
-            resize: none;
-        }
-        .feature__remove {
-            @extend .x;
-            display: none;
-        }
-        .feature__options {
-            margin-left: 5px;
-            //column-count: 2;
-            //column-gap: 2px;
-        }
-        .feature__damage, .feature__regen {
-            position: relative;
-            border: 1px black solid;
-            background-color: #f3efdd;
-            border-radius: 8px;
-            padding: 2px;
-            .feature__remove-damage, .feature__remove-regen {
-                @extend .x;
-            }
-        }
-        
-        .feature__spellGroup {
-            margin: 2px 0;
-        }
-        .feature__spellGroup__item {
-            position: relative;
-            .feature__spellGroup__name {
-                border: 2px black solid;
-                border-radius: 7px;
-                padding: 2px;
-                background: powderblue;  
-            }
-        }
-        .feature__edit-spell, .feature__spell-slots {
-            position: relative;
-            border: 1px black solid;
-            border-radius: 8px;
-            padding: 2px;      
-
-            .feature__spells__remove {
-                @extend .x;
-            }
-        }
-        .feature__spell-slots {
-            display: grid;
-            grid-template-columns: repeat(3, 30%);
-        }
-        .feature__spell-slots__group {
-            margin-right: 2px;
-        }
-        .feature__spells {
-            padding: 2px;
-        }
-        .feature__spell-list {
-            text-transform: lowercase;
-            font-style: italic;
-        }
-        .feature__option-multiattack {
-            .feature__multiattack__featureRef {
+    .stat-block__feature-list {
+        .stat-block__feature {
+            color: black;
+            margin-bottom: 12px;
+            .feature__display {
                 position: relative;
-                width: 99%;
-                margin: 1px 0;
-                .feature__multiattack__remove {
+            }
+            .feature__title {
+                font-weight: bold;
+                font-style: italic;
+            }
+            .feature__description {
+                width: 98%;
+                resize: none;
+            }
+            .feature__remove {
+                @extend .x;
+                display: none;
+            }
+            .feature__move-up {
+                @extend .x;
+                right: 25px;
+                top: -5px;
+                display: none;
+            }
+            .feature__move-down {
+                @extend .x;
+                right: 25px;
+                top: 15px;
+                display: none;
+            }
+            .feature__options {
+                margin-left: 5px;
+                //column-count: 2;
+                //column-gap: 2px;
+            }
+            .feature__damage, .feature__regen {
+                position: relative;
+                border: 1px black solid;
+                background-color: #f3efdd;
+                border-radius: 8px;
+                padding: 2px;
+                .feature__remove-damage, .feature__remove-regen {
                     @extend .x;
                 }
             }
-        }
-        .attack-border {
-            border: 1px black solid;
-            border-radius: 8px;
-            padding: 2px;
-        }
-        .edit-feature {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            top: 5%;
-            max-width: 450px;
-            background-color: #f8f1ce;
-            z-index: 100;
-            box-shadow: 0px 0px 40px #000, 0px 0px 40px #000;
-        }
-        .edit-field {
-            width: 98%;
-            padding: 5px;
-            break-inside: avoid-column;
-            .title-label {
-                font-weight: bold;
+            
+            .feature__spellGroup {
+                margin: 2px 0;
             }
-        }
-        &:hover {
-            .feature__remove {
-                display: block;
+            .feature__spellGroup__item {
+                position: relative;
+                .feature__spellGroup__name {
+                    border: 2px black solid;
+                    border-radius: 7px;
+                    padding: 2px;
+                    background: powderblue;  
+                }
+            }
+            .feature__edit-spell, .feature__spell-slots {
+                position: relative;
+                border: 1px black solid;
+                border-radius: 8px;
+                padding: 2px;      
+
+                .feature__spells__remove {
+                    @extend .x;
+                }
+            }
+            .feature__spell-slots {
+                display: grid;
+                grid-template-columns: repeat(3, 30%);
+            }
+            .feature__spell-slots__group {
+                margin-right: 2px;
+            }
+            .feature__spells {
+                padding: 2px;
+            }
+            .feature__spell-list {
+                text-transform: lowercase;
+                font-style: italic;
+            }
+            .feature__option-multiattack {
+                .feature__multiattack__featureRef {
+                    position: relative;
+                    width: 99%;
+                    margin: 1px 0;
+                    .feature__multiattack__remove {
+                        @extend .x;
+                    }
+                }
+            }
+            .attack-border {
+                border: 1px black solid;
+                border-radius: 8px;
+                padding: 2px;
+            }
+            .edit-feature {
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                top: 5%;
+                max-width: 450px;
+                background-color: #f8f1ce;
+                z-index: 100;
+                box-shadow: 0px 0px 40px #000, 0px 0px 40px #000;
+            }
+            .edit-field {
+                width: 98%;
+                padding: 5px;
+                break-inside: avoid-column;
+                .title-label {
+                    font-weight: bold;
+                }
+            }
+            &:hover {
+                .feature__remove {
+                    display: block;
+                }
+            }
+            
+            &:hover:not(:first-child) {
+                .feature__move-up {
+                    display: block;
+                }
+            }
+            &:hover:not(:last-child) {
+                .feature__move-down {
+                    display: block;
+                }
             }
         }
     }
