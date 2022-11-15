@@ -180,10 +180,10 @@ export default {
             let hpMultiplier = 1;
             if(this.value.damageImmunities.length >= 3 || this.value.damageImmunities.includes('physical')) {
                 let crHealthMultipliersByImmunity = {0: 2, 4: 2, 11: 1.5, 17: 1.25};
-                hpMultiplier = this.getValueByHighestProperty(crHealthMultipliersByImmunity, average);
+                hpMultiplier = this.$parent.getValueByHighestProperty(crHealthMultipliersByImmunity, average);
             } else if(this.value.damageResistances.length >= 3 || this.value.damageResistances.includes('physical')) {
                 let crHealthMultipliersByResistance = {0: 2, 4: 1.5, 11: 1.25};
-                hpMultiplier = this.getValueByHighestProperty(crHealthMultipliersByResistance, average);
+                hpMultiplier = this.$parent.getValueByHighestProperty(crHealthMultipliersByResistance, average);
             }
             if(hpMultiplier > 1) {
                 defensiveCr = (Number(armorCr) + this.toNumber(this.getHealthCr(hpMultiplier))) / 2;
@@ -196,7 +196,15 @@ export default {
                 average = average + 2;
             }
 
-            this.$emit('update-cr', this.trackingId, average);
+            //Get XP for emit
+            let xp = 0;
+            let averageCRKey = this.toCRFormat(average);
+            let cr = this.f5.challengerating[averageCRKey];
+            if(cr && cr.xp) {
+                xp = cr.xp;
+            }
+
+            this.$emit('update-cr', this.trackingId, averageCRKey, xp);
 
             return average;
         },
@@ -379,17 +387,6 @@ export default {
 
             return hp;
         },
-
-        // getEffectiveHP: function() {
-        //     let effectiveHP = this.getHP;
-
-        //     if(this.value.features.mythic_action.length && this.value.mythicTrait.restoreHitPoints) {
-        //         effectiveHP = effectiveHP * 2;
-        //     }
-        //TODO: ??  Doesn't take into account regen abilities
-
-        //     return effectiveHP;
-        // },
         
         hitPointsText: function() {
             let type = this.value.hitPoints.diceType;
@@ -1913,19 +1910,6 @@ export default {
                 }
             }
             return null;
-        },
-
-        //getValueByHighestProperty([1: 'a', 5: 'b', 10: 'c'], 6) = 'b'
-        getValueByHighestProperty: function(array, indexNum) {
-            indexNum = parseInt(indexNum);
-            let returnVal, indexTracker;
-            for(let i in array) {
-                if(indexNum >= parseInt(i) && (!indexTracker || parseInt(i) > indexTracker)) {
-                    indexTracker = parseInt(i);
-                    returnVal = array[i];
-                }
-            }
-            return returnVal;
         },
     }
 }

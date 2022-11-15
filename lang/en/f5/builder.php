@@ -2,6 +2,7 @@
 
 return [
 
+    'title_encounter_summary' => 'Encounter Summary',
     'title_monster_settings' => 'Monster Settings',
     'title_player_settings' => 'Player Settings',
     'title_player_characters_count' => 'Count',

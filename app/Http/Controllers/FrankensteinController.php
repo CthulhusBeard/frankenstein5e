@@ -28,6 +28,7 @@ class FrankensteinController extends Controller
                 'misc',
                 'timepoints',
                 'playerlevels',
+                'encounterdifficulties',
                 'tags',
                 'recharge',
                 'regenerate',

@@ -262,6 +262,7 @@ return [
 
     //--
     
+    'title_encounter_summary' => 'f5/builder.title_encounter_summary',
     'title_monster_settings' => 'f5/builder.title_monster_settings',
     'title_player_settings' => 'f5/builder.title_player_settings',
     'title_player_characters_count' => 'f5/builder.title_player_characters_count',
@@ -317,5 +318,9 @@ return [
 
     'warning_fatal_attack' => 'f5/builder.warning_fatal_attack',
     'warning_fatal_crit' => 'f5/builder.warning_fatal_crit',
+
+
+    'title_encounter_difficulty' => 'f5/encounterdifficulties.title_encounter_difficulty',
+    'title_total_xp' => 'f5/encounterdifficulties.title_total_xp',
 
 ];

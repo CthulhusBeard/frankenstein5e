@@ -19,7 +19,7 @@
                 </div>
 
                 <div id="top-nav">
-                    Stuff here
+                    Create your own monsters! <s>Kill your players!</s> Balance your encounters!
                 </div>
 
                 <div id="side-nav">
@@ -37,8 +37,8 @@
                     <div class="display-section encounter-display" :class="{'active-display': (editor.activeSection == 'encounter-display')}">
                         <div class="controls-holder">
 
-                            <div class="builder-controls popup-overlay">
-                                <div class="control-title">Encounter Settings</div>
+                            <div class="encounter-controls popup-overlay">
+                                <div class="control-title col-span-2">Encounter Settings</div>
 
                                 <div class="builder-controls-group">
                                     <div class="control-title">@{{f5.misc.title_player_settings}}</div>
@@ -58,12 +58,22 @@
                                     <div>@{{ f5.misc.title_average_player_hp_at_level }} @{{ f5.playerlevels[this.editor.playerData.level].average_hp }}</div>
                                     <div>@{{ f5.misc.title_average_player_dpr_at_level }} @{{ f5.playerlevels[this.editor.playerData.level].average_dpr }}</div>
                                 </div>
+
+                                <div class="builder-controls-group row-span-2" style="grid-row: span 2;">
+                                    <div class="control-title">@{{f5.misc.title_encounter_summary}}</div>
+                                    <div>
+                                        @{{ f5.misc.title_total_xp}}: @{{ encounterXP }} 
+                                        <br/>
+                                        @{{ f5.misc.title_encounter_difficulty}}: @{{ encounterDifficulty.name }}
+                                        <div class="swatch" :style="'background: '+encounterDifficulty.colour"></div>
+                                    </div>
+                                </div>
                                 
                                 <div class="builder-controls-group">
                                     <div class="control-title">@{{f5.misc.title_monster_settings}}</div>
                                     <div v-for="statblock in statblocks" >
                                         <div>
-                                            <label class="control-label" for="controls__player-count">@{{ statblock.name }} (@{{ f5.misc.title_cr }}: @{{ statblock.cr }}): </label>
+                                            <label class="control-label" for="controls__player-count">@{{ statblock.name }} (@{{ f5.misc.title_cr }} @{{ statblock.cr }}): </label>
                                             <select v-model="statblock.number">
                                                 <option v-for="i in 10" :value="i">@{{i}}</option>
                                             </select>
@@ -82,6 +92,8 @@
                         >
                         </Encountergraph>
                     </div>
+
+                    <!-- -->
 
                     <div class="display-section statblock-display" :class="{'active-display': (editor.activeSection == 'statblock-display')}">
                     

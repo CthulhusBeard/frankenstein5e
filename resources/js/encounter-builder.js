@@ -26,6 +26,8 @@ export function initVue(f5data) {
                 roundTracker: 7,
                 importMonster: 0,
             },
+            encounterXP: 0,
+            encounterDifficulty: f5data.encounterdifficulties['easy'],
             sampleMonsters: SampleMonsters.monsters,
             statblocks: [],
             projections: [],
@@ -44,9 +46,47 @@ export function initVue(f5data) {
         },
 
         computed: {
+
         },
 
         methods: {
+
+            getEncounterXP: function() {
+                let xpTotal = 0;
+                let totalNumOfMonsters = 0;
+                for(let i in this.statblocks) {
+                    let numOfMonsters = (this.statblocks[i].number) ? this.statblocks[i].number : 1;
+                    xpTotal += this.statblocks[i].xp * numOfMonsters;
+                    totalNumOfMonsters += numOfMonsters;
+                }
+
+                let xpMultipliers = { //DMG pg 82
+                    1: 1,
+                    2: 1.5,
+                    3: 2,
+                    7: 2.5,
+                    11: 3,
+                    15: 4,
+                };
+                let xpMultiplier = this.getValueByHighestProperty(xpMultipliers, totalNumOfMonsters);
+
+                return xpTotal * xpMultiplier;
+            },
+
+            getEncounterDifficulty: function() {
+                let difficulty = 'easy';
+                let xpPerPlayer = this.encounterXP / this.editor.playerData.number;
+                let thresholds = this.f5.playerlevels[this.editor.playerData.level]['xp_thresholds'];
+                let difficultyLevels = ['medium', 'hard', 'deadly'];
+                for(let diffKey of difficultyLevels) {
+                    if(xpPerPlayer >= thresholds[diffKey]) {
+                        difficulty = diffKey;
+                    }
+                }
+
+                return this.f5.encounterdifficulties[difficulty];
+            },
+
             randChars: function(len) {
                 const base = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvyxyz0123456789"];
                 const generator = (base, len) => {
@@ -114,12 +154,16 @@ export function initVue(f5data) {
                 }
             },
 
-            updateMonsterCR: function(id, cr) {
+            updateMonsterCR: function(id, cr, xp) {
                 for(let statblock of this.statblocks) {
                     if(statblock.trackingId == id) {
                         statblock.cr = cr;
+                        statblock.xp = xp;
                     }
                 }
+                
+                this.encounterXP = this.getEncounterXP();
+                this.encounterDifficulty = this.getEncounterDifficulty();
             },
 
             updateMonsterProjections: function(id, projections, mythicRecovery) {
@@ -136,6 +180,19 @@ export function initVue(f5data) {
                 if(activeDisplayName == 'encounter-display') {
                     this.$refs['encounterGraph'].updateGraph();
                 }
+            },
+
+            //getValueByHighestProperty([1: 'a', 5: 'b', 10: 'c'], 6) = 'b'
+            getValueByHighestProperty: function(array, indexNum) {
+                indexNum = parseInt(indexNum);
+                let returnVal, indexTracker;
+                for(let i in array) {
+                    if(indexNum >= parseInt(i) && (!indexTracker || parseInt(i) > indexTracker)) {
+                        indexTracker = parseInt(i);
+                        returnVal = array[i];
+                    }
+                }
+                return returnVal;
             },
         },
     });

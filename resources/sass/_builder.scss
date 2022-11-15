@@ -26,9 +26,9 @@
 .nav-option {
     width: 100%;
     height: 100px;
-    margin: 1px 0;
     box-sizing: border-box;
     border: 1px black solid;
+    cursor: pointer;
 
     &:first-child {
         margin-top: 0;
@@ -38,6 +38,23 @@
 .controls-holder {
     display: flex;
     flex-direction: row;
+}
+
+.encounter-controls {
+    padding: 10px;
+    border: 1px black solid;
+    width: 500px;
+    border-radius: 5px;
+    display: grid; 
+    grid-template-columns: repeat(2, 50%);
+}
+
+.col-span-2 {
+    grid-column: span 2;
+}
+
+.row-span-2 {
+    grid-row: span 2;
 }
 
 .builder-controls {
@@ -212,7 +229,7 @@
     &.show {
         display: block;
     }
-
+    
     .feature-text {
         margin-top: 2%;
         height: 25%;
@@ -230,4 +247,11 @@
     .add-feature-button {
         font-size: 1.3em;
     }
+}
+
+.swatch {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border: 1px black solid;
 }
