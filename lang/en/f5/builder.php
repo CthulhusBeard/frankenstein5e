@@ -10,10 +10,13 @@ return [
     'title_average_player_dpr_at_level' => 'Average Player DPR:',
     
     'title_controls' => 'Controls',
+    'title_challenge_rating' => 'CR',
+    'title_cr' => 'CR',
     'title_cr_manager' => 'Challenge Rating Manager',
     'title_offensive_cr' => 'Offensive CR',
     'title_hp_cr' => 'Hit Points CR',
     'title_ac_cr' => 'Armor Class CR',
+    'title_dpr' => 'Damage Output (Average Over 3 Rounds)',
     'title_average_dpr' => 'Average DPR',
     'title_max_dpr' => 'Maximum DPR',
 

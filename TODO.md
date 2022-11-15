@@ -13,7 +13,6 @@ HIGH PRIORITY
 //      -> to "... and becomes blinded and deafened, or half as much damage on a successful one and are not blinded or deafened."
 - [ ] Adjust offensive and defensive CR calculations (beware cyclical updates)
 //      -> ref: https://www.reddit.com/r/DMAcademy/comments/nc3i47/the_cr_calculator_in_the_dmg_is_wack_it_doesnt/gy34lun/
-//      -> Effective health pool - DMG 277
 //      -> Features that increase CR - DMG 280 ("Does this feature alter CR? By how much?")
 - [ ] Encounter calculator
 - [ ] Merge projections for Multiattack

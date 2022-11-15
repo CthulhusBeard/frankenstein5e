@@ -10,7 +10,10 @@
                     @{{f5.misc.title_hp_cr}}: @{{healthCr}}<br/>
                     @{{f5.misc.title_ac_cr}}: @{{armorCr}}<br/>
                     @{{f5.misc.title_challenge_rating}}: @{{crText}}<br/>
-                    <br/>
+                </div>
+                </br>
+                <strong>@{{f5.misc.title_dpr}}</strong>
+                <div>
                     @{{f5.misc.title_average_dpr}}: @{{averageDPR}}<br/>
                     @{{f5.misc.title_max_dpr}}: @{{maxDPR}}<br/>
                 </div>
@@ -57,6 +60,7 @@
                             <option v-for="i in 3" :value="i">@{{i}}</option>
                     </select>
                 </div>
+                <br/>
                 <div>
                     <button @click="exportMonster()">@{{f5.misc.title_export}}</button>
                 </div>

@@ -114,6 +114,14 @@ export function initVue(f5data) {
                 }
             },
 
+            updateMonsterCR: function(id, cr) {
+                for(let statblock of this.statblocks) {
+                    if(statblock.trackingId == id) {
+                        statblock.cr = cr;
+                    }
+                }
+            },
+
             updateMonsterProjections: function(id, projections, mythicRecovery) {
                 for(let statblock of this.statblocks) {
                     if(statblock.trackingId == id) {

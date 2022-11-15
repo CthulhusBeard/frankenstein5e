@@ -270,10 +270,13 @@ return [
     'title_average_player_dpr_at_level' => 'f5/builder.title_average_player_dpr_at_level',
 
     'title_controls' => 'f5/builder.title_controls',
+    'title_challenge_rating' => 'f5/builder.title_challenge_rating',
+    'title_cr' => 'f5/builder.title_cr',
     'title_cr_manager' => 'f5/builder.title_cr_manager',
     'title_offensive_cr' => 'f5/builder.title_offensive_cr',
     'title_hp_cr' => 'f5/builder.title_hp_cr',
     'title_ac_cr' => 'f5/builder.title_ac_cr',
+    'title_dpr' => 'f5/builder.title_dpr',
     'title_average_dpr' => 'f5/builder.title_average_dpr',
     'title_max_dpr' => 'f5/builder.title_max_dpr',
 

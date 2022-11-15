@@ -19,6 +19,40 @@ return [
         'magical' => false,
         'rank' => '1',
     ],
+    
+    'physical' => [
+        'name' => 'f5/damagetypes.type_physical',
+        'long_name' => 'f5/damagetypes.type_physical_long',
+        'type' => 'physical',
+        'magical' => false,
+        'rank' => '1',
+        'dealt' => false,
+    ],
+
+    'physical_non_magical' => [
+        'name' => 'f5/damagetypes.type_physical_non_magical',
+        'long_name' => 'f5/damagetypes.type_physical_non_magical_long',
+        'type' => 'physical',
+        'magical' => false,
+        'rank' => '1',
+        'dealt' => false,
+    ],
+    'physical_non_silvered' => [
+        'name' => 'f5/damagetypes.type_physical_non_silvered',
+        'long_name' => 'f5/damagetypes.type_physical_non_silvered_long',
+        'type' => 'physical',
+        'magical' => false,
+        'rank' => '1',
+        'dealt' => false,
+    ],
+    'physical_non_adamantine' => [
+        'name' => 'f5/damagetypes.type_physical_non_adamantine',
+        'long_name' => 'f5/damagetypes.type_physical_non_adamantine_long',
+        'type' => 'physical',
+        'magical' => false,
+        'rank' => '1',
+        'dealt' => false,
+    ],
 
     'fire' => [
         'name' => 'f5/damagetypes.type_fire',
@@ -74,38 +108,5 @@ return [
         'resist' => '5',
     ],
 
-    'physical' => [
-        'name' => 'f5/damagetypes.type_physical',
-        'long_name' => 'f5/damagetypes.type_physical',
-        'type' => 'physical',
-        'magical' => false,
-        'rank' => '1',
-        'dealt' => false,
-    ],
-
-    'physical_non_magical' => [
-        'name' => 'f5/damagetypes.type_physical_non_magical',
-        'long_name' => 'f5/damagetypes.type_physical_non_magical_long',
-        'type' => 'physical',
-        'magical' => false,
-        'rank' => '1',
-        'dealt' => false,
-    ],
-    'physical_non_silvered' => [
-        'name' => 'f5/damagetypes.type_physical_non_silvered',
-        'long_name' => 'f5/damagetypes.type_physical_non_silvered_long',
-        'type' => 'physical',
-        'magical' => false,
-        'rank' => '1',
-        'dealt' => false,
-    ],
-    'physical_non_adamantine' => [
-        'name' => 'f5/damagetypes.type_physical_non_adamantine',
-        'long_name' => 'f5/damagetypes.type_physical_non_adamantine_long',
-        'type' => 'physical',
-        'magical' => false,
-        'rank' => '1',
-        'dealt' => false,
-    ],
 
 ];

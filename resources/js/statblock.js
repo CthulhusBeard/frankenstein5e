@@ -120,13 +120,7 @@ export default {
 
         //Challenge Rating
         damageCr: function() {
-            let dpr = 0;
-            if(
-                this.generatedProjection[0] && 
-                this.generatedProjection[0].hasOwnProperty('damage')
-            ) {
-                dpr = this.generatedProjection[0].damage;
-            }
+            let dpr = this.averageDPR;
             let approxCr = 1;
             
             for(let i in this.f5.challengerating) {
@@ -141,28 +135,10 @@ export default {
         },
 
         healthCr: function() {
-            //TODO: Factor in AC, HP, and defensive features
-            let hp = this.getHP;
-            let approxCr = 31;
-
-            //Double health for mythic encounters
-            if(this.value.features.mythic_action.length && this.value.mythicTrait.restoreHitPoints) {
-                hp = hp * 2;
-            }
-
-            for(let i in this.f5.challengerating) {
-                let cr = this.f5.challengerating[i];
-                if(hp >= cr.hp.low && hp <= cr.hp.high) {
-                    approxCr = i;
-                    break;
-                }
-            }
-
-            return approxCr;
+            return this.getHealthCr(1);
         },
 
         armorCr: function() {
-            //TODO: Factor in AC, HP, and defensive features
             let ac = this.getAC;
             if(!ac) {
                 return 'Unset';
@@ -198,14 +174,29 @@ export default {
                 armorCr = this.toNumber(this.toNumber(splitArmor[0]) + this.toNumber(splitArmor[1])) / 2;
             }
             let defensiveCr = (Number(armorCr) + this.toNumber(this.healthCr)) / 2;
-
             let average = (defensiveCr + this.toNumber(this.damageCr)) / 2;
+
+            //Multipliers from resitances and immunities (DMG pg 277)
+            let hpMultiplier = 1;
+            if(this.value.damageImmunities.length >= 3 || this.value.damageImmunities.includes('physical')) {
+                let crHealthMultipliersByImmunity = {0: 2, 4: 2, 11: 1.5, 17: 1.25};
+                hpMultiplier = this.getValueByHighestProperty(crHealthMultipliersByImmunity, average);
+            } else if(this.value.damageResistances.length >= 3 || this.value.damageResistances.includes('physical')) {
+                let crHealthMultipliersByResistance = {0: 2, 4: 1.5, 11: 1.25};
+                hpMultiplier = this.getValueByHighestProperty(crHealthMultipliersByResistance, average);
+            }
+            if(hpMultiplier > 1) {
+                defensiveCr = (Number(armorCr) + this.toNumber(this.getHealthCr(hpMultiplier))) / 2;
+                average = (defensiveCr + this.toNumber(this.damageCr)) / 2;
+            }
 
             //Extra modifiers
             if(average < 10 && this.value.speeds['fly'] > 0) {
                 //Flying monsters with CR below 10 are considered effectively 2 AC higher
                 average = average + 2;
             }
+
+            this.$emit('update-cr', this.trackingId, average);
 
             return average;
         },
@@ -737,23 +728,33 @@ export default {
         },
 
         averageDPR: function() {
-            if(
-                this.generatedProjection[0] && 
-                this.generatedProjection[0].hasOwnProperty('damage')
-            ) {
-                 return this.generatedProjection[0].damage;
+            let multipleTurnDPR = 0;
+            let numberOfTurns = 3;
+            for(let i = 0; i < numberOfTurns; i++) {
+                if(
+                    this.generatedProjection[i] && 
+                    this.generatedProjection[i].hasOwnProperty('standardTurn') && 
+                    this.generatedProjection[i].standardTurn.hasOwnProperty('damage')
+                ) {
+                    multipleTurnDPR += this.generatedProjection[i].standardTurn.damage;
+                }
             }
-            return 0;
+            return Math.round(multipleTurnDPR / numberOfTurns);
         },
 
         maxDPR: function() {
-            if(
-                this.generatedProjection[0] && 
-                this.generatedProjection[0].hasOwnProperty('maxDamage')
-            ) {
-                 return this.generatedProjection[0].maxDamage;
+            let multipleTurnDPR = 0;
+            let numberOfTurns = 3;
+            for(let i = 0; i < numberOfTurns; i++) {
+                if(
+                    this.generatedProjection[i] && 
+                    this.generatedProjection[i].hasOwnProperty('standardTurn') && 
+                    this.generatedProjection[i].standardTurn.hasOwnProperty('maxDamage')
+                ) {
+                    multipleTurnDPR += this.generatedProjection[i].standardTurn.maxDamage;
+                }
             }
-            return 0;
+            return Math.round(multipleTurnDPR / numberOfTurns);
         },
     },
 
@@ -1312,6 +1313,28 @@ export default {
                 this.generatedProjection = statblockProjection;
                 this.$emit('update-projections', this.trackingId, statblockProjection, mythicHealthRestore);
             }
+        },
+
+        getHealthCr: function(multiplier = 1) {
+            let hp = this.getHP;
+            let approxCr = 31;
+
+            //Double health for mythic encounters
+            if(this.value.features.mythic_action.length && this.value.mythicTrait.restoreHitPoints) {
+                hp = hp * 2;
+            }
+
+            hp = multiplier * hp;
+
+            for(let i in this.f5.challengerating) {
+                let cr = this.f5.challengerating[i];
+                if(hp >= cr.hp.low && hp <= cr.hp.high) {
+                    approxCr = i;
+                    break;
+                }
+            }
+
+            return approxCr;
         },
 
         getAverageDPR: function() {
@@ -1890,6 +1913,19 @@ export default {
                 }
             }
             return null;
+        },
+
+        //getValueByHighestProperty([1: 'a', 5: 'b', 10: 'c'], 6) = 'b'
+        getValueByHighestProperty: function(array, indexNum) {
+            indexNum = parseInt(indexNum);
+            let returnVal, indexTracker;
+            for(let i in array) {
+                if(indexNum >= parseInt(i) && (!indexTracker || parseInt(i) > indexTracker)) {
+                    indexTracker = parseInt(i);
+                    returnVal = array[i];
+                }
+            }
+            return returnVal;
         },
     }
 }

@@ -111,7 +111,17 @@ html, body {
     font-style: italic;
 }
 
+footer {
+    bottom: -12px;
+    background-color: white;
+    padding: 10px 20px;
+    margin: 0;
+    text-align: center;
+    border-top: black 1px solid;
+    margin-right: 100px;
+}
+
 @import 'builder';
-@import 'projection';
+@import 'encounters';
 @import 'statblock';
 @import '../css/vueform.css';
