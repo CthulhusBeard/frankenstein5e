@@ -123,8 +123,10 @@ export function initVue(f5data) {
             },
 
             clearAllData: function() {
-                this.statblocks = [];
-                this.createStatBlock();
+                if(confirm("Do you really want to clear all your encounter data?")) {
+                    this.statblocks = [];
+                    this.createStatBlock();
+                }
             },
 
             updateMonsterName: function(id, name) {
