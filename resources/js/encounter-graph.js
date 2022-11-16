@@ -1,5 +1,7 @@
 import Chart from 'chart.js/auto';
 
+const template = require('../html/encounter-graph.html');
+
 export default {
     props: [
         'encounterData',
@@ -8,7 +10,7 @@ export default {
         'f5'
     ],
 
-    template: '#template-encounter-graph',
+    template: template,
 
     data: function () {
         return {

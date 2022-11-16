@@ -1,6 +1,8 @@
 import Multiselect from '@vueform/multiselect/dist/multiselect.vue2.js';
 import StatBlockFeature from './statblock-feature.js';
 
+const template = require('../html/statblock.html');
+
 export default {
     props: [
         'initialStatblock',
@@ -9,7 +11,8 @@ export default {
         'f5', 
         'measure', 
     ],
-    template: '#template-statblock',
+
+    template: template,
     
     components: {
         'Multiselect': Multiselect,

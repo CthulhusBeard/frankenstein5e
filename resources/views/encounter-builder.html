@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>Frankenstein 5E</title>
         
-        <script src="{{mix('js/app.js')}}" defer></script>
-        <link rel="stylesheet" type="text/css" href="{{mix('css/app.css')}}">
+        <script src="/js/app.js" defer></script>
+        <link rel="stylesheet" type="text/css" href="/css/app.css">
         <link rel="icon" type="image/x-icon" href="/images/favicon.png">
     </head>
     <body>
@@ -41,41 +41,41 @@
                                 <div class="control-title col-span-2">Encounter Settings</div>
 
                                 <div class="builder-controls-group">
-                                    <div class="control-title">@{{f5.misc.title_player_settings}}</div>
+                                    <div class="control-title">{{ f5.misc.title_player_settings }}</div>
                                     <div>
-                                        <label class="control-label" for="controls__player-count">@{{f5.misc.title_player_characters_count}}: </label>
+                                        <label class="control-label" for="controls__player-count">{{f5.misc.title_player_characters_count}}: </label>
                                         <select v-model="editor.playerData.number">
-                                            <option v-for="i in 12" :value="i">@{{i}}</option>
+                                            <option v-for="i in 12" :value="i">{{i}}</option>
                                         </select>
                                     </div>
                                     <div>
-                                        <label class="control-label" for="controls__player-levels">@{{f5.misc.title_player_characters_level}}: </label>
+                                        <label class="control-label" for="controls__player-levels">{{f5.misc.title_player_characters_level}}: </label>
                                         <select v-model="editor.playerData.level">
-                                            <option v-for="(obj, i) in f5.playerlevels" :value="i">@{{i}}</option>
+                                            <option v-for="(obj, i) in f5.playerlevels" :value="i">{{i}}</option>
                                         </select>
                                     </div>
                                     <br/>
-                                    <div>@{{ f5.misc.title_average_player_hp_at_level }} @{{ f5.playerlevels[this.editor.playerData.level].average_hp }}</div>
-                                    <div>@{{ f5.misc.title_average_player_dpr_at_level }} @{{ f5.playerlevels[this.editor.playerData.level].average_dpr }}</div>
+                                    <div>{{ f5.misc.title_average_player_hp_at_level }} {{ f5.playerlevels[this.editor.playerData.level].average_hp }}</div>
+                                    <div>{{ f5.misc.title_average_player_dpr_at_level }} {{ f5.playerlevels[this.editor.playerData.level].average_dpr }}</div>
                                 </div>
 
                                 <div class="builder-controls-group row-span-2" style="grid-row: span 2;">
-                                    <div class="control-title">@{{f5.misc.title_encounter_summary}}</div>
+                                    <div class="control-title">{{f5.misc.title_encounter_summary}}</div>
                                     <div>
-                                        @{{ f5.misc.title_total_xp}}: @{{ encounterXP }} 
+                                        {{ f5.misc.title_total_xp}}: {{ encounterXP }} 
                                         <br/>
-                                        @{{ f5.misc.title_encounter_difficulty}}: @{{ encounterDifficulty.name }}
+                                        {{ f5.misc.title_encounter_difficulty}}: {{ encounterDifficulty.name }}
                                         <div class="swatch" :style="'background: '+encounterDifficulty.colour"></div>
                                     </div>
                                 </div>
                                 
                                 <div class="builder-controls-group">
-                                    <div class="control-title">@{{f5.misc.title_monster_settings}}</div>
+                                    <div class="control-title">{{f5.misc.title_monster_settings}}</div>
                                     <div v-for="statblock in statblocks" >
                                         <div>
-                                            <label class="control-label" for="controls__player-count">@{{ statblock.name }} (@{{ f5.misc.title_cr }} @{{ statblock.cr }}): </label>
+                                            <label class="control-label" for="controls__player-count">{{ statblock.name }} ({{ f5.misc.title_cr }} {{ statblock.cr }}): </label>
                                             <select v-model="statblock.number">
-                                                <option v-for="i in 10" :value="i">@{{i}}</option>
+                                                <option v-for="i in 10" :value="i">{{i}}</option>
                                             </select>
                                         </div>
                                     </div>
@@ -101,19 +101,19 @@
                             <div class="control-title">Importer</div>
                             <div>
                                 <select v-model="editor.importMonster">
-                                    <option v-for="(monster, i) in sampleMonsters" :value="i">@{{monster.name}}</option>
+                                    <option v-for="(monster, i) in sampleMonsters" :value="i">{{monster.name}}</option>
                                 </select>
                             </div>
                             <div>
-                                <button @click="importMonster(sampleMonsters[editor.importMonster])">@{{f5.misc.title_import}}</button>
+                                <button @click="importMonster(sampleMonsters[editor.importMonster])">{{f5.misc.title_import}}</button>
                             </div>
                             <div>
                                 <br/>
-                                <button @click="createStatBlock()">@{{f5.misc.title_new_statblock}}</button>
+                                <button @click="createStatBlock()">{{f5.misc.title_new_statblock}}</button>
                             </div>
                             <div>
                                 <br/>
-                                <button @click="clearAllData()">@{{f5.misc.title_clear_all}}</button>
+                                <button @click="clearAllData()">{{f5.misc.title_clear_all}}</button>
                             </div>
                         </div>    
 
@@ -180,10 +180,6 @@
                 }
                 
             </script>
-
-            @include('partials.statblock')
-            @include('partials.statblock-feature')
-            @include('partials.encounter-graph')
 
         </div>
     </body>
