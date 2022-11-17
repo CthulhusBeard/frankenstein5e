@@ -18,13 +18,13 @@ mix
 if(mix.inProduction()) {
     mix.minify('public/js/app.js');
 
-    mix.copyDirectory('public/css', 'export/css');
-    mix.copyDirectory('public/data', 'export/data');
-    mix.copyDirectory('public/fonts', 'export/fonts');
-    mix.copyDirectory('public/images', 'export/images');
-    mix.copyDirectory('public/js', 'export/js');
-    mix.copyDirectory('node_modules', 'export/node_modules');
-    mix.copy('public/favicon.ico', 'export/favicon.ico');
-    mix.copy('resources/views/encounter-builder.html', 'export/index.html');
+    mix.copyDirectory('public/css', 'export/cthulhusbeard.github.io/css');
+    mix.copyDirectory('public/data', 'export/cthulhusbeard.github.io/data');
+    mix.copyDirectory('public/fonts', 'export/cthulhusbeard.github.io/fonts');
+    mix.copyDirectory('public/images', 'export/cthulhusbeard.github.io/images');
+    mix.copyDirectory('public/js', 'export/cthulhusbeard.github.io/js');
+    //mix.copyDirectory('node_modules', 'export/cthulhusbeard.github.io/node_modules');
+    mix.copy('public/favicon.ico', 'export/cthulhusbeard.github.io/favicon.ico');
+    mix.copy('resources/views/encounter-builder.html', 'export/cthulhusbeard.github.io/index.html');
 }
 

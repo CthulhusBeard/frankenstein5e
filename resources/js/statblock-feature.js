@@ -79,9 +79,11 @@ export default {
     },
 
     created() {
-        let skipProps = ['id', 'trackingId'];
+        let skipProps = ['number'];
         for(let prop in this.initialData) {
-            if(skipProps.includes(prop)) continue;
+            if(skipProps.includes(prop)) {
+                continue;
+            }
             this.value[prop] = this.initialData[prop]; 
         }
     },
@@ -1124,7 +1126,22 @@ export default {
         },
 
         exportFeature: function() {
-            return this.value;
+            let exportData = JSON.parse(JSON.stringify(this.value));
+            exportData.trackingId = this.trackingId;
+            delete exportData.number;
+
+            console.log();
+
+            //Remove projection from Multiattack
+            for(let maRefGroup of exportData.multiattackReferences) {
+                for(let maRef of maRefGroup) {
+                    delete maRef.feature;
+                }
+            }
+
+            console.log('Export feature');
+            console.log(exportData);
+            return exportData;
         },
     },       
 };

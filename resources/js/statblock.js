@@ -1265,9 +1265,8 @@ export default {
             cloneOptions.features = exportFeatures;
 
             console.log(cloneOptions);
-            //TODO: remove damage projection on features for export!!!!
             
-            navigator.clipboard.writeText(JSON.stringify(this.value));
+            navigator.clipboard.writeText(JSON.stringify(cloneOptions));
             alert('Copied statblock data of "'+this.value.name+'" to clipboard.');
         },
 

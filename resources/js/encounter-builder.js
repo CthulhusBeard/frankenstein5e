@@ -106,6 +106,11 @@ export function initVue(f5data) {
                 this.statblocks.push(importedStatBlock);
             },
 
+            importMonsterFromClipboard: async function() {
+                let monster = await navigator.clipboard.readText();
+                this.importMonster(JSON.parse(monster));
+            },
+
             createStatBlock: function() {
                 let i = this.statblocks.push({
                     trackingId: this.randChars(15), 

@@ -294,6 +294,7 @@ return [
 
     'title_export' => 'f5/builder.title_export',
     'title_import' => 'f5/builder.title_import',
+    'title_import_from_clipboard' => 'f5/builder.title_import_from_clipboard',
     'title_use_automatic' => 'f5/builder.title_use_automatic',
     'title_clear_all' => 'f5/builder.title_clear_all',
     'title_new_statblock' => 'f5/builder.title_new_statblock',
