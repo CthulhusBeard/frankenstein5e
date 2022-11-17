@@ -49,6 +49,7 @@ return [
     
     'mythic_action_feature' => 'When the :creature_name is reduced to 0 hit points, it doesn\'t die or fall unconscious. Instead, it does something epic.',
     'mythic_action_desc' => 'If the :creature_name\'s mythic trait is active, it can use the options below as legendary actions for 1 hour after using :mythic_trait_name.',
-    'mythic_trait' => 'Mythic Trait',
+    'mythic_trait_name' => 'Mythic Trait',
+    'mythic_trait_desc' => 'When the :creature_name is reduced to 0 hit points, it doesn\'t die or fall unconscious. Instead, it does something epic.',
     'lair_action_desc' => 'On initiative count 20 (losing initiative ties), the :creature_name takes a lair action to cause one of the following magical effects:',
 ];

@@ -2,6 +2,213 @@ export { monsters };
 
 let monsters = [
     {
+        "name": "Bear",
+        "shortName": "",
+        "isNameProperNoun": false,
+        "size": "medium",
+        "type": "dragon",
+        "subtype": "",
+        "typeCategory": "",
+        "alignment": "",
+        "showTypicalAlignment": true,
+        "armorClass": {
+            "type": "none",
+            "manual": "10",
+            "bonus": "0",
+            "stealthDis": false,
+            "shield": false,
+            "mageArmor": false
+        },
+        "hitPoints": {
+            "diceType": 8,
+            "diceAmount": 1,
+            "additional": 0
+        },
+        "abilities": {
+            "str": 10,
+            "dex": 10,
+            "con": 10,
+            "int": 10,
+            "wis": 10,
+            "cha": 10
+        },
+        "savingThrows": {
+            "str": false,
+            "dex": false,
+            "con": false,
+            "int": false,
+            "wis": false,
+            "cha": false
+        },
+        "damageResistances": [],
+        "damageImmunities": [],
+        "damageVulnerabilites": [],
+        "conditionImmunities": [],
+        "skills": [],
+        "languages": {
+            "spokenWritten": [
+                "common"
+            ],
+            "doesntSpeak": [],
+            "telepathy": 0
+        },
+        "speeds": {
+            "walk": 30,
+            "fly": 0,
+            "swim": 0,
+            "climb": 0,
+            "burrow": 0
+        },
+        "hover": false,
+        "senses": {
+            "darkvision": {
+                "distance": 0,
+                "modifier": false
+            },
+            "blindsight": {
+                "distance": 0,
+                "modifier": false
+            },
+            "tremorsense": {
+                "distance": 0,
+                "modifier": false
+            },
+            "truesight": {
+                "distance": 0,
+                "modifier": false
+            }
+        },
+        "manualOverride": {
+            "proficiency": 0,
+            "casterLevel": 0
+        },
+        "targetCR": {
+            "offensive": {},
+            "defensive": {}
+        },
+        "mythicTrait": {
+            "name": "Mythic Trait",
+            "description": "When the :creature_name is reduced to 0 hit points, it doesn't die or fall unconscious. Instead, it does something epic.",
+            "recharge": "short_rest",
+            "restoreHitPoints": true
+        },
+        "legendaryActions": 3,
+        "reactions": 1,
+        "actions": 1,
+        "bonusActions": 1,
+        "features": {
+            "action": [
+                {
+                    "actionType": "action",
+                    "name": "asdfasdf",
+                    "template": "attack",
+                    "passiveTrigger": "start_of_turn",
+                    "attackAbility": "str",
+                    "targetType": "melee",
+                    "attackType": "weapon",
+                    "attackRange": {
+                        "low": 20,
+                        "high": 60
+                    },
+                    "attackReach": 5,
+                    "attackDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": true,
+                            "type": "slashing"
+                        }
+                    ],
+                    "attackSavingThrow": false,
+                    "attackTargets": 1,
+                    "aoeRange": 30,
+                    "savingThrowMonsterAbility": "str",
+                    "savingThrowSaveAbilities": [
+                        "str"
+                    ],
+                    "savingThrowDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": false,
+                            "type": "slashing"
+                        }
+                    ],
+                    "savingThrowHalfOnSuccess": true,
+                    "savingThrowConditions": [],
+                    "hasOngoingDamage": false,
+                    "ongoingDamage": [
+                        {
+                            "diceType": 4,
+                            "diceAmount": 1,
+                            "additional": 0,
+                            "abilityBonus": false,
+                            "type": "slashing"
+                        }
+                    ],
+                    "ongoingDamageOccurs": "start_of_turn",
+                    "ongoingDamageOnFailedSave": true,
+                    "ongoingDamageRepeatSave": false,
+                    "ongoingDamageDuration": "ongoing",
+                    "recharge": {
+                        "type": "none",
+                        "diceType": 6,
+                        "minRoll": 5,
+                        "uses": 1
+                    },
+                    "regenerate": {
+                        "type": "none",
+                        "amount": [
+                            {
+                                "diceType": 4,
+                                "diceAmount": 1,
+                                "additional": 0,
+                                "abilityBonus": false
+                            }
+                        ],
+                        "customText": "The :creature_name regains :regenerate_hit_point_amount hit points."
+                    },
+                    "spellcastingAbility": "int",
+                    "innateSpellcasting": false,
+                    "spellcastingClass": "",
+                    "spellList": [],
+                    "spellSlots": {
+                        "0": 0,
+                        "1": 0,
+                        "2": 0,
+                        "3": 0,
+                        "4": 0,
+                        "5": 0,
+                        "6": 0,
+                        "7": 0,
+                        "8": 0,
+                        "9": 0
+                    },
+                    "customDamage": [],
+                    "customDescription": "",
+                    "additionalDescription": "",
+                    "multiattackReferences": [
+                        [],
+                        []
+                    ],
+                    "existingFeatureReferenceId": null,
+                    "legendaryActionCost": 1,
+                    "legendaryResistances": 3,
+                    "manualDPR": -1,
+                    "manualMaxDPR": -1
+                }
+            ]
+        },
+        "display": {
+            "columns": 1
+        },
+        "number": 1
+    },
+        
+    
+    {
         "id": "Oznkd8ZvXj68D73",
         "name": "Devourer",
         "shortName": "",

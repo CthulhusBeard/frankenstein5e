@@ -161,7 +161,8 @@ return [
     'creature_uses_attack' => 'f5/featureactiontypes.creature_uses_attack',
     'mythic_action_feature' => 'f5/featureactiontypes.mythic_action_feature',
     'mythic_action_desc' => 'f5/featureactiontypes.mythic_action_desc',
-    'mythic_trait' => 'f5/featureactiontypes.mythic_trait',
+    'mythic_trait_desc' => 'f5/featureactiontypes.mythic_trait_desc',
+    'mythic_trait_name' => 'f5/featureactiontypes.mythic_trait_name',
     'lair_action_desc' => 'f5/featureactiontypes.lair_action_desc',
 
     //--

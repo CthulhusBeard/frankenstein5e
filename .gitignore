@@ -6,6 +6,7 @@
 /public/data/frankenstein5.json
 /storage/*.key
 /vendor
+/export
 .env
 .env.backup
 .phpunit.result.cache

@@ -19,20 +19,20 @@ export default {
         }
     },
 
-    watch: { //TODO: Remove this and update when a user switches to the graph tab
-        playerData: {
-            handler(val) {
-                this.updateGraph();
-            },
-            deep: true
-        },
-        encounterData: {
-            handler(val) {
-                this.updateGraph();
-            },
-            deep: true
-        },
-    },
+    // watch: { //TODO: Remove this and update when a user switches to the graph tab
+    //     playerData: {
+    //         handler(val) {
+    //             this.updateGraph();
+    //         },
+    //         deep: true
+    //     },
+    //     encounterData: {
+    //         handler(val) {
+    //             this.updateGraph();
+    //         },
+    //         deep: true
+    //     },
+    // },
 
     created() {
         console.log('created graphInstance');

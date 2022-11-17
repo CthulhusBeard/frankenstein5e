@@ -1122,5 +1122,9 @@ export default {
             }
             return feature;
         },
+
+        exportFeature: function() {
+            return this.value;
+        },
     },       
 };

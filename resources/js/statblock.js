@@ -71,8 +71,8 @@ export default {
                     }
                 },
                 mythicTrait: {
-                    name: this.f5.misc.title_mythic_feature_name,
-                    description: this.f5.misc.mythic_action_feature,
+                    name: this.f5.misc.mythic_trait_name,
+                    description: this.f5.misc.mythic_trait_desc,
                     recharge: 'short_rest',
                     restoreHitPoints: true,
                 },
@@ -101,8 +101,19 @@ export default {
 
     created() {
         for(let prop in this.initialStatblock) {
-            if(prop === 'id' || prop === 'trackingId') continue;
+            if(prop === 'id' || prop === 'trackingId') {
+                continue;
+            }
+            
+            if(prop === 'features') {
+                for(let actionType in this.initialStatblock.features) {
+                    this.value.features[actionType] = this.initialStatblock.features[actionType];
+                }
+                continue;
+            }
+
             this.value[prop] = this.initialStatblock[prop]; 
+
         }
     },
 
@@ -656,7 +667,7 @@ export default {
         },
 
         mythicTraitTitleText: function() {
-            let str = this.value.mythicTrait.name+' ('+this.f5.misc.mythic_trait;
+            let str = this.value.mythicTrait.name+' ('+this.f5.misc.mythic_trait_name;
             if(this.value.mythicTrait.recharge == 'long_rest') {
                 str += '; '+this.f5.recharge.long_rest.desc;
             } else if(this.value.mythicTrait.recharge == 'short_rest') {
@@ -1217,14 +1228,14 @@ export default {
                 compareToHalf = (compareToHalf >= 0) ? compareToHalf : compareToHalf * -1;
                 let compareToQuarter = input - .25;
                 compareToQuarter = (compareToQuarter >= 0) ? compareToQuarter : compareToQuarter * -1;
-                let compareToEigth = input - .125;
-                compareToEigth = (compareToEigth >= 0) ? compareToEigth : compareToEigth * -1;
+                let compareToEighth = input - .125;
+                compareToEighth = (compareToEighth >= 0) ? compareToEighth : compareToEighth * -1;
 
-                if(compareToHalf <= compareToQuarter && compareToHalf <= compareToEigth && compareToHalf <= input) {
+                if(compareToHalf <= compareToQuarter && compareToHalf <= compareToEighth && compareToHalf <= input) {
                     return "1/2";
-                } else if(compareToQuarter <= compareToHalf && compareToQuarter <= compareToEigth && compareToQuarter <= input) {
+                } else if(compareToQuarter <= compareToHalf && compareToQuarter <= compareToEighth && compareToQuarter <= input) {
                     return "1/4";
-                } else if(compareToEigth <= compareToEigth && compareToEigth <= compareToHalf && compareToEigth <= input) {
+                } else if(compareToEighth <= compareToEighth && compareToEighth <= compareToHalf && compareToEighth <= input) {
                     return "1/8";
                 } else {
                     return 0;
@@ -1234,9 +1245,30 @@ export default {
         },
 
         exportMonster: function() {
+            console.log('------Export Monster------');
             let cloneOptions = JSON.parse(JSON.stringify(this.value));
-            console.log('Export Monster');
+
+            console.log(this.$refs);
+            let exportFeatures = {};
+            for(let actionType in this.value.features) {
+                console.log(actionType);
+                console.log(this.$refs['features_'+actionType]);
+                if(this.$refs['features_'+actionType]) {
+                    exportFeatures[actionType] = [];
+                    for(let feature of this.$refs['features_'+actionType]) {
+                        exportFeatures[actionType].push(feature.exportFeature());
+                    }
+                    console.log(exportFeatures[actionType]);
+                }
+            }
+            //TODO replace features with export features
+            cloneOptions.features = exportFeatures;
+
             console.log(cloneOptions);
+            //TODO: remove damage projection on features for export!!!!
+            
+            navigator.clipboard.writeText(JSON.stringify(this.value));
+            alert('Copied statblock data of "'+this.value.name+'" to clipboard.');
         },
 
         getFeatureById: function(id, types = null) {
