@@ -29,10 +29,6 @@ return [
     'name_use_a_skill' => 'Use A Skill',
     'desc_use_a_skill' => 'The :creature_name makes a :ability (:skill) check.',
 
-    'name_legendary_resistance' => 'Legendary Resistance (:count/Day).',
-    'desc_legendary_resistance' => 'If the :creature_name fails a saving throw, it can choose to succeed instead.',
-
-
     'title_additional_description' => 'Additional Feature Text',
 
     //Multiattack

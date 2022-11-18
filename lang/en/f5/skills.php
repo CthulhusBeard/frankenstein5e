@@ -21,4 +21,5 @@ return [
     'survival' => 'Survival',
 
     'title_skills' => 'Skills',
+    'title_expertise' => 'Expertise',
 ];

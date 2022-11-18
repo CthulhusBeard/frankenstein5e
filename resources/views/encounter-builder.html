@@ -85,7 +85,8 @@
 
                         <Encountergraph 
                             :encounter-data="statblocks"
-                            :player-data="editor.playerData"
+                            :player-count="editor.playerData.number"
+                            :player-level="editor.playerData.level"
                             :combat-rounds="editor.roundTracker"
                             :f5="f5"
                             ref="encounterGraph"

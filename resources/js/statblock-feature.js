@@ -299,7 +299,7 @@ export default {
             let descText = '';
             let prefixText = '';
 
-            if(this.value.actionType === 'passive' && this.value.template !== 'custom' && this.value.template !== 'legendary_resistance') {
+            if(this.value.actionType === 'passive' && !this.f5.featuretemplates[this.value.template].no_trigger) {
                 prefixText += this.f5.durations[this.value.passiveTrigger]['desc'];
             }
 
@@ -332,9 +332,12 @@ export default {
             } else if(this.value.template == 'regenerate') {
                 //Regeneration Feature Description
                 descText += this.regenerateDescription;
-            }else if(this.value.template == 'legendary_resistance') {
+            } else if(this.value.template == 'legendary_resistance') {
                 //Legendary Resistance Feature Description
                 descText += this.legendaryResistanceDescription;
+            } else if(this.value.template == 'magic_resistance') {
+                //Magic Resistance Feature Description
+                descText += this.f5.featuretemplates.magic_resistance.desc;
             }
 
             //descText = descText+this.f5.misc.sentence_end;
@@ -649,8 +652,15 @@ export default {
                 for(let i = 0; i < this.value.regenerate.amount.length; i++) {
                     regenList.push(this.$parent.createDamageText(this.value.regenerate.amount[i]));
                 }
+                console.log('regenList');
+                console.log(regenList);
                 desc = desc.replace(':regenerate_hit_point_amount', this.$parent.createSentenceList(regenList));
             }
+            
+            if(this.value.additionalDescription) {
+                desc += ' '+this.value.additionalDescription;
+            }
+
             return desc;
         },
 
@@ -684,7 +694,7 @@ export default {
                 projection = this.createStandardProjection();
             }
 
-            this.$emit('update-projection', this.value.actionType, this.trackingId, projection);
+            this.$emit('update-projection', this.value.actionType, this.value.template, this.trackingId, projection);
 
             return projection;
         },
@@ -887,8 +897,8 @@ export default {
         },
 
         addRegenDie: function() {
-            let damageDie = this.createDamageDie(false, true); //false for each damage set after the first
-            this.value.regenerate.amount.push(damageDie);
+            let regenDie = this.createDamageDie(false, false); //false for each damage set after the first
+            this.value.regenerate.amount.push(regenDie);
         },
 
         removeRegenDie: function(i) {

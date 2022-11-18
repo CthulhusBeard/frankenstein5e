@@ -34,7 +34,7 @@ return [
     'title_export' => 'Export Monster',
     'title_import' => 'Import Monster',
     'title_import_from_clipboard' => 'Import Monster From Clipboard',
-    'title_use_automatic' => 'Determined by CR',
+    'title_use_automatic' => 'Determine Automatically',
     
     'title_new_statblock' => 'Create New Statblock',
     'title_clear_all' => 'Clear All Data',

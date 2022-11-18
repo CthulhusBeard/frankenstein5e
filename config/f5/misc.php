@@ -69,6 +69,7 @@ return [
     'please_select_one' => 'f5/misc.please_select_one',
     'choose_a' => 'f5/misc.choose_a',
     'choose_skill' => 'f5/misc.choose_skill',
+    'choose_expertise' => 'f5/misc.choose_expertise',
     'choose_abilities' => 'f5/misc.choose_abilities',
     'choose_conditions' => 'f5/misc.choose_conditions',
     
@@ -246,6 +247,7 @@ return [
     'alignments_typically' => 'f5/alignments.alignments_typically',
     'title_languages' => 'f5/languages.title_languages',
     'title_skills' => 'f5/skills.title_skills',
+    'title_expertise' => 'f5/skills.title_expertise',
     'title_senses' => 'f5/senses.title_senses',
     'title_speed' => 'f5/speeds.title_speed',
     'title_armor_class' => 'f5/armor.title_armor_class',

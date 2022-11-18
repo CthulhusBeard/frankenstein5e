@@ -220,7 +220,7 @@
                         <Multiselect class="edit-field edit-field--flex"
                             :placeholder="f5.misc.choose_skill"
                             v-model="value.skills" 
-                            :options="f5.skills" 
+                            :options="eligableSkills" 
                             mode="tags"
                             :close-on-select="false"
                             :searchable="true"
@@ -228,7 +228,7 @@
                         >
                                 <template v-slot:tag="{ option, handleTagRemove, disabled }">
                                     <div class="multiselect-tag">
-                                        {{ option.label.name }}
+                                        {{ option.label }}
                                         <span v-if="!disabled" class="multiselect-tag-remove" @mousedown.prevent="handleTagRemove(option, $event)">
                                             <span class="multiselect-tag-remove-icon"></span>
                                         </span>
@@ -236,7 +236,30 @@
                                 </template>
 
                                 <template v-slot:option="{ option }">
-                                    {{ option.label.name }}
+                                    {{ option.label }}
+                                </template>
+                        </Multiselect>
+                        <div class="title edit-field">+ {{f5.misc.title_expertise}}</div>
+                        <Multiselect class="edit-field edit-field--flex"
+                            :placeholder="f5.misc.choose_expertise"
+                            v-model="value.expertise" 
+                            :options="eligableSkills" 
+                            mode="tags"
+                            :close-on-select="false"
+                            :searchable="true"
+                            :create-option="true"
+                        >
+                                <template v-slot:tag="{ option, handleTagRemove, disabled }">
+                                    <div class="multiselect-tag">
+                                        {{ option.label }}
+                                        <span v-if="!disabled" class="multiselect-tag-remove" @mousedown.prevent="handleTagRemove(option, $event)">
+                                            <span class="multiselect-tag-remove-icon"></span>
+                                        </span>
+                                    </div>
+                                </template>
+
+                                <template v-slot:option="{ option }">
+                                    {{ option.label }}
                                 </template>
                         </Multiselect>
                     </div>
@@ -402,16 +425,20 @@
                         </select>
                     </div>
 
-                    <div class="stat-block__attribute no-edit">
+                    <div class="stat-block__attribute focus-edit">
                         <span class="title">{{f5.misc.title_challenge_rating}}:</span>
                         <span class="display-field">{{crText}}</span>
+                        <select class="edit-field edit-field--inlineBlock" name="options__challenge-rating" v-model="value.manualOverride.challengeRating">
+                            <option value="-1">{{f5.misc.title_use_automatic}}</option>
+                            <option v-for="i in f5.challengerating" :value="i.cr" >{{i.cr}}</option>
+                        </select>
                     </div>
 
                     <div class="stat-block__attribute focus-edit">
                         <span class="title">{{f5.misc.title_proficiency}}:</span>
                         <span class="display-field">{{proficiencyText}}</span>
-                        <select class="edit-field" name="options__proficiency" v-model="value.manualOverride.proficiency">
-                            <option value="0">{{f5.misc.title_use_automatic}}</option>
+                        <select class="edit-field edit-field--inlineBlock" name="options__proficiency" v-model="value.manualOverride.proficiency">
+                            <option value="-1">{{f5.misc.title_use_automatic}}</option>
                             <option v-for="i in 8" :value="i+1" >{{i+1}}</option>
                         </select>
                     </div>

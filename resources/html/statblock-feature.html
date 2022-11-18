@@ -9,7 +9,7 @@
 
     <div class="edit-feature edit-field">
         <label v-if="value.template === 'spellcasting'" class="title-label">{{f5.misc.title_spellcasting_feature_name}}:</label>
-        <label v-if="value.template === 'legendary_resistance'" class="title-label">{{f5.featuretemplates.legendary_resistance.name}}:</label>
+        <label v-else-if="value.template === 'legendary_resistance'" class="title-label">{{f5.featuretemplates.legendary_resistance.name}}:</label>
         <label v-else class="title-label">{{f5.misc.title_feature_name}}:</label>
         <input v-if="value.template !== 'legendary_resistance'" type="text" class="feature__title" v-model="value.name" />
         <!-- TODO: REMOVE THIS -->
@@ -456,7 +456,7 @@
         </div>
 
         <div class="feature__options feature__options-global">
-            <div class="feature__passiveTrigger" v-if="value.actionType === 'passive' && value.template !== 'custom' && value.template !== 'legendary_resistance'">
+            <div class="feature__passiveTrigger" v-if="value.actionType === 'passive' && !f5.featuretemplates[this.value.template].no_trigger">
                 <label class="title-label">{{ this.f5.misc.title_passive_trigger }}: </label>
                 <select v-model="value.passiveTrigger">
                     <option value="start_of_turn">{{this.f5.durations.start_of_turn.name}}</option>
@@ -464,7 +464,7 @@
                 </select>
             </div>
 
-            <div class="feature__regenerate" v-if="value.template !== 'custom' && value.template !== 'spellcasting' && value.template !== 'multiattack' && value.template !== 'reference' && value.template !== 'legendary_resistance'">
+            <div class="feature__regenerate" v-if="f5.featuretemplates[this.value.template].can_regenerate">
                 <label class="title-label">{{ f5.misc.title_regenerate }}:</label>
                 <select class="feature__regenerate__options" name="feature__regenerate__options" v-model="value.regenerate.type">
                     <option v-for="(type, i) in f5.regenerate" v-if="value.actionType !== 'passive' || !(i == 'damage_dealt' || i == 'half_damage_dealt')" :value="i" >{{type.name}}</option>
@@ -509,7 +509,7 @@
                 </div>
             </div>
             
-            <div class="feature__recharge" v-if="value.template !== 'spellcasting' && value.template !== 'multiattack' && value.template !== 'reference' && value.template !== 'legendary_resistance'">
+            <div class="feature__recharge" v-if="f5.featuretemplates[this.value.template].can_recharge">
                 <div>
                     <label class="title-label" for="feature__recharge">{{f5.misc.title_recharge}}:</label>
                     <select id="feature__recharge" name="feature__recharge" v-model="value.recharge.type">

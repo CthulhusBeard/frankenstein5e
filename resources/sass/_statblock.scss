@@ -51,7 +51,8 @@ i {
 
 .statblock__remove {
     @extend .x;
-    right: 10%;
+    right: 0%;
+    transform: translate(-50%, -50%);
     top: 20px;
 }
 
@@ -341,9 +342,9 @@ i {
             .edit-feature {
                 position: absolute;
                 left: 50%;
-                transform: translateX(-50%);
+                transform: translate(-50%, -50%);
                 top: 5%;
-                max-width: 450px;
+                max-width: 420px;
                 background-color: #f8f1ce;
                 z-index: 100;
                 box-shadow: 0px 0px 40px #000, 0px 0px 40px #000;
@@ -379,7 +380,9 @@ i {
     .focus-edit {
         .edit-field {
             display: none;
-            @extend .editable;
+            &.multiselect {
+                @extend .editable;
+            }
         }
     }
         

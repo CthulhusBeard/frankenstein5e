@@ -11,7 +11,6 @@ return [
     ],
     '0' => [
         'name' => 'f5/spells.cantrip',
-        'average_damage' => 3,
         'damage_single_target' => [
             'diceType' => 10,
             'diceAmount' => 1,
@@ -29,7 +28,6 @@ return [
     ],
     '1' => [
         'name' => 'f5/spells.level_one',
-        'average_damage' => 7,
         'damage_single_target' => [
             'diceType' => 10,
             'diceAmount' => 2,
@@ -41,7 +39,6 @@ return [
     ],
     '2' => [
         'name' => 'f5/spells.level_two',
-        'average_damage' => 9,
         'damage_single_target' => [
             'diceType' => 10,
             'diceAmount' => 3,
@@ -53,7 +50,6 @@ return [
     ],
     '3' => [
         'name' => 'f5/spells.level_three',
-        'average_damage' => 14,
         'damage_single_target' => [
             'diceType' => 10,
             'diceAmount' => 5,
@@ -65,7 +61,6 @@ return [
     ],
     '4' => [
         'name' => 'f5/spells.level_four',
-        'average_damage' => 18,
         'damage_single_target' => [
             'diceType' => 10,
             'diceAmount' => 6,
@@ -77,7 +72,6 @@ return [
     ],
     '5' => [
         'name' => 'f5/spells.level_five',
-        'average_damage' => 30,
         'damage_single_target' => [
             'diceType' => 10,
             'diceAmount' => 8,
@@ -89,7 +83,6 @@ return [
     ],
     '6' => [
         'name' => 'f5/spells.level_six',
-        'average_damage' => 35,
         'damage_single_target' => [
             'diceType' => 10,
             'diceAmount' => 10,
@@ -101,7 +94,6 @@ return [
     ],
     '7' => [
         'name' => 'f5/spells.level_seven',
-        'average_damage' => 40,
         'damage_single_target' => [
             'diceType' => 10,
             'diceAmount' => 11,
@@ -113,7 +105,6 @@ return [
     ],
     '8' => [
         'name' => 'f5/spells.level_eight',
-        'average_damage' => 45,
         'damage_single_target' => [
             'diceType' => 10,
             'diceAmount' => 12,
@@ -125,7 +116,6 @@ return [
     ],
     '9' => [
         'name' => 'f5/spells.level_nine',
-        'average_damage' => 90,
         'damage_single_target' => [
             'diceType' => 10,
             'diceAmount' => 15,

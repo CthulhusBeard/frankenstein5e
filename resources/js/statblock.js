@@ -56,13 +56,15 @@ export default {
                 damageVulnerabilites: [],
                 conditionImmunities: [],
                 skills: [],
+                expertise: [],
                 languages: this.createDefaultLanguages(),
                 speeds: this.createDefaultSpeeds(),
                 hover: false,
                 senses: this.createDefaultSenses(),
                 manualOverride: {
-                    proficiency: 0,
-                    casterLevel: 0,
+                    proficiency: -1,
+                    casterLevel: -1,
+                    challengeRating: -1,
                 },
                 targetCR: {
                     offensive: {
@@ -153,26 +155,36 @@ export default {
         },
 
         armorCr: function() {
-            let ac = this.getAC;
+            let crLow = 31;
+            let crHigh = 0;
+            let ac = this.getBestAC;
+
             if(!ac) {
                 return 'Unset';
             } else if(ac < this.f5.challengerating[0].ac) {
-                return '0';
-            } else if(ac > this.f5.challengerating[20].ac) {
+                crLow = 0;
+            } else if(ac > this.f5.challengerating[30].ac) {
                 return '> 30';
+            } else {
+                for(let i in this.f5.challengerating) {
+                    let cr = this.f5.challengerating[i];
+                    if(ac == cr.ac) {
+                        if(cr.cr > crHigh) {
+                            crHigh = cr.cr;
+                        }
+                        if(cr.cr < crLow) {
+                            crLow = cr.cr;
+                        }
+                    }
+                }
             }
-            let crLow = 31;
-            let crHigh = 0;
 
-            for(let i in this.f5.challengerating) {
-                let cr = this.f5.challengerating[i];
-                if(ac == cr.ac) {
-                    if(cr.cr > crHigh) {
-                        crHigh = cr.cr;
-                    }
-                    if(cr.cr < crLow) {
-                        crLow = cr.cr;
-                    }
+            //If it has magic resistance, increase AC CR by 2
+            for(let passiveFeature of this.value.features.passive) {
+                if(passiveFeature.template === 'magic_resistance') {
+                    crLow += 2;
+                    crHigh += 2;
+                    break;
                 }
             }
 
@@ -339,6 +351,21 @@ export default {
             return acValue;
         },
 
+        getBestAC: function() {
+            let acValue = this.getAC;
+            let bestAC = acValue;
+            if(this.value.armorClass.mageArmor) {
+                let mageArmorAc = 13 + this.getAbilityMod('dex');
+                if(this.value.armorClass.shield) {
+                    mageArmorAc += 2;
+                }
+                if(mageArmorAc > acValue) {
+                    bestAC = mageArmorAc;
+                }
+            }
+            return bestAC;
+        },
+
         acText: function() {
             let acText = '';
             let name = '';
@@ -453,6 +480,21 @@ export default {
                     list.push({ value: i, label: this.f5.damagetypes[i].name, disabled: true});
                 } else {
                     list.push({ value: i, label: this.f5.damagetypes[i].name});
+                }
+            }
+            return list;
+        },
+        
+        eligableSkills: function() {
+            let list = [];
+            for(let i in this.f5.skills) {
+                if(
+                    this.value.skills.includes(i) ||
+                    this.value.expertise.includes(i) 
+                ) {
+                    list.push({ value: i, label: this.f5.skills[i].name, disabled: true});
+                } else {
+                    list.push({ value: i, label: this.f5.skills[i].name});
                 }
             }
             return list;
@@ -604,17 +646,18 @@ export default {
             let displayText = '';
 
             for(let skill in this.f5.skills) {
-                if(!this.value.skills.includes(skill)) {
+                if(!this.value.skills.includes(skill) && !this.value.expertise.includes(skill)) {
                     continue;
                 }
-                if(this.calcSkillMod(skill) == 0) {
+                let skillMod = this.calcSkillMod(skill);
+                if(skillMod == 0) {
                     continue;
                 }
                 if(displayText !== '') {
                     displayText += ', ';
                 }
 
-                displayText += this.f5.skills[skill].name + ' '+this.addPlus(this.calcSkillMod(skill)); 
+                displayText += this.f5.skills[skill].name + ' '+this.addPlus(skillMod); 
             }
             return displayText;
         },
@@ -643,7 +686,8 @@ export default {
 
         //Challenge Rating
         crText: function() {
-            let averageCRKey = this.toCRFormat(this.averageCR);
+            let averageCR = (this.value.manualOverride.challengeRating >= 0) ? this.value.manualOverride.challengeRating : this.averageCR;
+            let averageCRKey = this.toCRFormat(averageCR);
             let crText = this.f5.misc.display_challenge_rating.replace(':cr', averageCRKey);
             let cr = this.f5.challengerating[averageCRKey];
             if(cr && cr.xp) {
@@ -688,8 +732,10 @@ export default {
         },
 
         casterLevel: function() {
-            let casterLevel = this.value.hitPoints.diceAmount;
-            return casterLevel;
+            if(this.value.manualOverride.casterLevel > 1) {
+                return this.value.manualOverride.casterLevel;
+            }
+            return this.value.hitPoints.diceAmount;
         },
 
         proficiency: function() {
@@ -919,6 +965,9 @@ export default {
             if(this.value.skills.includes(skill)) {
                 abilityMod += this.proficiency;
             }
+            if(this.value.expertise.includes(skill)) {
+                abilityMod += this.proficiency*2;
+            }
             return abilityMod;
         },
 
@@ -1036,12 +1085,12 @@ export default {
                     descText += ' '+this.addPlus(additionalDamage, true);
                 }
 
-                descText += ') ';
+                descText += ')';
             } else {
-                descText = damageObj.additional+' ';
+                descText = damageObj.additional;
             }
             if(damageObj.hasOwnProperty('type')) {
-                descText += this.f5.misc.damage.replace(':type', this.f5.damagetypes[damageObj.type].name.toLowerCase());
+                descText += ' '+this.f5.misc.damage.replace(':type', this.f5.damagetypes[damageObj.type].name.toLowerCase());
             }
             return descText;
         },
@@ -1306,13 +1355,14 @@ export default {
             }
         },
 
-        updateProjections: function(type, id, projection) {
+        updateProjections: function(type, template, id, projection) {
             let changesMade = false;
             for(let feature of this.value.features[type]) {
                 if(feature.trackingId == id && feature.damageProjection != projection) {
                     feature.damageProjection = projection;
                     feature.averageDPR = projection.damage; //TODO: Do we need these? probably not
-                    feature.maxDPR = projection.maxDamage;
+                    feature.maxDPR = projection.maxDamage;//TODO: Do we need these? probably not
+                    feature.template = template;
                     changesMade = true;
                 }
             }
@@ -1550,9 +1600,9 @@ export default {
                         this.incrementProjectionTurn(projection); //Increments cooldowns etc
                     }
 
-                    console.log('---start round '+roundNum);
-                    console.log(actionType);
-                    console.log(JSON.parse(JSON.stringify(projections[actionType])));
+                    // console.log('---start round '+roundNum);
+                    // console.log(actionType);
+                    // console.log(JSON.parse(JSON.stringify(projections[actionType])));
 
                     //Sort by most damage
                     projections[actionType].options = projections[actionType].options.sort(function (a, b) {

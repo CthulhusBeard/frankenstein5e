@@ -5,7 +5,8 @@ const template = require('../html/encounter-graph.html');
 export default {
     props: [
         'encounterData',
-        'playerData',
+        'playerCount',
+        'playerLevel',
         'combatRounds',
         'f5'
     ],
@@ -19,20 +20,18 @@ export default {
         }
     },
 
-    // watch: { //TODO: Remove this and update when a user switches to the graph tab
-    //     playerData: {
-    //         handler(val) {
-    //             this.updateGraph();
-    //         },
-    //         deep: true
-    //     },
-    //     encounterData: {
-    //         handler(val) {
-    //             this.updateGraph();
-    //         },
-    //         deep: true
-    //     },
-    // },
+    watch: { //TODO: Can this be removed??
+        playerCount: {
+            handler(val) {
+                this.updateGraph();
+            },
+        },
+        playerLevel: {
+            handler(val) {
+                this.updateGraph();
+            },
+        },
+    },
 
     created() {
         console.log('created graphInstance');
@@ -67,8 +66,8 @@ export default {
             let defaultPointStyle = 'circle';
             let deathPointStyle = 'crossRot';
 
-            let currentPlayerHPSingleTarget = this.f5.playerlevels[this.playerData.level].average_hp;
-            let currentPlayerHPSpreadDamage = this.f5.playerlevels[this.playerData.level].average_hp;
+            let currentPlayerHPSingleTarget = this.f5.playerlevels[this.playerLevel].average_hp;
+            let currentPlayerHPSpreadDamage = this.f5.playerlevels[this.playerLevel].average_hp;
             let cumulativeMonsterDamagePerRound = [];
 
             //Loop through turns
@@ -184,7 +183,7 @@ export default {
                 } else {
                     playerHPPointStylesSpreadDamage[roundIndex] = defaultPointStyle;
                 }
-                currentPlayerHPSpreadDamage = (currentPlayerHPSpreadDamage > cumulativeMonsterDamagePerRound[roundIndex] / this.playerData.number) ? currentPlayerHPSpreadDamage - (cumulativeMonsterDamagePerRound[roundIndex] / this.playerData.number) : 0;
+                currentPlayerHPSpreadDamage = (currentPlayerHPSpreadDamage > cumulativeMonsterDamagePerRound[roundIndex] / this.playerCount) ? currentPlayerHPSpreadDamage - (cumulativeMonsterDamagePerRound[roundIndex] / this.playerCount) : 0;
             }
 
             return {
@@ -334,8 +333,8 @@ export default {
         },
         
         playerAverageDamage: function () {
-            let levelData = this.f5.playerlevels[this.playerData.level];
-            let playerDamage = this.playerData.number * levelData.average_dpr;
+            let levelData = this.f5.playerlevels[this.playerLevel];
+            let playerDamage = this.playerCount * levelData.average_dpr;
             return playerDamage;; // * this.playerData.hit_chance; TODO: Add hit chance?? Maybe??
         },
         
@@ -354,7 +353,7 @@ export default {
         },
 
         calcHitChance: function(ac) {
-            let levelData = this.f5.playerlevels[this.playerData.level];
+            let levelData = this.f5.playerlevels[this.playerLevel];
             let toHitModifier = levelData.proficiency + levelData.average_modifier;
             let hitChance = ( 21 - ( ac - (toHitModifier) )) / 20;
             return hitChance;

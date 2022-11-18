@@ -4,6 +4,9 @@ return [
     /*'none' => [
         'name' => 'f5/alignments.none',
     ],*/
+    'any' => [
+        'name' => 'f5/alignments.any',
+    ],
     'lawful_good' => [
         'name' => 'f5/alignments.lawful_good',
     ],

@@ -54,6 +54,13 @@ return [
         'dealt' => false,
     ],
 
+    'spells' => [
+        'name' => 'f5/damagetypes.type_spells',
+        'long_name' => 'f5/damagetypes.type_spells_long',
+        'type' => 'magical',
+        'resist' => '1',
+    ],
+
     'fire' => [
         'name' => 'f5/damagetypes.type_fire',
         'type' => 'elemental',

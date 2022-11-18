@@ -16,6 +16,9 @@ return [
     'type_magical_piercing' => 'Magical Piercing',
     'type_magical_bludgeoning' => 'Magical Bludgeoning',
 
+    'type_spells'=> 'Spells',
+    'type_spells_long'=> 'Damage From Spells',
+
     'type_physical'=> 'Physical',
     'type_physical_long'=> 'Bludgeoning, Piercing, and Slashing',
     'type_physical_non_magical'=> 'Physical (non-magical)',

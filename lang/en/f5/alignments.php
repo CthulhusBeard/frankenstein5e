@@ -2,6 +2,7 @@
 
 return [
     'none' => 'None',
+    'any' => 'Any Alignment',
     'lawful_good' => 'Lawful Good',
     'lawful_neutral' => 'Lawful Neutral',
     'lawful_evil' => 'Lawful Evil',
