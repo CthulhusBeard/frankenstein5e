@@ -1,6 +1,7 @@
 //TODO: 
 
 HIGH PRIORITY
+- [ ] Figure out why spells are breaking after you add 12 of them
 - [ ] Design UI
 - [ ] Tips and suggestions
 - [ ] Consider displaying assumed average target count for AOE attacks (to make better sense of DPR). Consider having "single target DPR" vs "total DPR"

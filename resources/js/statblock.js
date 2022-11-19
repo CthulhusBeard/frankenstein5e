@@ -222,17 +222,25 @@ export default {
                 average = average + 2;
             }
 
-            //Get XP for emit
-            let xp = 0;
-            let averageCRKey = this.toCRFormat(average);
-            let cr = this.f5.challengerating[averageCRKey];
-            if(cr && cr.xp) {
-                xp = cr.xp;
+            return average;
+        },
+
+        displayCR: function() {
+            let cr = this.averageCR
+            if(this.value.manualOverride.challengeRating >= 0) {
+                cr = this.value.manualOverride.challengeRating;
             }
 
-            this.$emit('update-cr', this.trackingId, averageCRKey, xp);
+            //Get XP for emit
+            let xp = 0;
+            let crData = this.f5.challengerating[cr];
+            if(crData && crData.xp) {
+                xp = crData.xp;
+            }
 
-            return average;
+            this.$emit('update-cr', this.trackingId, cr, xp);
+
+            return cr;
         },
 
         //Description Text
@@ -686,7 +694,7 @@ export default {
 
         //Challenge Rating
         crText: function() {
-            let averageCR = (this.value.manualOverride.challengeRating >= 0) ? this.value.manualOverride.challengeRating : this.averageCR;
+            let averageCR = this.displayCR;
             let averageCRKey = this.toCRFormat(averageCR);
             let crText = this.f5.misc.display_challenge_rating.replace(':cr', averageCRKey);
             let cr = this.f5.challengerating[averageCRKey];
@@ -740,12 +748,18 @@ export default {
 
         proficiency: function() {
             let proficiency = 2; //Default
+            console.log('proficiency');
 
             if(this.value.manualOverride.proficiency > 1) {
                 return this.value.manualOverride.proficiency;
             }
 
-            let cr = this.f5.challengerating[this.toCRFormat(this.averageCR)];
+            let cr = this.f5.challengerating[this.toCRFormat(this.displayCR)];
+            console.log('this.averageCR');
+            console.log(this.displayCR);
+            console.log(this.toCRFormat(this.displayCR));
+            console.log('cr ');
+            console.log(cr);
             if(cr && cr.prof > 0) {
                 proficiency = cr.prof;
             }
@@ -1977,7 +1991,7 @@ export default {
             return str;
         },
 
-        findFeatureById(id, group = null) {
+        findFeatureById: function(id, group = null) {
             if(group) {
                 for(let feature of this.value.features[group]) {
                     if(feature.trackingId === id) {

@@ -30,7 +30,6 @@ return [
     ],
     'spellcasting' => [
         'name' => 'f5/featuretemplates.spellcasting',
-        'can_recharge' => true,
         'action_options' => [
             'spellcasting',
         ],
