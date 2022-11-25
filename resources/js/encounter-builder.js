@@ -46,7 +46,15 @@ export function initVue(f5data) {
         },
 
         computed: {
-
+            sortedCRList: function () {
+                let crArray = [];
+                for(let i in this.f5.challengerating) {
+                    crArray.push(this.f5.challengerating[i]);
+                }
+                return crArray.sort(function(a, b) {
+                    return a.cr - b.cr;
+                });
+            },
         },
 
         methods: {
@@ -140,9 +148,6 @@ export function initVue(f5data) {
                         statblock.name = name;
                     }
                 }
-                console.log('updateMonsterName');
-                console.log('this.statblocks');
-                console.log(this.statblocks);
             },
 
             updateMonsterHP: function(id, hp) {

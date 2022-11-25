@@ -693,8 +693,19 @@ export default {
         },
 
         //Challenge Rating
-        crText: function() {
+        crDisplayText: function() {
             let averageCR = this.displayCR;
+            let averageCRKey = this.toCRFormat(averageCR);
+            let crText = this.f5.misc.display_challenge_rating.replace(':cr', averageCRKey);
+            let cr = this.f5.challengerating[averageCRKey];
+            if(cr && cr.xp) {
+                crText += ' '+this.f5.misc.display_challenge_rating_xp.replace(':xp', cr.xp);
+            }
+            return crText;
+        },
+
+        calculatedCrText: function() {
+            let averageCR = this.averageCR;
             let averageCRKey = this.toCRFormat(averageCR);
             let crText = this.f5.misc.display_challenge_rating.replace(':cr', averageCRKey);
             let cr = this.f5.challengerating[averageCRKey];
@@ -748,18 +759,12 @@ export default {
 
         proficiency: function() {
             let proficiency = 2; //Default
-            console.log('proficiency');
 
             if(this.value.manualOverride.proficiency > 1) {
                 return this.value.manualOverride.proficiency;
             }
 
             let cr = this.f5.challengerating[this.toCRFormat(this.displayCR)];
-            console.log('this.averageCR');
-            console.log(this.displayCR);
-            console.log(this.toCRFormat(this.displayCR));
-            console.log('cr ');
-            console.log(cr);
             if(cr && cr.prof > 0) {
                 proficiency = cr.prof;
             }
@@ -1737,8 +1742,8 @@ export default {
                 }
             }
             
-            console.log('totals');
-            console.log(totals);
+            //console.log('totals');
+            //console.log(totals);
             // console.groupEnd();
 
             return totals;
@@ -1963,6 +1968,10 @@ export default {
 
         keyWordReplace: function(str) {
             let creatureName = this.value.name.toLowerCase();
+            if(this.value.shortName) {
+                creatureName = this.value.shortName.toLowerCase();
+            } 
+
             if(this.value.isNameProperNoun) {
                 str = str.replace(/the :creature_name/ig, this.capitalize(creatureName));
                 str = str.replaceAll(':creature_name', this.capitalize(creatureName));

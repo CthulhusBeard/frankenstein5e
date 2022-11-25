@@ -1,14 +1,14 @@
 <div class="statblock-section">
 
     <div class="statblock-data">
-        <div class="builder-controls popup-overlay">
+        <div class="statblock-data-display popup-overlay">
             
             <strong>{{f5.misc.title_cr_manager}}</strong>
             <div>
                 {{f5.misc.title_offensive_cr}}: {{damageCr}}<br/>
                 {{f5.misc.title_hp_cr}}: {{healthCr}}<br/>
                 {{f5.misc.title_ac_cr}}: {{armorCr}}<br/>
-                {{f5.misc.title_challenge_rating}}: {{crText}}<br/>
+                <strong>{{f5.misc.title_calculated_challenge_rating}}:</strong><br/>{{calculatedCrText}}<br/>
             </div>
             </br>
             <strong>{{f5.misc.title_dpr}}</strong>
@@ -48,7 +48,7 @@
             -->
         </div>
 
-        <div class="builder-controls popup-overlay">
+        <div class="statblock-data-display popup-overlay">
             <strong>{{f5.misc.title_controls}}</strong>
             <div class="slide-button" :class="{ selected : editMode }" @click="editMode = !editMode">
                 <label>{{f5.misc.title_edit_mode}}</label>
@@ -71,8 +71,9 @@
         <div class="stat-block" :class="[{'edit-mode': editMode}, statblockColumns]">
             <div class="stat-block__section">
                 <div class="stat-block__title focus-edit">
-                    <span class="display-field">{{displayName}}</span>
-                    <input type="text" class="edit-field" v-model="value.name" />
+                    <span class="display-field monster-name">{{displayName}}</span>
+                    <input type="text" class="edit-field monster-name" v-model="value.name" />
+                    <span class="edit-field" >{{ f5.misc.title_short_name }}: </span><input type="text" class="edit-field" v-model="value.shortName" />
                     <label for="is_proper_noun" class="edit-field edit-field--inlineBlock proper-noun">{{ f5.misc.title_proper_noun }}</label>
                     <input id="is_proper_noun" type="checkbox" class="edit-field edit-field--inlineBlock" v-model="value.isNameProperNoun" />
                 </div>
@@ -419,10 +420,10 @@
 
                     <div class="stat-block__attribute focus-edit">
                         <span class="title">{{f5.misc.title_challenge_rating}}:</span>
-                        <span class="display-field">{{crText}}</span>
+                        <span class="display-field">{{crDisplayText}}</span>
                         <select class="edit-field edit-field--inlineBlock" name="options__challenge-rating" v-model="value.manualOverride.challengeRating">
                             <option value="-1">{{f5.misc.title_use_automatic}}</option>
-                            <option v-for="i in f5.challengerating" :value="i.cr" >{{i.cr}}</option>
+                            <option v-for="(crData, key) in $parent.sortedCRList" :value="crData.cr" >{{crData.cr_text}}</option>
                         </select>
                     </div>
 

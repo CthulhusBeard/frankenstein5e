@@ -22,6 +22,7 @@
                     Create your monsters! Balance your encounters! <s>Kill your players!</s> 
                 </div>
 
+                <!-- Side Nav -->
                 <div id="side-nav">
                     <div class="nav-option nav-statblocks" @click="editor.activeSection = 'statblock-display'">
                         <div></div>
@@ -33,7 +34,60 @@
                     </div>
                 </div>
 
+                <!-- Main Content -->
                 <div class="main-content full-height">
+                    
+
+                    <!-- Monster Builder -->
+                    <div class="display-section statblock-display" :class="{'active-display': (editor.activeSection == 'statblock-display')}">
+                    
+                        <div class="builder-controls popup-overlay grid-3-cols">
+                            <div>
+                                <div class="control-title">Statblock Controls</div>
+                                <div>
+                                    <button @click="createStatBlock()">{{f5.misc.title_new_statblock}}</button>
+                                </div>
+                                <div>
+                                    <button @click="clearAllData()">{{f5.misc.title_clear_all}}</button>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="control-title">Importer</div>
+                                <div>
+                                    <select v-model="editor.importMonster">
+                                        <option v-for="(monster, i) in sampleMonsters" :value="i">{{monster.name}}</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <button @click="importMonster(sampleMonsters[editor.importMonster])">{{f5.misc.title_import}}</button>
+                                </div>
+                                <div>
+                                    <button @click="importMonsterFromClipboard()">{{f5.misc.title_import_from_clipboard}}</button>
+                                </div>
+                            </div>
+                        </div>    
+
+                        <div class="statblock-group">
+                            <Statblock 
+                                v-for="statblock in statblocks"
+                                v-bind:key="statblock.trackingId"
+                                :initial-statblock="statblock"
+                                :f5="f5"
+                                :player-data="editor.playerData"
+                                :combat-rounds="editor.roundTracker"
+                                :measure="editor.measure"
+                                @remove-statblock="removeStatBlock"
+                                @update-name="updateMonsterName"
+                                @update-hp="updateMonsterHP"
+                                @update-cr="updateMonsterCR"
+                                @update-projections="updateMonsterProjections"
+                                ref="statblocks"
+                            >
+                            </Statblock>
+                        </div>
+                    </div>
+
+                    <!-- Encounter Analysis -->
                     <div class="display-section encounter-display" :class="{'active-display': (editor.activeSection == 'encounter-display')}">
                         <div class="controls-holder">
 
@@ -92,53 +146,6 @@
                             ref="encounterGraph"
                         >
                         </Encountergraph>
-                    </div>
-
-                    <!-- -->
-
-                    <div class="display-section statblock-display" :class="{'active-display': (editor.activeSection == 'statblock-display')}">
-                    
-                        <div class="builder-controls popup-overlay">
-                            <div class="control-title">Importer</div>
-                            <div>
-                                <select v-model="editor.importMonster">
-                                    <option v-for="(monster, i) in sampleMonsters" :value="i">{{monster.name}}</option>
-                                </select>
-                            </div>
-                            <div>
-                                <button @click="importMonster(sampleMonsters[editor.importMonster])">{{f5.misc.title_import}}</button>
-                            </div>
-                            <div>
-                                <button @click="importMonsterFromClipboard()">{{f5.misc.title_import_from_clipboard}}</button>
-                            </div>
-                            <div>
-                                <br/>
-                                <button @click="createStatBlock()">{{f5.misc.title_new_statblock}}</button>
-                            </div>
-                            <div>
-                                <br/>
-                                <button @click="clearAllData()">{{f5.misc.title_clear_all}}</button>
-                            </div>
-                        </div>    
-
-                        <div class="statblock-group">
-                            <Statblock 
-                                v-for="statblock in statblocks"
-                                v-bind:key="statblock.trackingId"
-                                :initial-statblock="statblock"
-                                :f5="f5"
-                                :player-data="editor.playerData"
-                                :combat-rounds="editor.roundTracker"
-                                :measure="editor.measure"
-                                @remove-statblock="removeStatBlock"
-                                @update-name="updateMonsterName"
-                                @update-hp="updateMonsterHP"
-                                @update-cr="updateMonsterCR"
-                                @update-projections="updateMonsterProjections"
-                                ref="statblocks"
-                            >
-                            </Statblock>
-                        </div>
                     </div>
 
                     <footer>Frankenstein 5E is unofficial Fan Content permitted under the Fan Content Policy. Not approved/endorsed by Wizards. Portions of the materials used are property of Wizards of the Coast. ©Wizards of the Coast LLC.</footer>

@@ -129,9 +129,12 @@ i {
     }
 
     .stat-block__title {
-        font-weight: bold;
-        font-size: 2em;
         margin-bottom: -3px;
+
+        .monster-name {
+            font-weight: bold;
+            font-size: 2em;
+        }
         
         input {
             font-weight: bold;
@@ -140,7 +143,6 @@ i {
         }
         label.proper-noun {
             font-weight: normal;
-            font-size: .5em;
             color: black;
             border: none;
             background-color: unset;
@@ -343,7 +345,7 @@ i {
                 position: absolute;
                 left: 50%;
                 transform: translate(-50%, -50%);
-                top: 5%;
+                top: 50%;
                 max-width: 420px;
                 background-color: #f8f1ce;
                 z-index: 100;

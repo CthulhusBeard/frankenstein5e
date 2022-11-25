@@ -12,6 +12,7 @@ return [
     
     'title_controls' => 'Controls',
     'title_challenge_rating' => 'CR',
+    'title_calculated_challenge_rating' => 'Calculated Average CR',
     'title_cr' => 'CR',
     'title_cr_manager' => 'Challenge Rating Manager',
     'title_offensive_cr' => 'Offensive CR',

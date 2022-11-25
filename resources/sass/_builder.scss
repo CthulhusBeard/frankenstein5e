@@ -57,10 +57,22 @@
     grid-row: span 2;
 }
 
-.builder-controls {
+.grid-3-cols {
+    display: grid;
+    grid-template-columns: repeat(3, 33%);
+}
+
+.statblock-data-display {
     padding: 10px;
     border: 1px black solid;
     width: 200px;
+    border-radius: 5px;
+}
+
+.builder-controls {
+    padding: 10px;
+    border: 1px black solid;
+    width: 500px;
     border-radius: 5px;
 }
 

@@ -16,7 +16,7 @@ export default {
     data: function () {
         return {
             graphInstance: null,
-            refreshToggle: true, //TODO Make this not necessary
+            formattedData: this.getFormattedData(),
         }
     },
 
@@ -34,11 +34,11 @@ export default {
     },
 
     created() {
-        console.log('created graphInstance');
+        //console.log('created graphInstance');
     },
 
     mounted() {
-        console.log('mounted graphInstance');
+        //console.log('mounted graphInstance');
         this.buildGraph();
     },
 
@@ -48,9 +48,121 @@ export default {
 
     computed: {
 
-        formattedData: function () {
-            console.log('----start formattedData----');
-            console.log(this.refreshToggle); //this is actually needed. TODO: Make it not needed
+        
+
+    },
+
+    methods: {
+        buildGraph: function () {
+            const canvasId = 'encounter-graph';
+            let graphInstance = Chart.getChart(canvasId);
+            if (graphInstance) {
+                //console.log('buildGraph(): exists');
+                this.graphInstance = graphInstance;
+                this.updateGraph();
+            } else {
+                //console.log('buildGraph(): instantiate');
+                const ctx = document.getElementById(canvasId);
+                this.graphInstance = new Chart(ctx, this.graphProperties());
+                this.graphInstance.options.plugins.title.text = this.f5.misc.title_combat_projection;
+            }
+        },
+
+        destroyGraph: function () {
+            this.graphInstance.destroy();
+        },
+
+        updateGraph: function () {
+            //console.log('updateGraph()');
+            //console.log(this.encounterData);
+            this.formattedData = this.getFormattedData();
+            if (!this.graphInstance) {
+                this.buildGraph();
+            }
+            this.graphInstance.data = this.graphData();
+            this.graphInstance.update();
+        },
+
+        graphData: function () {
+            let formattedData = this.formattedData;
+
+            //console.log('formattedData');
+            //console.log(formattedData);
+
+            let colorSet1 = this.randomColourSet('blue');
+            let colorSet2 = this.randomColourSet('green');
+
+            let data = {
+                labels: formattedData.labelsList,
+                datasets: [
+                    {
+                        label: this.f5.misc.graph_data_player_hp,
+                        data: formattedData.playerHPSingleTargetData,
+                        backgroundColor: colorSet1.half,
+                        borderColor: colorSet1.full,
+                        borderWidth: 3,
+                        pointStyle: formattedData.playerHPPointStylesSingleTarget,
+                        pointRadius: 5,
+                        pointHoverRadius: 10
+                    },
+                    {
+                        label: this.f5.misc.graph_data_player_hp_spread,
+                        data: formattedData.playerHPSpreadDamageData,
+                        backgroundColor: colorSet2.half,
+                        borderColor: colorSet2.full,
+                        borderWidth: 3,
+                        pointStyle: formattedData.playerHPPointStylesSpreadDamage,
+                        pointRadius: 5,
+                        pointHoverRadius: 10
+                    }
+                ]
+            };
+
+            for(let monster of formattedData.monsterData) {
+                //console.log('monster');
+                //console.log(monster);
+                let colorSet3 = this.randomColourSet('red');
+
+                // data.datasets.push({
+                //     label: this.f5.misc.graph_data_monster_damage.replace(':creature_name', monster.name),
+                //     data: monster.damageData,
+                //     backgroundColor: colorSet1.half,
+                //     borderColor: colorSet1.full,
+                //     borderWidth: 3,
+                //     pointStyle: monster.defaultPointStyle,
+                //     pointRadius: 5,
+                //     pointHoverRadius: 10
+                // });
+                // data.datasets.push({
+                //     label: this.f5.misc.graph_data_monster_max_damage.replace(':creature_name', monster.name),
+                //     data: monster.maxDamageData,
+                //     backgroundColor: colorSet2.half,
+                //     borderColor: colorSet2.full,
+                //     borderWidth: 3,
+                //     pointStyle: monster.defaultPointStyle,
+                //     pointRadius: 5,
+                //     pointHoverRadius: 10
+                // });
+                data.datasets.push({
+                    label: this.f5.misc.graph_data_monster_hp.replace(':creature_name', monster.name),
+                    data: monster.hpData,
+                    backgroundColor: colorSet3.half,
+                    borderColor: colorSet3.full,
+                    borderWidth: 3,
+                    pointStyle: monster.hpPointStyles,
+                    pointRadius: 5,
+                    pointHoverRadius: 10
+                });
+            }
+
+            //console.log('graphData');
+            //console.log(data);
+
+            return data;
+        },
+
+        getFormattedData: function () {
+            //console.log('----start formattedData----');
 
             let projectedPCDeathSingleTarget = -1;
             let projectedPCDeathSpreadDamage = -1;
@@ -197,117 +309,6 @@ export default {
                 projectedPCDeathSingleTarget: projectedPCDeathSingleTarget,
                 projectedPCDeathSpreadDamage: projectedPCDeathSpreadDamage,
             }
-        },
-
-    },
-
-    methods: {
-        buildGraph: function () {
-            const canvasId = 'encounter-graph';
-            let graphInstance = Chart.getChart(canvasId);
-            if (graphInstance) {
-                console.log('buildGraph(): exists');
-                this.graphInstance = graphInstance;
-                this.updateGraph();
-            } else {
-                console.log('buildGraph(): instantiate');
-                const ctx = document.getElementById(canvasId);
-                this.graphInstance = new Chart(ctx, this.graphProperties());
-                this.graphInstance.options.plugins.title.text = this.f5.misc.title_combat_projection;
-            }
-        },
-
-        destroyGraph: function () {
-            this.graphInstance.destroy();
-        },
-
-        updateGraph: function () {
-            console.log('updateGraph()');
-            console.log(this.encounterData);
-            this.refreshToggle = !this.refreshToggle;
-            if (!this.graphInstance) {
-                this.buildGraph();
-            }
-            this.graphInstance.data = this.graphData();
-            this.graphInstance.update();
-        },
-
-        graphData: function () {
-            let formattedData = this.formattedData;
-
-            console.log('formattedData');
-            console.log(formattedData);
-
-            let colorSet1 = this.randomColourSet('blue');
-            let colorSet2 = this.randomColourSet('green');
-
-            let data = {
-                labels: formattedData.labelsList,
-                datasets: [
-                    {
-                        label: this.f5.misc.graph_data_player_hp,
-                        data: formattedData.playerHPSingleTargetData,
-                        backgroundColor: colorSet1.half,
-                        borderColor: colorSet1.full,
-                        borderWidth: 3,
-                        pointStyle: formattedData.playerHPPointStylesSingleTarget,
-                        pointRadius: 5,
-                        pointHoverRadius: 10
-                    },
-                    {
-                        label: this.f5.misc.graph_data_player_hp_spread,
-                        data: formattedData.playerHPSpreadDamageData,
-                        backgroundColor: colorSet2.half,
-                        borderColor: colorSet2.full,
-                        borderWidth: 3,
-                        pointStyle: formattedData.playerHPPointStylesSpreadDamage,
-                        pointRadius: 5,
-                        pointHoverRadius: 10
-                    }
-                ]
-            };
-
-            for(let monster of formattedData.monsterData) {
-                console.log('monster');
-                console.log(monster);
-                let colorSet3 = this.randomColourSet('red');
-
-                // data.datasets.push({
-                //     label: this.f5.misc.graph_data_monster_damage.replace(':creature_name', monster.name),
-                //     data: monster.damageData,
-                //     backgroundColor: colorSet1.half,
-                //     borderColor: colorSet1.full,
-                //     borderWidth: 3,
-                //     pointStyle: monster.defaultPointStyle,
-                //     pointRadius: 5,
-                //     pointHoverRadius: 10
-                // });
-                // data.datasets.push({
-                //     label: this.f5.misc.graph_data_monster_max_damage.replace(':creature_name', monster.name),
-                //     data: monster.maxDamageData,
-                //     backgroundColor: colorSet2.half,
-                //     borderColor: colorSet2.full,
-                //     borderWidth: 3,
-                //     pointStyle: monster.defaultPointStyle,
-                //     pointRadius: 5,
-                //     pointHoverRadius: 10
-                // });
-                data.datasets.push({
-                    label: this.f5.misc.graph_data_monster_hp.replace(':creature_name', monster.name),
-                    data: monster.hpData,
-                    backgroundColor: colorSet3.half,
-                    borderColor: colorSet3.full,
-                    borderWidth: 3,
-                    pointStyle: monster.hpPointStyles,
-                    pointRadius: 5,
-                    pointHoverRadius: 10
-                });
-            }
-
-            console.log('graphData');
-            console.log(data);
-
-            return data;
         },
 
         graphProperties: function () {

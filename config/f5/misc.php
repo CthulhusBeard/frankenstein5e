@@ -80,7 +80,6 @@ return [
     'hit_dice_type' => 'f5/misc.hit_dice_type',
 
     'title_hit_points' => 'f5/misc.title_hit_points',
-    'title_challenge_rating' => 'f5/misc.title_challenge_rating',
     'title_hit_dice' => 'f5/misc.title_hit_dice',
 
     'title_magical_bonus' => 'f5/misc.title_magical_bonus',
@@ -233,6 +232,7 @@ return [
 
     //Titles
     'title_proper_noun' => 'f5/misc.title_proper_noun',
+    'title_short_name' => 'f5/misc.title_short_name',
     'title_size' => 'f5/sizes.title_size',
     'title_type' => 'f5/types.title_type',
     'title_subtype' => 'f5/subtypes.title_subtype',
@@ -256,7 +256,6 @@ return [
     'title_mage_armor' => 'f5/armor.title_mage_armor',
     'title_abilities' => 'f5/abilities.title_abilities',
     'title_ability' => 'f5/abilities.title_ability',
-    'title_challenge_rating' => 'f5/misc.title_challenge_rating',
     'title_hit_points' => 'f5/misc.title_hit_points',
     'title_hit_dice' => 'f5/misc.title_hit_dice',
     'title_passive_trigger' => 'f5/misc.title_passive_trigger',
@@ -275,6 +274,7 @@ return [
 
     'title_controls' => 'f5/builder.title_controls',
     'title_challenge_rating' => 'f5/builder.title_challenge_rating',
+    'title_calculated_challenge_rating' => 'f5/builder.title_calculated_challenge_rating',
     'title_cr' => 'f5/builder.title_cr',
     'title_cr_manager' => 'f5/builder.title_cr_manager',
     'title_offensive_cr' => 'f5/builder.title_offensive_cr',
