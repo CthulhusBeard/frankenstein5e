@@ -2240,6 +2240,7 @@ export default {
             if(this.value.features.legendary_action.length) {
                 exportString += "### Legendary Actions"+"\n";
                 exportString += this.legendaryActionText+"\n";
+                exportString += ":"+"\n";
 
                 for(let legendary_action of this.value.features.legendary_action) {
                     exportString += "***"+legendary_action.displayName+"*** "+legendary_action.desc+"\n";
@@ -2250,6 +2251,7 @@ export default {
             if(this.value.features.mythic_action.length) {
                 exportString += "### Mythic Actions"+"\n";
                 exportString += this.mythicActionText+"\n";
+                exportString += ":"+"\n";
 
                 for(let mythic_action of this.value.features.mythic_action) {
                     exportString += "***"+mythic_action.displayName+"*** "+mythic_action.desc+"\n";
@@ -2260,6 +2262,7 @@ export default {
             if(this.value.features.lair_action.length) {
                 exportString += "### Lair Actions"+"\n";
                 exportString += this.lairActionText+"\n";
+                exportString += ":"+"\n";
 
                 for(let lair_action of this.value.features.lair_action) {
                     exportString += "***"+lair_action.displayName+"*** "+lair_action.desc+"\n";
