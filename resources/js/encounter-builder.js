@@ -116,7 +116,17 @@ export function initVue(f5data) {
 
             importMonsterFromClipboard: async function() {
                 let monster = await navigator.clipboard.readText();
-                this.importMonster(JSON.parse(monster));
+
+                try {
+                    let parsed = JSON.parse(monster);
+
+                    //TODO: Add better import validation
+                    this.importMonster(parsed);
+
+                } catch(e) {
+                    alert('Your clipboard does not contain a valid Frankenstein 5E monster.'); // error in the above string (in this case, yes)!
+                }
+
             },
 
             createStatBlock: function() {

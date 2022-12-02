@@ -2156,24 +2156,24 @@ export default {
             if(this.value.display.columns > 1) exportString += ",wide";
             exportString += "\n";
             exportString += "## "+this.displayName+"\n";
-            exportString += "*"+this.descriptionText+"*"+"\n";
-            exportString += "___"+"\n";
+            exportString += "*"+this.descriptionText+"*\n";
+            exportString += "___\n";
             
             exportString += "**Armor Class** :: "+this.acText+"\n";
             exportString += "**Hit Points**  :: "+this.hitPointsText+"\n";
             exportString += "**Speed**       :: "+this.speedText+"\n";
-            exportString += "___"+"\n";
+            exportString += "___\n";
             
-            exportString += "|  STR  |  DEX  |  CON  |  INT  |  WIS  |  CHA  |"+"\n";
-            exportString += "|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|"+"\n";
-            exportString += "|"+"\n";
+            exportString += "|  STR  |  DEX  |  CON  |  INT  |  WIS  |  CHA  |\n";
+            exportString += "|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|\n";
+            exportString += "|\n";
             exportString += this.value.abilities['str']+" ("+this.addPlus(this.calcAbilityMod(this.value.abilities['str']))+")|";
             exportString += this.value.abilities['dex']+" ("+this.addPlus(this.calcAbilityMod(this.value.abilities['dex']))+")|";
             exportString += this.value.abilities['con']+" ("+this.addPlus(this.calcAbilityMod(this.value.abilities['con']))+")|";
             exportString += this.value.abilities['int']+" ("+this.addPlus(this.calcAbilityMod(this.value.abilities['int']))+")|";
             exportString += this.value.abilities['wis']+" ("+this.addPlus(this.calcAbilityMod(this.value.abilities['wis']))+")|";
             exportString += this.value.abilities['cha']+" ("+this.addPlus(this.calcAbilityMod(this.value.abilities['cha']))+")|";
-            exportString += "___"+"\n";
+            exportString += "\n___\n";
             
             if(this.skillText) exportString += "**Skills** :: "+this.skillText+"\n";
             if(this.damageResistanceText) exportString += "**Condition Resistances** :: "+this.damageResistanceText+"\n";
@@ -2183,7 +2183,7 @@ export default {
             if(this.languageText) exportString += "**Languages**            :: "+this.languageText+"\n";
             exportString += "**Challenge**            :: "+this.crDisplayText+"\n";
             exportString += "**Proficiency**            :: "+this.proficiencyText+"\n";
-            exportString += "___"+"\n";
+            exportString += "___\n";
             
 
             //Start features
@@ -2193,80 +2193,80 @@ export default {
 
             for(let passive of this.value.features.passive) {
                 exportString += "***"+passive.displayName+"*** "+passive.desc+"\n";
-                exportString += ":"+"\n";    
+                exportString += ":\n";    
             }
 
             if(this.value.features.spellcasting.length) {
-                exportString += "### Spellcasting"+"\n";
+                exportString += "### Spellcasting\n";
 
                 for(let spellcasting of this.value.features.spellcasting) {
                     exportString += "***"+spellcasting.displayName+"*** "+spellcasting.desc+"\n";
-                    exportString += ":"+"\n";    
+                    exportString += ":\n";    
                 }
             }
             
             if(this.value.features.action.length || this.value.features.multiattack.length) {
-                exportString += "### Actions"+"\n";
+                exportString += "### Actions\n";
 
                 for(let multiattack of this.value.features.multiattack) {
                     exportString += "***"+multiattack.displayName+"*** "+multiattack.desc+"\n";
-                    exportString += ":"+"\n";    
+                    exportString += ":\n";    
                 }
                 for(let action of this.value.features.action) {
                     exportString += "***"+action.displayName+"*** "+action.desc+"\n";
-                    exportString += ":"+"\n";    
+                    exportString += ":\n";    
                 }
             }
 
 
             if(this.value.features.bonus_action.length) {
-                exportString += "### Bonus Actions"+"\n";
+                exportString += "### Bonus Actions\n";
 
                 for(let bonus_action of this.value.features.bonus_action) {
                     exportString += "***"+bonus_action.displayName+"*** "+bonus_action.desc+"\n";
-                    exportString += ":"+"\n";    
+                    exportString += ":\n";    
                 }
             }
 
             if(this.value.features.reaction.length) {
-                exportString += "### Reactions"+"\n";
+                exportString += "### Reactions\n";
 
                 for(let reaction of this.value.features.reaction) {
                     exportString += "***"+reaction.displayName+"*** "+reaction.desc+"\n";
-                    exportString += ":"+"\n";    
+                    exportString += ":\n";    
                 }
             }
 
             if(this.value.features.legendary_action.length) {
-                exportString += "### Legendary Actions"+"\n";
+                exportString += "### Legendary Actions\n";
                 exportString += this.legendaryActionText+"\n";
-                exportString += ":"+"\n";
+                exportString += ":\n";
 
                 for(let legendary_action of this.value.features.legendary_action) {
                     exportString += "***"+legendary_action.displayName+"*** "+legendary_action.desc+"\n";
-                    exportString += ":"+"\n";    
+                    exportString += ":\n";    
                 }
             }
 
             if(this.value.features.mythic_action.length) {
-                exportString += "### Mythic Actions"+"\n";
+                exportString += "### Mythic Actions\n";
                 exportString += this.mythicActionText+"\n";
-                exportString += ":"+"\n";
+                exportString += ":\n";
 
                 for(let mythic_action of this.value.features.mythic_action) {
                     exportString += "***"+mythic_action.displayName+"*** "+mythic_action.desc+"\n";
-                    exportString += ":"+"\n";    
+                    exportString += ":\n";    
                 }
             }
 
             if(this.value.features.lair_action.length) {
-                exportString += "### Lair Actions"+"\n";
+                exportString += "### Lair Actions\n";
                 exportString += this.lairActionText+"\n";
-                exportString += ":"+"\n";
+                exportString += ":\n";
 
                 for(let lair_action of this.value.features.lair_action) {
                     exportString += "***"+lair_action.displayName+"*** "+lair_action.desc+"\n";
-                    exportString += ":"+"\n";    
+                    exportString += ":\n";    
                 }
             }
 

@@ -123,10 +123,15 @@
 }
 
 .display-section {
+    position: relative;
     display: none;
     &.active-display {
         display: block;
     }
+}
+
+.statblock-display {
+    min-height: calc(90vh - 100px); //100px is the nav height
 }
 
 // .statblock-group {
