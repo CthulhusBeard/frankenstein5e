@@ -24,7 +24,7 @@ export default {
     data: function() {
         return {
             mountedFeatures: 0,
-            editMode: true,
+            editMode: false,
             trackingId: this.initialStatblock.trackingId,
             value: {
                 name: 'Monster',
@@ -65,6 +65,7 @@ export default {
                     proficiency: -1,
                     casterLevel: -1,
                     challengeRating: -1,
+                    challengeRatingLair: -1,
                 },
                 targetCR: {
                     offensive: {
@@ -150,6 +151,22 @@ export default {
             return approxCr;
         },
 
+        damageCrWithLair: function() {
+            let dpr = this.averageLairDPR;
+            let approxCr = 1;
+            
+            for(let i in this.f5.challengerating) {
+                let cr = this.f5.challengerating[i];
+                if(dpr >= cr.dpr.low && dpr <= cr.dpr.high) {
+                    approxCr = i;
+                    break;
+                }
+            }
+
+            return approxCr;
+
+        },
+
         healthCr: function() {
             return this.getHealthCr(1);
         },
@@ -193,42 +210,29 @@ export default {
         },
 
         averageCR: function() {
-            let armorCr = this.armorCr;
-            armorCr = armorCr.toString().replace('> ','');
-            if(String(armorCr).includes('-')) {
-                let splitArmor = armorCr.split('-');
-                armorCr = this.toNumber(this.toNumber(splitArmor[0]) + this.toNumber(splitArmor[1])) / 2;
-            }
-            let defensiveCr = (Number(armorCr) + this.toNumber(this.healthCr)) / 2;
-            let average = (defensiveCr + this.toNumber(this.damageCr)) / 2;
+            return this.calcAverageCR();
+        },
 
-            //Multipliers from resitances and immunities (DMG pg 277)
-            let hpMultiplier = 1;
-            if(this.value.damageImmunities.length >= 3 || this.value.damageImmunities.includes('physical')) {
-                let crHealthMultipliersByImmunity = {0: 2, 4: 2, 11: 1.5, 17: 1.25};
-                hpMultiplier = this.$parent.getValueByHighestProperty(crHealthMultipliersByImmunity, average);
-            } else if(this.value.damageResistances.length >= 3 || this.value.damageResistances.includes('physical')) {
-                let crHealthMultipliersByResistance = {0: 2, 4: 1.5, 11: 1.25};
-                hpMultiplier = this.$parent.getValueByHighestProperty(crHealthMultipliersByResistance, average);
-            }
-            if(hpMultiplier > 1) {
-                defensiveCr = (Number(armorCr) + this.toNumber(this.getHealthCr(hpMultiplier))) / 2;
-                average = (defensiveCr + this.toNumber(this.damageCr)) / 2;
-            }
-
-            //Extra modifiers
-            if(average < 10 && this.value.speeds['fly'] > 0) {
-                //Flying monsters with CR below 10 are considered effectively 2 AC higher
-                average = average + 2;
-            }
-
-            return average;
+        averageCRInLair: function() {
+            return this.calcAverageCR(true);
         },
 
         displayCR: function() {
-            let cr = this.averageCR
+            let cr = this.averageCR;
+            let lairCr = this.averageCRInLair;
+            
             if(this.value.manualOverride.challengeRating >= 0) {
                 cr = this.value.manualOverride.challengeRating;
+            }
+
+            return cr;
+        },
+
+        displayCRInLair: function() {
+            let cr = this.averageCRInLair;
+
+            if(this.value.manualOverride.challengeRatingLair >= 0) {
+                cr = this.value.manualOverride.challengeRatingLair;
             }
 
             //Get XP for emit
@@ -237,8 +241,6 @@ export default {
             if(crData && crData.xp) {
                 xp = crData.xp;
             }
-
-            this.$emit('update-cr', this.trackingId, cr, xp);
 
             return cr;
         },
@@ -701,6 +703,23 @@ export default {
             if(cr && cr.xp) {
                 crText += ' '+this.f5.misc.display_challenge_rating_xp.replace(':xp', cr.xp);
             }
+            
+            //Lair actions
+            let averageCRInLair = this.displayCRInLair;
+            let averageCRInLairKey = this.toCRFormat(averageCRInLair);
+            if(averageCRInLairKey !== averageCRKey) {
+                let crLairText = this.f5.misc.display_challenge_rating_in_lair.replace(':cr', averageCRInLairKey);
+                let crInLair = this.f5.challengerating[averageCRInLairKey];
+                if(crInLair && crInLair.xp) {
+                    crLairText += ' '+this.f5.misc.display_challenge_rating_xp.replace(':xp', crInLair.xp);
+                }
+                crText += '; '+crLairText;  
+            
+                this.$emit('update-cr', this.trackingId, cr.cr, cr.xp, crInLair.cr, crInLair.xp);
+            } else {
+                this.$emit('update-cr', this.trackingId, cr.cr, cr.xp);
+            }
+
             return crText;
         },
 
@@ -712,6 +731,18 @@ export default {
             if(cr && cr.xp) {
                 crText += ' '+this.f5.misc.display_challenge_rating_xp.replace(':xp', cr.xp);
             }
+
+            //Lair actions
+            let averageCRInLair = this.averageCRInLair;
+            let averageCRInLairKey = this.toCRFormat(averageCRInLair);
+            if(averageCRInLairKey !== averageCRKey) {
+                let crLairText = this.f5.misc.display_challenge_rating_in_lair.replace(':cr', averageCRInLairKey);
+                let crInLair = this.f5.challengerating[averageCRInLairKey];
+                if(crInLair && crInLair.xp) {
+                    crText += ' / '+crLairText+' '+this.f5.misc.display_challenge_rating_xp.replace(':xp', crInLair.xp);
+                }
+            }
+
             return crText;
         },
 
@@ -813,6 +844,28 @@ export default {
                     this.generatedProjection[i].standardTurn.hasOwnProperty('damage')
                 ) {
                     multipleTurnDPR += this.generatedProjection[i].standardTurn.damage;
+                }
+            }
+            return Math.round(multipleTurnDPR / numberOfTurns);
+        },
+
+        averageLairDPR: function() {
+            let multipleTurnDPR = 0;
+            let numberOfTurns = 3;
+            for(let i = 0; i < numberOfTurns; i++) {
+                if(
+                    this.generatedProjection[i] && 
+                    this.generatedProjection[i].hasOwnProperty('standardTurn') && 
+                    this.generatedProjection[i].standardTurn.hasOwnProperty('damage')
+                ) {
+                    multipleTurnDPR += this.generatedProjection[i].standardTurn.damage;
+                }
+                if(
+                    this.generatedProjection[i] && 
+                    this.generatedProjection[i].hasOwnProperty('lairActions') && 
+                    this.generatedProjection[i].lairActions.hasOwnProperty('damage')
+                ) {
+                    multipleTurnDPR += this.generatedProjection[i].lairActions.damage;
                 }
             }
             return Math.round(multipleTurnDPR / numberOfTurns);
@@ -1090,14 +1143,14 @@ export default {
             return damage > 0 ? damage : 1;
         },
 
-        createDamageText: function(damageObj, ability) {
+        createDamageText: function(damageObj, ability = 0) {
             let descText = '';
             if(damageObj.diceAmount > 0) {
                 descText += this.averageDamage(damageObj, ability);
                 descText += ' ('+this.f5.misc.die_structure.replace(':die_amount', damageObj.diceAmount).replace(':die_type', damageObj.diceType);
 
                 let additionalDamage = Number(damageObj.additional);
-                if(damageObj.abilityBonus) {
+                if(ability !== 0 && damageObj.abilityBonus) {
                     additionalDamage += this.getAbilityMod(ability);
                 }
                 if(additionalDamage != 0) {
@@ -1366,15 +1419,25 @@ export default {
             return Number(input);
         },
 
-        updateFeatureName: function(type, id, name) {
+        updateFeatureName: function(type, id, name, displayName) {
             for(let feature of this.value.features[type]) {
                 if(feature.trackingId == id) {
                     feature.name = name;
+                    feature.displayName = displayName;
                 }
             }
         },
 
-        updateProjections: function(type, template, id, projection) {
+        updateFeatureDescription: function(type, id, desc) {
+            for(let feature of this.value.features[type]) {
+                if(feature.trackingId == id) {
+                    console.log('set desc '+feature.name);
+                    feature.desc = desc;
+                }
+            }
+        },
+
+        updateFeatureProjections: function(type, template, id, projection) {
             let changesMade = false;
             for(let feature of this.value.features[type]) {
                 if(feature.trackingId == id && feature.damageProjection != projection) {
@@ -1677,6 +1740,7 @@ export default {
             //Create turn totals and action list
             let totals = [];
             let hasMythicActions = (projections.hasOwnProperty('mythic_action'));
+            let hasLairActions = (projections.hasOwnProperty('lair_action'));
             for(let actionType in projections) { 
                 for(let roundNum = 0; roundNum < this.combatRounds; roundNum++) {
                     if(!projections[actionType].rounds[roundNum]) {
@@ -1700,6 +1764,14 @@ export default {
                                     regenerate: 0,
                                 }
                             }
+                            if(hasLairActions) {
+                                totals[roundNum].lairActions = {
+                                    abilities: {},
+                                    damage: 0, 
+                                    maxDamage: 0,
+                                    regenerate: 0,
+                                }
+                            }
                         }
 
                         if(
@@ -1709,7 +1781,7 @@ export default {
                         ) {
 
                             //Add This Action to Standard Turns
-                            if(actionType != 'mythic_action') {
+                            if(actionType != 'mythic_action' && actionType != 'lair_action') {
                                 if(!totals[roundNum]['standardTurn'].abilities[actionType]) {
                                     totals[roundNum]['standardTurn'].abilities[actionType] = [];
                                 }
@@ -1720,6 +1792,21 @@ export default {
                                 }
                                 if(featureObj.regenerate) {
                                     totals[roundNum]['standardTurn'].regenerate += featureObj.regenerate;
+                                }
+                            }
+
+                            //Add This Action to Lair Actions
+                            if(hasLairActions && actionType == 'lair_action') {
+                                if(!totals[roundNum]['lairActions'].abilities[actionType]) {
+                                    totals[roundNum]['lairActions'].abilities[actionType] = [];
+                                }
+                                totals[roundNum]['lairActions'].abilities[actionType].push(featureObj);
+                                if(featureObj.damage) {
+                                    totals[roundNum]['lairActions'].damage += featureObj.damage;
+                                    totals[roundNum]['lairActions'].maxDamage += featureObj.maxDamage;
+                                }
+                                if(featureObj.regenerate) {
+                                    totals[roundNum]['lairActions'].regenerate += featureObj.regenerate;
                                 }
                             }
 
@@ -2018,5 +2105,49 @@ export default {
             }
             return null;
         },
+
+        calcAverageCR: function(inLair = false) {
+            let armorCr = this.armorCr;
+            armorCr = armorCr.toString().replace('> ','');
+            if(String(armorCr).includes('-')) {
+                let splitArmor = armorCr.split('-');
+                armorCr = this.toNumber(this.toNumber(splitArmor[0]) + this.toNumber(splitArmor[1])) / 2;
+            }
+            let defensiveCr = (Number(armorCr) + this.toNumber(this.healthCr)) / 2;
+            let average = 0;
+            if(inLair) {
+                average = (defensiveCr + this.toNumber(this.damageCrWithLair)) / 2;
+            } else {
+                average = (defensiveCr + this.toNumber(this.damageCr)) / 2;
+            }
+
+            //Multipliers from resitances and immunities (DMG pg 277)
+            let hpMultiplier = 1;
+            if(this.value.damageImmunities.length >= 3 || this.value.damageImmunities.includes('physical')) {
+                let crHealthMultipliersByImmunity = {0: 2, 4: 2, 11: 1.5, 17: 1.25};
+                hpMultiplier = this.$parent.getValueByHighestProperty(crHealthMultipliersByImmunity, average);
+            } else if(this.value.damageResistances.length >= 3 || this.value.damageResistances.includes('physical')) {
+                let crHealthMultipliersByResistance = {0: 2, 4: 1.5, 11: 1.25};
+                hpMultiplier = this.$parent.getValueByHighestProperty(crHealthMultipliersByResistance, average);
+            }
+            if(hpMultiplier > 1) {
+                defensiveCr = (Number(armorCr) + this.toNumber(this.getHealthCr(hpMultiplier))) / 2;
+                average = (defensiveCr + this.toNumber(this.damageCr)) / 2;
+            }
+
+            //Extra modifiers
+            if(average < 10 && this.value.speeds['fly'] > 0) {
+                //Flying monsters with CR below 10 are considered effectively 2 AC higher
+                average = average + 2;
+            }
+
+            return average;
+        },
+
+        deleteMonster: function() {
+            if(confirm("Do you really want to delete \""+this.value.name+"\"?")) {
+                this.$emit('remove-statblock', this.trackingId); 
+            }
+        }
     }
 }

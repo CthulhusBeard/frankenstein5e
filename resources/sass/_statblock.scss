@@ -53,10 +53,10 @@ i {
     @extend .x;
     right: 0%;
     transform: translate(-50%, -50%);
-    top: 20px;
+    top: 0;
 }
 
-.stat-block {
+.statblock {
     position: relative;
     width: 100%;
     min-width: 450px;
@@ -68,8 +68,18 @@ i {
     box-sizing: border-box;
     color: $statBlockRed;
     border: 1px solid #d8d4d1;
-    box-shadow: 0 0 5px #a5a6ad;
     background: linear-gradient(#efe2b5 0%, #f8f2d5 10%, #f8f2d5 90%, #efe2b5 100%);
+
+    &.statblock--clickable {
+        cursor: pointer;
+        transition: box-shadow 200ms, scale 200ms;
+
+        box-shadow: 0 0 5px #a5a6ad;
+        &:hover {
+            box-shadow: 0 0 10px 10px #a5a6ad;
+            scale: 1.01;
+        }
+    }
 
     textarea {
         font-family: Roboto, Helvetica,sans-serif;
@@ -128,7 +138,7 @@ i {
         }
     }
 
-    .stat-block__title {
+    .statblock__title {
         margin-bottom: -3px;
 
         .monster-name {
@@ -140,6 +150,7 @@ i {
             font-weight: bold;
             font-size: 1em;
             color: $statBlockRed;
+            max-width: 100%;
         }
         label.proper-noun {
             font-weight: normal;
@@ -148,7 +159,7 @@ i {
             background-color: unset;
         }
     }
-    .stat-block__subtitle {
+    .statblock__subtitle {
         .header {
             font-size: 1.2em;
             text-transform: uppercase;
@@ -163,37 +174,37 @@ i {
         }
     }
 
-    //.stat-block__section {
+    //.statblock__section {
     //}
 
-    .stat-block__size-alignment {
+    .statblock__size-alignment {
         color: black;
         font-style: italic;
         font-size: .9em;
     }
 
-    .stat-block__ability-scores {
+    .statblock__ability-scores {
         width: 100%;
         text-align: left;
-        .stat-block__ability-scores__holder {
+        .statblock__ability-scores__holder {
             display: flex;
             flex-direction: row;
             width: 100%;
         }
 
-        .stat-block__ability {
+        .statblock__ability {
             flex: 1 1 0px;
             text-align: center;
-            .stat-block__ability-name {
+            .statblock__ability-name {
                 font-weight: bold;
             }
 
         }
     }
 
-    .stat-block__attributes {
+    .statblock__attributes {
         break-inside: avoid;
-        .stat-block__attribute {
+        .statblock__attribute {
             &.edit-show {
                 padding: 0 4px;
             }
@@ -218,7 +229,7 @@ i {
         }
     }
 
-    .stat-block__line-break {
+    .statblock__line-break {
         background-image: url('/images/statblock/separator-bar.svg');
         padding-bottom: .7%;
         width: 100%;
@@ -227,7 +238,7 @@ i {
         margin: 11px 0;
     }
 
-    .stat-block__add-feature-button {
+    .statblock__add-feature-button {
         @extend .editable;
         display: none;
         font-weight: bold;
@@ -239,12 +250,12 @@ i {
         }
     }
 
-    .stat-block__feature-option {
+    .statblock__feature-option {
         display: none;
     }
 
-    .stat-block__feature-list {
-        .stat-block__feature {
+    .statblock__feature-list {
+        .statblock__feature {
             color: black;
             margin-bottom: 12px;
             .feature__display {
@@ -393,11 +404,11 @@ i {
         .no-edit {
             cursor: not-allowed;
         }
-        .stat-block__add-feature-button {
+        .statblock__add-feature-button {
             display: block;
             padding: 0 4px;
         }
-        .stat-block__feature-option {
+        .statblock__feature-option {
             display: inline;
         }
         .hidden-holder {

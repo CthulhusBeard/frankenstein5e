@@ -79,8 +79,8 @@ html, body {
 
 .main-content {
     position: relative;
-    width: 100%;
-    margin: 4px 0 0 4px;
+    width: calc(100%-4px);
+    padding: 4px 0 0 4px;
 }
 
 .bold-text {

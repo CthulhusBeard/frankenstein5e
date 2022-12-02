@@ -158,9 +158,14 @@ export default {
                 nameText += ' ('+brackets+')';
             }
 
-            let finalName = (nameText + this.f5.misc.sentence_end).trim();
-            this.$emit('update-name', this.value.actionType, this.trackingId, this.value.name);
-            return finalName;
+            nameText = nameText.trim();
+
+            if(nameText.length > 0) {
+                nameText += this.f5.misc.sentence_end;
+            }
+
+            this.$emit('update-feature-name', this.value.actionType, this.trackingId, this.value.name, nameText);
+            return nameText;
         },
 
         bracketText: function() {
@@ -298,22 +303,26 @@ export default {
         descriptionText: function() {
             let descText = '';
             let prefixText = '';
+            let forceEmpty = false;
 
             if(this.value.actionType === 'passive' && !this.f5.featuretemplates[this.value.template].no_trigger) {
                 prefixText += this.f5.durations[this.value.passiveTrigger]['desc'];
             }
 
+            //Custom Description
             if(this.value.template == 'custom') {
-                //Custom Description
                 descText += this.value.customDescription;
+
+            //Multiattack Description
             } else if(this.value.template == 'multiattack') {
-                //Multiattack Description
                 descText += this.multiattackDescription;
+
+            //Spellcasting Description
             } else if(this.value.template == 'spellcasting') {
-                //Spellcasting Description
                 descText += this.spellcastingDescription;
+                
+            //Attack Description
             } else if(this.value.template == 'attack') {
-                //Attack Description
                 descText += this.attackDescription;
                 if(this.value.attackSavingThrow) {
                     //Add Saving Throw
@@ -323,31 +332,51 @@ export default {
                     //Add Regen
                     descText += this.regenerateDescription;
                 }
+
+            //Saving Throw Description
             } else if(this.value.template == 'saving_throw') {
-                //Saving Throw Description
                 descText += this.savingThrowDescription;
+                
+            //Existing Feature Description
             } else if(this.value.template == 'reference') {
-                //Existing Feature Description
                 descText += this.referencedFeatureDescription;
+                
+            //Regeneration Feature Description
             } else if(this.value.template == 'regenerate') {
-                //Regeneration Feature Description
-                descText += this.regenerateDescription;
+                if(this.value.regenerate.type === 'none') {
+                    forceEmpty = true;
+                } else {
+                    descText += this.regenerateDescription;
+                }
+                
+            //Legendary Resistance Feature Description
             } else if(this.value.template == 'legendary_resistance') {
-                //Legendary Resistance Feature Description
                 descText += this.legendaryResistanceDescription;
+
+            //Magic Resistance Feature Description
             } else if(this.value.template == 'magic_resistance') {
-                //Magic Resistance Feature Description
                 descText += this.f5.featuretemplates.magic_resistance.desc;
             }
 
-            //descText = descText+this.f5.misc.sentence_end;
+            //Additional Text
+            if(this.value.additionalDescription) {
+                descText += ' '+this.value.additionalDescription;
+            }            
+
             descText = this.descriptionTextReplace(descText);
 
             if(prefixText.length) {
                 descText = prefixText + descText.charAt(0).toLowerCase() + descText.slice(1);
             }
+
+            //Something negates the other text and should be returned as empty
+            if(forceEmpty) {
+                descText = '';
+            }
+
+            this.$emit('update-feature-description', this.value.actionType, this.trackingId, descText);
             
-            return descText
+            return descText;
         },
 
         multiattackDescription: function() {
@@ -424,10 +453,6 @@ export default {
                 }
             }
             
-            if(this.value.additionalDescription) {
-                maDesc += ' '+this.value.additionalDescription;
-            }
-
             return maDesc;
         },
 
@@ -438,10 +463,6 @@ export default {
             if(feature !== null) {
                 featureDesc = this.descriptionTextReplace(this.f5.misc.creature_uses_feature).replace(':feature_name', feature.name);
             }
-            if(this.value.additionalDescription) {
-                featureDesc += ' '+this.value.additionalDescription;
-            }
-
             return featureDesc;
         },
 
@@ -534,7 +555,6 @@ export default {
             
             if(this.value.additionalDescription) {
                 spellDesc += '<br/><br/>';
-                spellDesc += ' '+this.value.additionalDescription;
             }
             
             return spellDesc;
@@ -553,9 +573,6 @@ export default {
 
             if(!this.value.attackSavingThrow) {
                 attackDesc += this.f5.misc.sentence_end;
-                if(this.value.additionalDescription) {
-                    attackDesc += ' '+this.value.additionalDescription;
-                }
             }
 
             return attackDesc;
@@ -571,10 +588,6 @@ export default {
                 savingThrowText = this.f5.misc.desc_attack_saving_throw_damage;
             } else if(this.value.savingThrowConditions.length >= 1) {
                 savingThrowText = this.f5.misc.desc_attack_saving_throw_condition;
-            }
-
-            if(this.value.additionalDescription) {
-                savingThrowText += ' '+this.value.additionalDescription;
             }
 
             //Targets
@@ -652,26 +665,14 @@ export default {
                 for(let i = 0; i < this.value.regenerate.amount.length; i++) {
                     regenList.push(this.$parent.createDamageText(this.value.regenerate.amount[i]));
                 }
-                console.log('regenList');
-                console.log(regenList);
                 desc = desc.replace(':regenerate_hit_point_amount', this.$parent.createSentenceList(regenList));
             }
             
-            if(this.value.additionalDescription) {
-                desc += ' '+this.value.additionalDescription;
-            }
-
             return desc;
         },
 
         legendaryResistanceDescription: function() {
-            let desc = this.f5.featuretemplates.legendary_resistance.desc;
-            
-            if(this.value.additionalDescription) {
-                desc += ' '+this.value.additionalDescription;
-            }
-
-            return desc;
+            return this.f5.featuretemplates.legendary_resistance.desc;
         },
 
         damageProjection: function() {
@@ -694,7 +695,7 @@ export default {
                 projection = this.createStandardProjection();
             }
 
-            this.$emit('update-projection', this.value.actionType, this.value.template, this.trackingId, projection);
+            this.$emit('update-feature-projection', this.value.actionType, this.value.template, this.trackingId, projection);
 
             return projection;
         },
@@ -971,7 +972,38 @@ export default {
             str = str.replace(':spell_save_dc', this.$parent.makeSavingThrowDC(this.value.spellcastingAbility));
             str = str.replace(':spell_hit', this.$parent.addPlus(this.$parent.proficiency + this.$parent.getAbilityMod(this.value.spellcastingAbility)));
 
+            //Damage
+            let damageList = [];
+            if(this.value.template == 'attack') {
+                for(let i in this.value.attackDamage) {
+                    damageList.push(this.$parent.createDamageText(this.value.attackDamage[i], this.value.attackAbility));
+                }
+                str = str.replace(':feature_damage', this.$parent.createSentenceList(damageList));
+            } else if(this.value.template == 'saving_throw') {
+                for(let i in this.value.savingThrowDamage) {
+                    damageList.push(this.$parent.createDamageText(this.value.savingThrowDamage[i], this.value.savingThrowMonsterAbility));
+                }
+                str = str.replace(':feature_damage', this.$parent.createSentenceList(damageList));
+            } else if(this.value.template == 'custom') {
+                for(let i in this.value.customDamage) {
+                    damageList.push(this.$parent.createDamageText(this.value.customDamage[i]));
+                }
+                str = str.replace(':feature_damage', this.$parent.createSentenceList(damageList));
+            }
 
+            //Regen
+            if(this.value.regenerate.type !== 'none') {
+                let regenObj = this.f5.regenerate[this.value.regenerate.type];
+                let regenList = [];
+                if(!regenObj['requires_damage'] || this.value.regenerate.type === 'custom') {
+                    for(let i = 0; i < this.value.regenerate.amount.length; i++) {
+                        regenList.push(this.$parent.createDamageText(this.value.regenerate.amount[i]));
+                    }
+                    str = str.replace(':feature_regen', this.$parent.createSentenceList(regenList));
+                }
+            }
+
+            //Key word replace
             str = this.$parent.keyWordReplace(str);
             return str;
         },

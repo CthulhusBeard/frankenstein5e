@@ -18,7 +18,8 @@ return [
     'title_offensive_cr' => 'Offensive CR',
     'title_hp_cr' => 'Hit Points CR',
     'title_ac_cr' => 'Armor Class CR',
-    'title_dpr' => 'Damage Output (Average Over 3 Rounds)',
+    'title_dpr' => 'Damage Output',
+    'title_dpr_average_three_rounds' => '(Average Over 3 Rounds)',
     'title_average_dpr' => 'Average DPR',
     'title_max_dpr' => 'Maximum DPR',
 
@@ -45,6 +46,7 @@ return [
     'graph_data_monster_damage' => ':creature_name Average Damage',
     'graph_data_monster_max_damage' => ':creature_name Max Damage',
     'graph_data_monster_hp' => ':creature_name Hit Points',
+    'graph_data_monster_lair_damage' => ':creature_name Lair Damage',
     'graph_data_player_hp' => 'Single Target PC Hit Points',
     'graph_data_player_hp_spread' => 'Spread Damage PC Hit Points',
     'title_average_damage' => 'Average Damage',

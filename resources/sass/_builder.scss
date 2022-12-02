@@ -62,6 +62,20 @@
     grid-template-columns: repeat(3, 33%);
 }
 
+.statblock-lightbox {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    background-color: rgba(0, 0, 0, 0.75);
+
+    &.edit-mode {
+        display: flex;
+    }
+}
+
 .statblock-data-display {
     padding: 10px;
     border: 1px black solid;
@@ -115,17 +129,17 @@
     }
 }
 
-.statblock-group {
-    display: flex;
-}
+// .statblock-group {
+//     display: flex;
+// }
 
 .statblock-container {
     display: flex;
+    height: fit-content;
 }
 
 .statblock-data {
     position: relative;
-    display: flex;
 }
 
 .slide-button {

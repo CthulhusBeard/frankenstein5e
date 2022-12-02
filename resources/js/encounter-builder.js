@@ -166,11 +166,15 @@ export function initVue(f5data) {
                 }
             },
 
-            updateMonsterCR: function(id, cr, xp) {
+            updateMonsterCR: function(id, cr, xp, lairCr = null, lairXp = null) {
                 for(let statblock of this.statblocks) {
                     if(statblock.trackingId == id) {
                         statblock.cr = cr;
                         statblock.xp = xp;
+                        if(lairCr && lairXp) {
+                            statblock.lairCr = lairCr;
+                            statblock.lairXp = lairXp;
+                        }
                     }
                 }
                 

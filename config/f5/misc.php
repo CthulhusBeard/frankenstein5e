@@ -215,8 +215,10 @@ return [
     'casts_spells_before' => 'f5/spells.casts_spells_before',
 
 
-    'display_challenge_rating' => 'f5/misc.display_challenge_rating',
-    'display_challenge_rating_xp' => 'f5/misc.display_challenge_rating_xp',
+    'display_challenge_rating' => 'f5/challengerating.display_challenge_rating',
+    'display_challenge_rating_in_lair' => 'f5/challengerating.display_challenge_rating_in_lair',
+    'display_challenge_rating_xp' => 'f5/challengerating.display_challenge_rating_xp',
+    'title_lair_cr' => 'f5/challengerating.title_lair_cr',
 
     //---
 
@@ -273,7 +275,7 @@ return [
     'title_average_player_dpr_at_level' => 'f5/builder.title_average_player_dpr_at_level',
 
     'title_controls' => 'f5/builder.title_controls',
-    'title_challenge_rating' => 'f5/builder.title_challenge_rating',
+    'title_challenge_rating' => 'f5/challengerating.title_challenge_rating',
     'title_calculated_challenge_rating' => 'f5/builder.title_calculated_challenge_rating',
     'title_cr' => 'f5/builder.title_cr',
     'title_cr_manager' => 'f5/builder.title_cr_manager',
@@ -281,6 +283,7 @@ return [
     'title_hp_cr' => 'f5/builder.title_hp_cr',
     'title_ac_cr' => 'f5/builder.title_ac_cr',
     'title_dpr' => 'f5/builder.title_dpr',
+    'title_dpr_average_three_rounds' => 'f5/builder.title_dpr_average_three_rounds',
     'title_average_dpr' => 'f5/builder.title_average_dpr',
     'title_max_dpr' => 'f5/builder.title_max_dpr',
 
@@ -306,12 +309,14 @@ return [
     'title_recharge_limited_use' => 'f5/recharge.title_recharge_limited_use',
     
     'title_save' => 'f5/misc.title_save',
+    'title_delete' => 'f5/misc.title_delete',
     
     //Projection Graph
     'title_combat_projection' => 'f5/builder.title_combat_projection',
     'graph_data_monster_damage' => 'f5/builder.graph_data_monster_damage',
     'graph_data_monster_max_damage' => 'f5/builder.graph_data_monster_max_damage',
     'graph_data_monster_hp' => 'f5/builder.graph_data_monster_hp',
+    'graph_data_monster_lair_damage' => 'f5/builder.graph_data_monster_lair_damage',
     'graph_data_player_hp' => 'f5/builder.graph_data_player_hp',
     'graph_data_player_hp_spread' => 'f5/builder.graph_data_player_hp_spread',
     'title_average_damage' => 'f5/builder.title_average_damage',

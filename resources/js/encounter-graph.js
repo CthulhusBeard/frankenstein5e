@@ -73,8 +73,8 @@ export default {
         },
 
         updateGraph: function () {
-            //console.log('updateGraph()');
-            //console.log(this.encounterData);
+            // console.log('updateGraph()');
+            // console.log(this.encounterData);
             this.formattedData = this.getFormattedData();
             if (!this.graphInstance) {
                 this.buildGraph();
@@ -153,6 +153,16 @@ export default {
                     pointRadius: 5,
                     pointHoverRadius: 10
                 });
+                // data.datasets.push({
+                //     label: this.f5.misc.graph_data_monster_lair_damage.replace(':creature_name', monster.name),
+                //     data: monster.lairData,
+                //     backgroundColor: colorSet3.half,
+                //     borderColor: colorSet3.full,
+                //     borderWidth: 3,
+                //     pointStyle: monster.defaultPointStyle,
+                //     pointRadius: 5,
+                //     pointHoverRadius: 10
+                // });
             }
 
             //console.log('graphData');
@@ -212,12 +222,18 @@ export default {
                         };
                     }
 
+                    ////                   lairData
+
                     //TODO: Assumes monster goes first (damage is cumulated before checking HP). Does that need to change?
                     let roundDamage = 0;
                     let roundMaxDamage = 0;
                     let roundRegen = 0;
 
-                    if(monsterData[monsterIndex].currentHP > 0 && monster.hasOwnProperty('projections') && monster.projections[roundIndex]) {
+                    if(
+                        monsterData[monsterIndex].currentHP > 0 && 
+                        monster.hasOwnProperty('projections') && 
+                        monster.projections[roundIndex]
+                    ) {
                         //Set turn data based on mythics or not
                         let turnData = monster.projections[roundIndex].standardTurn;
                         if(monsterData[monsterIndex].mythicTraitActive) {
@@ -232,6 +248,20 @@ export default {
                         }
                         if(turnData.hasOwnProperty('regenerate') && turnData.regenerate > 0) {
                             roundRegen = turnData.regenerate;
+                        }
+
+                        //Add lair damage
+                        if(monster.projections[roundIndex].lairActions) {
+                            let lairActionProj = monster.projections[roundIndex].lairActions;
+                            if(lairActionProj.hasOwnProperty('damage') && lairActionProj.damage > 0) {
+                                roundDamage += lairActionProj.damage;
+                            }
+                            if(lairActionProj.hasOwnProperty('maxDamage') && lairActionProj.maxDamage > 0) {
+                                roundMaxDamage += lairActionProj.maxDamage;
+                            }
+                            if(lairActionProj.hasOwnProperty('regenerate') && lairActionProj.regenerate > 0) {
+                                roundRegen += lairActionProj.regenerate;
+                            }
                         }
                     }
 

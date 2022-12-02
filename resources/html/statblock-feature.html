@@ -1,4 +1,4 @@
-<div class="stat-block__feature focus-edit">
+<div class="statblock__feature focus-edit">
     <div class="feature__display">
         <span class="feature__title">{{displayName}}</span>
         <span class="feature__description" v-html="descriptionText"></span>
@@ -53,10 +53,6 @@
                         <select id="feature__damage__dice-type" name="feature__damage__dice-type" v-model="damage.diceType">
                             <option v-for="i in f5.dicetypes" :value="i" >{{i}}</option>
                         </select>
-                    </div>
-                    <div>
-                        <label class="title-label">{{f5.misc.title_ability_bonus}}</label>
-                        <input type="checkbox" v-model="damage.abilityBonus">
                     </div>
                     <div>
                         <label :for="'feature__damage__hitpoints-additional__'+value.id" class="title-label">{{f5.misc.additional}}:</label>
@@ -467,7 +463,7 @@
             <div class="feature__regenerate" v-if="f5.featuretemplates[this.value.template].can_regenerate">
                 <label class="title-label">{{ f5.misc.title_regenerate }}:</label>
                 <select class="feature__regenerate__options" name="feature__regenerate__options" v-model="value.regenerate.type">
-                    <option v-for="(type, i) in f5.regenerate" v-if="value.actionType !== 'passive' || !(i == 'damage_dealt' || i == 'half_damage_dealt')" :value="i" >{{type.name}}</option>
+                    <option v-for="(type, i) in f5.regenerate" v-if="value.actionType !== 'passive' || !(i == 'damage_dealt' || i == 'half_damage_dealt' || i == 'none')" :value="i" >{{type.name}}</option>
                 </select>
                 
 

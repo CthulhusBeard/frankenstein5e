@@ -47,8 +47,6 @@ return [
     'damage' => ':type damage',
     'attack' => 'attack|attacks',
 
-    'display_challenge_rating' => 'CR :cr',
-    'display_challenge_rating_xp' => '(:xp XP)',
 
     'please_select_one' => 'Please select one',
     'choose_a' => 'Choose a :choice',
@@ -66,7 +64,6 @@ return [
     'hit_dice_type' => 'Hit Dice Type',
 
     'title_hit_points' => 'Hit Points',
-    'title_challenge_rating' => 'Challenge',
     'title_hit_dice' => 'Hit Dice',
     'title_proper_noun' => 'Is Name a Proper Noun?',
     'title_short_name' => 'Short Name',
@@ -80,6 +77,7 @@ return [
     'title_magical_bonus' => 'Magical Bonus',
     
     'title_save' => 'Save',
+    'title_delete' => 'Delete',
     
     'title_passive_trigger' => 'Feature Trigger',
 

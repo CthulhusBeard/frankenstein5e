@@ -22,7 +22,8 @@ if(mix.inProduction()) {
     mix.copyDirectory('public/data', 'export/cthulhusbeard.github.io/data');
     mix.copyDirectory('public/fonts', 'export/cthulhusbeard.github.io/fonts');
     mix.copyDirectory('public/images', 'export/cthulhusbeard.github.io/images');
-    mix.copyDirectory('public/js', 'export/cthulhusbeard.github.io/js');
+    //mix.copyDirectory('public/js', 'export/cthulhusbeard.github.io/js');
+    mix.copy('public/js/app.min.js', 'export/cthulhusbeard.github.io/js/app.js');
     //mix.copyDirectory('node_modules', 'export/cthulhusbeard.github.io/node_modules');
     mix.copy('public/favicon.ico', 'export/cthulhusbeard.github.io/favicon.ico');
     mix.copy('resources/views/encounter-builder.html', 'export/cthulhusbeard.github.io/index.html');
