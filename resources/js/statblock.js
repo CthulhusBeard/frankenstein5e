@@ -1365,32 +1365,6 @@ export default {
             return Math.round(input);
         },
 
-        exportMonster: function() {
-            console.log('------Export Monster------');
-            let cloneOptions = JSON.parse(JSON.stringify(this.value));
-
-            console.log(this.$refs);
-            let exportFeatures = {};
-            for(let actionType in this.value.features) {
-                console.log(actionType);
-                console.log(this.$refs['features_'+actionType]);
-                if(this.$refs['features_'+actionType]) {
-                    exportFeatures[actionType] = [];
-                    for(let feature of this.$refs['features_'+actionType]) {
-                        exportFeatures[actionType].push(feature.exportFeature());
-                    }
-                    console.log(exportFeatures[actionType]);
-                }
-            }
-            //TODO replace features with export features
-            cloneOptions.features = exportFeatures;
-
-            console.log(cloneOptions);
-            
-            navigator.clipboard.writeText(JSON.stringify(cloneOptions));
-            alert('Copied statblock data of "'+this.value.name+'" to clipboard.');
-        },
-
         getFeatureById: function(id, types = null) {
             let featureTypes = this.value.features.keys();
             if(typeof types === 'array') {
@@ -1431,7 +1405,6 @@ export default {
         updateFeatureDescription: function(type, id, desc) {
             for(let feature of this.value.features[type]) {
                 if(feature.trackingId == id) {
-                    console.log('set desc '+feature.name);
                     feature.desc = desc;
                 }
             }
@@ -2148,6 +2121,161 @@ export default {
             if(confirm("Do you really want to delete \""+this.value.name+"\"?")) {
                 this.$emit('remove-statblock', this.trackingId); 
             }
-        }
+        },
+
+        exportMonster: function() {
+            console.log('------Export Monster------');
+            let cloneOptions = JSON.parse(JSON.stringify(this.value));
+
+            console.log(this.$refs);
+            let exportFeatures = {};
+            for(let actionType in this.value.features) {
+                console.log(actionType);
+                console.log(this.$refs['features_'+actionType]);
+                if(this.$refs['features_'+actionType]) {
+                    exportFeatures[actionType] = [];
+                    for(let feature of this.$refs['features_'+actionType]) {
+                        exportFeatures[actionType].push(feature.exportFeature());
+                    }
+                    console.log(exportFeatures[actionType]);
+                }
+            }
+            //TODO replace features with export features
+            cloneOptions.features = exportFeatures;
+
+            console.log(cloneOptions);
+            
+            navigator.clipboard.writeText(JSON.stringify(cloneOptions));
+            alert('Copied statblock data of "'+this.value.name+'" to clipboard.');
+        },
+
+        exportMonsterForHomebrewery: function() {
+
+            let exportString = "";
+            exportString += "{{monster,frame,";
+            if(this.value.display.columns > 1) exportString += ",wide";
+            exportString += "\n";
+            exportString += "## "+this.displayName+"\n";
+            exportString += "*"+this.descriptionText+"*"+"\n";
+            exportString += "___"+"\n";
+            
+            exportString += "**Armor Class** :: "+this.acText+"\n";
+            exportString += "**Hit Points**  :: "+this.hitPointsText+"\n";
+            exportString += "**Speed**       :: "+this.speedText+"\n";
+            exportString += "___"+"\n";
+            
+            exportString += "|  STR  |  DEX  |  CON  |  INT  |  WIS  |  CHA  |"+"\n";
+            exportString += "|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|"+"\n";
+            exportString += "|"+"\n";
+            exportString += this.value.abilities['str']+" ("+this.addPlus(this.calcAbilityMod(this.value.abilities['str']))+")|";
+            exportString += this.value.abilities['dex']+" ("+this.addPlus(this.calcAbilityMod(this.value.abilities['dex']))+")|";
+            exportString += this.value.abilities['con']+" ("+this.addPlus(this.calcAbilityMod(this.value.abilities['con']))+")|";
+            exportString += this.value.abilities['int']+" ("+this.addPlus(this.calcAbilityMod(this.value.abilities['int']))+")|";
+            exportString += this.value.abilities['wis']+" ("+this.addPlus(this.calcAbilityMod(this.value.abilities['wis']))+")|";
+            exportString += this.value.abilities['cha']+" ("+this.addPlus(this.calcAbilityMod(this.value.abilities['cha']))+")|";
+            exportString += "___"+"\n";
+            
+            if(this.skillText) exportString += "**Skills** :: "+this.skillText+"\n";
+            if(this.damageResistanceText) exportString += "**Condition Resistances** :: "+this.damageResistanceText+"\n";
+            if(this.damageImmunitiesText) exportString += "**Condition Immunities** :: "+this.damageImmunitiesText+"\n";
+            if(this.damageVulnerabilitiesText) exportString += "**Condition Vulnerabilites** :: "+this.damageVulnerabilitiesText+"\n";
+            if(this.sensesText) exportString += "**Senses**               :: "+this.sensesText+"\n";
+            if(this.languageText) exportString += "**Languages**            :: "+this.languageText+"\n";
+            exportString += "**Challenge**            :: "+this.crDisplayText+"\n";
+            exportString += "**Proficiency**            :: "+this.proficiencyText+"\n";
+            exportString += "___"+"\n";
+            
+
+            //Start features
+            if(this.value.features.mythic_action.length) {
+                exportString += "***"+this.mythicTraitTitleText+".*** "+this.mythicTraitDescriptionText+"\n";
+            }
+
+            for(let passive of this.value.features.passive) {
+                exportString += "***"+passive.displayName+"*** "+passive.desc+"\n";
+                exportString += ":"+"\n";    
+            }
+
+            if(this.value.features.spellcasting.length) {
+                exportString += "### Spellcasting"+"\n";
+
+                for(let spellcasting of this.value.features.spellcasting) {
+                    exportString += "***"+spellcasting.displayName+"*** "+spellcasting.desc+"\n";
+                    exportString += ":"+"\n";    
+                }
+            }
+            
+            if(this.value.features.action.length || this.value.features.multiattack.length) {
+                exportString += "### Actions"+"\n";
+
+                for(let multiattack of this.value.features.multiattack) {
+                    exportString += "***"+multiattack.displayName+"*** "+multiattack.desc+"\n";
+                    exportString += ":"+"\n";    
+                }
+                for(let action of this.value.features.action) {
+                    exportString += "***"+action.displayName+"*** "+action.desc+"\n";
+                    exportString += ":"+"\n";    
+                }
+            }
+
+
+            if(this.value.features.bonus_action.length) {
+                exportString += "### Bonus Actions"+"\n";
+
+                for(let bonus_action of this.value.features.bonus_action) {
+                    exportString += "***"+bonus_action.displayName+"*** "+bonus_action.desc+"\n";
+                    exportString += ":"+"\n";    
+                }
+            }
+
+            if(this.value.features.reaction.length) {
+                exportString += "### Reactions"+"\n";
+
+                for(let reaction of this.value.features.reaction) {
+                    exportString += "***"+reaction.displayName+"*** "+reaction.desc+"\n";
+                    exportString += ":"+"\n";    
+                }
+            }
+
+            if(this.value.features.legendary_action.length) {
+                exportString += "### Legendary Actions"+"\n";
+                exportString += this.legendaryActionText+"\n";
+
+                for(let legendary_action of this.value.features.legendary_action) {
+                    exportString += "***"+legendary_action.displayName+"*** "+legendary_action.desc+"\n";
+                    exportString += ":"+"\n";    
+                }
+            }
+
+            if(this.value.features.mythic_action.length) {
+                exportString += "### Mythic Actions"+"\n";
+                exportString += this.mythicActionText+"\n";
+
+                for(let mythic_action of this.value.features.mythic_action) {
+                    exportString += "***"+mythic_action.displayName+"*** "+mythic_action.desc+"\n";
+                    exportString += ":"+"\n";    
+                }
+            }
+
+            if(this.value.features.lair_action.length) {
+                exportString += "### Lair Actions"+"\n";
+                exportString += this.lairActionText+"\n";
+
+                for(let lair_action of this.value.features.lair_action) {
+                    exportString += "***"+lair_action.displayName+"*** "+lair_action.desc+"\n";
+                    exportString += ":"+"\n";    
+                }
+            }
+
+
+            exportString += "}}";
+
+            console.log(exportString);
+            
+            navigator.clipboard.writeText(exportString);
+            alert('Copied Homebrewery Format statblock data of "'+this.value.name+'" to clipboard.');
+
+            return exportString;
+        },
     }
 }

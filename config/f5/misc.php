@@ -298,6 +298,7 @@ return [
     'title_set_ac_cr' => 'f5/builder.title_set_ac_cr',
 
     'title_export' => 'f5/builder.title_export',
+    'title_export_for_homebrewery' => 'f5/builder.title_export_for_homebrewery',
     'title_import' => 'f5/builder.title_import',
     'title_import_from_clipboard' => 'f5/builder.title_import_from_clipboard',
     'title_use_automatic' => 'f5/builder.title_use_automatic',

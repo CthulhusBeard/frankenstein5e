@@ -34,6 +34,7 @@ return [
     'title_set_ac_cr' => 'Set Armor Class CR',
 
     'title_export' => 'Export Monster',
+    'title_export_for_homebrewery' => 'Export Monster For Homebrewery',
     'title_import' => 'Import Monster',
     'title_import_from_clipboard' => 'Import Monster From Clipboard',
     'title_use_automatic' => 'Determine Automatically',
