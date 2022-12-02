@@ -146,7 +146,7 @@ export function initVue(f5data) {
             },
 
             clearAllData: function() {
-                if(confirm("Do you really want to clear all your encounter data?")) {
+                if(confirm("Are you sure you want to clear all your encounter data?")) {
                     this.statblocks = [];
                     this.createStatBlock();
                 }

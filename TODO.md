@@ -2,7 +2,7 @@
 
 HIGH PRIORITY
 - [ ] Fix saving throw desc to mention targets
-- [ ] Separate Lair CR
+- [ ] Spell crits
 - [ ] Figure out why spells are breaking after you add 12 of them
 - [ ] Design UI
 - [ ] Tips and suggestions

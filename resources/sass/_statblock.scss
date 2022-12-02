@@ -56,6 +56,45 @@ i {
     top: 0;
 }
 
+
+.statblock-display {
+    min-height: calc(90vh - 100px); //100px is the nav height
+}
+
+// .statblock-group {
+//     display: flex;
+// }
+
+.statblock-container {
+    display: flex;
+    height: fit-content;
+}
+
+.statblock-data {
+    position: relative;
+}
+
+.statblock-lightbox {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    background-color: rgba(0, 0, 0, 0.75);
+
+    &.edit-mode {
+        display: flex;
+    }
+}
+
+.statblock-data-display {
+    padding: 10px;
+    border: 1px black solid;
+    width: 200px;
+    border-radius: 5px;
+}
+
 .statblock {
     position: relative;
     width: 100%;
@@ -258,6 +297,7 @@ i {
         .statblock__feature {
             color: black;
             margin-bottom: 12px;
+            break-inside: avoid;
             .feature__display {
                 position: relative;
             }

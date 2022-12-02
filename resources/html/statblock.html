@@ -296,16 +296,16 @@
                         <option v-for="i in 3" :value="i">{{i}}</option>
                     </select>
                 </div>
-                <div>
+                <div class="button-container">
                     <button @click="exportMonster()">{{f5.misc.title_export}}</button>
                 </div>
-                <div>
+                <div class="button-container">
                     <button @click="exportMonsterForHomebrewery()">{{f5.misc.title_export_for_homebrewery}}</button>
                 </div>
-                <div>
+                <div class="button-container btn--save">
                     <button @click="editMode = false">{{f5.misc.title_save}}</button>
                 </div>
-                <div>
+                <div class="button-container btn--delete">
                     <button @click="deleteMonster()">{{f5.misc.title_delete}}</button>
                 </div>
             </div>

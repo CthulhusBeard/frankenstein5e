@@ -2118,7 +2118,7 @@ export default {
         },
 
         deleteMonster: function() {
-            if(confirm("Do you really want to delete \""+this.value.name+"\"?")) {
+            if(confirm("Are you sure you want to delete \""+this.value.name+"\"?")) {
                 this.$emit('remove-statblock', this.trackingId); 
             }
         },

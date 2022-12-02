@@ -25,7 +25,7 @@ return [
 
     'title_edit_mode' => 'Edit Mode',
     'title_use_spell_slots' => 'Use Spell Slots',
-    'title_columns' => 'Columns',
+    'title_columns' => 'Display Columns',
     'title_apply' => 'Apply',
 
     'title_set_cr' => 'Set CR',

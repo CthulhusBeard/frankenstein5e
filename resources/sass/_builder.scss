@@ -62,27 +62,6 @@
     grid-template-columns: repeat(3, 33%);
 }
 
-.statblock-lightbox {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    display: none;
-    background-color: rgba(0, 0, 0, 0.75);
-
-    &.edit-mode {
-        display: flex;
-    }
-}
-
-.statblock-data-display {
-    padding: 10px;
-    border: 1px black solid;
-    width: 200px;
-    border-radius: 5px;
-}
-
 .builder-controls {
     padding: 10px;
     border: 1px black solid;
@@ -99,6 +78,25 @@
 
 .control-title {
     font-weight: bold;
+}
+
+.button-container {
+    margin: 4px 2px;
+
+    &.btn--save {
+        margin-top: 10px;
+        button {
+            font-size: 1.2em;
+            padding: 6px 12px;
+            text-transform: uppercase;
+        }
+    }
+    &.btn--delete {
+        margin-top: 20px;
+        button {
+            text-transform: uppercase;
+        }
+    }
 }
 
 .popup-overlay {
@@ -128,23 +126,6 @@
     &.active-display {
         display: block;
     }
-}
-
-.statblock-display {
-    min-height: calc(90vh - 100px); //100px is the nav height
-}
-
-// .statblock-group {
-//     display: flex;
-// }
-
-.statblock-container {
-    display: flex;
-    height: fit-content;
-}
-
-.statblock-data {
-    position: relative;
 }
 
 .slide-button {
