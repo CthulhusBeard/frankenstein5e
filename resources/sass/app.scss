@@ -79,7 +79,7 @@ html, body {
 
 .main-content {
     position: relative;
-    width: calc(100%-4px);
+    width: calc(100% - 4px);
     padding: 4px 0 0 4px;
 }
 
@@ -97,12 +97,6 @@ html, body {
     grid-gap: 0 10px;
 }
 
-.statblock-container {
-    position: relative;
-    //width: 80%;
-    padding: 20px 20px;
-}
-
 .title-size {
     font-size: 1.3em;
 }
@@ -114,11 +108,35 @@ html, body {
 footer {
     bottom: -12px;
     background-color: white;
-    padding: 10px 20px;
-    margin-top: 20px;
+    padding: 10px 30px;
     text-align: center;
+    width: 100%;
     border-top: black 1px solid;
-    margin-right: 100px;
+    margin: 10px auto 0;
+    grid-column: 1/span 2;
+
+    .legal {
+        margin: 0 auto;
+        min-width: 325px;
+        max-width: 800px;
+    }
+}
+
+.flex-rows {
+    display: flex;
+    flex-direction: row;
+}
+.col-span-2 {
+    grid-column: span 2;
+}
+
+.row-span-2 {
+    grid-row: span 2;
+}
+
+.grid-3-cols {
+    display: grid;
+    grid-template-columns: repeat(3, 33%);
 }
 
 @import 'builder';

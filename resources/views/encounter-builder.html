@@ -19,49 +19,51 @@
                 </div>
 
                 <div id="top-nav">
-                    Create your monsters! Balance your encounters! <s>Kill your players!</s> 
+                    Create monsters! Balance encounters! <s>Kill PCs!</s> Have fun! 
                 </div>
 
                 <!-- Side Nav -->
                 <div id="side-nav">
                     <div class="nav-option nav-statblocks" @click="editor.activeSection = 'statblock-display'">
-                        <div></div>
                         <div>Statblocks</div>
                     </div>
                     <div class="nav-option nav-encounter" @click="changeActiveDisplay('encounter-display')">
-                        <div></div>
                         <div>Encounter Analysis</div>
                     </div>
+                    <!-- <a href="https://www.paypal.me/dmcdoogs" target="_blank" rel="nofollow noopener">
+                        <div class="nav-option nav-encounter">
+                            <div>Support the Project</div>
+                        </div>
+                    </a> -->
                 </div>
 
                 <!-- Main Content -->
-                <div class="main-content full-height">
-                    
+                <div class="main-content">
 
                     <!-- Monster Builder -->
                     <div class="display-section statblock-display" :class="{'active-display': (editor.activeSection == 'statblock-display')}">
                     
-                        <div class="builder-controls popup-overlay grid-3-cols">
-                            <div>
+                        <div class="builder-controls popup-overlay flex-rows">
+                            <div class="builder-controls-section">
                                 <div class="control-title">Statblock Controls</div>
-                                <div>
+                                <div class="button-container">
                                     <button @click="createStatBlock()">{{f5.misc.title_new_statblock}}</button>
                                 </div>
-                                <div>
+                                <div class="button-container">
                                     <button @click="clearAllData()">{{f5.misc.title_clear_all}}</button>
                                 </div>
                             </div>
-                            <div>
+                            <div class="builder-controls-section">
                                 <div class="control-title">Importer</div>
                                 <div>
                                     <select v-model="editor.importMonster">
                                         <option v-for="(monster, i) in sampleMonsters" :value="i">{{monster.name}}</option>
                                     </select>
                                 </div>
-                                <div>
+                                <div class="button-container">
                                     <button @click="importMonster(sampleMonsters[editor.importMonster])">{{f5.misc.title_import}}</button>
                                 </div>
-                                <div>
+                                <div class="button-container">
                                     <button @click="importMonsterFromClipboard()">{{f5.misc.title_import_from_clipboard}}</button>
                                 </div>
                             </div>
@@ -94,7 +96,7 @@
                             <div class="encounter-controls popup-overlay">
                                 <div class="control-title col-span-2">Encounter Settings</div>
 
-                                <div class="builder-controls-group">
+                                <div class="encounter-controls-section">
                                     <div class="control-title">{{ f5.misc.title_player_settings }}</div>
                                     <div>
                                         <label class="control-label" for="controls__player-count">{{f5.misc.title_player_characters_count}}: </label>
@@ -113,7 +115,7 @@
                                     <div>{{ f5.misc.title_average_player_dpr_at_level }} {{ f5.playerlevels[this.editor.playerData.level].average_dpr }}</div>
                                 </div>
 
-                                <div class="builder-controls-group row-span-2" style="grid-row: span 2;">
+                                <div class="encounter-controls-section row-span-2" style="grid-row: span 2;">
                                     <div class="control-title">{{f5.misc.title_encounter_summary}}</div>
                                     <div>
                                         {{ f5.misc.title_total_xp}}: {{ encounterXP }} 
@@ -123,7 +125,7 @@
                                     </div>
                                 </div>
                                 
-                                <div class="builder-controls-group">
+                                <div class="encounter-controls-section">
                                     <div class="control-title">{{f5.misc.title_monster_settings}}</div>
                                     <div v-for="statblock in statblocks" >
                                         <div>
@@ -148,50 +150,17 @@
                         </Encountergraph>
                     </div>
 
-                    <footer>Frankenstein 5E is unofficial Fan Content permitted under the Fan Content Policy. Not approved/endorsed by Wizards. Portions of the materials used are property of Wizards of the Coast. ©Wizards of the Coast LLC.</footer>
-
                 </div>
+
+                <footer>
+                    <div class="legal">
+                        Frankenstein 5E is unofficial Fan Content permitted under the Fan Content Policy. Not approved/endorsed by Wizards. Portions of the materials used are property of Wizards of the Coast. ©Wizards of the Coast LLC.
+                    </div>
+                </footer>
+
             </div>
 
-            
-            <script>
-                window.onload = function() {
-                    fetch('data/frankenstein5.json')
-                        .then((response) => response.json())
-                        .then((f5data) => init(f5data));
-                        
-                
-                    //Edit Fields. Allow focused objects to be editted while making others uneditable
-                    document.addEventListener('click', function(e) {
-                        removeFocus(e.target);
-                    });
-
-                    function removeFocus(element = null) {
-                        const editFields = document.querySelectorAll(".focus-edit.focused");
-                        editFields.forEach(function(el) { 
-                            el.classList.remove('focused');
-                        });
-
-                        if(
-                            element && 
-                            element.closest(".focus-edit") &&
-                            !element.closest(".feature__remove") &&
-                            !element.closest(".feature__save")
-                        ) {   //Click on any object other than an edittable one
-                            element.closest(".focus-edit").classList.add('focused');
-                        }
-                    }
-
-                };
-
-                function init(f5data) {
-                    f5data = JSON.parse(f5data) ;
-                    console.log(f5data);
-                    let app = EncounterBuilder.initVue(f5data);
-                }
-                
-            </script>
-
+        
         </div>
     </body>
 </html>

@@ -150,28 +150,30 @@
             </div>
 
             <label class="title-label" for="feature__spell-list">{{f5.misc.title_spell_list}}:</label>
-            <div v-for="(spell, i) in value.spellList" class="feature__edit-spell">
-                <label class="title-label" for="feature__spell-name">{{f5.misc.title_add_spell_name}}:</label>
-                <input type="text" v-model="spell.name">
-                <div>
-                    <label class="title-label" for="feature__add-spell-level">{{f5.misc.title_spell_level}}:</label>
-                    <select id="feature__add-spell-level" name="feature__add-spell-level" v-model="spell.level">
-                        <option v-for="(level, i) in f5.spelllevels" :value="i" v-if="level.display !== false">{{level.name}}</option>
-                    </select>
+            <div class="feature__spell-list">
+                <div v-for="(spell, i) in value.spellList" class="feature__edit-spell">
+                    <label class="title-label" for="feature__spell-name">{{f5.misc.title_add_spell_name}}:</label>
+                    <input type="text" v-model="spell.name">
+                    <div>
+                        <label class="title-label" for="feature__add-spell-level">{{f5.misc.title_spell_level}}:</label>
+                        <select id="feature__add-spell-level" name="feature__add-spell-level" v-model="spell.level">
+                            <option v-for="(level, i) in f5.spelllevels" :value="i" v-if="level.display !== false">{{level.name}}</option>
+                        </select>
+                    </div>
+                    <div v-if="value.innateSpellcasting && spell.level >= 1 && !spell.at_will">
+                        <label class="title-label" for="feature__add-spell-level">{{f5.misc.title_spell_uses}}:</label>
+                        <select id="feature__add-spell-level" name="feature__add-spell-level" v-model="spell.uses">
+                            <option v-for="i in 4" :value="i" >{{i}}</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="title-label" for="feature__add-spell-before-combat">{{f5.misc.title_casts_before_combat}}:</label>
+                        <input type="checkbox" v-model="spell.before_combat">
+                        <label class="title-label" for="feature__add-spell-at-will">{{f5.misc.title_cast_at_will}}:</label>
+                        <input type="checkbox" v-model="spell.at_will">
+                    </div>
+                    <div class="feature__spells__remove" @click="removeSpell(i)">x</div>
                 </div>
-                <div v-if="value.innateSpellcasting && spell.level >= 1 && !spell.at_will">
-                    <label class="title-label" for="feature__add-spell-level">{{f5.misc.title_spell_uses}}:</label>
-                    <select id="feature__add-spell-level" name="feature__add-spell-level" v-model="spell.uses">
-                        <option v-for="i in 4" :value="i" >{{i}}</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="title-label" for="feature__add-spell-before-combat">{{f5.misc.title_casts_before_combat}}:</label>
-                    <input type="checkbox" v-model="spell.before_combat">
-                    <label class="title-label" for="feature__add-spell-at-will">{{f5.misc.title_cast_at_will}}:</label>
-                    <input type="checkbox" v-model="spell.at_will">
-                </div>
-                <div class="feature__spells__remove" @click="removeSpell(i)">x</div>
             </div>
             <button @click="addSpell()">{{f5.misc.title_add_spell}}</button>
             
