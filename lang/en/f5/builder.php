@@ -40,6 +40,7 @@ return [
     'title_use_automatic' => 'Determine Automatically',
     
     'title_new_statblock' => 'Create New Statblock',
+    'title_new_statblock_from_wizard' => 'Create New Statblock Using Wizard',
     'title_clear_all' => 'Clear All Data',
 
     //Projection Graph

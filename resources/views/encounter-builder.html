@@ -50,6 +50,9 @@
                                     <button @click="createStatBlock()">{{f5.misc.title_new_statblock}}</button>
                                 </div>
                                 <div class="button-container">
+                                    <button @click="createStatBlockUsingWizard()">{{f5.misc.title_new_statblock_from_wizard}}</button>
+                                </div>
+                                <div class="button-container">
                                     <button @click="clearAllData()">{{f5.misc.title_clear_all}}</button>
                                 </div>
                             </div>
@@ -68,6 +71,13 @@
                                 </div>
                             </div>
                         </div>    
+
+                        <div class="statblock-wizard-container" :class="{'show-wizard': usingWizard}">
+                            <Statblockwizard
+                                :f5="f5"
+                            >
+                            </Statblockwizard>
+                        </div>
 
                         <div class="statblock-group">
                             <Statblock 

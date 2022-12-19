@@ -1,0 +1,53 @@
+<div class="statblock-wizard popup-overlay">
+    
+    <div class="wizard-page wizard-page__target-cr">
+        <div>
+            What challenge rating do your monster to be?
+            <select v-model="targetCR">
+                <option v-for="(crData, key) in $parent.sortedCRList" :value="crData.cr" >{{crData.cr_text}}</option>
+            </select>
+            <button>Set CR</button>
+        </div>
+
+        <div>
+            <button>Let's figure it out</button>
+        </div>
+    </div>
+
+    <div class="wizard-page wizard-page__cr-help">
+        <div>
+            How many player characters are there?
+            <input type="number" v-model="playerCount" min="1" max="15" />
+        </div>
+
+        <div>
+            What level are the player characters?
+            <input type="number" v-model="playerLevel" min="1" max="20" />
+        </div>
+
+        <div>
+            How many of this monster do you want to have?
+            <input type="number" v-model="monsterCount" min="1" max="20" />
+        </div>
+
+        <div>
+            What level of difficulty do you want the encounter to be?
+            <select v-model="encounterDifficulty">
+                <option v-for="i in f5.encounterdifficulties" :value="i" >{{i.name}}</option>
+            </select>
+        </div>
+
+        <div>
+            <button>Set CR</button>
+        </div>
+    </div>
+
+    <div class="wizard-page wizard-page__choose-type">
+        <div v-for="type in f5.creaturetypes">
+            <input type="radio" name="creature-type" />
+            <strong>{{ type.name }}</strong>:
+            <p>{{ type.desc }}</p>
+        </div>
+    </div>
+
+</div>

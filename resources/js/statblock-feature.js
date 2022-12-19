@@ -74,7 +74,7 @@ export default {
                 manualDPR: -1,
                 manualMaxDPR: -1,
             },
-            referencedProjection: [], //do we need this??
+            referencedProjection: [], //TODO: do we need this??
         }
     },
 
@@ -85,12 +85,6 @@ export default {
                 continue;
             }
             this.value[prop] = this.initialData[prop]; 
-        }
-    },
-
-    mounted() {
-        if(this.value.actionType === 'multiattack') {
-
         }
     },
 
