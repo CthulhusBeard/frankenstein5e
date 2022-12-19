@@ -27,6 +27,9 @@ export default {
             creatureType: 'aberration',
             set_creatureType: false,
 
+            creatureStats: [],
+            set_creatureStats: false,
+
             value: {
                 name: 'Monster',
                 shortName: '',
@@ -179,6 +182,15 @@ export default {
             this.setActivePage();
         },
 
+        setCreatureStats: function() {
+            this.set_creatureType = true;
+            this.setActivePage();
+        },
+
+        manualStats: function() {
+            this.setActivePage('manual-stats');
+        },
+
         crHelp: function() {
             this.setActivePage('cr-help');
         },
@@ -193,6 +205,7 @@ export default {
             let pageKeyValues = {
                 set_targetCR: 'target-cr',
                 set_creatureType: 'choose-type',
+                set_creatureStats: 'choose-stats',
             };
 
             for(let i in pageKeyValues) {

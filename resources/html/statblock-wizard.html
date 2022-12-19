@@ -6,6 +6,9 @@
             <select v-model="targetCR">
                 <option v-for="(crData, key) in $parent.sortedCRList" :value="crData.cr" >{{crData.cr_text}}</option>
             </select>
+        </div>
+
+        <div>
             <button @click="setCR">Set CR</button>
         </div>
 
@@ -43,7 +46,6 @@
     </div>
 
     <div class="wizard-page wizard-page__choose-type" :class="{'wizard-page__active': activePage==='choose-type'}">
-        
         <div>
             What type of creature do you want to create?
         </div>
@@ -56,6 +58,37 @@
         <div>
             <button @click="setCreatureType">Set Creature Type</button>
         </div>
+    </div>
+
+    <div class="wizard-page wizard-page__choose-stats" :class="{'wizard-page__active': activePage==='choose-stats'}">
+        <div>
+            What stats are most important to your creature?
+        </div>
+        <div v-for="(ability, key) in f5.abilities">
+            {{ ability.name }}: {{ ability.desc }}
+        </div>
+
+        <div>
+            <button @click="setCreatureStats">Set Stats</button>
+        </div>
+
+        <div>
+            <button @click="manualStats">Manually Select Stats</button>
+        </div>
+    </div>
+
+    <div class="wizard-page wizard-page__manual-stats" :class="{'wizard-page__active': activePage==='manual-stats'}">
+        <div>
+            What stats are most important to your creature?
+        </div>
+        <div v-for="(ability, key) in f5.abilities">
+            {{ ability.name }}: {{ ability.desc }}
+        </div>
+
+        <div>
+            <button @click="setCreatureStats">Set Stats</button>
+        </div>
+
     </div>
 
 </div>
