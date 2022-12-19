@@ -19,5 +19,10 @@ $lightboxPadding: 20px;
 }
 
 .statblock-wizard {
-    
+    .wizard-page {
+        display: none;
+        &__active {
+            display: block;
+        }
+    }
 }

@@ -15,11 +15,17 @@ export default {
 
     data: function() {
         return {
-            targetCR: -1,
-            playerCount: -1,
-            playerLevel: -1,
-            monsterCount: -1,
-            encounterDifficulty: -1,
+            activePage: 'target-cr',
+
+            targetCR: 0,
+            playerCount: 1,
+            playerLevel: 1,
+            monsterCount: 1,
+            encounterDifficulty: 'easy',
+            set_targetCR: false,
+
+            creatureType: 'aberration',
+            set_creatureType: false,
 
             value: {
                 name: 'Monster',
@@ -161,12 +167,43 @@ export default {
             }
             return speeds;
         },
+        
+
+        setCR: function() {
+            this.set_targetCR = true;
+            this.setActivePage();
+        },
+
+        setCreatureType: function() {
+            this.set_creatureType = true;
+            this.setActivePage();
+        },
+
+        crHelp: function() {
+            this.setActivePage('cr-help');
+        },
 
 
-        changeActivePage: function() {
-            if(targetCR == -1) {
-                target-cr
+        setActivePage: function(force = null) {
+            if(force) {
+                this.activePage = force;
+                return;
             }
-        }
+
+            let pageKeyValues = {
+                set_targetCR: 'target-cr',
+                set_creatureType: 'choose-type',
+            };
+
+            for(let i in pageKeyValues) {
+                console.log('i');
+                console.log(i);
+                console.log(this[i]);
+                if(!this[i]) {
+                    this.activePage = pageKeyValues[i];
+                    return;
+                }
+            }
+        },
     },       
 };
