@@ -59,6 +59,7 @@ return [
         'long_name' => 'f5/damagetypes.type_spells_long',
         'type' => 'magical',
         'resist' => '1',
+        'dealt' => false,
     ],
 
     'fire' => [
