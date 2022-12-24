@@ -26,6 +26,13 @@ return [
     'the_target' => 'the target|the targets',
     'each_target' => 'the target|each target',
 
+    'touch_target' => 'the :creature_name touches a creature. The target|the :creature_name touches :target_count creatures. The targets',
+    'range_target' => 'the :creature_name targets a creature within :target_area. The target|the :creature_name targets :target_count creatures within :target_area. Each target',
+    'cone_target' => 'each creature within a :target_area cone',
+    'cube_target' => 'each creature within a :target_area cube',
+    'sphere_target' => 'each creature within a :target_area radius sphere',
+    'line_target' => 'each creature within a :target_area line that is :line_width wide',
+
     'name_use_a_skill' => 'Use A Skill',
     'desc_use_a_skill' => 'The :creature_name makes a :ability (:skill) check.',
 
@@ -82,6 +89,7 @@ return [
     'title_feature_template' => 'Feature Template',
     'title_attack_type' => 'Attack Type',
     'title_target_type' => 'Target Type',
+    'title_line_width' => 'Line Width',
     'title_attack_range' => 'Attack Range',
     'title_reach_distance' => 'Reach Distance',
     'title_range_distance' => 'Range Distance',

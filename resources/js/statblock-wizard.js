@@ -183,7 +183,7 @@ export default {
         },
 
         setCreatureStats: function() {
-            this.set_creatureType = true;
+            this.set_creatureStats = true;
             this.setActivePage();
         },
 

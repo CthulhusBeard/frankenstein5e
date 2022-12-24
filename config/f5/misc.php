@@ -102,6 +102,7 @@ return [
     'title_attack_type' => 'f5/features.title_attack_type',
     'title_attack_range' => 'f5/features.title_attack_range',
     'title_target_type' => 'f5/features.title_target_type',
+    'title_line_width' => 'f5/features.title_line_width',
     'title_reach_distance' => 'f5/features.title_reach_distance',
     'title_range_distance' => 'f5/features.title_range_distance',
     'title_damage_dice' => 'f5/features.title_damage_dice',
@@ -121,6 +122,13 @@ return [
     'desc_attack_hit' => 'f5/features.desc_attack_hit',
     'the_target' => 'f5/features.the_target',
     'each_target' => 'f5/features.each_target',
+
+    'touch_target' => 'f5/features.touch_target',
+    'range_target' => 'f5/features.range_target',
+    'cone_target' => 'f5/features.cone_target',
+    'cube_target' => 'f5/features.cube_target',
+    'sphere_target' => 'f5/features.sphere_target',
+    'line_target' => 'f5/features.line_target',
 
     //--    
     

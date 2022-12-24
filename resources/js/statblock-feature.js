@@ -27,6 +27,7 @@ export default {
                 passiveTrigger: 'start_of_turn',
                 attackAbility: 'str',
                 targetType: 'melee',
+                targetLineWidth: 5,
                 attackType: 'weapon',
                 attackRange: {'low': 20, 'high': 60},
                 attackReach: 5,
@@ -119,8 +120,9 @@ export default {
                     return 0;
                 }
             }
-            if(this.damageProjection[0] && this.damageProjection[0].hasOwnProperty('damage')) {
-                return this.damageProjection[0].damage;
+
+            if(this.damageProjection && this.damageProjection.hasOwnProperty('damage')) {
+                return this.damageProjection.damage;
             } 
             return 0;
         },
@@ -133,8 +135,9 @@ export default {
                     return 0;
                 }
             }
-            if(this.damageProjection[0] && this.damageProjection[0].hasOwnProperty('maxDamage')) {
-                return this.damageProjection[0].maxDamage;
+            
+            if(this.damageProjection && this.damageProjection.hasOwnProperty('maxDamage')) {
+                return this.damageProjection.maxDamage;
             } 
             return 0;
         },
@@ -595,7 +598,26 @@ export default {
             if(this.value.template == 'attack') {
                 savingThrowText = savingThrowText.replace(':target_text', this.$parent.pluralize(this.f5.misc.the_target, this.value.attackTargets));
             } else {
-                savingThrowText = savingThrowText.replace(':target_text', this.$parent.pluralize(this.f5.misc.each_target, stTargetCount));
+
+                let targetText = '';
+                if(this.value.targetType == 'line') {
+                    targetText = this.f5.misc.line_target.replace(':line_width', this.value.targetLineWidth+' '+this.$parent.$parent.editor.measure.measureUnit);
+                } else if(this.value.targetType == 'cone') {
+                    targetText = this.f5.misc.cone_target;
+                } else if(this.value.targetType == 'cube') {
+                    targetText = this.f5.misc.cube_target;
+                } else if(this.value.targetType == 'sphere') {
+                    targetText = this.f5.misc.sphere_target;
+                } else if(this.value.targetType == 'range') {
+                    targetText = this.$parent.pluralize(this.f5.misc.range_target, stTargetCount);
+                    targetText = targetText.replace(':target_count', stTargetCount);
+                } else if(this.value.targetType == 'touch') {
+                    targetText = this.$parent.pluralize(this.f5.misc.touch_target, stTargetCount);
+                    targetText = targetText.replace(':target_count', stTargetCount);
+                }
+                targetText = targetText.replace(':target_area', this.value.aoeRange+' '+this.$parent.$parent.editor.measure.measureUnit);
+                savingThrowText = savingThrowText.replace(':target_text', targetText);
+
             }
             
             //Adjust for run-on sentences
@@ -947,8 +969,12 @@ export default {
                 str = str.replace(':range', '');
             }
             str = str.replace(':reach_distance', this.value.attackReach+' '+this.$parent.$parent.editor.measure.measureUnit);
-            str = str.replace(':range_distance_low', this.value.attackRange.low);
-            str = str.replace(':range_distance_high', this.value.attackRange.high+' '+this.$parent.$parent.editor.measure.measureUnit);
+            if(this.value.attackRange.low >= this.value.attackRange.high) {
+                str = str.replace(':range_distance_low/:range_distance_high', this.value.attackRange.low+' '+this.$parent.$parent.editor.measure.measureUnit);
+            } else {
+                str = str.replace(':range_distance_low', this.value.attackRange.low);
+                str = str.replace(':range_distance_high', this.value.attackRange.high+' '+this.$parent.$parent.editor.measure.measureUnit);
+            }
             str = str.replace(':targets', this.$parent.pluralize(this.f5.misc.num_of_targets, this.value.attackTargets).replace(':target_count', this.value.attackTargets));
 
             //Saving Throw

@@ -12,8 +12,6 @@
         <label v-else-if="value.template === 'legendary_resistance'" class="title-label">{{f5.featuretemplates.legendary_resistance.name}}:</label>
         <label v-else class="title-label">{{f5.misc.title_feature_name}}:</label>
         <input v-if="value.template !== 'legendary_resistance'" type="text" class="feature__title" v-model="value.name" />
-        <!-- TODO: REMOVE THIS -->
-        <span>Avg DPR: {{averageDPR}} / Max DPR: {{maxDPR}}</span>
 
         <div v-if="value.template !== 'spellcasting' && value.template !== 'multiattack'">
             <label class="title-label">{{f5.misc.title_feature_template}}:</label>
@@ -193,7 +191,15 @@
             <select v-model="value.targetType">
                 <option v-for="(aoe, i) in f5.areaofeffect" v-if="aoe.types.includes(value.template)" :value="i">{{aoe.name}}</option>
             </select>
+            <label class="title-label" v-if="value.targetType == 'line'">{{f5.misc.title_line_width}}:</label>
+            <input type="number" min="5" max="100" v-if="value.targetType == 'line'" v-model="value.targetLineWidth" />
             
+            <div v-if="f5.areaofeffect[value.targetType].target_type === 'select'" >
+                <label class="title-label">{{f5.misc.title_targets}}:</label>
+                <select v-model="value.attackTargets">
+                    <option v-for="i in 5" :value="i">{{i}}</option>
+                </select>
+            </div>
             <div v-if="value.targetType === 'melee' || value.targetType === 'melee_or_ranged'">
                 <label class="title-label">{{f5.misc.title_reach_distance}}:</label>
                 <select v-model="value.attackReach">
@@ -232,12 +238,6 @@
             <select v-model="value.attackAbility">
                 <option v-for="(ability, i) in f5.abilities" :value="i">{{ability.name}}</option>
             </select>
-            <div>
-                <label class="title-label">{{f5.misc.title_targets}}:</label>
-                <select v-model="value.attackTargets">
-                    <option v-for="i in 5" :value="i">{{i}}</option>
-                </select>
-            </div>
 
             <!-- Damage Options -->
             <div>
@@ -539,6 +539,9 @@
             <textarea rows="3" class="feature__description-textarea" v-model="value.additionalDescription"></textarea>
         </div>
 
-        <button class="feature__save">{{f5.misc.title_save}}</button>
+        <!-- TODO: REMOVE THIS -->
+        <div class="feature__dpr-display">Avg. DPR: {{averageDPR}} / Max. DPR: {{maxDPR}}</div>
+        
+        <button class="feature__save">{{f5.misc.title_save}}</button> 
     </div>
 </div>
