@@ -1,11 +1,11 @@
 //TODO: 
 
 HIGH PRIORITY
+- [ ] Figure out why spells are breaking after you add 12 of them!!!
 - [ ] Fix saving throw desc to mention targets
 - [ ] Allow Custom damage dice to select an ability bonus (display ability bonus on selected attacks)
 - [ ] Fix cone desciptions
-- [ ] Spell crits
-- [ ] Figure out why spells are breaking after you add 12 of them
+- [ ] Spell crits? (AOE Spells can't crit. No good way to tell them apart)
 - [ ] Design UI
 - [ ] Tips and suggestions
 - [ ] Consider displaying assumed average target count for AOE attacks (to make better sense of DPR). Consider having "single target DPR" vs "total DPR"
@@ -19,7 +19,7 @@ HIGH PRIORITY
 - [ ] Adjust offensive and defensive CR calculations (beware cyclical updates)
 //      -> ref: https://www.reddit.com/r/DMAcademy/comments/nc3i47/the_cr_calculator_in_the_dmg_is_wack_it_doesnt/gy34lun/
 //      -> Features that increase CR - DMG 280 ("Does this feature alter CR? By how much?")
-- [ ] Encounter calculator
+- [ ] Encounter graph needs work for multiples of a monster
 - [ ] Merge projections for Multiattack
 //      -> Consider Action Surge/Multiattack combo
 - [ ] Clean up feature object (only export the fields needed. There are many unused fields) "template: {type: attack, damage: etc}"
