@@ -27,7 +27,22 @@ export default {
             creatureType: 'aberration',
             set_creatureType: false,
 
-            creatureStats: [],
+            creatureAbilityScores: {
+                str: 10,
+                dex: 10,
+                con: 10,
+                int: 10,
+                wis: 10,
+                cha: 10,
+            },
+            creatureAbilityScorePriority: [
+                'str',
+                'dex',
+                'con',
+                'int',
+                'wis',
+                'cha',
+            ],
             set_creatureStats: false,
 
             value: {
@@ -196,6 +211,21 @@ export default {
         },
 
 
+        shiftAbilityPriorityUp: function(score) {
+            let index = this.creatureAbilityScorePriority.indexOf(score);
+            if(index > 0) {
+                this.creatureAbilityScorePriority.splice(index-1, 0, this.creatureAbilityScorePriority.splice(index, 1)[0]);
+            }
+        },
+
+        shiftAbilityPriorityDown: function(score) {
+            let index = this.creatureAbilityScorePriority.indexOf(score);
+            if(index < this.creatureAbilityScorePriority.length) {
+                this.creatureAbilityScorePriority.splice(index+1, 0, this.creatureAbilityScorePriority.splice(index, 1)[0]);
+            }
+        },
+
+
         setActivePage: function(force = null) {
             if(force) {
                 this.activePage = force;
@@ -218,5 +248,10 @@ export default {
                 }
             }
         },
+
+        abilityScoreDistributionByCR: function(cr) {
+            //TODO: This
+            return '[30, 30, 30, 30, 30, 30] //TODO';
+        }
     },       
 };
