@@ -244,9 +244,9 @@ return [
     'title_proper_noun' => 'f5/misc.title_proper_noun',
     'title_short_name' => 'f5/misc.title_short_name',
     'title_size' => 'f5/sizes.title_size',
-    'title_type' => 'f5/types.title_type',
-    'title_subtype' => 'f5/subtypes.title_subtype',
-    'title_category' => 'f5/subtypes.title_category',
+    'title_type' => 'f5/creaturetypes.title_type',
+    'title_subtype' => 'f5/creaturesubtypes.title_subtype',
+    'title_category' => 'f5/creaturesubtypes.title_category',
 
     'title_damage_resistances' => 'f5/damagetypes.title_damage_resistances',
     'title_damage_immunities' => 'f5/damagetypes.title_damage_immunities',
