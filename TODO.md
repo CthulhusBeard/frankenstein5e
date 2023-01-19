@@ -40,8 +40,10 @@ FINAL TOUCHES
 - [ ] SEO meta
 - [ ] Clean up label "for"s
 - [ ] Replace some drop downs with input number fields
+- [ ] Remove trademarked creatures?
 
 OPTIONAL
 - [ ] Loc cleanup
+- [ ] Monster intelligence profile (how smart will the enemy fight? instinctively attack threats/target casters/attack downed creatures/ etc)
 - [ ] Convert units
 - [ ] Regional effects
