@@ -33,7 +33,6 @@ class FrankensteinController extends Controller
                 'recharge',
                 'regenerate',
                 'dicetypes',
-                'challengerating',
                 'abilities',
                 'featureactiontypes',
                 'featuretemplates',
@@ -48,9 +47,10 @@ class FrankensteinController extends Controller
                 'skills',
                 'senses',
                 'speeds',
-                'tools',
+                //'tools',
                 'armortypes',
                 'armor',
+                'challengerating',
                 'creaturetypes',
                 'creaturesubtypes',
                 'features',
@@ -88,7 +88,7 @@ class FrankensteinController extends Controller
     }
 
     private function translateJSON($data) {
-        preg_match_all('/\"f5\\\\?\/[a-z\|_\\\\]*\.[a-z\|_\\\\]*\"/', $data, $output_array);
+        preg_match_all('/\"f5\\\\?\/[a-z\|_\\\\]*\.[0-9a-z\|_\\\\]*\"/', $data, $output_array);
 
         if(isset($output_array[0])) {
             foreach($output_array[0] as $match) {

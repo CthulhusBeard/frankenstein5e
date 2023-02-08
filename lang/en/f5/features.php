@@ -111,4 +111,24 @@ return [
     'title_damage_occurance' => 'Damage Occurs',
     'title_damage_duration' => 'Duration',
 
+
+    //Features
+    'name_legendary_resistance' => 'Legendary Resistance',
+    'desc_legendary_resistance' => 'TODO',
+    'name_spellcasting' => 'Spellcasting',
+    'desc_spellcasting' => 'TODO',
+    'name_innate_spellcasting' => 'Innate Spellcasting',
+    'desc_innate_spellcasting' => 'TODO',
+    
+    'name_amphibious' => 'Amphibious',
+    'desc_amphibious' => 'TODO',
+    'name_breath_water' => 'Breath Water',
+    'desc_breath_water' => 'TODO',
+    'name_immutable_form' => 'Immutable Form',
+    'desc_immutable_form' => 'TODO',
+    'name_fey_ancestry' => 'Fey Ancestry',
+    'desc_fey_ancestry' => 'TODO',
+    'name_stout_resilience' => 'Stout Resilience',
+    'desc_stout_resilience' => 'TODO',
+
 ];

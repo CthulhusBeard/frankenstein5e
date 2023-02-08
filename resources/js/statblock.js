@@ -32,7 +32,8 @@ export default {
                 isNameProperNoun: false,
                 size: 'medium',
                 type: 'dragon',
-                subtype: '',
+                subtypes: [],
+                customSubtype: '',
                 typeCategory: '',
                 alignment: '',
                 showTypicalAlignment: true,
@@ -257,14 +258,23 @@ export default {
                 if(descStr != '') descStr += ' '; 
                 descStr += this.capitalize(this.getProp(this.f5.creaturetypes[this.value.type]));
             }
-            if(this.value.subtype /*|| (this.value.showtypeCategory && this.value.typeCategory)*/) { 
+            if(this.value.subtypes.length /*|| (this.value.showtypeCategory && this.value.typeCategory)*/) { 
+
                 if(descStr != '') descStr += ' '; 
                 descStr += '('
-                if(this.value.subtype) {
-                    descStr += this.getProp(this.f5.creaturesubtypes[this.value.subtype]);
+                if(this.value.subtypes.length) {
+                    let modifiedList = [];
+                    for(let i in this.value.subtypes) {
+                        if(this.f5.creaturesubtypes.hasOwnProperty(this.value.subtypes[i])) {
+                            modifiedList[i] = this.getProp(this.f5.creaturesubtypes[this.value.subtypes[i]]);
+                        } else {
+                            modifiedList[i] = this.value.subtypes[i];
+                        }
+                    }
+                    descStr += this.createSimpleList(modifiedList);
                 }
                 /* TODO Do something with category?
-                if(this.value.subtype && (this.value.showtypeCategory && this.value.typeCategory)) { 
+                if(this.value.subtypes && (this.value.showtypeCategory && this.value.typeCategory)) { 
                     str += ', ';
                 }
                 */
@@ -583,8 +593,7 @@ export default {
 
                 for (let i in this.f5.creaturesubtypes) {
                     
-                    let subtypeObj = this.f5.creaturesubtypes[i];
-                    subtypeObj.id = i;
+                    let subtypeObj = { value: i, label: this.f5.creaturesubtypes[i].name};
 
                     if(this.f5.creaturetypes[this.value.type]['subtypes'].includes(i)) {
                         topSubtypes.splice(count, 0, subtypeObj);
@@ -600,27 +609,27 @@ export default {
             return this.f5.creaturesubtypes;
         },
 
-        //Type Options
-        typeCategoryList: function() {
-            let optionsList = [];
+        // //Type Options
+        // typeCategoryList: function() {
+        //     let optionsList = [];
 
-            if(this.f5.creaturetypes.hasOwnProperty(this.value.type) && this.f5.creaturetypes[this.value.type].hasOwnProperty('options')) {
-                for (let i in this.f5.creaturetypes[this.value.type]['options']) {
-                    let data = this.f5.creaturetypes[this.value.type]['options'][i];
-                    data.id = i;
-                    optionsList.push(data);
-                }
-            }
+        //     if(this.f5.creaturetypes.hasOwnProperty(this.value.type) && this.f5.creaturetypes[this.value.type].hasOwnProperty('options')) {
+        //         for (let i in this.f5.creaturetypes[this.value.type]['options']) {
+        //             let data = this.f5.creaturetypes[this.value.type]['options'][i];
+        //             data.id = i;
+        //             optionsList.push(data);
+        //         }
+        //     }
 
-            if(this.f5.creaturesubtypes.hasOwnProperty(this.value.subtype) && this.f5.creaturesubtypes[this.value.subtype].hasOwnProperty('options')) {
-                for (let i in this.f5.creaturesubtypes[this.value.subtype]['options']) {
-                    let data = this.f5.creaturesubtypes[this.value.subtype]['options'][i];
-                    data.id = i;
-                    optionsList.push(data);
-                }
-            }
-            return optionsList;
-        },
+        //     if(this.f5.creaturesubtypes.hasOwnProperty(this.value.subtypes) && this.f5.creaturesubtypes[this.value.subtypes].hasOwnProperty('options')) {
+        //         for (let i in this.f5.creaturesubtypes[this.value.subtypes]['options']) {
+        //             let data = this.f5.creaturesubtypes[this.value.subtypes]['options'][i];
+        //             data.id = i;
+        //             optionsList.push(data);
+        //         }
+        //     }
+        //     return optionsList;
+        // },
 
         //Languages
         languageText: function() {
@@ -1163,37 +1172,6 @@ export default {
             }
             if(damageObj.hasOwnProperty('type')) {
                 descText += ' '+this.f5.misc.damage.replace(':type', this.f5.damagetypes[damageObj.type].name.toLowerCase());
-            }
-            return descText;
-        },
-
-        createSentenceList: function(input, inclusive = true, modifierFunction = null) {
-            let len = input.length;
-            if(isNaN(len)) {
-                if(!isNaN(Object.keys(input).length)) {
-                    len = Object.keys(input).length;
-                }
-            }
-            let descText = '';
-            for(let i in input) {
-                //TODO this might need to change in other languages
-                if(descText) {
-                    if(len > 2) {
-                        descText += this.f5.misc.sentence_list_separator+' ';
-                    }
-                    if(i == len-1) {
-                        if(inclusive) {
-                            descText += ' '+this.f5.misc.and+' ';
-                        } else {
-                            descText += ' '+this.f5.misc.or+' ';
-                        }
-                    }
-                }
-                if(modifierFunction != null && typeof modifierFunction === 'function') {
-                    descText += modifierFunction(input[i]);
-                } else {
-                    descText += input[i];
-                }
             }
             return descText;
         },

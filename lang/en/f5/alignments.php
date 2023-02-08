@@ -14,6 +14,9 @@ return [
     'chaotic_evil' => 'Chaotic Evil',
     'unaligned' => 'Unaligned',
 
+    'good' => 'Good',
+    'evil' => 'Evil',
+
     'title_alignments' => 'Alignments',
     'alignments_typically' => 'Typically :alignment',
     'title_alignments_typically' => 'Show \"Typically\"',

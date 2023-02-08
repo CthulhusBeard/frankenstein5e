@@ -29,6 +29,68 @@ return [
         'dealt' => false,
     ],
 
+    
+    'acid' => [
+        'name' => 'f5/damagetypes.type_acid',
+        'type' => 'elemental',
+        'resist' => '3',
+    ],
+    'cold' => [
+        'name' => 'f5/damagetypes.type_cold',
+        'type' => 'elemental',
+        'resist' => '3',
+    ],
+    'fire' => [
+        'name' => 'f5/damagetypes.type_fire',
+        'type' => 'elemental',
+        'resist' => '2',
+    ],
+    'lightning' => [
+        'name' => 'f5/damagetypes.type_lightning',
+        'type' => 'elemental',
+        'resist' => '3',
+    ],
+    'necrotic' => [
+        'name' => 'f5/damagetypes.type_necrotic',
+        'type' => 'planar',
+        'resist' => '3',
+    ],
+    'poison' => [
+        'name' => 'f5/damagetypes.type_poison',
+        'type' => 'elemental',
+        'resist' => '2',
+    ],
+    'radiant' => [
+        'name' => 'f5/damagetypes.type_radiant',
+        'type' => 'planar',
+        'resist' => '3',
+    ],
+    'thunder' => [
+        'name' => 'f5/damagetypes.type_thunder',
+        'type' => 'elemental',
+        'resist' => '4',
+    ],
+
+    'force' => [
+        'name' => 'f5/damagetypes.type_force',
+        'type' => 'physical',
+        'resist' => '5',
+    ],
+
+    'psychic' => [
+        'name' => 'f5/damagetypes.type_psychic',
+        'type' => 'mental',
+        'resist' => '5',
+    ],
+
+    'spells' => [
+        'name' => 'f5/damagetypes.type_spells',
+        'long_name' => 'f5/damagetypes.type_spells_long',
+        'type' => 'magical',
+        'resist' => '1',
+        'dealt' => false,
+    ],
+
     'physical_non_magical' => [
         'name' => 'f5/damagetypes.type_physical_non_magical',
         'long_name' => 'f5/damagetypes.type_physical_non_magical_long',
@@ -52,68 +114,6 @@ return [
         'magical' => false,
         'rank' => '1',
         'dealt' => false,
-    ],
-
-    'spells' => [
-        'name' => 'f5/damagetypes.type_spells',
-        'long_name' => 'f5/damagetypes.type_spells_long',
-        'type' => 'magical',
-        'resist' => '1',
-        'dealt' => false,
-    ],
-
-    'fire' => [
-        'name' => 'f5/damagetypes.type_fire',
-        'type' => 'elemental',
-        'resist' => '2',
-    ],
-    'cold' => [
-        'name' => 'f5/damagetypes.type_cold',
-        'type' => 'elemental',
-        'resist' => '3',
-    ],
-    'lightning' => [
-        'name' => 'f5/damagetypes.type_lightning',
-        'type' => 'elemental',
-        'resist' => '3',
-    ],
-    'acid' => [
-        'name' => 'f5/damagetypes.type_acid',
-        'type' => 'elemental',
-        'resist' => '3',
-    ],
-    'thunder' => [
-        'name' => 'f5/damagetypes.type_thunder',
-        'type' => 'elemental',
-        'resist' => '4',
-    ],
-    'poison' => [
-        'name' => 'f5/damagetypes.type_poison',
-        'type' => 'elemental',
-        'resist' => '2',
-    ],
-
-    'radiant' => [
-        'name' => 'f5/damagetypes.type_radiant',
-        'type' => 'planar',
-        'resist' => '3',
-    ],
-    'necrotic' => [
-        'name' => 'f5/damagetypes.type_necrotic',
-        'type' => 'planar',
-        'resist' => '3',
-    ],
-
-    'force' => [
-        'name' => 'f5/damagetypes.type_force',
-        'type' => 'physical',
-        'resist' => '5',
-    ],
-
-    'psychic' => [
-        'name' => 'f5/damagetypes.type_psychic',
-        'type' => 'mental',
-        'resist' => '5',
     ],
 
 

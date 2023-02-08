@@ -5,20 +5,14 @@ return [
         'name' => 'f5/creaturetypes.aberration',
         'desc' => 'f5/creaturetypes.aberration_desc',
         'subtypes' => [
-            'beholderkin'=> [
-                'name' => 'f5/creaturesubtypes.beholderkin',
-                'tags' => [
-
-                ],
-            ],
-            'shapechanger'=> [
-                'name' => 'f5/creaturesubtypes.shapechanger',
-                'tags' => [
-                ],
-            ],
+            'shapechanger'
         ],
         'tags' => [
-            'language_deep_speech' => 'common',
+            'stats' => 'f5/creaturetypes.aberration_tip_stats',
+            // 'saves' => ['con', 'int'],
+            'languages' => [
+                'deep_speech'
+            ]
         ],
     ],
     'beast' => [
@@ -28,42 +22,16 @@ return [
             'swarm',
         ],
         'options' => [
-            'mammal' => [
-                'name' => 'f5/creaturesubtypes.mammal',
-                'tags' => [
-                    'claws'
-                ]
-            ],
-            'reptile' => [
-                'name' => 'f5/creaturesubtypes.reptile',
-                'tags' => [
-                    'claws'
-                ]
-            ],
-            'avian' => [
-                'name' => 'f5/creaturesubtypes.avian',
-                'tags' => [
-                    'speed_fly',
-                    'wings'
-                ]
-            ],
-            'aquatic' => [
-                'name' => 'f5/creaturesubtypes.aquatic',
-                'tags' => [
-                    'speed_swim',
-                    'feature_breath_water'
-                ]
-            ],
-            'amphibian' => [
-                'name' => 'f5/creaturesubtypes.amphibian',
-                'tags' => [
-                    'speed_swim',
-                    'feature_amphibious'
-                ]
-            ],
+            'mammal',
+            'reptile',
+            'avian',
+            'aquatic',
+            'amphibian'
         ],
         'tags' => [
-            'alignment_unaligned' => 'common',
+            'stats' => 'f5/creaturetypes.beast_tip_stats',
+            // 'saves' => ['dex', 'con'],
+            'alignments' => 'unaligned',
         ],
     ],
     'celestial' => [
@@ -72,178 +40,89 @@ return [
         'subtypes' => [
             'shapechanger',
         ],
+        'tags' => [
+            'stats' => 'f5/creaturetypes.celestial_tip_stats',
+            // 'saves' => ['wis', 'cha'],
+            'alignments' => 'good',
+        ],
     ],
     'construct' => [
         'name' => 'f5/creaturetypes.construct',
         'desc' => 'f5/creaturetypes.construct_desc',
         'subtypes' => [
-            'inevitable'
+            'inevitable',
+        ],
+        'options' => [
+            'inevitable',
+            'modron',
         ],
         'tags' => [
-            'feature_immutable_form' => 'common',        
-            'damage_resistance_necrotic' => 'common',
-            'condition_immunity_exhausted' => 'common',
-            'condition_immunity_frightened' => 'common',
+            'stats' => 'f5/creaturetypes.construct_tip_stats',
+            // 'saves' => ['con'],
+            'features' => 'immutable_form',        
+            'damage_resistances' => [
+                'necrotic',
+                'poison',
+            ],
+            'condition_immunities' => [
+                'exhausted',
+                'frightened'
+            ],
         ],
     ],
     'dragon' => [
         'name' => 'f5/creaturetypes.dragon',
         'desc' => 'f5/creaturetypes.dragon_desc',
-        'options' => [
-            'black' => [
-                'name' => 'f5/creaturesubtypes.black',
-                'tags' => [        
-                    'damage_immunity_acid' => 'always',
-                    'alignment_evil' => 'common',
-                ],
-            ],
-            'white' => [
-                'name' => 'f5/creaturesubtypes.white',
-                'tags' => [        
-                    'damage_immunity_cold' => 'always',
-                    'alignment_evil' => 'common',
-                ],
-            ],
-            'red' => [
-                'name' => 'f5/creaturesubtypes.red',
-                'tags' => [        
-                    'damage_immunity_fire' => 'always',
-                    'alignment_evil' => 'common',
-                ],
-            ],
-            'blue' => [
-                'name' => 'f5/creaturesubtypes.blue',
-                'tags' => [        
-                    'damage_immunity_lightning' => 'always',
-                    'alignment_evil' => 'common',
-                ],
-            ],
-            'green' => [
-                'name' => 'f5/creaturesubtypes.green',
-                'tags' => [        
-                    'damage_immunity_poison' => 'always',
-                    'alignment_evil' => 'common',
-                ],
-            ],
-
-            'copper' => [
-                'name' => 'f5/creaturesubtypes.copper',
-                'tags' => [        
-                    'damage_immunity_acid' => 'always',
-                    'alignment_good' => 'common',
-                ],
-            ],
-            'silver' => [
-                'name' => 'f5/creaturesubtypes.silver',
-                'tags' => [        
-                    'damage_immunity_cold' => 'always',
-                    'alignment_good' => 'common',
-                ],
-            ],
-            'brass' => [
-                'name' => 'f5/creaturesubtypes.brass',
-                'tags' => [        
-                    'damage_immunity_fire' => 'always',
-                    'alignment_good' => 'common',
-                ],
-            ],
-            'bronze' => [
-                'name' => 'f5/creaturesubtypes.bronze',
-                'tags' => [        
-                    'damage_immunity_lightning' => 'always',
-                    'alignment_good' => 'common',
-                ],
-            ],
-            'gold' => [
-                'name' => 'f5/creaturesubtypes.gold',
-                'tags' => [        
-                    'damage_immunity_fire' => 'always',
-                    'alignment_good' => 'common',
-                ],
-            ],
+        'subtypes' => [
+            'chromatic_dragon',
+            'metallic_dragon',
+            'gem_dragon',
+            'shapechanger',
         ],
-        'tags' => [        
-            'subtype_shapechanger' => 'rare',
+        'options' => [
+            'black_dragon',
+            'white_dragon',
+            'red_dragon',
+            'blue_dragon',
+            'green_dragon',
+            'copper_dragon',
+            'silver_dragon',
+            'brass_dragon',
+            'bronze_dragon',
+            'gold_dragon',
+            
+            'chromatic_dragon',
+            'metallic_dragon',
+            'gem_dragon',
+
+            'drake',
+            'wyvern',
+        ],
+        'tags' => [
+            'stats' => 'f5/creaturetypes.dragon_tip_stats',
+            // 'saves' => ['dex','con','wis','cha'],
         ],
     ],
     'elemental' => [
         'name' => 'f5/creaturetypes.elemental',
         'desc' => 'f5/creaturetypes.elemental_desc',
         'options' => [
-            'air' => [
-                'name' => 'f5/creaturesubtypes.air',
-                'tags' => [        
-                    'damage_resistance_physical' => 'common',
-                ],
-            ],
-            'fire' => [
-                'name' => 'f5/creaturesubtypes.fire',
-                'tags' => [        
-                    'damage_immunity_fire' => 'always',
-                ],
-            ],
-            'earth' => [
-                'name' => 'f5/creaturesubtypes.earth',
-                'tags' => [        
-                    'damage_resistance_physical' => 'always',
-                ],
-            ],
-            'water' => [
-                'name' => 'f5/creaturesubtypes.water',
-                'tags' => [
-                    'damage_resistance_acid' => 'always', 
-                    'feature_amphibious' => 'common',   
-                ],
-            ],
-            'acid' => [
-                'name' => 'f5/creaturesubtypes.acid',
-                'tags' => [        
-                    'damage_immunity_acid' => 'always',
-                ],
-            ],
-            'lightning' => [
-                'name' => 'f5/creaturesubtypes.lightning',
-                'tags' => [        
-                    'damage_immunity_lightning' => 'always',
-                ],
-            ],
-            'storm' => [
-                'name' => 'f5/creaturesubtypes.storm',
-                'tags' => [        
-                    'damage_immunity_lightning' => 'always',
-                ],
-            ],
-            'ice' => [
-                'name' => 'f5/creaturesubtypes.ice',
-                'tags' => [        
-                    'damage_immunity_cold' => 'always',
-                ],
-            ],
-            'dust' => [
-                'name' => 'f5/creaturesubtypes.dust',
-                'tags' => [
-                ],
-            ],
-            'magma' => [
-                'name' => 'f5/creaturesubtypes.magma',
-                'tags' => [
-                    'damage_immunity_fire' => 'always',
-                ],
-            ],
-            'ooze' => [
-                'name' => 'f5/creaturesubtypes.ooze',
-                'tags' => [
-                    'feature_amphibious' => 'common',
-                ],
-            ],
-            'steam' => [
-                'name' => 'f5/creaturesubtypes.steam',
-                'tags' => [
-                ],
-            ],
+            'air_elemental',
+            'fire_elemental',
+            'earth_elemental',
+            'water_elemental',
+            'acid_elemental',
+            'lightning_elemental',
+            'storm_elemental',
+            'ice_elemental',
+            'dust_elemental',
+            'magma_elemental',
+            'ooze_elemental',
+            'steam_elemental'
         ],
-        'tags' => [        
-            'damage_resistance_elemental' => 'always',
+        // 'saves' => ['wis','cha'],
+        'tags' => [
+            'stats' => 'f5/creaturetypes.elemental_tip_stats',
         ],
     ],
     'fey' => [
@@ -252,6 +131,10 @@ return [
         'subtypes' => [
             'elf',
             'shapechanger',
+        ],
+        'tags' => [
+            'stats' => 'f5/creaturetypes.fey_tip_stats',
+            // 'saves' => ['wis','cha'],
         ],
     ],
     'fiend' => [
@@ -263,52 +146,27 @@ return [
             'shapechanger',
             'yugoloth',
         ],
-        'tags' => [        
-            'damage_resistance_fire' => 'common',
-            'alignment_evil' => 'common',
+        'tags' => [
+            'stats' => 'f5/creaturetypes.fiend_tip_stats',
+            'damage_resistances' => 'fire',
+            'alignments' => 'evil',
         ],
     ],
     'giant' => [
         'name' => 'f5/creaturetypes.giant',
         'desc' => 'f5/creaturetypes.giant_desc',
         'options' => [
-            'fire_giant' => [
-                'name' => 'f5/creaturesubtypes.fire_giant',
-                'tags' => [        
-                    'damage_immunity_fire' => 'always',
-                ],
-            ],
-            'cloud_giant' => [
-                'name' => 'f5/creaturesubtypes.cloud_giant',
-                'tags' => [        
-                ],
-            ],
-            'frost_giant' => [
-                'name' => 'f5/creaturesubtypes.frost_giant',
-                'tags' => [        
-                    'damage_immunity_cold' => 'always',
-                ],
-            ],
-            'hill_giant' => [
-                'name' => 'f5/creaturesubtypes.hill_giant',
-                'tags' => [        
-                ],
-            ],
-            'stone_giant' => [
-                'name' => 'f5/creaturesubtypes.stone_giant',
-                'tags' => [        
-                ],
-            ],
-            'storm_giant' => [
-                'name' => 'f5/creaturesubtypes.storm_giant',
-                'tags' => [        
-                    'damage_immunity_lightning' => 'always',
-                    'damage_immunity_thunder' => 'always',
-                ],
-            ],
+            'fire_giant',
+            'cloud_giant',
+            'frost_giant',
+            'hill_giant',
+            'stone_giant',
+            'storm_giant',
         ],
         'tags' => [
-            'size_huge' => 'common',
+            'stats' => 'f5/creaturetypes.giant_tip_stats',
+            'saves' => ['con', 'cha'],
+            'sizes' => 'huge',
         ],
     ],
     'humanoid' => [
@@ -345,21 +203,28 @@ return [
             'merfolk',
             'mongrelfolk',
             'orc',
+            'owlin',
             'quaggoth',
             'satyr',
             'sahuagin',
             'saurial',
+            'shifter',
             'tabaxi',
             'thri_kreen',
             'tiefling',
             'tortle',
+            'tritan',
             'troglodyte',
             'xvart',
             'yuan_ti',
             'shapechanger',
         ],
         'tags' => [
-            'size_medium' => 'common',
+            'stats' => 'f5/creaturetypes.humanoid_tip_stats',
+            'size' => [
+                'medium',
+                'small'
+            ],
         ],
     ],
     'monstrosity' => [
@@ -369,12 +234,18 @@ return [
             'shapechanger',
             'yuan_ti',
         ],
+        'tags' => [
+            'stats' => 'f5/creaturetypes.monstrosity_tip_stats',
+        ],
     ],
     'ooze' => [
         'name' => 'f5/creaturetypes.ooze',
         'desc' => 'f5/creaturetypes.ooze_desc',
         'subtypes' => [
             'shapechanger',
+        ],
+        'tags' => [
+            'stats' => 'f5/creaturetypes.ooze_tip_stats',
         ],
     ],
     'plant' => [
@@ -383,8 +254,9 @@ return [
         'subtypes' => [
 
         ],
-        'tags' => [        
-            'damage_resistance_lightning',
+        'tags' => [
+            'stats' => 'f5/creaturetypes.plant_tip_stats',
+            'damage_resistances' => 'lightning',
         ],
     ],
     'undead' => [
@@ -394,11 +266,14 @@ return [
             'shapechanger',
             'titan',
         ],
-        'tags' => [ 
-            'damage_resistance_necrotic' => 'common',
-            'feature_undead_fortitude' => 'common',
-            'condition_immunity_exhausted' => 'common',
-            'condition_immunity_frightened' => 'common',
+        'tags' => [
+            'stats' => 'f5/creaturetypes.undead_tip_stats',
+            'damage_resistances' => 'necrotic',
+            'features' => 'undead_fortitude',
+            'condition_immunities' => [
+                'exhausted',
+                'frightened',
+            ],
         ],
     ],    
 

@@ -69,6 +69,8 @@ return [
     'please_select_one' => 'f5/misc.please_select_one',
     'choose_a' => 'f5/misc.choose_a',
     'choose_skill' => 'f5/misc.choose_skill',
+    'choose_subtypes' => 'f5/misc.choose_subtypes',
+    'choose_tags' => 'f5/misc.choose_tags',
     'choose_expertise' => 'f5/misc.choose_expertise',
     'choose_abilities' => 'f5/misc.choose_abilities',
     'choose_conditions' => 'f5/misc.choose_conditions',
@@ -341,5 +343,15 @@ return [
 
     'title_encounter_difficulty' => 'f5/encounterdifficulties.title_encounter_difficulty',
     'title_total_xp' => 'f5/encounterdifficulties.title_total_xp',
+
+    'wizard_cr_description' => 'f5/wizard.wizard_cr_description',
+    'wizard_cr_proficiency' => 'f5/wizard.wizard_cr_proficiency',
+    'wizard_cr_attack_bonus' => 'f5/wizard.wizard_cr_attack_bonus',
+    'wizard_cr_hit_points' => 'f5/wizard.wizard_cr_hit_points',
+    'wizard_cr_ac' => 'f5/wizard.wizard_cr_ac',
+    'wizard_cr_examples' => 'f5/wizard.wizard_cr_examples',
+
+
+
 
 ];

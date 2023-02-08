@@ -35,9 +35,27 @@ return [
         'action_type' => 'passive',
     ],
 
+    'immutable_form' => [
+        'name' => 'f5/features.name_immutable_form',
+        'desc' => 'f5/features.desc_immutable_form',
+        'action_type' => 'passive',
+    ],
+
     'breath_water' => [
         'name' => 'f5/features.name_breath_water',
         'desc' => 'f5/features.desc_breath_water',
+        'action_type' => 'passive',
+    ],
+
+    'fey_ancestry' => [
+        'name' => 'f5/features.name_fey_ancestry',
+        'desc' => 'f5/features.desc_fey_ancestry',
+        'action_type' => 'passive',
+    ],
+
+    'stout_resilience' => [
+        'name' => 'f5/features.name_stout_resilience',
+        'desc' => 'f5/features.desc_stout_resilience',
         'action_type' => 'passive',
     ],
 

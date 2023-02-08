@@ -37,4 +37,10 @@ return [
     'unaligned' => [
         'name' => 'f5/alignments.unaligned',
     ],
+    'good' => [
+        'name' => 'f5/alignments.good',
+    ],
+    'evil' => [
+        'name' => 'f5/alignments.evil',
+    ],
 ];

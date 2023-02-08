@@ -1,23 +1,41 @@
 <div class="statblock-wizard popup-overlay">
     
-    <div class="wizard-page wizard-page__target-cr" :class="{'wizard-page__active': activePage==='target-cr'}">
-        <div>
-            What challenge rating do your monster to be?
-            <select v-model="targetCR">
-                <option v-for="(crData, key) in $parent.sortedCRList" :value="crData.cr" >{{crData.cr_text}}</option>
-            </select>
-        </div>
+    <div class="wizard-page wizard-page__target-cr flexrow" :class="{'wizard-page__active': activePage==='target-cr'}">
+        <div class="wizard-header">Challenge Rating Selector</div>
 
         <div>
-            <button @click="setCR">Set CR</button>
-        </div>
+            <div>
+                What challenge rating do your monster to be?
+                <select v-model="targetCR">
+                    <option v-for="(crData, key) in $parent.sortedCRList" :value="crData.cr_text" >{{crData.cr_text}}</option>
+                </select>
+                <div class="small-text">Unsure? Use the <span class="fake-link" @click="crHelp">CR Calculator</span></div>
+            </div>
 
-        <div>
-            <button @click="crHelp">Let's figure it out</button>
+            <br/>
+
+            <div>
+                <span><strong>{{targetCRDesc}}</strong></span>
+                <ul>
+                    <li><strong>{{f5.misc.wizard_cr_proficiency}}</strong> +{{targetCRData.prof}}</li>
+                    <li><strong>{{f5.misc.wizard_cr_attack_bonus}}</strong> ~{{targetCRData.attack_bonus}}</li>
+                    <li><strong>{{f5.misc.wizard_cr_hit_points}}</strong> {{targetCRData.hp.low}} - {{targetCRData.hp.high}}</li>
+                    <li><strong>{{f5.misc.wizard_cr_ac}}</strong> ~{{targetCRData.ac}}</li>
+                    <li><strong>{{f5.misc.wizard_cr_examples}}</strong> {{targetCRData.examples}}</li>
+                </ul>
+            </div>
+
+            <div class="btnContainer">
+                <button @click="setCR()">Set CR</button>
+            </div>
         </div>
     </div>
+    
+<!-- -->
 
     <div class="wizard-page wizard-page__cr-help" :class="{'wizard-page__active': activePage==='cr-help'}">
+        <div class="wizard-header">Challenge Rating Calculator</div>
+        
         <div>
             How many player characters are there?
             <input type="number" v-model="playerCount" min="1" max="15" />
@@ -40,32 +58,129 @@
             </select>
         </div>
 
+        <br/>
+
         <div>
-            <button @click="setCR">Set CR</button>
+            <span><strong>Recommended CR: {{ recommendedCR }}</strong></span>
+            <ul>
+                <li><strong>{{f5.misc.wizard_cr_proficiency}}</strong> +{{targetCRData.prof}}</li>
+                <li><strong>{{f5.misc.wizard_cr_attack_bonus}}</strong> ~{{targetCRData.attack_bonus}}</li>
+                <li><strong>{{f5.misc.wizard_cr_hit_points}}</strong> {{targetCRData.hp.low}} - {{targetCRData.hp.high}}</li>
+                <li><strong>{{f5.misc.wizard_cr_ac}}</strong> ~{{targetCRData.ac}}</li>
+                <li><strong>{{f5.misc.wizard_cr_examples}}</strong> {{targetCRData.examples}}</li>
+            </ul>
         </div>
+
+        <div class="btnContainer">
+            <button @click="setCR()">Set CR</button>
+        </div>
+
+        <button class="wizard-back" @click="setCR(false)"> < Back</button>
     </div>
+    
+<!-- -->
 
     <div class="wizard-page wizard-page__choose-type" :class="{'wizard-page__active': activePage==='choose-type'}">
+        <div class="wizard-header">Creature Type</div>
+
         <div>
             What type of creature do you want to create?
         </div>
         
-        <div v-for="(type, key) in f5.creaturetypes">
-            <input type="radio" name="creature-type" :value="key" v-model="creatureType" />
-            <strong>{{ type.name }}</strong> 
-            <span class="info">ⓘ<div class="info-hover">{{ type.desc }}</div></span> 
+        <div class="flex-rows creature-type-outer-container">
+            <div class="creature-type-inner-container">
+                <div><strong>Creature Type:</strong></div>
+                <div v-for="(type, key) in f5.creaturetypes">
+                    <input type="radio" name="creature-type" :id="'creature-type-'+key" :value="key" v-model="creatureType" />
+                    <label :for="'creature-type-'+key"><strong>{{ type.name }}</strong></label>
+                    <span class="info">🛈<div class="info-hover">{{ type.desc }}</div></span> 
+                </div>
+            </div>
+
+            <div class="creature-type-inner-container subtypes">
+                <div><strong>Creature Subtype:</strong></div>
+
+                <Multiselect class="edit-field edit-field--flex"
+                    :placeholder="f5.misc.choose_subtypes"
+                    v-model="creatureSubtypes" 
+                    :options="orderedSubtypes" 
+                    mode="tags"
+                    :close-on-select="false"
+                    :searchable="true"
+                    :create-option="true"
+                >
+                        <template v-slot:tag="{ option, handleTagRemove, disabled }">
+                            <div class="multiselect-tag">
+                                {{ option.label }}
+                                <span v-if="!disabled" class="multiselect-tag-remove" @mousedown.prevent="handleTagRemove(option, $event)">
+                                    <span class="multiselect-tag-remove-icon"></span>
+                                </span>
+                            </div>
+                        </template>
+
+                        <template v-slot:option="{ option }">
+                            {{ option.label }}
+                        </template>
+                </Multiselect>
+
+                <br/>
+                <br/>
+
+                <div v-if="creatureSpecificsList.length || creatureSpecifics.length">
+                    <div><strong>Creature Tags:</strong></div>
+                        <Multiselect class="edit-field edit-field--flex"
+                        :placeholder="f5.misc.choose_tags"
+                        v-model="creatureSpecifics" 
+                        :options="creatureSpecificsList" 
+                        mode="tags"
+                        :close-on-select="false"
+                        :searchable="true"
+                        :create-option="true"
+                    >
+                            <template v-slot:tag="{ option, handleTagRemove, disabled }">
+                                <div class="multiselect-tag">
+                                    {{ option.label }}
+                                    <span v-if="!disabled" class="multiselect-tag-remove" @mousedown.prevent="handleTagRemove(option, $event)">
+                                        <span class="multiselect-tag-remove-icon"></span>
+                                    </span>
+                                </div>
+                            </template>
+
+                            <template v-slot:option="{ option }">
+                                {{ option.label }}
+                            </template>
+                    </Multiselect>
+                </div>
+            </div>
+            <div class="creature-type-inner-container tips">
+                <div>
+                    <strong>Recommendations:</strong>
+                    <span class="info">🛈<div class="info-hover">These recommendations are based on common trends among the selected types, subtypes, and tags. These are meant to assist you in building your creature but are certainly not hard-and-fast rules. </div></span> 
+                </div>
+                <div v-for="(tips, i) in creatureTips">
+                    <span>{{ f5.tags.translations.tag_traits.replace(':creature_type', i) }}</span>
+                    <ul>
+                        <li v-for="(tip, j) in tips" v-html="tip"></li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
-        <div>
-            <button @click="setCreatureType">Set Creature Type</button>
+        <div class="btnContainer">
+            <button @click="setCreatureType()">Set Creature Type</button>
         </div>
+
+        <button class="wizard-back" @click="setCR(false)"> < Back</button>
     </div>
+
+<!-- -->
 
     <div class="wizard-page wizard-page__choose-stats" :class="{'wizard-page__active': activePage==='choose-stats'}">
         <div>
             What ability scores are most important to your creature?
         </div>
-        <p>
+
+        <div class="ability-priority-container">
             <div class="ability-priority" v-for="(ability, i) in creatureAbilityScorePriority"> 
                 <div class="ability-priority__move-arrows">    
                     <div :class="i == 0 ? 'disabled' : ''" class="ability-priority__move-arrow ability-priority__move-up" @click="shiftAbilityPriorityUp(ability)">↑</div>
@@ -74,22 +189,31 @@
                 <div class="ability-priority__display">
                     <div>
                         <strong>{{ f5.abilities[ability].name }}</strong> 
-                        <span class="info">ⓘ<div class="info-hover">{{ f5.abilities[ability]['desc'] }}</div></span>
+                        <span class="info">🛈<div class="info-hover">{{ f5.abilities[ability]['desc'] }}</div></span>
                     </div>
                 </div>
             </div>
-        </p>
+            <div class="ability-priority-tips">
+                {{ abilityTips }}
+            </div>
+        </div>
 
-        <div>
+        <div class="btnContainer">
             <button @click="setCreatureStats">Set Stats</button>
         </div>
 
-        <div>
+        <div class="btnContainer">
             <button @click="manualStats">Manually Select Stats</button>
         </div>
+
+        <button class="wizard-back" @click="setCreatureType(false)"> < Back</button>
     </div>
+    
+<!-- -->
 
     <div class="wizard-page wizard-page__manual-stats" :class="{'wizard-page__active': activePage==='manual-stats'}">
+        <div class="wizard-header">Select Ability Scores</div>
+
         <div>
             Select ability score distribution. A common array of ability scores for a CR {{targetCR}} creature is {{ abilityScoreDistributionByCR(targetCR) }}
         </div>
@@ -97,7 +221,7 @@
             <div v-for="(ability, key) in f5.abilities">
                 <strong class="ability-name">
                     {{ ability.name }}
-                    <span class="info">ⓘ<div class="info-hover">{{ability['desc']}}</div></span>
+                    <span class="info">🛈<div class="info-hover">{{ability['desc']}}</div></span>
                 </strong>
                 <select v-model="creatureAbilityScores[key]">
                     <option v-for="i in 30" value="i">{{ i }} (<span v-if="(i-10)/2 > 0">+</span> {{ Math.floor((i-10)/2) }})</option>
@@ -105,10 +229,14 @@
             </div>
         </p>
 
-        <div>
-            <button @click="setCreatureStats">Set Stats</button>
+        <div class="btnContainer">
+            <button @click="setCreatureStats()">Set Stats</button>
         </div>
 
+        <button class="wizard-back" @click="setCreatureStats(false)"> < Back</button>
     </div>
+
+
+<!-- -->
 
 </div>

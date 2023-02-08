@@ -436,15 +436,15 @@ export default {
             }
 
             if(maAbilityDescs[0].length > 0) {
-                maDesc = maDesc.replace(':multiattack_descriptions', this.$parent.createSentenceList(maAbilityDescs[0]));
+                maDesc = maDesc.replace(':multiattack_descriptions', this.$parent.$parent.createSentenceList(maAbilityDescs[0]));
                 
                 if(maAbilityDescs[1].length > 0) {
-                    maAltDesc = maAltDesc.replace(':multiattack_descriptions', this.$parent.createSentenceList(maAbilityDescs[1]));
+                    maAltDesc = maAltDesc.replace(':multiattack_descriptions', this.$parent.$parent.createSentenceList(maAbilityDescs[1]));
                     maDesc += ' '+maAltDesc;
                 }
             } else {
                 if(maAbilityDescs[1].length > 0) {
-                    maDesc = maDesc.replace(':multiattack_descriptions', this.$parent.createSentenceList(maAbilityDescs[1]));
+                    maDesc = maDesc.replace(':multiattack_descriptions', this.$parent.$parent.createSentenceList(maAbilityDescs[1]));
                 } else {
                     maDesc = ' ';
                 }
@@ -472,7 +472,7 @@ export default {
             }
 
             if(this.atWillSpells.length > 0) {
-                let atWillSpellList = this.$parent.createSentenceList(this.atWillSpells.map(x => x.name), true, function(str) {return '<i>'+str+'</i>'});
+                let atWillSpellList = this.$parent.$parent.createSentenceList(this.atWillSpells.map(x => x.name), true, function(str) {return '<i>'+str+'</i>'});
                 spellDesc = spellDesc.replace(':at_will_spells', this.f5.misc.desc_at_will_spells);
                 spellDesc = spellDesc.replace(':at_will_spell_list', atWillSpellList.toLowerCase());
             } else {
@@ -566,7 +566,7 @@ export default {
             for(let i in this.value.attackDamage) {
                 damageList.push(this.$parent.createDamageText(this.value.attackDamage[i], this.value.attackAbility));
             }
-            attackDesc += this.$parent.createSentenceList(damageList);
+            attackDesc += this.$parent.$parent.createSentenceList(damageList);
 
             if(!this.value.attackSavingThrow) {
                 attackDesc += this.f5.misc.sentence_end;
@@ -645,7 +645,7 @@ export default {
                 for(let i in this.value.savingThrowDamage) {
                     stDamageList.push(this.$parent.createDamageText(this.value.savingThrowDamage[i], this.value.savingThrowMonsterAbility));
                 }
-                savingThrowText = savingThrowText.replace(':damage', this.$parent.createSentenceList(stDamageList));
+                savingThrowText = savingThrowText.replace(':damage', this.$parent.$parent.createSentenceList(stDamageList));
             }
 
             //Add Saving Throw Conditions
@@ -681,7 +681,7 @@ export default {
                 for(let i = 0; i < this.value.regenerate.amount.length; i++) {
                     regenList.push(this.$parent.createDamageText(this.value.regenerate.amount[i]));
                 }
-                desc = desc.replace(':regenerate_hit_point_amount', this.$parent.createSentenceList(regenList));
+                desc = desc.replace(':regenerate_hit_point_amount', this.$parent.$parent.createSentenceList(regenList));
             }
             
             return desc;
@@ -983,7 +983,7 @@ export default {
             for(let i in this.savingThrowSaveAbilities) {
                 abilityList.push(this.f5.abilities[this.savingThrowSaveAbilities[i]].name);
             }
-            str = str.replace(':saving_throw_ability', this.$parent.createSentenceList(abilityList, false));
+            str = str.replace(':saving_throw_ability', this.$parent.$parent.createSentenceList(abilityList, false));
 
             //Spells
             str = str.replace(':caster_level_article', this.$parent.determineIndefiniteArticle(this.$parent.casterLevel, true)); 
@@ -998,17 +998,17 @@ export default {
                 for(let i in this.value.attackDamage) {
                     damageList.push(this.$parent.createDamageText(this.value.attackDamage[i], this.value.attackAbility));
                 }
-                str = str.replace(':feature_damage', this.$parent.createSentenceList(damageList));
+                str = str.replace(':feature_damage', this.$parent.$parent.createSentenceList(damageList));
             } else if(this.value.template == 'saving_throw') {
                 for(let i in this.value.savingThrowDamage) {
                     damageList.push(this.$parent.createDamageText(this.value.savingThrowDamage[i], this.value.savingThrowMonsterAbility));
                 }
-                str = str.replace(':feature_damage', this.$parent.createSentenceList(damageList));
+                str = str.replace(':feature_damage', this.$parent.$parent.createSentenceList(damageList));
             } else if(this.value.template == 'custom') {
                 for(let i in this.value.customDamage) {
                     damageList.push(this.$parent.createDamageText(this.value.customDamage[i]));
                 }
-                str = str.replace(':feature_damage', this.$parent.createSentenceList(damageList));
+                str = str.replace(':feature_damage', this.$parent.$parent.createSentenceList(damageList));
             }
 
             //Regen
@@ -1019,7 +1019,7 @@ export default {
                     for(let i = 0; i < this.value.regenerate.amount.length; i++) {
                         regenList.push(this.$parent.createDamageText(this.value.regenerate.amount[i]));
                     }
-                    str = str.replace(':feature_regen', this.$parent.createSentenceList(regenList));
+                    str = str.replace(':feature_regen', this.$parent.$parent.createSentenceList(regenList));
                 }
             }
 

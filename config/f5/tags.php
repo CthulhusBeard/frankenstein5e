@@ -1,238 +1,511 @@
 <?php
 return [
-    //Damage Resistance / Immunity
-    'damage_resistance_elemental' => [
+
+    'creature_options' => [
+        //Beast Options
+        'mammal' => [
+            'name' => 'f5/creaturesubtypes.mammal',
+            'tags' => [
+                'features' => [
+                    'claws'
+                ],
+            ]
+        ],
+        'reptile' => [
+            'name' => 'f5/creaturesubtypes.reptile',
+            'tags' => [
+                'features' => [
+                    'claws'
+                ],
+            ]
+        ],
+        'avian' => [
+            'name' => 'f5/creaturesubtypes.avian',
+            'tags' => [
+                'speed' => [
+                    'fly'
+                ],
+                'features' => [
+                    'wings'
+                ],
+            ]
+        ],
+        'aquatic' => [
+            'name' => 'f5/creaturesubtypes.aquatic',
+            'tags' => [
+                'speed' => [
+                    'swim'
+                ],
+                'features' => [
+                    'water_breathing'
+                ],
+            ]
+        ],
+        'amphibian' => [
+            'name' => 'f5/creaturesubtypes.amphibian',
+            'tags' => [
+                'features' => [
+                    'claws',
+                    'amphibious'
+                ],
+            ]
+        ],
+
+        //Construct Options
+        'modron' => [
+            'name' => 'f5/creaturesubtypes.modron',
+            'tags' => [
+                'senses' => 'true_sight',
+                'alignments' => 'lawful_neutral',
+            ],
+        ],
+
+        //Dragon Options
+        'black_dragon' => [
+            'name' => 'f5/creaturesubtypes.black_dragon',
+            'tags' => [
+                'damage_immunities' => 'acid',
+                'alignments' => 'chaotic_evil',
+            ],
+        ],
+        'white_dragon' => [
+            'name' => 'f5/creaturesubtypes.white_dragon',
+            'tags' => [    
+                'damage_immunities' => 'cold',
+                'alignments' => 'chaotic_evil', 
+                'stats' => 'low_int'
+            ],
+        ],
+        'red_dragon' => [
+            'name' => 'f5/creaturesubtypes.red_dragon',
+            'tags' => [
+                'damage_immunities' => 'fire',
+                'alignments' => 'chaotic_evil',
+            ],
+        ],
+        'blue_dragon' => [
+            'name' => 'f5/creaturesubtypes.blue_dragon',
+            'tags' => [
+                'damage_immunities' => 'lightning',
+                'alignments' => 'lawful_evil',
+            ],
+        ],
+        'green_dragon' => [
+            'name' => 'f5/creaturesubtypes.green_dragon',
+            'tags' => [
+                'damage_immunities' => 'poison',
+                'alignments' => 'lawful_evil',
+                'stats' => 'high_int'
+            ],
+        ],
+
+        'copper_dragon' => [
+            'name' => 'f5/creaturesubtypes.copper_dragon',
+            'tags' => [
+                'damage_immunities' => 'acid',
+                'alignments' => 'chaotic_good',
+                'stats' => 'high_int'
+            ],
+        ],
+        'silver_dragon' => [
+            'name' => 'f5/creaturesubtypes.silver_dragon',
+            'tags' => [
+                'damage_immunities' => 'cold',
+                'alignments' => 'lawful_good',
+            ],
+        ],
+        'brass_dragon' => [
+            'name' => 'f5/creaturesubtypes.brass_dragon',
+            'tags' => [
+                'damage_immunities' => 'fire',
+                'alignments' => 'chaotic_good',
+            ],
+        ],
+        'bronze_dragon' => [
+            'name' => 'f5/creaturesubtypes.bronze_dragon',
+            'tags' => [
+                'damage_immunities' => 'lightning',
+                'alignments' => 'lawful_good',
+            ],
+        ],
+        'gold_dragon' => [
+            'name' => 'f5/creaturesubtypes.gold_dragon',
+            'tags' => [
+                'damage_immunities' => 'fire',
+                'alignments' => 'lawful_good',
+            ],
+        ],
+
+        'drake' => [
+            'name' => 'f5/creaturesubtypes.drake',
+            'tags' => [
+                'alignments' => 'unaligned',
+                'stats' => 'low_int'
+            ],
+        ],
+        'wyvern' => [
+            'name' => 'f5/creaturesubtypes.wyvern',
+            'tags' => [
+                'alignments' => 'unaligned',
+                'stats' => 'low_int'
+            ],
+        ],
+
+        'black_dragonborn' => [
+            'name' => 'f5/creaturesubtypes.black_dragonborn',
+            'tags' => [
+                'damage_resistances' => 'acid',
+            ],
+        ],
+        'white_dragonborn' => [
+            'name' => 'f5/creaturesubtypes.white_dragonborn',
+            'tags' => [    
+                'damage_resistances' => 'cold',
+            ],
+        ],
+        'red_dragonborn' => [
+            'name' => 'f5/creaturesubtypes.red_dragonborn',
+            'tags' => [
+                'damage_resistances' => 'fire',
+            ],
+        ],
+        'blue_dragonborn' => [
+            'name' => 'f5/creaturesubtypes.blue_dragonborn',
+            'tags' => [
+                'damage_resistances' => 'lightning',
+            ],
+        ],
+        'green_dragonborn' => [
+            'name' => 'f5/creaturesubtypes.green_dragonborn',
+            'tags' => [
+                'damage_resistances' => 'poison',
+            ],
+        ],
+
+        'copper_dragonborn' => [
+            'name' => 'f5/creaturesubtypes.copper_dragonborn',
+            'tags' => [
+                'damage_resistances' => 'acid',
+            ],
+        ],
+        'silver_dragonborn' => [
+            'name' => 'f5/creaturesubtypes.silver_dragonborn',
+            'tags' => [
+                'damage_resistances' => 'cold',
+            ],
+        ],
+        'brass_dragonborn' => [
+            'name' => 'f5/creaturesubtypes.brass_dragonborn',
+            'tags' => [
+                'damage_resistances' => 'fire',
+            ],
+        ],
+        'bronze_dragonborn' => [
+            'name' => 'f5/creaturesubtypes.bronze_dragonborn',
+            'tags' => [
+                'damage_resistances' => 'lightning',
+            ],
+        ],
+        'gold_dragonborn' => [
+            'name' => 'f5/creaturesubtypes.gold_dragonborn',
+            'tags' => [
+                'damage_resistances' => 'fire',
+            ],
+        ],
+
+
+        //Elemental Options
+        'air_elemental' => [
+            'name' => 'f5/creaturesubtypes.air_elemental',
+            'tags' => [
+                'damage_resistances' => 'physical',
+            ],
+        ],
+        'fire_elemental' => [
+            'name' => 'f5/creaturesubtypes.fire_elemental',
+            'tags' => [
+                'damage_immunities' => 'fire',
+            ],
+        ],
+        'earth_elemental' => [
+            'name' => 'f5/creaturesubtypes.earth_elemental',
+            'tags' => [
+                'damage_resistances' => 'physical',
+            ],
+        ],
+        'water_elemental' => [
+            'name' => 'f5/creaturesubtypes.water_elemental',
+            'tags' => [
+                'damage_resistances' => 'acid', 
+                'features' => 'amphibious',   
+            ],
+        ],
+        'acid_elemental' => [
+            'name' => 'f5/creaturesubtypes.acid_elemental',
+            'tags' => [
+                'damage_immunities' => 'acid', 
+            ],
+        ],
+        'lightning_elemental' => [
+            'name' => 'f5/creaturesubtypes.lightning_elemental',
+            'tags' => [
+                'damage_immunities' => 'lightning',
+            ],
+        ],
+        'storm_elemental' => [
+            'name' => 'f5/creaturesubtypes.storm_elemental',
+            'tags' => [
+                'damage_immunities' => 'lightning',
+            ],
+        ],
+        'ice_elemental' => [
+            'name' => 'f5/creaturesubtypes.ice_elemental',
+            'tags' => [
+                'damage_immunities' => 'cold',
+            ],
+        ],
+        'dust_elemental' => [
+            'name' => 'f5/creaturesubtypes.dust_elemental',
+            'tags' => [
+            ],
+        ],
+        'magma_elemental' => [
+            'name' => 'f5/creaturesubtypes.magma_elemental',
+            'tags' => [
+                'damage_immunities' => 'fire',
+            ],
+        ],
+        'ooze_elemental' => [
+            'name' => 'f5/creaturesubtypes.ooze_elemental',
+            'tags' => [
+                'features' => 'amphibious',
+            ],
+        ],
+        'steam_elemental' => [
+            'name' => 'f5/creaturesubtypes.steam_elemental',
+            'tags' => [
+            ],
+        ],
+
+        //Giant Options
+        'fire_giant' => [
+            'name' => 'f5/creaturesubtypes.fire_giant',
+            'tags' => [        
+                'damage_immunities' => 'fire',
+            ],
+        ],
+        'cloud_giant' => [
+            'name' => 'f5/creaturesubtypes.cloud_giant',
+            'tags' => [        
+            ],
+        ],
+        'frost_giant' => [
+            'name' => 'f5/creaturesubtypes.frost_giant',
+            'tags' => [        
+                'damage_immunities' => 'cold',
+            ],
+        ],
+        'hill_giant' => [
+            'name' => 'f5/creaturesubtypes.hill_giant',
+            'tags' => [        
+            ],
+        ],
+        'stone_giant' => [
+            'name' => 'f5/creaturesubtypes.stone_giant',
+            'tags' => [        
+            ],
+        ],
+        'storm_giant' => [
+            'name' => 'f5/creaturesubtypes.storm_giant',
+            'tags' => [        
+                'damage_immunities' => 'lightning',
+                'damage_immunities' => 'thunder',
+            ],
+        ],
+
+
+        //Humanoid    
+        'drow' => [
+            'name' => 'f5/creaturesubtypes.drow_elf',
+            'tags' => [
+                'features' => 'sunlight_sensitivity',
+                'languages' => 'undercommon',
+            ],
+        ],
+        'dusk_elf' => [
+            'name' => 'f5/creaturesubtypes.dusk_elf',
+            'tags' => [
+            ],
+        ],
+        'eladrin' => [
+            'name' => 'f5/creaturesubtypes.eladrin_elf',
+            'tags' => [
+                'languages' => 'sylvan',
+            ],
+        ],
+        'high_elf' => [
+            'name' => 'f5/creaturesubtypes.high_elf',
+            'tags' => [
+            ],
+        ],
+        'moon_elf' => [
+            'name' => 'f5/creaturesubtypes.moon_elf',
+            'tags' => [
+            ],
+        ],
+        'wood_elf' => [
+            'name' => 'f5/creaturesubtypes.wood_elf',
+            'tags' => [
+            ],
+        ],
+        'sea_elf' => [
+            'name' => 'f5/creaturesubtypes.sea_elf',
+            'tags' => [
+                'features' => 'breath_water',
+            ],
+        ],
+        'shadarkai_elf' => [
+            'name' => 'f5/creaturesubtypes.shadarkai_elf',
+            'tags' => [
+            ],
+        ],
+
         
-    ],
-    'damage_resistance_physical' => [
+        'deep_gnome' => [
+            'name' => 'f5/creaturesubtypes.deep_gnome',
+            'tags' => [
+                'features' => 'magic_resistance',
+            ],
+        ],
+        'forest_gnome' => [
+            'name' => 'f5/creaturesubtypes.forest_gnome',
+            'tags' => [
+            ],
+        ],
+        'rock_gnome' => [
+            'name' => 'f5/creaturesubtypes.rock_gnome',
+            'tags' => [
+            ],
+        ],
+
+
+        'githyanki' => [
+            'name' => 'f5/creaturesubtypes.githyanki',
+            'tags' => [
+            ],
+        ],
+        'githzerai' => [
+            'name' => 'f5/creaturesubtypes.githzerai',
+            'tags' => [
+            ],
+        ],
+
+
+
         
-    ],
-    'damage_resistance_planar' => [
-        
-    ],
-    //Damage Vulnerability 
-    'damage_resistance_elemental' => [
-        
-    ],
-    'damage_resistance_physical' => [
-        
-    ],
-    'damage_resistance_planar' => [
-        
+        //Lycanthrope
+        'werebear' => [
+            'name' => 'f5/creaturesubtypes.werebear',
+            'tags' => [
+            ],
+        ],
+        'werewolf' => [
+            'name' => 'f5/creaturesubtypes.werewolf',
+            'tags' => [
+            ],
+        ],
+        'wererat' => [
+            'name' => 'f5/creaturesubtypes.wererat',
+            'tags' => [
+            ],
+        ],
+        'weretiger' => [
+            'name' => 'f5/creaturesubtypes.weretiger',
+            'tags' => [
+            ],
+        ],
+        'wereboar' => [
+            'name' => 'f5/creaturesubtypes.wereboar',
+            'tags' => [
+            ],
+        ],
     ],
 
-    //Specific Resistances
-    'damage_resistance_acid' => [
-        
-    ],
-    'damage_resistance_bludgeoning' => [
-        
-    ],
-    'damage_resistance_cold' => [
-        
-    ],
-    'damage_resistance_fire' => [
-        
-    ],
-    'damage_resistance_force' => [
-        
-    ],
-    'damage_resistance_lightning' => [
-        
-    ],
-    'damage_resistance_necrotic' => [
-        
-    ],
-    'damage_resistance_piercing' => [
-        
-    ],
-    'damage_resistance_poison' => [
-        
-    ],
-    'damage_resistance_psychic' => [
-        
-    ],
-    'damage_resistance_radiant' => [
-        
-    ],
-    'damage_resistance_slashing' => [
-        
-    ],
-    'damage_resistance_thunder' => [
-        
+
+    'stats' => [
+        'high_str' => [
+            'name' => 'f5/tags.high_str',
+        ],
+        'avg_str' => [
+            'name' => 'f5/tags.avg_str',
+        ],
+        'low_str' => [
+            'name' => 'f5/tags.low_str',
+        ],
+        'high_dex' => [
+            'name' => 'f5/tags.high_dex',
+        ],
+        'avg_dex' => [
+            'name' => 'f5/tags.avg_dex',
+        ],
+        'low_dex' => [
+            'name' => 'f5/tags.low_dex',
+        ],
+        'high_con' => [
+            'name' => 'f5/tags.high_con',
+        ],
+        'avg_con' => [
+            'name' => 'f5/tags.avg_con',
+        ],
+        'low_con' => [
+            'name' => 'f5/tags.low_con',
+        ],
+        'high_int' => [
+            'name' => 'f5/tags.high_int',
+        ],
+        'avg_int' => [
+            'name' => 'f5/tags.avg_int',
+        ],
+        'low_int' => [
+            'name' => 'f5/tags.low_int',
+        ],
+        'high_wis' => [
+            'name' => 'f5/tags.high_wis',
+        ],
+        'avg_wis' => [
+            'name' => 'f5/tags.avg_wis',
+        ],
+        'low_wis' => [
+            'name' => 'f5/tags.low_wis',
+        ],
+        'high_cha' => [
+            'name' => 'f5/tags.high_cha',
+        ],
+        'avg_cha' => [
+            'name' => 'f5/tags.avg_cha',
+        ],
+        'low_cha' => [
+            'name' => 'f5/tags.low_cha',
+        ],
     ],
 
-    //Specific Immunites
-    'damage_immunity_acid' => [
-        
-    ],
-    'damage_immunity_bludgeoning' => [
-        
-    ],
-    'damage_immunity_cold' => [
-        
-    ],
-    'damage_immunity_fire' => [
-        
-    ],
-    'damage_immunity_force' => [
-        
-    ],
-    'damage_immunity_lightning' => [
-        
-    ],
-    'damage_immunity_necrotic' => [
-        
-    ],
-    'damage_immunity_piercing' => [
-        
-    ],
-    'damage_immunity_poison' => [
-        
-    ],
-    'damage_immunity_psychic' => [
-        
-    ],
-    'damage_immunity_radiant' => [
-        
-    ],
-    'damage_immunity_slashing' => [
-        
-    ],
-    'damage_immunity_thunder' => [
-        
-    ],
 
-    //Condition Immunites
-    'condition_immunity_blinded' => [
-    ],
-    'condition_immunity_charmed' => [
-    ],
-    'condition_immunity_deafened' => [
-    ],
-    'condition_immunity_exhausted' => [
-    ],
-    'condition_immunity_frightened' => [
-    ],
-    'condition_immunity_grappled' => [
-    ],
-    'condition_immunity_incapacitated' => [
-    ],
-    'condition_immunity_paralyzed' => [
-    ],
-    'condition_immunity_petrified' => [
-    ],
-    'condition_immunity_poisoned' => [
-    ],
-    'condition_immunity_prone' => [
-    ],
-    'condition_immunity_restrained' => [
-    ],
-    'condition_immunity_stunned' => [
-    ],
-    'condition_immunity_unconsious' => [
-    ],
+    'translations' => [
+        'tag_traits' => 'f5/tags.tag_traits',
+
+        'tag_languages' => 'f5/tags.tag_languages',
+        'tag_senses' => 'f5/tags.tag_senses',
+        'tag_alignments' => 'f5/tags.tag_alignments',
+        'tag_damage_resistances' => 'f5/tags.tag_damage_resistances',
+        'tag_damage_immunities' => 'f5/tags.tag_damage_immunities',
+        'tag_damage_vulnerabilities' => 'f5/tags.tag_damage_vulnerabilities',
+        'tag_condition_immunities' => 'f5/tags.tag_condition_immunities',
+        'tag_creaturesubtypes' => 'f5/tags.tag_creaturesubtypes',
+        'tag_saves' => 'f5/tags.tag_saves',
+        'tag_stats' => 'f5/tags.tag_stats',
     
-    'condition_advantage_blinded' => [
-    ],
-    'condition_advantage_charmed' => [
-    ],
-    'condition_advantage_deafened' => [
-    ],
-    'condition_advantage_exhausted' => [
-    ],
-    'condition_advantage_frightened' => [
-    ],
-    'condition_advantage_grappled' => [
-    ],
-    'condition_advantage_incapacitated' => [
-    ],
-    'condition_advantage_paralyzed' => [
-    ],
-    'condition_advantage_petrified' => [
-    ],
-    'condition_advantage_poisoned' => [
-    ],
-    'condition_advantage_prone' => [
-    ],
-    'condition_advantage_restrained' => [
-    ],
-    'condition_advantage_stunned' => [
-    ],
-    'condition_advantage_unconsious' => [
-    ],
-
-
-    //Speeds
-    'fly_speed' => [
-        
-    ],
-    'swim_speed' => [
-        
-    ],
-    'climb_speed' => [
-        
-    ],
-    'burrow_speed' => [
-        
-    ],
-
-    //Physical Attributes
-    'claws' => [
-        
-    ],
-    'wings' => [
-        
-    ],
-
-    //Abilities
-    'spellcasting' => [
-
-    ],
-
-    //Sizes
-    'size_medium' => [
-
-    ],
-    'size_large' => [
-
-    ],
-    'size_huge' => [
-
-    ],
-
-    //Alignment
-    'alignment_unaligned' => [
-
-    ],
-    'alignment_neutral' => [
-
-    ],
-    'alignment_good' => [
-
-    ],
-    'alignment_evil' => [
-
-    ],
-    'alignment_lawful' => [
-
-    ],
-    'alignment_chaotic' => [
-
-    ],
-
-
-    //Features
-    'feature_immutable_form' => [
-    ],
-    'feature_undead_fortitude' => [
-    ],
-    'feature_sunlight_sensitivity' => [
-    ],
-
-    //Inherit
-    'tag_insanity' => [
-        'condition_advantage_charmed'
-    ],
+        'tag_features' => 'f5/tags.tag_features',
+    
+    ]
 
 ];

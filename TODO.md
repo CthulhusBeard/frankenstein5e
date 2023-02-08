@@ -3,6 +3,7 @@
 HIGH PRIORITY
 - [ ] Figure out why spells are breaking after you add 12 of them!!!
 - [ ] Fix saving throw desc to mention targets
+- [ ] Saving throws increase AC (3-4 +2, 5-6 +4)
 - [ ] Allow Custom damage dice to select an ability bonus (display ability bonus on selected attacks)
 - [ ] Fix cone desciptions
 - [ ] Spell crits? (AOE Spells can't crit. No good way to tell them apart)

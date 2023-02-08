@@ -1,17 +1,25 @@
 <?php
 
 return [
+    
+    'custom' => 'Custom',
+    'any' => 'Any Race',
 
     'shapechanger' => 'Shapechanger',
     'titan' => 'Titan',
+
     'beholderkin' => 'Beholderkin',
+
     'swarm' => 'Swarm',
+
     'inevitable' => 'Inevitable',
+    'modron' => 'Modron',
+
     'demon' => 'Demon',
     'devil' => 'Devil',
     'yugoloth' => 'Yugoloth',
+
     'elf' => 'Elf',
-    'any' => 'Any Race',
     'aarakocra' => 'Aarakocra',
     'aasimar' => 'Aasimar',
     'bullywug' => 'Bullywug',
@@ -21,7 +29,10 @@ return [
     'dwarf' => 'Dwarf',
     'firenewt' => 'Firenewt',
     'genasi' => 'Genasi',
+    'giff' => 'Giff',
     'gith' => 'Gith',
+    'githyanki' => 'Githyanki',
+    'githzerai' => 'Githzerai',
     'gnoll' => 'Gnoll',
     'gnome' => 'Gnome',
     'goblinoid' => 'Goblinoid',
@@ -45,35 +56,56 @@ return [
     'satyr' => 'Satyr',
     'sahuagin' => 'Sahuagin',
     'saurial' => 'Saurial',
+    'shifter' => 'Shifter',
     'tabaxi' => 'Tabaxi',
     'thri_kreen' => 'Thri-kreen',
     'tiefling' => 'Tiefling',
     'titan' => 'Titan',
     'tortle' => 'Tortle',
+    'triton' => 'Triton',
     'troglodyte' => 'Troglodyte',
     'xvart' => 'Xvart',
     'yuan_ti' => 'Yaun-ti',
 
     //Elf Options
-    'elf_eladrin' => 'Eladrin',
-    'elf_drow' => 'Drow',
-    'elf_dusk' => 'Dusk Elf',
-    'elf_high' => 'High Elf',
-    'elf_moon' => 'Moon Elf',
-    'elf_wood' => 'Wood Elf',
+    'eladrin_elf' => 'Eladrin',
+    'drow_elf' => 'Drow',
+    'dusk_elf' => 'Dusk Elf',
+    'high_elf' => 'High Elf',
+    'moon_elf' => 'Moon Elf',
+    'wood_elf' => 'Wood Elf',
+    'sea_elf' => 'Sea Elf',
+    'shadarkai_elf' => 'Shadar-kai',
+
+    //Dwarf Options
+    'hill_dwarf' => 'Hill Dwarf',
+    'mountain_dwarf' => 'Mountain Dwarf',
+    'duegar_dwarf' => 'Duegar',
+
+    //Gnome Options
+    'deep_gnome' => 'Deep Dwarf',
+    'forest_gnome' => 'Forest Dwarf',
+    'rock_gnome' => 'Rock Dwarf',
 
     //Dragon Subtypes
-    'black' => 'Black',
-    'white' => 'White',
-    'red' => "Red",
-    'blue' => "Blue",
-    'green' => "Green",
+    'metallic_dragon'=> 'Metallic',
+    'chromatic_dragon'=> 'Chromatic',
+    'gem_dragon'=> 'Gem',
 
-    'copper' => "Copper",
-    'silver' => "Silver",
-    'brass' => "Brass",
-    'bronze' => "Bronze",
-    'gold' => "Gold",
+    'black_dragon' => 'Black Dragon',
+    'white_dragon' => 'White Dragon',
+    'red_dragon' => 'Red Dragon',
+    'blue_dragon' => 'Blue Dragon',
+    'green_dragon' => 'Green Dragon',
+
+    'copper_dragon' => 'Copper Dragon',
+    'silver_dragon' => 'Silver Dragon',
+    'brass_dragon' => 'Brass Dragon',
+    'bronze_dragon' => 'Bronze Dragon',
+    'gold_dragon' => 'Gold Dragon',
+
+    'drake' => 'Drake',
+    'wyvern' => 'Wyvern',
     
     //Lycanthrope Options
     'werebear' => 'Werebear',
@@ -83,19 +115,19 @@ return [
     'weretiger' => 'Weretiger',
     
     //Elemental Subtypes
-    'air' => 'Air',
-    'earth' => 'Earth',
-    'fire' => 'Fire',
-    'water' => 'Water',
-    'lightning' => 'Lightning',
-    'storm' => 'Storm',
-    'acid' => 'Acid', 
-    'ice' => 'Ice',
-    'stone' => 'Stone',
-    'dust' => 'Dust',
-    'magma' => 'Magma',
-    'ooze' => 'Ooze',
-    'steam' => 'Steam',
+    'air_elemental' => 'Air Elemental',
+    'earth_elemental' => 'Earth Elemental',
+    'fire_elemental' => 'Fire Elemental',
+    'water_elemental' => 'Water Elemental',
+    'lightning_elemental' => 'Lightning Elemental',
+    'storm_elemental' => 'Storm Elemental',
+    'acid_elemental' => 'Acid Elemental', 
+    'ice_elemental' => 'Ice Elemental',
+    'stone_elemental' => 'Stone Elemental',
+    'dust_elemental' => 'Dust Elemental',
+    'magma_elemental' => 'Magma Elemental',
+    'ooze_elemental' => 'Ooze Elemental',
+    'steam_elemental' => 'Steam Elemental',
 
     //Giants Subtypes
     'fire_giant' => 'Fire Giant',

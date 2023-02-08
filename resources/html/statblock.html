@@ -342,13 +342,33 @@
 
                         <div class="option options__subtypes edit-field">
                             {{ f5.misc.title_subtype }}:
-                            <select id="options__subtype" name="options__subtype" v-model="value.subtype">
-                                <option selected value="">{{f5.misc.none}}</option>
-                                <option v-for="(item, index) in f5.creaturesubtypes" :value="index">{{item.name}}</option>
-                            <!--<option v-for="item in orderedSubtypes" :value="item.id">{{item.name}}</option>-->
-                            </select>
+                            
+                            <Multiselect class="edit-field edit-field--flex"
+                                :placeholder="f5.misc.choose_subtypes"
+                                v-model="value.subtypes" 
+                                :options="orderedSubtypes" 
+                                mode="tags"
+                                :close-on-select="false"
+                                :searchable="true"
+                                :create-option="true"
+                            >
+                                    <template v-slot:tag="{ option, handleTagRemove, disabled }">
+                                        <div class="multiselect-tag">
+                                            {{ option.label }}
+                                            <span v-if="!disabled" class="multiselect-tag-remove" @mousedown.prevent="handleTagRemove(option, $event)">
+                                                <span class="multiselect-tag-remove-icon"></span>
+                                            </span>
+                                        </div>
+                                    </template>
+
+                                    <template v-slot:option="{ option }">
+                                        {{ option.label }}
+                                    </template>
+                            </Multiselect>
+
                         </div>
 
+                        <!--
                         <div class="option options__type-option edit-field" v-if="typeCategoryList.length > 0">
                             {{ f5.misc.title_category }}:
                             <select id="options__type-option" name="options__typeCategory" v-model="value.typeCategory">
@@ -356,6 +376,7 @@
                                 <option v-for="item in typeCategoryList" :value="item.id">{{item.name}}</option>
                             </select>
                         </div>
+                        -->
 
                         <div class="option options__alignments edit-field">
                             {{ f5.misc.title_alignments }}:

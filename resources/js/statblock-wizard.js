@@ -25,6 +25,8 @@ export default {
             set_targetCR: false,
 
             creatureType: 'aberration',
+            creatureSubtypes: [],
+            creatureSpecifics: [],
             set_creatureType: false,
 
             creatureAbilityScores: {
@@ -128,10 +130,224 @@ export default {
 
     computed: {
 
+        creatureTips: function() {
+            let tips = {};
+            let skipProperties = ['woc_property'];
+            console.log('--creatureTips--');
+
+            //Type Tips
+            if(
+                this.f5.creaturetypes.hasOwnProperty(this.creatureType) && 
+                this.f5.creaturetypes[this.creatureType]['tags']
+            ) {
+                let creatureType = this.f5.creaturetypes[this.creatureType]['name'];
+                tips[creatureType] = [];
+
+                for(let tagKey in this.f5.creaturetypes[this.creatureType]['tags']) {
+                    if(skipProperties.includes(tagKey)) continue;
+
+                    let tagGroup = this.f5.creaturetypes[this.creatureType]['tags'][tagKey];
+                    tips[creatureType].push(this.buildTipString(tagKey, tagGroup, creatureType));
+                }
+                if(!tips[creatureType].length) {
+                    delete tips[creatureType];
+                }
+            }
+
+            //Subtype Tips
+            for(let i in this.creatureSubtypes) {
+                console.log(this.creatureSubtypes);
+                if(
+                    this.f5.creaturesubtypes.hasOwnProperty(this.creatureSubtypes[i]) &&
+                    this.f5.creaturesubtypes[this.creatureSubtypes[i]].hasOwnProperty('tags')
+                ) {
+                    let creatureSubtype = this.f5.creaturesubtypes[this.creatureSubtypes[i]]['name'];
+                    tips[creatureSubtype] = [];
+
+                    for(let tagKey in this.f5.creaturesubtypes[this.creatureSubtypes[i]]['tags']) {
+                        if(skipProperties.includes(tagKey)) continue;
+
+                        let tagGroup = this.f5.creaturesubtypes[this.creatureSubtypes[i]]['tags'][tagKey];
+                        tips[creatureSubtype].push(this.buildTipString(tagKey, tagGroup, creatureSubtype));
+                    }
+                    if(!tips[creatureSubtype].length) {
+                        delete tips[creatureSubtype];
+                    }
+                }
+            }
+
+            //Specific Tips
+            for(let i in this.creatureSpecifics) {
+                console.log(this.creatureSpecifics);
+                if(
+                    this.f5.tags.creature_options.hasOwnProperty(this.creatureSpecifics[i]) &&
+                    this.f5.tags.creature_options[this.creatureSpecifics[i]].hasOwnProperty('tags')
+                ) {
+                    let creatureTag = this.f5.tags.creature_options[this.creatureSpecifics[i]]['name'];
+                    tips[creatureTag] = [];
+
+                    for(let tagKey in this.f5.tags.creature_options[this.creatureSpecifics[i]]['tags']) {
+                        if(skipProperties.includes(tagKey)) continue;
+
+                        let tagGroup = this.f5.tags.creature_options[this.creatureSpecifics[i]]['tags'][tagKey];
+                        tips[creatureTag].push(this.buildTipString(tagKey, tagGroup, creatureTag));
+                    }
+                    if(!tips[creatureTag].length) {
+                        delete tips[creatureTag];
+                    }
+                }
+            }
+            
+            console.log(tips);
+
+            return tips;
+        },
+
+        //Subtypes
+        orderedSubtypes: function() {
+            let sortedSubtypes = [];
+            let count = 0;
+
+            for (let i in this.f5.creaturesubtypes) {
+                if(
+                    this.f5.creaturesubtypes[i].hasOwnProperty('tags') && 
+                    this.f5.creaturesubtypes[i].tags.hasOwnProperty('woc_property') && 
+                    this.f5.creaturesubtypes[i].tags.woc_property
+                ) {
+                    continue;
+                }
+                
+                let subtypeObj = { value: i, label: this.f5.creaturesubtypes[i].name};
+
+                if(
+                    this.f5.creaturetypes[this.creatureType].hasOwnProperty('subtypes') && 
+                    this.f5.creaturetypes[this.creatureType]['subtypes'].includes(i)
+                ) {
+                    sortedSubtypes.splice(count, 0, subtypeObj);
+                    count++;
+                } else {
+                    sortedSubtypes.push(subtypeObj);
+                }
+            }
+
+            return sortedSubtypes;
+        },
+
+        //Type Options
+        creatureSpecificsList: function() {
+            let optionsList = [];
+
+            //Creature types
+            if(this.f5.creaturetypes.hasOwnProperty(this.creatureType) && this.f5.creaturetypes[this.creatureType].hasOwnProperty('options')) {
+                for (let i in this.f5.creaturetypes[this.creatureType]['options']) {
+                    let option = this.f5.creaturetypes[this.creatureType]['options'][i];
+                    if(this.f5.tags.creature_options.hasOwnProperty(option)) {
+                        let specificObj = { value: option, label: this.f5.tags.creature_options[option].name};
+                        optionsList.push(specificObj);
+                    }
+                }
+            }
+
+            //Creature subtypes
+            for(let i in this.creatureSubtypes) {
+                if(
+                    this.f5.creaturesubtypes.hasOwnProperty(this.creatureSubtypes[i]) && 
+                    this.f5.creaturesubtypes[this.creatureSubtypes[i]].hasOwnProperty('options')
+                ) {
+                    let subtypeOptions = this.f5.creaturesubtypes[this.creatureSubtypes[i]]['options'];
+
+                    for (let j in subtypeOptions) {
+                        let option = subtypeOptions[j];
+                        if(this.f5.tags.creature_options.hasOwnProperty(option)) {
+                            let specificObj = { value: option, label: this.f5.tags.creature_options[option].name};
+                            optionsList.push(specificObj);
+                        }
+                    }
+                }
+            }
+
+            return optionsList;
+        },
+
+        abilityTips: function() {
+            return 'tips here';
+        },
+
+        recommendedCR: function() {
+
+            let xpMultipliers = { //DMG pg 82
+                1: 1,
+                2: 1.5,
+                3: 2,
+                7: 2.5,
+                11: 3,
+                15: 4,
+            };
+            let xpMultiplier = this.$parent.getValueByHighestProperty(xpMultipliers, this.monsterCount);
+
+            let xpThresholds = this.f5.playerlevels[this.playerLevel].xp_thresholds;
+            let xpTargetThreshold = xpThresholds[this.encounterDifficulty];
+            let xpTargetTotal = xpTargetThreshold / xpMultiplier / this.monsterCount * this.playerCount;
+
+            let crList = this.f5.challengerating;
+            let closest;
+            for(let i in crList) {
+                if(!closest || (crList[i].xp <= xpTargetTotal && crList[i].xp > closest.xp)) {
+                    closest = crList[i];
+                }
+            }
+
+            return closest.cr_text;
+        },
+        
+        targetCRData: function() {
+            let targetCR;
+            if(this.activePage === 'cr-help') {
+                targetCR = this.f5.challengerating[this.recommendedCR];
+            } else {
+                targetCR = this.f5.challengerating[this.targetCR];
+            }
+            return targetCR;
+        },
+
+        targetCRDesc: function() {
+            return this.f5.misc.wizard_cr_description.replace(':cr', this.targetCRData.cr_text)
+        },
     },
 
     methods: {
 
+        buildTipString: function(key, tagGroup, typeName) {
+
+            let tipString = '';
+
+            console.log('--buildTipString--');
+            console.log(key);
+            console.log(tagGroup);
+
+            if(this.f5.tags.translations.hasOwnProperty('tag_'+key)) {
+                tipString = this.f5.tags.translations['tag_'+key];
+            }
+
+            //Convert to array
+            if(!Array.isArray(tagGroup)) {
+                tagGroup = [tagGroup];
+            }
+
+            for(let i in tagGroup) {
+                if(this.f5.hasOwnProperty(key) && this.f5[key].hasOwnProperty(tagGroup[i])) {
+                    tagGroup[i] = this.f5[key][tagGroup[i]].name;
+                } else if(this.f5.tags.hasOwnProperty(key) && this.f5.tags[key].hasOwnProperty(tagGroup[i])) {
+                    tagGroup[i] = this.f5.tags[key][tagGroup[i]].name;
+                }
+            }
+
+            tipString += this.$parent.createSentenceList(tagGroup);
+
+            tipString = tipString.replace(':creature_type', typeName);
+
+            return tipString;
+        },
 
         createDefaultAbilityScores: function() {
             let abilities = {};
@@ -187,18 +403,18 @@ export default {
         },
         
 
-        setCR: function() {
-            this.set_targetCR = true;
+        setCR: function(setThis = true) {
+            this.set_targetCR = setThis;
             this.setActivePage();
         },
 
-        setCreatureType: function() {
-            this.set_creatureType = true;
+        setCreatureType: function(setThis = true) {
+            this.set_creatureType = setThis;
             this.setActivePage();
         },
 
-        setCreatureStats: function() {
-            this.set_creatureStats = true;
+        setCreatureStats: function(setThis = true) {
+            this.set_creatureStats = setThis;
             this.setActivePage();
         },
 
@@ -239,9 +455,6 @@ export default {
             };
 
             for(let i in pageKeyValues) {
-                console.log('i');
-                console.log(i);
-                console.log(this[i]);
                 if(!this[i]) {
                     this.activePage = pageKeyValues[i];
                     return;

@@ -17,6 +17,8 @@ return [
 			'high' => 1,
 		],
 		'save_dc' => 13,
+		'default_ability_distr' => [12, 11, 10, 9, 8, 6],
+        'examples' => 'f5/challengerating.cr_examples_0',
 	],
 	'1/8' => [
 		'cr' => .125,
@@ -34,6 +36,8 @@ return [
 			'high' => 3,
 		],
 		'save_dc' => 13,
+		'default_ability_distr' => [13, 11, 10, 10, 8, 6],
+        'examples' => 'f5/challengerating.cr_examples_1_8',
 	],
 	'1/4' => [
 		'cr' => .25,
@@ -51,6 +55,8 @@ return [
 			'high' => 5,
 		],
 		'save_dc' => 13,
+		'default_ability_distr' => [13, 12, 11, 10, 8, 6],
+        'examples' => 'f5/challengerating.cr_examples_1_4',
 	],
 	'1/2' => [
 		'cr' => .5,
@@ -68,6 +74,8 @@ return [
 			'high' => 8,
 		],
 		'save_dc' => 13,
+		'default_ability_distr' => [14, 12, 11, 10, 9, 7],
+        'examples' => 'f5/challengerating.cr_examples_1_2',
 	],
 	'1' => [
 		'cr' => 1,
@@ -85,6 +93,8 @@ return [
 			'high' => 14,
 		],
 		'save_dc' => 13,
+		'default_ability_distr' => [14, 12, 11, 10, 9, 8],
+        'examples' => 'f5/challengerating.cr_examples_1',
 	],
 	'2' => [
 		'cr' => 2,
@@ -102,6 +112,8 @@ return [
 			'high' => 20,
 		],
 		'save_dc' => 13,
+		'default_ability_distr' => [16, 14, 12, 10, 9, 8],
+        'examples' => 'f5/challengerating.cr_examples_2',
 	],
 	'3' => [
 		'cr' => 3,
@@ -119,6 +131,8 @@ return [
 			'high' => 26,
 		],
 		'save_dc' => 13,
+		'default_ability_distr' => [18, 15, 12, 10, 9, 8],
+        'examples' => 'f5/challengerating.cr_examples_3',
 	],
 	'4' => [
 		'cr' => 4,
@@ -136,6 +150,8 @@ return [
 			'high' => 32,
 		],
 		'save_dc' => 14,
+		'default_ability_distr' => [18, 15, 12, 10, 9, 8],
+        'examples' => 'f5/challengerating.cr_examples_4',
 	],
 	'5' => [
 		'cr' => 5,
@@ -153,6 +169,8 @@ return [
 			'high' => 38,
 		],
 		'save_dc' => 15,
+		'default_ability_distr' => [19, 16, 13, 11, 10, 8],
+        'examples' => 'f5/challengerating.cr_examples_5',
 	],
 	'6' => [
 		'cr' => 6,
@@ -170,6 +188,8 @@ return [
 			'high' => 44,
 		],
 		'save_dc' => 15,
+		'default_ability_distr' => [19, 17, 14, 12, 10, 8],
+        'examples' => 'f5/challengerating.cr_examples_6',
 	],
 	'7' => [
 		'cr' => 7,
@@ -187,6 +207,8 @@ return [
 			'high' => 50,
 		],
 		'save_dc' => 15,
+		'default_ability_distr' => [19, 18, 14, 12, 10, 8],
+        'examples' => 'f5/challengerating.cr_examples_7',
 	],
 	'8' => [
 		'cr' => 8,
@@ -204,6 +226,8 @@ return [
 			'high' => 56,
 		],
 		'save_dc' => 16,
+		'default_ability_distr' => [20, 18, 15, 12, 10, 8],
+        'examples' => 'f5/challengerating.cr_examples_8',
 	],
 	'9' => [
 		'cr' => 9,
@@ -221,6 +245,8 @@ return [
 			'high' => 62,
 		],
 		'save_dc' => 16,
+		'default_ability_distr' => [20, 18, 15, 12, 10, 9],
+        'examples' => 'f5/challengerating.cr_examples_9',
 	],
 	'10' => [
 		'cr' => 10,
@@ -238,6 +264,8 @@ return [
 			'high' => 68,
 		],
 		'save_dc' => 16,
+		'default_ability_distr' => [20, 18, 15, 13, 10, 9],
+        'examples' => 'f5/challengerating.cr_examples_10',
 	],
 	'11' => [
 		'cr' => 11,
@@ -255,6 +283,8 @@ return [
 			'high' => 74,
 		],
 		'save_dc' => 17,
+		'default_ability_distr' => [21, 18, 15, 13, 11, 9],
+        'examples' => 'f5/challengerating.cr_examples_11',
 	],
 	'12' => [
 		'cr' => 12,
@@ -272,6 +302,8 @@ return [
 			'high' => 80,
 		],
 		'save_dc' => 17,
+		'default_ability_distr' => [21, 19, 15, 13, 10, 9],
+        'examples' => 'f5/challengerating.cr_examples_12',
 	],
 	'13' => [
 		'cr' => 13,
@@ -289,6 +321,8 @@ return [
 			'high' => 86,
 		],
 		'save_dc' => 18,
+		'default_ability_distr' => [22, 19, 16, 14, 11, 9],
+        'examples' => 'f5/challengerating.cr_examples_13',
 	],
 	'14' => [
 		'cr' => 14,
@@ -306,6 +340,8 @@ return [
 			'high' => 92,
 		],
 		'save_dc' => 18,
+		'default_ability_distr' => [23, 20, 17, 14, 11, 10],
+        'examples' => 'f5/challengerating.cr_examples_14',
 	],
 	'15' => [
 		'cr' => 15,
@@ -323,6 +359,8 @@ return [
 			'high' => 98,
 		],
 		'save_dc' => 18,
+		'default_ability_distr' => [24, 20, 18, 14, 12, 10],
+        'examples' => 'f5/challengerating.cr_examples_15',
 	],
 	'16' => [
 		'cr' => 16,
@@ -340,6 +378,8 @@ return [
 			'high' => 104,
 		],
 		'save_dc' => 18,
+		'default_ability_distr' => [25, 21, 18, 14, 12, 10],
+        'examples' => 'f5/challengerating.cr_examples_16',
 	],
 	'17' => [
 		'cr' => 17,
@@ -357,6 +397,8 @@ return [
 			'high' => 110,
 		],
 		'save_dc' => 19,
+		'default_ability_distr' => [25, 21, 18, 14, 12, 10],
+        'examples' => 'f5/challengerating.cr_examples_17',
 	],
 	'18' => [
 		'cr' => 18,
@@ -374,6 +416,8 @@ return [
 			'high' => 116,
 		],
 		'save_dc' => 19,
+		'default_ability_distr' => [25, 22, 18, 14, 12, 10],
+        'examples' => 'f5/challengerating.cr_examples_18',
 	],
 	'19' => [
 		'cr' => 19,
@@ -391,6 +435,8 @@ return [
 			'high' => 122,
 		],
 		'save_dc' => 19,
+		'default_ability_distr' => [25, 22, 18, 14, 12, 10],
+        'examples' => 'f5/challengerating.cr_examples_19',
 	],
 	'20' => [
 		'cr' => 20,
@@ -408,6 +454,8 @@ return [
 			'high' => 140,
 		],
 		'save_dc' => 19,
+		'default_ability_distr' => [26, 23, 19, 14, 12, 10],
+        'examples' => 'f5/challengerating.cr_examples_20',
 	],
 	'21' => [
 		'cr' => 21,
@@ -425,6 +473,8 @@ return [
 			'high' => 158,
 		],
 		'save_dc' => 20,
+		'default_ability_distr' => [26, 24, 19, 15, 12, 10],
+        'examples' => 'f5/challengerating.cr_examples_21',
 	],
 	'22' => [
 		'cr' => 22,
@@ -442,6 +492,8 @@ return [
 			'high' => 176,
 		],
 		'save_dc' => 20,
+		'default_ability_distr' => [26, 24, 20, 15, 12, 10],
+        'examples' => 'f5/challengerating.cr_examples_22',
 	],
 	'23' => [
 		'cr' => 23,
@@ -459,6 +511,8 @@ return [
 			'high' => 194,
 		],
 		'save_dc' => 20,
+		'default_ability_distr' => [27, 24, 20, 16, 13, 11],
+        'examples' => 'f5/challengerating.cr_examples_23',
 	],
 	'24' => [
 		'cr' => 24,
@@ -476,6 +530,8 @@ return [
 			'high' => 212,
 		],
 		'save_dc' => 21,
+		'default_ability_distr' => [28, 25, 20, 16, 13, 11],
+        'examples' => 'f5/challengerating.cr_examples_24',
 	],
 	'25' => [
 		'cr' => 25,
@@ -493,6 +549,8 @@ return [
 			'high' => 230,
 		],
 		'save_dc' => 21,
+		'default_ability_distr' => [28, 25, 21, 16, 14, 11],
+        'examples' => 'f5/challengerating.cr_examples_25',
 	],
 	'26' => [
 		'cr' => 26,
@@ -510,6 +568,8 @@ return [
 			'high' => 248,
 		],
 		'save_dc' => 21,
+		'default_ability_distr' => [29, 26, 22, 16, 14, 12],
+        'examples' => 'f5/challengerating.cr_examples_26',
 	],
 	'27' => [
 		'cr' => 27,
@@ -527,6 +587,8 @@ return [
 			'high' => 266,
 		],
 		'save_dc' => 22,
+		'default_ability_distr' => [29, 26, 22, 16, 14, 12],
+        'examples' => 'f5/challengerating.cr_examples_27',
 	],
 	'28' => [
 		'cr' => 28,
@@ -544,6 +606,8 @@ return [
 			'high' => 284,
 		],
 		'save_dc' => 22,
+		'default_ability_distr' => [29, 27, 23, 17, 15, 13],
+        'examples' => 'f5/challengerating.cr_examples_28',
 	],
 	'29' => [
 		'cr' => 29,
@@ -561,6 +625,8 @@ return [
 			'high' => 302,
 		],
 		'save_dc' => 22,
+		'default_ability_distr' => [29, 27, 23, 18, 16, 13],
+        'examples' => 'f5/challengerating.cr_examples_29',
 	],
 	'30' => [
 		'cr' => 30,
@@ -578,5 +644,7 @@ return [
 			'high' => 320,
 		],
 		'save_dc' => 23,
+		'default_ability_distr' => [30, 28, 24, 18, 16, 14],
+        'examples' => 'f5/challengerating.cr_examples_30',
 	],
 ];

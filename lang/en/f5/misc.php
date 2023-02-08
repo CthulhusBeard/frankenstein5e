@@ -51,6 +51,8 @@ return [
     'please_select_one' => 'Please select one',
     'choose_a' => 'Choose a :choice',
     'choose_skill' => 'Choose a skill',
+    'choose_subtypes' => 'Choose subtype(s)',
+    'choose_tags' => 'Additional tags',
     'choose_expertise' => 'Choose an expertise',
     'choose_abilities' => 'Choose at least one ability',
     'choose_conditions' => 'Choose one or more conditions',
