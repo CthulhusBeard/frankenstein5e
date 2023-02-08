@@ -151,63 +151,63 @@ return [
             ],
         ],
 
-        'black_dragonborn' => [
-            'name' => 'f5/creaturesubtypes.black_dragonborn',
+        'black_dragon_ancestry' => [
+            'name' => 'f5/creaturesubtypes.black_dragon_ancestry',
             'tags' => [
                 'damage_resistances' => 'acid',
             ],
         ],
-        'white_dragonborn' => [
-            'name' => 'f5/creaturesubtypes.white_dragonborn',
+        'white_dragon_ancestry' => [
+            'name' => 'f5/creaturesubtypes.white_dragon_ancestry',
             'tags' => [    
                 'damage_resistances' => 'cold',
             ],
         ],
-        'red_dragonborn' => [
-            'name' => 'f5/creaturesubtypes.red_dragonborn',
+        'red_dragon_ancestry' => [
+            'name' => 'f5/creaturesubtypes.red_dragon_ancestry',
             'tags' => [
                 'damage_resistances' => 'fire',
             ],
         ],
-        'blue_dragonborn' => [
-            'name' => 'f5/creaturesubtypes.blue_dragonborn',
+        'blue_dragon_ancestry' => [
+            'name' => 'f5/creaturesubtypes.blue_dragon_ancestry',
             'tags' => [
                 'damage_resistances' => 'lightning',
             ],
         ],
-        'green_dragonborn' => [
-            'name' => 'f5/creaturesubtypes.green_dragonborn',
+        'green_dragon_ancestry' => [
+            'name' => 'f5/creaturesubtypes.green_dragon_ancestry',
             'tags' => [
                 'damage_resistances' => 'poison',
             ],
         ],
 
-        'copper_dragonborn' => [
-            'name' => 'f5/creaturesubtypes.copper_dragonborn',
+        'copper_dragon_ancestry' => [
+            'name' => 'f5/creaturesubtypes.copper_dragon_ancestry',
             'tags' => [
                 'damage_resistances' => 'acid',
             ],
         ],
-        'silver_dragonborn' => [
-            'name' => 'f5/creaturesubtypes.silver_dragonborn',
+        'silver_dragon_ancestry' => [
+            'name' => 'f5/creaturesubtypes.silver_dragon_ancestry',
             'tags' => [
                 'damage_resistances' => 'cold',
             ],
         ],
-        'brass_dragonborn' => [
-            'name' => 'f5/creaturesubtypes.brass_dragonborn',
+        'brass_dragon_ancestry' => [
+            'name' => 'f5/creaturesubtypes.brass_dragon_ancestry',
             'tags' => [
                 'damage_resistances' => 'fire',
             ],
         ],
-        'bronze_dragonborn' => [
-            'name' => 'f5/creaturesubtypes.bronze_dragonborn',
+        'bronze_dragon_ancestry' => [
+            'name' => 'f5/creaturesubtypes.bronze_dragon_ancestry',
             'tags' => [
                 'damage_resistances' => 'lightning',
             ],
         ],
-        'gold_dragonborn' => [
-            'name' => 'f5/creaturesubtypes.gold_dragonborn',
+        'gold_dragon_ancestry' => [
+            'name' => 'f5/creaturesubtypes.gold_dragon_ancestry',
             'tags' => [
                 'damage_resistances' => 'fire',
             ],

@@ -106,6 +106,22 @@ return [
 
     'drake' => 'Drake',
     'wyvern' => 'Wyvern',
+
+    'metallic_dragon_ancestry'=> 'Metallic Dragon Ancestry',
+    'chromatic_dragon_ancestry'=> 'Chromatic Dragon Ancestry',
+    'gem_dragon_ancestry'=> 'Gem Dragon Ancestry',
+
+    'black_dragon_ancestry' => 'Black Dragon Ancestry',
+    'white_dragon_ancestry' => 'White Dragon Ancestry',
+    'red_dragon_ancestry' => 'Red Dragon Ancestry',
+    'blue_dragon_ancestry' => 'Blue Dragon Ancestry',
+    'green_dragon_ancestry' => 'Green Dragon Ancestry',
+
+    'copper_dragon_ancestry' => 'Copper Dragon Ancestry',
+    'silver_dragon_ancestry' => 'Silver Dragon Ancestry',
+    'brass_dragon_ancestry' => 'Brass Dragon Ancestry',
+    'bronze_dragon_ancestry' => 'Bronze Dragon Ancestry',
+    'gold_dragon_ancestry' => 'Gold Dragon Ancestry',
     
     //Lycanthrope Options
     'werebear' => 'Werebear',

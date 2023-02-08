@@ -69,21 +69,21 @@ return [
         'tags' => [
         ],
         'options' => [
-            'black_dragonborn',
-            'white_dragonborn',
-            'red_dragonborn',
-            'blue_dragonborn',
-            'green_dragonborn',
+            'black_dragon_ancestry',
+            'white_dragon_ancestry',
+            'red_dragon_ancestry',
+            'blue_dragon_ancestry',
+            'green_dragon_ancestry',
 
-            'copper_dragonborn',
-            'silver_dragonborn',
-            'brass_dragonborn',
-            'bronze_dragonborn',
-            'gold_dragonborn',
+            'copper_dragon_ancestry',
+            'silver_dragon_ancestry',
+            'brass_dragon_ancestry',
+            'bronze_dragon_ancestry',
+            'gold_dragon_ancestry',
 
-            'metallic_dragonborn',
-            'chromatic_dragonborn',
-            'gem_dragonborn',
+            'metallic_dragon_ancestry',
+            'chromatic_dragon_ancestry',
+            'gem_dragon_ancestry',
         ],
     ],
     'dwarf' => [
@@ -196,6 +196,23 @@ return [
         'name' => 'f5/creaturesubtypes.half_dragon',
         'tags' => [
 
+        ],
+        'options' => [
+            'black_dragon_ancestry',
+            'white_dragon_ancestry',
+            'red_dragon_ancestry',
+            'blue_dragon_ancestry',
+            'green_dragon_ancestry',
+
+            'copper_dragon_ancestry',
+            'silver_dragon_ancestry',
+            'brass_dragon_ancestry',
+            'bronze_dragon_ancestry',
+            'gold_dragon_ancestry',
+
+            'metallic_dragon_ancestry',
+            'chromatic_dragon_ancestry',
+            'gem_dragon_ancestry',
         ],
     ],
     'half_elf' => [
