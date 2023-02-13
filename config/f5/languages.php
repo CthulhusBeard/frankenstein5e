@@ -69,6 +69,24 @@ return [
         'exotic' => true,
     ],
 
+    
+    'auran' => [
+        'name' => 'f5/languages.auran',
+        'exotic' => true,
+    ],
+    'aquan' => [
+        'name' => 'f5/languages.aquan',
+        'exotic' => true,
+    ],
+    'ignan' => [
+        'name' => 'f5/languages.ignan',
+        'exotic' => true,
+    ],
+    'terran' => [
+        'name' => 'f5/languages.terran',
+        'exotic' => true,
+    ],
+
     'druidic' => [
         'name' => 'f5/languages.druidic',
         'special' => true,

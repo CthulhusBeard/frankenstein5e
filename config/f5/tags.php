@@ -22,18 +22,18 @@ return [
         'avian' => [
             'name' => 'f5/creaturesubtypes.avian',
             'tags' => [
-                'speed' => [
+                'speeds' => [
                     'fly'
                 ],
                 'features' => [
-                    'wings'
+                    'wing_attack'
                 ],
             ]
         ],
         'aquatic' => [
             'name' => 'f5/creaturesubtypes.aquatic',
             'tags' => [
-                'speed' => [
+                'speeds' => [
                     'swim'
                 ],
                 'features' => [
@@ -219,18 +219,21 @@ return [
             'name' => 'f5/creaturesubtypes.air_elemental',
             'tags' => [
                 'damage_resistances' => 'physical',
+                'languages' => 'auran',
             ],
         ],
         'fire_elemental' => [
             'name' => 'f5/creaturesubtypes.fire_elemental',
             'tags' => [
                 'damage_immunities' => 'fire',
+                'languages' => 'ignan',
             ],
         ],
         'earth_elemental' => [
             'name' => 'f5/creaturesubtypes.earth_elemental',
             'tags' => [
                 'damage_resistances' => 'physical',
+                'languages' => 'terran',
             ],
         ],
         'water_elemental' => [
@@ -238,52 +241,121 @@ return [
             'tags' => [
                 'damage_resistances' => 'acid', 
                 'features' => 'amphibious',   
+                'languages' => 'aquan',
             ],
         ],
         'acid_elemental' => [
             'name' => 'f5/creaturesubtypes.acid_elemental',
             'tags' => [
                 'damage_immunities' => 'acid', 
+                'languages' => 'aquan',
             ],
         ],
         'lightning_elemental' => [
             'name' => 'f5/creaturesubtypes.lightning_elemental',
             'tags' => [
                 'damage_immunities' => 'lightning',
+                'languages' => 'auran',
             ],
         ],
         'storm_elemental' => [
             'name' => 'f5/creaturesubtypes.storm_elemental',
             'tags' => [
                 'damage_immunities' => 'lightning',
+                'languages' => 'auran',
             ],
         ],
         'ice_elemental' => [
             'name' => 'f5/creaturesubtypes.ice_elemental',
             'tags' => [
                 'damage_immunities' => 'cold',
+                'languages' => 'aquan',
             ],
         ],
         'dust_elemental' => [
             'name' => 'f5/creaturesubtypes.dust_elemental',
             'tags' => [
+                'languages' => 'auran',
             ],
         ],
         'magma_elemental' => [
             'name' => 'f5/creaturesubtypes.magma_elemental',
             'tags' => [
                 'damage_immunities' => 'fire',
+                'languages' => 'ignan',
             ],
         ],
         'ooze_elemental' => [
             'name' => 'f5/creaturesubtypes.ooze_elemental',
             'tags' => [
                 'features' => 'amphibious',
+                'languages' => 'aquan',
             ],
         ],
         'steam_elemental' => [
             'name' => 'f5/creaturesubtypes.steam_elemental',
             'tags' => [
+                'languages' => 'auran',
+            ],
+        ],
+
+        'genie' => [
+            'name' => 'f5/creaturesubtypes.genie',
+            'tags' => [
+                'stats' => 'high_cha',
+                'features' => 'innate_spellcasting',
+                'speeds' => 'fly',
+                'senses' => 'darkvision',
+            ],
+        ],
+        'dao' => [
+            'name' => 'f5/creaturesubtypes.dao',
+            'tags' => [
+                'languages' => 'terran',
+                'condition_immunities' => 'petrified',
+                'stats' => 'high_cha',
+                'features' => 'innate_spellcasting',
+                'speeds' => [
+                    'fly',
+                    'burrow',
+                ],
+                'senses' => 'darkvision',
+            ],
+        ],
+        'djinni' => [
+            'name' => 'f5/creaturesubtypes.djinni',
+            'tags' => [
+                'languages' => 'auran',
+                'stats' => 'high_cha',
+                'features' => 'innate_spellcasting',
+                'speeds' => 'fly',
+                'senses' => 'darkvision',
+            ],
+        ],
+        'efreeti' => [
+            'name' => 'f5/creaturesubtypes.efreeti',
+            'tags' => [
+                'languages' => 'ignan',
+                'stats' => 'high_cha',
+                'features' => 'innate_spellcasting',
+                'speeds' => 'fly',
+                'senses' => 'darkvision',
+            ],
+        ],
+        'marid' => [
+            'name' => 'f5/creaturesubtypes.marid',
+            'tags' => [
+                'languages' => 'aquan',
+                'stats' => 'high_cha',
+                'features' => 'innate_spellcasting',
+                'speeds' => [
+                    'fly',
+                    'swim',
+                ],
+                'senses' => [
+                    'darkvision',
+                    'blindsight',
+                ],
             ],
         ],
 
@@ -501,6 +573,7 @@ return [
         'tag_damage_vulnerabilities' => 'f5/tags.tag_damage_vulnerabilities',
         'tag_condition_immunities' => 'f5/tags.tag_condition_immunities',
         'tag_creaturesubtypes' => 'f5/tags.tag_creaturesubtypes',
+        'tag_speeds' => 'f5/tags.tag_speeds',
         'tag_saves' => 'f5/tags.tag_saves',
         'tag_stats' => 'f5/tags.tag_stats',
     

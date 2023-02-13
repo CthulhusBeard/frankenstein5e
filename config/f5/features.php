@@ -59,6 +59,18 @@ return [
         'action_type' => 'passive',
     ],
 
+    'breath_weapon' => [
+        'name' => 'f5/features.name_breath_weapon',
+        'desc' => 'f5/features.desc_breath_weapon',
+        'action_type' => 'action',
+    ],
+
+    'wing_attack' => [
+        'name' => 'f5/features.name_wing_attack',
+        'desc' => 'f5/features.desc_wing_attack',
+        'action_type' => 'action',
+    ],
+
     //Attacks
     'melee_attack' => [
         'name' => 'f5/features.name_melee_attack',

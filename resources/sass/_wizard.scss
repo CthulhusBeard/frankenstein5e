@@ -60,20 +60,16 @@ $lightboxPadding: 20px;
         }
     }
 
+    .section-container {
+        gap: 20px;
+    }
+
     .creature-type-inner-container {
         margin-top: 10px;
-        margin-right: 25px;
         max-width: max-content;
 
         .multiselect {
             max-width: 350px;
-        }
-
-        &.tips {
-            max-width: 33%;
-            ul {
-                margin-top: .25em;
-            }
         }
 
         &.subtypes {
@@ -81,9 +77,25 @@ $lightboxPadding: 20px;
         }
     }
 
+    .creature-tips {
+        max-width: max-content;
+        border: black 1px solid;
+        border-radius: 6px;
+        background-color: beige;
+        padding: 5px;
+
+        max-width: 33%;
+        ul {
+            margin-top: .25em;
+        }
+
+        .creature-title {
+            text-decoration: underline;
+        }
+    }
+
     .ability-priority-container {
-        display: flex;
-        flex-direction: row;
+        margin-right: 15px;
     }
 
     .ability-priority {
@@ -125,15 +137,25 @@ $lightboxPadding: 20px;
         }
     }
 
+    .ability-section {
+        margin-bottom: 3px;
+    }
+
+    .ability-title {    
+        min-width: 125px;
+    }
+
     .ability-name {
         min-width: 120px;
-        display: inline-block;
     }
 
     .wizard-header {
         font-size: 22px;
         font-weight: bold;
         margin-bottom: 4px;
+    }
+    .wizard-subheader {
+        margin-bottom: 8px;
     }
     .wizard-back {
         position: absolute;

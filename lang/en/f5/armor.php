@@ -25,7 +25,7 @@ return [
     'plate' => 'Plate Armor',
     
     'shield' => 'shield',
-    'mage_armor' => ':mage_armour_ac with Mage Armor',
+    'mage_armor' => ':mage_armor_ac with Mage Armor',
 
     'stealth_dis' => 'Disadvantage on Stealth',
     

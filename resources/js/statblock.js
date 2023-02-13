@@ -417,7 +417,7 @@ export default {
                         mageArmorAc += 2;
                     }
                     if(mageArmorAc > acValue) {
-                        mageArmorText = this.f5.misc.mage_armor.replace(':mage_armour_ac', mageArmorAc);
+                        mageArmorText = this.f5.misc.mage_armor.replace(':mage_armor_ac', mageArmorAc);
                     }
                 }
 
@@ -1009,24 +1009,6 @@ export default {
             }
             return displayText;
         },
-
-        generateArmourText: function (item, max) {
-            let text = item.name;
-            if(item.range && item.range.low && item.range.high) {
-                text += ' ('+item.range.low+'-'+item.range.high+')';
-            }
-            if(item.base) {
-                text += ' ('+item.base;
-                if(item.bonus) {
-                    text += '+'+item.bonus.toUpperCase();
-                    if(item.max_bonus) {
-                        text += ' - '+max+' '+item.max_bonus;
-                    }
-                }
-                text += ')';
-            }
-            return text;
-        }, 
 
         generateWarnings: function() {
             //Warning for armor that's too heavy 'str_requirement' vs STR

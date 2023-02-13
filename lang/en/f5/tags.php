@@ -11,6 +11,7 @@ return [
     'tag_damage_vulnerabilities' => 'Damage Vulnerabilities: ',
     'tag_condition_immunities' => 'Condition Immunities: ',
     'tag_creaturesubtypes' => 'Additional Subtypes: ',
+    'tag_speeds' => 'Speeds: ',
     'tag_saves' => 'Saving Throws might include: ',
     'tag_stats' => 'Ability Scores: ',
     'tag_features' => 'Features: ',

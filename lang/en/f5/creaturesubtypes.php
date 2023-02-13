@@ -144,6 +144,11 @@ return [
     'magma_elemental' => 'Magma Elemental',
     'ooze_elemental' => 'Ooze Elemental',
     'steam_elemental' => 'Steam Elemental',
+    'genie' => 'Genie',
+    'dao' => 'Dao',
+    'djinni' => 'Djinni',
+    'efreeti' => 'Efreeti',
+    'marid' => 'Marid',
 
     //Giants Subtypes
     'fire_giant' => 'Fire Giant',

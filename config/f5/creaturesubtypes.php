@@ -12,7 +12,7 @@ return [
     'aarakocra' => [
         'name' => 'f5/creaturesubtypes.aarakocra',
         'tags' => [
-            'speed' => 'fly',
+            'speeds' => 'fly',
         ],
     ],
     'aasimar' => [
@@ -67,6 +67,7 @@ return [
     'dragonborn' => [
         'name' => 'f5/creaturesubtypes.dragonborn',
         'tags' => [
+            'features' => 'breath_weapon',
         ],
         'options' => [
             'black_dragon_ancestry',
@@ -195,7 +196,7 @@ return [
     'half_dragon' => [
         'name' => 'f5/creaturesubtypes.half_dragon',
         'tags' => [
-
+            'features' => 'breath_weapon',
         ],
         'options' => [
             'black_dragon_ancestry',
@@ -313,7 +314,7 @@ return [
         'name' => 'f5/creaturesubtypes.owlin',
         'tags' => [
             'senses' => 'darkvision',
-            'speed' => 'fly',
+            'speeds' => 'fly',
             'woc_property' => true,
         ],
     ],

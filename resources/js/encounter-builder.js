@@ -7,6 +7,28 @@ import * as SampleMonsters from './sample-monsters';
 
 export function initVue(f5data) {
     Vue.config.devtools = true;
+
+    Vue.mixin({
+        methods: {
+            generateArmorText: function (item, max) {
+                let text = item.name;
+                if(item.range && item.range.low && item.range.high) {
+                    text += ' ('+item.range.low+'-'+item.range.high+')';
+                }
+                if(item.base) {
+                    text += ' ('+item.base;
+                    if(item.bonus) {
+                        text += '+'+item.bonus.toUpperCase();
+                        if(item.max_bonus) {
+                            text += ' - '+max+' '+item.max_bonus;
+                        }
+                    }
+                    text += ')';
+                }
+                return text;
+            },
+        }
+    });
     
     let app = new Vue({
         el: '#f5',
@@ -258,7 +280,7 @@ export function initVue(f5data) {
             createStatBlockUsingWizard: function () {
                 //TODO: Reset Wizard?
                 this.usingWizard = true;
-            }
+            },
         },
     });
 

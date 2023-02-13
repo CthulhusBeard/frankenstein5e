@@ -130,5 +130,9 @@ return [
     'desc_fey_ancestry' => 'TODO',
     'name_stout_resilience' => 'Stout Resilience',
     'desc_stout_resilience' => 'TODO',
+    'name_breath_weapon' => 'Breath Weapon',
+    'desc_breath_weapon' => 'TODO',
+    'name_wing_attack' => 'Wing Attack',
+    'desc_wing_attack' => 'TODO',
 
 ];

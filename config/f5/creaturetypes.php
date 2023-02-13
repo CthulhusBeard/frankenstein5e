@@ -12,7 +12,8 @@ return [
             // 'saves' => ['con', 'int'],
             'languages' => [
                 'deep_speech'
-            ]
+            ],
+            'armor' => 'natural',
         ],
     ],
     'beast' => [
@@ -32,6 +33,7 @@ return [
             'stats' => 'f5/creaturetypes.beast_tip_stats',
             // 'saves' => ['dex', 'con'],
             'alignments' => 'unaligned',
+            'armor' => 'natural',
         ],
     ],
     'celestial' => [
@@ -100,6 +102,8 @@ return [
         ],
         'tags' => [
             'stats' => 'f5/creaturetypes.dragon_tip_stats',
+            'features' => 'breath_weapon',
+            'armor' => 'natural',
             // 'saves' => ['dex','con','wis','cha'],
         ],
     ],
@@ -118,7 +122,12 @@ return [
             'dust_elemental',
             'magma_elemental',
             'ooze_elemental',
-            'steam_elemental'
+            'steam_elemental',
+            'genie',
+            'dao',
+            'djinni',
+            'efreeti',
+            'marid',
         ],
         // 'saves' => ['wis','cha'],
         'tags' => [

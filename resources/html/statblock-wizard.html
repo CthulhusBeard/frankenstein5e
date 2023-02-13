@@ -82,12 +82,11 @@
 
     <div class="wizard-page wizard-page__choose-type" :class="{'wizard-page__active': activePage==='choose-type'}">
         <div class="wizard-header">Creature Type</div>
-
-        <div>
+        <div class="wizard-subheader">
             What type of creature do you want to create?
         </div>
         
-        <div class="flex-rows creature-type-outer-container">
+        <div class="flex-rows section-container">
             <div class="creature-type-inner-container">
                 <div><strong>Creature Type:</strong></div>
                 <div v-for="(type, key) in f5.creaturetypes">
@@ -152,13 +151,13 @@
                     </Multiselect>
                 </div>
             </div>
-            <div class="creature-type-inner-container tips">
+            <div class="creature-type-inner-container creature-tips">
                 <div>
                     <strong>Recommendations:</strong>
                     <span class="info">🛈<div class="info-hover">These recommendations are based on common trends among the selected types, subtypes, and tags. These are meant to assist you in building your creature but are certainly not hard-and-fast rules. </div></span> 
                 </div>
                 <div v-for="(tips, i) in creatureTips">
-                    <span>{{ f5.tags.translations.tag_traits.replace(':creature_type', i) }}</span>
+                    <span class="creature-title">{{ f5.tags.translations.tag_traits.replace(':creature_type', i) }}</span>
                     <ul>
                         <li v-for="(tip, j) in tips" v-html="tip"></li>
                     </ul>
@@ -176,25 +175,37 @@
 <!-- -->
 
     <div class="wizard-page wizard-page__choose-stats" :class="{'wizard-page__active': activePage==='choose-stats'}">
-        <div>
+        <div class="wizard-header">Ability Scores</div>
+        <div class="wizard-subheader">
             What ability scores are most important to your creature?
         </div>
 
-        <div class="ability-priority-container">
-            <div class="ability-priority" v-for="(ability, i) in creatureAbilityScorePriority"> 
-                <div class="ability-priority__move-arrows">    
-                    <div :class="i == 0 ? 'disabled' : ''" class="ability-priority__move-arrow ability-priority__move-up" @click="shiftAbilityPriorityUp(ability)">↑</div>
-                    <div :class="i == creatureAbilityScorePriority.length-1 ? 'disabled' : ''" class="ability-priority__move-arrow ability-priority__move-down" @click="shiftAbilityPriorityDown(ability)">↓</div>
-                </div>   
-                <div class="ability-priority__display">
-                    <div>
-                        <strong>{{ f5.abilities[ability].name }}</strong> 
-                        <span class="info">🛈<div class="info-hover">{{ f5.abilities[ability]['desc'] }}</div></span>
+        <div class="section-container flex-rows ">
+            <div class="ability-priority-container">
+                <div class="ability-priority" v-for="(ability, i) in creatureAbilityScorePriority"> 
+                    <div class="ability-priority__move-arrows">    
+                        <div :class="i == 0 ? 'disabled' : ''" class="ability-priority__move-arrow ability-priority__move-up" @click="shiftAbilityPriorityUp(ability)">↑</div>
+                        <div :class="i == creatureAbilityScorePriority.length-1 ? 'disabled' : ''" class="ability-priority__move-arrow ability-priority__move-down" @click="shiftAbilityPriorityDown(ability)">↓</div>
+                    </div>   
+                    <div class="ability-priority__display">
+                        <div>
+                            <strong>{{ f5.abilities[ability].name }}</strong> 
+                            <span class="info">🛈<div class="info-hover">{{ f5.abilities[ability]['desc'] }}</div></span>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="ability-priority-tips">
-                {{ abilityTips }}
+            <div class="creature-tips">
+                <div>
+                    <strong>Recommendations:</strong>
+                    <span class="info">🛈<div class="info-hover">These recommendations are based on common trends among the selected types, subtypes, and tags. These are meant to assist you in building your creature but are certainly not hard-and-fast rules. </div></span> 
+                </div>
+                <div v-for="(tips, i) in getCreatureTips(['stats'])">
+                    <span class="creature-title">{{ f5.tags.translations.tag_traits.replace(':creature_type', i) }}</span>
+                    <ul>
+                        <li v-for="(tip, j) in tips" v-html="tip"></li>
+                    </ul>
+                </div>
             </div>
         </div>
 
@@ -213,24 +224,101 @@
 
     <div class="wizard-page wizard-page__manual-stats" :class="{'wizard-page__active': activePage==='manual-stats'}">
         <div class="wizard-header">Select Ability Scores</div>
-
-        <div>
-            Select ability score distribution. A common array of ability scores for a CR {{targetCR}} creature is {{ abilityScoreDistributionByCR(targetCR) }}
+        <div class="wizard-subheader">
+            Select ability score distribution.
+            <br/>
+            A common array of ability scores for a CR {{ targetCR }} creature is {{ abilityScoreDistributionByCR(targetCR) }}
         </div>
-        <p>
-            <div v-for="(ability, key) in f5.abilities">
-                <strong class="ability-name">
-                    {{ ability.name }}
-                    <span class="info">🛈<div class="info-hover">{{ability['desc']}}</div></span>
-                </strong>
-                <select v-model="creatureAbilityScores[key]">
-                    <option v-for="i in 30" value="i">{{ i }} (<span v-if="(i-10)/2 > 0">+</span> {{ Math.floor((i-10)/2) }})</option>
-                </select>
+
+        <div class="section-container flex-rows ">
+            <div class="ability-priority-container">
+                <div class="ability-section flex-rows" v-for="(ability, key) in f5.abilities">
+                    <div class="ability-title">
+                        <strong class="ability-name">{{ ability.name }}</strong>
+                        <span class="info">🛈<div class="info-hover">{{ability['desc']}}</div></span>
+                    </div>
+                    <select v-model="creatureAbilityScores[key]">
+                        <option v-for="i in 30" :value="i">{{ i }} (<span v-if="(i-10)/2 > 0">+</span> {{ Math.floor((i-10)/2) }})</option>
+                    </select>
+                </div>
             </div>
-        </p>
+            
+            <div class="creature-tips">
+                <div>
+                    <strong>Recommendations:</strong>
+                    <span class="info">🛈<div class="info-hover">These recommendations are based on common trends among the selected types, subtypes, and tags. These are meant to assist you in building your creature but are certainly not hard-and-fast rules. </div></span> 
+                </div>
+                <div v-for="(tips, i) in getCreatureTips(['stats'])">
+                    <span class="creature-title">{{ f5.tags.translations.tag_traits.replace(':creature_type', i) }}</span>
+                    <ul>
+                        <li v-for="(tip, j) in tips" v-html="tip"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
         <div class="btnContainer">
             <button @click="setCreatureStats()">Set Stats</button>
+        </div>
+
+        <button class="wizard-back" @click="setCreatureStats(false)"> < Back</button>
+    </div>
+
+
+<!-- -->
+
+
+    <div class="wizard-page wizard-page__armor-hp" :class="{'wizard-page__active': activePage==='armor-hp'}">
+        <div class="wizard-header">Armor and HP</div>
+        <div class="wizard-subheader">
+            Select armor and hit points.
+        </div>
+
+        <div class="section-container flex-rows ">
+            <div class="select-armor">
+                <div class="option options__hitpoints edit-field">
+                    <select id="options__armorclass" name="options__armorclass" v-model="value.armorClass.type">
+                        <option v-for="(item, index) in f5.armor" :value="index" >{{generateArmorText(item, f5.misc.max)}}</option>
+                    </select>
+                    <div v-if="value.armorClass.type === 'custom'" >
+                        {{f5.misc.title_armor_name}}: <input v-model='value.armorClass.name'/><br/>
+                        <!--Disadvantage on Stealth: <input type="checkbox" v-model="value.armorClass.stealthDis">-->
+                    </div>
+                    <span v-if="allowAcSelector">
+                        {{f5.misc.title_armor_class}}: <select name="options__armorclass_range" v-model="value.armorClass.manual">
+                            <option v-for="(val, i) in getAcRange" :value="val" >{{val}}</option>
+                        </select>
+                    </span>
+                    <span v-if="allowAcBonus">
+                        {{f5.misc.title_magical_bonus}}: +<input type="number" min="0" max="10" name="options__armorclass_range" v-model="value.armorClass.bonus" />
+                    </span>
+                    <div>
+                        {{f5.misc.title_shield}}: <input name="options__shield" v-model="value.armorClass.shield" type="checkbox" />
+                        {{f5.misc.title_mage_armor}}: <input name="options__mage-armor" v-model="value.armorClass.mageArmor" type="checkbox" /> 
+                    </div>       
+                </div>
+            </div>
+
+            <div class="select-hp">
+                
+            </div>
+            
+            <div class="creature-tips">
+                <div>
+                    <strong>Recommendations:</strong>
+                    <span class="info">🛈<div class="info-hover">These recommendations are based on common trends among the selected types, subtypes, and tags. These are meant to assist you in building your creature but are certainly not hard-and-fast rules. </div></span> 
+                </div>
+                <div v-for="(tips, i) in getCreatureTips(['armor', 'hp'])">
+                    <span class="creature-title">{{ f5.tags.translations.tag_traits.replace(':creature_type', i) }}</span>
+                    <ul>
+                        <li v-for="(tip, j) in tips" v-html="tip"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="btnContainer">
+            <button @click="setCreatureArmorHP()">Set Armor and HP</button>
         </div>
 
         <button class="wizard-back" @click="setCreatureStats(false)"> < Back</button>

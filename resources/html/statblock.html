@@ -395,7 +395,7 @@
                             <span>{{acText}}</span>
                             <div class="option options__hitpoints edit-field">
                                 <select id="options__armorclass" name="options__armorclass" v-model="value.armorClass.type">
-                                    <option v-for="(item, index) in f5.armor" :value="index" >{{generateArmourText(item, f5.misc.max)}}</option>
+                                    <option v-for="(item, index) in f5.armor" :value="index" >{{generateArmorText(item, f5.misc.max)}}</option>
                                 </select>
                                 <div v-if="value.armorClass.type === 'custom'" >
                                     {{f5.misc.title_armor_name}}: <input v-model='value.armorClass.name'/><br/>

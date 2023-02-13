@@ -38,7 +38,7 @@ return [
     'celestial_tip_stats' => 'Celestials usually have high Wisdom. They usually have a high Charisma (especially if they are spellcasters) and may have a high Strength if they focus on melee combat. Dexterity is frequently their lowest stat.',
     'construct_tip_stats' => 'Constructs generally have high Strength and Constitution with low Intelligence and Charisma.',
     'dragon_tip_stats' => 'Dragons frequently have very high Strength and Constitution. Lesser dragons like drakes and wyvern have low Intelligence while a true dragon\'s Intelligence can vary by age and color.',
-    'elemental_tip_stats' => 'Elementals usually have high Constitution as they use it for many abilities. Basic elementals usually have low Intelligence while genies have average Intelligence.',
+    'elemental_tip_stats' => 'Elementals usually have high Constitution as they use it for many abilities. Basic elementals usually have low Intelligence while genies have average Intelligence and above-average Charisma.',
     'fey_tip_stats' => 'Fey abilities can vary wildly. Trickster fey may have high Charisma and while more animalistic fey have low Intelligence and Charisma.',
     'fiend_tip_stats' => 'Most fiends have relatively evenly distributed stats but usually have Strength and Constitution as their highest stats, followed by Wisdom.',
     'giant_tip_stats' => 'Giants usually have high Strength and Constitution with lower Dexterity. Lesser giants frequently have low Intelligence and Charisma but spellcasting giants usually have a higher Charisma.',

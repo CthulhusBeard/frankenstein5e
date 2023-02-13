@@ -29,6 +29,22 @@ export default {
             creatureSpecifics: [],
             set_creatureType: false,
 
+            set_creatureArmorHP: false,
+            
+            armorClass: {
+                type: 'none',
+                manual: '10',
+                bonus: '0',
+                stealthDis: false,
+                shield: false,
+                mageArmor: false,
+            },
+            hitPoints: {
+                diceType: 4,
+                diceAmount: 1,
+                additional: 0,
+            },
+
             creatureAbilityScores: {
                 str: 10,
                 dex: 10,
@@ -129,78 +145,25 @@ export default {
     },
 
     computed: {
+        
+
+        //Armor Class
+        allowAcSelector: function() {
+            if(this.armorClass && this.armorClass.type && this.f5.armor[this.armorClass.type]) {
+                return (this.f5.armor[this.armorClass.type].range);
+            }
+            return false;
+        },
+
+        allowAcBonus: function() {
+            if(this.f5.armor[this.armorClass.type] && this.f5.armor[this.armorClass.type].allow_bonus) {
+                return true;
+            }
+            return false;
+        },
 
         creatureTips: function() {
-            let tips = {};
-            let skipProperties = ['woc_property'];
-            console.log('--creatureTips--');
-
-            //Type Tips
-            if(
-                this.f5.creaturetypes.hasOwnProperty(this.creatureType) && 
-                this.f5.creaturetypes[this.creatureType]['tags']
-            ) {
-                let creatureType = this.f5.creaturetypes[this.creatureType]['name'];
-                tips[creatureType] = [];
-
-                for(let tagKey in this.f5.creaturetypes[this.creatureType]['tags']) {
-                    if(skipProperties.includes(tagKey)) continue;
-
-                    let tagGroup = this.f5.creaturetypes[this.creatureType]['tags'][tagKey];
-                    tips[creatureType].push(this.buildTipString(tagKey, tagGroup, creatureType));
-                }
-                if(!tips[creatureType].length) {
-                    delete tips[creatureType];
-                }
-            }
-
-            //Subtype Tips
-            for(let i in this.creatureSubtypes) {
-                console.log(this.creatureSubtypes);
-                if(
-                    this.f5.creaturesubtypes.hasOwnProperty(this.creatureSubtypes[i]) &&
-                    this.f5.creaturesubtypes[this.creatureSubtypes[i]].hasOwnProperty('tags')
-                ) {
-                    let creatureSubtype = this.f5.creaturesubtypes[this.creatureSubtypes[i]]['name'];
-                    tips[creatureSubtype] = [];
-
-                    for(let tagKey in this.f5.creaturesubtypes[this.creatureSubtypes[i]]['tags']) {
-                        if(skipProperties.includes(tagKey)) continue;
-
-                        let tagGroup = this.f5.creaturesubtypes[this.creatureSubtypes[i]]['tags'][tagKey];
-                        tips[creatureSubtype].push(this.buildTipString(tagKey, tagGroup, creatureSubtype));
-                    }
-                    if(!tips[creatureSubtype].length) {
-                        delete tips[creatureSubtype];
-                    }
-                }
-            }
-
-            //Specific Tips
-            for(let i in this.creatureSpecifics) {
-                console.log(this.creatureSpecifics);
-                if(
-                    this.f5.tags.creature_options.hasOwnProperty(this.creatureSpecifics[i]) &&
-                    this.f5.tags.creature_options[this.creatureSpecifics[i]].hasOwnProperty('tags')
-                ) {
-                    let creatureTag = this.f5.tags.creature_options[this.creatureSpecifics[i]]['name'];
-                    tips[creatureTag] = [];
-
-                    for(let tagKey in this.f5.tags.creature_options[this.creatureSpecifics[i]]['tags']) {
-                        if(skipProperties.includes(tagKey)) continue;
-
-                        let tagGroup = this.f5.tags.creature_options[this.creatureSpecifics[i]]['tags'][tagKey];
-                        tips[creatureTag].push(this.buildTipString(tagKey, tagGroup, creatureTag));
-                    }
-                    if(!tips[creatureTag].length) {
-                        delete tips[creatureTag];
-                    }
-                }
-            }
-            
-            console.log(tips);
-
-            return tips;
+            return this.getCreatureTips();
         },
 
         //Subtypes
@@ -267,10 +230,6 @@ export default {
             }
 
             return optionsList;
-        },
-
-        abilityTips: function() {
-            return 'tips here';
         },
 
         recommendedCR: function() {
@@ -418,6 +377,11 @@ export default {
             this.setActivePage();
         },
 
+        setCreatureArmorHP: function(setThis = true) {
+            this.set_creatureArmorHP = setThis;
+            this.setActivePage();
+        },
+
         manualStats: function() {
             this.setActivePage('manual-stats');
         },
@@ -452,6 +416,7 @@ export default {
                 set_targetCR: 'target-cr',
                 set_creatureType: 'choose-type',
                 set_creatureStats: 'choose-stats',
+                set_creatureArmorHP: 'armor-hp',
             };
 
             for(let i in pageKeyValues) {
@@ -465,6 +430,80 @@ export default {
         abilityScoreDistributionByCR: function(cr) {
             //TODO: This
             return '[30, 30, 30, 30, 30, 30] //TODO';
-        }
+        },
+
+        
+        getCreatureTips: function(specificTips = null) {
+
+            let crTips = {
+                'Challenge Rating': []
+            };
+
+            if(specificTips && specificTips.includes('armor')) {
+                crTips['Challenge Rating'].push(targetCRData.ac);
+            }
+            if(crTips['Challenge Rating'].length) {
+                crTips['Challenge Rating'] = [];
+            }
+
+            let typeTips = this.getTipsFromGroup(this.f5.creaturetypes, [this.creatureType], specificTips);
+            let subtypeTips = this.getTipsFromGroup(this.f5.creaturesubtypes, this.creatureSubtypes, specificTips);
+            let tagTips = this.getTipsFromGroup(this.f5.tags.creature_options, this.creatureSpecifics, specificTips);
+
+            let tips = Object.assign(crTips, typeTips, subtypeTips, tagTips);
+            console.log('tips');
+            console.log(tips);
+            
+            return tips;
+        },
+
+        getTipsFromGroup: function(f5Group, creatureTypes, specificTips = null) {
+            let tips = {};
+            let skipProperties = ['woc_property'];
+
+            for(let i in creatureTypes) {
+                if(
+                    f5Group.hasOwnProperty(creatureTypes[i]) &&
+                    f5Group[creatureTypes[i]].hasOwnProperty('tags')
+                ) {
+                    let creatureTag = f5Group[creatureTypes[i]]['name'];
+                    tips[creatureTag] = [];
+
+                    for(let tagKey in f5Group[creatureTypes[i]]['tags']) {
+                        if(skipProperties.includes(tagKey)) continue;
+                        if(specificTips !== null && !specificTips.includes(tagKey)) continue;
+
+                        let tagGroup = f5Group[creatureTypes[i]]['tags'][tagKey];
+                        tips[creatureTag].push(this.buildTipString(tagKey, tagGroup, creatureTag));
+                    }
+                    if(!tips[creatureTag].length) {
+                        delete tips[creatureTag];
+                    }
+                }
+            }
+
+            return tips;
+        },
+         
+
+        getAcRange: function() {
+            if(
+                this.armorClass && 
+                this.armorClass.type && 
+                this.f5.armor[this.armorClass.type] && 
+                this.f5.armor[this.armorClass.type].range &&
+                this.f5.armor[this.armorClass.type].range.low &&
+                this.f5.armor[this.armorClass.type].range.high
+            ) {
+                let arr = [];
+                for(let i = this.f5.armor[this.armorClass.type].range.low; i < this.f5.armor[this.armorClass.type].range.high+1; i++) {
+                    arr.push(i);
+                }
+                return arr;
+            }
+            return 30;
+        },
+        
+
     },       
 };

@@ -22,6 +22,11 @@ return [
     'sylvan' => 'Sylvan',
     'undercommon' => 'Undercommon',
 
+    'auran' => 'Auran',
+    'aquan' => 'Aquan',
+    'ignan' => 'Ignan',
+    'terran' => 'Terran',
+
     'druidic' => 'Druidic',
     'thieves_cant' => 'Thieves\' Cant',
     'telepathy' => 'Telepathy',
