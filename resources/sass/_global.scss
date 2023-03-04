@@ -1,0 +1,48 @@
+.strong {
+    font-weight: bold;
+}
+
+.i {
+    font-style: italic;
+}
+
+.flex-rows {
+    display: flex;
+    flex-direction: row;
+}
+.col-span-2 {
+    grid-column: span 2;
+}
+
+.row-span-2 {
+    grid-row: span 2;
+}
+
+.grid-3-cols {
+    display: grid;
+    grid-template-columns: repeat(3, 33%);
+}
+
+.info {
+    cursor: help;
+    position: relative;
+
+    .info-hover {
+        position: absolute;
+        display: none;
+        top: 0;
+        left: 100%;
+        min-width: 300px;
+        color: white;
+        background-color: #282828;
+        border-radius: 5px;
+        padding: 5px;
+        z-index: 10;
+    }
+
+    &:hover {
+        .info-hover {
+            display: block;
+        }
+    }
+}

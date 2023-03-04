@@ -2,30 +2,6 @@
 
 $lightboxPadding: 20px;
 
-.info {
-    cursor: help;
-    position: relative;
-
-    .info-hover {
-        position: absolute;
-        display: none;
-        top: 0;
-        left: 100%;
-        min-width: 300px;
-        color: white;
-        background-color: #282828;
-        border-radius: 5px;
-        padding: 5px;
-        z-index: 10;
-    }
-
-    &:hover {
-        .info-hover {
-            display: block;
-        }
-    }
-}
-
 .statblock-wizard-container {
     position: fixed;
     z-index: 100;
@@ -41,6 +17,10 @@ $lightboxPadding: 20px;
     
     &.show-wizard {
         display: block;
+    }
+
+    .title {
+        font-weight: bold;
     }
 
     .statblock-wizard {
@@ -62,6 +42,10 @@ $lightboxPadding: 20px;
 
     .section-container {
         gap: 20px;
+    }
+
+    .attribute-container {
+        margin-bottom: 20px;
     }
 
     .creature-type-inner-container {
@@ -139,6 +123,9 @@ $lightboxPadding: 20px;
 
     .ability-section {
         margin-bottom: 3px;
+        .saves {
+            margin-left: 10px;
+        }
     }
 
     .ability-title {    
@@ -147,6 +134,10 @@ $lightboxPadding: 20px;
 
     .ability-name {
         min-width: 120px;
+    }
+
+    .select-damage-types {
+        min-width: 200px;
     }
 
     .wizard-header {

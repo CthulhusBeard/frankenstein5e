@@ -64,6 +64,8 @@ return [
     'dice_type' => 'Dice Type',
     'hit_dice_amount' => 'Hit Dice Amount',
     'hit_dice_type' => 'Hit Dice Type',
+    'con_hit_points' => 'Constitution Hit Points',
+    'con_hit_points_subtext' => 'Constitution modifier multiplied by the amount of hit dice',
 
     'title_hit_points' => 'Hit Points',
     'title_hit_dice' => 'Hit Dice',

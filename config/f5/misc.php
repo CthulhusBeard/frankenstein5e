@@ -80,6 +80,8 @@ return [
     
     'hit_dice_amount' => 'f5/misc.hit_dice_amount',
     'hit_dice_type' => 'f5/misc.hit_dice_type',
+    'con_hit_points' => 'f5/misc.con_hit_points',
+    'con_hit_points_subtext' => 'f5/misc.con_hit_points_subtext',
 
     'title_hit_points' => 'f5/misc.title_hit_points',
     'title_hit_dice' => 'f5/misc.title_hit_dice',

@@ -422,12 +422,17 @@
                             <div class="option options__hitpoints edit-field">
                                 <label>{{f5.misc.hit_dice_amount}}:</label>
                                 <input type="number" min="0" max="500" id="options__hitpoints-amount" name="options__hitpoints-amount" v-model="value.hitPoints.diceAmount" value="1" />
-                                <br/>
-                                <label>{{f5.misc.hit_dice_type}}:</label>
-                                <select id="options__hitdice-type" name="options__hitdice-type" v-model="value.hitPoints.diceType">
-                                    <option v-for="i in f5.dicetypes" :value="i" >{{i}}</option>
-                                </select>
-                                <br/>
+                                <div>
+                                    <label>{{f5.misc.hit_dice_type}}:</label>
+                                    <select id="options__hitdice-type" name="options__hitdice-type" v-model="value.hitPoints.diceType">
+                                        <option v-for="i in f5.dicetypes" :value="i" >{{i}}</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    {{f5.misc.con_hit_points}}
+                                    <span class="info">🛈<div class="info-hover">{{f5.misc.con_hit_points_subtext}}</div></span> 
+                                    : +{{hpConMod}}
+                                </div>
                                 <label>{{f5.misc.additional}}:</label>
                                 <input type="number" min="0" max="9999" id="options__hitpoints-additional" name="options__hitpoints-additional" v-model="value.hitPoints.additional" value="0" />
                             </div>

@@ -101,10 +101,6 @@ html, body {
     font-size: 1.3em;
 }
 
-.i {
-    font-style: italic;
-}
-
 footer {
     bottom: -12px;
     background-color: white;
@@ -122,23 +118,7 @@ footer {
     }
 }
 
-.flex-rows {
-    display: flex;
-    flex-direction: row;
-}
-.col-span-2 {
-    grid-column: span 2;
-}
-
-.row-span-2 {
-    grid-row: span 2;
-}
-
-.grid-3-cols {
-    display: grid;
-    grid-template-columns: repeat(3, 33%);
-}
-
+@import 'global';
 @import 'builder';
 @import 'encounters';
 @import 'wizard';

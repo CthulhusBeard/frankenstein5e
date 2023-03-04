@@ -31,6 +31,7 @@ WIZARD
 
 BUG FIXES
 - [ ] Make element ids unique between different statblocks
+- [ ] Remove physical damage is B/P/S is already chosen
 
 MEDIUM PRIORITY
 - [ ] Automatic column org or manual moving

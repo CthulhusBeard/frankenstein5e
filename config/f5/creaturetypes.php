@@ -174,7 +174,7 @@ return [
         ],
         'tags' => [
             'stats' => 'f5/creaturetypes.giant_tip_stats',
-            'saves' => ['con', 'cha'],
+            //'saves' => ['con', 'cha'],
             'sizes' => 'huge',
         ],
     ],

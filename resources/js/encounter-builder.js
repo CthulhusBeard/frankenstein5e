@@ -26,6 +26,201 @@ export function initVue(f5data) {
                     text += ')';
                 }
                 return text;
+            },       
+
+            calcAbilityMod: function (abilityScore) {
+                let mod = Math.floor((abilityScore-10)/2);
+                return mod;
+            },
+
+            createDefaultAbilityScores: function() {
+                let abilities = {};
+                for(let ability in this.f5.abilities) {
+                    abilities[ability] = 10;
+                }
+                return abilities;
+            },
+
+            createDefaultSavingThrows: function() {
+                let savingThrows = {};
+                for(let ability in this.f5.abilities) {
+                    savingThrows[ability] = false;
+                }
+                return savingThrows;
+            },
+
+            createDefaultSenses: function() {
+                let senses = {};
+                for(let sense in this.f5.senses) {
+                    senses[sense] = {
+                        distance: 0,
+                        modifier: false,
+                    };
+                }
+                return senses;
+            },
+
+            createDefaultLanguages: function() {
+                let languages = {
+                    spokenWritten: [],
+                    doesntSpeak: [],
+                    telepathy: 0,
+                };
+                for(let lang in this.f5.languages) {
+                    if(this.f5.languages[lang]['default']) {
+                        languages.spokenWritten.push(lang);
+                    }
+                }
+                return languages;
+            },
+
+            createDefaultSpeeds: function() {
+                let speeds = {};
+                for(let speed in this.f5.speeds) {
+                    if(this.f5.speeds[speed]['default']) {
+                        speeds[speed] = this.f5.speeds[speed]['default'];
+                    } else {
+                        speeds[speed] = 0;
+                    }
+                }
+                return speeds;
+            },
+
+            createSimpleList: function(input, allowEmpty = false) {
+                let len = input.length;
+                if(isNaN(len)) {
+                    if(!isNaN(Object.keys(input).length)) {
+                        len = Object.keys(input).length;
+                    }
+                }
+                let descText = '';
+                for(let i in input) {
+                    if(input[i] || allowEmpty) {
+                        if(descText) {;
+                            descText += this.f5.misc.sentence_list_separator+' ';
+                        }
+                        descText += input[i];
+                    }
+                }
+                return descText;
+            },
+
+            pluralize: function(str, pluralCount = 1) {
+                let pluralBreak = str.indexOf('|');
+                if(pluralBreak < 0) {
+                    return str;
+                }
+                let retStr = str;
+                if(pluralCount == 0 || pluralCount > 1) {
+                    retStr = str.substr(pluralBreak+1);
+                } else {
+                    retStr = str.substr(0, pluralBreak);
+                }
+                return retStr;
+            },
+
+            ordinalNumber: function(num) {
+                let ordinal = '';
+                let lastDigit = String(num).slice(-1);
+
+                if(lastDigit == 1 && num != 11) {
+                    ordinal = this.f5.misc.ordinal_one;
+                } else if(lastDigit == 2 && num != 12) {
+                    ordinal = this.f5.misc.ordinal_two;
+                } else if(lastDigit == 3 && num != 13) {
+                    ordinal = this.f5.misc.ordinal_three;
+                } else {
+                    ordinal = this.f5.misc.ordinal_other;
+                }
+
+                return String(num)+ordinal;
+            }, 
+
+            numberOfTimesSemantics: function(num) {
+                if(num == 1) {
+                    return this.f5.misc.once;
+                }
+                if(num == 2) {
+                    return this.f5.misc.twice;
+                }
+                return this.f5.misc.three_or_more_times.replace(':number_of_times', num);
+            },
+
+            numberToWord: function(num) {
+                let words = [
+                    this.f5.misc.zero, 
+                    this.f5.misc.one, 
+                    this.f5.misc.two, 
+                    this.f5.misc.three,
+                    this.f5.misc.four,
+                    this.f5.misc.five,
+                    this.f5.misc.six,
+                    this.f5.misc.seven,
+                    this.f5.misc.eight,
+                    this.f5.misc.nine,
+                    this.f5.misc.ten,
+                ];
+
+                if(words[num]) {
+                    return words[num];
+                }
+
+                return num;
+            },
+
+            determineIndefiniteArticle: function(str, ordinalNum = false) {
+                let vowels = ['a', 'e', 'i', 'o', 'u'];
+                let vowelNumbers = [1,8,11,18]; //ignoring 80+
+                if(ordinalNum) {
+                    vowelNumbers = [8,11,18];
+                }
+                let firstChar = String(str).charAt(0).toLowerCase();
+                if(
+                    vowels.includes(firstChar) ||
+                    vowelNumbers.includes(Number(str))
+                ) {
+                    return this.f5.misc.indefinite_article_an;
+                } else {
+                    return this.f5.misc.indefinite_article_a;
+                }
+            },
+
+            damageList: function(input, damageTypes) {
+                let sortArr = Object.keys(damageTypes);
+                input.sort((a, b) => sortArr.indexOf(a) - sortArr.indexOf(b));
+                let displayText = '';
+                for(let i of input) {
+                    if(damageTypes[i].long_name) {
+                        if(displayText !== '') displayText += '; ';
+                        displayText += damageTypes[i].long_name;
+                    } else {
+                        if(displayText !== '') displayText += ', ';
+                        displayText += damageTypes[i].name;
+                    }
+                }
+                return displayText;
+            },
+
+            conditionList: function(input, conditions) {
+                let displayText = '';
+                for(let i of input) {                    
+                    if(displayText !== '') {
+                        displayText += ', ';
+                    }
+                    displayText += conditions[i].name;
+                }
+                return displayText;
+            },
+
+            getProp: function (obj, prop = 'name') {
+                if(obj === undefined) {
+                    return '';
+                }
+                if(obj[prop]) {
+                    return obj[prop];
+                }
+                
+                return obj;
             },
         }
     });
