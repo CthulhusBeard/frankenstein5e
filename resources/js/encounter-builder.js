@@ -472,9 +472,17 @@ export function initVue(f5data) {
                 return returnVal;
             },
 
-            createStatBlockUsingWizard: function () {
-                //TODO: Reset Wizard?
+            initStatBlockWizard: function () {
                 this.usingWizard = true;
+            },
+
+            closeWizard: function() {
+                this.usingWizard = false;
+            },
+
+            createStatBlockFromWizardData: function(monsterData) {
+                this.importMonster(monsterData);
+                this.closeWizard();
             },
         },
     });

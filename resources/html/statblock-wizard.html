@@ -97,7 +97,7 @@
                 </div>
                 <div class="option options__sizes edit-field">
                     {{ f5.misc.title_size }}:
-                    <select id="options__size" name="options__size" v-model="size">
+                    <select id="options__size" name="options__size" v-model="monsterData.size">
                         <option v-for="(item, index) in f5.creaturesizes" :value="index">{{ item.name }} (d{{ item.hit_dice }})</option>
                     </select>
                 </div>
@@ -106,7 +106,7 @@
             <div class="creature-type-inner-container">
                 <div><strong>Creature Type:</strong></div>
                 <div v-for="(creatureType, key) in f5.creaturetypes">
-                    <input type="radio" name="creature-type" :id="'creature-type-'+key" :value="key" v-model="type" />
+                    <input type="radio" name="creature-type" :id="'creature-type-'+key" :value="key" v-model="monsterData.type" />
                     <label :for="'creature-type-'+key"><strong>{{ creatureType.name }}</strong></label>
                     <span class="info">🛈<div class="info-hover">{{ creatureType.desc }}</div></span> 
                 </div>
@@ -117,7 +117,7 @@
 
                 <Multiselect class="edit-field edit-field--flex"
                     :placeholder="f5.misc.choose_subtypes"
-                    v-model="subtypes" 
+                    v-model="monsterData.subtypes" 
                     :options="orderedSubtypes" 
                     mode="tags"
                     :close-on-select="false"
@@ -141,11 +141,11 @@
                 <br/>
                 <br/>
 
-                <div v-if="creatureSpecificsList.length || typeCategories.length">
+                <div v-if="creatureSpecificsList.length || monsterData.typeCategories.length">
                     <div><strong>Creature Tags:</strong></div>
                         <Multiselect class="edit-field edit-field--flex"
                         :placeholder="f5.misc.choose_tags"
-                        v-model="typeCategories" 
+                        v-model="monsterData.typeCategories" 
                         :options="creatureSpecificsList" 
                         mode="tags"
                         :close-on-select="false"
@@ -250,10 +250,10 @@
                         <strong class="ability-name">{{ ability.name }}</strong>
                         <span class="info">🛈<div class="info-hover">{{ability['desc']}}</div></span>
                     </div>
-                    <select v-model="abilities[key]">
+                    <select v-model="monsterData.abilities[key]">
                         <option v-for="i in 30" :value="i">{{ i }} (<span v-if="(i-10)/2 > 0">+</span> {{ Math.floor((i-10)/2) }})</option>
                     </select>
-                    <span class="saves">Save Proficiency: <input type="checkbox" v-model="savingThrows[key]" /></span>
+                    <span class="saves">Save Proficiency: <input type="checkbox" v-model="monsterData.savingThrows[key]" /></span>
                 </div>
             </div>
             
@@ -296,24 +296,24 @@
                         <span>{{ acText }}</span>
                     </div>
                     <div class="option options__hitpoints edit-field">
-                        <select id="options__armorclass" name="options__armorclass" v-model="armorClass.type">
+                        <select id="options__armorclass" name="options__armorclass" v-model="monsterData.armorClass.type">
                             <option v-for="(item, index) in f5.armor" :value="index" >{{generateArmorText(item, f5.misc.max)}}</option>
                         </select>
-                        <div v-if="armorClass.type === 'custom'" >
-                            {{f5.misc.title_armor_name}}: <input v-model='armorClass.name'/><br/>
-                            <!--Disadvantage on Stealth: <input type="checkbox" v-model="armorClass.stealthDis">-->
+                        <div v-if="monsterData.armorClass.type === 'custom'" >
+                            {{f5.misc.title_armor_name}}: <input v-model='monsterData.armorClass.name'/><br/>
+                            <!--Disadvantage on Stealth: <input type="checkbox" v-model="monsterData.armorClass.stealthDis">-->
                         </div>
                         <div v-if="allowAcSelector">
-                            {{f5.misc.title_armor_class}}: <select name="options__armorclass_range" v-model="armorClass.manual">
+                            {{f5.misc.title_armor_class}}: <select name="options__armorclass_range" v-model="monsterData.armorClass.manual">
                                 <option v-for="(val, i) in getAcRange" :value="val" >{{val}}</option>
                             </select>
                         </div>
                         <div v-if="allowAcBonus">
-                            {{f5.misc.title_magical_bonus}}: +<input type="number" min="0" max="10" name="options__armorclass_range" v-model="armorClass.bonus" />
+                            {{f5.misc.title_magical_bonus}}: +<input type="number" min="0" max="10" name="options__armorclass_range" v-model="monsterData.armorClass.bonus" />
                         </div>
                         <div>
-                            {{f5.misc.title_shield}}: <input name="options__shield" v-model="armorClass.shield" type="checkbox" />
-                            {{f5.misc.title_mage_armor}}: <input name="options__mage-armor" v-model="armorClass.mageArmor" type="checkbox" /> 
+                            {{f5.misc.title_shield}}: <input name="options__shield" v-model="monsterData.armorClass.shield" type="checkbox" />
+                            {{f5.misc.title_mage_armor}}: <input name="options__mage-armor" v-model="monsterData.armorClass.mageArmor" type="checkbox" /> 
                         </div>       
                     </div>
                 </div>
@@ -326,10 +326,10 @@
                         <span>{{hitPointsText}}</span>
                         <div class="option options__hitpoints edit-field">
                             <label>{{f5.misc.hit_dice_amount}}:</label>
-                            <input type="number" min="0" max="500" id="options__hitpoints-amount" name="options__hitpoints-amount" v-model="hitPoints.diceAmount" value="1" />
+                            <input type="number" min="0" max="500" id="options__hitpoints-amount" name="options__hitpoints-amount" v-model="monsterData.hitPoints.diceAmount" value="1" />
                             <div>
                                 <label>{{f5.misc.hit_dice_type}}:</label>
-                                <select id="options__hitdice-type" name="options__hitdice-type" v-model="hitPoints.diceType">
+                                <select id="options__hitdice-type" name="options__hitdice-type" v-model="monsterData.hitPoints.diceType">
                                     <option v-for="i in f5.dicetypes" :value="i" >{{i}}</option>
                                 </select>
                             </div>
@@ -339,7 +339,7 @@
                                 : +{{hpConMod}}
                             </div>
                             <label>{{f5.misc.additional}}:</label>
-                            <input type="number" min="0" max="9999" id="options__hitpoints-additional" name="options__hitpoints-additional" v-model="hitPoints.additional" value="0" />
+                            <input type="number" min="0" max="9999" id="options__hitpoints-additional" name="options__hitpoints-additional" v-model="monsterData.hitPoints.additional" value="0" />
                         </div>
                 </div>
             </div>
@@ -381,7 +381,7 @@
                 <span class="title">{{f5.misc.title_damage_resistances}}:</span>
                 <span>{{damageResistanceText}}</span>
                 <Multiselect class="edit-field edit-field--flex"
-                    v-model="damageResistances" 
+                    v-model="monsterData.damageResistances" 
                     :placeholder="f5.misc.choose_a.replace(':choice', 'damage type')"
                     :options="eligableDamageTypes" 
                     mode="tags"
@@ -410,7 +410,7 @@
                 <span class="title">{{f5.misc.title_damage_immunities}}:</span>
                 <span>{{damageImmunitiesText}}</span>
                 <Multiselect class="edit-field edit-field--flex"
-                    v-model="damageImmunities" 
+                    v-model="monsterData.damageImmunities" 
                     :placeholder="f5.misc.choose_a.replace(':choice', 'damage type')"
                     :options="eligableDamageTypes" 
                     mode="tags"
@@ -439,7 +439,7 @@
                 <span class="title">{{f5.misc.title_damage_vulnerabilities}}:</span>
                 <span>{{damageVulnerabilitiesText}}</span>
                 <Multiselect class="edit-field edit-field--flex"
-                    v-model="damageVulnerabilites" 
+                    v-model="monsterData.damageVulnerabilites" 
                     :placeholder="f5.misc.choose_a.replace(':choice', 'damage type')"
                     :options="eligableDamageTypes" 
                     mode="tags"
@@ -468,7 +468,7 @@
                 <span class="title">{{f5.misc.title_condition_immunities}}:</span>
                 <span>{{conditionImmunitiesText}}</span>
                 <Multiselect class="edit-field edit-field--flex"
-                    v-model="conditionImmunities" 
+                    v-model="monsterData.conditionImmunities" 
                     :placeholder="f5.misc.choose_a.replace(':choice', 'condition')"
                     :options="f5.conditions" 
                     mode="tags"
@@ -532,9 +532,9 @@
                 <div class="option options-row options__speeds edit-field">
                     <div :class="'options__speed option-box '+index" v-for="(item, index) in f5.speeds">
                         <label :for="index">{{item.name}}</label>
-                        <input type="number" min="0" max="999" :name="'options__speed_'+index" v-model="speeds[index]"> {{measure.measureUnit}}
-                        <span v-if="index === 'fly' && speeds['fly'] > 0">
-                            {{f5.misc.hover}}: <input type="checkbox" v-model="hover">
+                        <input type="number" min="0" max="999" :name="'options__speed_'+index" v-model="monsterData.speeds[index]"> {{measure.measureUnit}}
+                        <span v-if="index === 'fly' && monsterData.speeds['fly'] > 0">
+                            {{f5.misc.hover}}: <input type="checkbox" v-model="monsterData.hover">
                         </span>
                     </div>
                 </div>
@@ -547,10 +547,10 @@
                 <div class="option options-row options__senses edit-field">
                     <div :class="'options__senses option-box '+index" v-for="(item, index) in f5.senses">
                         <label :for="'sense_'+index">{{item.name}}</label>
-                        <input type="number" min="0" :name="'options__sense_'+index" v-model="senses[index].distance"> {{measure.measureUnit}}
+                        <input type="number" min="0" :name="'options__sense_'+index" v-model="monsterData.senses[index].distance"> {{measure.measureUnit}}
                         <span v-if="item.modifier_name">
                             <label :for="'sense_'+index+'_modifier'">{{item.modifier_name}}</label>
-                            <input type="checkbox" v-model="senses[index].modifier" />
+                            <input type="checkbox" v-model="monsterData.senses[index].modifier" />
                         </span>
                     </div>
                 </div>
@@ -560,7 +560,7 @@
                 <span class="title">{{f5.misc.title_languages}}:</span>
                 <span>{{languageText}}</span>
                 <Multiselect class="edit-field edit-field--flex"
-                    v-model="languages.spokenWritten" 
+                    v-model="monsterData.languages.spokenWritten" 
                     :options="f5.languages" 
                     mode="tags"
                     :close-on-select="false"
@@ -582,7 +582,7 @@
                 </Multiselect>
                 
                 <span for="languages__telepathy" class="edit-field edit-field--inlineBlock">{{f5.misc.telepathy}}</span>
-                <input type="number" min="0" name="languages__telepathy" v-model="languages.telepathy" class="edit-field" /> {{measure.measureUnit}}
+                <input type="number" min="0" name="languages__telepathy" v-model="monsterData.languages.telepathy" class="edit-field" /> {{measure.measureUnit}}
             </div>
             
             <div class="attribute-container">
@@ -590,11 +590,11 @@
                     <span class="title">{{f5.misc.title_alignments}}:</span>
                     <span>{{ alignmentText }}</span>
                 </div>
-                <select id="options__alignment" name="options__alignment" v-model="alignment">
+                <select id="options__alignment" name="options__alignment" v-model="monsterData.alignment">
                     <option value="">{{f5.misc.none}}</option>
                     <option v-for="(item, index) in f5.alignments" :value="index">{{item.name}}</option>
                 </select>
-                {{f5.misc.title_alignments_typically}}<input type="checkbox" v-model="showTypicalAlignment">
+                {{f5.misc.title_alignments_typically}}<input type="checkbox" v-model="monsterData.showTypicalAlignment">
             </div>
         </div>
         

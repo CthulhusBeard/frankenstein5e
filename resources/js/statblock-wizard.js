@@ -23,56 +23,17 @@ export default {
             playerLevel: 1,
             monsterCount: 1,
             encounterDifficulty: 'medium',
-            set_targetCR: false,
 
-            size: 'medium',
-            type: 'aberration',
-            subtypes: [],
-            typeCategories: [],
-            set_creatureType: false,
-
-            armorClass: {
-                type: 'none',
-                manual: '10',
-                bonus: '0',
-                stealthDis: false,
-                shield: false,
-                mageArmor: false,
+            pageKeys: {
+                targetCR: false,
+                creatureType: false,
+                creatureArmorHP: false,
+                creatureDamageTypes: false,
+                creatureSpeedsSensesLanguagesAlignment: false,
+                creatureFeatures: false,
+                creatureStats: false,
             },
-            hitPoints: {
-                diceType: 4,
-                diceAmount: 1,
-                additional: 0,
-            },
-            set_creatureArmorHP: false,
 
-            damageResistances: [],
-            damageImmunities: [],
-            damageVulnerabilites: [],
-            conditionImmunities: [],
-            set_creatureDamageTypes: false,
-
-            skills: [],
-            expertise: [],
-            languages: this.createDefaultLanguages(),
-            speeds: this.createDefaultSpeeds(),
-            hover: false,
-            senses: this.createDefaultSenses(),
-            alignment: '',
-            showTypicalAlignment: true,
-            set_creatureSpeedsSensesLanguagesAlignment: false,
-
-            features: [],
-            set_creatureFeatures: false,
-
-            abilities: {
-                str: 10,
-                dex: 10,
-                con: 10,
-                int: 10,
-                wis: 10,
-                cha: 10,
-            },
             creatureAbilityScorePriority: [
                 'str',
                 'dex',
@@ -81,8 +42,55 @@ export default {
                 'wis',
                 'cha',
             ],
-            savingThrows: this.createDefaultSavingThrows(),
-            set_creatureStats: false,
+
+            monsterData: {
+                
+                armorClass: {
+                    type: 'none',
+                    manual: '10',
+                    bonus: '0',
+                    stealthDis: false,
+                    shield: false,
+                    mageArmor: false,
+                },
+                hitPoints: {
+                    diceType: 4,
+                    diceAmount: 1,
+                    additional: 0,
+                },
+
+                size: 'medium',
+                type: 'aberration',
+                subtypes: [],
+                typeCategories: [],
+
+                skills: [],
+                expertise: [],
+                languages: this.createDefaultLanguages(),
+                speeds: this.createDefaultSpeeds(),
+                hover: false,
+                senses: this.createDefaultSenses(),
+                alignment: '',
+                showTypicalAlignment: true,
+
+                damageResistances: [],
+                damageImmunities: [],
+                damageVulnerabilites: [],
+                conditionImmunities: [],    
+    
+                savingThrows: this.createDefaultSavingThrows(),
+                abilities: {
+                    str: 10,
+                    dex: 10,
+                    con: 10,
+                    int: 10,
+                    wis: 10,
+                    cha: 10,
+                },
+                
+                features: [],
+    
+            },
 
         }
     },
@@ -98,14 +106,14 @@ export default {
 
         //Armor Class
         allowAcSelector: function() {
-            if(this.armorClass && this.armorClass.type && this.f5.armor[this.armorClass.type]) {
-                return (this.f5.armor[this.armorClass.type].range);
+            if(this.monsterData.armorClass && this.monsterData.armorClass.type && this.f5.armor[this.monsterData.armorClass.type]) {
+                return (this.f5.armor[this.monsterData.armorClass.type].range);
             }
             return false;
         },
 
         allowAcBonus: function() {
-            if(this.f5.armor[this.armorClass.type] && this.f5.armor[this.armorClass.type].allow_bonus) {
+            if(this.f5.armor[this.monsterData.armorClass.type] && this.f5.armor[this.monsterData.armorClass.type].allow_bonus) {
                 return true;
             }
             return false;
@@ -132,8 +140,8 @@ export default {
                 let subtypeObj = { value: i, label: this.f5.creaturesubtypes[i].name};
 
                 if(
-                    this.f5.creaturetypes[this.type].hasOwnProperty('subtypes') && 
-                    this.f5.creaturetypes[this.type]['subtypes'].includes(i)
+                    this.f5.creaturetypes[this.monsterData.type].hasOwnProperty('subtypes') && 
+                    this.f5.creaturetypes[this.monsterData.type]['subtypes'].includes(i)
                 ) {
                     sortedSubtypes.splice(count, 0, subtypeObj);
                     count++;
@@ -150,9 +158,9 @@ export default {
             let optionsList = [];
 
             //Creature types
-            if(this.f5.creaturetypes.hasOwnProperty(this.type) && this.f5.creaturetypes[this.type].hasOwnProperty('options')) {
-                for (let i in this.f5.creaturetypes[this.type]['options']) {
-                    let option = this.f5.creaturetypes[this.type]['options'][i];
+            if(this.f5.creaturetypes.hasOwnProperty(this.monsterData.type) && this.f5.creaturetypes[this.monsterData.type].hasOwnProperty('options')) {
+                for (let i in this.f5.creaturetypes[this.monsterData.type]['options']) {
+                    let option = this.f5.creaturetypes[this.monsterData.type]['options'][i];
                     if(this.f5.tags.creature_options.hasOwnProperty(option)) {
                         let specificObj = { value: option, label: this.f5.tags.creature_options[option].name};
                         optionsList.push(specificObj);
@@ -161,12 +169,12 @@ export default {
             }
 
             //Creature subtypes
-            for(let i in this.subtypes) {
+            for(let i in this.monsterData.subtypes) {
                 if(
-                    this.f5.creaturesubtypes.hasOwnProperty(this.subtypes[i]) && 
-                    this.f5.creaturesubtypes[this.subtypes[i]].hasOwnProperty('options')
+                    this.f5.creaturesubtypes.hasOwnProperty(this.monsterData.subtypes[i]) && 
+                    this.f5.creaturesubtypes[this.monsterData.subtypes[i]].hasOwnProperty('options')
                 ) {
-                    let subtypeOptions = this.f5.creaturesubtypes[this.subtypes[i]]['options'];
+                    let subtypeOptions = this.f5.creaturesubtypes[this.monsterData.subtypes[i]]['options'];
 
                     for (let j in subtypeOptions) {
                         let option = subtypeOptions[j];
@@ -223,27 +231,27 @@ export default {
         },
 
         alignmentText: function() {
-            if(this.alignment == '') {
-                return this.getProp(this.f5.alignments[this.alignment]);
+            if(this.monsterData.alignment == '') {
+                return this.getProp(this.f5.alignments[this.monsterData.alignment]);
             }
-            if(this.showTypicalAlignment) {
-                return this.f5.misc.alignments_typically.replace(":alignment", this.getProp(this.f5.alignments[this.alignment]));
+            if(this.monsterData.showTypicalAlignment) {
+                return this.f5.misc.alignments_typically.replace(":alignment", this.getProp(this.f5.alignments[this.monsterData.alignment]));
             }
-            return this.getProp(this.f5.alignments[this.alignment]);
+            return this.getProp(this.f5.alignments[this.monsterData.alignment]);
         },
 
 
         getAcRange: function() {
             if(
-                this.armorClass && 
-                this.armorClass.type && 
-                this.f5.armor[this.armorClass.type] && 
-                this.f5.armor[this.armorClass.type].range &&
-                this.f5.armor[this.armorClass.type].range.low &&
-                this.f5.armor[this.armorClass.type].range.high
+                this.monsterData.armorClass && 
+                this.monsterData.armorClass.type && 
+                this.f5.armor[this.monsterData.armorClass.type] && 
+                this.f5.armor[this.monsterData.armorClass.type].range &&
+                this.f5.armor[this.monsterData.armorClass.type].range.low &&
+                this.f5.armor[this.monsterData.armorClass.type].range.high
             ) {
                 let arr = [];
-                for(let i = this.f5.armor[this.armorClass.type].range.low; i < this.f5.armor[this.armorClass.type].range.high+1; i++) {
+                for(let i = this.f5.armor[this.monsterData.armorClass.type].range.low; i < this.f5.armor[this.monsterData.armorClass.type].range.high+1; i++) {
                     arr.push(i);
                 }
                 return arr;
@@ -256,25 +264,25 @@ export default {
             let statBonus = 0;
 
             if(
-                this.armorClass && 
-                this.armorClass.type && 
-                this.f5.armor[this.armorClass.type]
+                this.monsterData.armorClass && 
+                this.monsterData.armorClass.type && 
+                this.f5.armor[this.monsterData.armorClass.type]
             ) {
 
                 //set AC value
-                if(this.f5.armor[this.armorClass.type].range) {
+                if(this.f5.armor[this.monsterData.armorClass.type].range) {
                     //manual value
-                    acValue = parseFloat(this.armorClass.manual);
+                    acValue = parseFloat(this.monsterData.armorClass.manual);
 
-                } else if(this.f5.armor[this.armorClass.type].base) {
+                } else if(this.f5.armor[this.monsterData.armorClass.type].base) {
                     //base value
-                    acValue = this.f5.armor[this.armorClass.type].base;
-                    if(this.f5.armor[this.armorClass.type].bonus && this.abilities[this.f5.armor[this.armorClass.type].bonus]) {
+                    acValue = this.f5.armor[this.monsterData.armorClass.type].base;
+                    if(this.f5.armor[this.monsterData.armorClass.type].bonus && this.monsterData.abilities[this.f5.armor[this.monsterData.armorClass.type].bonus]) {
                         //get stat bonus
-                        statBonus = this.getAbilityMod(this.f5.armor[this.armorClass.type].bonus);
-                        if(this.f5.armor[this.armorClass.type].max_bonus && statBonus > this.f5.armor[this.armorClass.type].max_bonus) {
+                        statBonus = this.getAbilityMod(this.f5.armor[this.monsterData.armorClass.type].bonus);
+                        if(this.f5.armor[this.monsterData.armorClass.type].max_bonus && statBonus > this.f5.armor[this.monsterData.armorClass.type].max_bonus) {
                             //set to max bonus
-                            statBonus = this.f5.armor[this.armorClass.type].max_bonus;
+                            statBonus = this.f5.armor[this.monsterData.armorClass.type].max_bonus;
                         }
                         acValue += parseFloat(statBonus);
                     }
@@ -282,11 +290,11 @@ export default {
                     console.error('Couldn\'t calculate AC');
                 }
                 
-                if(this.allowAcBonus && this.armorClass.bonus && this.armorClass.bonus > 0) {
-                    acValue += parseFloat(this.armorClass.bonus);
+                if(this.allowAcBonus && this.monsterData.armorClass.bonus && this.monsterData.armorClass.bonus > 0) {
+                    acValue += parseFloat(this.monsterData.armorClass.bonus);
                 }
                 
-                if(this.armorClass.shield) {
+                if(this.monsterData.armorClass.shield) {
                     acValue += 2;
                 }
 
@@ -304,26 +312,26 @@ export default {
             let stealthDis = '';
 
             if(
-                this.armorClass && 
-                this.armorClass.type && 
-                this.f5.armor[this.armorClass.type]
+                this.monsterData.armorClass && 
+                this.monsterData.armorClass.type && 
+                this.f5.armor[this.monsterData.armorClass.type]
             ) {
                 //set name
-                if(this.armorClass.type === 'custom' && this.armorClass.name) {
-                    name = this.armorClass.name;
-                } else if(this.armorClass.type !== 'none' && this.f5.armor[this.armorClass.type].name) {
-                    name = this.f5.armor[this.armorClass.type].name;
+                if(this.monsterData.armorClass.type === 'custom' && this.monsterData.armorClass.name) {
+                    name = this.monsterData.armorClass.name;
+                } else if(this.monsterData.armorClass.type !== 'none' && this.f5.armor[this.monsterData.armorClass.type].name) {
+                    name = this.f5.armor[this.monsterData.armorClass.type].name;
                 }
 
                 let shieldText = '';
-                if(this.armorClass.shield) {
+                if(this.monsterData.armorClass.shield) {
                     shieldText = this.f5.misc.shield;
                 }
 
                 let mageArmorText = '';
-                if(this.armorClass.mageArmor) {
+                if(this.monsterData.armorClass.mageArmor) {
                     let mageArmorAc = 13 + this.getAbilityMod('dex');
-                    if(this.armorClass.shield) {
+                    if(this.monsterData.armorClass.shield) {
                         mageArmorAc += 2;
                     }
                     if(mageArmorAc > acValue) {
@@ -343,18 +351,18 @@ export default {
             let conMod = this.getAbilityMod('con');
             let conHP = 0;
             if(conMod > 0) {
-                conHP = conMod * this.hitPoints.diceAmount;
+                conHP = conMod * this.monsterData.hitPoints.diceAmount;
             }
             return conHP;
         },
 
         
         hitPointsText: function() {
-            let type = this.hitPoints.diceType;
-            let amount = this.hitPoints.diceAmount;
-            let additionalHP = this.hitPoints.additional > 0 ? Math.floor(this.hitPoints.additional) : 0;
+            let type = this.monsterData.hitPoints.diceType;
+            let amount = this.monsterData.hitPoints.diceAmount;
+            let additionalHP = this.monsterData.hitPoints.additional > 0 ? Math.floor(this.monsterData.hitPoints.additional) : 0;
             if(additionalHP > 9999) {
-                this.hitPoints.additional = additionalHP = 9999;
+                this.monsterData.hitPoints.additional = additionalHP = 9999;
             }
             let conHP = this.hpConMod;
 
@@ -374,25 +382,25 @@ export default {
         
         //Damages
         damageResistanceText: function() {   
-            return this.damageList(this.damageResistances, this.f5.damagetypes).toLowerCase();
+            return this.damageList(this.monsterData.damageResistances, this.f5.damagetypes).toLowerCase();
         },
         damageImmunitiesText: function() { 
-            return this.damageList(this.damageImmunities, this.f5.damagetypes).toLowerCase();
+            return this.damageList(this.monsterData.damageImmunities, this.f5.damagetypes).toLowerCase();
         },
         damageVulnerabilitiesText: function() { 
-            return this.damageList(this.damageVulnerabilites, this.f5.damagetypes).toLowerCase();
+            return this.damageList(this.monsterData.damageVulnerabilites, this.f5.damagetypes).toLowerCase();
         },
         conditionImmunitiesText: function() {
-            return this.conditionList(this.conditionImmunities, this.f5.conditions).toLowerCase();
+            return this.conditionList(this.monsterData.conditionImmunities, this.f5.conditions).toLowerCase();
         },
         
         eligableDamageTypes: function() {
             let list = [];
             for(let i in this.f5.damagetypes) {
                 if(
-                    this.damageResistances.includes(i) ||
-                    this.damageImmunities.includes(i) ||
-                    this.damageVulnerabilites.includes(i)
+                    this.monsterData.damageResistances.includes(i) ||
+                    this.monsterData.damageImmunities.includes(i) ||
+                    this.monsterData.damageVulnerabilites.includes(i)
                 ) {
                     list.push({ value: i, label: this.f5.damagetypes[i].name, disabled: true});
                 } else {
@@ -406,8 +414,8 @@ export default {
             let list = [];
             for(let i in this.f5.skills) {
                 if(
-                    this.skills.includes(i) ||
-                    this.expertise.includes(i) 
+                    this.monsterData.skills.includes(i) ||
+                    this.monsterData.expertise.includes(i) 
                 ) {
                     list.push({ value: i, label: this.f5.skills[i].name, disabled: true});
                 } else {
@@ -431,8 +439,8 @@ export default {
         //Speeds
         speedText: function() {
             let displayText = '';
-            for(let i in this.speeds) {
-                if(!this.speeds[i]) {
+            for(let i in this.monsterData.speeds) {
+                if(!this.monsterData.speeds[i]) {
                     continue;
                 }
                 if(displayText !== '') {
@@ -441,8 +449,8 @@ export default {
                 if(!this.f5.speeds[i]['hide_name']) {
                     displayText += this.f5.speeds[i].name.toLowerCase()+' ';
                 }
-                displayText += this.speeds[i]+' '+this.measure.measureUnit; 
-                if(i === 'fly' && this.hover) {
+                displayText += this.monsterData.speeds[i]+' '+this.measure.measureUnit; 
+                if(i === 'fly' && this.monsterData.hover) {
                     displayText += ' ('+this.f5.misc.hover.toLowerCase()+')';
                 }
             }
@@ -455,8 +463,8 @@ export default {
         //Senses
         sensesText: function() {                
             let displayText = '';
-            for(let i in this.senses) {
-                if(!this.senses[i].distance) {
+            for(let i in this.monsterData.senses) {
+                if(!this.monsterData.senses[i].distance) {
                     continue;
                 }
                 if(displayText !== '') {
@@ -465,15 +473,15 @@ export default {
                 if(!this.f5.senses[i]['hide_name']) {
                     displayText += this.f5.senses[i].name.toLowerCase()+' ';
                 }
-                displayText += this.senses[i].distance+' '+this.measure.measureUnit;
+                displayText += this.monsterData.senses[i].distance+' '+this.measure.measureUnit;
                 
-                if(this.senses[i].modifier) {
+                if(this.monsterData.senses[i].modifier) {
                     displayText += '('+this.f5.senses[i].modifier_name.toLowerCase()+')';
                 }
             }
 
             //Passive Perception
-            //if(this.skills.includes('perception')) {
+            //if(this.monsterData.skills.includes('perception')) {
                 if(displayText !== '') {
                     displayText += ', ';
                 }
@@ -486,22 +494,22 @@ export default {
         languageText: function() {
             let displayText = '';
 
-            if(this.languages.spokenWritten.includes('all')) {
+            if(this.monsterData.languages.spokenWritten.includes('all')) {
                 return this.f5.languages['all'].name;
             }
 
-            for(let lang of this.languages.spokenWritten) {
+            for(let lang of this.monsterData.languages.spokenWritten) {
                 if(displayText !== '') {
                     displayText += ', ';
                 }
                 displayText += this.f5.languages[lang].name; 
             }
 
-            if(this.languages.telepathy) {
+            if(this.monsterData.languages.telepathy) {
                 if(displayText !== '') {
                     displayText += ', ';
                 }
-                displayText += this.f5.misc.telepathy+' '+this.languages.telepathy +' '+ this.measure.measureUnit;
+                displayText += this.f5.misc.telepathy+' '+this.monsterData.languages.telepathy +' '+ this.measure.measureUnit;
             }
 
             //No Languages
@@ -516,7 +524,7 @@ export default {
             let displayText = '';
 
             for(let skill in this.f5.skills) {
-                if(!this.skills.includes(skill) && !this.expertise.includes(skill)) {
+                if(!this.monsterData.skills.includes(skill) && !this.monsterData.expertise.includes(skill)) {
                     continue;
                 }
                 let skillMod = this.calcSkillMod(skill);
@@ -564,39 +572,39 @@ export default {
         
 
         setCR: function(setThis = true) {
-            this.set_targetCR = setThis;
+            this.pageKeys.targetCR = setThis;
             this.setActivePage();
         },
 
         setCreatureType: function(setThis = true) {
-            this.set_creatureType = setThis;
-            this.hitPoints.diceType = this.f5.creaturesizes[this.size].hit_dice;
+            this.pageKeys.creatureType = setThis;
+            this.monsterData.hitPoints.diceType = this.f5.creaturesizes[this.monsterData.size].hit_dice;
             this.setActivePage();
         },
 
         setCreatureStats: function(setThis = true) {
             //TODO also set Saving throws
-            this.set_creatureStats = setThis;
+            this.pageKeys.creatureStats = setThis;
             this.setActivePage();
         },
 
         setCreatureArmorHP: function(setThis = true) {
-            this.set_creatureArmorHP = setThis;
+            this.pageKeys.creatureArmorHP = setThis;
             this.setActivePage();
         },
 
         setCreatureDamageTypes: function(setThis = true) {
-            this.set_creatureDamageTypes = setThis;
+            this.pageKeys.creatureDamageTypes = setThis;
             this.setActivePage();
         },
 
         setCreatureSpeedsSensesLanguagesAlignment: function(setThis = true) {
-            this.set_creatureSpeedsSensesLanguagesAlignment = setThis;
+            this.pageKeys.creatureSpeedsSensesLanguagesAlignment = setThis;
             this.setActivePage();
         },
 
         setCreatureFeatures: function(setThis = true) {
-            this.set_creatureFeatures = setThis;
+            this.pageKeys.creatureFeatures = setThis;
             this.setActivePage();
         },
 
@@ -631,21 +639,25 @@ export default {
             }
 
             let pageKeyValues = {
-                set_targetCR: 'target-cr',
-                set_creatureType: 'choose-type',
-                set_creatureStats: 'choose-stats',
-                set_creatureArmorHP: 'armor-hp',
-                set_creatureDamageTypes: 'damage-types',
-                set_creatureSpeedsSensesLanguagesAlignment: 'speeds-senses-languages-alignments',
-                set_creatureFeatures: 'choose-features',
+                targetCR: 'target-cr',
+                creatureType: 'choose-type',
+                creatureStats: 'choose-stats',
+                creatureArmorHP: 'armor-hp',
+                creatureDamageTypes: 'damage-types',
+                creatureSpeedsSensesLanguagesAlignment: 'speeds-senses-languages-alignments',
+                creatureFeatures: 'choose-features',
             };
 
             for(let i in pageKeyValues) {
-                if(!this[i]) {
+                if(!this.pageKeys[i]) {
                     this.activePage = pageKeyValues[i];
                     return;
                 }
             }
+
+            //all variables set: create monster
+            this.createMonster();
+            return;
         },
 
         abilityScoreDistributionByCR: function(cr) {
@@ -678,17 +690,17 @@ export default {
 
             if(!crTips[crText].length) {
                 delete crTips[crText];
-                console.log(crTips);
+                //console.log(crTips);
             }
 
-            let typeTips = this.getTipsFromGroup(this.f5.creaturetypes, [this.type], specificTips);
-            let subtypeTips = this.getTipsFromGroup(this.f5.creaturesubtypes, this.subtypes, specificTips);
-            let sizeTips = this.getTipsFromGroup(this.f5.creaturesizes, [this.size], specificTips);
-            let tagTips = this.getTipsFromGroup(this.f5.tags.creature_options, this.typeCategories, specificTips);
+            let typeTips = this.getTipsFromGroup(this.f5.creaturetypes, [this.monsterData.type], specificTips);
+            let subtypeTips = this.getTipsFromGroup(this.f5.creaturesubtypes, this.monsterData.subtypes, specificTips);
+            let sizeTips = this.getTipsFromGroup(this.f5.creaturesizes, [this.monsterData.size], specificTips);
+            let tagTips = this.getTipsFromGroup(this.f5.tags.creature_options, this.monsterData.typeCategories, specificTips);
 
             let tips = Object.assign(crTips, typeTips, subtypeTips, sizeTips, tagTips);
-            console.log('tips');
-            console.log(tips);
+            //console.log('tips');
+            //console.log(tips);
             
             return tips;
         },
@@ -722,22 +734,110 @@ export default {
         },        
 
         getAbilityMod: function (ability) {
-            let score = this.abilities[ability];
+            let score = this.monsterData.abilities[ability];
             return this.calcAbilityMod(score);
         },
 
         calcSkillMod: function (skill) {
             let ability = this.f5.skills[skill].ability;
             let abilityMod = this.getAbilityMod(ability);
-            if(this.skills.includes(skill)) {
+            if(this.monsterData.skills.includes(skill)) {
                 abilityMod += this.proficiency;
             }
-            if(this.expertise.includes(skill)) {
+            if(this.monsterData.expertise.includes(skill)) {
                 abilityMod += this.proficiency*2;
             }
             return abilityMod;
         },
         
+        createMonster: function() {
+            console.log('createMonster');
+            this.$emit('finish-monster', this.monsterData);
+            this.reset();
+        },
+
+        closeWizard: function() {
+            this.$emit('close-wizard');
+            this.reset();
+        },
+
+        reset: function() {
+
+            this.activePage = 'target-cr';
+
+            this.targetCR = 0;
+            this.playerCount = 4;
+            this.playerLevel = 1;
+            this.monsterCount = 1;
+            this.encounterDifficulty = 'medium';
+
+            this.pageKeys = {
+                targetCR: false,
+                creatureType: false,
+                creatureArmorHP: false,
+                creatureDamageTypes: false,
+                creatureSpeedsSensesLanguagesAlignment: false,
+                creatureFeatures: false,
+                creatureStats: false,
+            };
+
+            this.creatureAbilityScorePriority = [
+                'str',
+                'dex',
+                'con',
+                'int',
+                'wis',
+                'cha',
+            ];
+
+            this.monsterData = {
+                armorClass: {
+                    type: 'none',
+                    manual: '10',
+                    bonus: '0',
+                    stealthDis: false,
+                    shield: false,
+                    mageArmor: false,
+                },
+                hitPoints: {
+                    diceType: 4,
+                    diceAmount: 1,
+                    additional: 0,
+                },
+
+                size: 'medium',
+                type: 'aberration',
+                subtypes: [],
+                typeCategories: [],
+
+                skills: [],
+                expertise: [],
+                languages: this.createDefaultLanguages(),
+                speeds: this.createDefaultSpeeds(),
+                hover: false,
+                senses: this.createDefaultSenses(),
+                alignment: '',
+                showTypicalAlignment: true,
+
+                damageResistances: [],
+                damageImmunities: [],
+                damageVulnerabilites: [],
+                conditionImmunities: [],    
+    
+                savingThrows: this.createDefaultSavingThrows(),
+                abilities: {
+                    str: 10,
+                    dex: 10,
+                    con: 10,
+                    int: 10,
+                    wis: 10,
+                    cha: 10,
+                },
+                
+                features: [],
+            };
+
+        },
 
     },       
 };

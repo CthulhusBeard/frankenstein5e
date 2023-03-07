@@ -104,6 +104,8 @@ return [
             'stats' => 'f5/creaturetypes.dragon_tip_stats',
             'features' => 'breath_weapon',
             'armor' => 'natural',
+            'speeds' => 'fly',
+            'languages' => 'draconic',
             // 'saves' => ['dex','con','wis','cha'],
         ],
     ],
