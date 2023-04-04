@@ -583,8 +583,19 @@ export default {
         },
 
         setCreatureStats: function(setThis = true) {
-            //TODO also set Saving throws
             this.pageKeys.creatureStats = setThis;
+            let statDistribution = this.abilityScoreDistributionByCR(this.targetCR);
+            for(let i in this.creatureAbilityScorePriority) {
+                this.monsterData.abilities[this.creatureAbilityScorePriority[i]] = statDistribution[i];
+            }
+
+            let savingThrowCount = this.f5.challengerating[this.targetCR].save_count;
+            let saveDistributionOrder = [0, 4, 1, 3, 5, 2];
+            for(let i = 0; i < savingThrowCount; i++) {
+                let abilityForSave = this.creatureAbilityScorePriority[saveDistributionOrder[i]];
+                this.monsterData.savingThrows[abilityForSave] = true;
+            }
+
             this.setActivePage();
         },
 
@@ -662,7 +673,7 @@ export default {
 
         abilityScoreDistributionByCR: function(cr) {
             //TODO: This
-            return '[30, 30, 30, 30, 30, 30] //TODO';
+            return [30, 30, 30, 30, 30, 30]; //TODO';
         },
 
         

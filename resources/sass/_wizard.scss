@@ -33,6 +33,78 @@ $lightboxPadding: 20px;
         }
     }
 
+    $stepColour: #777;
+    $stepActiveColour: rgb(0, 139, 42);
+    $stepPastColour: #333;
+
+    .progress-container {
+        display: flex;
+        padding: 0;
+        font-family: arial;
+        font-size: 12px;
+        line-height: 1em;
+        margin: 0 -1px;
+        text-align: center;
+        padding: 2px 20px 2px 5px;
+        border: 1px black solid;
+        border-radius: 5px;
+        background: white;
+        width: fit-content;
+        
+        .step {
+            padding: 10px 20px 10px 20px;
+            background: $stepColour;
+            color: #fff;
+            position: relative;
+            border-top: 1px solid $stepColour;
+            border-bottom: 1px solid $stepColour;
+            margin: 0 1px;
+
+            &::before {
+                content: '';
+                border-left: 16px solid #fff;
+                border-top: 16px solid transparent;
+                border-bottom: 16px solid transparent;
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+            &::after {
+                content: '';
+                border-left: 16px solid $stepColour;
+                border-top: 16px solid transparent;
+                border-bottom: 16px solid transparent;
+                position: absolute;
+                top: 0;
+                left: 100%;
+                z-index: 20;
+            }
+
+            &.active {
+                background: $stepActiveColour;
+                &::after {
+                    border-left-color: $stepActiveColour;
+                }
+            }
+            &.past {
+                cursor: pointer;
+                background: $stepPastColour;
+                &::after {
+                    border-left-color: $stepPastColour;
+                }
+                &:hover {
+                    
+                    cursor: pointer;
+                    background: $stepActiveColour;
+                    &::after {
+                        border-left-color: $stepActiveColour;
+                    }
+                }
+            }
+        }
+    }
+        
+
     .btnContainer {
         margin-top: 10px;
         button {
@@ -147,11 +219,6 @@ $lightboxPadding: 20px;
     }
     .wizard-subheader {
         margin-bottom: 8px;
-    }
-    .wizard-back {
-        position: absolute;
-        right: 0;
-        top: 0;
     }
 
     .small-text {
