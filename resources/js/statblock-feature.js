@@ -57,11 +57,15 @@ export default {
                     amount: [this.createDamageDie(false, false)],
                     customText: this.f5.regenerate['custom']['desc'],
                 },
-                spellcastingAbility: 'int',
-                innateSpellcasting: false,
-                spellcastingClass: '',
-                spellList: [],
-                spellSlots: this.createDefaultSpellSlots(),
+                
+                spellcasting: {
+                    ability: 'int',
+                    innate: false,
+                    class: '',
+                    spellLevels: this.createDefaultSpellSlots(),
+                    atWillSpells: {highestLevel: 0, spellList: ''},
+                    useBeforeCombatSpell: false,
+                },
                 customDamage: [],
                 customDescription: '',
                 additionalDescription: '',
@@ -87,6 +91,7 @@ export default {
             }
             this.value[prop] = this.initialData[prop]; 
         }
+
     },
 
     watch: {
@@ -227,32 +232,21 @@ export default {
             return options;
         },
 
-        atWillSpells: function() {
-            let spellsSorted = [];
-
-            for(const spell of this.value.spellList) {
-                if(spell.at_will) {
-                    spellsSorted.push(spell);
-                } 
-            }
-
-            return spellsSorted;
-        },
-
         highestCastableSpell:function() {
             let highestSlot = -1;
             
-            for(const spell of this.value.spellList) {
+            for(const level in this.value.spellList) {
+                let spell = this.value.spellList[level];
                 if(
-                    spell.level > highestSlot && //this spell is higher than a previously found spell
+                    level > highestSlot && //this spell is higher than a previously found spell
                     (
                         spell.at_will || //if it can be cast at will or 
-                        spell.level === 0 || //is a cantrip or 
-                        (!this.value.innateSpellcasting && this.value.spellSlots[spell.level] > 0) || //with spell slots
-                        (this.value.innateSpellcasting && spell.uses > 0) // or with spell uses
+                        level === 0 || //is a cantrip or 
+                        (!this.value.spellcasting.innate && this.value.spellcasting.spellLevels[level].slots > 0) || //with spell slots
+                        (this.value.spellcasting.innate && spell.uses > 0) // or with spell uses
                     )
                 ) {
-                    highestSlot = spell.level;
+                    highestSlot = level;
                 }
             }
 
@@ -261,12 +255,13 @@ export default {
 
         spellsSlotsSorted: function() {
             let spellsSorted = [];
-            for(const spell of this.value.spellList) {
-                if(!spell.at_will && this.value.spellSlots[spell.level] >= 0) {
-                    if(!spellsSorted[spell.level]) {
-                        spellsSorted[spell.level] = [];
+            for(const level in this.value.spellList) {
+                let spell = this.value.spellList[level];
+                if(!spell.at_will && this.value.spellcasting.spellLevels[level].slots >= 0) {
+                    if(!spellsSorted[level]) {
+                        spellsSorted[level] = [];
                     }
-                    spellsSorted[spell.level].push(spell);
+                    spellsSorted[level].push(spell);
                 } 
             }
             return spellsSorted;
@@ -274,10 +269,11 @@ export default {
 
         spellsUsesSorted: function() {
             let spellsSorted = [];
-            for(const spell of this.value.spellList) {
-                if(!spell.at_will && (spell.uses > 0 || spell.level === 0)) {
+            for(const level in this.value.spellList) {
+                let spell = this.value.spellList[level];
+                if(!spell.at_will && (spell.uses > 0 || level === 0)) {
                     let newIndex = spell.uses;
-                    if(spell.level === 0) {
+                    if(level === 0) {
                         newIndex = 0;
                     }
                     if(!spellsSorted[newIndex]) {
@@ -465,88 +461,76 @@ export default {
 
         spellcastingDescription: function() {
             let spellDesc = this.f5.misc.desc_spellcasting;
-            if(this.value.innateSpellcasting) { 
+            if(this.value.spellcasting.innate) { 
                 spellDesc = this.f5.misc.desc_innate_spellcasting;
-            } else if(this.value.spellcastingClass) {
+            } else if(this.value.spellcasting.class) {
                 spellDesc = this.f5.misc.desc_prepared_spellcasting;
             }
 
-            if(this.atWillSpells.length > 0) {
-                let atWillSpellList = this.$parent.$parent.createSentenceList(this.atWillSpells.map(x => x.name), true, function(str) {return '<i>'+str+'</i>'});
+            if(this.value.spellcasting.atWillSpells.spellList.length > 0) {
                 spellDesc = spellDesc.replace(':at_will_spells', this.f5.misc.desc_at_will_spells);
-                spellDesc = spellDesc.replace(':at_will_spell_list', atWillSpellList.toLowerCase());
+                spellDesc = spellDesc.replace(':at_will_spell_list', '<i>'+this.value.spellcasting.atWillSpells.spellList.toLowerCase()+'</i>');
             } else {
                 spellDesc = spellDesc.replace(':at_will_spells', '');
             }
 
-            if(this.value.spellcastingClass) {
-                spellDesc = spellDesc.replace(':spellcasting_class', ' '+this.value.spellcastingClass);
+            if(this.value.spellcasting.class) {
+                spellDesc = spellDesc.replace(':spellcasting_class', ' '+this.value.spellcasting.class);
             } else {
                 spellDesc = spellDesc.replace(':spellcasting_class', '');
             }
             
 
             //Spells
-            let castsBefore = false;
             spellDesc += '<br/><br/>';
 
-            let sortedSpellList = [];
-            if(this.value.innateSpellcasting) {
-                sortedSpellList = JSON.parse(JSON.stringify(this.spellsUsesSorted)); //Clone, not reference
-            } else {
-                sortedSpellList = JSON.parse(JSON.stringify(this.spellsSlotsSorted)); //Clone, not reference
-            }
-
-            if(this.value.innateSpellcasting) {
-                if(!sortedSpellList[0]) {
-                    sortedSpellList[0] = [];
+            let sortedSpellList;
+            if(this.value.spellcasting.innate) { //merge spell lists with the same use count
+                sortedSpellList = [];
+                for(const level in this.value.spellcasting.spellLevels) {
+                    if(
+                        (level == 0 || this.value.spellcasting.spellLevels[level].slots > 0) &&
+                        this.value.spellcasting.spellLevels[level].spellList.length > 0
+                    ) {
+                        if(sortedSpellList[this.value.spellcasting.spellLevels[level].slots]) {
+                            sortedSpellList[this.value.spellcasting.spellLevels[level].slots].spellList += this.f5.misc.sentence_list_separator + ' ' + this.value.spellcasting.spellLevels[level].spellList;
+                        } else {
+                            sortedSpellList[this.value.spellcasting.spellLevels[level].slots] = {spellList: this.value.spellcasting.spellLevels[level].spellList}
+                        }
+                    }
                 }
-                sortedSpellList[0].push(...this.atWillSpells);
+            } else {
+                sortedSpellList = this.value.spellcasting.spellLevels;
             }
 
             for(const level in sortedSpellList) {
                 let spellSlotList = sortedSpellList[level];
-                if(!spellSlotList || spellSlotList.length === 0) { //there are no spells at this level
+                if(spellSlotList.spellList.length === 0) { //there are no spells at this level
                     continue;
                 }
 
-                if(!this.value.innateSpellcasting && //there are no spell slots for this level
-                    level != 0 && 
-                    this.value.spellSlots[level] <= 0
-                ) {
+                if(sortedSpellList[level].slots <= 0 && level != 0) { //there are no spell slots for this level
                     continue;
                 }
                 
                 if(level == 0) {
-                    if(this.value.innateSpellcasting) {
+                    if(this.value.spellcasting.innate) {
                         spellDesc += this.$parent.capitalize(this.f5.misc.at_will)+': ';
                     } else {
                         spellDesc += this.f5.spelllevels[level].name+' ('+this.f5.misc.at_will+'): ';
                     }
                 } else {
-                    if(!this.value.innateSpellcasting) {
-                        spellDesc += this.f5.spelllevels[level].name+' ('+this.$parent.pluralize(this.f5.misc.spell_slots, this.value.spellSlots[level]).replace(':slot_quantity',this.value.spellSlots[level])+'): ';
-                    } else {
+                    if(this.value.spellcasting.innate) {
                         spellDesc += this.f5.misc.spell_uses.replace(':slot_uses',level)+': ';
+                    } else {
+                        spellDesc += this.f5.spelllevels[level].name+' ('+this.$parent.pluralize(this.f5.misc.spell_slots, sortedSpellList[level].slots).replace(':slot_quantity',sortedSpellList[level].slots)+'): ';
                     }
                 }
                 
-                spellDesc += '<i>';
-                for(const i in spellSlotList) {
-                    let spell = spellSlotList[i];
-                    spellDesc += spell.name.toLowerCase();
-                    if(spell.cast_before) {
-                        spellDesc += '*';
-                        castsBefore = true;
-                    }
-                    if(i < spellSlotList.length - 1) {
-                        spellDesc += this.f5.misc.sentence_list_separator+' ';
-                    }
-                }
-                spellDesc += '</i><br/><br/>';
+                spellDesc += '<i>'+spellSlotList.spellList+'</i><br/><br/>';
             }
 
-            if(castsBefore) {
+            if(this.value.spellcasting.useBeforeCombatSpell) {
                 spellDesc += this.f5.misc.casts_spells_before;
             }
             
@@ -744,7 +728,7 @@ export default {
         createDefaultSpellSlots: function() {
             let spellSlots = {};
             for(let i = 0; i < 10; i++) {
-                spellSlots[i] = 0;
+                spellSlots[i] = {slots: 0, spellList: ''};
             } 
             return spellSlots;
         },
@@ -811,25 +795,25 @@ export default {
             let spellProjections = [];
             let spellSlotsTracker = [];
 
-            for(const i in this.value.spellList) {
-                let spell = this.value.spellList[i];
+            for(const level in this.value.spellcasting.spellLevels) {
+                let spellData = this.value.spellcasting.spellLevels[level];
 
                 let projectionObj = {
                     id: this.trackingId,
-                    name: this.f5.misc.title_spellcasting+': '+this.f5.spelllevels[spell.level].name,
-                    damage: this.$parent.averageDamage(this.f5.spelllevels[spell.level].damage_single_target),
-                    maxDamage: this.$parent.averageDamage(this.f5.spelllevels[spell.level].damage_single_target, true),
+                    name: this.f5.misc.title_spellcasting+': '+this.f5.spelllevels[level].name,
+                    damage: this.$parent.averageDamage(this.f5.spelllevels[level].damage_single_target),
+                    maxDamage: this.$parent.averageDamage(this.f5.spelllevels[level].damage_single_target, true),
                     actionCost: 1,
                 };
 
                 //Get number of castings
-                if(!spell.at_will && parseInt(spell.level) !== 0) {
-                    if(this.value.innateSpellcasting) {
-                        projectionObj.totalUses = spell.uses;
-                    } else if(!spellSlotsTracker[spell.level] && this.value.spellSlots[spell.level] > 0) {
-                        projectionObj.totalUses = this.value.spellSlots[spell.level];
-                        projectionObj.name = this.f5.misc.title_spellcasting+': '+this.f5.spelllevels[spell.level].name;
-                        spellSlotsTracker[spell.level] = true;
+                if(parseInt(level) > 0) {
+                    if(this.value.spellcasting.innate) {
+                        projectionObj.totalUses = spellData.slots;
+                    } else if(!spellSlotsTracker[level] && spellData.slots > 0) {
+                        projectionObj.totalUses = spellData.slots;
+                        projectionObj.name = this.f5.misc.title_spellcasting+': '+this.f5.spelllevels[level].name;
+                        spellSlotsTracker[level] = true;
                     } else {
                         //Doesn't have slots or uses
                         continue;
@@ -837,7 +821,7 @@ export default {
                 }
 
                 //Cantrips scale with caster level
-                if(parseInt(spell.level) === 0) {
+                if(parseInt(level) === 0) {
                     let cantripScalingData = this.f5.spelllevels[0]['level_scaling'];
                     let casterLevel = parseInt(this.$parent.casterLevel);
                     let matchingLevel = 1;
@@ -852,6 +836,17 @@ export default {
                 }
 
                 spellProjections.push(projectionObj);
+            }
+
+            //At will spells
+            if(this.value.spellcasting.atWillSpells.spellList.length > 0) {
+                spellProjections.push({
+                    id: this.trackingId,
+                    name: this.f5.misc.title_spellcasting+': '+this.f5.spelllevels['at_will'].name,
+                    damage: this.$parent.averageDamage(this.f5.spelllevels[this.value.spellcasting.atWillSpells.highestLevel].damage_single_target),
+                    maxDamage: this.$parent.averageDamage(this.f5.spelllevels[this.value.spellcasting.atWillSpells.highestLevel].damage_single_target, true),
+                    actionCost: 1,
+                });
             }
 
             return spellProjections;
@@ -988,9 +983,9 @@ export default {
             //Spells
             str = str.replace(':caster_level_article', this.$parent.determineIndefiniteArticle(this.$parent.casterLevel, true)); 
             str = str.replace(':caster_level', this.$parent.ordinalNumber(this.$parent.casterLevel)); 
-            str = str.replace(':spellcasting_ability', this.f5.abilities[this.value.spellcastingAbility].name);
-            str = str.replace(':spell_save_dc', this.$parent.makeSavingThrowDC(this.value.spellcastingAbility));
-            str = str.replace(':spell_hit', this.$parent.addPlus(this.$parent.proficiency + this.$parent.getAbilityMod(this.value.spellcastingAbility)));
+            str = str.replace(':spellcasting_ability', this.f5.abilities[this.value.spellcasting.ability].name);
+            str = str.replace(':spell_save_dc', this.$parent.makeSavingThrowDC(this.value.spellcasting.ability));
+            str = str.replace(':spell_hit', this.$parent.addPlus(this.$parent.proficiency + this.$parent.getAbilityMod(this.value.spellcasting.ability)));
 
             //Damage
             let damageList = [];

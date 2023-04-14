@@ -219,6 +219,7 @@ return [
     'title_classic_spellcasting' => 'f5/spells.title_classic_spellcasting',
     'title_casts_before_combat' => 'f5/spells.title_casts_before_combat',
     'title_cast_at_will' => 'f5/spells.title_cast_at_will',
+    'title_highest_slot' => 'f5/spells.title_highest_slot',
     'title_spell_slots' => 'f5/spells.title_spell_slots',
     'title_spell_uses' => 'f5/spells.title_spell_uses',
     'at_will' => 'f5/spells.at_will',

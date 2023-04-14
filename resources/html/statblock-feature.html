@@ -107,74 +107,49 @@
 
         <!-- Spellcasting -->
         <div class="feature__options feature__option-spellcasting" v-if="value.template === 'spellcasting'">
-            <div class="feature__spells">
-                <div class="feature__spellGroup" v-for="(spellLevelList, spellLevel) in value.spellList" v-if="f5.spelllevels[spellLevel].display !== false && spellLevelList.length > 0">
-                    <strong>{{f5.spelllevels[spellLevel].name}}:</strong>
-                    <span class="feature__spellGroup__item" v-for="(spell, i) in spellLevelList.spells">
-                        <span class="feature__spellGroup__name">{{spell.name}}</span>
-                        <div class="feature__spells__remove" @click="removeSpell(spell.name, spell.level)">x</div>
-                        <span v-if="i < spellLevelList.length-1" >{{f5.misc.sentence_list_separator}}</span>
-                    </span>
-                </div>
-            </div>
             <div>
                 <label class="title-label">{{f5.misc.title_spellcasting_ability}}:</label>
-                <select v-model="value.spellcastingAbility">
+                <select v-model="value.spellcasting.ability">
                     <option v-for="(ability, i) in f5.abilities" :value="i">{{ability.name}}</option>
                 </select>
             </div>
             <div> 
                 <label class="title-label" for="feature__innate-spellcasting">{{f5.misc.title_innate_spellcasting}}:</label>
-                <input type="checkbox" v-model="value.innateSpellcasting" />
+                <input type="checkbox" v-model="value.spellcasting.innate" />
             </div>
-            <div v-if="!value.innateSpellcasting">
+            <div v-if="!value.spellcasting.innate">
                 <label class="title-label" for="feature__prepared-spellcasting">{{f5.misc.title_prepared_spellcasting_class}}:</label>
-                <select v-model="value.spellcastingClass">
+                <select v-model="value.spellcasting.class">
                     <option value="">{{f5.misc.none}}</option>
                     <option v-for="(playerclass, i) in f5.classes" v-if="playerclass.prepared_spellcasting" :value="i">{{playerclass.name}}</option>
                 </select>
             </div>
 
-            <div v-if="!value.innateSpellcasting">
-                <label class="title-label">{{f5.misc.title_spell_slots}}:</label>
-                <div class="feature__spell-slots">
-                    <div class="feature__spell-slots__group" v-for="(group, level) in f5.spelllevels" v-if="group.display !== false && level > 0">
-                        <label class="title-label" for="feature__spell-slots">{{group.name}}:</label>
-                        <select id="feature__spell-slots-" name="feature__add-spell-level" v-model="value.spellSlots[level]">
+            <label class="title-label" v-if="value.spellcasting.innate">{{f5.misc.title_spell_uses}}:</label>
+            <label class="title-label" v-else>{{f5.misc.title_spell_slots}}:</label>
+            <div class="feature__spell-slots">
+                <div class="feature__spell-slots__group" v-for="(group, level) in f5.spelllevels" v-if="group.display !== false">
+                    <label class="title-label">{{group.name}} - </label>
+                    <span v-if="level > 0">
+                        <label :for="'feature__spell-slots-'+level" v-if="value.spellcasting.innate">{{f5.misc.title_spell_uses}}:</label>
+                        <label :for="'feature__spell-slots-'+level" v-else>{{f5.misc.title_spell_slots}}:</label>
+                        <select :id="'feature__spell-slots-'+level" v-model="value.spellcasting.spellLevels[level].slots">
                             <option v-for="i in 5" :value="i-1" >{{i-1}}</option>
                         </select>
-                    </div>
+                    </span>
+                    <label :for="'feature__spell-list-'+level">{{f5.misc.title_spell_list}}:</label>
+                    <input :id="'feature__spell-list-'+level" type="text" v-model="value.spellcasting.spellLevels[level].spellList"/>
                 </div>
-            </div>
 
-            <label class="title-label" for="feature__spell-list">{{f5.misc.title_spell_list}}:</label>
-            <div class="feature__spell-list">
-                <div v-for="(spell, i) in value.spellList" class="feature__edit-spell">
-                    <label class="title-label" for="feature__spell-name">{{f5.misc.title_add_spell_name}}:</label>
-                    <input type="text" v-model="spell.name">
-                    <div>
-                        <label class="title-label" for="feature__add-spell-level">{{f5.misc.title_spell_level}}:</label>
-                        <select id="feature__add-spell-level" name="feature__add-spell-level" v-model="spell.level">
-                            <option v-for="(level, i) in f5.spelllevels" :value="i" v-if="level.display !== false">{{level.name}}</option>
-                        </select>
-                    </div>
-                    <div v-if="value.innateSpellcasting && spell.level >= 1 && !spell.at_will">
-                        <label class="title-label" for="feature__add-spell-level">{{f5.misc.title_spell_uses}}:</label>
-                        <select id="feature__add-spell-level" name="feature__add-spell-level" v-model="spell.uses">
-                            <option v-for="i in 4" :value="i" >{{i}}</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="title-label" for="feature__add-spell-before-combat">{{f5.misc.title_casts_before_combat}}:</label>
-                        <input type="checkbox" v-model="spell.before_combat">
-                        <label class="title-label" for="feature__add-spell-at-will">{{f5.misc.title_cast_at_will}}:</label>
-                        <input type="checkbox" v-model="spell.at_will">
-                    </div>
-                    <div class="feature__spells__remove" @click="removeSpell(i)">x</div>
+                <div v-if="!value.spellcasting.innate" class="feature__spell-slots__group">
+                    <label class="title-label" for="feature__spell-slots-atwill">{{f5.misc.title_cast_at_will}}:</label>
+                    <input id="feature__spell-slots-atwill" type="text" v-model="value.spellcasting.atWillSpells.spellList"/>
+                    <label class="title-label" for="feature__spell-slots-atwill-level">{{f5.misc.title_highest_slot}}:</label>
+                    <select id="feature__spell-slots-atwill-level" v-model="value.spellcasting.atWillSpells.highestLevel">
+                        <option v-for="i in 10" :value="i-1" >{{i-1}}</option>
+                    </select>
                 </div>
             </div>
-            <button @click="addSpell()">{{f5.misc.title_add_spell}}</button>
-            
         </div>
 
         <!-- Legendary or Mythic -->

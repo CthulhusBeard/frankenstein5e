@@ -25,6 +25,7 @@ return [
     'title_classic_spellcasting' => 'Use Classic Spell Style',
     'title_casts_before_combat' => 'Casts Before Combat',
     'title_cast_at_will' => 'Cast At Will',
+    'title_highest_slot' => 'Highest Level',
     'title_spell_slots' => 'Spells Slots',
     'title_spell_uses' => 'Spell Uses',
     'casts_spells_before' => '*The :creature_name casts these spells on itself before combat.',
