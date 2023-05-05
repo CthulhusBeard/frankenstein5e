@@ -313,6 +313,7 @@ return [
     'title_export' => 'f5/builder.title_export',
     'title_export_for_homebrewery' => 'f5/builder.title_export_for_homebrewery',
     'title_import' => 'f5/builder.title_import',
+    'title_monster_template' => 'f5/builder.title_monster_template',
     'title_import_from_clipboard' => 'f5/builder.title_import_from_clipboard',
     'title_use_automatic' => 'f5/builder.title_use_automatic',
     'title_clear_all' => 'f5/builder.title_clear_all',
@@ -353,6 +354,7 @@ return [
     'wizard_cr_hit_points' => 'f5/wizard.wizard_cr_hit_points',
     'wizard_cr_ac' => 'f5/wizard.wizard_cr_ac',
     'wizard_cr_examples' => 'f5/wizard.wizard_cr_examples',
+    'wizard_cr_example_stats' => 'f5/wizard.wizard_cr_example_stats',
 
 
 

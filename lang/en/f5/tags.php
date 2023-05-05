@@ -15,7 +15,7 @@ return [
     'tag_saves' => 'Saving Throws might include: ',
     'tag_stats' => 'Ability Scores: ',
     'tag_features' => 'Features: ',
-
+    'tag_armor' => 'Armor: ',
 
     'high_str' => 'Higher Strength',
     'avg_str' => 'Average Strength',

@@ -1,9 +1,8 @@
 $blockHeight: 100px;
 
-.main-grid {
+header {
     display: grid;
     grid-template-columns: $blockHeight auto;
-    grid-template-rows: $blockHeight auto $blockHeight;
 }
 
 #logo {
@@ -13,28 +12,32 @@ $blockHeight: 100px;
     box-sizing: border-box;
 }
 
-#top-nav {
+nav {
     width: 100%;
-    border: 1px black solid;
-    box-sizing: border-box;
-}
-
-#side-nav {
-    font-size: 14px;
-    z-index: 50;
-    box-sizing: border-box;
+    display: flex;
 }
 
 .nav-option {
-    width: 100%;
-    height: 100px;
     box-sizing: border-box;
     border: 1px black solid;
     cursor: pointer;
+    padding: 10px;
+}
 
-    &:first-child {
-        margin-top: 0;
-    }
+.subnav {
+    width: 100%;
+    display: flex;
+}
+
+.nav-dropdown {
+    position: absolute;
+    z-index: 1000;
+}
+.nav-dropdown-option {
+    cursor: pointer;
+    border: 1px black solid;
+    background-color: white;
+    padding: 10px;
 }
 
 .controls-holder {
@@ -95,15 +98,21 @@ $blockHeight: 100px;
     }
 }
 
-.popup-overlay {
+.ui-box {
+    position: relative;
     border: 1px black solid;
     border-radius: 7px;
     color: black;
     background-color: bisque;
-    z-index: 1000;
     padding: 10px;
     margin: 4px;
     box-shadow: 5px 5px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+}
+
+.popup-overlay {
+    @extend .ui-box;
+    z-index: 100;
 }
 
 .dpr-controller {
@@ -262,4 +271,29 @@ $blockHeight: 100px;
     width: 10px;
     height: 10px;
     border: 1px black solid;
+}
+
+.create-statblock-container {
+    position: fixed;
+    z-index: 10;
+    box-sizing: border-box;
+    background-color: rgba(0, 0, 0, 0.75);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+
+    .button-option {
+        display: flex;
+        align-items: center;
+
+        .button {
+            background-color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    }
 }

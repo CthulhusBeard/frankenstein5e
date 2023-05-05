@@ -16,7 +16,7 @@ export default {
 
     data: function() {
         return {
-            activePage: 'target-cr',
+            activePage: 'targetCR',
 
             targetCR: 0,
             playerCount: 4,
@@ -32,6 +32,82 @@ export default {
                 creatureSpeedsSensesLanguagesAlignment: false,
                 creatureFeatures: false,
                 creatureStats: false,
+            },
+
+            pageData: {
+                targetCR: {
+                    navOrder: 1,
+                    isSet: false,
+                    navTitle: 'Challenge Rating',
+                    title: 'Challenge Rating Selector',
+                    pageKey: 'target-cr',
+                },
+                manualCR: {
+                    isSet: false,
+                    parentKey: 'targetCR',
+                    title: 'Challenge Rating Calculator',
+                    subtitle: 'Provide some information about your party.',
+                    pageKey: 'cr-help',
+                },
+                creatureType: {
+                    navOrder: 2,
+                    isSet: false,
+                    navTitle: 'Type',
+                    title: 'Creature Type',
+                    subtitle: 'What type of creature do you want to create?',
+                    pageKey: 'choose-type',
+                    tips: null,
+                },
+                creatureStats: {
+                    navOrder: 3,
+                    isSet: false,
+                    navTitle: 'Ability Scores',
+                    title: 'Ability Scores & Modifiers',
+                    subtitle: 'What ability scores are most important to your creature?',
+                    pageKey: 'choose-stats',
+                    tips: ['stats', 'saves'],
+                },
+                manualCreatureStats: {
+                    isSet: false,
+                    parentKey: 'creatureStats',
+                    title: 'Select Ability Scores',
+                    subtitle: 'Select ability score distribution.',
+                    pageKey: 'manual-stats',
+                    tips: ['stats', 'saves'],
+                },
+                creatureArmorHP: {
+                    navOrder: 4,
+                    isSet: false,
+                    navTitle: 'AC & HP',
+                    title: 'Armor & HP',
+                    subtitle: 'Select armor and hit points.',
+                    pageKey: 'armor-hp',
+                    tips: ['armor', 'hp'],
+                },
+                creatureDamageTypes: {
+                    navOrder: 5,
+                    isSet: false,
+                    navTitle: 'Damage Types',
+                    title: 'Damage Resistance, Immunities, and Vulnerabilites',
+                    pageKey: 'damage-types',
+                    tips: ['damage_resistances', 'damage_immunities', 'damage_vulnerabilites', 'condition_immunities'],
+                },
+                creatureSpeedsSensesLanguagesAlignment: {
+                    navOrder: 6,
+                    isSet: false,
+                    navTitle: 'Extras',
+                    title: 'Speeds, Senses, Languages, and Alignment',
+                    pageKey: 'speeds-senses-languages-alignments',
+                    tips: ['speeds', 'senses', 'languages', 'alignments'],
+                },
+                creatureFeatures: {
+                    navOrder: 7,
+                    isSet: false,
+                    navTitle: 'Features',
+                    title: 'Features',
+                    pageKey: 'choose-features',
+                    tips: ['features'],
+                },
             },
 
             creatureAbilityScorePriority: [
@@ -218,7 +294,7 @@ export default {
         
         targetCRData: function() {
             let targetCR;
-            if(this.activePage === 'cr-help') {
+            if(this.manualCR === 'crHelp') {
                 targetCR = this.f5.challengerating[this.recommendedCR];
             } else {
                 targetCR = this.f5.challengerating[this.targetCR];
@@ -539,92 +615,139 @@ export default {
             }
             return displayText;
         },
+
+        
+        creatureTips: function() {
+
+            let crText = 'Challenge Rating '+this.targetCR;
+            let crTips = {};
+            crTips[crText] = [];
+
+            let tipsAssociation = {
+                armor: {
+                    name: this.f5.misc.wizard_cr_ac+' ~'+this.targetCRData.ac,
+                    group: 'ac',
+                    data: this.targetCRData.ac,
+                },
+                hp: {
+                    name: this.f5.misc.wizard_cr_hit_points+' '+this.targetCRData.hp.low+'-'+this.targetCRData.hp.high,
+                    group: 'hp',
+                    data: (this.targetCRData.hp.low+this.targetCRData.hp.high)/2,
+                },
+                attack_bonus: {
+                    name:  this.f5.misc.wizard_cr_attack_bonus+' - '+this.targetCRData.attack_bonus,
+                    group: 'attack_bonus',
+                    data: this.targetCRData.attack_bonus,
+                },
+                prof: {
+                    name:  this.f5.misc.wizard_cr_proficiency+' '+this.targetCRData.prof,
+                    group: 'prof',
+                    data: this.targetCRData.prof,
+                },
+                examples: {
+                    name: this.f5.misc.wizard_cr_examples+' '+this.targetCRData.examples,
+                    group: 'examples',
+                },
+            };
+
+            for(let tipType in tipsAssociation) {
+                crTips[crText].push(tipsAssociation[tipType]);
+            }
+
+            let typeTips = this.getTipsFromGroup(this.f5.creaturetypes, [this.monsterData.type]);
+            let subtypeTips = this.getTipsFromGroup(this.f5.creaturesubtypes, this.monsterData.subtypes);
+            let sizeTips = this.getTipsFromGroup(this.f5.creaturesizes, [this.monsterData.size]);
+            let tagTips = this.getTipsFromGroup(this.f5.tags.creature_options, this.monsterData.typeCategories);
+
+            let tips = Object.assign(crTips, typeTips, subtypeTips, sizeTips, tagTips);
+            
+            return tips;
+        },
+
+        activePageTitle: function() {
+            return (this.pageData[this.activePage].hasOwnProperty('title')) ? this.pageData[this.activePage].title : '';
+        },
+
+        activePageSubtitle: function() {
+            return (this.pageData[this.activePage].hasOwnProperty('subtitle')) ? this.pageData[this.activePage].subtitle : '';
+        },
+
+        navData: function() {
+            let list = [];
+            for(let pageKey in this.pageData) {
+                if(this.pageData[pageKey].hasOwnProperty('parentKey')) {
+                    continue;
+                }
+                list.push({
+                    title: this.pageData[pageKey].navTitle,
+                    navOrder: this.pageData[pageKey].navOrder,
+                    navKey: pageKey,
+                    status: (
+                        this.activePage == pageKey || 
+                        (this.activePageData.hasOwnProperty('parentKey') && this.activePageData.parentKey == pageKey)
+                    ) ? 'active' : (this.pageData[pageKey].isSet) ? 'past' : 'unset',
+                });
+            }
+            
+            list.sort(function(a, b) {
+                return a.navOrder - b.navOrder;
+            });
+
+            return list;
+        },
+
+        activePageData: function() {
+            for(let i in this.pageData) {
+                if(this.activePage === i) {
+                    return this.pageData[i];
+                }
+            }
+            return null;
+        },
     },
 
-    methods: {
-
-        buildTipElement: function(key, tagGroup, typeName) {
-
-            let tipString = '';
-
-            if(this.f5.tags.translations.hasOwnProperty('tag_'+key)) {
-                tipString = this.f5.tags.translations['tag_'+key];
+    methods: {      
+        
+        setPageKey: function(keyName, setThis = true) {
+            console.log('setPageKey');
+            if(!keyName) {
+                return;
             }
 
-            //Convert to array
-            if(!Array.isArray(tagGroup)) {
-                tagGroup = [tagGroup];
+            this.pageData[keyName].isSet = setThis;
+
+            //set parentKey keys
+            if(this.pageData[keyName].hasOwnProperty('parentKey')) {
+                this.pageData[this.pageData[keyName].parentKey].isSet = setThis;
             }
 
-            for(let i in tagGroup) {
-                if(this.f5.hasOwnProperty(key) && this.f5[key].hasOwnProperty(tagGroup[i])) {
-                    tagGroup[i] = this.f5[key][tagGroup[i]].name;
-                } else if(this.f5.tags.hasOwnProperty(key) && this.f5.tags[key].hasOwnProperty(tagGroup[i])) {
-                    tagGroup[i] = this.f5.tags[key][tagGroup[i]].name;
+            //extras
+            if(keyName == 'creatureType') {
+                this.monsterData.hitPoints.diceType = this.f5.creaturesizes[this.monsterData.size].hit_dice;
+
+            } else if(keyName == 'creatureStats') {
+                let statDistribution = this.abilityScoreDistributionByCR(this.targetCR);
+                for(let i in this.creatureAbilityScorePriority) {
+                    this.monsterData.abilities[this.creatureAbilityScorePriority[i]] = statDistribution[i];
+                }
+    
+                let savingThrowCount = this.f5.challengerating[this.targetCR].save_count;
+                let saveDistributionOrder = [0, 4, 1, 3, 5, 2];
+                for(let i = 0; i < savingThrowCount; i++) {
+                    let abilityForSave = this.creatureAbilityScorePriority[saveDistributionOrder[i]];
+                    this.monsterData.savingThrows[abilityForSave] = true;
                 }
             }
 
-            tipString += this.$parent.createSentenceList(tagGroup);
-            tipString = tipString.replace(':creature_type', typeName);
-
-            return tipString;
-        },
-        
-
-        setCR: function(setThis = true) {
-            this.pageKeys.targetCR = setThis;
-            this.setActivePage();
-        },
-
-        setCreatureType: function(setThis = true) {
-            this.pageKeys.creatureType = setThis;
-            this.monsterData.hitPoints.diceType = this.f5.creaturesizes[this.monsterData.size].hit_dice;
-            this.setActivePage();
-        },
-
-        setCreatureStats: function(setThis = true) {
-            this.pageKeys.creatureStats = setThis;
-            let statDistribution = this.abilityScoreDistributionByCR(this.targetCR);
-            for(let i in this.creatureAbilityScorePriority) {
-                this.monsterData.abilities[this.creatureAbilityScorePriority[i]] = statDistribution[i];
-            }
-
-            let savingThrowCount = this.f5.challengerating[this.targetCR].save_count;
-            let saveDistributionOrder = [0, 4, 1, 3, 5, 2];
-            for(let i = 0; i < savingThrowCount; i++) {
-                let abilityForSave = this.creatureAbilityScorePriority[saveDistributionOrder[i]];
-                this.monsterData.savingThrows[abilityForSave] = true;
-            }
-
-            this.setActivePage();
-        },
-
-        setCreatureArmorHP: function(setThis = true) {
-            this.pageKeys.creatureArmorHP = setThis;
-            this.setActivePage();
-        },
-
-        setCreatureDamageTypes: function(setThis = true) {
-            this.pageKeys.creatureDamageTypes = setThis;
-            this.setActivePage();
-        },
-
-        setCreatureSpeedsSensesLanguagesAlignment: function(setThis = true) {
-            this.pageKeys.creatureSpeedsSensesLanguagesAlignment = setThis;
-            this.setActivePage();
-        },
-
-        setCreatureFeatures: function(setThis = true) {
-            this.pageKeys.creatureFeatures = setThis;
             this.setActivePage();
         },
 
         manualStats: function() {
-            this.setActivePage('manual-stats');
+            this.setActivePage('manualCR');
         },
 
         crHelp: function() {
-            this.setActivePage('cr-help');
+            this.setActivePage('manualCreatureStats');
         },
 
 
@@ -649,22 +772,36 @@ export default {
                 return;
             }
 
-            let pageKeyValues = {
-                targetCR: 'target-cr',
-                creatureType: 'choose-type',
-                creatureStats: 'choose-stats',
-                creatureArmorHP: 'armor-hp',
-                creatureDamageTypes: 'damage-types',
-                creatureSpeedsSensesLanguagesAlignment: 'speeds-senses-languages-alignments',
-                creatureFeatures: 'choose-features',
-            };
+            // let pageKeyValues = {
+            //     targetCR: 'target-cr',
+            //     creatureType: 'choose-type',
+            //     creatureStats: 'choose-stats',
+            //     creatureArmorHP: 'armor-hp',
+            //     creatureDamageTypes: 'damage-types',
+            //     creatureSpeedsSensesLanguagesAlignment: 'speeds-senses-languages-alignments',
+            //     creatureFeatures: 'choose-features',
+            // };
 
-            for(let i in pageKeyValues) {
-                if(!this.pageKeys[i]) {
-                    this.activePage = pageKeyValues[i];
-                    return;
+            let currentSelectionPriority = 100;
+            let selectionKey;
+            for(let i in this.pageData) {
+                if(!this.pageData[i].isSet && !this.pageData[i].parentKey && this.pageData[i].navOrder < currentSelectionPriority) {
+                    currentSelectionPriority = this.pageData[i].navOrder;
+                    selectionKey = i;
                 }
             }
+            if(selectionKey) {
+                this.activePage = selectionKey;
+                return;
+            }
+
+
+            // for(let i in pageKeyValues) {
+            //     if(!this.pageKeys[i]) {
+            //         this.activePage = pageKeyValues[i];
+            //         return;
+            //     }
+            // }
 
             //all variables set: create monster
             this.createMonster();
@@ -672,24 +809,54 @@ export default {
         },
 
         abilityScoreDistributionByCR: function(cr) {
-            //TODO: This
-            return [30, 30, 30, 30, 30, 30]; //TODO';
+            let defaultDistr = (this.f5.challengerating[cr].default_ability_distr) ? this.f5.challengerating[cr].default_ability_distr : [10,10,10,10,10,10];
+            return defaultDistr; 
         },
 
         
         getCreatureTips: function(specificTips = null) {
 
+            //TODO: Use this cached version and parse out unneeded ones
+            //console.log('creatureTips');
+            //console.log(this.creatureTips);
+
             let crText = 'Challenge Rating '+this.targetCR;
             let crTips = {};
             crTips[crText] = [];
 
-            let tipsAssociation = {
-                armor: this.f5.misc.wizard_cr_ac+' ~'+this.targetCRData.ac,
-                hp: this.f5.misc.wizard_cr_hit_points+' '+this.targetCRData.hp.low+'-'+this.targetCRData.hp.high,
-                attack_bonus: this.f5.misc.wizard_cr_attack_bonus+' - '+this.targetCRData.attack_bonus,
-                prof: this.f5.misc.wizard_cr_proficiency+' '+this.targetCRData.prof,
-                examples: this.f5.misc.wizard_cr_examples+' '+this.targetCRData.examples,
-            };
+
+            //TODO: fix this structure to match other tips
+            let tipsAssociation = { 
+                armor: {
+                    title: this.f5.misc.wizard_cr_ac,
+                    group: 'ac',
+                    name: ' ~'+this.targetCRData.ac,
+                    data: this.targetCRData.ac,
+                },
+                hp: {
+                    title: this.f5.misc.wizard_cr_hit_points,
+                    group: 'hp',
+                    name: ' '+this.targetCRData.hp.low+'-'+this.targetCRData.hp.high,
+                    data: Math.ceil((this.targetCRData.hp.low+this.targetCRData.hp.high)/2),
+                },
+                attack_bonus: {
+                    title: this.f5.misc.wizard_cr_attack_bonus,
+                    group: 'attack_bonus',
+                    name: ' - '+this.targetCRData.attack_bonus,
+                    data: this.targetCRData.attack_bonus,
+                },
+                prof: {
+                    title: this.f5.misc.wizard_cr_proficiency,
+                    group: 'prof',
+                    name: ' '+this.targetCRData.prof,
+                    data: this.targetCRData.prof,
+                },
+                examples: {
+                    title: this.f5.misc.wizard_cr_examples,
+                    group: 'examples',
+                    name: ' '+this.targetCRData.examples,
+                },
+        };
 
             if(specificTips) {
                 for(let tipType of specificTips) {
@@ -710,15 +877,17 @@ export default {
             let tagTips = this.getTipsFromGroup(this.f5.tags.creature_options, this.monsterData.typeCategories, specificTips);
 
             let tips = Object.assign(crTips, typeTips, subtypeTips, sizeTips, tagTips);
-            //console.log('tips');
-            //console.log(tips);
-            
+
             return tips;
         },
 
         getTipsFromGroup: function(f5Group, creatureTypes, specificTips = null) {
             let tips = {};
             let skipProperties = ['woc_property'];
+
+            // console.log('creatureTypes');
+            // console.log(creatureTypes);
+            //TODO fix hit dice size label from "hp" to hit_dice_size and change data to dice size key
 
             for(let i in creatureTypes) {
                 if(
@@ -733,7 +902,7 @@ export default {
                         if(specificTips !== null && !specificTips.includes(tagKey)) continue;
 
                         let tagGroup = f5Group[creatureTypes[i]]['tags'][tagKey];
-                        tips[creatureTag].push(this.buildTipElement(tagKey, tagGroup, creatureTag));
+                        tips[creatureTag].push(this.buildTipObject(tagKey, tagGroup, creatureTag));
                     }
                     if(!tips[creatureTag].length) {
                         delete tips[creatureTag];
@@ -742,7 +911,45 @@ export default {
             }
 
             return tips;
-        },        
+        },
+        
+
+        buildTipObject: function(key, tagGroup, typeName) {
+            let tipObject = {group: key, list: []};
+
+            //this is the group title
+            if(this.f5.tags.translations.hasOwnProperty('tag_'+key)) {
+                tipObject.title = this.f5.tags.translations['tag_'+key];
+            }
+
+            //Convert to array
+            if(!Array.isArray(tagGroup) || tagGroup.hasOwnProperty('name')) {
+                tagGroup = [tagGroup];
+            }
+
+            for(let i in tagGroup) {
+                let tagName = '';
+                if(tagGroup[i].hasOwnProperty('name')) {
+                    tagName = tagGroup[i].name;
+                    //TODO: DO SOMETHING WITH DATA TO MAKE IT LINKABLE FOR STATS
+                } else if(this.f5.hasOwnProperty(key) && this.f5[key].hasOwnProperty(tagGroup[i])) {
+                    tagName = this.f5[key][tagGroup[i]].name;
+                } else if(this.f5.tags.hasOwnProperty(key) && this.f5.tags[key].hasOwnProperty(tagGroup[i])) {
+                    tagName = this.f5.tags[key][tagGroup[i]].name;
+                } else {
+                    tagName = tagGroup[i];
+                }
+
+                let tagData = tagGroup;
+                if(tagGroup[i].hasOwnProperty('data')) {
+                    tagData = tagGroup[i]['data'];
+                }
+
+                tipObject.list.push({name: tagName, data: tagData});
+            }
+
+            return tipObject;
+        },
 
         getAbilityMod: function (ability) {
             let score = this.monsterData.abilities[ability];
@@ -760,6 +967,11 @@ export default {
             }
             return abilityMod;
         },
+
+        addTagToCreature: function(group, data=null) {
+            console.log('TODO: Add '+group);
+            console.log(data);
+        },
         
         createMonster: function() {
             console.log('createMonster');
@@ -774,7 +986,7 @@ export default {
 
         reset: function() {
 
-            this.activePage = 'target-cr';
+            this.activePage = 'targetCR';
 
             this.targetCR = 0;
             this.playerCount = 4;
@@ -782,15 +994,18 @@ export default {
             this.monsterCount = 1;
             this.encounterDifficulty = 'medium';
 
-            this.pageKeys = {
-                targetCR: false,
-                creatureType: false,
-                creatureArmorHP: false,
-                creatureDamageTypes: false,
-                creatureSpeedsSensesLanguagesAlignment: false,
-                creatureFeatures: false,
-                creatureStats: false,
-            };
+            for(let i in this.pageData) {
+                this.pageData[i].isSet = false;
+            }
+            // this.pageKeys = {
+            //     targetCR: false,
+            //     creatureType: false,
+            //     creatureArmorHP: false,
+            //     creatureDamageTypes: false,
+            //     creatureSpeedsSensesLanguagesAlignment: false,
+            //     creatureFeatures: false,
+            //     creatureStats: false,
+            // };
 
             this.creatureAbilityScorePriority = [
                 'str',

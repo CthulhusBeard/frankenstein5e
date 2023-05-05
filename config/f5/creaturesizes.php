@@ -10,7 +10,7 @@ return [
                 'low_str',
                 'high_dex',
             ],
-            'hp' => 'f5/sizes.hit_dice_size_4',
+            'hit_dice' => 'f5/sizes.hit_dice_size_4',
         ]
     ],
     'small' => [
@@ -18,7 +18,7 @@ return [
         'space' => 5,
         'hit_dice' => 6,
         'tags' => [
-            'hp' => 'f5/sizes.hit_dice_size_6',
+            'hit_dice' => 'f5/sizes.hit_dice_size_6',
         ],
     ],
     'medium' => [
@@ -26,7 +26,7 @@ return [
         'space' => 5,
         'hit_dice' => 8,
         'tags' => [
-            'hp' => 'f5/sizes.hit_dice_size_8',
+            'hit_dice' => 'f5/sizes.hit_dice_size_8',
         ],
     ],
     'large' => [
@@ -37,7 +37,7 @@ return [
             'stats' => [
                 'high_str',
             ],
-            'hp' => 'f5/sizes.hit_dice_size_10',
+            'hit_dice' => 'f5/sizes.hit_dice_size_10',
         ],
     ],
     'huge' => [
@@ -50,7 +50,7 @@ return [
                 'low_dex',
                 'high_con',
             ],
-            'hp' => 'f5/sizes.hit_dice_size_12',
+            'hit_dice' => 'f5/sizes.hit_dice_size_12',
         ],
     ],
     'gargantuan' => [
@@ -63,7 +63,7 @@ return [
                 'low_dex',
                 'high_con',
             ],
-            'hp' => 'f5/sizes.hit_dice_size_20',
+            'hit_dice' => 'f5/sizes.hit_dice_size_20',
         ],
     ],
 ];

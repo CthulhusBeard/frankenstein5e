@@ -968,22 +968,6 @@ export default {
             return (8 + this.proficiency + this.getAbilityMod(ability));
         },
 
-        addPlus: function (number, addSpace = false) {
-            let space = addSpace ? ' ' : '';
-            if(number > 0) {
-                number = '+'+space+number;
-            } else if(number < 0) {
-                if(addSpace) {
-                    number = String(number).replace('-','-'+space);
-                }
-            }
-            return number; 
-        },
-
-        capitalize: function(str) {
-            return str.charAt(0).toUpperCase() + str.slice(1);
-        },
-
         createFeature: function(type) {
             this.value.features[type].push({trackingId: this.$parent.randChars(15)});
         },

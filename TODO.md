@@ -1,7 +1,7 @@
 //TODO: 
 
 HIGH PRIORITY
-- [ ] Figure out why spells are breaking after you add 12 of them!!!
+- [ ] Fix imports for new spellcasting
 - [ ] Fix saving throw desc to mention targets
 - [ ] Saving throws increase AC (3-4 +2, 5-6 +4)
 - [ ] Allow Custom damage dice to select an ability bonus (display ability bonus on selected attacks)
@@ -31,11 +31,11 @@ WIZARD
 
 BUG FIXES
 - [ ] Make element ids unique between different statblocks
-- [ ] Remove physical damage is B/P/S is already chosen
+- [ ] Remove physical damage when B/P/S is already chosen
 
 MEDIUM PRIORITY
-- [ ] Automatic column org or manual moving
 - [ ] Fix semantic usage on Conditions plus additional conditions
+- [ ] Clean up export to remove unneeded info
 
 FINAL TOUCHES
 - [ ] Make a logo (no bolts)
@@ -43,6 +43,7 @@ FINAL TOUCHES
 - [ ] Clean up label "for"s
 - [ ] Replace some drop downs with input number fields
 - [ ] Remove trademarked creatures?
+- [ ] Refactor wizard to not use a bunch different of divs
 
 OPTIONAL
 - [ ] Loc cleanup

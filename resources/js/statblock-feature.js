@@ -534,10 +534,6 @@ export default {
                 spellDesc += this.f5.misc.casts_spells_before;
             }
             
-            if(this.value.additionalDescription) {
-                spellDesc += '<br/><br/>';
-            }
-            
             return spellDesc;
         },
 

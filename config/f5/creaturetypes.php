@@ -8,7 +8,10 @@ return [
             'shapechanger'
         ],
         'tags' => [
-            'stats' => 'f5/creaturetypes.aberration_tip_stats',
+            'stats' => [
+                'name' => 'f5/creaturetypes.aberration_tip_stats',
+                'data' => ['int', 'wis', 'con', 'cha', 'str', 'dex'],
+            ],
             // 'saves' => ['con', 'int'],
             'languages' => [
                 'deep_speech'
@@ -30,7 +33,10 @@ return [
             'amphibian'
         ],
         'tags' => [
-            'stats' => 'f5/creaturetypes.beast_tip_stats',
+            'stats' => [
+                'name' => 'f5/creaturetypes.beast_tip_stats',
+                'data' => ['str', 'dex', 'con', 'wis', 'int', 'cha'],
+            ],
             // 'saves' => ['dex', 'con'],
             'alignments' => 'unaligned',
             'armor' => 'natural',
@@ -43,7 +49,10 @@ return [
             'shapechanger',
         ],
         'tags' => [
-            'stats' => 'f5/creaturetypes.celestial_tip_stats',
+            'stats' => [
+                'name' => 'f5/creaturetypes.celestial_tip_stats',
+                'data' => ['wis', 'str', 'cha', 'con', 'int', 'dex'],
+            ],
             // 'saves' => ['wis', 'cha'],
             'alignments' => 'good',
         ],
@@ -59,7 +68,10 @@ return [
             'modron',
         ],
         'tags' => [
-            'stats' => 'f5/creaturetypes.construct_tip_stats',
+            'stats' => [
+                'name' => 'f5/creaturetypes.construct_tip_stats',
+                'data' => ['str', 'con', 'dex', 'wis', 'int', 'cha'],
+            ],
             // 'saves' => ['con'],
             'features' => 'immutable_form',        
             'damage_resistances' => [
@@ -101,10 +113,14 @@ return [
             'wyvern',
         ],
         'tags' => [
-            'stats' => 'f5/creaturetypes.dragon_tip_stats',
+            'stats' => [
+                'name' => 'f5/creaturetypes.dragon_tip_stats',
+                'data' => ['str', 'con', 'dex', 'cha', 'int', 'wis'],
+            ],
             'features' => 'breath_weapon',
             'armor' => 'natural',
             'speeds' => 'fly',
+            'senses' => 'darkvision',
             'languages' => 'draconic',
             // 'saves' => ['dex','con','wis','cha'],
         ],
@@ -133,7 +149,10 @@ return [
         ],
         // 'saves' => ['wis','cha'],
         'tags' => [
-            'stats' => 'f5/creaturetypes.elemental_tip_stats',
+            'stats' => [
+                'name' => 'f5/creaturetypes.elemental_tip_stats',
+                'data' => ['con', 'dex', 'cha', 'str', 'wis', 'int'],
+            ],
         ],
     ],
     'fey' => [
@@ -144,7 +163,10 @@ return [
             'shapechanger',
         ],
         'tags' => [
-            'stats' => 'f5/creaturetypes.fey_tip_stats',
+            'stats' => [
+                'name' => 'f5/creaturetypes.fey_tip_stats',
+                'data' => ['cha', 'dex', 'con', 'int', 'wis', 'str'],
+            ],
             // 'saves' => ['wis','cha'],
         ],
     ],
@@ -158,7 +180,10 @@ return [
             'yugoloth',
         ],
         'tags' => [
-            'stats' => 'f5/creaturetypes.fiend_tip_stats',
+            'stats' => [
+                'name' => 'f5/creaturetypes.fiend_tip_stats',
+                'data' => ['str', 'con', 'wis', 'dex', 'cha', 'int'],
+            ],
             'damage_resistances' => 'fire',
             'alignments' => 'evil',
         ],
@@ -175,7 +200,10 @@ return [
             'storm_giant',
         ],
         'tags' => [
-            'stats' => 'f5/creaturetypes.giant_tip_stats',
+            'stats' => [
+                'name' => 'f5/creaturetypes.giant_tip_stats',
+                'data' => ['str', 'con', 'wis', 'cha', 'int', 'dex'],
+            ],
             //'saves' => ['con', 'cha'],
             'sizes' => 'huge',
         ],
@@ -246,7 +274,10 @@ return [
             'yuan_ti',
         ],
         'tags' => [
-            'stats' => 'f5/creaturetypes.monstrosity_tip_stats',
+            'stats' => [
+                'name' => 'f5/creaturetypes.monstrosity_tip_stats',
+                'data' => ['str', 'con', 'wis', 'dex', 'int', 'cha'],
+            ],
         ],
     ],
     'ooze' => [
@@ -256,7 +287,10 @@ return [
             'shapechanger',
         ],
         'tags' => [
-            'stats' => 'f5/creaturetypes.ooze_tip_stats',
+            'stats' => [
+                'name' => 'f5/creaturetypes.ooze_tip_stats',
+                'data' => ['con', 'str', 'wis', 'dex', 'int', 'cha'],
+            ],
         ],
     ],
     'plant' => [
@@ -266,7 +300,10 @@ return [
 
         ],
         'tags' => [
-            'stats' => 'f5/creaturetypes.plant_tip_stats',
+            'stats' => [
+                'name' => 'f5/creaturetypes.plant_tip_stats',
+                'data' => ['con', 'str', 'wis', 'dex', 'int', 'cha'],
+            ],
             'damage_resistances' => 'lightning',
         ],
     ],
@@ -278,7 +315,10 @@ return [
             'titan',
         ],
         'tags' => [
-            'stats' => 'f5/creaturetypes.undead_tip_stats',
+            'stats' => [
+                'name' => 'f5/creaturetypes.undead_tip_stats',
+                'data' => ['con', 'str', 'wis', 'dex', 'int', 'cha'],
+            ],
             'damage_resistances' => 'necrotic',
             'features' => 'undead_fortitude',
             'condition_immunities' => [

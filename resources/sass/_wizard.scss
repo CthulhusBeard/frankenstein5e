@@ -16,6 +16,7 @@ $lightboxPadding: 20px;
     display: none;
     
     &.show-wizard {
+        overflow: scroll;
         display: block;
     }
 
@@ -35,7 +36,7 @@ $lightboxPadding: 20px;
 
     $stepColour: #777;
     $stepActiveColour: rgb(0, 139, 42);
-    $stepPastColour: #333;
+    $stepPastColour: #108cb9;
 
     .progress-container {
         display: flex;
@@ -43,13 +44,14 @@ $lightboxPadding: 20px;
         font-family: arial;
         font-size: 12px;
         line-height: 1em;
-        margin: 0 -1px;
+        margin: 0 -1px 10px;
         text-align: center;
         padding: 2px 20px 2px 5px;
         border: 1px black solid;
         border-radius: 5px;
         background: white;
         width: fit-content;
+        flex-wrap: wrap;
         
         .step {
             padding: 10px 20px 10px 20px;
@@ -58,7 +60,7 @@ $lightboxPadding: 20px;
             position: relative;
             border-top: 1px solid $stepColour;
             border-bottom: 1px solid $stepColour;
-            margin: 0 1px;
+            margin: 1px;
 
             &::before {
                 content: '';
@@ -128,6 +130,10 @@ $lightboxPadding: 20px;
             max-width: 350px;
         }
 
+        &.types {
+            min-width: max-content;
+        }
+
         &.subtypes {
             min-width: 215px;
         }
@@ -140,13 +146,18 @@ $lightboxPadding: 20px;
         background-color: beige;
         padding: 5px;
 
-        max-width: 33%;
         ul {
             margin-top: .25em;
         }
 
         .creature-title {
+            
+        }
+
+        .apply-tag {
+            font-size: small;
             text-decoration: underline;
+            cursor: pointer;
         }
     }
 
@@ -176,7 +187,7 @@ $lightboxPadding: 20px;
 
                 &.disabled {
                     pointer-events: none;
-                    opacity: .5;
+                    opacity: 0;
                 }
 
                 &:hover {
@@ -184,6 +195,10 @@ $lightboxPadding: 20px;
                     scale: 1.1;
                 }
             }
+        }
+
+        .ability-priority__scores {
+            width: 62px;
         }
 
         .ability-priority__display {

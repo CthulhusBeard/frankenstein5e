@@ -26,7 +26,23 @@ export function initVue(f5data) {
                     text += ')';
                 }
                 return text;
-            },       
+            },      
+
+            addPlus: function (number, addSpace = false) {
+                let space = addSpace ? ' ' : '';
+                if(number > 0) {
+                    number = '+'+space+number;
+                } else if(number < 0) {
+                    if(addSpace) {
+                        number = String(number).replace('-','-'+space);
+                    }
+                }
+                return number; 
+            },
+
+            capitalize: function(str) {
+                return str.charAt(0).toUpperCase() + str.slice(1);
+            }, 
 
             calcAbilityMod: function (abilityScore) {
                 let mod = Math.floor((abilityScore-10)/2);
@@ -230,7 +246,9 @@ export function initVue(f5data) {
         data: {
             editor: {
                 activeSection: 'statblock-display',
+                showCreateMenu: false, 
                 editMode: true,
+                usingWizard: false,
                 playerData: {
                     number: 4,
                     level: 1,
@@ -243,6 +261,7 @@ export function initVue(f5data) {
                 },
                 roundTracker: 7,
                 importMonster: 0,
+                showImportDropdown: false,
             },
             encounterXP: 0,
             encounterDifficulty: f5data.encounterdifficulties['easy'],
@@ -250,7 +269,6 @@ export function initVue(f5data) {
             statblocks: [],
             projections: [],
             f5: f5data,
-            usingWizard: false,
         },
 
         components: {
@@ -381,6 +399,7 @@ export function initVue(f5data) {
             },
 
             createStatBlock: function() {
+                this.closeCreateMenu();
                 let i = this.statblocks.push({
                     trackingId: this.randChars(15), 
                     number: 1,
@@ -473,11 +492,16 @@ export function initVue(f5data) {
             },
 
             initStatBlockWizard: function () {
-                this.usingWizard = true;
+                this.closeCreateMenu();
+                this.editor.usingWizard = true;
             },
 
             closeWizard: function() {
-                this.usingWizard = false;
+                this.editor.usingWizard = false;
+            },
+
+            closeCreateMenu: function() {
+                this.editor.showCreateMenu = false;
             },
 
             createStatBlockFromWizardData: function(monsterData) {

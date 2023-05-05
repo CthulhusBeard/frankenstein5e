@@ -55,7 +55,7 @@ return [
         'modron' => [
             'name' => 'f5/creaturesubtypes.modron',
             'tags' => [
-                'senses' => 'true_sight',
+                'senses' => 'truesight',
                 'alignments' => 'lawful_neutral',
             ],
         ],

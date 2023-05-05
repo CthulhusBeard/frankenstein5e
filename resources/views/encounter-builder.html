@@ -13,17 +13,18 @@
     <body>
 
         <div id="page-container">
-            <div id="f5" class="main-grid">
+            <header>
                 <div id="logo">
                     Logo
                 </div>
-
-                <div id="top-nav">
+                <div>
                     Create monsters! Balance encounters! <s>Kill PCs!</s> Have fun! 
                 </div>
+            </header>
+            <div id="f5">
 
-                <!-- Side Nav -->
-                <div id="side-nav">
+                <!-- Nav -->
+                <nav>
                     <div class="nav-option nav-statblocks" @click="editor.activeSection = 'statblock-display'">
                         <div>Statblocks</div>
                     </div>
@@ -35,6 +36,34 @@
                             <div>Support the Project</div>
                         </div>
                     </a> -->
+                </nav>
+
+                <div class="subnav" v-if="editor.activeSection == 'statblock-display'">
+                    <div class="nav-option"@click="createStatBlock()">
+                        Create Statblock From Scratch
+                    </div>
+                    <div class="nav-option" @click="initStatBlockWizard()">
+                        Create Statblock Using Wizard
+                    </div>
+                    <div class="nav-option">
+                        <div @click="editor.showImportDropdown = !editor.showImportDropdown">
+                            {{f5.misc.title_monster_template}} 
+                            <span v-if="editor.showImportDropdown">▲</span><span v-else>▼</span>
+                        </div>
+                        <div class="nav-dropdown" v-if="editor.showImportDropdown">
+                            <div class="nav-dropdown-option" v-for="(monster, i) in sampleMonsters" :value="i" @click="importMonster(sampleMonsters[i])">{{monster.name}}</div>
+                        </div>
+                    </div>
+                    <div class="nav-option" @click="importMonsterFromClipboard()">
+                        {{f5.misc.title_import_from_clipboard}}
+                    </div>
+                    <div class="nav-option" @click="clearAllData()">
+                        {{f5.misc.title_clear_all}}
+                    </div>
+                </div>
+
+                <div class="subnav" v-else-if="editor.activeSection == 'encounter-display'">
+
                 </div>
 
                 <!-- Main Content -->
@@ -42,37 +71,8 @@
 
                     <!-- Monster Builder -->
                     <div class="display-section statblock-display" :class="{'active-display': (editor.activeSection == 'statblock-display')}">
-                    
-                        <div class="builder-controls popup-overlay flex-rows">
-                            <div class="builder-controls-section">
-                                <div class="control-title">Statblock Controls</div>
-                                <div class="button-container">
-                                    <button @click="createStatBlock()">{{f5.misc.title_new_statblock}}</button>
-                                </div>
-                                <div class="button-container">
-                                    <button @click="initStatBlockWizard()">{{f5.misc.title_new_statblock_from_wizard}}</button>
-                                </div>
-                                <div class="button-container">
-                                    <button @click="clearAllData()">{{f5.misc.title_clear_all}}</button>
-                                </div>
-                            </div>
-                            <div class="builder-controls-section">
-                                <div class="control-title">Importer</div>
-                                <div>
-                                    <select v-model="editor.importMonster">
-                                        <option v-for="(monster, i) in sampleMonsters" :value="i">{{monster.name}}</option>
-                                    </select>
-                                </div>
-                                <div class="button-container">
-                                    <button @click="importMonster(sampleMonsters[editor.importMonster])">{{f5.misc.title_import}}</button>
-                                </div>
-                                <div class="button-container">
-                                    <button @click="importMonsterFromClipboard()">{{f5.misc.title_import_from_clipboard}}</button>
-                                </div>
-                            </div>
-                        </div>    
 
-                        <div class="statblock-wizard-container" :class="{'show-wizard': usingWizard}">
+                        <div class="statblock-wizard-container" :class="{'show-wizard': editor.usingWizard}">
                             <Statblockwizard
                                 :f5="f5"
                                 :measure="editor.measure"
@@ -106,7 +106,7 @@
                     <div class="display-section encounter-display" :class="{'active-display': (editor.activeSection == 'encounter-display')}">
                         <div class="controls-holder">
 
-                            <div class="encounter-controls popup-overlay">
+                            <div class="encounter-controls ui-box">
                                 <div class="control-title col-span-2">Encounter Settings</div>
 
                                 <div class="encounter-controls-section">

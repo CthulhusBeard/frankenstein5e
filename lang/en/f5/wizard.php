@@ -6,5 +6,6 @@ return [
     'wizard_cr_hit_points' => 'Typical Hit Points:',
     'wizard_cr_ac' => 'Typical Armor Class:',
     'wizard_cr_examples' => 'Examples include:',
+    'wizard_cr_example_stats' => 'Example ability spread:',
 
 ];

@@ -1,25 +1,27 @@
 <div class="statblock-wizard popup-overlay">
+    <div class="close" @click="closeWizard()">x</div>
     
-    <div class="wizard-page wizard-page__target-cr flexrow" :class="{'wizard-page__active': activePage==='target-cr'}">
+    <div class="wizard-page wizard-page__target-cr flexrow wizard-page__active">
+
         <div class="progress-container">
-            <div class="step active">Challenge Rating</div>
-            <div class="step">Type</div>
-            <div class="step">Stats</div>
-            <div class="step">AC & HP</div>
-            <div class="step">Damage Types</div>
-            <div class="step">Speed, Senses, Languages, Alignment</div>
-            <div class="step">Features</div>
+            <div 
+                v-for="(navItem, key) in navData" 
+                class="step" :class=" navItem.status " 
+                @click="setPageKey((navItem.status === 'past') ? navItem.navKey : null, false)"
+            >{{ navItem.title }}</div>
         </div>
     
-        <div class="wizard-header">Challenge Rating Selector</div>
+        <div class="wizard-header">{{ activePageTitle }}</div>
+        <div class="wizard-subheader">{{ activePageSubtitle }}</div>
 
-        <div>
+        <!-- Pages -->
+        <div v-if="activePage==='targetCR'">
             <div>
                 What challenge rating do your monster to be?
                 <select v-model="targetCR">
                     <option v-for="(crData, key) in $parent.sortedCRList" :value="crData.cr_text" >{{crData.cr_text}}</option>
                 </select>
-                <div class="small-text">Unsure? Use the <span class="fake-link" @click="crHelp">CR Calculator</span></div>
+                <div class="small-text">Unsure? Use the <span class="fake-link" @click="setActivePage('manualCR')">CR Calculator</span></div>
             </div>
 
             <br/>
@@ -32,148 +34,82 @@
                     <li><strong>{{f5.misc.wizard_cr_hit_points}}</strong> {{targetCRData.hp.low}} - {{targetCRData.hp.high}}</li>
                     <li><strong>{{f5.misc.wizard_cr_ac}}</strong> ~{{targetCRData.ac}}</li>
                     <li><strong>{{f5.misc.wizard_cr_examples}}</strong> {{targetCRData.examples}}</li>
+                    <li><strong>{{f5.misc.wizard_cr_example_stats}}</strong> {{abilityScoreDistributionByCR(targetCR)}}</li>
                 </ul>
             </div>
-
-            <div class="btnContainer">
-                <button @click="setCR()">Next</button>
-            </div>
         </div>
-    </div>
+
+        <div v-else-if="activePage==='manualCR'">
+            <div>
+                How many player characters are there?
+                <input type="number" v-model="playerCount" min="1" max="15" />
+            </div>
     
-<!-- -->
-
-    <div class="wizard-page wizard-page__cr-help" :class="{'wizard-page__active': activePage==='cr-help'}">
-        <div class="progress-container">
-            <div class="step active" @click="setCR(false)">Challenge Rating</div>
-            <div class="step">Type</div>
-            <div class="step">Stats</div>
-            <div class="step">AC & HP</div>
-            <div class="step">Damage Types</div>
-            <div class="step">Speed, Senses, Languages, Alignment</div>
-            <div class="step">Features</div>
-        </div>
-
-        <div class="wizard-header">Challenge Rating Calculator</div>
-        <div class="wizard-subheader">
-            Provide some information about your party.
-        </div>
-
-        <div>
-            How many player characters are there?
-            <input type="number" v-model="playerCount" min="1" max="15" />
-        </div>
-
-        <div>
-            What level are the player characters (or average level)?
-            <input type="number" v-model="playerLevel" min="1" max="20" />
-        </div>
-
-        <div>
-            What level of difficulty do you want the encounter to be?
-            <select v-model="encounterDifficulty">
-                <option v-for="(difficulty, key) in f5.encounterdifficulties" :value="key" >{{difficulty.name}}</option>
-            </select>
-        </div>
-
-        <div>
-            How many of this monster do you want to use?
-            <input type="number" v-model="monsterCount" min="1" max="20" />
-        </div>
-
-        <br/>
-
-        <div>
-            <span><strong>Recommended CR: {{ recommendedCR }}</strong></span>
-            <ul>
-                <li><strong>{{f5.misc.wizard_cr_proficiency}}</strong> +{{targetCRData.prof}}</li>
-                <li><strong>{{f5.misc.wizard_cr_attack_bonus}}</strong> ~{{targetCRData.attack_bonus}}</li>
-                <li><strong>{{f5.misc.wizard_cr_hit_points}}</strong> {{targetCRData.hp.low}}-{{targetCRData.hp.high}}</li>
-                <li><strong>{{f5.misc.wizard_cr_ac}}</strong> ~{{targetCRData.ac}}</li>
-                <li><strong>{{f5.misc.wizard_cr_examples}}</strong> {{targetCRData.examples}}</li>
-            </ul>
-        </div>
-
-        <div class="btnContainer">
-            <button @click="setCR()">Next</button>
-        </div>
-    </div>
+            <div>
+                What level are the player characters (or average level)?
+                <input type="number" v-model="playerLevel" min="1" max="20" />
+            </div>
     
-<!-- -->
-
-    <div class="wizard-page wizard-page__choose-type" :class="{'wizard-page__active': activePage==='choose-type'}">
-        <div class="progress-container">
-            <div class="step past" @click="setCR(false)">Challenge Rating</div>
-            <div class="step active">Type</div>
-            <div class="step">Stats</div>
-            <div class="step">AC & HP</div>
-            <div class="step">Damage Types</div>
-            <div class="step">Speed, Senses, Languages, Alignment</div>
-            <div class="step">Features</div>
-        </div>
-        <div class="wizard-header">Creature Type</div>
-        <div class="wizard-subheader">
-            What type of creature do you want to create?
-        </div>
-        
-        <div class="flex-rows section-container">
-            <div class="creature-type-inner-container">
-                <div>
-                    <strong>Creature Size:</strong>
-                    <span class="info">🛈<div class="info-hover">A creature's size determines the size of their hit dice and the space they take.</div></span> 
-                </div>
-                <div class="option options__sizes edit-field">
-                    {{ f5.misc.title_size }}:
-                    <select id="options__size" name="options__size" v-model="monsterData.size">
-                        <option v-for="(item, index) in f5.creaturesizes" :value="index">{{ item.name }} (d{{ item.hit_dice }})</option>
-                    </select>
-                </div>
+            <div>
+                What level of difficulty do you want the encounter to be?
+                <select v-model="encounterDifficulty">
+                    <option v-for="(difficulty, key) in f5.encounterdifficulties" :value="key" >{{difficulty.name}}</option>
+                </select>
             </div>
-
-            <div class="creature-type-inner-container">
-                <div><strong>Creature Type:</strong></div>
-                <div v-for="(creatureType, key) in f5.creaturetypes">
-                    <input type="radio" name="creature-type" :id="'creature-type-'+key" :value="key" v-model="monsterData.type" />
-                    <label :for="'creature-type-'+key"><strong>{{ creatureType.name }}</strong></label>
-                    <span class="info">🛈<div class="info-hover">{{ creatureType.desc }}</div></span> 
-                </div>
+    
+            <div>
+                How many of this monster do you want to use?
+                <input type="number" v-model="monsterCount" min="1" max="20" />
             </div>
+    
+            <br/>
+    
+            <div>
+                <span><strong>Recommended CR: {{ recommendedCR }}</strong></span>
+                <ul>
+                    <li><strong>{{f5.misc.wizard_cr_proficiency}}</strong> +{{targetCRData.prof}}</li>
+                    <li><strong>{{f5.misc.wizard_cr_attack_bonus}}</strong> ~{{targetCRData.attack_bonus}}</li>
+                    <li><strong>{{f5.misc.wizard_cr_hit_points}}</strong> {{targetCRData.hp.low}}-{{targetCRData.hp.high}}</li>
+                    <li><strong>{{f5.misc.wizard_cr_ac}}</strong> ~{{targetCRData.ac}}</li>
+                    <li><strong>{{f5.misc.wizard_cr_examples}}</strong> {{targetCRData.examples}}</li>
+                </ul>
+            </div>
+        </div>
 
-            <div class="creature-type-inner-container subtypes">
-                <div><strong>Creature Subtype:</strong></div>
+        <div v-else-if="activePage==='creatureType'">
+            <div class="flex-rows section-container">
 
-                <Multiselect class="edit-field edit-field--flex"
-                    :placeholder="f5.misc.choose_subtypes"
-                    v-model="monsterData.subtypes" 
-                    :options="orderedSubtypes" 
-                    mode="tags"
-                    :close-on-select="false"
-                    :searchable="true"
-                    :create-option="true"
-                >
-                        <template v-slot:tag="{ option, handleTagRemove, disabled }">
-                            <div class="multiselect-tag">
-                                {{ option.label }}
-                                <span v-if="!disabled" class="multiselect-tag-remove" @mousedown.prevent="handleTagRemove(option, $event)">
-                                    <span class="multiselect-tag-remove-icon"></span>
-                                </span>
-                            </div>
-                        </template>
-
-                        <template v-slot:option="{ option }">
-                            {{ option.label }}
-                        </template>
-                </Multiselect>
-
-                <br/>
-                <br/>
-
-                <div v-if="creatureSpecificsList.length || monsterData.typeCategories.length">
-                    <div><strong>Creature Tags:</strong></div>
-                        <Multiselect class="edit-field edit-field--flex"
-                        :placeholder="f5.misc.choose_tags"
-                        v-model="monsterData.typeCategories" 
-                        :options="creatureSpecificsList" 
+                <div class="creature-type-inner-container types">
+                    <div><strong>Creature Type:</strong></div>
+                    <div v-for="(creatureType, key) in f5.creaturetypes">
+                        <input type="radio" name="creature-type" :id="'creature-type-'+key" :value="key" v-model="monsterData.type" />
+                        <label :for="'creature-type-'+key"><strong>{{ creatureType.name }}</strong></label>
+                        <span class="info">🛈<div class="info-hover">{{ creatureType.desc }}</div></span> 
+                    </div>
+                </div>
+    
+                <div class="creature-type-inner-container">
+                    <div>
+                        <strong>Creature Size:</strong>
+                        <span class="info">🛈<div class="info-hover">A creature's size determines the size of their hit dice and the space they take.</div></span> 
+                    </div>
+                    <div class="option options__sizes edit-field">
+                        <select id="options__size" name="options__size" v-model="monsterData.size">
+                            <option v-for="(item, index) in f5.creaturesizes" :value="index">{{ item.name }}</option>
+                        </select>
+                    </div>
+                    <div>
+                        A {{ f5.creaturesizes[monsterData.size].name }} size creature has d{{ f5.creaturesizes[monsterData.size].hit_dice }} hit dice and takes up {{ f5.creaturesizes[monsterData.size].space }}ft x {{ f5.creaturesizes[monsterData.size].space }}ft of space.
+                    </div>
+                </div>
+    
+                <div class="creature-type-inner-container subtypes">
+                    <div><strong>Creature Subtype:</strong></div>
+    
+                    <Multiselect class="edit-field edit-field--flex"
+                        :placeholder="f5.misc.choose_subtypes"
+                        v-model="monsterData.subtypes" 
+                        :options="orderedSubtypes" 
                         mode="tags"
                         :close-on-select="false"
                         :searchable="true"
@@ -187,549 +123,431 @@
                                     </span>
                                 </div>
                             </template>
-
+    
                             <template v-slot:option="{ option }">
                                 {{ option.label }}
                             </template>
                     </Multiselect>
+    
+                    <br/>
+                    <br/>
+    
+                    <div v-if="creatureSpecificsList.length || monsterData.typeCategories.length">
+                        <div><strong>Creature Tags:</strong></div>
+                            <Multiselect class="edit-field edit-field--flex"
+                            :placeholder="f5.misc.choose_tags"
+                            v-model="monsterData.typeCategories" 
+                            :options="creatureSpecificsList" 
+                            mode="tags"
+                            :close-on-select="false"
+                            :searchable="true"
+                            :create-option="true"
+                        >
+                                <template v-slot:tag="{ option, handleTagRemove, disabled }">
+                                    <div class="multiselect-tag">
+                                        {{ option.label }}
+                                        <span v-if="!disabled" class="multiselect-tag-remove" @mousedown.prevent="handleTagRemove(option, $event)">
+                                            <span class="multiselect-tag-remove-icon"></span>
+                                        </span>
+                                    </div>
+                                </template>
+    
+                                <template v-slot:option="{ option }">
+                                    {{ option.label }}
+                                </template>
+                        </Multiselect>
+                    </div>
                 </div>
             </div>
-            <div class="creature-type-inner-container creature-tips">
-                <div>
-                    <strong>Recommendations:</strong>
-                    <span class="info">🛈<div class="info-hover">These recommendations are based on common trends among the selected types, subtypes, and tags. These are meant to assist you in building your creature but are certainly not hard-and-fast rules. </div></span> 
-                </div>
-                <div v-for="(tips, i) in creatureTips">
-                    <span class="creature-title">{{ f5.tags.translations.tag_traits.replace(':creature_type', i) }}</span>
-                    <ul>
-                        <li v-for="(tip, j) in tips" v-html="tip"></li>
-                    </ul>
-                </div>
-            </div>
+    
         </div>
 
-        <div class="btnContainer">
-            <button @click="setCreatureType()">Next</button>
-        </div>
-    </div>
-
-<!-- -->
-
-    <div class="wizard-page wizard-page__choose-stats" :class="{'wizard-page__active': activePage==='choose-stats'}">
-        
-        <div class="progress-container">
-            <div class="step past" @click="setCR(false)">Challenge Rating</div>
-            <div class="step past" @click="setCreatureType(false)">Type</div>
-            <div class="step active">Stats</div>
-            <div class="step">AC & HP</div>
-            <div class="step">Damage Types</div>
-            <div class="step">Speed, Senses, Languages, Alignment</div>
-            <div class="step">Features</div>
-        </div>
-
-        <div class="wizard-header">Ability Scores</div>
-        <div class="wizard-subheader">
-            What ability scores are most important to your creature?
-        </div>
-
-        <div class="section-container flex-rows ">
-            <div class="ability-priority-container">
-                <div class="ability-priority" v-for="(ability, i) in creatureAbilityScorePriority"> 
-                    <div class="ability-priority__move-arrows">    
-                        <div :class="i == 0 ? 'disabled' : ''" class="ability-priority__move-arrow ability-priority__move-up" @click="shiftAbilityPriorityUp(ability)">↑</div>
-                        <div :class="i == creatureAbilityScorePriority.length-1 ? 'disabled' : ''" class="ability-priority__move-arrow ability-priority__move-down" @click="shiftAbilityPriorityDown(ability)">↓</div>
-                    </div>   
-                    <div class="ability-priority__display">
-                        <div>
-                            <strong>{{ f5.abilities[ability].name }}</strong> 
-                            <span class="info">🛈<div class="info-hover">{{ f5.abilities[ability]['desc'] }}</div></span>
+        <div v-else-if="activePage==='creatureStats'">
+            
+            <div class="section-container flex-rows ">
+                <div class="ability-priority-container">
+                    <div class="ability-priority" v-for="(ability, i) in creatureAbilityScorePriority"> 
+                        <div class="ability-priority__scores">
+                            {{ abilityScoreDistributionByCR(targetCR)[i] }} ({{ addPlus(calcAbilityMod(abilityScoreDistributionByCR(targetCR)[i])) }})
+                        </div>
+                        <div class="ability-priority__move-arrows">    
+                            <div :class="i == 0 ? 'disabled' : ''" class="ability-priority__move-arrow ability-priority__move-up" @click="shiftAbilityPriorityUp(ability)">↑</div>
+                            <div :class="i == creatureAbilityScorePriority.length-1 ? 'disabled' : ''" class="ability-priority__move-arrow ability-priority__move-down" @click="shiftAbilityPriorityDown(ability)">↓</div>
+                        </div>   
+                        <div class="ability-priority__display">
+                            <div>
+                                <strong>{{ f5.abilities[ability].name }}</strong> 
+                                <span class="info">🛈<div class="info-hover">{{ f5.abilities[ability]['desc'] }}</div></span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="creature-tips">
-                <div>
-                    <strong>Recommendations:</strong>
-                    <span class="info">🛈<div class="info-hover">These recommendations are based on common trends among the selected types, subtypes, and tags. These are meant to assist you in building your creature but are certainly not hard-and-fast rules. </div></span> 
+            
+            <div class="small-text"><span class="fake-link" @click="setActivePage('manualCreatureStats')">Manually Select Ability Distribution</span></div>
+
+        </div>
+
+        <div v-else-if="activePage==='manualCreatureStats'">
+            
+            <div>
+                A common array of ability scores for a CR {{ targetCR }} creature is {{ abilityScoreDistributionByCR(targetCR) }}
+            </div>
+
+            <div class="section-container flex-rows ">
+                <div class="ability-priority-container">
+                    <div class="ability-section flex-rows" v-for="(ability, key) in f5.abilities">
+                        <div class="ability-title">
+                            <strong class="ability-name">{{ ability.name }}</strong>
+                            <span class="info">🛈<div class="info-hover">{{ability['desc']}}</div></span>
+                        </div>
+                        <select v-model="monsterData.abilities[key]">
+                            <option v-for="i in 30" :value="i">{{ i }} (<span v-if="(i-10)/2 > 0">+</span> {{ Math.floor((i-10)/2) }})</option>
+                        </select>
+                        <span class="saves">Save Proficiency: <input type="checkbox" v-model="monsterData.savingThrows[key]" /></span>
+                    </div>
                 </div>
-                <div v-for="(tips, i) in getCreatureTips(['stats', 'saves'])">
-                    <span class="creature-title">{{ f5.tags.translations.tag_traits.replace(':creature_type', i) }}</span>
-                    <ul>
-                        <li v-for="(tip, j) in tips" v-html="tip"></li>
-                    </ul>
+                
+            </div>
+        </div>
+
+        <div v-else-if="activePage==='creatureArmorHP'">
+            
+            <div class="section-container flex-rows ">
+                <div class="select-armor-hp">
+                    <div class="select-armor">
+                        <div class="armor-display">
+                            <span class="title">{{f5.misc.title_armor_class}}:</span>
+                            <span>{{ acText }}</span>
+                        </div>
+                        <div class="option options__hitpoints edit-field">
+                            <select id="options__armorclass" name="options__armorclass" v-model="monsterData.armorClass.type">
+                                <option v-for="(item, index) in f5.armor" :value="index" >{{generateArmorText(item, f5.misc.max)}}</option>
+                            </select>
+                            <div v-if="monsterData.armorClass.type === 'custom'" >
+                                {{f5.misc.title_armor_name}}: <input v-model='monsterData.armorClass.name'/><br/>
+                                <!--Disadvantage on Stealth: <input type="checkbox" v-model="monsterData.armorClass.stealthDis">-->
+                            </div>
+                            <div v-if="allowAcSelector">
+                                {{f5.misc.title_armor_class}}: <select name="options__armorclass_range" v-model="monsterData.armorClass.manual">
+                                    <option v-for="(val, i) in getAcRange" :value="val" >{{val}}</option>
+                                </select>
+                            </div>
+                            <div v-if="allowAcBonus">
+                                {{f5.misc.title_magical_bonus}}: +<input type="number" min="0" max="10" name="options__armorclass_range" v-model="monsterData.armorClass.bonus" />
+                            </div>
+                            <div>
+                                {{f5.misc.title_shield}}: <input name="options__shield" v-model="monsterData.armorClass.shield" type="checkbox" />
+                                {{f5.misc.title_mage_armor}}: <input name="options__mage-armor" v-model="monsterData.armorClass.mageArmor" type="checkbox" /> 
+                            </div>       
+                        </div>
+                    </div>
+
+                    <br/>
+                    <br/>
+
+                    <div class="select-hp">
+                        <span class="title">{{f5.misc.title_hit_points}}:</span>
+                            <span>{{hitPointsText}}</span>
+                            <div class="option options__hitpoints edit-field">
+                                <label>{{f5.misc.hit_dice_amount}}:</label>
+                                <input type="number" min="0" max="500" id="options__hitpoints-amount" name="options__hitpoints-amount" v-model="monsterData.hitPoints.diceAmount" value="1" />
+                                <div>
+                                    <label>{{f5.misc.hit_dice_type}}:</label>
+                                    <select id="options__hitdice-type" name="options__hitdice-type" v-model="monsterData.hitPoints.diceType">
+                                        <option v-for="i in f5.dicetypes" :value="i" >{{i}}</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    {{f5.misc.con_hit_points}}
+                                    <span class="info">🛈<div class="info-hover">{{f5.misc.con_hit_points_subtext}}</div></span> 
+                                    : +{{hpConMod}}
+                                </div>
+                                <label>{{f5.misc.additional}}:</label>
+                                <input type="number" min="0" max="9999" id="options__hitpoints-additional" name="options__hitpoints-additional" v-model="monsterData.hitPoints.additional" value="0" />
+                            </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <div v-else-if="activePage==='creatureDamageTypes'">
+            
+            <div class="section-container flex-rows ">
+                <div class="select-damage-types">
+
+                    <div class="statblock__attribute focus-edit" :class="{'edit-show': !damageResistanceText}">
+                        <span class="title">{{f5.misc.title_damage_resistances}}:</span>
+                        <span>{{damageResistanceText}}</span>
+                        <Multiselect class="edit-field edit-field--flex"
+                            v-model="monsterData.damageResistances" 
+                            :placeholder="f5.misc.choose_a.replace(':choice', 'damage type')"
+                            :options="eligableDamageTypes" 
+                            mode="tags"
+                            :close-on-select="false"
+                            :searchable="true"
+                            :create-option="true"
+                        >
+                                <template v-slot:tag="{ option, handleTagRemove, disabled }">
+                                    <div class="multiselect-tag">
+                                        {{ option.label }}
+                                        <span v-if="!disabled" class="multiselect-tag-remove" @mousedown.prevent="handleTagRemove(option, $event)">
+                                            <span class="multiselect-tag-remove-icon"></span>
+                                        </span>
+                                    </div>
+                                </template>
+
+                                <template v-slot:option="{ option }">
+                                    {{ option.label }}
+                                </template>
+                        </Multiselect>
+                    </div>
+
+                    <br/>
+
+                    <div class="statblock__attribute focus-edit" :class="{'edit-show': !damageImmunitiesText}">
+                        <span class="title">{{f5.misc.title_damage_immunities}}:</span>
+                        <span>{{damageImmunitiesText}}</span>
+                        <Multiselect class="edit-field edit-field--flex"
+                            v-model="monsterData.damageImmunities" 
+                            :placeholder="f5.misc.choose_a.replace(':choice', 'damage type')"
+                            :options="eligableDamageTypes" 
+                            mode="tags"
+                            :close-on-select="false"
+                            :searchable="true"
+                            :create-option="true"
+                        >
+                                <template v-slot:tag="{ option, handleTagRemove, disabled }">
+                                    <div class="multiselect-tag">
+                                        {{ option.label }}
+                                        <span v-if="!disabled" class="multiselect-tag-remove" @mousedown.prevent="handleTagRemove(option, $event)">
+                                            <span class="multiselect-tag-remove-icon"></span>
+                                        </span>
+                                    </div>
+                                </template>
+
+                                <template v-slot:option="{ option }">
+                                    {{ option.label }}
+                                </template>
+                        </Multiselect>
+                    </div>
+
+                    <br/>
+
+                    <div class="statblock__attribute focus-edit" :class="{'edit-show': !damageVulnerabilitiesText}">
+                        <span class="title">{{f5.misc.title_damage_vulnerabilities}}:</span>
+                        <span>{{damageVulnerabilitiesText}}</span>
+                        <Multiselect class="edit-field edit-field--flex"
+                            v-model="monsterData.damageVulnerabilites" 
+                            :placeholder="f5.misc.choose_a.replace(':choice', 'damage type')"
+                            :options="eligableDamageTypes" 
+                            mode="tags"
+                            :close-on-select="false"
+                            :searchable="true"
+                            :create-option="true"
+                        >
+                                <template v-slot:tag="{ option, handleTagRemove, disabled }">
+                                    <div class="multiselect-tag">
+                                        {{ option.label }}
+                                        <span v-if="!disabled" class="multiselect-tag-remove" @mousedown.prevent="handleTagRemove(option, $event)">
+                                            <span class="multiselect-tag-remove-icon"></span>
+                                        </span>
+                                    </div>
+                                </template>
+
+                                <template v-slot:option="{ option }">
+                                    {{ option.label }}
+                                </template>
+                        </Multiselect>
+                    </div>
+
+                    <br/>
+
+                    <div class="statblock__attribute focus-edit" :class="{'edit-show': !conditionImmunitiesText}">
+                        <span class="title">{{f5.misc.title_condition_immunities}}:</span>
+                        <span>{{conditionImmunitiesText}}</span>
+                        <Multiselect class="edit-field edit-field--flex"
+                            v-model="monsterData.conditionImmunities" 
+                            :placeholder="f5.misc.choose_a.replace(':choice', 'condition')"
+                            :options="f5.conditions" 
+                            mode="tags"
+                            :close-on-select="false"
+                            :searchable="true"
+                            :create-option="true"
+                        >
+                                <template v-slot:tag="{ option, handleTagRemove, disabled }">
+                                    <div class="multiselect-tag">
+                                        {{ option.label.name }}
+                                        <span v-if="!disabled" class="multiselect-tag-remove" @mousedown.prevent="handleTagRemove(option, $event)">
+                                            <span class="multiselect-tag-remove-icon"></span>
+                                        </span>
+                                    </div>
+                                </template>
+
+                                <template v-slot:option="{ option }">
+                                    {{ option.label.name }}
+                                </template>
+                        </Multiselect>
+                    </div>
+                </div>
+                
+                <div class="creature-tips">
+                    <div>
+                        <strong>Recommendations:</strong>
+                        <span class="info">🛈<div class="info-hover">These recommendations are based on common trends among the selected types, subtypes, and tags. These are meant to assist you in building your creature but are certainly not hard-and-fast rules. </div></span> 
+                    </div>
+                    <div v-for="(tips, i) in getCreatureTips(['damage_resistances', 'damage_immunities', 'damage_vulnerabilites', 'condition_immunities'])">
+                        <span class="creature-title">{{ f5.tags.translations.tag_traits.replace(':creature_type', i) }}</span>
+                        <ul>
+                            <li v-for="(tip, j) in tips">
+                                <span v-if="tip.hasOwnProperty('title')">{{ tip.title }}</span>
+                                <ul v-if="tip.hasOwnProperty('list') && tip.list.length > 1">
+                                    <li v-for="(listItem, k) in tip.list">
+                                        {{ listItem.name }}
+                                        <a class="apply-tag" v-if="listItem.hasOwnProperty('data')" @click="addTagToCreature(tip.group, (listItem.hasOwnProperty('data')) ? listItem.data : null)">+ Apply</a>
+                                    </li>
+                                </ul>
+                                <span v-else-if="tip.hasOwnProperty('list')">
+                                    {{ tip.list[0].name }}
+                                    <a class="apply-tag" v-if="tip.list[0].hasOwnProperty('data')" @click="addTagToCreature(tip.group, (tip.list[0].hasOwnProperty('data')) ? tip.list[0].data : null)">+ Apply</a>
+                                </span>
+                                <span v-else-if="tip.hasOwnProperty('name')">
+                                    {{ tip.name }}
+                                    <a class="apply-tag" v-if="tip.hasOwnProperty('data')" @click="addTagToCreature(tip.group, (tip.hasOwnProperty('data')) ? tip.data : null)">+ Apply</a>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div v-else-if="activePage==='creatureSpeedsSensesLanguagesAlignment'">
+            
+            <div class="section-container flex-rows ">
+                <div class="select-speeds-senses-languages">
+
+                    <div class="attribute-container">
+                        <span class="title">{{f5.misc.title_speed}}:</span>
+                        <span>{{speedText}}</span>
+                        <div class="option options-row options__speeds edit-field">
+                            <div :class="'options__speed option-box '+index" v-for="(item, index) in f5.speeds">
+                                <label :for="index">{{item.name}}</label>
+                                <input type="number" min="0" max="999" :name="'options__speed_'+index" v-model="monsterData.speeds[index]"> {{measure.measureUnit}}
+                                <span v-if="index === 'fly' && monsterData.speeds['fly'] > 0">
+                                    {{f5.misc.hover}}: <input type="checkbox" v-model="monsterData.hover">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="attribute-container">
+                        <span v-if="sensesText" class="title">{{f5.misc.title_senses}}:</span>
+                        <span v-else class="title">+ {{f5.misc.title_senses}}</span>
+                        <span>{{sensesText}}</span>
+                        <div class="option options-row options__senses edit-field">
+                            <div :class="'options__senses option-box '+index" v-for="(item, index) in f5.senses">
+                                <label :for="'sense_'+index">{{item.name}}</label>
+                                <input type="number" min="0" :name="'options__sense_'+index" v-model="monsterData.senses[index].distance"> {{measure.measureUnit}}
+                                <span v-if="item.modifier_name">
+                                    <label :for="'sense_'+index+'_modifier'">{{item.modifier_name}}</label>
+                                    <input type="checkbox" v-model="monsterData.senses[index].modifier" />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="attribute-container">
+                        <span class="title">{{f5.misc.title_languages}}:</span>
+                        <span>{{languageText}}</span>
+                        <Multiselect class="edit-field edit-field--flex"
+                            v-model="monsterData.languages.spokenWritten" 
+                            :options="f5.languages" 
+                            mode="tags"
+                            :close-on-select="false"
+                            :searchable="true"
+                            :create-option="true"
+                        >
+                            <template v-slot:tag="{ option, handleTagRemove, disabled }">
+                                <div class="multiselect-tag">
+                                    {{ option.label.name }}
+                                    <span v-if="!disabled" class="multiselect-tag-remove" @mousedown.prevent="handleTagRemove(option, $event)">
+                                        <span class="multiselect-tag-remove-icon"></span>
+                                    </span>
+                                </div>
+                            </template>
+
+                            <template v-slot:option="{ option }">
+                                {{ option.label.name }}
+                            </template>
+                        </Multiselect>
+                        
+                        <span for="languages__telepathy" class="edit-field edit-field--inlineBlock">{{f5.misc.telepathy}}</span>
+                        <input type="number" min="0" name="languages__telepathy" v-model="monsterData.languages.telepathy" class="edit-field" /> {{measure.measureUnit}}
+                    </div>
+                    
+                    <div class="attribute-container">
+                        <div>
+                            <span class="title">{{f5.misc.title_alignments}}:</span>
+                            <span>{{ alignmentText }}</span>
+                        </div>
+                        <select id="options__alignment" name="options__alignment" v-model="monsterData.alignment">
+                            <option value="">{{f5.misc.none}}</option>
+                            <option v-for="(item, index) in f5.alignments" :value="index">{{item.name}}</option>
+                        </select>
+                        {{f5.misc.title_alignments_typically}}<input type="checkbox" v-model="monsterData.showTypicalAlignment">
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <div v-else-if="activePage==='creatureFeatures'">
+            <div class="section-container flex-rows ">
+                <div class="select-features">
+        
+                    <div class="attribute-container">
+                    </div>
                 </div>
             </div>
         </div>
 
+        
+        <div class="creature-type-inner-container creature-tips" v-if="pageData[this.activePage].hasOwnProperty('tips')">
+            <div>
+                <strong>Recommendations:</strong>
+                <span class="info">🛈<div class="info-hover">These recommendations are based on common trends among the selected types, subtypes, and tags. These are meant to assist you in building your creature but are certainly not hard-and-fast rules. </div></span> 
+            </div>
+            <div v-for="(tips, i) in getCreatureTips(pageData[this.activePage].tips)">
+                <span class="creature-title">{{ f5.tags.translations.tag_traits.replace(':creature_type', i) }}</span>
+                <ul>
+                    <li v-for="(tip, j) in tips">
+                        <span v-if="tip.hasOwnProperty('title')">{{ tip.title }}</span>
+                        <ul v-if="tip.hasOwnProperty('list') && tip.list.length > 1">
+                            <li v-for="(listItem, k) in tip.list">
+                                {{ listItem.name }}
+                                <a class="apply-tag" v-if="listItem.hasOwnProperty('data')" @click="addTagToCreature(tip.group, (listItem.hasOwnProperty('data')) ? listItem.data : null)">+ Apply</a>
+                            </li>
+                        </ul>
+                        <span v-else-if="tip.hasOwnProperty('list')">
+                            {{ tip.list[0].name }}
+                            <a class="apply-tag" v-if="tip.list[0].hasOwnProperty('data')" @click="addTagToCreature(tip.group, (tip.list[0].hasOwnProperty('data')) ? tip.list[0].data : null)">+ Apply</a>
+                        </span>
+                        <span v-else-if="tip.hasOwnProperty('name')">
+                            {{ tip.name }}
+                            <a class="apply-tag" v-if="tip.hasOwnProperty('data')" @click="addTagToCreature(tip.group, (tip.hasOwnProperty('data')) ? tip.data : null)">+ Apply</a>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
         <div class="btnContainer">
-            <button @click="setCreatureStats">Next</button> 
-            <button @click="manualStats">Manually Select Stats</button>
+            <button @click="setPageKey(activePage)">Next</button>
         </div>
     </div>
     
-<!-- -->
-
-    <div class="wizard-page wizard-page__manual-stats" :class="{'wizard-page__active': activePage==='manual-stats'}">
-
-        <div class="progress-container">
-            <div class="step past" @click="setCR(false)">Challenge Rating</div>
-            <div class="step past" @click="setCreatureType(false)">Type</div>
-            <div class="step active" @click="setCreatureStats(false)">Stats</div>
-            <div class="step">AC & HP</div>
-            <div class="step">Damage Types</div>
-            <div class="step">Speed, Senses, Languages, Alignment</div>
-            <div class="step">Features</div>
-        </div>
-        
-        <div class="wizard-header">Select Ability Scores</div>
-        <div class="wizard-subheader">
-            Select ability score distribution.
-            <br/>
-            A common array of ability scores for a CR {{ targetCR }} creature is {{ abilityScoreDistributionByCR(targetCR) }}
-        </div>
-
-        <div class="section-container flex-rows ">
-            <div class="ability-priority-container">
-                <div class="ability-section flex-rows" v-for="(ability, key) in f5.abilities">
-                    <div class="ability-title">
-                        <strong class="ability-name">{{ ability.name }}</strong>
-                        <span class="info">🛈<div class="info-hover">{{ability['desc']}}</div></span>
-                    </div>
-                    <select v-model="monsterData.abilities[key]">
-                        <option v-for="i in 30" :value="i">{{ i }} (<span v-if="(i-10)/2 > 0">+</span> {{ Math.floor((i-10)/2) }})</option>
-                    </select>
-                    <span class="saves">Save Proficiency: <input type="checkbox" v-model="monsterData.savingThrows[key]" /></span>
-                </div>
-            </div>
-            
-            <div class="creature-tips">
-                <div>
-                    <strong>Recommendations:</strong>
-                    <span class="info">🛈<div class="info-hover">These recommendations are based on common trends among the selected types, subtypes, and tags. These are meant to assist you in building your creature but are certainly not hard-and-fast rules. </div></span> 
-                </div>
-                <div v-for="(tips, i) in getCreatureTips(['stats', 'saves'])">
-                    <span class="creature-title">{{ f5.tags.translations.tag_traits.replace(':creature_type', i) }}</span>
-                    <ul>
-                        <li v-for="(tip, j) in tips" v-html="tip"></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="btnContainer">
-            <button @click="setCreatureStats()">Next</button>
-        </div>
-    </div>
-
-
-<!-- -->
-
-
-    <div class="wizard-page wizard-page__armor-hp" :class="{'wizard-page__active': activePage==='armor-hp'}">
-        <div class="progress-container">
-            <div class="step past" @click="setCR(false)">Challenge Rating</div>
-            <div class="step past" @click="setCreatureType(false)">Type</div>
-            <div class="step past" @click="setCreatureStats(false)">Stats</div>
-            <div class="step active">AC & HP</div>
-            <div class="step">Damage Types</div>
-            <div class="step">Speed, Senses, Languages, Alignment</div>
-            <div class="step">Features</div>
-        </div>
-        <div class="wizard-header">Armor and HP</div>
-        <div class="wizard-subheader">
-            Select armor and hit points.
-        </div>
-
-        <div class="section-container flex-rows ">
-            <div class="select-armor-hp">
-                <div class="select-armor">
-                    <div class="armor-display">
-                        <span class="title">{{f5.misc.title_armor_class}}:</span>
-                        <span>{{ acText }}</span>
-                    </div>
-                    <div class="option options__hitpoints edit-field">
-                        <select id="options__armorclass" name="options__armorclass" v-model="monsterData.armorClass.type">
-                            <option v-for="(item, index) in f5.armor" :value="index" >{{generateArmorText(item, f5.misc.max)}}</option>
-                        </select>
-                        <div v-if="monsterData.armorClass.type === 'custom'" >
-                            {{f5.misc.title_armor_name}}: <input v-model='monsterData.armorClass.name'/><br/>
-                            <!--Disadvantage on Stealth: <input type="checkbox" v-model="monsterData.armorClass.stealthDis">-->
-                        </div>
-                        <div v-if="allowAcSelector">
-                            {{f5.misc.title_armor_class}}: <select name="options__armorclass_range" v-model="monsterData.armorClass.manual">
-                                <option v-for="(val, i) in getAcRange" :value="val" >{{val}}</option>
-                            </select>
-                        </div>
-                        <div v-if="allowAcBonus">
-                            {{f5.misc.title_magical_bonus}}: +<input type="number" min="0" max="10" name="options__armorclass_range" v-model="monsterData.armorClass.bonus" />
-                        </div>
-                        <div>
-                            {{f5.misc.title_shield}}: <input name="options__shield" v-model="monsterData.armorClass.shield" type="checkbox" />
-                            {{f5.misc.title_mage_armor}}: <input name="options__mage-armor" v-model="monsterData.armorClass.mageArmor" type="checkbox" /> 
-                        </div>       
-                    </div>
-                </div>
-
-                <br/>
-                <br/>
-
-                <div class="select-hp">
-                    <span class="title">{{f5.misc.title_hit_points}}:</span>
-                        <span>{{hitPointsText}}</span>
-                        <div class="option options__hitpoints edit-field">
-                            <label>{{f5.misc.hit_dice_amount}}:</label>
-                            <input type="number" min="0" max="500" id="options__hitpoints-amount" name="options__hitpoints-amount" v-model="monsterData.hitPoints.diceAmount" value="1" />
-                            <div>
-                                <label>{{f5.misc.hit_dice_type}}:</label>
-                                <select id="options__hitdice-type" name="options__hitdice-type" v-model="monsterData.hitPoints.diceType">
-                                    <option v-for="i in f5.dicetypes" :value="i" >{{i}}</option>
-                                </select>
-                            </div>
-                            <div>
-                                {{f5.misc.con_hit_points}}
-                                <span class="info">🛈<div class="info-hover">{{f5.misc.con_hit_points_subtext}}</div></span> 
-                                : +{{hpConMod}}
-                            </div>
-                            <label>{{f5.misc.additional}}:</label>
-                            <input type="number" min="0" max="9999" id="options__hitpoints-additional" name="options__hitpoints-additional" v-model="monsterData.hitPoints.additional" value="0" />
-                        </div>
-                </div>
-            </div>
-            
-            <div class="creature-tips">
-                <div>
-                    <strong>Recommendations:</strong>
-                    <span class="info">🛈<div class="info-hover">These recommendations are based on common trends among the selected types, subtypes, and tags. These are meant to assist you in building your creature but are certainly not hard-and-fast rules. </div></span> 
-                </div>
-                <div v-for="(tips, i) in getCreatureTips(['armor', 'hp'])">
-                    <span class="creature-title">{{ f5.tags.translations.tag_traits.replace(':creature_type', i) }}</span>
-                    <ul>
-                        <li v-for="(tip, j) in tips" v-html="tip"></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="btnContainer">
-            <button @click="setCreatureArmorHP()">Next</button>
-        </div>
-    </div>
-
-<!-- -->
-
-
-<div class="wizard-page wizard-page__damage-types" :class="{'wizard-page__active': activePage==='damage-types'}">
-    <div class="progress-container">
-        <div class="step past" @click="setCR(false)">Challenge Rating</div>
-        <div class="step past" @click="setCreatureType(false)">Type</div>
-        <div class="step past" @click="setCreatureStats(false)">Stats</div>
-        <div class="step past" @click="setCreatureArmorHP(false)">AC & HP</div>
-        <div class="step active">Damage Types</div>
-        <div class="step">Speed, Senses, Languages, Alignment</div>
-        <div class="step">Features</div>
-    </div>
-
-    <div class="wizard-header">Damage Resistance, Immunities, and Vulnerabilites</div>
-    <div class="wizard-subheader">
-        
-    </div>
-
-    <div class="section-container flex-rows ">
-        <div class="select-damage-types">
-
-            <div class="statblock__attribute focus-edit" :class="{'edit-show': !damageResistanceText}">
-                <span class="title">{{f5.misc.title_damage_resistances}}:</span>
-                <span>{{damageResistanceText}}</span>
-                <Multiselect class="edit-field edit-field--flex"
-                    v-model="monsterData.damageResistances" 
-                    :placeholder="f5.misc.choose_a.replace(':choice', 'damage type')"
-                    :options="eligableDamageTypes" 
-                    mode="tags"
-                    :close-on-select="false"
-                    :searchable="true"
-                    :create-option="true"
-                >
-                        <template v-slot:tag="{ option, handleTagRemove, disabled }">
-                            <div class="multiselect-tag">
-                                {{ option.label }}
-                                <span v-if="!disabled" class="multiselect-tag-remove" @mousedown.prevent="handleTagRemove(option, $event)">
-                                    <span class="multiselect-tag-remove-icon"></span>
-                                </span>
-                            </div>
-                        </template>
-
-                        <template v-slot:option="{ option }">
-                            {{ option.label }}
-                        </template>
-                </Multiselect>
-            </div>
-
-            <br/>
-
-            <div class="statblock__attribute focus-edit" :class="{'edit-show': !damageImmunitiesText}">
-                <span class="title">{{f5.misc.title_damage_immunities}}:</span>
-                <span>{{damageImmunitiesText}}</span>
-                <Multiselect class="edit-field edit-field--flex"
-                    v-model="monsterData.damageImmunities" 
-                    :placeholder="f5.misc.choose_a.replace(':choice', 'damage type')"
-                    :options="eligableDamageTypes" 
-                    mode="tags"
-                    :close-on-select="false"
-                    :searchable="true"
-                    :create-option="true"
-                >
-                        <template v-slot:tag="{ option, handleTagRemove, disabled }">
-                            <div class="multiselect-tag">
-                                {{ option.label }}
-                                <span v-if="!disabled" class="multiselect-tag-remove" @mousedown.prevent="handleTagRemove(option, $event)">
-                                    <span class="multiselect-tag-remove-icon"></span>
-                                </span>
-                            </div>
-                        </template>
-
-                        <template v-slot:option="{ option }">
-                            {{ option.label }}
-                        </template>
-                </Multiselect>
-            </div>
-
-            <br/>
-
-            <div class="statblock__attribute focus-edit" :class="{'edit-show': !damageVulnerabilitiesText}">
-                <span class="title">{{f5.misc.title_damage_vulnerabilities}}:</span>
-                <span>{{damageVulnerabilitiesText}}</span>
-                <Multiselect class="edit-field edit-field--flex"
-                    v-model="monsterData.damageVulnerabilites" 
-                    :placeholder="f5.misc.choose_a.replace(':choice', 'damage type')"
-                    :options="eligableDamageTypes" 
-                    mode="tags"
-                    :close-on-select="false"
-                    :searchable="true"
-                    :create-option="true"
-                >
-                        <template v-slot:tag="{ option, handleTagRemove, disabled }">
-                            <div class="multiselect-tag">
-                                {{ option.label }}
-                                <span v-if="!disabled" class="multiselect-tag-remove" @mousedown.prevent="handleTagRemove(option, $event)">
-                                    <span class="multiselect-tag-remove-icon"></span>
-                                </span>
-                            </div>
-                        </template>
-
-                        <template v-slot:option="{ option }">
-                            {{ option.label }}
-                        </template>
-                </Multiselect>
-            </div>
-
-            <br/>
-
-            <div class="statblock__attribute focus-edit" :class="{'edit-show': !conditionImmunitiesText}">
-                <span class="title">{{f5.misc.title_condition_immunities}}:</span>
-                <span>{{conditionImmunitiesText}}</span>
-                <Multiselect class="edit-field edit-field--flex"
-                    v-model="monsterData.conditionImmunities" 
-                    :placeholder="f5.misc.choose_a.replace(':choice', 'condition')"
-                    :options="f5.conditions" 
-                    mode="tags"
-                    :close-on-select="false"
-                    :searchable="true"
-                    :create-option="true"
-                >
-                        <template v-slot:tag="{ option, handleTagRemove, disabled }">
-                            <div class="multiselect-tag">
-                                {{ option.label.name }}
-                                <span v-if="!disabled" class="multiselect-tag-remove" @mousedown.prevent="handleTagRemove(option, $event)">
-                                    <span class="multiselect-tag-remove-icon"></span>
-                                </span>
-                            </div>
-                        </template>
-
-                        <template v-slot:option="{ option }">
-                            {{ option.label.name }}
-                        </template>
-                </Multiselect>
-            </div>
-        </div>
-        
-        <div class="creature-tips">
-            <div>
-                <strong>Recommendations:</strong>
-                <span class="info">🛈<div class="info-hover">These recommendations are based on common trends among the selected types, subtypes, and tags. These are meant to assist you in building your creature but are certainly not hard-and-fast rules. </div></span> 
-            </div>
-            <div v-for="(tips, i) in getCreatureTips(['damage_resistances', 'damage_immunities', 'damage_vulnerabilites', 'condition_immunities'])">
-                <span class="creature-title">{{ f5.tags.translations.tag_traits.replace(':creature_type', i) }}</span>
-                <ul>
-                    <li v-for="(tip, j) in tips" v-html="tip"></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div class="btnContainer">
-        <button @click="setCreatureDamageTypes()">Next</button>
-    </div>
-</div>
-
-
-<!-- -->
-
-
-<div class="wizard-page wizard-page__speeds-senses-languages" :class="{'wizard-page__active': activePage==='speeds-senses-languages-alignments'}">
-    <div class="progress-container">
-        <div class="step past" @click="setCR(false)">Challenge Rating</div>
-        <div class="step past" @click="setCreatureType(false)">Type</div>
-        <div class="step past" @click="setCreatureStats(false)">Stats</div>
-        <div class="step past" @click="setCreatureArmorHP(false)">AC & HP</div>
-        <div class="step past" @click="setCreatureDamageTypes(false)">Damage Types</div>
-        <div class="step active">Speed, Senses, Languages, Alignment</div>
-        <div class="step">Features</div>
-    </div>
-    <div class="wizard-header">Speeds, Senses, Languages, and Alignment</div>
-    <div class="wizard-subheader">
-        
-    </div>
-
-    <div class="section-container flex-rows ">
-        <div class="select-speeds-senses-languages">
-
-            <div class="attribute-container">
-                <span class="title">{{f5.misc.title_speed}}:</span>
-                <span>{{speedText}}</span>
-                <div class="option options-row options__speeds edit-field">
-                    <div :class="'options__speed option-box '+index" v-for="(item, index) in f5.speeds">
-                        <label :for="index">{{item.name}}</label>
-                        <input type="number" min="0" max="999" :name="'options__speed_'+index" v-model="monsterData.speeds[index]"> {{measure.measureUnit}}
-                        <span v-if="index === 'fly' && monsterData.speeds['fly'] > 0">
-                            {{f5.misc.hover}}: <input type="checkbox" v-model="monsterData.hover">
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="attribute-container">
-                <span v-if="sensesText" class="title">{{f5.misc.title_senses}}:</span>
-                <span v-else class="title">+ {{f5.misc.title_senses}}</span>
-                <span>{{sensesText}}</span>
-                <div class="option options-row options__senses edit-field">
-                    <div :class="'options__senses option-box '+index" v-for="(item, index) in f5.senses">
-                        <label :for="'sense_'+index">{{item.name}}</label>
-                        <input type="number" min="0" :name="'options__sense_'+index" v-model="monsterData.senses[index].distance"> {{measure.measureUnit}}
-                        <span v-if="item.modifier_name">
-                            <label :for="'sense_'+index+'_modifier'">{{item.modifier_name}}</label>
-                            <input type="checkbox" v-model="monsterData.senses[index].modifier" />
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="attribute-container">
-                <span class="title">{{f5.misc.title_languages}}:</span>
-                <span>{{languageText}}</span>
-                <Multiselect class="edit-field edit-field--flex"
-                    v-model="monsterData.languages.spokenWritten" 
-                    :options="f5.languages" 
-                    mode="tags"
-                    :close-on-select="false"
-                    :searchable="true"
-                    :create-option="true"
-                >
-                    <template v-slot:tag="{ option, handleTagRemove, disabled }">
-                        <div class="multiselect-tag">
-                            {{ option.label.name }}
-                            <span v-if="!disabled" class="multiselect-tag-remove" @mousedown.prevent="handleTagRemove(option, $event)">
-                                <span class="multiselect-tag-remove-icon"></span>
-                            </span>
-                        </div>
-                    </template>
-
-                    <template v-slot:option="{ option }">
-                        {{ option.label.name }}
-                    </template>
-                </Multiselect>
-                
-                <span for="languages__telepathy" class="edit-field edit-field--inlineBlock">{{f5.misc.telepathy}}</span>
-                <input type="number" min="0" name="languages__telepathy" v-model="monsterData.languages.telepathy" class="edit-field" /> {{measure.measureUnit}}
-            </div>
-            
-            <div class="attribute-container">
-                <div>
-                    <span class="title">{{f5.misc.title_alignments}}:</span>
-                    <span>{{ alignmentText }}</span>
-                </div>
-                <select id="options__alignment" name="options__alignment" v-model="monsterData.alignment">
-                    <option value="">{{f5.misc.none}}</option>
-                    <option v-for="(item, index) in f5.alignments" :value="index">{{item.name}}</option>
-                </select>
-                {{f5.misc.title_alignments_typically}}<input type="checkbox" v-model="monsterData.showTypicalAlignment">
-            </div>
-        </div>
-        
-        <div class="creature-tips">
-            <div>
-                <strong>Recommendations:</strong>
-                <span class="info">🛈<div class="info-hover">These recommendations are based on common trends among the selected types, subtypes, and tags. These are meant to assist you in building your creature but are certainly not hard-and-fast rules. </div></span> 
-            </div>
-            <div v-for="(tips, i) in getCreatureTips(['speeds', 'senses', 'languages', 'alignments'])">
-                <span class="creature-title">{{ f5.tags.translations.tag_traits.replace(':creature_type', i) }}</span>
-                <ul>
-                    <li v-for="(tip, j) in tips" v-html="tip"></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div class="btnContainer">
-        <button @click="setCreatureSpeedsSensesLanguagesAlignment()">Next</button>
-    </div>
-</div>
-
-
-<!-- -->
-
-
-<div class="wizard-page wizard-page__choose-features" :class="{'wizard-page__active': activePage==='choose-features'}">
-    <div class="progress-container">
-        <div class="step past" @click="setCR(false)">Challenge Rating</div>
-        <div class="step past" @click="setCreatureType(false)">Type</div>
-        <div class="step past" @click="setCreatureStats(false)">Stats</div>
-        <div class="step past" @click="setCreatureArmorHP(false)">AC & HP</div>
-        <div class="step past" @click="setCreatureDamageTypes(false)">Damage Types</div>
-        <div class="step past" @click="setCreatureSpeedsSensesLanguagesAlignment(false)">Speed, Senses, Languages, Alignment</div>
-        <div class="step active">Features</div>
-    </div>
-    <div class="wizard-header">Features</div>
-    <div class="wizard-subheader">
-        
-    </div>
-
-    <div class="section-container flex-rows ">
-        <div class="select-features">
-
-            <div class="attribute-container">
-            </div>
-        </div>
-        
-        <div class="creature-tips">
-            <div>
-                <strong>Recommendations:</strong>
-                <span class="info">🛈<div class="info-hover">These recommendations are based on common trends among the selected types, subtypes, and tags. These are meant to assist you in building your creature but are certainly not hard-and-fast rules. </div></span> 
-            </div>
-            <div v-for="(tips, i) in getCreatureTips(['features'])">
-                <span class="creature-title">{{ f5.tags.translations.tag_traits.replace(':creature_type', i) }}</span>
-                <ul>
-                    <li v-for="(tip, j) in tips" v-html="tip"></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div class="btnContainer">
-        <button @click="setCreatureFeatures()">Next</button>
-    </div>
-</div>
-
-
-<!-- -->
 
 </div>
