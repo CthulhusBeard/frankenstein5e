@@ -88,7 +88,7 @@ $lightboxPadding: 20px;
                     border-left-color: $stepActiveColour;
                 }
             }
-            &.past {
+            &.set {
                 cursor: pointer;
                 background: $stepPastColour;
                 &::after {

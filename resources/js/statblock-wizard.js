@@ -685,7 +685,7 @@ export default {
                     status: (
                         this.activePage == pageKey || 
                         (this.activePageData.hasOwnProperty('parentKey') && this.activePageData.parentKey == pageKey)
-                    ) ? 'active' : (this.pageData[pageKey].isSet) ? 'past' : 'unset',
+                    ) ? 'active' : (this.pageData[pageKey].isSet) ? 'set' : 'unset',
                 });
             }
             
@@ -709,7 +709,6 @@ export default {
     methods: {      
         
         setPageKey: function(keyName, setThis = true) {
-            console.log('setPageKey');
             if(!keyName) {
                 return;
             }
@@ -742,14 +741,6 @@ export default {
             this.setActivePage();
         },
 
-        manualStats: function() {
-            this.setActivePage('manualCR');
-        },
-
-        crHelp: function() {
-            this.setActivePage('manualCreatureStats');
-        },
-
 
         shiftAbilityPriorityUp: function(score) {
             let index = this.creatureAbilityScorePriority.indexOf(score);
@@ -772,16 +763,6 @@ export default {
                 return;
             }
 
-            // let pageKeyValues = {
-            //     targetCR: 'target-cr',
-            //     creatureType: 'choose-type',
-            //     creatureStats: 'choose-stats',
-            //     creatureArmorHP: 'armor-hp',
-            //     creatureDamageTypes: 'damage-types',
-            //     creatureSpeedsSensesLanguagesAlignment: 'speeds-senses-languages-alignments',
-            //     creatureFeatures: 'choose-features',
-            // };
-
             let currentSelectionPriority = 100;
             let selectionKey;
             for(let i in this.pageData) {
@@ -794,14 +775,6 @@ export default {
                 this.activePage = selectionKey;
                 return;
             }
-
-
-            // for(let i in pageKeyValues) {
-            //     if(!this.pageKeys[i]) {
-            //         this.activePage = pageKeyValues[i];
-            //         return;
-            //     }
-            // }
 
             //all variables set: create monster
             this.createMonster();
@@ -825,7 +798,6 @@ export default {
             crTips[crText] = [];
 
 
-            //TODO: fix this structure to match other tips
             let tipsAssociation = { 
                 armor: {
                     title: this.f5.misc.wizard_cr_ac,
@@ -931,7 +903,6 @@ export default {
                 let tagName = '';
                 if(tagGroup[i].hasOwnProperty('name')) {
                     tagName = tagGroup[i].name;
-                    //TODO: DO SOMETHING WITH DATA TO MAKE IT LINKABLE FOR STATS
                 } else if(this.f5.hasOwnProperty(key) && this.f5[key].hasOwnProperty(tagGroup[i])) {
                     tagName = this.f5[key][tagGroup[i]].name;
                 } else if(this.f5.tags.hasOwnProperty(key) && this.f5.tags[key].hasOwnProperty(tagGroup[i])) {
@@ -971,6 +942,18 @@ export default {
         addTagToCreature: function(group, data=null) {
             console.log('TODO: Add '+group);
             console.log(data);
+
+            if(group === 'stats') {
+
+            } else if(group === 'ac') {
+            } else if(group === 'hp') {
+            } else if(group === 'armor') {
+            } else if(group === 'hit_dice') {
+            } else if(group === 'languages') {
+            } else if(group === 'senses') {
+            } else if(group === 'ac') {
+
+            }
         },
         
         createMonster: function() {

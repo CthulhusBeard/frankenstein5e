@@ -7,7 +7,7 @@
             <div 
                 v-for="(navItem, key) in navData" 
                 class="step" :class=" navItem.status " 
-                @click="setPageKey((navItem.status === 'past') ? navItem.navKey : null, false)"
+                @click="setActivePage((navItem.status === 'set') ? navItem.navKey : null)"
             >{{ navItem.title }}</div>
         </div>
     
