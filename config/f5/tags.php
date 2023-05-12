@@ -504,7 +504,7 @@ return [
     ],
 
 
-    'stats' => [
+    'stat_mod' => [
         'high_str' => [
             'name' => 'f5/tags.high_str',
         ],

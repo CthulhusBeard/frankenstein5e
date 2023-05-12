@@ -56,7 +56,7 @@ export default {
                     title: 'Creature Type',
                     subtitle: 'What type of creature do you want to create?',
                     pageKey: 'choose-type',
-                    tips: null,
+                    //tips: null,
                 },
                 creatureStats: {
                     navOrder: 3,
@@ -82,7 +82,7 @@ export default {
                     title: 'Armor & HP',
                     subtitle: 'Select armor and hit points.',
                     pageKey: 'armor-hp',
-                    tips: ['armor', 'hp'],
+                    tips: ['ac', 'armor', 'hp', 'hit_dice'],
                 },
                 creatureDamageTypes: {
                     navOrder: 5,
@@ -193,10 +193,6 @@ export default {
                 return true;
             }
             return false;
-        },
-
-        creatureTips: function() {
-            return this.getCreatureTips();
         },
 
         //Subtypes
@@ -432,6 +428,18 @@ export default {
             return conHP;
         },
 
+        hitPointAverage: function() {
+            let type = this.monsterData.hitPoints.diceType;
+            let amount = this.monsterData.hitPoints.diceAmount;
+            let additionalHP = this.monsterData.hitPoints.additional > 0 ? Math.floor(this.monsterData.hitPoints.additional) : 0;
+            if(additionalHP > 9999) {
+                this.monsterData.hitPoints.additional = additionalHP = 9999;
+            }
+            let conHP = this.hpConMod;
+
+            return (Math.round((type / 2 + .5) * amount) + conHP) + additionalHP;
+        },
+
         
         hitPointsText: function() {
             let type = this.monsterData.hitPoints.diceType;
@@ -632,7 +640,7 @@ export default {
                 hp: {
                     name: this.f5.misc.wizard_cr_hit_points+' '+this.targetCRData.hp.low+'-'+this.targetCRData.hp.high,
                     group: 'hp',
-                    data: (this.targetCRData.hp.low+this.targetCRData.hp.high)/2,
+                    data: {low: this.targetCRData.hp.low, high: this.targetCRData.hp.high},
                 },
                 attack_bonus: {
                     name:  this.f5.misc.wizard_cr_attack_bonus+' - '+this.targetCRData.attack_bonus,
@@ -704,6 +712,40 @@ export default {
             }
             return null;
         },
+
+        defaultSortedAbilityScoreDistribution: function() {
+            let statDistribution = this.abilityScoreDistributionByCR(this.targetCR);
+            let sortedDistribution = {
+                str: 10,
+                dex: 10,
+                con: 10,
+                int: 10,
+                wis: 10,
+                cha: 10,
+            }
+            for(let i in this.creatureAbilityScorePriority) {
+                sortedDistribution[this.creatureAbilityScorePriority[i]] = statDistribution[i];
+            }
+            return sortedDistribution;
+        },
+
+        prioritizedSavingThrows: function() {
+            let newSavingThrows = {
+                str: false,
+                dex: false,
+                con: false,
+                int: false,
+                wis: false,
+                cha: false,
+            };
+            let savingThrowCount = this.f5.challengerating[this.targetCR].save_count;
+            let saveDistributionOrder = [0, 4, 1, 3, 5, 2];
+            for(let i = 0; i < savingThrowCount; i++) {
+                let abilityForSave = this.creatureAbilityScorePriority[saveDistributionOrder[i]];
+                newSavingThrows[abilityForSave] = true;
+            }
+            return newSavingThrows;
+        },
     },
 
     methods: {      
@@ -725,17 +767,8 @@ export default {
                 this.monsterData.hitPoints.diceType = this.f5.creaturesizes[this.monsterData.size].hit_dice;
 
             } else if(keyName == 'creatureStats') {
-                let statDistribution = this.abilityScoreDistributionByCR(this.targetCR);
-                for(let i in this.creatureAbilityScorePriority) {
-                    this.monsterData.abilities[this.creatureAbilityScorePriority[i]] = statDistribution[i];
-                }
-    
-                let savingThrowCount = this.f5.challengerating[this.targetCR].save_count;
-                let saveDistributionOrder = [0, 4, 1, 3, 5, 2];
-                for(let i = 0; i < savingThrowCount; i++) {
-                    let abilityForSave = this.creatureAbilityScorePriority[saveDistributionOrder[i]];
-                    this.monsterData.savingThrows[abilityForSave] = true;
-                }
+                this.monsterData.abilities = this.defaultSortedAbilityScoreDistribution;
+                this.monsterData.savingThrows = this.prioritizedSavingThrows;
             }
 
             this.setActivePage();
@@ -758,6 +791,7 @@ export default {
 
 
         setActivePage: function(force = null) {
+            console.log('---setActivePage  '+force);
             if(force) {
                 this.activePage = force;
                 return;
@@ -789,68 +823,30 @@ export default {
         
         getCreatureTips: function(specificTips = null) {
 
-            //TODO: Use this cached version and parse out unneeded ones
-            //console.log('creatureTips');
-            //console.log(this.creatureTips);
-
-            let crText = 'Challenge Rating '+this.targetCR;
-            let crTips = {};
-            crTips[crText] = [];
-
-
-            let tipsAssociation = { 
-                armor: {
-                    title: this.f5.misc.wizard_cr_ac,
-                    group: 'ac',
-                    name: ' ~'+this.targetCRData.ac,
-                    data: this.targetCRData.ac,
-                },
-                hp: {
-                    title: this.f5.misc.wizard_cr_hit_points,
-                    group: 'hp',
-                    name: ' '+this.targetCRData.hp.low+'-'+this.targetCRData.hp.high,
-                    data: Math.ceil((this.targetCRData.hp.low+this.targetCRData.hp.high)/2),
-                },
-                attack_bonus: {
-                    title: this.f5.misc.wizard_cr_attack_bonus,
-                    group: 'attack_bonus',
-                    name: ' - '+this.targetCRData.attack_bonus,
-                    data: this.targetCRData.attack_bonus,
-                },
-                prof: {
-                    title: this.f5.misc.wizard_cr_proficiency,
-                    group: 'prof',
-                    name: ' '+this.targetCRData.prof,
-                    data: this.targetCRData.prof,
-                },
-                examples: {
-                    title: this.f5.misc.wizard_cr_examples,
-                    group: 'examples',
-                    name: ' '+this.targetCRData.examples,
-                },
-        };
+            console.log('==getCreatureTips==');
+            console.log(this.creatureTips);
 
             if(specificTips) {
-                for(let tipType of specificTips) {
-                    if(tipsAssociation.hasOwnProperty(tipType)) {
-                        crTips[crText].push(tipsAssociation[tipType]);
+                console.log('specificTips');
+                console.log(specificTips);
+                let returnTips = {};
+                for(let tipGroup in this.creatureTips) {
+                    for(let i in this.creatureTips[tipGroup]) {
+                        if(specificTips.includes(this.creatureTips[tipGroup][i]['group'])) {
+                            if(!returnTips[tipGroup]) {
+                                returnTips[tipGroup] = [];
+                            }
+                            returnTips[tipGroup].push(this.creatureTips[tipGroup][i]);
+                        }
                     }
                 }
+                console.log('returnTips');
+                console.log(returnTips);
+                return returnTips;
             }
+            return this.creatureTips;
+            
 
-            if(!crTips[crText].length) {
-                delete crTips[crText];
-                //console.log(crTips);
-            }
-
-            let typeTips = this.getTipsFromGroup(this.f5.creaturetypes, [this.monsterData.type], specificTips);
-            let subtypeTips = this.getTipsFromGroup(this.f5.creaturesubtypes, this.monsterData.subtypes, specificTips);
-            let sizeTips = this.getTipsFromGroup(this.f5.creaturesizes, [this.monsterData.size], specificTips);
-            let tagTips = this.getTipsFromGroup(this.f5.tags.creature_options, this.monsterData.typeCategories, specificTips);
-
-            let tips = Object.assign(crTips, typeTips, subtypeTips, sizeTips, tagTips);
-
-            return tips;
         },
 
         getTipsFromGroup: function(f5Group, creatureTypes, specificTips = null) {
@@ -859,7 +855,6 @@ export default {
 
             // console.log('creatureTypes');
             // console.log(creatureTypes);
-            //TODO fix hit dice size label from "hp" to hit_dice_size and change data to dice size key
 
             for(let i in creatureTypes) {
                 if(
@@ -922,6 +917,91 @@ export default {
             return tipObject;
         },
 
+        
+
+        addTagToCreature: function(group, data=null) {
+            console.log('TODO: addTagToCreature -> ');
+            console.log(group);
+            console.log(data);
+
+            if(group === 'stats') {
+                this.creatureAbilityScorePriority = data;
+                this.monsterData.abilities = this.defaultSortedAbilityScoreDistribution;
+                this.monsterData.savingThrows = this.prioritizedSavingThrows;
+
+            } else if(group === 'stat_mod') {
+                //TODO: FIX THIS ONE
+                console.log('TODO: FIX THIS ONE');
+            } else if(group === 'ac') {
+                this.monsterData.armorClass.manual = data;
+            } else if(group === 'hp') {
+                let targetHP = (data.high + data.low)/2;
+                this.monsterData.hitPoints.diceAmount = Math.ceil((targetHP - this.hpConMod) / Math.ceil(this.monsterData.hitPoints.diceType/2));
+                
+                while(this.hitPointAverage > data.high && this.monsterData.hitPoints.diceAmount > 1) {
+                    this.monsterData.hitPoints.diceAmount --;
+                    console.log(' -- '+this.monsterData.hitPoints.diceAmount+' - '+this.hitPointAverage);
+                }
+                while(this.hitPointAverage < data.low) {
+                    this.monsterData.hitPoints.diceAmount ++;
+                    console.log('++ '+this.monsterData.hitPoints.diceAmount+' - '+this.hitPointAverage);
+                }
+            } else if(group === 'armor') {
+                this.monsterData.armorClass.type = data[0];
+            } else if(group === 'hit_dice') {
+                this.monsterData.hitPoints.diceType = data;
+            } else if(group === 'languages') {
+                console.log(JSON.parse(JSON.stringify(this.monsterData.languages.spokenWritten)));
+                for(let entry of data) {
+                    if(!this.monsterData.languages.spokenWritten.includes(entry)) {
+                        this.monsterData.languages.spokenWritten.push(entry);
+                    }
+                }
+                console.log(JSON.parse(JSON.stringify(this.monsterData.languages.spokenWritten)));
+            } else if(group === 'alignments') {
+                this.monsterData.alignment = data[0];
+            } else if(group === 'senses') {
+                for(let entry of data) {
+                    if(!this.monsterData.senses[entry]) {
+                        this.monsterData.senses[entry] = 60;
+                    }
+                }
+            } else if(group === 'speeds') {
+                for(let entry of data) {
+                    if(!this.monsterData.speeds[entry]) {
+                        this.monsterData.speeds[entry] = 30;
+                    }
+                }
+            } else if(group === 'damage_immunities') {
+                for(let entry of data) {
+                    if(!this.monsterData.damageImmunities.includes(entry)) {
+                        this.monsterData.damageImmunities.push(entry);
+                    }
+                }
+            } else if(group === 'damage_resistances') {
+                for(let entry of data) {
+                    if(!this.monsterData.damageResistances.includes(data)) {
+                        this.monsterData.damageResistances.push(data);
+                    }
+                }
+            } else if(group === 'damage_vulnerabilities') {
+                for(let entry of data) {
+                    if(!this.monsterData.damageVulnerabilites.includes(data)) {
+                        this.monsterData.damageVulnerabilites.push(data);
+                    }
+                }
+            } else if(group === 'condition_immunities') {
+                for(let entry of data) {
+                    if(!this.monsterData.conditionImmunities.includes(data)) {
+                        this.monsterData.conditionImmunities.push(data);
+                    }
+                }
+            } else if(group === 'features') {
+                console.log('TODO ADD FEATURES');
+            } 
+
+        },
+
         getAbilityMod: function (ability) {
             let score = this.monsterData.abilities[ability];
             return this.calcAbilityMod(score);
@@ -937,23 +1017,6 @@ export default {
                 abilityMod += this.proficiency*2;
             }
             return abilityMod;
-        },
-
-        addTagToCreature: function(group, data=null) {
-            console.log('TODO: Add '+group);
-            console.log(data);
-
-            if(group === 'stats') {
-
-            } else if(group === 'ac') {
-            } else if(group === 'hp') {
-            } else if(group === 'armor') {
-            } else if(group === 'hit_dice') {
-            } else if(group === 'languages') {
-            } else if(group === 'senses') {
-            } else if(group === 'ac') {
-
-            }
         },
         
         createMonster: function() {

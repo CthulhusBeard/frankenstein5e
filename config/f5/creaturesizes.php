@@ -10,7 +10,10 @@ return [
                 'low_str',
                 'high_dex',
             ],
-            'hit_dice' => 'f5/sizes.hit_dice_size_4',
+            'hit_dice' => [
+                'data' => 4,
+                'name' => 'f5/sizes.hit_dice_size_4',
+            ],
         ]
     ],
     'small' => [
@@ -18,7 +21,10 @@ return [
         'space' => 5,
         'hit_dice' => 6,
         'tags' => [
-            'hit_dice' => 'f5/sizes.hit_dice_size_6',
+            'hit_dice' => [
+                'data' => 6,
+                'name' => 'f5/sizes.hit_dice_size_6',
+            ],
         ],
     ],
     'medium' => [
@@ -26,7 +32,10 @@ return [
         'space' => 5,
         'hit_dice' => 8,
         'tags' => [
-            'hit_dice' => 'f5/sizes.hit_dice_size_8',
+            'hit_dice' => [
+                'data' => 8,
+                'name' => 'f5/sizes.hit_dice_size_8',
+            ],
         ],
     ],
     'large' => [
@@ -34,10 +43,13 @@ return [
         'space' => 10,
         'hit_dice' => 10,
         'tags' => [
-            'stats' => [
+            'stat_mod' => [
                 'high_str',
             ],
-            'hit_dice' => 'f5/sizes.hit_dice_size_10',
+            'hit_dice' => [
+                'data' => 10,
+                'name' => 'f5/sizes.hit_dice_size_10',
+            ],
         ],
     ],
     'huge' => [
@@ -45,12 +57,15 @@ return [
         'space' => 15,
         'hit_dice' => 12,
         'tags' => [
-            'stats' => [
+            'stat_mod' => [
                 'high_str',
                 'low_dex',
                 'high_con',
             ],
-            'hit_dice' => 'f5/sizes.hit_dice_size_12',
+            'hit_dice' => [
+                'data' => 12,
+                'name' => 'f5/sizes.hit_dice_size_12',
+            ],
         ],
     ],
     'gargantuan' => [
@@ -58,12 +73,15 @@ return [
         'space' => 20,
         'hit_dice' => 20,
         'tags' => [
-            'stats' => [
+            'stat_mod' => [
                 'high_str',
                 'low_dex',
                 'high_con',
             ],
-            'hit_dice' => 'f5/sizes.hit_dice_size_20',
+            'hit_dice' => [
+                'data' => 20,
+                'name' => 'f5/sizes.hit_dice_size_20',
+            ],
         ],
     ],
 ];

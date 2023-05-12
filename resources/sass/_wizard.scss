@@ -223,6 +223,12 @@ $lightboxPadding: 20px;
         min-width: 120px;
     }
 
+    .select-armor-hp {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
     .select-damage-types {
         min-width: 200px;
     }
