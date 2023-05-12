@@ -822,13 +822,7 @@ export default {
 
         
         getCreatureTips: function(specificTips = null) {
-
-            console.log('==getCreatureTips==');
-            console.log(this.creatureTips);
-
             if(specificTips) {
-                console.log('specificTips');
-                console.log(specificTips);
                 let returnTips = {};
                 for(let tipGroup in this.creatureTips) {
                     for(let i in this.creatureTips[tipGroup]) {
@@ -840,13 +834,9 @@ export default {
                         }
                     }
                 }
-                console.log('returnTips');
-                console.log(returnTips);
                 return returnTips;
             }
             return this.creatureTips;
-            
-
         },
 
         getTipsFromGroup: function(f5Group, creatureTypes, specificTips = null) {
@@ -940,11 +930,9 @@ export default {
                 
                 while(this.hitPointAverage > data.high && this.monsterData.hitPoints.diceAmount > 1) {
                     this.monsterData.hitPoints.diceAmount --;
-                    console.log(' -- '+this.monsterData.hitPoints.diceAmount+' - '+this.hitPointAverage);
                 }
                 while(this.hitPointAverage < data.low) {
                     this.monsterData.hitPoints.diceAmount ++;
-                    console.log('++ '+this.monsterData.hitPoints.diceAmount+' - '+this.hitPointAverage);
                 }
             } else if(group === 'armor') {
                 this.monsterData.armorClass.type = data[0];

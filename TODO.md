@@ -2,6 +2,7 @@
 
 HIGH PRIORITY
 - [ ] Fix imports for new spellcasting
+- [ ] Fix language options in wizard
 - [ ] Fix saving throw desc to mention targets
 - [ ] Saving throws increase AC (3-4 +2, 5-6 +4)
 - [ ] Allow Custom damage dice to select an ability bonus (display ability bonus on selected attacks)
@@ -25,9 +26,6 @@ HIGH PRIORITY
 //      -> Consider Action Surge/Multiattack combo
 - [ ] Clean up feature object (only export the fields needed. There are many unused fields) "template: {type: attack, damage: etc}"
 - [ ] Import Monster validation
-
-WIZARD
-- [ ] Template stat distributions
 
 BUG FIXES
 - [ ] Make element ids unique between different statblocks
