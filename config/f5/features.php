@@ -16,59 +16,153 @@ return [
         'desc' => 'f5/features.desc_spellcasting',
         'action_type' => 'passive',
         'has_spell_list' => true,
+        'template' => 'spellcasting', 
     ],
+
     'innate_spellcasting' => [
         'name' => 'f5/features.name_innate_spellcasting',
         'desc' => 'f5/features.desc_innate_spellcasting',
         'action_type' => 'passive',
         'has_spell_list' => true,
+        'template' => 'spellcasting', 
     ],
+
     'legendary_resistance' => [
         'name' => 'f5/features.name_legendary_resistance',
         'desc' => 'f5/features.desc_legendary_resistance',
         'action_type' => 'passive',
+        'template' => 'legendary_resistance', 
+    ],
+
+    'magic_resistance' => [
+        'name' => 'f5/features.title_magic_resistance_feature_name',
+        'desc' => 'f5/features.magic_resistance_desc',
+        'action_type' => 'passive',
+        'template' => 'magic_resistance', 
+    ],
+    
+    'regenerate' => [
+        'name' => 'f5/features.name_legendary_resistance',
+        'desc' => 'f5/features.desc_legendary_resistance',
+        'action_type' => 'passive',
+        'template' => 'regenerate', 
+        'passiveTrigger' => 'start_of_turn'
     ],
 
     'amphibious' => [
         'name' => 'f5/features.name_amphibious',
         'desc' => 'f5/features.desc_amphibious',
         'action_type' => 'passive',
+        'template' => 'custom', 
     ],
 
     'immutable_form' => [
         'name' => 'f5/features.name_immutable_form',
         'desc' => 'f5/features.desc_immutable_form',
         'action_type' => 'passive',
+        'template' => 'custom', 
     ],
 
     'breath_water' => [
         'name' => 'f5/features.name_breath_water',
         'desc' => 'f5/features.desc_breath_water',
         'action_type' => 'passive',
+        'template' => 'custom', 
     ],
 
     'fey_ancestry' => [
         'name' => 'f5/features.name_fey_ancestry',
         'desc' => 'f5/features.desc_fey_ancestry',
         'action_type' => 'passive',
+        'template' => 'custom', 
     ],
 
     'stout_resilience' => [
         'name' => 'f5/features.name_stout_resilience',
         'desc' => 'f5/features.desc_stout_resilience',
         'action_type' => 'passive',
+        'template' => 'custom', 
     ],
 
     'breath_weapon' => [
         'name' => 'f5/features.name_breath_weapon',
         'desc' => 'f5/features.desc_breath_weapon',
         'action_type' => 'action',
+        'template' => 'saving_throw', 
+        'targetType' => 'cone',
+        'savingThrowMonsterAbility' => 'con',
+        'savingThrowSaveAbilities' => ['dex'],
+        'savingThrowHalfOnSuccess' => true,
+        'recharge' => [
+            'type' => 'dice_roll',
+            'diceType' => 6,
+            'minRoll' => 5,
+            'uses' => 1,
+        ],
+        'cr_scaling' => [
+            0 => [
+                'aoeRange' => 15,
+                'savingThrowDamage' => [
+                    [
+                        'diceType' => 6,
+                        'diceAmount' => 6,
+                        'additional' => 0,
+                        'abilityBonus' => false,
+                        'type' => ':affinity_elemental',
+                    ]
+                ],
+            ], 
+            10 => [
+                'aoeRange' => 30,
+                'savingThrowDamage' => [
+                    [
+                        'diceType' => 6,
+                        'diceAmount' => 15,
+                        'additional' => 0,
+                        'abilityBonus' => false,
+                        'type' => ':affinity_elemental',
+                    ]
+                ],
+            ],
+            15 => [
+                'aoeRange' => 60,
+                'savingThrowDamage' => [
+                    [
+                        'diceType' => 6,
+                        'diceAmount' => 18,
+                        'additional' => 0,
+                        'abilityBonus' => false,
+                        'type' => ':affinity_elemental',
+                    ]
+                ],
+            ],
+            20 => [
+                'aoeRange' => 90,
+                'savingThrowDamage' => [
+                    [
+                        'diceType' => 6,
+                        'diceAmount' => 25,
+                        'additional' => 0,
+                        'abilityBonus' => false,
+                        'type' => ':affinity_elemental',
+                    ]
+                ],
+            ],
+        ]
     ],
 
     'wing_attack' => [
         'name' => 'f5/features.name_wing_attack',
         'desc' => 'f5/features.desc_wing_attack',
         'action_type' => 'action',
+        'template' => 'attack', 
+    ],
+
+    'tail_attack' => [
+        'name' => 'f5/features.name_tail_attack',
+        'desc' => 'f5/features.desc_tail_attack',
+        'action_type' => 'action',
+        'template' => 'attack', 
     ],
 
     //Attacks

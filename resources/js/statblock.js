@@ -1852,10 +1852,10 @@ export default {
             let hpMultiplier = 1;
             if(this.value.damageImmunities.length >= 3 || this.value.damageImmunities.includes('physical')) {
                 let crHealthMultipliersByImmunity = {0: 2, 4: 2, 11: 1.5, 17: 1.25};
-                hpMultiplier = this.$parent.getValueByHighestProperty(crHealthMultipliersByImmunity, average);
+                hpMultiplier = this.getValueByHighestProperty(crHealthMultipliersByImmunity, average);
             } else if(this.value.damageResistances.length >= 3 || this.value.damageResistances.includes('physical')) {
                 let crHealthMultipliersByResistance = {0: 2, 4: 1.5, 11: 1.25};
-                hpMultiplier = this.$parent.getValueByHighestProperty(crHealthMultipliersByResistance, average);
+                hpMultiplier = this.getValueByHighestProperty(crHealthMultipliersByResistance, average);
             }
             if(hpMultiplier > 1) {
                 defensiveCr = (Number(armorCr) + this.toNumber(this.getHealthCr(hpMultiplier))) / 2;

@@ -37,6 +37,24 @@
                     <li><strong>{{f5.misc.wizard_cr_example_stats}}</strong> {{abilityScoreDistributionByCR(targetCR)}}</li>
                 </ul>
             </div>
+
+            <div>
+                <strong>Legendary Status:</strong>
+                <div>
+                    <span>Legendary Actions:</span>
+                    <select v-model="monsterData.legendaryActions">
+                        <option value="0">No</option>
+                        <option value="3">Yes</option>
+                    </select>
+                </div>
+                <div>
+                    <span>Legendary Resistances:</span>
+                    <select v-model="addLegendaryResistances">
+                        <option value="false">No</option>
+                        <option value="true">Yes</option>
+                    </select>
+                </div>
+            </div>
         </div>
 
         <div v-else-if="activePage==='manualCR'">
@@ -144,7 +162,7 @@
                     </div>
                 </div>
     
-                <div class="creature-type-inner-container">
+                <div class="creature-type-inner-container size">
                     <div>
                         <strong>Creature Size:</strong>
                         <span class="info">🛈<div class="info-hover">A creature's size determines the size of their hit dice and the space they take.</div></span> 
@@ -393,7 +411,7 @@
         
         <div v-else-if="activePage==='creatureSpeedsSensesLanguagesAlignment'">
             
-            <div class="section-container flex-rows ">
+            <div class="section-container flex-rows">
                 <div class="select-speeds-senses-languages">
 
                     <div class="attribute-container">
@@ -417,7 +435,7 @@
                         <div class="option options-row options__senses edit-field">
                             <div :class="'options__senses option-box '+index" v-for="(item, index) in f5.senses">
                                 <label :for="'sense_'+index">{{item.name}}</label>
-                                <input type="number" min="0" :name="'options__sense_'+index" v-model="monsterData.senses[index].distance"> {{measure.measureUnit}}
+                                <input type="number" min="0" max="1000" :name="'options__sense_'+index" v-model="monsterData.senses[index].distance"> {{measure.measureUnit}}
                                 <span v-if="item.modifier_name">
                                     <label :for="'sense_'+index+'_modifier'">{{item.modifier_name}}</label>
                                     <input type="checkbox" v-model="monsterData.senses[index].modifier" />
@@ -453,7 +471,7 @@
                         </Multiselect>
                 
                         <span for="languages__telepathy" class="edit-field edit-field--inlineBlock">{{f5.misc.telepathy}}</span>
-                        <input type="number" min="0" name="languages__telepathy" v-model="monsterData.languages.telepathy" class="edit-field" /> {{measure.measureUnit}}
+                        <input type="number" min="0" max="1000" name="languages__telepathy" v-model="monsterData.languages.telepathy" class="edit-field" /> {{measure.measureUnit}}
                     </div>
                     
                     <div class="attribute-container">
@@ -483,7 +501,7 @@
         </div>
 
         
-        <div class="creature-type-inner-container creature-tips" v-if="pageData[this.activePage].hasOwnProperty('tips') && getCreatureTips(pageData[this.activePage].tips).length > 0">
+        <div class="creature-type-inner-container creature-tips" v-if="pageData[this.activePage].hasOwnProperty('tips') && Object.keys(getCreatureTips(pageData[this.activePage].tips)).length > 0">
             <div>
                 <strong>Recommendations:</strong>
                 <span class="info">🛈<div class="info-hover">These recommendations are based on common trends among the selected types, subtypes, and tags. These are meant to assist you in building your creature but are certainly not hard-and-fast rules. </div></span> 

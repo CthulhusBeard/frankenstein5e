@@ -39,6 +39,7 @@ return [
     'demon' => [
         'name' => 'f5/creaturesubtypes.demon',
         'tags' => [
+            'affinity_elemental' => 'fire',
             'damage_resistances' => 'fire',
             'alignments' => [
                 'chaotic_evil'
@@ -58,6 +59,7 @@ return [
     'devil' => [
         'name' => 'f5/creaturesubtypes.devil',
         'tags' => [
+            'affinity_elemental' => 'fire',
             'damage_resistances' => 'fire',
             'alignments' => [
                 'lawful_evil'
@@ -363,6 +365,7 @@ return [
     'tiefling' => [
         'name' => 'f5/creaturesubtypes.tiefling',
         'tags' => [
+            'affinity_elemental' => 'fire',
             'senses' => 'darkvision',
             'damage_resistances' => 'fire',
             'languages' => 'infernal',
@@ -404,6 +407,7 @@ return [
     'yugoloth' => [
         'name' => 'f5/creaturesubtypes.yugoloth',
         'tags' => [
+            'affinity_elemental' => 'acid',
             'alignments' => [
                 'neutral_evil',
             ],

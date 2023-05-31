@@ -134,5 +134,7 @@ return [
     //'desc_breath_weapon' => 'TODO',
     'name_wing_attack' => 'Wing Attack',
     //'desc_wing_attack' => 'TODO',
+    'name_tail_attack' => 'Tail Attack',
+    //'desc_tail_attack' => 'TODO',
 
 ];

@@ -64,6 +64,7 @@ return [
         'black_dragon' => [
             'name' => 'f5/creaturesubtypes.black_dragon',
             'tags' => [
+                'affinity_elemental' => 'acid',
                 'damage_immunities' => 'acid',
                 'alignments' => 'chaotic_evil',
             ],
@@ -71,6 +72,7 @@ return [
         'white_dragon' => [
             'name' => 'f5/creaturesubtypes.white_dragon',
             'tags' => [    
+                'affinity_elemental' => 'cold',
                 'damage_immunities' => 'cold',
                 'alignments' => 'chaotic_evil', 
                 'stats' => 'low_int'
@@ -79,6 +81,7 @@ return [
         'red_dragon' => [
             'name' => 'f5/creaturesubtypes.red_dragon',
             'tags' => [
+                'affinity_elemental' => 'fire',
                 'damage_immunities' => 'fire',
                 'alignments' => 'chaotic_evil',
             ],
@@ -86,6 +89,7 @@ return [
         'blue_dragon' => [
             'name' => 'f5/creaturesubtypes.blue_dragon',
             'tags' => [
+                'affinity_elemental' => 'lightning',
                 'damage_immunities' => 'lightning',
                 'alignments' => 'lawful_evil',
             ],
@@ -93,6 +97,7 @@ return [
         'green_dragon' => [
             'name' => 'f5/creaturesubtypes.green_dragon',
             'tags' => [
+                'affinity_elemental' => 'poison',
                 'damage_immunities' => 'poison',
                 'alignments' => 'lawful_evil',
                 'stats' => 'high_int'
@@ -102,6 +107,7 @@ return [
         'copper_dragon' => [
             'name' => 'f5/creaturesubtypes.copper_dragon',
             'tags' => [
+                'affinity_elemental' => 'acid',
                 'damage_immunities' => 'acid',
                 'alignments' => 'chaotic_good',
                 'stats' => 'high_int'
@@ -110,6 +116,7 @@ return [
         'silver_dragon' => [
             'name' => 'f5/creaturesubtypes.silver_dragon',
             'tags' => [
+                'affinity_elemental' => 'cold',
                 'damage_immunities' => 'cold',
                 'alignments' => 'lawful_good',
             ],
@@ -117,6 +124,7 @@ return [
         'brass_dragon' => [
             'name' => 'f5/creaturesubtypes.brass_dragon',
             'tags' => [
+                'affinity_elemental' => 'fire',
                 'damage_immunities' => 'fire',
                 'alignments' => 'chaotic_good',
             ],
@@ -124,6 +132,7 @@ return [
         'bronze_dragon' => [
             'name' => 'f5/creaturesubtypes.bronze_dragon',
             'tags' => [
+                'affinity_elemental' => 'lightning',
                 'damage_immunities' => 'lightning',
                 'alignments' => 'lawful_good',
             ],
@@ -131,6 +140,7 @@ return [
         'gold_dragon' => [
             'name' => 'f5/creaturesubtypes.gold_dragon',
             'tags' => [
+                'affinity_elemental' => 'fire',
                 'damage_immunities' => 'fire',
                 'alignments' => 'lawful_good',
             ],
@@ -154,30 +164,35 @@ return [
         'black_dragon_ancestry' => [
             'name' => 'f5/creaturesubtypes.black_dragon_ancestry',
             'tags' => [
+                'affinity_elemental' => 'acid',
                 'damage_resistances' => 'acid',
             ],
         ],
         'white_dragon_ancestry' => [
             'name' => 'f5/creaturesubtypes.white_dragon_ancestry',
             'tags' => [    
+                'affinity_elemental' => 'cold',
                 'damage_resistances' => 'cold',
             ],
         ],
         'red_dragon_ancestry' => [
             'name' => 'f5/creaturesubtypes.red_dragon_ancestry',
             'tags' => [
+                'affinity_elemental' => 'fire',
                 'damage_resistances' => 'fire',
             ],
         ],
         'blue_dragon_ancestry' => [
             'name' => 'f5/creaturesubtypes.blue_dragon_ancestry',
             'tags' => [
+                'affinity_elemental' => 'lightning',
                 'damage_resistances' => 'lightning',
             ],
         ],
         'green_dragon_ancestry' => [
             'name' => 'f5/creaturesubtypes.green_dragon_ancestry',
             'tags' => [
+                'affinity_elemental' => 'poison',
                 'damage_resistances' => 'poison',
             ],
         ],
@@ -185,30 +200,35 @@ return [
         'copper_dragon_ancestry' => [
             'name' => 'f5/creaturesubtypes.copper_dragon_ancestry',
             'tags' => [
+                'affinity_elemental' => 'acid',
                 'damage_resistances' => 'acid',
             ],
         ],
         'silver_dragon_ancestry' => [
             'name' => 'f5/creaturesubtypes.silver_dragon_ancestry',
             'tags' => [
+                'affinity_elemental' => 'cold',
                 'damage_resistances' => 'cold',
             ],
         ],
         'brass_dragon_ancestry' => [
             'name' => 'f5/creaturesubtypes.brass_dragon_ancestry',
             'tags' => [
+                'affinity_elemental' => 'fire',
                 'damage_resistances' => 'fire',
             ],
         ],
         'bronze_dragon_ancestry' => [
             'name' => 'f5/creaturesubtypes.bronze_dragon_ancestry',
             'tags' => [
+                'affinity_elemental' => 'lightning',
                 'damage_resistances' => 'lightning',
             ],
         ],
         'gold_dragon_ancestry' => [
             'name' => 'f5/creaturesubtypes.gold_dragon_ancestry',
             'tags' => [
+                'affinity_elemental' => 'fire',
                 'damage_resistances' => 'fire',
             ],
         ],
@@ -225,6 +245,7 @@ return [
         'fire_elemental' => [
             'name' => 'f5/creaturesubtypes.fire_elemental',
             'tags' => [
+                'affinity_elemental' => 'fire',
                 'damage_immunities' => 'fire',
                 'languages' => 'ignan',
             ],
@@ -232,6 +253,7 @@ return [
         'earth_elemental' => [
             'name' => 'f5/creaturesubtypes.earth_elemental',
             'tags' => [
+                'affinity_physical' => 'bludgeoning',
                 'damage_resistances' => 'physical',
                 'languages' => 'terran',
             ],
@@ -239,6 +261,7 @@ return [
         'water_elemental' => [
             'name' => 'f5/creaturesubtypes.water_elemental',
             'tags' => [
+                'affinity_elemental' => 'cold',
                 'damage_resistances' => 'acid', 
                 'features' => 'amphibious',   
                 'languages' => 'aquan',
@@ -247,6 +270,7 @@ return [
         'acid_elemental' => [
             'name' => 'f5/creaturesubtypes.acid_elemental',
             'tags' => [
+                'affinity_elemental' => 'acid',
                 'damage_immunities' => 'acid', 
                 'languages' => 'aquan',
             ],
@@ -254,6 +278,7 @@ return [
         'lightning_elemental' => [
             'name' => 'f5/creaturesubtypes.lightning_elemental',
             'tags' => [
+                'affinity_elemental' => 'lightning',
                 'damage_immunities' => 'lightning',
                 'languages' => 'auran',
             ],
@@ -261,6 +286,7 @@ return [
         'storm_elemental' => [
             'name' => 'f5/creaturesubtypes.storm_elemental',
             'tags' => [
+                'affinity_elemental' => 'lightning',
                 'damage_immunities' => 'lightning',
                 'languages' => 'auran',
             ],
@@ -268,6 +294,7 @@ return [
         'ice_elemental' => [
             'name' => 'f5/creaturesubtypes.ice_elemental',
             'tags' => [
+                'affinity_elemental' => 'cold',
                 'damage_immunities' => 'cold',
                 'languages' => 'aquan',
             ],
@@ -281,6 +308,7 @@ return [
         'magma_elemental' => [
             'name' => 'f5/creaturesubtypes.magma_elemental',
             'tags' => [
+                'affinity_elemental' => 'fire',
                 'damage_immunities' => 'fire',
                 'languages' => 'ignan',
             ],
@@ -288,6 +316,7 @@ return [
         'ooze_elemental' => [
             'name' => 'f5/creaturesubtypes.ooze_elemental',
             'tags' => [
+                'affinity_elemental' => 'acid',
                 'features' => 'amphibious',
                 'languages' => 'aquan',
             ],
@@ -295,6 +324,7 @@ return [
         'steam_elemental' => [
             'name' => 'f5/creaturesubtypes.steam_elemental',
             'tags' => [
+                'affinity_elemental' => 'fire',
                 'languages' => 'auran',
             ],
         ],
@@ -311,6 +341,7 @@ return [
         'dao' => [
             'name' => 'f5/creaturesubtypes.dao',
             'tags' => [
+                'affinity_physical' => 'bludgeoning',
                 'languages' => 'terran',
                 'condition_immunities' => 'petrified',
                 'stats' => 'high_cha',
@@ -325,6 +356,7 @@ return [
         'djinni' => [
             'name' => 'f5/creaturesubtypes.djinni',
             'tags' => [
+                'affinity_physical' => 'bludgeoning',
                 'languages' => 'auran',
                 'stats' => 'high_cha',
                 'features' => 'innate_spellcasting',
@@ -335,6 +367,7 @@ return [
         'efreeti' => [
             'name' => 'f5/creaturesubtypes.efreeti',
             'tags' => [
+                'affinity_elemental' => 'fire',
                 'languages' => 'ignan',
                 'stats' => 'high_cha',
                 'features' => 'innate_spellcasting',
@@ -345,6 +378,7 @@ return [
         'marid' => [
             'name' => 'f5/creaturesubtypes.marid',
             'tags' => [
+                'affinity_elemental' => 'cold',
                 'languages' => 'aquan',
                 'stats' => 'high_cha',
                 'features' => 'innate_spellcasting',
@@ -363,6 +397,7 @@ return [
         'fire_giant' => [
             'name' => 'f5/creaturesubtypes.fire_giant',
             'tags' => [        
+                'affinity_elemental' => 'fire',
                 'damage_immunities' => 'fire',
             ],
         ],
@@ -373,7 +408,8 @@ return [
         ],
         'frost_giant' => [
             'name' => 'f5/creaturesubtypes.frost_giant',
-            'tags' => [        
+            'tags' => [
+                'affinity_elemental' => 'cold',
                 'damage_immunities' => 'cold',
             ],
         ],
@@ -389,9 +425,18 @@ return [
         ],
         'storm_giant' => [
             'name' => 'f5/creaturesubtypes.storm_giant',
-            'tags' => [        
+            'tags' => [
+                'affinity_elemental' => 'lightning',
                 'damage_immunities' => 'lightning',
                 'damage_immunities' => 'thunder',
+            ],
+        ],
+        'troll' => [
+            'name' => 'f5/creaturesubtypes.troll',
+            'tags' => [
+                'features' => [
+                    'regenerate'
+                ]
             ],
         ],
 

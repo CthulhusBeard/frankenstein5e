@@ -157,6 +157,7 @@ return [
     'hill_giant' => 'Hill Giant',
     'stone_giant' => 'Stone Giant',
     'storm_giant' => 'Storm Giant',
+    'troll' => 'Troll',
     
     //Beast Options
     'mammal' => 'Mammal',

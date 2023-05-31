@@ -137,6 +137,10 @@ $lightboxPadding: 20px;
         &.subtypes {
             min-width: 215px;
         }
+
+        &.size {
+            max-width: 300px;
+        }
     }
 
     .creature-tips {

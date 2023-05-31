@@ -238,6 +238,32 @@ export function initVue(f5data) {
                 
                 return obj;
             },
+
+            getValueByHighestProperty: function(array, indexNum) { //getValueByHighestProperty([1: 'a', 5: 'b', 10: 'c'], 6) = 'b'
+                indexNum = parseInt(indexNum);
+                let returnVal, indexTracker;
+                for(let i in array) {
+                    if(indexNum >= parseInt(i) && (!indexTracker || parseInt(i) > indexTracker)) {
+                        indexTracker = parseInt(i);
+                        returnVal = array[i];
+                    }
+                }
+                return returnVal;
+            },
+
+            createTrackingId: function() {
+                return this.randChars(15);
+            },
+
+            randChars: function(len) {
+                const base = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvyxyz0123456789"];
+                const generator = (base, len) => {
+                    return [...Array(len)]
+                      .map(i => base[Math.random()*base.length|0])
+                      .join('');
+                };
+                return generator(base, len);
+            },
         }
     });
     
@@ -364,16 +390,6 @@ export function initVue(f5data) {
                 return this.f5.encounterdifficulties[difficulty];
             },
 
-            randChars: function(len) {
-                const base = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvyxyz0123456789"];
-                const generator = (base, len) => {
-                    return [...Array(len)]
-                      .map(i => base[Math.random()*base.length|0])
-                      .join('');
-                };
-                return generator(base, len);
-            },
-
             importMonster: function(monster) {
                 console.log('== import monster ==');
                 let importedStatBlock = JSON.parse(JSON.stringify(monster));
@@ -401,7 +417,7 @@ export function initVue(f5data) {
             createStatBlock: function() {
                 this.closeCreateMenu();
                 let i = this.statblocks.push({
-                    trackingId: this.randChars(15), 
+                    trackingId: this.createTrackingId(), 
                     number: 1,
                 });
                 return i-1;
@@ -478,19 +494,6 @@ export function initVue(f5data) {
                 }
             },
 
-            //getValueByHighestProperty([1: 'a', 5: 'b', 10: 'c'], 6) = 'b'
-            getValueByHighestProperty: function(array, indexNum) {
-                indexNum = parseInt(indexNum);
-                let returnVal, indexTracker;
-                for(let i in array) {
-                    if(indexNum >= parseInt(i) && (!indexTracker || parseInt(i) > indexTracker)) {
-                        indexTracker = parseInt(i);
-                        returnVal = array[i];
-                    }
-                }
-                return returnVal;
-            },
-
             initStatBlockWizard: function () {
                 this.closeCreateMenu();
                 this.editor.usingWizard = true;
@@ -505,6 +508,9 @@ export function initVue(f5data) {
             },
 
             createStatBlockFromWizardData: function(monsterData) {
+                console.log('createStatBlockFromWizardData');
+                console.log(monsterData);
+
                 this.importMonster(monsterData);
                 this.closeWizard();
             },

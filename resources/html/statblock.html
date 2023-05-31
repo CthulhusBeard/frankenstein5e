@@ -686,7 +686,7 @@
                             </Multiselect>
                             
                             <span for="languages__telepathy" class="edit-field edit-field--inlineBlock">{{f5.misc.telepathy}}</span>
-                            <input type="number" min="0" name="languages__telepathy" v-model="value.languages.telepathy" class="edit-field" /> {{measure.measureUnit}}
+                            <input type="number" min="0" max="1000" name="languages__telepathy" v-model="value.languages.telepathy" class="edit-field" /> {{measure.measureUnit}}
                         </div>
 
                         <div class="statblock__attribute focus-edit">

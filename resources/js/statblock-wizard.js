@@ -24,6 +24,8 @@ export default {
             monsterCount: 1,
             encounterDifficulty: 'medium',
 
+            addLegendaryResistances: false,
+
             pageKeys: {
                 targetCR: false,
                 creatureType: false,
@@ -163,8 +165,19 @@ export default {
                     wis: 10,
                     cha: 10,
                 },
+                legendaryActions: 3,
                 
-                features: [],
+                features: {
+                    passive: [],
+                    spellcasting: [],
+                    multiattack: [],
+                    action: [],
+                    bonus_action: [],
+                    reaction: [],
+                    legendary_action: [],
+                    mythic_action: [],
+                    lair_action: [],
+                },
     
             },
 
@@ -271,7 +284,7 @@ export default {
                 11: 3,
                 15: 4,
             };
-            let xpMultiplier = this.$parent.getValueByHighestProperty(xpMultipliers, this.monsterCount);
+            let xpMultiplier = this.getValueByHighestProperty(xpMultipliers, this.monsterCount);
 
             let xpThresholds = this.f5.playerlevels[this.playerLevel].xp_thresholds;
             let xpTargetThreshold = xpThresholds[this.encounterDifficulty];
@@ -746,6 +759,37 @@ export default {
             }
             return newSavingThrows;
         },
+
+        creatureAffinities: function() {
+            let affinityLookup = 'affinity_';
+            let creatureDamageAffinities = {
+                physical: 'slashing',
+                elemental: 'fire',
+                exotic: 'radiant'
+            };
+
+            for(let tipGroup in this.creatureTips) {
+                for(let i in this.creatureTips[tipGroup]) {
+                    let tipData = this.creatureTips[tipGroup][i];
+                    if(
+                        tipData.hasOwnProperty('group') && 
+                        tipData.group.substr(0, affinityLookup.length) == affinityLookup
+                    ) {
+                        let affinityKey = tipData.group.substr(affinityLookup.length);
+                        if(
+                            creatureDamageAffinities.hasOwnProperty(affinityKey) &&
+                            tipData.hasOwnProperty('list')
+                        ) {
+                            let affinity = tipData.list[0].name;
+                            creatureDamageAffinities[affinityKey] = affinity;
+                        }
+                    }
+
+                }
+            }
+            return creatureDamageAffinities;
+
+        },
     },
 
     methods: {      
@@ -834,8 +878,12 @@ export default {
                         }
                     }
                 }
+                console.log('returnTips');
+                console.log(returnTips);
                 return returnTips;
             }
+            console.log('this.creatureTips');
+            console.log(this.creatureTips);
             return this.creatureTips;
         },
 
@@ -949,9 +997,12 @@ export default {
             } else if(group === 'alignments') {
                 this.monsterData.alignment = data[0];
             } else if(group === 'senses') {
+                console.log(this.monsterData.senses);
                 for(let entry of data) {
-                    if(!this.monsterData.senses[entry]) {
-                        this.monsterData.senses[entry] = 60;
+                    console.log(entry);
+                    console.log(this.monsterData.senses[entry]);
+                    if(this.monsterData.senses[entry]) {
+                        this.monsterData.senses[entry]['distance'] = 60;
                     }
                 }
             } else if(group === 'speeds') {
@@ -986,8 +1037,52 @@ export default {
                 }
             } else if(group === 'features') {
                 console.log('TODO ADD FEATURES');
+                for(let entry of data) {
+                    if(this.f5.features.hasOwnProperty(entry)) {
+                        console.log('--ADD FEATURE');
+                        console.log(this.f5.features[entry]);
+                        let newFeature = this.f5.features[entry];
+                        if(newFeature.hasOwnProperty('cr_scaling')) {
+                            let crTargetData = this.getValueByHighestProperty(newFeature.cr_scaling, this.targetCR);
+                            console.log('crTargetData');
+                            console.log(crTargetData);
+                            crTargetData = this.setDamageAffinities(crTargetData);
+                            newFeature = Object.assign(newFeature, crTargetData);
+                            delete newFeature.cr_scaling;
+                        }
+                        newFeature = this.setDamageAffinities(newFeature);
+                        newFeature['trackingId'] = this.createTrackingId();
+
+                        this.monsterData.features[this.f5.features[entry].hasOwnProperty('action_type') ? this.f5.features[entry].action_type : 'action'].push(newFeature);
+                    }
+                }
             } 
 
+        },
+
+        setDamageAffinities: function (damageData) {
+            let affinityText = ':affinity_';
+            let damageOptions = ['attackDamage', 'savingThrowDamage', 'ongoingDamage'];
+            let creatureDamageAffinities = this.creatureAffinities;
+
+            for(let damageKey of damageOptions) {
+                console.log('--setDamageAffinities--');
+                console.log('damageKey');
+                console.log(damageKey);
+                
+                if(damageData.hasOwnProperty(damageKey)) { 
+                    for(let i in damageData[damageKey]) {
+                        if(damageData[damageKey][i].type.substring(0, affinityText.length) === affinityText) {
+                            let affinityType = damageData[damageKey][i].type.substring(affinityText.length);
+                            if(creatureDamageAffinities.hasOwnProperty(affinityType)) {
+                                damageData[damageKey][i].type = creatureDamageAffinities[affinityType];
+                            }
+                        }
+                    }
+                }
+            }
+
+            return damageData;
         },
 
         getAbilityMod: function (ability) {
@@ -1093,8 +1188,18 @@ export default {
                     wis: 10,
                     cha: 10,
                 },
-                
-                features: [],
+
+                features: {
+                    passive: [],
+                    spellcasting: [],
+                    multiattack: [],
+                    action: [],
+                    bonus_action: [],
+                    reaction: [],
+                    legendary_action: [],
+                    mythic_action: [],
+                    lair_action: [],
+                },
             };
 
         },

@@ -198,6 +198,7 @@ return [
             'hill_giant',
             'stone_giant',
             'storm_giant',
+            'troll',
         ],
         'tags' => [
             'stats' => [
