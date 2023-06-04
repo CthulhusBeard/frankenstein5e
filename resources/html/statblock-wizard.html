@@ -92,6 +92,26 @@
                     <li><strong>{{f5.misc.wizard_cr_examples}}</strong> {{targetCRData.examples}}</li>
                 </ul>
             </div>
+
+            
+            <div>
+                <strong>Legendary Status:</strong>
+                <div>{{legendaryRecommendations}}</div>
+                <div>
+                    <span>Legendary Actions:</span>
+                    <select v-model="monsterData.legendaryActions">
+                        <option value="0">No</option>
+                        <option value="3">Yes</option>
+                    </select>
+                </div>
+                <div>
+                    <span>Legendary Resistances:</span>
+                    <select v-model="addLegendaryResistances">
+                        <option value="false">No</option>
+                        <option value="true">Yes</option>
+                    </select>
+                </div>
+            </div>
         </div>
 
         <div v-else-if="activePage==='creatureType'">
@@ -492,8 +512,18 @@
 
         <div v-else-if="activePage==='creatureFeatures'">
             <div class="section-container flex-rows ">
+
+                <div v-for="(featureList, featureType) in monsterData.features" v-if="featureList.length">
+                    <div class="bold">{{ f5.featureactiontypes[featureType].name }}</div>
+                    <ul>
+                        <li v-for="(feature, i) in featureList">
+                            {{ feature.name }}
+                        </li>
+                    </ul>
+                </div>
+
                 <div class="select-features">
-        
+                
                     <div class="attribute-container">
                     </div>
                 </div>
@@ -502,6 +532,7 @@
 
         
         <div class="creature-type-inner-container creature-tips" v-if="pageData[this.activePage].hasOwnProperty('tips') && Object.keys(getCreatureTips(pageData[this.activePage].tips)).length > 0">
+            
             <div>
                 <strong>Recommendations:</strong>
                 <span class="info">🛈<div class="info-hover">These recommendations are based on common trends among the selected types, subtypes, and tags. These are meant to assist you in building your creature but are certainly not hard-and-fast rules. </div></span> 

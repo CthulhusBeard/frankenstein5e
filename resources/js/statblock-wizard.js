@@ -121,65 +121,7 @@ export default {
                 'cha',
             ],
 
-            monsterData: {
-                
-                armorClass: {
-                    type: 'none',
-                    manual: '10',
-                    bonus: '0',
-                    stealthDis: false,
-                    shield: false,
-                    mageArmor: false,
-                },
-                hitPoints: {
-                    diceType: 4,
-                    diceAmount: 1,
-                    additional: 0,
-                },
-
-                size: 'medium',
-                type: 'aberration',
-                subtypes: [],
-                typeCategories: [],
-
-                skills: [],
-                expertise: [],
-                languages: this.createDefaultLanguages(),
-                speeds: this.createDefaultSpeeds(),
-                hover: false,
-                senses: this.createDefaultSenses(),
-                alignment: '',
-                showTypicalAlignment: true,
-
-                damageResistances: [],
-                damageImmunities: [],
-                damageVulnerabilites: [],
-                conditionImmunities: [],    
-    
-                savingThrows: this.createDefaultSavingThrows(),
-                abilities: {
-                    str: 10,
-                    dex: 10,
-                    con: 10,
-                    int: 10,
-                    wis: 10,
-                    cha: 10,
-                },
-                legendaryActions: 3,
-                
-                features: {
-                    passive: [],
-                    spellcasting: [],
-                    multiattack: [],
-                    action: [],
-                    bonus_action: [],
-                    reaction: [],
-                    legendary_action: [],
-                    mythic_action: [],
-                    lair_action: [],
-                },
-    
-            },
+            monsterData: this.createDefaultMonsterData(),
 
         }
     },
@@ -788,7 +730,19 @@ export default {
                 }
             }
             return creatureDamageAffinities;
+        },
 
+        legendaryRecommendations: function() {
+            if(
+                this.targetCR >= 5 && 
+                this.playerCount >= 3 && 
+                this.playerLevel >= this.targetCR + 3 &&
+                this.monsterCount == 1 &&
+                (this.encounterDifficulty == 'hard' || this.encounterDifficulty == 'deadly')
+            ) {
+                return "A solo creature without legendary actions (even with a higher CR) will quickly find itself outmatched due to the action economy. Adding legendary actions help the creature to fight back between turns and legendary resistances help it resist debilitating effects like paralysis, stun, and polymorph.";
+            }
+            return "";
         },
     },
 
@@ -958,9 +912,6 @@ export default {
         
 
         addTagToCreature: function(group, data=null) {
-            console.log('TODO: addTagToCreature -> ');
-            console.log(group);
-            console.log(data);
 
             if(group === 'stats') {
                 this.creatureAbilityScorePriority = data;
@@ -970,6 +921,8 @@ export default {
             } else if(group === 'stat_mod') {
                 //TODO: FIX THIS ONE
                 console.log('TODO: FIX THIS ONE');
+                console.log(group);
+                console.log(data);
             } else if(group === 'ac') {
                 this.monsterData.armorClass.manual = data;
             } else if(group === 'hp') {
@@ -1113,39 +1066,8 @@ export default {
             this.reset();
         },
 
-        reset: function() {
-
-            this.activePage = 'targetCR';
-
-            this.targetCR = 0;
-            this.playerCount = 4;
-            this.playerLevel = 1;
-            this.monsterCount = 1;
-            this.encounterDifficulty = 'medium';
-
-            for(let i in this.pageData) {
-                this.pageData[i].isSet = false;
-            }
-            // this.pageKeys = {
-            //     targetCR: false,
-            //     creatureType: false,
-            //     creatureArmorHP: false,
-            //     creatureDamageTypes: false,
-            //     creatureSpeedsSensesLanguagesAlignment: false,
-            //     creatureFeatures: false,
-            //     creatureStats: false,
-            // };
-
-            this.creatureAbilityScorePriority = [
-                'str',
-                'dex',
-                'con',
-                'int',
-                'wis',
-                'cha',
-            ];
-
-            this.monsterData = {
+        createDefaultMonsterData: function() {
+            return {
                 armorClass: {
                     type: 'none',
                     manual: '10',
@@ -1178,7 +1100,7 @@ export default {
                 damageImmunities: [],
                 damageVulnerabilites: [],
                 conditionImmunities: [],    
-    
+
                 savingThrows: this.createDefaultSavingThrows(),
                 abilities: {
                     str: 10,
@@ -1188,7 +1110,8 @@ export default {
                     wis: 10,
                     cha: 10,
                 },
-
+                legendaryActions: 0,
+                
                 features: {
                     passive: [],
                     spellcasting: [],
@@ -1201,6 +1124,33 @@ export default {
                     lair_action: [],
                 },
             };
+        },
+
+        reset: function() {
+
+            this.activePage = 'targetCR';
+
+            this.targetCR = 0;
+            this.playerCount = 4;
+            this.playerLevel = 1;
+            this.monsterCount = 1;
+            this.encounterDifficulty = 'medium';
+            this.addLegendaryResistances = false;
+
+            for(let i in this.pageData) {
+                this.pageData[i].isSet = false;
+            }
+
+            this.creatureAbilityScorePriority = [
+                'str',
+                'dex',
+                'con',
+                'int',
+                'wis',
+                'cha',
+            ];
+
+            this.monsterData = this.createDefaultMonsterData();
 
         },
 
