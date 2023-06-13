@@ -264,6 +264,32 @@ export function initVue(f5data) {
                 };
                 return generator(base, len);
             },
+
+            getSpellSlotsByCR: function(cr) {
+                if(this.f5.challengerating[cr].hasOwnProperty('spell_levels')) {
+                    return this.f5.challengerating[cr]['spell_levels'];
+                }
+                return {
+                    0: {slots: 1, spellList: ''}
+                };
+            },
+
+            createDefaultSpellSlots: function(startingSlots = null) {
+                let spellSlots = {};
+                if(startingSlots) {
+                    spellSlots = startingSlots;
+                }
+                for(let i = 0; i < 10; i++) {
+                    if(!spellSlots.hasOwnProperty(i)) {
+                        spellSlots[i] = {slots: 0, spellList: ''};
+                    } else {
+                        if(spellSlots[i].slots > 0 && spellSlots[i].spellList === '') {
+                            spellSlots[i].spellList = '[Insert Spell List]';
+                        }
+                    }
+                } 
+                return spellSlots;
+            },
         }
     });
     

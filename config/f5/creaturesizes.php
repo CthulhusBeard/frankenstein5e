@@ -6,10 +6,10 @@ return [
         'space' => 2.5,
         'hit_dice' => 4,
         'tags' => [
-            'stats' => [
-                'low_str',
-                'high_dex',
-            ],
+            // 'stats' => [
+            //     'low_str',
+            //     'high_dex',
+            // ],
             'hit_dice' => [
                 'data' => 4,
                 'name' => 'f5/sizes.hit_dice_size_4',

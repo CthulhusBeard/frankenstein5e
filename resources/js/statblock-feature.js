@@ -58,14 +58,7 @@ export default {
                     customText: this.f5.regenerate['custom']['desc'],
                 },
                 
-                spellcasting: {
-                    ability: 'int',
-                    innate: false,
-                    class: '',
-                    spellLevels: this.createDefaultSpellSlots(),
-                    atWillSpells: {highestLevel: 0, spellList: ''},
-                    useBeforeCombatSpell: false,
-                },
+                spellcasting: this.createDefaultSpellcastingObject(),
                 customDamage: [],
                 customDescription: '',
                 additionalDescription: '',
@@ -87,6 +80,13 @@ export default {
         let skipProps = ['number'];
         for(let prop in this.initialData) {
             if(skipProps.includes(prop)) {
+                continue;
+            }
+            if(prop === 'spellcasting') {
+                this.value[prop] = this.createDefaultSpellcastingObject();
+                for(let spellcastingProp in this.initialData[prop]) {
+                    this.value[prop][spellcastingProp] = this.initialData[prop][spellcastingProp]; 
+                }
                 continue;
             }
             this.value[prop] = this.initialData[prop]; 
@@ -148,22 +148,25 @@ export default {
         },
 
         displayName: function() {
+            let nameText;
+
             if(this.value.template == 'legendary_resistance') {
-                return this.f5.featuretemplates.legendary_resistance.title.replace(':legendary_resistance_count', this.value.legendaryResistances);
-            }
+                nameText = this.f5.featuretemplates.legendary_resistance.title.replace(':legendary_resistance_count', this.value.legendaryResistances);
+            } else {
 
-            let nameText = this.value.name;
-            //anything that triggers brackets //Different forms?
-            let brackets = this.bracketText; //separated by "sentence_list_separator_secondary"
-            
-            if(brackets) {
-                nameText += ' ('+brackets+')';
-            }
+                nameText = this.value.name;
+                //anything that triggers brackets //Different forms?
+                let brackets = this.bracketText; //separated by "sentence_list_separator_secondary"
+                
+                if(brackets) {
+                    nameText += ' ('+brackets+')';
+                }
 
-            nameText = nameText.trim();
+                nameText = nameText.trim();
 
-            if(nameText.length > 0) {
-                nameText += this.f5.misc.sentence_end;
+                if(nameText.length > 0) {
+                    nameText += this.f5.misc.sentence_end;
+                }
             }
 
             this.$emit('update-feature-name', this.value.actionType, this.trackingId, this.value.name, nameText);
@@ -721,14 +724,6 @@ export default {
 
     methods: {
 
-        createDefaultSpellSlots: function() {
-            let spellSlots = {};
-            for(let i = 0; i < 10; i++) {
-                spellSlots[i] = {slots: 0, spellList: ''};
-            } 
-            return spellSlots;
-        },
-
         createDamageDie: function(setAbilityBonus = false, requireDamageType = true) {
             let damageDie = {
                 diceType: 4,
@@ -1176,6 +1171,17 @@ export default {
                 }
             }
             return feature;
+        },
+
+        createDefaultSpellcastingObject: function() {
+            return {
+                ability: 'int',
+                innate: false,
+                class: '',
+                spellLevels: this.createDefaultSpellSlots(),
+                atWillSpells: {highestLevel: 0, spellList: ''},
+                useBeforeCombatSpell: false,
+            };
         },
 
         exportFeature: function() {

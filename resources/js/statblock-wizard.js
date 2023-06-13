@@ -767,6 +767,14 @@ export default {
             } else if(keyName == 'creatureStats') {
                 this.monsterData.abilities = this.defaultSortedAbilityScoreDistribution;
                 this.monsterData.savingThrows = this.prioritizedSavingThrows;
+            
+            } else if(keyName == 'creatureFeatures') {
+                if(this.addLegendaryResistances) {
+                    this.addTagToCreature('features', ['legendary_resistance']);
+                }
+                if(this.monsterData.legendaryActions > 0) {
+                    this.addTagToCreature('features', ['legendary_melee_attack']);
+                }
             }
 
             this.setActivePage();
@@ -829,6 +837,8 @@ export default {
                                 returnTips[tipGroup] = [];
                             }
                             returnTips[tipGroup].push(this.creatureTips[tipGroup][i]);
+                            console.log('push');
+                            console.log(this.creatureTips[tipGroup][i]);
                         }
                     }
                 }
@@ -898,7 +908,7 @@ export default {
                     tagName = tagGroup[i];
                 }
 
-                let tagData = tagGroup;
+                let tagData = [tagGroup[i]];
                 if(tagGroup[i].hasOwnProperty('data')) {
                     tagData = tagGroup[i]['data'];
                 }
@@ -925,6 +935,9 @@ export default {
                 console.log(data);
             } else if(group === 'ac') {
                 this.monsterData.armorClass.manual = data;
+                if(this.monsterData.armorClass.type === 'none') {
+                    this.monsterData.armorClass.type = 'natural';
+                }
             } else if(group === 'hp') {
                 let targetHP = (data.high + data.low)/2;
                 this.monsterData.hitPoints.diceAmount = Math.ceil((targetHP - this.hpConMod) / Math.ceil(this.monsterData.hitPoints.diceType/2));
@@ -946,14 +959,10 @@ export default {
                         this.monsterData.languages.spokenWritten.push(entry);
                     }
                 }
-                console.log(JSON.parse(JSON.stringify(this.monsterData.languages.spokenWritten)));
             } else if(group === 'alignments') {
                 this.monsterData.alignment = data[0];
             } else if(group === 'senses') {
-                console.log(this.monsterData.senses);
                 for(let entry of data) {
-                    console.log(entry);
-                    console.log(this.monsterData.senses[entry]);
                     if(this.monsterData.senses[entry]) {
                         this.monsterData.senses[entry]['distance'] = 60;
                     }
@@ -1004,13 +1013,25 @@ export default {
                             delete newFeature.cr_scaling;
                         }
                         newFeature = this.setDamageAffinities(newFeature);
+                        if(newFeature.hasOwnProperty('spellcasting')) {
+                            console.log(newFeature.spellcasting);
+                            newFeature.spellcasting.spellLevels = this.createDefaultSpellSlots(this.getSpellSlotsByCR(this.targetCR));
+                            console.log(newFeature.spellcasting);
+                        }
                         newFeature['trackingId'] = this.createTrackingId();
 
-                        this.monsterData.features[this.f5.features[entry].hasOwnProperty('action_type') ? this.f5.features[entry].action_type : 'action'].push(newFeature);
+                        this.monsterData.features[this.f5.features[entry].hasOwnProperty('actionType') ? this.f5.features[entry].actionType : 'action'].push(newFeature);
                     }
                 }
+                console.log('features');
+                console.log(this.monsterData.features);
+
             } 
 
+        },
+
+        removeFeature: function(featureType, index) {
+            this.monsterData.features[featureType].splice(index, 1);
         },
 
         setDamageAffinities: function (damageData) {
@@ -1019,10 +1040,6 @@ export default {
             let creatureDamageAffinities = this.creatureAffinities;
 
             for(let damageKey of damageOptions) {
-                console.log('--setDamageAffinities--');
-                console.log('damageKey');
-                console.log(damageKey);
-                
                 if(damageData.hasOwnProperty(damageKey)) { 
                     for(let i in damageData[damageKey]) {
                         if(damageData[damageKey][i].type.substring(0, affinityText.length) === affinityText) {

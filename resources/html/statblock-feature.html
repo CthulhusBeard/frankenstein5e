@@ -156,7 +156,7 @@
         <div class="feature__options feature__options-legendary" v-if="value.actionType === 'legendary_action' || value.actionType === 'mythic_action'">
             <label class="title-label">{{f5.misc.title_legendary_action_cost}}:</label>
             <select id="feature__legendary-cost" name="feature__recharge__legendary-cost" v-model="value.legendaryActionCost">
-                <option v-for="i in $parent.value.legendaryActions" :value="i" >{{i}}</option>
+                <option v-for="i in parseInt($parent.value.legendaryActions)" :value="i" >{{i}}</option>
             </select>
         </div>
 

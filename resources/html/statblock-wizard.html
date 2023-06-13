@@ -15,7 +15,7 @@
         <div class="wizard-subheader">{{ activePageSubtitle }}</div>
 
         <!-- Pages -->
-        <div v-if="activePage==='targetCR'">
+        <div :class="{ hidden: !(activePage==='targetCR') }">
             <div>
                 What challenge rating do your monster to be?
                 <select v-model="targetCR">
@@ -57,7 +57,7 @@
             </div>
         </div>
 
-        <div v-else-if="activePage==='manualCR'">
+        <div  :class="{ hidden: !(activePage==='manualCR') }">
             <div>
                 How many player characters are there?
                 <input type="number" v-model="playerCount" min="1" max="15" />
@@ -114,7 +114,7 @@
             </div>
         </div>
 
-        <div v-else-if="activePage==='creatureType'">
+        <div  :class="{ hidden: !(activePage==='creatureType') }">
             <div class="flex-rows section-container">
 
                 <div class="creature-type-inner-container types">
@@ -200,7 +200,7 @@
     
         </div>
 
-        <div v-else-if="activePage==='creatureStats'">
+        <div  :class="{ hidden: !(activePage==='creatureStats') }">
             
             <div class="section-container flex-rows ">
                 <div class="ability-priority-container">
@@ -226,7 +226,7 @@
 
         </div>
 
-        <div v-else-if="activePage==='manualCreatureStats'">
+        <div  :class="{ hidden: !(activePage==='manualCreatureStats') }">
             
             <div>
                 A common array of ability scores for a CR {{ targetCR }} creature is {{ abilityScoreDistributionByCR(targetCR) }}
@@ -249,7 +249,7 @@
             </div>
         </div>
 
-        <div v-else-if="activePage==='creatureArmorHP'">
+        <div  :class="{ hidden: !(activePage==='creatureArmorHP') }">
             
             <div class="section-container flex-rows ">
                 <div class="select-armor-hp">
@@ -307,7 +307,7 @@
             </div>
         </div>
 
-        <div v-else-if="activePage==='creatureDamageTypes'">
+        <div  :class="{ hidden: !(activePage==='creatureDamageTypes') }">
             
             <div class="section-container flex-rows ">
                 <div class="select-damage-types">
@@ -429,7 +429,7 @@
             </div>
         </div>
         
-        <div v-else-if="activePage==='creatureSpeedsSensesLanguagesAlignment'">
+        <div  :class="{ hidden: !(activePage==='creatureSpeedsSensesLanguagesAlignment') }">
             
             <div class="section-container flex-rows">
                 <div class="select-speeds-senses-languages">
@@ -510,14 +510,14 @@
             </div>
         </div>
 
-        <div v-else-if="activePage==='creatureFeatures'">
+        <div  :class="{ hidden: !(activePage==='creatureFeatures') }">
             <div class="section-container flex-rows ">
 
                 <div v-for="(featureList, featureType) in monsterData.features" v-if="featureList.length">
                     <div class="bold">{{ f5.featureactiontypes[featureType].name }}</div>
-                    <ul>
+                    <ul class="wizard-feature-list">
                         <li v-for="(feature, i) in featureList">
-                            {{ feature.name }}
+                            {{ feature.name }} <span class="x" @click="removeFeature(featureType, i)">x</span>
                         </li>
                     </ul>
                 </div>

@@ -75,7 +75,7 @@ return [
                 'affinity_elemental' => 'cold',
                 'damage_immunities' => 'cold',
                 'alignments' => 'chaotic_evil', 
-                'stats' => 'low_int'
+                //'stats' => 'low_int'
             ],
         ],
         'red_dragon' => [
@@ -100,7 +100,7 @@ return [
                 'affinity_elemental' => 'poison',
                 'damage_immunities' => 'poison',
                 'alignments' => 'lawful_evil',
-                'stats' => 'high_int'
+                //'stats' => 'high_int'
             ],
         ],
 
@@ -110,7 +110,7 @@ return [
                 'affinity_elemental' => 'acid',
                 'damage_immunities' => 'acid',
                 'alignments' => 'chaotic_good',
-                'stats' => 'high_int'
+                //'stats' => 'high_int'
             ],
         ],
         'silver_dragon' => [
@@ -150,14 +150,14 @@ return [
             'name' => 'f5/creaturesubtypes.drake',
             'tags' => [
                 'alignments' => 'unaligned',
-                'stats' => 'low_int'
+                //'stats' => 'low_int'
             ],
         ],
         'wyvern' => [
             'name' => 'f5/creaturesubtypes.wyvern',
             'tags' => [
                 'alignments' => 'unaligned',
-                'stats' => 'low_int'
+                //'stats' => 'low_int'
             ],
         ],
 
@@ -332,8 +332,8 @@ return [
         'genie' => [
             'name' => 'f5/creaturesubtypes.genie',
             'tags' => [
-                'stats' => 'high_cha',
-                'features' => 'innate_spellcasting',
+                //'stats' => 'high_cha',
+                'features' => 'innate_spellcasting_con',
                 'speeds' => 'fly',
                 'senses' => 'darkvision',
             ],
@@ -344,8 +344,8 @@ return [
                 'affinity_physical' => 'bludgeoning',
                 'languages' => 'terran',
                 'condition_immunities' => 'petrified',
-                'stats' => 'high_cha',
-                'features' => 'innate_spellcasting',
+                //'stats' => 'high_cha',
+                'features' => 'innate_spellcasting_con',
                 'speeds' => [
                     'fly',
                     'burrow',
@@ -358,10 +358,14 @@ return [
             'tags' => [
                 'affinity_physical' => 'bludgeoning',
                 'languages' => 'auran',
-                'stats' => 'high_cha',
-                'features' => 'innate_spellcasting',
+                //'stats' => 'high_cha',
+                'features' => 'innate_spellcasting_con',
                 'speeds' => 'fly',
                 'senses' => 'darkvision',
+                'damage_immunities' => [
+                    'lightning',
+                    'thunder',
+                ]
             ],
         ],
         'efreeti' => [
@@ -369,10 +373,11 @@ return [
             'tags' => [
                 'affinity_elemental' => 'fire',
                 'languages' => 'ignan',
-                'stats' => 'high_cha',
-                'features' => 'innate_spellcasting',
+                //'stats' => 'high_cha',
+                'features' => 'innate_spellcasting_con',
                 'speeds' => 'fly',
                 'senses' => 'darkvision',
+                'damage_immunities' => 'fire',
             ],
         ],
         'marid' => [
@@ -380,8 +385,13 @@ return [
             'tags' => [
                 'affinity_elemental' => 'cold',
                 'languages' => 'aquan',
-                'stats' => 'high_cha',
-                'features' => 'innate_spellcasting',
+                //'stats' => 'high_cha',
+                'features' => 'innate_spellcasting_con',
+                'damage_resistances' => [
+                    'acid',
+                    'cold',
+                    'lightning',
+                ],
                 'speeds' => [
                     'fly',
                     'swim',
@@ -445,7 +455,9 @@ return [
         'drow' => [
             'name' => 'f5/creaturesubtypes.drow_elf',
             'tags' => [
-                'features' => 'sunlight_sensitivity',
+                'features' => [
+                    'sunlight_sensitivity',
+                ],
                 'languages' => 'undercommon',
             ],
         ],

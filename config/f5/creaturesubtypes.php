@@ -27,7 +27,9 @@ return [
     'bullywug' => [
         'name' => 'f5/creaturesubtypes.bullywug',
         'tags' => [
-
+            'features' => [
+                'amphibious'
+            ],
         ],
     ],
     'changeling' => [
@@ -192,7 +194,9 @@ return [
     'grung' => [
         'name' => 'f5/creaturesubtypes.grung',
         'tags' => [
-
+            'features' => [
+                'amphibious'
+            ]
         ],
     ],
     'half_dragon' => [
@@ -263,7 +267,10 @@ return [
     'kuo_toa' => [
         'name' => 'f5/creaturesubtypes.kuo_toa',
         'tags' => [
-
+            'features' => [
+                'amphibious',
+                'sunlight_sensitivity',
+            ],
         ],
     ],
     'leonin' => [

@@ -16,7 +16,7 @@ $lightboxPadding: 20px;
     display: none;
     
     &.show-wizard {
-        overflow: scroll;
+        overflow-y: scroll;
         display: block;
     }
 
@@ -25,6 +25,7 @@ $lightboxPadding: 20px;
     }
 
     .statblock-wizard {
+        width: fit-content;
         .wizard-page {
             position: relative;
             display: none;
@@ -253,6 +254,15 @@ $lightboxPadding: 20px;
         color: blue;
         text-decoration: underline;
         cursor: pointer;
+    }
+
+    .wizard-feature-list {
+        li {
+            position: relative;
+        }
+        .x {
+            right: -10px
+        }
     }
 
 }

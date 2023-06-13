@@ -5,7 +5,7 @@ return [
     'multiattack' => [
         'name' => 'f5/features.name_multiattack',
         'desc' => 'f5/features.desc_multiattack',
-        'action_type' => 'action',
+        'actionType' => 'action',
         'combine_nonpassives' => true,
         'references' => ['spellcasting', 'action', 'bonus_action'],
     ],
@@ -14,7 +14,7 @@ return [
     'spellcasting' => [
         'name' => 'f5/features.name_spellcasting',
         'desc' => 'f5/features.desc_spellcasting',
-        'action_type' => 'passive',
+        'actionType' => 'spellcasting',
         'has_spell_list' => true,
         'template' => 'spellcasting', 
     ],
@@ -22,29 +22,45 @@ return [
     'innate_spellcasting' => [
         'name' => 'f5/features.name_innate_spellcasting',
         'desc' => 'f5/features.desc_innate_spellcasting',
-        'action_type' => 'passive',
+        'actionType' => 'spellcasting',
         'has_spell_list' => true,
         'template' => 'spellcasting', 
+        'spellcasting' => [
+            'ability' => 'int',
+            'innate' => true,
+        ],
+    ],
+
+    'innate_spellcasting_con' => [
+        'name' => 'f5/features.name_innate_spellcasting',
+        'desc' => 'f5/features.desc_innate_spellcasting',
+        'actionType' => 'spellcasting',
+        'has_spell_list' => true,
+        'template' => 'spellcasting', 
+        'spellcasting' => [
+            'ability' => 'con',
+            'innate' => true,
+        ],
     ],
 
     'legendary_resistance' => [
         'name' => 'f5/features.name_legendary_resistance',
         'desc' => 'f5/features.desc_legendary_resistance',
-        'action_type' => 'passive',
+        'actionType' => 'passive',
         'template' => 'legendary_resistance', 
     ],
 
     'magic_resistance' => [
         'name' => 'f5/features.title_magic_resistance_feature_name',
         'desc' => 'f5/features.magic_resistance_desc',
-        'action_type' => 'passive',
+        'actionType' => 'passive',
         'template' => 'magic_resistance', 
     ],
     
     'regenerate' => [
         'name' => 'f5/features.name_legendary_resistance',
         'desc' => 'f5/features.desc_legendary_resistance',
-        'action_type' => 'passive',
+        'actionType' => 'passive',
         'template' => 'regenerate', 
         'passiveTrigger' => 'start_of_turn'
     ],
@@ -52,42 +68,49 @@ return [
     'amphibious' => [
         'name' => 'f5/features.name_amphibious',
         'desc' => 'f5/features.desc_amphibious',
-        'action_type' => 'passive',
+        'actionType' => 'passive',
         'template' => 'custom', 
     ],
 
     'immutable_form' => [
         'name' => 'f5/features.name_immutable_form',
         'desc' => 'f5/features.desc_immutable_form',
-        'action_type' => 'passive',
+        'actionType' => 'passive',
         'template' => 'custom', 
     ],
 
     'breath_water' => [
         'name' => 'f5/features.name_breath_water',
         'desc' => 'f5/features.desc_breath_water',
-        'action_type' => 'passive',
+        'actionType' => 'passive',
         'template' => 'custom', 
     ],
 
     'fey_ancestry' => [
         'name' => 'f5/features.name_fey_ancestry',
         'desc' => 'f5/features.desc_fey_ancestry',
-        'action_type' => 'passive',
+        'actionType' => 'passive',
         'template' => 'custom', 
     ],
 
     'stout_resilience' => [
         'name' => 'f5/features.name_stout_resilience',
         'desc' => 'f5/features.desc_stout_resilience',
-        'action_type' => 'passive',
+        'actionType' => 'passive',
+        'template' => 'custom', 
+    ],
+
+    'sunlight_sensitivity' => [
+        'name' => 'f5/features.name_sunlight_sensitivity',
+        'desc' => 'f5/features.desc_sunlight_sensitivity',
+        'actionType' => 'passive',
         'template' => 'custom', 
     ],
 
     'breath_weapon' => [
         'name' => 'f5/features.name_breath_weapon',
         'desc' => 'f5/features.desc_breath_weapon',
-        'action_type' => 'action',
+        'actionType' => 'action',
         'template' => 'saving_throw', 
         'targetType' => 'cone',
         'savingThrowMonsterAbility' => 'con',
@@ -154,23 +177,83 @@ return [
     'wing_attack' => [
         'name' => 'f5/features.name_wing_attack',
         'desc' => 'f5/features.desc_wing_attack',
-        'action_type' => 'action',
+        'actionType' => 'action',
         'template' => 'attack', 
     ],
 
     'tail_attack' => [
         'name' => 'f5/features.name_tail_attack',
         'desc' => 'f5/features.desc_tail_attack',
-        'action_type' => 'action',
+        'actionType' => 'action',
         'template' => 'attack', 
     ],
 
     //Attacks
     'melee_attack' => [
         'name' => 'f5/features.name_melee_attack',
-        'action_type' => 'action',
-        'attack_roll' => true,
-        'range' => 'melee',
+        'actionType' => 'action',
+        'template' => 'attack',
+        'targetType' => 'melee',
+        'attackAbility' => 'str',
+        'attackType' => 'weapon',
+        'attackReach' => 5,
+        'cr_scaling' => [
+            0 => [
+                'attackDamage' => [
+                    [
+                        'diceType' => 6,
+                        'diceAmount' => 1,
+                        'additional' => 0,
+                        'abilityBonus' => true,
+                        'type' => 'slashing'
+                    ],
+                ],
+            ],
+            5 => [
+                'attackDamage' => [
+                    [
+                        'diceType' => 6,
+                        'diceAmount' => 2,
+                        'additional' => 0,
+                        'abilityBonus' => true,
+                        'type' => 'slashing'
+                    ],
+                ],
+            ],
+            10 => [
+                'attackDamage' => [
+                    [
+                        'diceType' => 6,
+                        'diceAmount' => 3,
+                        'additional' => 0,
+                        'abilityBonus' => true,
+                        'type' => 'slashing'
+                    ],
+                ],
+            ],
+            15 => [
+                'attackDamage' => [
+                    [
+                        'diceType' => 6,
+                        'diceAmount' => 4,
+                        'additional' => 0,
+                        'abilityBonus' => true,
+                        'type' => 'slashing'
+                    ],
+                ],
+            ],
+            20 => [
+                'attackDamage' => [
+                    [
+                        'diceType' => 6,
+                        'diceAmount' => 5,
+                        'additional' => 0,
+                        'abilityBonus' => true,
+                        'type' => 'slashing'
+                    ],
+                ],
+            ],
+        ],
         'examples' => [
             'claws' => [
                 'name' => 'f5/features.name_claws',
@@ -193,7 +276,7 @@ return [
     'saving_throw' => [
         'name' => 'f5/features.name_saving_throw',
         'desc' => 'f5/features.desc_saving_throw',
-        'action_type' => 'action',
+        'actionType' => 'action',
         'saving_throw' => true,
         'repeat_save' => [
             'enabled' => true,
@@ -215,7 +298,93 @@ return [
     'use_a_skill' => [
         'name' => 'f5/features.name_use_a_skill',
         'desc' => 'f5/features.desc_use_a_skill',
-        'action_type' => 'legendary_action',
+        'actionType' => 'legendary_action',
+    ],
+
+    //Legendary Actions
+    'legendary_melee_attack' => [
+        'name' => 'f5/features.name_melee_attack',
+        'actionType' => 'legendary_action',
+        'template' => 'attack',
+        'targetType' => 'melee',
+        'attackAbility' => 'str',
+        'attackType' => 'weapon',
+        'attackReach' => 5,
+        
+        'cr_scaling' => [
+            0 => [
+                'attackDamage' => [
+                    [
+                        'diceType' => 6,
+                        'diceAmount' => 1,
+                        'additional' => 0,
+                        'abilityBonus' => true,
+                        'type' => 'slashing'
+                    ],
+                ],
+            ],
+            5 => [
+                'attackDamage' => [
+                    [
+                        'diceType' => 6,
+                        'diceAmount' => 2,
+                        'additional' => 0,
+                        'abilityBonus' => true,
+                        'type' => 'slashing'
+                    ],
+                ],
+            ],
+            10 => [
+                'attackDamage' => [
+                    [
+                        'diceType' => 6,
+                        'diceAmount' => 3,
+                        'additional' => 0,
+                        'abilityBonus' => true,
+                        'type' => 'slashing'
+                    ],
+                ],
+            ],
+            15 => [
+                'attackDamage' => [
+                    [
+                        'diceType' => 6,
+                        'diceAmount' => 4,
+                        'additional' => 0,
+                        'abilityBonus' => true,
+                        'type' => 'slashing'
+                    ],
+                ],
+            ],
+            20 => [
+                'attackDamage' => [
+                    [
+                        'diceType' => 6,
+                        'diceAmount' => 5,
+                        'additional' => 0,
+                        'abilityBonus' => true,
+                        'type' => 'slashing'
+                    ],
+                ],
+            ],
+        ],
+
+        'examples' => [
+            'claws' => [
+                'name' => 'f5/features.name_claws',
+                'tags' => [],
+                'default' => [
+                    'primary_damage' => 'slashing'
+                ],
+            ],
+            'bite' => [
+                'name' => 'f5/features.name_bite',
+                'tags' => [],
+                'default' => [
+                    'primary_damage' => 'piercing'
+                ],
+            ],
+        ],
     ],
 
 

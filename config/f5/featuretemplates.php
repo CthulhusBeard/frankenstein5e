@@ -30,6 +30,7 @@ return [
     ],
     'spellcasting' => [
         'name' => 'f5/featuretemplates.spellcasting',
+        'no_trigger' => true,
         'action_options' => [
             'spellcasting',
         ],
