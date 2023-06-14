@@ -797,7 +797,6 @@ export default {
 
 
         setActivePage: function(force = null) {
-            console.log('---setActivePage  '+force);
             if(force) {
                 this.activePage = force;
                 return;
@@ -837,26 +836,17 @@ export default {
                                 returnTips[tipGroup] = [];
                             }
                             returnTips[tipGroup].push(this.creatureTips[tipGroup][i]);
-                            console.log('push');
-                            console.log(this.creatureTips[tipGroup][i]);
                         }
                     }
                 }
-                console.log('returnTips');
-                console.log(returnTips);
                 return returnTips;
             }
-            console.log('this.creatureTips');
-            console.log(this.creatureTips);
             return this.creatureTips;
         },
 
         getTipsFromGroup: function(f5Group, creatureTypes, specificTips = null) {
             let tips = {};
             let skipProperties = ['woc_property'];
-
-            // console.log('creatureTypes');
-            // console.log(creatureTypes);
 
             for(let i in creatureTypes) {
                 if(
@@ -953,7 +943,6 @@ export default {
             } else if(group === 'hit_dice') {
                 this.monsterData.hitPoints.diceType = data;
             } else if(group === 'languages') {
-                console.log(JSON.parse(JSON.stringify(this.monsterData.languages.spokenWritten)));
                 for(let entry of data) {
                     if(!this.monsterData.languages.spokenWritten.includes(entry)) {
                         this.monsterData.languages.spokenWritten.push(entry);
@@ -998,33 +987,24 @@ export default {
                     }
                 }
             } else if(group === 'features') {
-                console.log('TODO ADD FEATURES');
                 for(let entry of data) {
                     if(this.f5.features.hasOwnProperty(entry)) {
-                        console.log('--ADD FEATURE');
-                        console.log(this.f5.features[entry]);
                         let newFeature = this.f5.features[entry];
                         if(newFeature.hasOwnProperty('cr_scaling')) {
                             let crTargetData = this.getValueByHighestProperty(newFeature.cr_scaling, this.targetCR);
-                            console.log('crTargetData');
-                            console.log(crTargetData);
                             crTargetData = this.setDamageAffinities(crTargetData);
                             newFeature = Object.assign(newFeature, crTargetData);
                             delete newFeature.cr_scaling;
                         }
                         newFeature = this.setDamageAffinities(newFeature);
                         if(newFeature.hasOwnProperty('spellcasting')) {
-                            console.log(newFeature.spellcasting);
                             newFeature.spellcasting.spellLevels = this.createDefaultSpellSlots(this.getSpellSlotsByCR(this.targetCR));
-                            console.log(newFeature.spellcasting);
                         }
                         newFeature['trackingId'] = this.createTrackingId();
 
                         this.monsterData.features[this.f5.features[entry].hasOwnProperty('actionType') ? this.f5.features[entry].actionType : 'action'].push(newFeature);
                     }
                 }
-                console.log('features');
-                console.log(this.monsterData.features);
 
             } 
 
@@ -1073,7 +1053,6 @@ export default {
         },
         
         createMonster: function() {
-            console.log('createMonster');
             this.$emit('finish-monster', this.monsterData);
             this.reset();
         },
@@ -1085,6 +1064,7 @@ export default {
 
         createDefaultMonsterData: function() {
             return {
+                name: 'Monster',
                 armorClass: {
                     type: 'none',
                     manual: '10',

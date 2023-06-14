@@ -3,6 +3,10 @@
     
     <div class="wizard-page wizard-page__target-cr flexrow wizard-page__active">
 
+        <div class="wizard-monster-name">
+            New Creature: <input type="text" v-model="monsterData.name" />
+        </div>
+
         <div class="progress-container">
             <div 
                 v-for="(navItem, key) in navData" 
