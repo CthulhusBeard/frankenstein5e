@@ -33,12 +33,12 @@
 
         <!-- Custom -->
         <div class="feature__options feature__option-custom" v-if="value.template === 'custom'">
-            <textarea rows="5" class="feature__description-textarea" v-model="value.customDescription"></textarea>
+            <textarea rows="5" class="feature__description-textarea" v-model="value.custom.description"></textarea>
             
             <!-- Damage Options -->
             <div>
                 <label class="title-label">{{f5.misc.title_damage_dice}}:</label>
-                <div class="feature__damage indent-margin" v-for="(damage, index) in value.customDamage">
+                <div class="feature__damage indent-margin" v-for="(damage, index) in value.custom.damage">
                     <div>
                         <label class="title-label">{{f5.misc.dice_amount}}:</label>
                         <select id="feature__damage__dice-amount" name="feature__damage__dice-amount" v-model="damage.diceAmount">
@@ -64,9 +64,9 @@
                         </select>
                     </div>
 
-                    <div class="feature__remove-damage" @click="removeDamageDie('customDamage', index)">x</div>
+                    <div class="feature__remove-damage" @click="removeDamageDie('custom', index)">x</div>
                 </div>
-                <button @click="addDamageDie('customDamage')">{{f5.misc.title_add_damage_die}}</button>
+                <button @click="addDamageDie('custom')">{{f5.misc.title_add_damage_die}}</button>
                 <br/>
                 <br/>
             </div>
@@ -171,23 +171,23 @@
             
             <div v-if="f5.areaofeffect[value.targetType].target_type === 'select'" >
                 <label class="title-label">{{f5.misc.title_targets}}:</label>
-                <select v-model="value.attackTargets">
+                <select v-model="value.attack.targets">
                     <option v-for="i in 5" :value="i">{{i}}</option>
                 </select>
             </div>
             <div v-if="value.targetType === 'melee' || value.targetType === 'melee_or_ranged'">
                 <label class="title-label">{{f5.misc.title_reach_distance}}:</label>
-                <select v-model="value.attackReach">
+                <select v-model="value.attack.reach">
                     <option v-for="i in f5.areaofeffect['melee'].range" :value="i">{{i}}</option>
                 </select>
             </div>
             <div v-if="value.targetType === 'ranged' || value.targetType === 'melee_or_ranged'">
                 <label class="title-label">{{f5.misc.title_range_distance}}:</label>
-                <select v-model="value.attackRange.low">
+                <select v-model="value.attack.range.low">
                     <option v-for="i in f5.areaofeffect['ranged'].range" :value="i">{{i}}</option>
                 </select>
                 /
-                <select v-model="value.attackRange.high">
+                <select v-model="value.attack.range.high">
                     <option v-for="i in f5.areaofeffect['ranged'].range" :value="i">{{i}}</option>
                 </select>
             </div>
@@ -205,19 +205,19 @@
             <div>
                 <label class="title-label">{{f5.misc.title_attack_type}}:</label>
                 <span v-for="(attackType, i) in f5.attacktypes">
-                    <input type="radio" :id="'aoe_'+i+'_'+value.id" :value="i" v-model="value.attackType">
+                    <input type="radio" :id="'aoe_'+i+'_'+value.id" :value="i" v-model="value.attack.type">
                     <label :for="'aoe_'+i+'_'+value.id">{{attackType.name}}</label>
                 </span>
             </div>
             <label class="title-label">{{f5.misc.title_attack_ability}}:</label>
-            <select v-model="value.attackAbility">
+            <select v-model="value.attack.ability">
                 <option v-for="(ability, i) in f5.abilities" :value="i">{{ability.name}}</option>
             </select>
 
             <!-- Damage Options -->
             <div>
                 <label class="title-label">{{f5.misc.title_damage_dice}}:</label>
-                <div class="feature__damage indent-margin" v-for="(damage, index) in value.attackDamage">
+                <div class="feature__damage indent-margin" v-for="(damage, index) in value.attack.damage">
                     <div>
                         <label class="title-label">{{f5.misc.dice_amount}}:</label>
                         <select id="feature__damage__dice-amount" name="feature__damage__dice-amount" v-model="damage.diceAmount">
@@ -245,9 +245,9 @@
                             <option v-for="(type, i) in $parent.dealableDamageTypes" :value="type.value" >{{type.label}}</option>
                         </select>
                     </div>
-                    <div class="feature__remove-damage" @click="removeDamageDie('attackDamage', index)">x</div>
+                    <div class="feature__remove-damage" @click="removeDamageDie('attack', index)">x</div>
                 </div>
-                <button @click="addDamageDie('attackDamage')">{{f5.misc.title_add_damage_die}}</button>
+                <button @click="addDamageDie('attack')">{{f5.misc.title_add_damage_die}}</button>
                 <br/>
                 <br/>
             </div>
@@ -257,11 +257,11 @@
         <!-- Saving Throw (Can also be added to "Attack") -->
         <div class="feature__options feature__options-saving-throw" v-if="value.template === 'saving_throw' || value.template === 'attack'">
             <label class="title-label" v-if="value.template === 'attack'">{{f5.misc.title_additional_saving_throw}}</label>
-            <input type="checkbox" v-model="value.attackSavingThrow" v-if="value.template === 'attack'">
+            <input type="checkbox" v-model="value.attack.savingThrow" v-if="value.template === 'attack'">
 
-            <div v-if="(value.template === 'attack' && value.attackSavingThrow) || value.template === 'saving_throw'" :class="{'attack-border' : value.template === 'attack'}">
+            <div v-if="(value.template === 'attack' && value.attack.savingThrow) || value.template === 'saving_throw'" :class="{'attack-border' : value.template === 'attack'}">
                 <label class="title-label">{{f5.misc.title_saving_throw_monster_ability}}:</label>
-                <select v-model="value.savingThrowMonsterAbility">
+                <select v-model="value.savingThrow.monsterAbility">
                     <option v-for="(ability, i) in f5.abilities" :value="i">{{ability.name}}</option>
                 </select>
                 <br/>
@@ -269,7 +269,7 @@
                 <label class="title-label">{{f5.misc.title_saving_throw_ability}}:</label>
                 <Multiselect class="edit-field edit-field--flex"
                     :placeholder="f5.misc.choose_abilities"
-                    v-model="value.savingThrowSaveAbilities" 
+                    v-model="value.savingThrow.saveAbilities" 
                     :options="f5.abilities" 
                     mode="tags"
                     :close-on-select="false"
@@ -294,7 +294,7 @@
                 <label class="title-label">{{f5.misc.title_saving_throw_conditions}}:</label>
                 <Multiselect class="edit-field edit-field--flex"
                     :placeholder="f5.misc.choose_conditions"
-                    v-model="value.savingThrowConditions" 
+                    v-model="value.savingThrow.conditions" 
                     :options="f5.conditions" 
                     mode="tags"
                     :close-on-select="false"
@@ -317,13 +317,13 @@
                 <br/>
 
                 <label class="title-label">{{f5.misc.title_half_on_success}}:</label>
-                <input type="checkbox" v-model="value.savingThrowHalfOnSuccess">
+                <input type="checkbox" v-model="value.savingThrow.halfOnSuccess">
                 <br/>
                 
 
                 <!-- Saving Throw Damage Options -->
                 <label class="title-label">{{f5.misc.title_damage_dice}}:</label>
-                <div class="feature__damage" v-for="(damage, index) in value.savingThrowDamage">
+                <div class="feature__damage" v-for="(damage, index) in value.savingThrow.damage">
                     <label class="title-label">{{f5.misc.dice_amount}}:</label>
                     <select id="feature__damage__dice-amount" name="feature__damage__dice-amount" v-model="damage.diceAmount">
                         <option value="0" >0</option>
@@ -346,9 +346,9 @@
                         <option v-for="(type, i) in $parent.dealableDamageTypes" :value="type.value" >{{type.label}}</option>
                     </select>
 
-                    <div class="feature__remove-damage" @click="removeDamageDie('savingThrowDamage', index)">x</div>
+                    <div class="feature__remove-damage" @click="removeDamageDie('savingThrow', index)">x</div>
                 </div>
-                <button @click="addDamageDie('savingThrowDamage')">{{f5.misc.title_add_damage_die}}</button>
+                <button @click="addDamageDie('savingThrow')">{{f5.misc.title_add_damage_die}}</button>
                 <br/>
                 <br/>
             </div>
@@ -357,36 +357,36 @@
         <!-- Ongoing Damage Options -->
         <div class="feature__options feature__option-ongoing" v-if="value.template === 'saving_throw' || value.template === 'attack'">
             <label class="title-label">{{f5.misc.title_ongoing_damage}}</label>
-            <input type="checkbox" v-model="value.hasOngoingDamage">
-            <div class="feature__ongoing-damage indent-margin attack-border" v-if="value.hasOngoingDamage">
+            <input type="checkbox" v-model="value.ongoingDamage.active">
+            <div class="feature__ongoing-damage indent-margin attack-border" v-if="value.ongoingDamage.active">
                 <div>
                     <label class="title-label">{{f5.misc.title_damage_occurance}}:</label>
-                    <input :id="'ongoing-occurs_start-'+value.id" type="radio" value="start" v-model="value.ongoingDamageOccurs">
+                    <input :id="'ongoing-occurs_start-'+value.id" type="radio" value="start" v-model="value.ongoingDamage.occurs">
                     <label :for="'ongoing-occurs_start-'+value.id">{{f5.timepoints.start_of_turn.name}}</label>
-                    <input :id="'ongoing-occurs_end-'+value.id" type="radio" value="end" v-model="value.ongoingDamageOccurs">
+                    <input :id="'ongoing-occurs_end-'+value.id" type="radio" value="end" v-model="value.ongoingDamage.occurs">
                     <label :for="'ongoing-occurs_end-'+value.id">{{f5.timepoints.end_of_turn.name}}</label>
                 </div>
                 
                 <label class="title-label">{{f5.misc.title_damage_duration}}:</label>
                 <div class="three-flex-columns">
                     <div v-for="(duration, i) in f5.durations">
-                        <input :id="'duration_'+i+'_'+value.id" type="radio" :value="i" v-model="value.ongoingDamageDuration">
+                        <input :id="'duration_'+i+'_'+value.id" type="radio" :value="i" v-model="value.ongoingDamage.duration">
                         <label :for="'duration_'+i+'_'+value.id">{{duration.name}}</label>
                     </div>
                 </div>
 
                 <div v-if="value.template === 'saving_throw'">
                     <label class="title-label">{{f5.misc.title_on_failed_save}}:</label>
-                    <input type="checkbox" v-model="value.ongoingDamageOnFailedSave">
+                    <input type="checkbox" v-model="value.ongoingDamage.onFailedSave">
                 </div>
 
                 <div v-if="value.template === 'saving_throw'">
                     <label class="title-label">{{f5.misc.title_repeat_save}}:</label>
-                    <input type="checkbox" v-model="value.ongoingDamageRepeatSave">
+                    <input type="checkbox" v-model="value.ongoingDamage.repeatSave">
                 </div>
 
                 <label class="title-label">{{f5.misc.title_damage_dice}}:</label>
-                <div class="feature__damage" v-for="(damage, index) in value.ongoingDamage">
+                <div class="feature__damage" v-for="(damage, index) in value.ongoingDamage.damage">
                     <div>
                         <label class="title-label">{{f5.misc.dice_amount}}:</label>
                         <select id="feature__damage__dice-amount" name="feature__damage__dice-amount" v-model="damage.diceAmount">
@@ -454,7 +454,7 @@
                     </div>
                     <div>
                         <label class="title-label">{{f5.misc.title_regeneration_dice}}:</label>
-                        <div class="feature__regen indent-margin" v-for="(regen, index) in value.regenerate.amount">
+                        <div class="feature__regen indent-margin" v-for="(regen, index) in value.regenerate.damage">
                             <div>
                                 <label class="title-label">{{f5.misc.dice_amount}}:</label>
                                 <select id="feature__regen__dice-amount" name="feature__regen__dice-amount" v-model="regen.diceAmount">
@@ -473,7 +473,7 @@
                                 <input type="number" min="0" max="9999" :id="'feature__regen__hitpoints-additional'+value.id" name="feature__regen__hitpoints-additional" v-model="regen.additional" value="0" />
                             </div>
 
-                            <div class="feature__remove-regen" @click="removeRegenDie(index)">x</div>
+                            <div class="feature__remove-regen" @click="removeDamageDie('regenerate', index)">x</div>
                         </div>
                         <button @click="addRegenDie()">{{f5.misc.title_add_regeneration_die}}</button>
                         <br/>

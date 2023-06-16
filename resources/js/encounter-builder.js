@@ -290,6 +290,60 @@ export function initVue(f5data) {
                 } 
                 return spellSlots;
             },
+
+            intersectObjectsRecursive: function(input, diffAgainst) {
+                // console.log('===intersectObjectsRecursive===');
+                // console.log(this.cloneObject(input));
+                // console.log(this.cloneObject(diffAgainst));
+
+                if(Array.isArray(input)) {
+                    //console.log('array----------');
+                    //for arrays
+                    let dataIntersection = [];
+                    if(input.length === diffAgainst.length) {
+                        for(let i in input) {
+                            let diff = this.intersectObjectsRecursive(input[i], diffAgainst[i]);
+                            if(diff !== null) {
+                                dataIntersection[i] = diff;
+                            }
+                        }
+                    } else {
+                        dataIntersection = input.filter(val => !diffAgainst.includes(val));
+                    }
+
+                    //console.log(dataIntersection);
+
+                    if(dataIntersection.length) {
+                        return dataIntersection;
+                    }
+
+                } else if(typeof input === 'object') {
+                    //for objects
+                    let dataIntersection = {};
+                    for(let i in input) {
+                        if(diffAgainst.hasOwnProperty(i)) {
+                            let diff = this.intersectObjectsRecursive(input[i], diffAgainst[i]);
+                            if(diff !== null) {
+                                // console.log('--obj key '+i+' --');
+                                dataIntersection[i] = diff;
+                            }
+                        }
+                    }
+                    if(Object.keys(dataIntersection).length) {
+                        return dataIntersection;
+                    }
+                    
+                } else if(input != diffAgainst) {
+                    //other
+                    return input;
+                } 
+                return null;
+            },
+
+            cloneObject: function(obj) {
+                return JSON.parse(JSON.stringify(obj));
+            },
+    
         }
     });
     
@@ -332,7 +386,7 @@ export function initVue(f5data) {
         },
 
         mounted() {
-            this.createStatBlock();
+            //this.createStatBlock();
         },
 
         computed: {
@@ -418,7 +472,7 @@ export function initVue(f5data) {
 
             importMonster: function(monster) {
                 console.log('== import monster ==');
-                let importedStatBlock = JSON.parse(JSON.stringify(monster));
+                let importedStatBlock = this.cloneObject(monster);
                 importedStatBlock.trackingId = this.randChars(15);
                 importedStatBlock.number = 1;
                 console.log(importedStatBlock);
@@ -460,7 +514,7 @@ export function initVue(f5data) {
             clearAllData: function() {
                 if(confirm("Are you sure you want to clear all your encounter data?")) {
                     this.statblocks = [];
-                    this.createStatBlock();
+                    //this.createStatBlock();
                 }
             },
 

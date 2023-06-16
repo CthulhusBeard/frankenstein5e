@@ -113,9 +113,12 @@ return [
         'actionType' => 'action',
         'template' => 'saving_throw', 
         'targetType' => 'cone',
-        'savingThrowMonsterAbility' => 'con',
-        'savingThrowSaveAbilities' => ['dex'],
-        'savingThrowHalfOnSuccess' => true,
+        'savingThrow' => [
+            'monsterAbility' => 'con'
+        ],
+        'savingThrow' => [
+            'saveAbilities' => ['dex']
+        ],
         'recharge' => [
             'type' => 'dice_roll',
             'diceType' => 6,
@@ -125,50 +128,58 @@ return [
         'cr_scaling' => [
             0 => [
                 'aoeRange' => 15,
-                'savingThrowDamage' => [
-                    [
-                        'diceType' => 6,
-                        'diceAmount' => 6,
-                        'additional' => 0,
-                        'abilityBonus' => false,
-                        'type' => ':affinity_elemental',
-                    ]
+                'savingThrow' => [
+                    'damage' => [
+                        [
+                            'diceType' => 6,
+                            'diceAmount' => 6,
+                            'additional' => 0,
+                            'abilityBonus' => false,
+                            'type' => ':affinity_elemental',
+                        ],
+                    ],
                 ],
             ], 
             10 => [
                 'aoeRange' => 30,
-                'savingThrowDamage' => [
-                    [
-                        'diceType' => 6,
-                        'diceAmount' => 15,
-                        'additional' => 0,
-                        'abilityBonus' => false,
-                        'type' => ':affinity_elemental',
-                    ]
+                'savingThrow' => [
+                    'damage' => [
+                        [
+                            'diceType' => 6,
+                            'diceAmount' => 15,
+                            'additional' => 0,
+                            'abilityBonus' => false,
+                            'type' => ':affinity_elemental',
+                        ]
+                    ],
                 ],
             ],
             15 => [
                 'aoeRange' => 60,
-                'savingThrowDamage' => [
-                    [
-                        'diceType' => 6,
-                        'diceAmount' => 18,
-                        'additional' => 0,
-                        'abilityBonus' => false,
-                        'type' => ':affinity_elemental',
-                    ]
+                'savingThrow' => [
+                    'damage' => [
+                        [
+                            'diceType' => 6,
+                            'diceAmount' => 18,
+                            'additional' => 0,
+                            'abilityBonus' => false,
+                            'type' => ':affinity_elemental',
+                        ]
+                    ],
                 ],
             ],
             20 => [
                 'aoeRange' => 90,
-                'savingThrowDamage' => [
-                    [
-                        'diceType' => 6,
-                        'diceAmount' => 25,
-                        'additional' => 0,
-                        'abilityBonus' => false,
-                        'type' => ':affinity_elemental',
-                    ]
+                'savingThrow' => [
+                    'damage' => [
+                        [
+                            'diceType' => 6,
+                            'diceAmount' => 25,
+                            'additional' => 0,
+                            'abilityBonus' => false,
+                            'type' => ':affinity_elemental',
+                        ]
+                    ],
                 ],
             ],
         ]
@@ -193,63 +204,69 @@ return [
         'name' => 'f5/features.name_melee_attack',
         'actionType' => 'action',
         'template' => 'attack',
-        'targetType' => 'melee',
-        'attackAbility' => 'str',
-        'attackType' => 'weapon',
-        'attackReach' => 5,
         'cr_scaling' => [
             0 => [
-                'attackDamage' => [
-                    [
-                        'diceType' => 6,
-                        'diceAmount' => 1,
-                        'additional' => 0,
-                        'abilityBonus' => true,
-                        'type' => 'slashing'
+                'attack' => [
+                    'damage' => [
+                        [
+                            'diceType' => 6,
+                            'diceAmount' => 1,
+                            'additional' => 0,
+                            'abilityBonus' => true,
+                            'type' => 'slashing'
+                        ],
                     ],
                 ],
             ],
             5 => [
-                'attackDamage' => [
-                    [
-                        'diceType' => 6,
-                        'diceAmount' => 2,
-                        'additional' => 0,
-                        'abilityBonus' => true,
-                        'type' => 'slashing'
+                'attack' => [
+                    'damage' => [
+                        [
+                            'diceType' => 6,
+                            'diceAmount' => 2,
+                            'additional' => 0,
+                            'abilityBonus' => true,
+                            'type' => 'slashing'
+                        ],
                     ],
                 ],
             ],
             10 => [
-                'attackDamage' => [
-                    [
-                        'diceType' => 6,
-                        'diceAmount' => 3,
-                        'additional' => 0,
-                        'abilityBonus' => true,
-                        'type' => 'slashing'
+                'attack' => [
+                    'damage' => [
+                        [
+                            'diceType' => 6,
+                            'diceAmount' => 3,
+                            'additional' => 0,
+                            'abilityBonus' => true,
+                            'type' => 'slashing'
+                        ],
                     ],
                 ],
             ],
             15 => [
-                'attackDamage' => [
-                    [
-                        'diceType' => 6,
-                        'diceAmount' => 4,
-                        'additional' => 0,
-                        'abilityBonus' => true,
-                        'type' => 'slashing'
+                'attack' => [
+                    'damage' => [
+                        [
+                            'diceType' => 6,
+                            'diceAmount' => 4,
+                            'additional' => 0,
+                            'abilityBonus' => true,
+                            'type' => 'slashing'
+                        ],
                     ],
                 ],
             ],
             20 => [
-                'attackDamage' => [
-                    [
-                        'diceType' => 6,
-                        'diceAmount' => 5,
-                        'additional' => 0,
-                        'abilityBonus' => true,
-                        'type' => 'slashing'
+                'attack' => [
+                    'damage' => [
+                        [
+                            'diceType' => 6,
+                            'diceAmount' => 5,
+                            'additional' => 0,
+                            'abilityBonus' => true,
+                            'type' => 'slashing'
+                        ],
                     ],
                 ],
             ],
@@ -306,64 +323,70 @@ return [
         'name' => 'f5/features.name_melee_attack',
         'actionType' => 'legendary_action',
         'template' => 'attack',
-        'targetType' => 'melee',
-        'attackAbility' => 'str',
-        'attackType' => 'weapon',
-        'attackReach' => 5,
         
         'cr_scaling' => [
             0 => [
-                'attackDamage' => [
-                    [
-                        'diceType' => 6,
-                        'diceAmount' => 1,
-                        'additional' => 0,
-                        'abilityBonus' => true,
-                        'type' => 'slashing'
+                'attack' => [
+                    'damage' => [
+                        [
+                            'diceType' => 6,
+                            'diceAmount' => 1,
+                            'additional' => 0,
+                            'abilityBonus' => true,
+                            'type' => 'slashing'
+                        ],
                     ],
                 ],
             ],
             5 => [
-                'attackDamage' => [
-                    [
-                        'diceType' => 6,
-                        'diceAmount' => 2,
-                        'additional' => 0,
-                        'abilityBonus' => true,
-                        'type' => 'slashing'
+                'attack' => [
+                    'damage' => [
+                        [
+                            'diceType' => 6,
+                            'diceAmount' => 2,
+                            'additional' => 0,
+                            'abilityBonus' => true,
+                            'type' => 'slashing'
+                        ],
                     ],
                 ],
             ],
             10 => [
-                'attackDamage' => [
-                    [
-                        'diceType' => 6,
-                        'diceAmount' => 3,
-                        'additional' => 0,
-                        'abilityBonus' => true,
-                        'type' => 'slashing'
+                'attack' => [
+                    'damage' => [
+                        [
+                            'diceType' => 6,
+                            'diceAmount' => 3,
+                            'additional' => 0,
+                            'abilityBonus' => true,
+                            'type' => 'slashing'
+                        ],
                     ],
                 ],
             ],
             15 => [
-                'attackDamage' => [
-                    [
-                        'diceType' => 6,
-                        'diceAmount' => 4,
-                        'additional' => 0,
-                        'abilityBonus' => true,
-                        'type' => 'slashing'
+                'attack' => [
+                    'damage' => [
+                        [
+                            'diceType' => 6,
+                            'diceAmount' => 4,
+                            'additional' => 0,
+                            'abilityBonus' => true,
+                            'type' => 'slashing'
+                        ],
                     ],
                 ],
             ],
             20 => [
-                'attackDamage' => [
-                    [
-                        'diceType' => 6,
-                        'diceAmount' => 5,
-                        'additional' => 0,
-                        'abilityBonus' => true,
-                        'type' => 'slashing'
+                'attack' => [
+                    'damage' => [
+                        [
+                            'diceType' => 6,
+                            'diceAmount' => 5,
+                            'additional' => 0,
+                            'abilityBonus' => true,
+                            'type' => 'slashing'
+                        ],
                     ],
                 ],
             ],

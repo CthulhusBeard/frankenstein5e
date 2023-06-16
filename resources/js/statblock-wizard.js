@@ -25,6 +25,12 @@ export default {
             encounterDifficulty: 'medium',
 
             addLegendaryResistances: false,
+            combatStyle: 'melee',
+            combatStyleOptions: [
+                'Melee',
+                'Ranged',
+                'Spellcasting'
+            ],
 
             pageKeys: {
                 targetCR: false,
@@ -60,8 +66,17 @@ export default {
                     pageKey: 'choose-type',
                     //tips: null,
                 },
-                creatureStats: {
+                creatureCombatStyle: {
                     navOrder: 3,
+                    isSet: false,
+                    navTitle: 'Combat Style',
+                    title: 'Combat Style',
+                    subtitle: 'What type of combat is your creature most proficient with?',
+                    pageKey: 'creature-combat-style',
+                    tips: ['combat_style'],
+                },
+                creatureStats: {
+                    navOrder: 4,
                     isSet: false,
                     navTitle: 'Ability Scores',
                     title: 'Ability Scores & Modifiers',
@@ -78,7 +93,7 @@ export default {
                     tips: ['stats', 'saves'],
                 },
                 creatureArmorHP: {
-                    navOrder: 4,
+                    navOrder: 5,
                     isSet: false,
                     navTitle: 'AC & HP',
                     title: 'Armor & HP',
@@ -87,7 +102,7 @@ export default {
                     tips: ['ac', 'armor', 'hp', 'hit_dice'],
                 },
                 creatureDamageTypes: {
-                    navOrder: 5,
+                    navOrder: 6,
                     isSet: false,
                     navTitle: 'Damage Types',
                     title: 'Damage Resistance, Immunities, and Vulnerabilites',
@@ -95,7 +110,7 @@ export default {
                     tips: ['damage_resistances', 'damage_immunities', 'damage_vulnerabilites', 'condition_immunities'],
                 },
                 creatureSpeedsSensesLanguagesAlignment: {
-                    navOrder: 6,
+                    navOrder: 7,
                     isSet: false,
                     navTitle: 'Extras',
                     title: 'Speeds, Senses, Languages, and Alignment',
@@ -103,7 +118,7 @@ export default {
                     tips: ['speeds', 'senses', 'languages', 'alignments'],
                 },
                 creatureFeatures: {
-                    navOrder: 7,
+                    navOrder: 8,
                     isSet: false,
                     navTitle: 'Features',
                     title: 'Features',
@@ -134,7 +149,6 @@ export default {
 
     computed: {
         
-
         //Armor Class
         allowAcSelector: function() {
             if(this.monsterData.armorClass && this.monsterData.armorClass.type && this.f5.armor[this.monsterData.armorClass.type]) {
@@ -1016,16 +1030,16 @@ export default {
 
         setDamageAffinities: function (damageData) {
             let affinityText = ':affinity_';
-            let damageOptions = ['attackDamage', 'savingThrowDamage', 'ongoingDamage'];
+            let damageOptions = ['attack', 'savingThrow', 'ongoing'];
             let creatureDamageAffinities = this.creatureAffinities;
 
             for(let damageKey of damageOptions) {
-                if(damageData.hasOwnProperty(damageKey)) { 
-                    for(let i in damageData[damageKey]) {
-                        if(damageData[damageKey][i].type.substring(0, affinityText.length) === affinityText) {
-                            let affinityType = damageData[damageKey][i].type.substring(affinityText.length);
+                if(damageData.hasOwnProperty(damageKey) && damageData[damageKey].hasOwnProperty('damage')) { 
+                    for(let i in damageData[damageKey].damage) {
+                        if(damageData[damageKey].damage[i].type.substring(0, affinityText.length) === affinityText) {
+                            let affinityType = damageData[damageKey].damage[i].type.substring(affinityText.length);
                             if(creatureDamageAffinities.hasOwnProperty(affinityType)) {
-                                damageData[damageKey][i].type = creatureDamageAffinities[affinityType];
+                                damageData[damageKey].damage[i].type = creatureDamageAffinities[affinityType];
                             }
                         }
                     }

@@ -61,7 +61,7 @@
             </div>
         </div>
 
-        <div  :class="{ hidden: !(activePage==='manualCR') }">
+        <div :class="{ hidden: !(activePage==='manualCR') }">
             <div>
                 How many player characters are there?
                 <input type="number" v-model="playerCount" min="1" max="15" />
@@ -118,7 +118,7 @@
             </div>
         </div>
 
-        <div  :class="{ hidden: !(activePage==='creatureType') }">
+        <div :class="{ hidden: !(activePage==='creatureType') }">
             <div class="flex-rows section-container">
 
                 <div class="creature-type-inner-container types">
@@ -204,7 +204,13 @@
     
         </div>
 
-        <div  :class="{ hidden: !(activePage==='creatureStats') }">
+        <div :class="{ hidden: !(activePage==='creatureCombatStyle') }">
+            <select v-model="combatStyle">
+                <option v-for="i in combatStyleOptions" value="i.toLowerCase()">{{i}}</option>
+            </select>
+        </div>
+
+        <div :class="{ hidden: !(activePage==='creatureStats') }">
             
             <div class="section-container flex-rows ">
                 <div class="ability-priority-container">
@@ -230,7 +236,7 @@
 
         </div>
 
-        <div  :class="{ hidden: !(activePage==='manualCreatureStats') }">
+        <div :class="{ hidden: !(activePage==='manualCreatureStats') }">
             
             <div>
                 A common array of ability scores for a CR {{ targetCR }} creature is {{ abilityScoreDistributionByCR(targetCR) }}
@@ -253,7 +259,7 @@
             </div>
         </div>
 
-        <div  :class="{ hidden: !(activePage==='creatureArmorHP') }">
+        <div :class="{ hidden: !(activePage==='creatureArmorHP') }">
             
             <div class="section-container flex-rows ">
                 <div class="select-armor-hp">
@@ -311,7 +317,7 @@
             </div>
         </div>
 
-        <div  :class="{ hidden: !(activePage==='creatureDamageTypes') }">
+        <div :class="{ hidden: !(activePage==='creatureDamageTypes') }">
             
             <div class="section-container flex-rows ">
                 <div class="select-damage-types">
@@ -433,7 +439,7 @@
             </div>
         </div>
         
-        <div  :class="{ hidden: !(activePage==='creatureSpeedsSensesLanguagesAlignment') }">
+        <div :class="{ hidden: !(activePage==='creatureSpeedsSensesLanguagesAlignment') }">
             
             <div class="section-container flex-rows">
                 <div class="select-speeds-senses-languages">
@@ -514,7 +520,7 @@
             </div>
         </div>
 
-        <div  :class="{ hidden: !(activePage==='creatureFeatures') }">
+        <div :class="{ hidden: !(activePage==='creatureFeatures') }">
             <div class="section-container flex-rows ">
 
                 <div v-for="(featureList, featureType) in monsterData.features" v-if="featureList.length">

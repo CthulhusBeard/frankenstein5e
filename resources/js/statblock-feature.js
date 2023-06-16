@@ -18,62 +18,7 @@ export default {
     },
 
     data: function() {
-        return {
-            trackingId: this.initialData.trackingId,
-            value: {
-                actionType: this.initialType,
-                name:  (this.initialType == 'spellcasting' || this.initialType == 'multiattack' ) ? this.f5.misc['title_'+this.initialType] : this.f5.misc.title_feature_name,
-                template: (this.initialType == 'spellcasting' || this.initialType == 'multiattack' ) ? this.initialType : 'custom', 
-                passiveTrigger: 'start_of_turn',
-                attackAbility: 'str',
-                targetType: 'melee',
-                targetLineWidth: 5,
-                attackType: 'weapon',
-                attackRange: {'low': 20, 'high': 60},
-                attackReach: 5,
-                attackDamage: [this.createDamageDie(true)],
-                attackSavingThrow: false,
-                attackTargets: 1,
-                aoeRange: 30,
-                savingThrowMonsterAbility: 'str',
-                savingThrowSaveAbilities: ['str'],
-                savingThrowDamage: [this.createDamageDie()],
-                savingThrowHalfOnSuccess: true,
-                savingThrowConditions: [],
-                hasOngoingDamage: false,
-                ongoingDamage: [this.createDamageDie()],
-                ongoingDamageOccurs: 'start_of_turn',
-                ongoingDamageOnFailedSave: true,
-                ongoingDamageRepeatSave: false,
-                ongoingDamageDuration: 'ongoing',
-                recharge: {
-                    type: 'none',
-                    diceType: 6,
-                    minRoll: 5,
-                    uses: 1,
-                },
-                regenerate: {
-                    type: 'none',
-                    amount: [this.createDamageDie(false, false)],
-                    customText: this.f5.regenerate['custom']['desc'],
-                },
-                
-                spellcasting: this.createDefaultSpellcastingObject(),
-                customDamage: [],
-                customDescription: '',
-                additionalDescription: '',
-                multiattackReferences: [
-                    [],
-                    []
-                ],
-                existingFeatureReferenceId: null,
-                legendaryActionCost: 1,
-                legendaryResistances: 3,
-                manualDPR: -1,
-                manualMaxDPR: -1,
-            },
-            referencedProjection: [], //TODO: do we need this??
-        }
+        return this.defaultFeatureSettings()
     },
 
     created() {
@@ -82,14 +27,25 @@ export default {
             if(skipProps.includes(prop)) {
                 continue;
             }
-            if(prop === 'spellcasting') {
-                this.value[prop] = this.createDefaultSpellcastingObject();
-                for(let spellcastingProp in this.initialData[prop]) {
-                    this.value[prop][spellcastingProp] = this.initialData[prop][spellcastingProp]; 
+
+            if(typeof this.initialData[prop] === 'object') {
+                for(let innerProp in this.initialData[prop]) {
+                    if(innerProp === 'damage') {
+                        for(let i in this.initialData[prop]['damage']) { //array of damage dice
+                            if(!this.value[prop]['damage'].hasOwnProperty(i)) {
+                                this.addDamageDie(prop);
+                            }
+                            for(let damageProp in this.initialData[prop]['damage'][i]) {
+                                this.value[prop]['damage'][i] = this.initialData[prop]['damage'][i];
+                            }
+                        }
+                    } else {
+                        this.value[prop][innerProp] = this.initialData[prop][innerProp];
+                    }
                 }
-                continue;
+            } else {
+                this.value[prop] = this.initialData[prop]; 
             }
-            this.value[prop] = this.initialData[prop]; 
         }
 
     },
@@ -211,8 +167,8 @@ export default {
             if(
                 (
                     this.value.template == 'attack' && 
-                    this.value.attackSavingThrow &&
-                    (this.value.savingThrowConditions.length > 1 || this.value.attackDamage.length > 1)
+                    this.value.attack.savingThrow &&
+                    (this.value.savingThrow.conditions.length > 1 || this.value.attack.damage.length > 1)
                 )
             ) {
                 return true;
@@ -307,7 +263,7 @@ export default {
 
             //Custom Description
             if(this.value.template == 'custom') {
-                descText += this.value.customDescription;
+                descText += this.value.custom.description;
 
             //Multiattack Description
             } else if(this.value.template == 'multiattack') {
@@ -320,7 +276,7 @@ export default {
             //Attack Description
             } else if(this.value.template == 'attack') {
                 descText += this.attackDescription;
-                if(this.value.attackSavingThrow) {
+                if(this.value.attack.savingThrow) {
                     //Add Saving Throw
                     descText += this.savingThrowDescription;
                 }
@@ -546,12 +502,12 @@ export default {
             //Hit
             attackDesc += ' <i>'+this.f5.misc.desc_attack_hit+'</i> ';
             let damageList = [];
-            for(let i in this.value.attackDamage) {
-                damageList.push(this.$parent.createDamageText(this.value.attackDamage[i], this.value.attackAbility));
+            for(let i in this.value.attack.damage) {
+                damageList.push(this.$parent.createDamageText(this.value.attack.damage[i], this.value.attack.ability));
             }
             attackDesc += this.$parent.$parent.createSentenceList(damageList);
 
-            if(!this.value.attackSavingThrow) {
+            if(!this.value.attack.savingThrow) {
                 attackDesc += this.f5.misc.sentence_end;
             }
 
@@ -560,13 +516,13 @@ export default {
 
         savingThrowDescription: function() {
             let savingThrowText = '';
-            if(this.value.savingThrowDamage.length >= 1 && this.value.savingThrowConditions.length >= 2) {
+            if(this.value.savingThrow.damage.length >= 1 && this.value.savingThrow.conditions.length >= 2) {
                 savingThrowText = this.f5.misc.desc_attack_saving_throw_damage_condition;
-            } else if(this.value.savingThrowDamage.length >= 1 && this.value.savingThrowConditions.length >= 1) {
+            } else if(this.value.savingThrow.damage.length >= 1 && this.value.savingThrow.conditions.length >= 1) {
                 savingThrowText = this.f5.misc.desc_attack_saving_throw_damage_condition;
-            } else if(this.value.savingThrowDamage.length >= 1) {
+            } else if(this.value.savingThrow.damage.length >= 1) {
                 savingThrowText = this.f5.misc.desc_attack_saving_throw_damage;
-            } else if(this.value.savingThrowConditions.length >= 1) {
+            } else if(this.value.savingThrow.conditions.length >= 1) {
                 savingThrowText = this.f5.misc.desc_attack_saving_throw_condition;
             }
 
@@ -575,11 +531,11 @@ export default {
             //TODO change to 1 for single saving throw target
             if(this.value.template == 'attack') {
                 //TODO: override if saving throw area is different than attack targets
-                stTargetCount = this.value.attackTargets;
+                stTargetCount = this.value.attack.targets;
             }
 
             if(this.value.template == 'attack') {
-                savingThrowText = savingThrowText.replace(':target_text', this.$parent.pluralize(this.f5.misc.the_target, this.value.attackTargets));
+                savingThrowText = savingThrowText.replace(':target_text', this.$parent.pluralize(this.f5.misc.the_target, this.value.attack.targets));
             } else {
 
                 let targetText = '';
@@ -604,7 +560,7 @@ export default {
             }
             
             //Adjust for run-on sentences
-            if(this.value.template == 'attack' && this.value.attackSavingThrow && this.value.attackDamage.length > 0) {
+            if(this.value.template == 'attack' && this.value.attack.savingThrow && this.value.attack.damage.length > 0) {
                 if(this.hasRunOnSentence) {
                     savingThrowText = this.f5.misc.sentence_end+' '+this.f5.misc.additionally.replace(':addition', savingThrowText);
                 } else {
@@ -615,7 +571,7 @@ export default {
             }
             
             //Half as much
-            if(this.value.savingThrowHalfOnSuccess) {
+            if(this.value.savingThrow.halfOnSuccess) {
                 savingThrowText = savingThrowText.replace(':half_as_much', this.f5.misc.desc_saving_throw_half_on_success);
             } else {
                 savingThrowText = savingThrowText.replace(':half_as_much', '');
@@ -623,24 +579,24 @@ export default {
             }
 
             //Add Saving Throw Damage
-            if(this.value.savingThrowDamage.length) {
+            if(this.value.savingThrow.damage.length) {
                 let stDamageList = [];
-                for(let i in this.value.savingThrowDamage) {
-                    stDamageList.push(this.$parent.createDamageText(this.value.savingThrowDamage[i], this.value.savingThrowMonsterAbility));
+                for(let i in this.value.savingThrow.damage) {
+                    stDamageList.push(this.$parent.createDamageText(this.value.savingThrow.damage[i], this.value.savingThrow.monsterAbility));
                 }
                 savingThrowText = savingThrowText.replace(':damage', this.$parent.$parent.createSentenceList(stDamageList));
             }
 
             //Add Saving Throw Conditions
-            if(this.value.savingThrowConditions.length) {
+            if(this.value.savingThrow.conditions.length) {
                 let stConditionList = [];
                 let stNotConditionList = [];
-                for(let i in this.value.savingThrowConditions) {
+                for(let i in this.value.savingThrow.conditions) {
                     stConditionList.push(
-                        this.$parent.pluralize(this.f5.conditions[this.value.savingThrowConditions[i]].is, stTargetCount).replace(':condition', this.f5.conditions[this.value.savingThrowConditions[i]].name.toLowerCase()
+                        this.$parent.pluralize(this.f5.conditions[this.value.savingThrow.conditions[i]].is, stTargetCount).replace(':condition', this.f5.conditions[this.value.savingThrow.conditions[i]].name.toLowerCase()
                     ));
                     stNotConditionList.push(
-                        this.$parent.pluralize(this.f5.conditions[this.value.savingThrowConditions[i]].not, stTargetCount).replace(':condition', this.f5.conditions[this.value.savingThrowConditions[i]].name.toLowerCase()
+                        this.$parent.pluralize(this.f5.conditions[this.value.savingThrow.conditions[i]].not, stTargetCount).replace(':condition', this.f5.conditions[this.value.savingThrow.conditions[i]].name.toLowerCase()
                     ));
                     //TODO replace distance for pushed
                 }
@@ -661,8 +617,8 @@ export default {
             }
 
             if(!regenObj['requires_damage'] || this.value.regenerate.type === 'custom') {
-                for(let i = 0; i < this.value.regenerate.amount.length; i++) {
-                    regenList.push(this.$parent.createDamageText(this.value.regenerate.amount[i]));
+                for(let i = 0; i < this.value.regenerate.damage.length; i++) {
+                    regenList.push(this.$parent.createDamageText(this.value.regenerate.damage[i]));
                 }
                 desc = desc.replace(':regenerate_hit_point_amount', this.$parent.$parent.createSentenceList(regenList));
             }
@@ -715,10 +671,11 @@ export default {
         },
 
         savingThrowSaveAbilities: function() {
-            if(this.value.savingThrowSaveAbilities.length === 0) {
-                this.value.savingThrowSaveAbilities = ['str'];
+            //Force one to always exist. you must always have a save ability for a saving throw
+            if(this.value.savingThrow.saveAbilities.length === 0) {
+                this.value.savingThrow.saveAbilities = ['str'];
             }
-            return this.value.savingThrowSaveAbilities;
+            return this.value.savingThrow.saveAbilities;
         },
     },
 
@@ -876,8 +833,8 @@ export default {
                 projectionObj.regenerate = 0; //Fix this
                 
                 if(this.value.regenerate.type === 'custom' || this.value.regenerate.type === 'automatic') {
-                    for(let i in this.value.regenerate.amount) {
-                        let regen = this.$parent.averageDamage(this.value.regenerate.amount[i]);
+                    for(let i in this.value.regenerate.damage) {
+                        let regen = this.$parent.averageDamage(this.value.regenerate.damage[i]);
                         projectionObj.regenerate += regen; //Fix this
                     }
                 } else if(this.value.regenerate.type === 'damage_dealt') {
@@ -890,39 +847,42 @@ export default {
             return projectionObj
         },
 
-        addDamageDie: function(type) {
-            let damageDie = this.createDamageDie(this.value[type].length > 0 ? false : true); //false for each damage set after the first
-            this.value[type].push(damageDie);
+        addDamageDie: function(type, applyModifier = null) {
+            if(applyModifier === null) {
+                if(this.value[type].damage.length > 0) {  //false for each damage set after the first
+                    applyModifier = false;
+                } else {
+                    applyModifier = true;
+                }
+            }
+
+            let damageDie = this.createDamageDie(applyModifier);
+            this.value[type].damage.push(damageDie);
         },
 
         removeDamageDie: function(type, i) {
-            this.value[type].splice(i, 1);
+            this.value[type].damage.splice(i, 1);
         },
 
         addRegenDie: function() {
-            let regenDie = this.createDamageDie(false, false); //false for each damage set after the first
-            this.value.regenerate.amount.push(regenDie);
+            this.addDamageDie('regenerate', false);
         },
 
-        removeRegenDie: function(i) {
-            this.value.regenerate.amount.splice(i, 1);
-        },
+        // addSpell: function(spellLevel = 0) {
+        //     this.value.spellList.push(
+        //         {
+        //             'name': this.f5.misc.title_add_spell_name,
+        //             'level': spellLevel,
+        //             'cast_before': false,
+        //             'at_will': false,
+        //             'uses': 1,
+        //         }
+        //     );
+        // },
 
-        addSpell: function(spellLevel = 0) {
-            this.value.spellList.push(
-                {
-                    'name': this.f5.misc.title_add_spell_name,
-                    'level': spellLevel,
-                    'cast_before': false,
-                    'at_will': false,
-                    'uses': 1,
-                }
-            );
-        },
-
-        removeSpell: function(spellIndex) {
-            this.value.spellList.splice(spellIndex, 1);
-        },
+        // removeSpell: function(spellIndex) {
+        //     this.value.spellList.splice(spellIndex, 1);
+        // },
 
         unsetManualDPR: function() {
             this.value.manualDPR = -1;
@@ -943,8 +903,8 @@ export default {
 
             //Attacks
             str = str.replace(':attack_range', this.f5.areaofeffect[this.value.targetType].name);
-            str = str.replace(':attack_type', this.f5.attacktypes[this.value.attackType].name);
-            str = str.replace(':attack_bonus', this.$parent.addPlus(this.$parent.getAbilityMod(this.value.attackAbility) + this.$parent.proficiency));
+            str = str.replace(':attack_type', this.f5.attacktypes[this.value.attack.type].name);
+            str = str.replace(':attack_bonus', this.$parent.addPlus(this.$parent.getAbilityMod(this.value.attack.ability) + this.$parent.proficiency));
             if(this.value.targetType == 'melee') {
                 str = str.replace(':range', this.f5.misc.reach);
             } else if(this.value.targetType == 'melee_or_ranged') {
@@ -954,17 +914,17 @@ export default {
             } else {
                 str = str.replace(':range', '');
             }
-            str = str.replace(':reach_distance', this.value.attackReach+' '+this.$parent.$parent.editor.measure.measureUnit);
-            if(this.value.attackRange.low >= this.value.attackRange.high) {
-                str = str.replace(':range_distance_low/:range_distance_high', this.value.attackRange.low+' '+this.$parent.$parent.editor.measure.measureUnit);
+            str = str.replace(':reach_distance', this.value.attack.reach+' '+this.$parent.$parent.editor.measure.measureUnit);
+            if(this.value.attack.range.low >= this.value.attack.range.high) {
+                str = str.replace(':range_distance_low/:range_distance_high', this.value.attack.range.low+' '+this.$parent.$parent.editor.measure.measureUnit);
             } else {
-                str = str.replace(':range_distance_low', this.value.attackRange.low);
-                str = str.replace(':range_distance_high', this.value.attackRange.high+' '+this.$parent.$parent.editor.measure.measureUnit);
+                str = str.replace(':range_distance_low', this.value.attack.range.low);
+                str = str.replace(':range_distance_high', this.value.attack.range.high+' '+this.$parent.$parent.editor.measure.measureUnit);
             }
-            str = str.replace(':targets', this.$parent.pluralize(this.f5.misc.num_of_targets, this.value.attackTargets).replace(':target_count', this.value.attackTargets));
+            str = str.replace(':targets', this.$parent.pluralize(this.f5.misc.num_of_targets, this.value.attack.targets).replace(':target_count', this.value.attack.targets));
 
             //Saving Throw
-            str = str.replace(':saving_throw_dc', this.$parent.makeSavingThrowDC(this.value.savingThrowMonsterAbility));
+            str = str.replace(':saving_throw_dc', this.$parent.makeSavingThrowDC(this.value.savingThrow.monsterAbility));
             let abilityList = [];
             for(let i in this.savingThrowSaveAbilities) {
                 abilityList.push(this.f5.abilities[this.savingThrowSaveAbilities[i]].name);
@@ -981,18 +941,18 @@ export default {
             //Damage
             let damageList = [];
             if(this.value.template == 'attack') {
-                for(let i in this.value.attackDamage) {
-                    damageList.push(this.$parent.createDamageText(this.value.attackDamage[i], this.value.attackAbility));
+                for(let i in this.value.attack.damage) {
+                    damageList.push(this.$parent.createDamageText(this.value.attack.damage[i], this.value.attack.ability));
                 }
                 str = str.replace(':feature_damage', this.$parent.$parent.createSentenceList(damageList));
             } else if(this.value.template == 'saving_throw') {
-                for(let i in this.value.savingThrowDamage) {
-                    damageList.push(this.$parent.createDamageText(this.value.savingThrowDamage[i], this.value.savingThrowMonsterAbility));
+                for(let i in this.value.savingThrow.damage) {
+                    damageList.push(this.$parent.createDamageText(this.value.savingThrow.damage[i], this.value.savingThrow.monsterAbility));
                 }
                 str = str.replace(':feature_damage', this.$parent.$parent.createSentenceList(damageList));
             } else if(this.value.template == 'custom') {
-                for(let i in this.value.customDamage) {
-                    damageList.push(this.$parent.createDamageText(this.value.customDamage[i]));
+                for(let i in this.value.custom.damage) {
+                    damageList.push(this.$parent.createDamageText(this.value.custom.damage[i]));
                 }
                 str = str.replace(':feature_damage', this.$parent.$parent.createSentenceList(damageList));
             }
@@ -1002,8 +962,8 @@ export default {
                 let regenObj = this.f5.regenerate[this.value.regenerate.type];
                 let regenList = [];
                 if(!regenObj['requires_damage'] || this.value.regenerate.type === 'custom') {
-                    for(let i = 0; i < this.value.regenerate.amount.length; i++) {
-                        regenList.push(this.$parent.createDamageText(this.value.regenerate.amount[i]));
+                    for(let i = 0; i < this.value.regenerate.damage.length; i++) {
+                        regenList.push(this.$parent.createDamageText(this.value.regenerate.damage[i]));
                     }
                     str = str.replace(':feature_regen', this.$parent.$parent.createSentenceList(regenList));
                 }
@@ -1054,23 +1014,23 @@ export default {
 
             } else if(this.value.template === 'attack') { 
                 // Attack Average DPR
-                for(let i in this.value.attackDamage) {
-                    avgDPR += this.$parent.averageDamage(this.value.attackDamage[i], this.value.attackAbility, useMax);
+                for(let i in this.value.attack.damage) {
+                    avgDPR += this.$parent.averageDamage(this.value.attack.damage[i], this.value.attack.ability, useMax);
                 }
                 
-                if(this.value.hasOngoingDamage) {
-                    for(let i in this.value.ongoingDamage) {
-                        avgDPR += this.$parent.averageDamage(this.value.ongoingDamage[i], 0, useMax);
+                if(this.value.ongoingDamage.active) {
+                    for(let i in this.value.ongoingDamage.damage) {
+                        avgDPR += this.$parent.averageDamage(this.value.ongoingDamage.damage[i], 0, useMax);
                     }
                 }
                 
-                if(this.value.attackSavingThrow) {
-                    for(let i in this.value.savingThrowDamage) {
-                        avgDPR += this.$parent.averageDamage(this.value.savingThrowDamage[i], 0, useMax);
+                if(this.value.attack.savingThrow) {
+                    for(let i in this.value.savingThrow.damage) {
+                        avgDPR += this.$parent.averageDamage(this.value.savingThrow.damage[i], 0, useMax);
                     }
                 }
 
-                avgTargets = this.value.attackTargets;
+                avgTargets = this.value.attack.targets;
 
                 //Include average AC and chance to hit?? Average ~16
 
@@ -1078,8 +1038,8 @@ export default {
             } else if(this.value.template === 'saving_throw') { 
                 // Saving Throw Average DPR
 
-                for(let i in this.value.savingThrowDamage) {
-                    avgDPR += this.$parent.averageDamage(this.value.savingThrowDamage[i], 0, useMax);
+                for(let i in this.value.savingThrow.damage) {
+                    avgDPR += this.$parent.averageDamage(this.value.savingThrow.damage[i], 0, useMax);
                 }
 
                 let distanceBaseline = 30;
@@ -1120,8 +1080,8 @@ export default {
                 avgDPR = multiDPR;
             } else if(this.value.template === 'custom') { 
                 // Custom Ability Average DPR
-                for(let i in this.value.customDamage) {
-                    avgDPR += this.$parent.averageDamage(this.value.customDamage[i], 0, useMax);
+                for(let i in this.value.custom.damage) {
+                    avgDPR += this.$parent.averageDamage(this.value.custom.damage[i], 0, useMax);
                 }
             }
 
@@ -1185,11 +1145,9 @@ export default {
         },
 
         exportFeature: function() {
-            let exportData = JSON.parse(JSON.stringify(this.value));
+            let exportData = this.cloneObject(this.value);
             exportData.trackingId = this.trackingId;
             delete exportData.number;
-
-            console.log();
 
             //Remove projection from Multiattack
             for(let maRefGroup of exportData.multiattackReferences) {
@@ -1198,9 +1156,89 @@ export default {
                 }
             }
 
-            console.log('Export feature');
+            console.log('start exportFeature');
+            console.log(exportData);
+            console.log(this.defaultFeatureSettings().value);
+
+            exportData = this.intersectObjectsRecursive(exportData, this.defaultFeatureSettings().value);
+
+            console.log('finish Export feature');
             console.log(exportData);
             return exportData;
         },
+
+        defaultFeatureSettings: function() {
+            return {
+                trackingId: this.initialData.trackingId,
+                value: {
+                    actionType: this.initialType,
+                    name:  (this.initialType == 'spellcasting' || this.initialType == 'multiattack' ) ? this.f5.misc['title_'+this.initialType] : this.f5.misc.title_feature_name,
+                    template: (this.initialType == 'spellcasting' || this.initialType == 'multiattack' ) ? this.initialType : 'custom', 
+                    passiveTrigger: 'start_of_turn',
+                    targetType: 'melee',
+                    targetLineWidth: 5,
+
+                    attack: {
+                        ability: 'str',
+                        type: 'weapon',
+                        range: {'low': 20, 'high': 60},
+                        reach: 5,
+                        damage: [this.createDamageDie(true)],
+                        savingThrow: false,
+                        targets: 1,
+                    },
+
+                    aoeRange: 30,
+
+                    savingThrow: {
+                        monsterAbility: 'str',
+                        saveAbilities: ['str'],
+                        damage: [this.createDamageDie()],
+                        halfOnSuccess: true,
+                        conditions: [],
+                    },
+
+                    ongoingDamage: {
+                        active: false,
+                        damage: [this.createDamageDie()],
+                        occurs: 'start_of_turn',
+                        onFailedSave: true,
+                        repeatSave: false,
+                        duration: 'ongoing',
+                    },
+
+                    recharge: {
+                        type: 'none',
+                        diceType: 6,
+                        minRoll: 5,
+                        uses: 1,
+                    },
+                    regenerate: {
+                        type: 'none',
+                        damage: [this.createDamageDie(false, false)],
+                        customText: this.f5.regenerate['custom']['desc'],
+                    },
+                    
+                    spellcasting: this.createDefaultSpellcastingObject(),
+
+                    custom: {
+                        damage: [],
+                        description: '',
+                    },
+
+                    additionalDescription: '',
+                    multiattackReferences: [
+                        [],
+                        []
+                    ],
+                    existingFeatureReferenceId: null,
+                    legendaryActionCost: 1,
+                    legendaryResistances: 3,
+                    manualDPR: -1,
+                    manualMaxDPR: -1,
+                },
+                referencedProjection: [], //TODO: do we need this??
+            }
+        }
     },       
 };

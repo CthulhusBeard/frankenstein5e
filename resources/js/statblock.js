@@ -19,92 +19,13 @@ export default {
         'StatblockFeature': StatBlockFeature,
     },
 
-    //expose: ['value.name'],
-
     data: function() {
-        return {
-            mountedFeatures: 0,
-            editMode: false,
-            trackingId: this.initialStatblock.trackingId,
-            value: {
-                name: 'Monster',
-                shortName: '',
-                isNameProperNoun: false,
-                size: 'medium',
-                type: 'dragon',
-                subtypes: [],
-                customSubtype: '',
-                typeCategory: '',
-                alignment: '',
-                showTypicalAlignment: true,
-                armorClass: {
-                    type: 'none',
-                    manual: '10',
-                    bonus: '0',
-                    stealthDis: false,
-                    shield: false,
-                    mageArmor: false,
-                },
-                hitPoints: {
-                    diceType: 4,
-                    diceAmount: 1,
-                    additional: 0,
-                },
-                abilities: this.createDefaultAbilityScores(),
-                savingThrows: this.createDefaultSavingThrows(),
-                damageResistances: [],
-                damageImmunities: [],
-                damageVulnerabilites: [],
-                conditionImmunities: [],
-                skills: [],
-                expertise: [],
-                languages: this.createDefaultLanguages(),
-                speeds: this.createDefaultSpeeds(),
-                hover: false,
-                senses: this.createDefaultSenses(),
-                manualOverride: {
-                    proficiency: -1,
-                    casterLevel: -1,
-                    challengeRating: -1,
-                    challengeRatingLair: -1,
-                },
-                targetCR: {
-                    offensive: {
-                    }, 
-                    defensive: {
-                    }
-                },
-                mythicTrait: {
-                    name: this.f5.misc.mythic_trait_name,
-                    description: this.f5.misc.mythic_trait_desc,
-                    recharge: 'short_rest',
-                    restoreHitPoints: true,
-                },
-                legendaryActions: 3,
-                reactions: 1,
-                actions: 1,
-                bonusActions: 1,
-                features: {
-                    passive: [],
-                    spellcasting: [],
-                    multiattack: [],
-                    action: [],
-                    bonus_action: [],
-                    reaction: [],
-                    legendary_action: [],
-                    mythic_action: [],
-                    lair_action: [],
-                },
-                display: {
-                    columns: 1,
-                }
-            },
-            generatedProjection: {},
-        }
+        return this.defaultMonsterSettings()
     },
 
     created() {
         for(let prop in this.initialStatblock) {
+            console.log('import '+prop);
             if(prop === 'id' || prop === 'trackingId') {
                 continue;
             }
@@ -116,9 +37,51 @@ export default {
                 continue;
             }
 
-            this.value[prop] = this.initialStatblock[prop]; 
-
+            if(typeof this.initialStatblock[prop] === 'object') {
+                for(let i in this.initialStatblock[prop]) {
+                    this.value[prop][i] = this.initialStatblock[prop][i];
+                }
+            } else {
+                this.value[prop] = this.initialStatblock[prop]; 
+            }
         }
+
+        // console.log('test');
+        // console.log(this.intersectObjectsRecursive(
+        //     {
+        //         same1: 'same1',
+        //         diff1: 'diff1',
+        //         diff3: {
+        //             same21: 1,
+        //             same22: 2,
+        //             diff4: 32,
+        //             same23: [
+        //                 1
+        //             ],
+        //             diff5: [
+        //                 1,
+        //                 2
+        //             ],
+        //         },
+        //     }, 
+        //     {
+        //         same1: 'same1',
+        //         diff1: 1,
+        //         diff2: 'bar4',
+        //         diff3: {
+        //             same21: 1,
+        //             same22: 2,
+        //             diff4: 3,
+        //             same23: [
+        //                 1
+        //             ],
+        //             diff5: [
+        //                 1,
+        //                 3
+        //             ],
+        //         },
+        //     }
+        // ));
     },
 
     mounted() {
@@ -1386,7 +1349,7 @@ export default {
 
 
             //console.log('Projections Data');
-            //console.log(JSON.parse(JSON.stringify(projections)));
+            //console.log(this.cloneObject(projections));
 
 
             //Simulate combat rounds
@@ -1408,10 +1371,6 @@ export default {
                         this.prepareProjectionFields(projection);
                         this.incrementProjectionTurn(projection); //Increments cooldowns etc
                     }
-
-                    // console.log('---start round '+roundNum);
-                    // console.log(actionType);
-                    // console.log(JSON.parse(JSON.stringify(projections[actionType])));
 
                     //Sort by most damage
                     projections[actionType].options = projections[actionType].options.sort(function (a, b) {
@@ -1438,7 +1397,7 @@ export default {
                                 if(!projections[actionType].rounds[roundNum]) {
                                     projections[actionType].rounds[roundNum] = [];
                                 }
-                                projections[actionType].rounds[roundNum].push(JSON.parse(JSON.stringify(projection))); //Copy a clone of the feature in its current state
+                                projections[actionType].rounds[roundNum].push(this.cloneObject(projection)); //Copy a clone of the feature in its current state
                                 actionCount += actionCost;
 
                                 //Sets cooldowns and decrements "uses" for limited use features
@@ -1879,25 +1838,26 @@ export default {
 
         exportMonster: function() {
             console.log('------Export Monster------');
-            let cloneOptions = JSON.parse(JSON.stringify(this.value));
+            let cloneOptions = this.cloneObject(this.value);
 
-            console.log(this.$refs);
             let exportFeatures = {};
             for(let actionType in this.value.features) {
-                console.log(actionType);
-                console.log(this.$refs['features_'+actionType]);
                 if(this.$refs['features_'+actionType]) {
                     exportFeatures[actionType] = [];
                     for(let feature of this.$refs['features_'+actionType]) {
                         exportFeatures[actionType].push(feature.exportFeature());
                     }
-                    console.log(exportFeatures[actionType]);
                 }
             }
             //TODO replace features with export features
             cloneOptions.features = exportFeatures;
 
-            console.log(cloneOptions);
+            console.log('pre intersect');
+            console.log(this.cloneObject(cloneOptions));
+
+            cloneOptions = this.intersectObjectsRecursive(cloneOptions, this.defaultMonsterSettings().value);
+            console.log('post intersect');
+            console.log(this.cloneObject(cloneOptions));
             
             navigator.clipboard.writeText(JSON.stringify(cloneOptions));
             alert('Copied statblock data of "'+this.value.name+'" to clipboard.');
@@ -2034,5 +1994,88 @@ export default {
 
             return exportString;
         },
+
+        defaultMonsterSettings: function() {
+            return {
+                mountedFeatures: 0,
+                editMode: false,
+                trackingId: this.initialStatblock.trackingId,
+                value: {
+                    name: 'Monster',
+                    shortName: '',
+                    isNameProperNoun: false,
+                    size: 'medium',
+                    type: 'dragon',
+                    subtypes: [],
+                    customSubtype: '',
+                    typeCategory: '',
+                    alignment: '',
+                    showTypicalAlignment: true,
+                    armorClass: {
+                        type: 'none',
+                        manual: '10',
+                        bonus: '0',
+                        stealthDis: false,
+                        shield: false,
+                        mageArmor: false,
+                    },
+                    hitPoints: {
+                        diceType: 4,
+                        diceAmount: 1,
+                        additional: 0,
+                    },
+                    abilities: this.createDefaultAbilityScores(),
+                    savingThrows: this.createDefaultSavingThrows(),
+                    damageResistances: [],
+                    damageImmunities: [],
+                    damageVulnerabilites: [],
+                    conditionImmunities: [],
+                    skills: [],
+                    expertise: [],
+                    languages: this.createDefaultLanguages(),
+                    speeds: this.createDefaultSpeeds(),
+                    hover: false,
+                    senses: this.createDefaultSenses(),
+                    manualOverride: {
+                        proficiency: -1,
+                        casterLevel: -1,
+                        challengeRating: -1,
+                        challengeRatingLair: -1,
+                    },
+                    targetCR: {
+                        offensive: {
+                        }, 
+                        defensive: {
+                        }
+                    },
+                    mythicTrait: {
+                        name: this.f5.misc.mythic_trait_name,
+                        description: this.f5.misc.mythic_trait_desc,
+                        recharge: 'short_rest',
+                        restoreHitPoints: true,
+                    },
+                    legendaryActions: 3,
+                    reactions: 1,
+                    actions: 1,
+                    bonusActions: 1,
+                    features: {
+                        passive: [],
+                        spellcasting: [],
+                        multiattack: [],
+                        action: [],
+                        bonus_action: [],
+                        reaction: [],
+                        legendary_action: [],
+                        mythic_action: [],
+                        lair_action: [],
+                    },
+                    display: {
+                        columns: 1,
+                    }
+                },
+                generatedProjection: {},
+            }
+        },
+
     }
 }
