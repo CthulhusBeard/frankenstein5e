@@ -293,8 +293,8 @@ export function initVue(f5data) {
 
             intersectObjectsRecursive: function(input, diffAgainst) {
                 // console.log('===intersectObjectsRecursive===');
-                // console.log(this.cloneObject(input));
-                // console.log(this.cloneObject(diffAgainst));
+                // console.log(this.clone(input));
+                // console.log(this.clone(diffAgainst));
 
                 if(Array.isArray(input)) {
                     //console.log('array----------');
@@ -340,7 +340,7 @@ export function initVue(f5data) {
                 return null;
             },
 
-            cloneObject: function(obj) {
+            clone: function(obj) {
                 return JSON.parse(JSON.stringify(obj));
             },
     
@@ -366,8 +366,6 @@ export function initVue(f5data) {
                     measureUnitUpName: 'miles',
                 },
                 roundTracker: 7,
-                importMonster: 0,
-                showImportDropdown: false,
             },
             encounterXP: 0,
             encounterDifficulty: f5data.encounterdifficulties['easy'],
@@ -387,6 +385,8 @@ export function initVue(f5data) {
 
         mounted() {
             //this.createStatBlock();
+            console.log('this.sampleMonsters');
+            console.log(this.clone(this.sampleMonsters));
         },
 
         computed: {
@@ -472,10 +472,10 @@ export function initVue(f5data) {
 
             importMonster: function(monster) {
                 console.log('== import monster ==');
-                let importedStatBlock = this.cloneObject(monster);
+                let importedStatBlock = this.clone(monster);
                 importedStatBlock.trackingId = this.randChars(15);
                 importedStatBlock.number = 1;
-                console.log(importedStatBlock);
+                console.log(this.clone(importedStatBlock));
                 this.statblocks.push(importedStatBlock);
             },
 

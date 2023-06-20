@@ -18,36 +18,18 @@ export default {
     },
 
     data: function() {
-        return this.defaultFeatureSettings()
+        return this.defaultFeatureSettings();
     },
 
     created() {
-        let skipProps = ['number'];
-        for(let prop in this.initialData) {
-            if(skipProps.includes(prop)) {
-                continue;
-            }
+        this.rand = Math.random();
+        console.log('Created '+this.rand);
+        console.log(this.initialData);
+    },
 
-            if(typeof this.initialData[prop] === 'object') {
-                for(let innerProp in this.initialData[prop]) {
-                    if(innerProp === 'damage') {
-                        for(let i in this.initialData[prop]['damage']) { //array of damage dice
-                            if(!this.value[prop]['damage'].hasOwnProperty(i)) {
-                                this.addDamageDie(prop);
-                            }
-                            for(let damageProp in this.initialData[prop]['damage'][i]) {
-                                this.value[prop]['damage'][i] = this.initialData[prop]['damage'][i];
-                            }
-                        }
-                    } else {
-                        this.value[prop][innerProp] = this.initialData[prop][innerProp];
-                    }
-                }
-            } else {
-                this.value[prop] = this.initialData[prop]; 
-            }
-        }
-
+    mounted() {
+        console.log('Mounted '+this.rand);
+        console.log(this.initialData);
     },
 
     watch: {
@@ -125,6 +107,7 @@ export default {
                 }
             }
 
+            console.log('EMIT!!  update-feature-name '+this.value.actionType+' - '+this.trackingId+' '+this.value.name);
             this.$emit('update-feature-name', this.value.actionType, this.trackingId, this.value.name, nameText);
             return nameText;
         },
@@ -503,7 +486,7 @@ export default {
             attackDesc += ' <i>'+this.f5.misc.desc_attack_hit+'</i> ';
             let damageList = [];
             for(let i in this.value.attack.damage) {
-                damageList.push(this.$parent.createDamageText(this.value.attack.damage[i], this.value.attack.ability));
+                damageList.push(this.createDamageText(this.value.attack.damage[i], this.value.attack.ability));
             }
             attackDesc += this.$parent.$parent.createSentenceList(damageList);
 
@@ -582,7 +565,7 @@ export default {
             if(this.value.savingThrow.damage.length) {
                 let stDamageList = [];
                 for(let i in this.value.savingThrow.damage) {
-                    stDamageList.push(this.$parent.createDamageText(this.value.savingThrow.damage[i], this.value.savingThrow.monsterAbility));
+                    stDamageList.push(this.createDamageText(this.value.savingThrow.damage[i], this.value.savingThrow.monsterAbility));
                 }
                 savingThrowText = savingThrowText.replace(':damage', this.$parent.$parent.createSentenceList(stDamageList));
             }
@@ -618,7 +601,7 @@ export default {
 
             if(!regenObj['requires_damage'] || this.value.regenerate.type === 'custom') {
                 for(let i = 0; i < this.value.regenerate.damage.length; i++) {
-                    regenList.push(this.$parent.createDamageText(this.value.regenerate.damage[i]));
+                    regenList.push(this.createDamageText(this.value.regenerate.damage[i]));
                 }
                 desc = desc.replace(':regenerate_hit_point_amount', this.$parent.$parent.createSentenceList(regenList));
             }
@@ -858,6 +841,36 @@ export default {
 
             let damageDie = this.createDamageDie(applyModifier);
             this.value[type].damage.push(damageDie);
+        },      
+
+        createDamageText: function(damageObj, ability = 0) {
+            let descText = '';
+            if(damageObj.diceAmount > 0) {
+                descText += this.$parent.averageDamage(damageObj, ability);
+                descText += ' ('+this.f5.misc.die_structure.replace(':die_amount', damageObj.diceAmount).replace(':die_type', damageObj.diceType);
+
+                let additionalDamage = Number(damageObj.additional);
+                if(ability !== 0 && damageObj.abilityBonus) {
+                    additionalDamage += this.$parent.getAbilityMod(ability);
+                }
+                if(additionalDamage != 0) {
+                    descText += ' '+this.addPlus(additionalDamage, true);
+                }
+
+                descText += ')';
+            } else {
+                let additionalDamage = Number(damageObj.additional);
+                if(ability !== 0 && damageObj.abilityBonus) {
+                    additionalDamage += this.$parent.getAbilityMod(ability);
+                }
+                if(additionalDamage != 0) {
+                    descText += ' '+this.addPlus(additionalDamage, true);
+                }
+            }
+            if(damageObj.hasOwnProperty('type')) {
+                descText += ' '+this.f5.misc.damage.replace(':type', this.f5.damagetypes[damageObj.type].name.toLowerCase());
+            }
+            return descText;
         },
 
         removeDamageDie: function(type, i) {
@@ -942,17 +955,17 @@ export default {
             let damageList = [];
             if(this.value.template == 'attack') {
                 for(let i in this.value.attack.damage) {
-                    damageList.push(this.$parent.createDamageText(this.value.attack.damage[i], this.value.attack.ability));
+                    damageList.push(this.createDamageText(this.value.attack.damage[i], this.value.attack.ability));
                 }
                 str = str.replace(':feature_damage', this.$parent.$parent.createSentenceList(damageList));
             } else if(this.value.template == 'saving_throw') {
                 for(let i in this.value.savingThrow.damage) {
-                    damageList.push(this.$parent.createDamageText(this.value.savingThrow.damage[i], this.value.savingThrow.monsterAbility));
+                    damageList.push(this.createDamageText(this.value.savingThrow.damage[i], this.value.savingThrow.monsterAbility));
                 }
                 str = str.replace(':feature_damage', this.$parent.$parent.createSentenceList(damageList));
             } else if(this.value.template == 'custom') {
                 for(let i in this.value.custom.damage) {
-                    damageList.push(this.$parent.createDamageText(this.value.custom.damage[i]));
+                    damageList.push(this.createDamageText(this.value.custom.damage[i]));
                 }
                 str = str.replace(':feature_damage', this.$parent.$parent.createSentenceList(damageList));
             }
@@ -963,7 +976,7 @@ export default {
                 let regenList = [];
                 if(!regenObj['requires_damage'] || this.value.regenerate.type === 'custom') {
                     for(let i = 0; i < this.value.regenerate.damage.length; i++) {
-                        regenList.push(this.$parent.createDamageText(this.value.regenerate.damage[i]));
+                        regenList.push(this.createDamageText(this.value.regenerate.damage[i]));
                     }
                     str = str.replace(':feature_regen', this.$parent.$parent.createSentenceList(regenList));
                 }
@@ -1145,30 +1158,27 @@ export default {
         },
 
         exportFeature: function() {
-            let exportData = this.cloneObject(this.value);
-            exportData.trackingId = this.trackingId;
+            let exportData = this.clone(this.value);
             delete exportData.number;
 
             //Remove projection from Multiattack
             for(let maRefGroup of exportData.multiattackReferences) {
                 for(let maRef of maRefGroup) {
-                    delete maRef.feature;
+                    //delete maRef.feature;
                 }
             }
 
-            console.log('start exportFeature');
-            console.log(exportData);
-            console.log(this.defaultFeatureSettings().value);
-
             exportData = this.intersectObjectsRecursive(exportData, this.defaultFeatureSettings().value);
+            exportData.trackingId = this.trackingId;
 
-            console.log('finish Export feature');
+            console.log('Finish Export feature');
             console.log(exportData);
             return exportData;
         },
 
         defaultFeatureSettings: function() {
-            return {
+
+            let defaultValue = {
                 trackingId: this.initialData.trackingId,
                 value: {
                     actionType: this.initialType,
@@ -1239,6 +1249,30 @@ export default {
                 },
                 referencedProjection: [], //TODO: do we need this??
             }
+    
+            for(let prop in this.initialData.value) {
+    
+                if(typeof this.initialData.value[prop] === 'object') {
+                    for(let innerProp in this.initialData.value[prop]) {
+                        if(innerProp === 'damage') {
+                            for(let i in this.initialData.value[prop]['damage']) { //array of damage dice
+                                if(!defaultValue.value[prop]['damage'].hasOwnProperty(i)) {
+                                    this.addDamageDie(prop);
+                                }
+                                for(let damageProp in this.initialData.value[prop]['damage'][i]) {
+                                    defaultValue.value[prop]['damage'][i][damageProp] = this.initialData.value[prop]['damage'][i][damageProp];
+                                }
+                            }
+                        } else {
+                            defaultValue.value[prop][innerProp] = this.initialData.value[prop][innerProp];
+                        }
+                    }
+                } else {
+                    defaultValue.value[prop] = this.initialData.value[prop]; 
+                }
+            }    
+
+            return defaultValue;
         }
     },       
 };

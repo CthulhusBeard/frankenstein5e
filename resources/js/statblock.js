@@ -20,22 +20,36 @@ export default {
     },
 
     data: function() {
-        return this.defaultMonsterSettings()
+        return this.defaultMonsterSettings();
     },
 
     created() {
         for(let prop in this.initialStatblock) {
-            console.log('import '+prop);
+            //console.log('import: '+prop);
             if(prop === 'id' || prop === 'trackingId') {
                 continue;
             }
             
             if(prop === 'features') {
                 for(let actionType in this.initialStatblock.features) {
-                    this.value.features[actionType] = this.initialStatblock.features[actionType];
+                    if(this.initialStatblock.features[actionType].length) {
+                        for(let feature in this.initialStatblock.features[actionType]) {
+                            let trackingId = (this.initialStatblock.features[actionType][feature]['trackingId']) ? this.initialStatblock.features[actionType][feature]['trackingId'] : this.randChars(15) ;
+                            delete this.initialStatblock.features[actionType][feature]['trackingId'];
+                            this.value.features[actionType].push(
+                                {
+                                    trackingId: trackingId,
+                                    value: this.initialStatblock.features[actionType][feature]
+                                }
+                            );
+                        }
+                    }
                 }
                 continue;
             }
+
+            // console.log(this.value[prop]);
+            // console.log(this.initialStatblock[prop]);
 
             if(typeof this.initialStatblock[prop] === 'object') {
                 for(let i in this.initialStatblock[prop]) {
@@ -46,42 +60,8 @@ export default {
             }
         }
 
-        // console.log('test');
-        // console.log(this.intersectObjectsRecursive(
-        //     {
-        //         same1: 'same1',
-        //         diff1: 'diff1',
-        //         diff3: {
-        //             same21: 1,
-        //             same22: 2,
-        //             diff4: 32,
-        //             same23: [
-        //                 1
-        //             ],
-        //             diff5: [
-        //                 1,
-        //                 2
-        //             ],
-        //         },
-        //     }, 
-        //     {
-        //         same1: 'same1',
-        //         diff1: 1,
-        //         diff2: 'bar4',
-        //         diff3: {
-        //             same21: 1,
-        //             same22: 2,
-        //             diff4: 3,
-        //             same23: [
-        //                 1
-        //             ],
-        //             diff5: [
-        //                 1,
-        //                 3
-        //             ],
-        //         },
-        //     }
-        // ));
+        console.log('Done creating stat block');
+        console.log(this.clone(this.value));
     },
 
     mounted() {
@@ -990,30 +970,6 @@ export default {
             return damage > 0 ? damage : 1;
         },
 
-        createDamageText: function(damageObj, ability = 0) {
-            let descText = '';
-            if(damageObj.diceAmount > 0) {
-                descText += this.averageDamage(damageObj, ability);
-                descText += ' ('+this.f5.misc.die_structure.replace(':die_amount', damageObj.diceAmount).replace(':die_type', damageObj.diceType);
-
-                let additionalDamage = Number(damageObj.additional);
-                if(ability !== 0 && damageObj.abilityBonus) {
-                    additionalDamage += this.getAbilityMod(ability);
-                }
-                if(additionalDamage != 0) {
-                    descText += ' '+this.addPlus(additionalDamage, true);
-                }
-
-                descText += ')';
-            } else {
-                descText = damageObj.additional;
-            }
-            if(damageObj.hasOwnProperty('type')) {
-                descText += ' '+this.f5.misc.damage.replace(':type', this.f5.damagetypes[damageObj.type].name.toLowerCase());
-            }
-            return descText;
-        },
-
         createConditionSentenceList: function(input, inclusive = true) {
             let len = input.length;
             if(isNaN(len)) {
@@ -1349,7 +1305,7 @@ export default {
 
 
             //console.log('Projections Data');
-            //console.log(this.cloneObject(projections));
+            //console.log(this.clone(projections));
 
 
             //Simulate combat rounds
@@ -1397,7 +1353,7 @@ export default {
                                 if(!projections[actionType].rounds[roundNum]) {
                                     projections[actionType].rounds[roundNum] = [];
                                 }
-                                projections[actionType].rounds[roundNum].push(this.cloneObject(projection)); //Copy a clone of the feature in its current state
+                                projections[actionType].rounds[roundNum].push(this.clone(projection)); //Copy a clone of the feature in its current state
                                 actionCount += actionCost;
 
                                 //Sets cooldowns and decrements "uses" for limited use features
@@ -1838,7 +1794,7 @@ export default {
 
         exportMonster: function() {
             console.log('------Export Monster------');
-            let cloneOptions = this.cloneObject(this.value);
+            let cloneOptions = this.clone(this.value);
 
             let exportFeatures = {};
             for(let actionType in this.value.features) {
@@ -1853,11 +1809,11 @@ export default {
             cloneOptions.features = exportFeatures;
 
             console.log('pre intersect');
-            console.log(this.cloneObject(cloneOptions));
+            console.log(this.clone(cloneOptions));
 
             cloneOptions = this.intersectObjectsRecursive(cloneOptions, this.defaultMonsterSettings().value);
             console.log('post intersect');
-            console.log(this.cloneObject(cloneOptions));
+            console.log(this.clone(cloneOptions));
             
             navigator.clipboard.writeText(JSON.stringify(cloneOptions));
             alert('Copied statblock data of "'+this.value.name+'" to clipboard.');

@@ -17,27 +17,40 @@ nav {
     display: flex;
 }
 
-.nav-option {
-    box-sizing: border-box;
-    border: 1px black solid;
-    cursor: pointer;
-    padding: 10px;
-}
-
 .subnav {
     width: 100%;
     display: flex;
 }
 
-.nav-dropdown {
-    position: absolute;
-    z-index: 1000;
-}
-.nav-dropdown-option {
-    cursor: pointer;
+.nav-option {
+    box-sizing: border-box;
     border: 1px black solid;
-    background-color: white;
+    cursor: pointer;
     padding: 10px;
+
+    .nav-dropdown {
+        position: absolute;
+        z-index: 1000;
+        display: none;
+        pointer-events: none;
+        &:hover {
+            display: unset;
+            pointer-events: unset;
+        }
+    }
+    .nav-dropdown-option {
+        cursor: pointer;
+        border: 1px black solid;
+        background-color: white;
+        padding: 10px;
+    }
+
+    &:hover {
+        .nav-dropdown {
+            display: unset;
+            pointer-events: unset;
+        }
+    }
 }
 
 .controls-holder {

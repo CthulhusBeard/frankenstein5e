@@ -46,11 +46,10 @@
                         Create Statblock Using Wizard
                     </div>
                     <div class="nav-option">
-                        <div @click="editor.showImportDropdown = !editor.showImportDropdown">
-                            {{f5.misc.title_monster_template}} 
-                            <span v-if="editor.showImportDropdown">▲</span><span v-else>▼</span>
+                        <div>
+                            {{f5.misc.title_monster_template}} <span>▼</span>
                         </div>
-                        <div class="nav-dropdown" v-if="editor.showImportDropdown">
+                        <div class="nav-dropdown">
                             <div class="nav-dropdown-option" v-for="(monster, i) in sampleMonsters" :value="i" @click="importMonster(sampleMonsters[i])">{{monster.name}}</div>
                         </div>
                     </div>
