@@ -584,6 +584,9 @@ export default {
             let displayText = '';
 
             if(this.value.languages.spokenWritten.includes('all')) {
+                if(this.value.languages.cantSpeak) {
+                    displayText = this.f5.misc.understands_but_cant_speak_desc.replace(':lang_list', this.f5.languages['all'].name);
+                }    
                 return this.f5.languages['all'].name;
             }
 
@@ -594,7 +597,12 @@ export default {
                 displayText += this.f5.languages[lang].name; 
             }
 
-            if(this.value.languages.telepathy) {
+            if(displayText && this.value.languages.cantSpeak) {
+                displayText = this.f5.misc.understands_but_cant_speak_desc.replace(':lang_list', displayText);
+            }
+
+            if(this.value.languages.telepathy > 0) {
+                console.log('add telepathy: '+this.value.languages.telepathy);
                 if(displayText !== '') {
                     displayText += ', ';
                 }
@@ -1807,14 +1815,9 @@ export default {
             }
             //TODO replace features with export features
             cloneOptions.features = exportFeatures;
-
-            console.log('pre intersect');
-            console.log(this.clone(cloneOptions));
-
             cloneOptions = this.intersectObjectsRecursive(cloneOptions, this.defaultMonsterSettings().value);
-            console.log('post intersect');
-            console.log(this.clone(cloneOptions));
-            
+            cloneOptions.cr = this.toCRFormat(this.displayCR);
+
             navigator.clipboard.writeText(JSON.stringify(cloneOptions));
             alert('Copied statblock data of "'+this.value.name+'" to clipboard.');
         },

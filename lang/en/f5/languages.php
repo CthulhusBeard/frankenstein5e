@@ -29,12 +29,17 @@ return [
 
     'druidic' => 'Druidic',
     'thieves_cant' => 'Thieves\' Cant',
+    'languages_it_knew_in_life' => 'all languages it knew in life',
     'telepathy' => 'Telepathy',
+
+    'understands_but_cant_speak_desc' => 'Understands :lang_list but can\'t speak',
 
     
     'understands' => 'understands',
     'rarely_speaks' => 'but rarely speaks',
-    'doesnt_speak' => 'but doesn\'t speak',
+    'cant_speak' => 'but can\'t speak',
+
+    'title_cant_speak' => 'Can\'t Speak',
 
     'title_languages' => 'Languages',
 ];

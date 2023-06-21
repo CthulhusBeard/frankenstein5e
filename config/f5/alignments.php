@@ -43,4 +43,17 @@ return [
     'evil' => [
         'name' => 'f5/alignments.evil',
     ],
+
+    'non_good' => [
+        'name' => 'f5/alignments.non_good',
+    ],
+    'non_evil' => [
+        'name' => 'f5/alignments.non_evil',
+    ],
+    'non_lawful' => [
+        'name' => 'f5/alignments.non_lawful',
+    ],
+    'non_chaotic' => [
+        'name' => 'f5/alignments.non_chaotic',
+    ],
 ];

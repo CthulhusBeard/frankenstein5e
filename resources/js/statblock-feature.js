@@ -18,7 +18,7 @@ export default {
     },
 
     data: function() {
-        return this.defaultFeatureSettings();
+        return this.featureDataSetup();
     },
 
     created() {
@@ -107,7 +107,6 @@ export default {
                 }
             }
 
-            console.log('EMIT!!  update-feature-name '+this.value.actionType+' - '+this.trackingId+' '+this.value.name);
             this.$emit('update-feature-name', this.value.actionType, this.trackingId, this.value.name, nameText);
             return nameText;
         },
@@ -666,7 +665,7 @@ export default {
 
         createDamageDie: function(setAbilityBonus = false, requireDamageType = true) {
             let damageDie = {
-                diceType: 4,
+                diceType: 6,
                 diceAmount: 1,
                 additional: 0,
                 abilityBonus: setAbilityBonus,
@@ -1159,96 +1158,107 @@ export default {
 
         exportFeature: function() {
             let exportData = this.clone(this.value);
-            delete exportData.number;
+            console.log('----------exportFeature----------');
+            console.log(exportData);
+            console.log(this.defaultFeatureValues());
 
-            //Remove projection from Multiattack
-            for(let maRefGroup of exportData.multiattackReferences) {
-                for(let maRef of maRefGroup) {
-                    //delete maRef.feature;
-                }
-            }
+            exportData = this.intersectObjectsRecursive(exportData, this.defaultFeatureValues());
+            
+            console.log('export data');
+            console.log(exportData);
+            console.log(exportData.trackingId);
+            console.log(this.trackingId);
+            console.log(this.initialData.trackingId);
 
-            exportData = this.intersectObjectsRecursive(exportData, this.defaultFeatureSettings().value);
-            exportData.trackingId = this.trackingId;
+            
+            exportData.trackingId = (this.hasOwnProperty('trackingId')) ? this.trackingId : (this.initialData.hasOwnProperty('trackingId')) ? this.initialData.trackingId : this.randChars(15);
 
             console.log('Finish Export feature');
             console.log(exportData);
             return exportData;
         },
 
-        defaultFeatureSettings: function() {
+        defaultFeatureValues: function() {
+            return {
+                actionType: 'custom',
+                name: this.f5.misc.title_feature_name,
+                template: 'custom', 
+                passiveTrigger: 'start_of_turn',
+                targetType: 'melee',
+                targetLineWidth: 5,
+
+                attack: {
+                    ability: 'str',
+                    type: 'weapon',
+                    range: {'low': 20, 'high': 60},
+                    reach: 5,
+                    damage: [this.createDamageDie(true)],
+                    savingThrow: false,
+                    targets: 1,
+                },
+
+                aoeRange: 30,
+
+                savingThrow: {
+                    monsterAbility: 'str',
+                    saveAbilities: ['str'],
+                    damage: [this.createDamageDie()],
+                    halfOnSuccess: true,
+                    conditions: [],
+                },
+
+                ongoingDamage: {
+                    active: false,
+                    damage: [this.createDamageDie()],
+                    occurs: 'start_of_turn',
+                    onFailedSave: true,
+                    repeatSave: false,
+                    duration: 'ongoing',
+                },
+
+                recharge: {
+                    type: 'none',
+                    diceType: 6,
+                    minRoll: 5,
+                    uses: 1,
+                },
+                regenerate: {
+                    type: 'none',
+                    damage: [this.createDamageDie(false, false)],
+                    customText: this.f5.regenerate['custom']['desc'],
+                },
+                
+                spellcasting: this.createDefaultSpellcastingObject(),
+
+                custom: {
+                    damage: [],
+                    description: '',
+                },
+
+                additionalDescription: '',
+                multiattackReferences: [
+                    [],
+                    []
+                ],
+                existingFeatureReferenceId: null,
+                legendaryActionCost: 1,
+                legendaryResistances: 3,
+                manualDPR: -1,
+                manualMaxDPR: -1,
+            };
+        },
+
+        featureDataSetup: function() {
 
             let defaultValue = {
-                trackingId: this.initialData.trackingId,
-                value: {
-                    actionType: this.initialType,
-                    name:  (this.initialType == 'spellcasting' || this.initialType == 'multiattack' ) ? this.f5.misc['title_'+this.initialType] : this.f5.misc.title_feature_name,
-                    template: (this.initialType == 'spellcasting' || this.initialType == 'multiattack' ) ? this.initialType : 'custom', 
-                    passiveTrigger: 'start_of_turn',
-                    targetType: 'melee',
-                    targetLineWidth: 5,
-
-                    attack: {
-                        ability: 'str',
-                        type: 'weapon',
-                        range: {'low': 20, 'high': 60},
-                        reach: 5,
-                        damage: [this.createDamageDie(true)],
-                        savingThrow: false,
-                        targets: 1,
-                    },
-
-                    aoeRange: 30,
-
-                    savingThrow: {
-                        monsterAbility: 'str',
-                        saveAbilities: ['str'],
-                        damage: [this.createDamageDie()],
-                        halfOnSuccess: true,
-                        conditions: [],
-                    },
-
-                    ongoingDamage: {
-                        active: false,
-                        damage: [this.createDamageDie()],
-                        occurs: 'start_of_turn',
-                        onFailedSave: true,
-                        repeatSave: false,
-                        duration: 'ongoing',
-                    },
-
-                    recharge: {
-                        type: 'none',
-                        diceType: 6,
-                        minRoll: 5,
-                        uses: 1,
-                    },
-                    regenerate: {
-                        type: 'none',
-                        damage: [this.createDamageDie(false, false)],
-                        customText: this.f5.regenerate['custom']['desc'],
-                    },
-                    
-                    spellcasting: this.createDefaultSpellcastingObject(),
-
-                    custom: {
-                        damage: [],
-                        description: '',
-                    },
-
-                    additionalDescription: '',
-                    multiattackReferences: [
-                        [],
-                        []
-                    ],
-                    existingFeatureReferenceId: null,
-                    legendaryActionCost: 1,
-                    legendaryResistances: 3,
-                    manualDPR: -1,
-                    manualMaxDPR: -1,
-                },
+                trackingId: (this.initialData.trackingId) ? this.initialData.trackingId : this.randChars(15),
+                value: this.defaultFeatureValues(),
                 referencedProjection: [], //TODO: do we need this??
             }
+
+            defaultValue.value.actionType = this.initialType;
+            defaultValue.value.name = (this.initialType == 'spellcasting' || this.initialType == 'multiattack' ) ? this.f5.misc['title_'+this.initialType] : this.f5.misc.title_feature_name;
+            defaultValue.value.template = (this.initialType == 'spellcasting' || this.initialType == 'multiattack' ) ? this.initialType : 'custom';
     
             for(let prop in this.initialData.value) {
     

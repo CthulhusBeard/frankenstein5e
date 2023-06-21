@@ -239,8 +239,11 @@ return [
 
     'understands' => 'f5/languages.understands',
     'rarely_speaks' => 'f5/languages.rarely_speaks',
-    'doesnt_speak' => 'f5/languages.doesnt_speak',
+    'cant_speak' => 'f5/languages.doesnt_speak',
+    'cant_speak' => 'f5/languages.cant_speak',
+    'title_cant_speak' => 'f5/languages.title_cant_speak',
     'telepathy' => 'f5/languages.telepathy',
+    'understands_but_cant_speak_desc' => 'f5/languages.understands_but_cant_speak_desc',
 
     'cannot_move' => 'f5/speeds.cannot_move',
     'hover' => 'f5/speeds.hover',

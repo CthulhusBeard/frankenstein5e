@@ -50,7 +50,7 @@
                             {{f5.misc.title_monster_template}} <span>▼</span>
                         </div>
                         <div class="nav-dropdown">
-                            <div class="nav-dropdown-option" v-for="(monster, i) in sampleMonsters" :value="i" @click="importMonster(sampleMonsters[i])">{{monster.name}}</div>
+                            <div class="nav-dropdown-option" v-for="(monster, i) in sampleMonsters" :value="i" @click="importMonster(sampleMonsters[i])">{{monster.name}} (CR {{monster.cr}} {{monster.type}})</div>
                         </div>
                     </div>
                     <div class="nav-option" @click="importMonsterFromClipboard()">

@@ -79,7 +79,7 @@ export function initVue(f5data) {
             createDefaultLanguages: function() {
                 let languages = {
                     spokenWritten: [],
-                    doesntSpeak: [],
+                    cantSpeak: false,
                     telepathy: 0,
                 };
                 for(let lang in this.f5.languages) {

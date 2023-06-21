@@ -95,5 +95,9 @@ return [
         'name' => 'f5/languages.thieves_cant',
         'special' => true,
     ],
+    'languages_it_knew_in_life' => [
+        'name' => 'f5/languages.languages_it_knew_in_life',
+        'special' => true,
+    ],
 
 ];

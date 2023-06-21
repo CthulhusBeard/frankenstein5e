@@ -401,14 +401,16 @@
                                     {{f5.misc.title_armor_name}}: <input v-model='value.armorClass.name'/><br/>
                                     <!--Disadvantage on Stealth: <input type="checkbox" v-model="value.armorClass.stealthDis">-->
                                 </div>
-                                <span v-if="allowAcSelector">
-                                    {{f5.misc.title_armor_class}}: <select name="options__armorclass_range" v-model="value.armorClass.manual">
-                                        <option v-for="(val, i) in getAcRange" :value="val" >{{val}}</option>
-                                    </select>
-                                </span>
-                                <span v-if="allowAcBonus">
-                                    {{f5.misc.title_magical_bonus}}: +<input type="number" min="0" max="10" name="options__armorclass_range" v-model="value.armorClass.bonus" />
-                                </span>
+                                <div>
+                                    <span v-if="allowAcSelector">
+                                        {{f5.misc.title_armor_class}}: <select name="options__armorclass_range" v-model="value.armorClass.manual">
+                                            <option v-for="(val, i) in getAcRange" :value="val" >{{val}}</option>
+                                        </select>
+                                    </span>
+                                    <span v-if="allowAcBonus">
+                                        {{f5.misc.title_magical_bonus}}: +<input type="number" min="0" max="10" name="options__armorclass_range" v-model="value.armorClass.bonus" />
+                                    </span>
+                                </div>
                                 <div>
                                     {{f5.misc.title_shield}}: <input name="options__shield" v-model="value.armorClass.shield" type="checkbox" />
                                     {{f5.misc.title_mage_armor}}: <input name="options__mage-armor" v-model="value.armorClass.mageArmor" type="checkbox" /> 
@@ -685,8 +687,13 @@
                                     </template>
                             </Multiselect>
                             
-                            <span for="languages__telepathy" class="edit-field edit-field--inlineBlock">{{f5.misc.telepathy}}</span>
-                            <input type="number" min="0" max="1000" name="languages__telepathy" v-model="value.languages.telepathy" class="edit-field" /> {{measure.measureUnit}}
+                            <span for="languages__telepathy" class="edit-field">{{f5.misc.telepathy}}: 
+                                <input type="number" min="0" max="1000" name="languages__telepathy" v-model="value.languages.telepathy" class="edit-field edit-field--inlineBlock" /> {{measure.measureUnit}}
+                            </span>
+                            
+                            <span for="languages__cant-speak" class="edit-field">
+                                {{f5.misc.title_cant_speak}}: <input name="options__cant-speak" v-model="value.languages.cantSpeak" type="checkbox" />
+                            </span>
                         </div>
 
                         <div class="statblock__attribute focus-edit">

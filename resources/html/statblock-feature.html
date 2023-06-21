@@ -183,13 +183,9 @@
             </div>
             <div v-if="value.targetType === 'ranged' || value.targetType === 'melee_or_ranged'">
                 <label class="title-label">{{f5.misc.title_range_distance}}:</label>
-                <select v-model="value.attack.range.low">
-                    <option v-for="i in f5.areaofeffect['ranged'].range" :value="i">{{i}}</option>
-                </select>
+                <input type="number" max="9999" v-model="value.attack.range.low" />
                 /
-                <select v-model="value.attack.range.high">
-                    <option v-for="i in f5.areaofeffect['ranged'].range" :value="i">{{i}}</option>
-                </select>
+                <input type="number" max="9999" v-model="value.attack.range.high" />
             </div>
             <div v-if="value.targetType === 'line' || value.targetType === 'cone' || value.targetType === 'sphere' || value.targetType === 'cube'">
                 <label class="title-label">{{f5.misc.title_range_distance}}:</label>
