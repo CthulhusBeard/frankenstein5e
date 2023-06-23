@@ -26,11 +26,6 @@ export default {
 
             addLegendaryResistances: false,
             combatStyle: 'melee',
-            combatStyleOptions: [
-                'Melee',
-                'Ranged',
-                'Spellcasting'
-            ],
 
             pageKeys: {
                 targetCR: false,
@@ -82,7 +77,7 @@ export default {
                     title: 'Ability Scores & Modifiers',
                     subtitle: 'What ability scores are most important to your creature?',
                     pageKey: 'choose-stats',
-                    tips: ['stats', 'saves'],
+                    tips: ['stats', 'saves', 'move_stat'],
                 },
                 manualCreatureStats: {
                     isSet: false,
@@ -634,9 +629,10 @@ export default {
             let typeTips = this.getTipsFromGroup(this.f5.creaturetypes, [this.monsterData.type]);
             let subtypeTips = this.getTipsFromGroup(this.f5.creaturesubtypes, this.monsterData.subtypes);
             let sizeTips = this.getTipsFromGroup(this.f5.creaturesizes, [this.monsterData.size]);
+            let combatTips = this.getTipsFromGroup(this.f5.combatstyles, [this.combatStyle]);
             let tagTips = this.getTipsFromGroup(this.f5.tags.creature_options, this.monsterData.typeCategories);
 
-            let tips = Object.assign(crTips, typeTips, subtypeTips, sizeTips, tagTips);
+            let tips = Object.assign(crTips, typeTips, subtypeTips, combatTips, sizeTips, tagTips);
             
             return tips;
         },
@@ -937,6 +933,11 @@ export default {
                 console.log('TODO: FIX THIS ONE');
                 console.log(group);
                 console.log(data);
+
+            } else if(group === 'high_stat') {
+                let indexOfStat = this.monsterData.abilities.indexOf(data);
+                this.monsterData.abilities = this.monsterData.abilities.unshift(this.monsterData.abilities.splice(indexOfStat, 1));
+
             } else if(group === 'ac') {
                 this.monsterData.armorClass.manual = data;
                 if(this.monsterData.armorClass.type === 'none') {

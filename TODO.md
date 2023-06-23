@@ -2,7 +2,6 @@
 
 HIGH PRIORITY
 - [ ] Fix imports for new spellcasting
-- [ ] Fix language options in wizard
 - [ ] Fix saving throw desc to mention targets
 - [ ] Saving throws increase AC (3-4 +2, 5-6 +4)
 - [ ] Allow Custom damage dice to select an ability bonus (display ability bonus on selected attacks)
@@ -34,6 +33,7 @@ BUG FIXES
 MEDIUM PRIORITY
 - [ ] Fix semantic usage on Conditions plus additional conditions
 - [ ] Clean up export to remove unneeded info
+- [ ] Move template options to it's own menu like the wizard
 
 FINAL TOUCHES
 - [ ] Make a logo (no bolts)

@@ -15,10 +15,13 @@
         <div id="page-container">
             <header>
                 <div id="logo">
-                    Logo
+                    <img src="/images/f5logo.png">
                 </div>
-                <div>
-                    Create monsters! Balance encounters! <s>Kill PCs!</s> Have fun! 
+                <div id="header-desc">
+                    <span>Create monsters!</span>
+                    <span>Balance encounters!</span>
+                    <span><s>Kill PCs!</s></span>
+                    <span>Have fun! </span>
                 </div>
             </header>
             <div id="f5">
@@ -39,11 +42,14 @@
                 </nav>
 
                 <div class="subnav" v-if="editor.activeSection == 'statblock-display'">
-                    <div class="nav-option"@click="createStatBlock()">
-                        Create Statblock From Scratch
-                    </div>
-                    <div class="nav-option" @click="initStatBlockWizard()">
-                        Create Statblock Using Wizard
+                    <div class="nav-option">
+                        <div>
+                            Create New Statblock <span>▼</span>
+                        </div>
+                        <div class="nav-dropdown">
+                            <div class="nav-dropdown-option" @click="createStatBlock()" >From Scratch</div>
+                            <div class="nav-dropdown-option" @click="initStatBlockWizard()">Using Wizard</div>
+                        </div>
                     </div>
                     <div class="nav-option">
                         <div>

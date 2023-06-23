@@ -39,6 +39,7 @@ class FrankensteinController extends Controller
                 'alignments',
                 'areaofeffect',
                 'classes',
+                'combatstyles',
                 'conditions',
                 'creaturesizes',
                 'damagetypes',

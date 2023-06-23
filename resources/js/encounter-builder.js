@@ -385,8 +385,6 @@ export function initVue(f5data) {
 
         mounted() {
             //this.createStatBlock();
-            console.log('this.sampleMonsters');
-            console.log(this.clone(this.sampleMonsters));
         },
 
         computed: {

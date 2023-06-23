@@ -206,8 +206,9 @@
 
         <div :class="{ hidden: !(activePage==='creatureCombatStyle') }">
             <select v-model="combatStyle">
-                <option v-for="i in combatStyleOptions" value="i.toLowerCase()">{{i}}</option>
+                <option v-for="(style, i) in f5.combatstyles" :value="i">{{ style.name }}</option>
             </select>
+            <div class="combat-style-text">{{ f5.combatstyles[combatStyle].desc }}</div>
         </div>
 
         <div :class="{ hidden: !(activePage==='creatureStats') }">

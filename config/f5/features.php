@@ -26,7 +26,7 @@ return [
         'has_spell_list' => true,
         'template' => 'spellcasting', 
         'spellcasting' => [
-            'ability' => 'int',
+            'ability' => 'cha',
             'innate' => true,
         ],
     ],
@@ -272,6 +272,13 @@ return [
             ],
         ],
         'examples' => [
+            'shortsword' => [
+                'name' => 'f5/features.name_shortsword',
+                'tags' => [],
+                'default' => [
+                    'primary_damage' => 'slashing'
+                ],
+            ],
             'claws' => [
                 'name' => 'f5/features.name_claws',
                 'tags' => [],
@@ -288,6 +295,116 @@ return [
             ],
         ],
     ],
+
+    'ranged_attack' => [
+        'name' => 'f5/features.name_melee_attack',
+        'actionType' => 'action',
+        'template' => 'attack',
+        'cr_scaling' => [
+            0 => [
+                'attack' => [
+                    'range' => [
+                        'low' => 20, 
+                        'high' => 60
+                    ],
+                    'damage' => [
+                        [
+                            'diceType' => 6,
+                            'diceAmount' => 1,
+                            'additional' => 0,
+                            'abilityBonus' => true,
+                            'type' => 'slashing'
+                        ],
+                    ],
+                ],
+            ],
+            5 => [
+                'attack' => [
+                    'range' => [
+                        'low' => 30, 
+                        'high' => 120
+                    ],
+                    'damage' => [
+                        [
+                            'diceType' => 6,
+                            'diceAmount' => 2,
+                            'additional' => 0,
+                            'abilityBonus' => true,
+                            'type' => 'slashing'
+                        ],
+                    ],
+                ],
+            ],
+            10 => [
+                'attack' => [
+                    'range' => [
+                        'low' => 80, 
+                        'high' => 320
+                    ],
+                    'damage' => [
+                        [
+                            'diceType' => 6,
+                            'diceAmount' => 3,
+                            'additional' => 0,
+                            'abilityBonus' => true,
+                            'type' => 'slashing'
+                        ],
+                    ],
+                ],
+            ],
+            15 => [
+                'attack' => [
+                    'range' => [
+                        'low' => 80, 
+                        'high' => 320
+                    ],
+                    'damage' => [
+                        [
+                            'diceType' => 6,
+                            'diceAmount' => 4,
+                            'additional' => 0,
+                            'abilityBonus' => true,
+                            'type' => 'slashing'
+                        ],
+                    ],
+                ],
+            ],
+            20 => [
+                'attack' => [
+                    'range' => [
+                        'low' => 120, 
+                        'high' => 600
+                    ],
+                    'damage' => [
+                        [
+                            'diceType' => 6,
+                            'diceAmount' => 5,
+                            'additional' => 0,
+                            'abilityBonus' => true,
+                            'type' => 'slashing'
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        'examples' => [
+            'shortbow' => [
+                'name' => 'f5/features.name_shortbow',
+                'tags' => [],
+                'default' => [
+                    'primary_damage' => 'piercing'
+                ],
+            ],
+            'crossbow' => [
+                'name' => 'f5/features.name_crossbow',
+                'tags' => [],
+                'default' => [
+                    'primary_damage' => 'piercing'
+                ],
+            ],
+        ],
+    ],
+
 
     //Saving Throws
     'saving_throw' => [

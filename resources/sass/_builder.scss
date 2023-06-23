@@ -8,8 +8,18 @@ header {
 #logo {
     width: 100%;
     height: $blockHeight;
-    border: 1px black solid;
     box-sizing: border-box;
+
+    img {
+        width: 100%;
+    }
+}
+
+#header-desc {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 10px;
 }
 
 nav {
@@ -22,7 +32,8 @@ nav {
     display: flex;
 }
 
-.nav-option {
+.nav-option { 
+    position: relative;
     box-sizing: border-box;
     border: 1px black solid;
     cursor: pointer;
@@ -30,6 +41,9 @@ nav {
 
     .nav-dropdown {
         position: absolute;
+        left: 0;
+        top: 100%;
+        width: 100%;
         z-index: 1000;
         display: none;
         pointer-events: none;

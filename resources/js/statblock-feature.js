@@ -1273,7 +1273,7 @@ export default {
                                     defaultValue.value[prop]['damage'][i][damageProp] = this.initialData.value[prop]['damage'][i][damageProp];
                                 }
                             }
-                        } else {
+                        } else if(defaultValue.value.hasOwnProperty(prop)) {
                             defaultValue.value[prop][innerProp] = this.initialData.value[prop][innerProp];
                         }
                     }
