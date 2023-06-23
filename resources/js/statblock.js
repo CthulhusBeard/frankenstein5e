@@ -51,7 +51,18 @@ export default {
             // console.log(this.value[prop]);
             // console.log(this.initialStatblock[prop]);
 
-            if(typeof this.initialStatblock[prop] === 'object') {
+            if(Array.isArray(this.initialStatblock[prop])) {
+                if(Array.isArray(this.value[prop]) && this.value[prop].length === this.initialStatblock[prop].length) {
+                    for(let i in this.initialStatblock[prop]) {
+                        this.value[prop].push(this.initialStatblock[prop][i]);
+                    }
+                } else {
+                    for(let i in this.initialStatblock[prop]) {
+                        this.value[prop].push(this.initialStatblock[prop][i]);
+                    }
+                }
+
+            } else if(typeof this.initialStatblock[prop] === 'object') {
                 for(let i in this.initialStatblock[prop]) {
                     this.value[prop][i] = this.initialStatblock[prop][i];
                 }
@@ -60,8 +71,8 @@ export default {
             }
         }
 
-        console.log('Done creating stat block');
-        console.log(this.clone(this.value));
+        // console.log('Done creating stat block');
+        // console.log(this.clone(this.value));
     },
 
     mounted() {
@@ -201,7 +212,7 @@ export default {
                 if(descStr != '') descStr += ' '; 
                 descStr += this.capitalize(this.getProp(this.f5.creaturetypes[this.value.type]));
             }
-            if(this.value.subtypes.length /*|| (this.value.showtypeCategory && this.value.typeCategory)*/) { 
+            if(this.value.subtypes.length) { 
 
                 if(descStr != '') descStr += ' '; 
                 descStr += '('
@@ -216,11 +227,6 @@ export default {
                     }
                     descStr += this.createSimpleList(modifiedList);
                 }
-                /* TODO Do something with category?
-                if(this.value.subtypes && (this.value.showtypeCategory && this.value.typeCategory)) { 
-                    str += ', ';
-                }
-                */
                 descStr += ')';
             }
 
@@ -557,28 +563,6 @@ export default {
             return this.f5.creaturesubtypes;
         },
 
-        // //Type Options
-        // typeCategoryList: function() {
-        //     let optionsList = [];
-
-        //     if(this.f5.creaturetypes.hasOwnProperty(this.value.type) && this.f5.creaturetypes[this.value.type].hasOwnProperty('options')) {
-        //         for (let i in this.f5.creaturetypes[this.value.type]['options']) {
-        //             let data = this.f5.creaturetypes[this.value.type]['options'][i];
-        //             data.id = i;
-        //             optionsList.push(data);
-        //         }
-        //     }
-
-        //     if(this.f5.creaturesubtypes.hasOwnProperty(this.value.subtypes) && this.f5.creaturesubtypes[this.value.subtypes].hasOwnProperty('options')) {
-        //         for (let i in this.f5.creaturesubtypes[this.value.subtypes]['options']) {
-        //             let data = this.f5.creaturesubtypes[this.value.subtypes]['options'][i];
-        //             data.id = i;
-        //             optionsList.push(data);
-        //         }
-        //     }
-        //     return optionsList;
-        // },
-
         //Languages
         languageText: function() {
             let displayText = '';
@@ -602,7 +586,6 @@ export default {
             }
 
             if(this.value.languages.telepathy > 0) {
-                console.log('add telepathy: '+this.value.languages.telepathy);
                 if(displayText !== '') {
                     displayText += ', ';
                 }
@@ -1967,7 +1950,7 @@ export default {
                     type: 'dragon',
                     subtypes: [],
                     customSubtype: '',
-                    typeCategory: '',
+                    typeCategories: [],
                     alignment: '',
                     showTypicalAlignment: true,
                     armorClass: {
