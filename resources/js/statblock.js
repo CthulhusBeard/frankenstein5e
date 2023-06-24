@@ -26,15 +26,12 @@ export default {
     created() {
         for(let prop in this.initialStatblock) {
             //console.log('import: '+prop);
-            if(prop === 'id' || prop === 'trackingId') {
-                continue;
-            }
             
             if(prop === 'features') {
                 for(let actionType in this.initialStatblock.features) {
                     if(this.initialStatblock.features[actionType].length) {
                         for(let feature in this.initialStatblock.features[actionType]) {
-                            let trackingId = (this.initialStatblock.features[actionType][feature]['trackingId']) ? this.initialStatblock.features[actionType][feature]['trackingId'] : this.randChars(15) ;
+                            let trackingId = (this.initialStatblock.features[actionType][feature]['trackingId']) ? this.clone(this.initialStatblock.features[actionType][feature]['trackingId']) : this.randChars(15) ;
                             delete this.initialStatblock.features[actionType][feature]['trackingId'];
                             this.value.features[actionType].push(
                                 {
@@ -838,6 +835,10 @@ export default {
 
     methods: {
 
+        getFeatureMap: function() {
+            return this.clone(this.value.features);
+        },
+
         unsetDamages: function(i, type = null) {
             if(type != "resistance" && this.value.damageResistances[i]) {
                 this.value.damageResistances[i] = false;
@@ -1064,6 +1065,7 @@ export default {
                     feature.displayName = displayName;
                 }
             }
+            this.featureMap = this.getFeatureMap();
         },
 
         updateFeatureDescription: function(type, id, desc) {
@@ -1942,6 +1944,7 @@ export default {
                 mountedFeatures: 0,
                 editMode: false,
                 trackingId: this.initialStatblock.trackingId,
+                featureMap: [],
                 value: {
                     name: 'Monster',
                     shortName: '',

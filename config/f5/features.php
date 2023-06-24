@@ -527,5 +527,17 @@ return [
         ],
     ],
 
+    'multiattack' => [
+        'name' => 'f5/features.name_multiattack',
+        'actionType' => 'action',
+        'template' => 'multiattack',
+        'multiattackReferences' => [
+            [
+                ['id' => null, 'uses' => 2]
+            ],
+            []
+        ],
+    ],
+
 
 ];

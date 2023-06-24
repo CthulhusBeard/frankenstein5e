@@ -340,6 +340,37 @@ export function initVue(f5data) {
                 return null;
             },
 
+            createSentenceList: function(input, inclusive = true, modifierFunction = null) {
+                let len = input.length;
+                if(isNaN(len)) {
+                    if(!isNaN(Object.keys(input).length)) {
+                        len = Object.keys(input).length;
+                    }
+                }
+                let descText = '';
+                for(let i in input) {
+                    //TODO this might need to change in other languages
+                    if(descText) {
+                        if(len > 2) {
+                            descText += this.f5.misc.sentence_list_separator+' ';
+                        }
+                        if(i == len-1) {
+                            if(inclusive) {
+                                descText += ' '+this.f5.misc.and+' ';
+                            } else {
+                                descText += ' '+this.f5.misc.or+' ';
+                            }
+                        }
+                    }
+                    if(modifierFunction != null && typeof modifierFunction === 'function') {
+                        descText += modifierFunction(input[i]);
+                    } else {
+                        descText += input[i];
+                    }
+                }
+                return descText;
+            },
+
             clone: function(obj) {
                 return JSON.parse(JSON.stringify(obj));
             },
@@ -400,37 +431,6 @@ export function initVue(f5data) {
         },
 
         methods: {
-
-            createSentenceList: function(input, inclusive = true, modifierFunction = null) {
-                let len = input.length;
-                if(isNaN(len)) {
-                    if(!isNaN(Object.keys(input).length)) {
-                        len = Object.keys(input).length;
-                    }
-                }
-                let descText = '';
-                for(let i in input) {
-                    //TODO this might need to change in other languages
-                    if(descText) {
-                        if(len > 2) {
-                            descText += this.f5.misc.sentence_list_separator+' ';
-                        }
-                        if(i == len-1) {
-                            if(inclusive) {
-                                descText += ' '+this.f5.misc.and+' ';
-                            } else {
-                                descText += ' '+this.f5.misc.or+' ';
-                            }
-                        }
-                    }
-                    if(modifierFunction != null && typeof modifierFunction === 'function') {
-                        descText += modifierFunction(input[i]);
-                    } else {
-                        descText += input[i];
-                    }
-                }
-                return descText;
-            },
 
             getEncounterXP: function() {
                 let xpTotal = 0;

@@ -6,6 +6,7 @@ export default {
     props: [
         'initialType',
         'initialData',
+        'featureMap',
         'playerData',
         'combatRounds',
         'f5',
@@ -19,17 +20,6 @@ export default {
 
     data: function() {
         return this.featureDataSetup();
-    },
-
-    created() {
-        this.rand = Math.random();
-        console.log('Created '+this.rand);
-        console.log(this.initialData);
-    },
-
-    mounted() {
-        console.log('Mounted '+this.rand);
-        console.log(this.initialData);
     },
 
     watch: {
@@ -314,6 +304,9 @@ export default {
         },
 
         multiattackDescription: function() {
+            let featureMap = this.featureMap;
+            console.log('multiattackDescription -> featureMap');
+            console.log(featureMap);
             let maDesc = this.f5.misc.desc_multiattack;
             let maAltDesc = this.f5.misc.desc_multiattack_alternative;
             let maAbilityDescs = [
@@ -329,7 +322,17 @@ export default {
                     let featDesc = this.f5.misc.desc_multiattack_ability;
                     let feature;
                     if(featureRef.id !== null) {
-                        feature = this.$parent.findFeatureById(featureRef.id);
+
+                        //Get Feature from map
+                        for(let actionType in featureMap) {
+                            for(let featureInMap of featureMap[actionType]) {
+                                if(featureInMap.trackingId === featureRef.id) {
+                                    feature = featureInMap;
+                                    break;
+                                }
+                            }
+                        }
+
                         if(!feature) {
                             continue;
                         }
@@ -361,8 +364,8 @@ export default {
                         } else {
                             featDesc = featDesc.replace(':can_use ', '');
                         }
-                        featDesc = featDesc.replace(':use_count_semantics', this.$parent.numberOfTimesSemantics(featureRef.uses));
-                        featDesc = featDesc.replace(':use_count', this.$parent.numberToWord(featureRef.uses));
+                        featDesc = featDesc.replace(':use_count_semantics', this.numberOfTimesSemantics(featureRef.uses));
+                        featDesc = featDesc.replace(':use_count', this.numberToWord(featureRef.uses));
                         featDesc = featDesc.replace(':ability_name', feature.name);
 
                         prevTemplate = feature.template;
@@ -373,15 +376,15 @@ export default {
             }
 
             if(maAbilityDescs[0].length > 0) {
-                maDesc = maDesc.replace(':multiattack_descriptions', this.$parent.$parent.createSentenceList(maAbilityDescs[0]));
+                maDesc = maDesc.replace(':multiattack_descriptions', this.createSentenceList(maAbilityDescs[0]));
                 
                 if(maAbilityDescs[1].length > 0) {
-                    maAltDesc = maAltDesc.replace(':multiattack_descriptions', this.$parent.$parent.createSentenceList(maAbilityDescs[1]));
+                    maAltDesc = maAltDesc.replace(':multiattack_descriptions', this.createSentenceList(maAbilityDescs[1]));
                     maDesc += ' '+maAltDesc;
                 }
             } else {
                 if(maAbilityDescs[1].length > 0) {
-                    maDesc = maDesc.replace(':multiattack_descriptions', this.$parent.$parent.createSentenceList(maAbilityDescs[1]));
+                    maDesc = maDesc.replace(':multiattack_descriptions', this.createSentenceList(maAbilityDescs[1]));
                 } else {
                     maDesc = ' ';
                 }
@@ -487,7 +490,7 @@ export default {
             for(let i in this.value.attack.damage) {
                 damageList.push(this.createDamageText(this.value.attack.damage[i], this.value.attack.ability));
             }
-            attackDesc += this.$parent.$parent.createSentenceList(damageList);
+            attackDesc += this.createSentenceList(damageList);
 
             if(!this.value.attack.savingThrow) {
                 attackDesc += this.f5.misc.sentence_end;
@@ -566,7 +569,7 @@ export default {
                 for(let i in this.value.savingThrow.damage) {
                     stDamageList.push(this.createDamageText(this.value.savingThrow.damage[i], this.value.savingThrow.monsterAbility));
                 }
-                savingThrowText = savingThrowText.replace(':damage', this.$parent.$parent.createSentenceList(stDamageList));
+                savingThrowText = savingThrowText.replace(':damage', this.createSentenceList(stDamageList));
             }
 
             //Add Saving Throw Conditions
@@ -602,7 +605,7 @@ export default {
                 for(let i = 0; i < this.value.regenerate.damage.length; i++) {
                     regenList.push(this.createDamageText(this.value.regenerate.damage[i]));
                 }
-                desc = desc.replace(':regenerate_hit_point_amount', this.$parent.$parent.createSentenceList(regenList));
+                desc = desc.replace(':regenerate_hit_point_amount', this.createSentenceList(regenList));
             }
             
             return desc;
@@ -688,36 +691,8 @@ export default {
                     references: this.value.multiattackReferences[maGroupIndex],
                     multiattack: true,
                 });
-
-                
-                // let maGroup = this.value.multiattackReferences[maGroupIndex];
-                // //Loop through each feature
-                // for(let featureRef of maGroup) {
-                //     if(featureRef.index !== null) {
-                //         if(featureRef.index === 'spellcasting') {
-                //             //Merge in Spellcasting
-                //             mergedProjections[maGroupIndex] = this.mergeMultiattackProjections(mergedProjections[maGroupIndex], this.$parent.value.features['spellcasting'][0].damageProjection, featureRef.uses);
-                //         } else {
-                //             //Merge in features
-                //             mergedProjections[maGroupIndex] = this.mergeMultiattackProjections(mergedProjections[maGroupIndex], this.$parent.value.features['action'][featureRef.index].damageProjection, featureRef.uses);
-                //         }
-                //     }
-                // }
             }
             return mergedProjections;
-
-            // let finalMerge = [];
-            // for(var i = 0; i < this.combatRounds; i++) {
-            //     if(!mergedProjections[1][i] || mergedProjections[0][i].damage >= mergedProjections[1][i].damage) {
-            //         finalMerge[i] = mergedProjections[0][i];
-            //     } else if(!mergedProjections[0][i] || mergedProjections[1][i].damage > mergedProjections[0][i].damage) {
-            //         finalMerge[i] = mergedProjections[1][i];
-            //     } else {
-            //         finalMerge[i] = null;
-            //     }
-            // }
-
-            // return finalMerge;
         },
 
         createSpellcastingProjection: function() {
@@ -941,11 +916,11 @@ export default {
             for(let i in this.savingThrowSaveAbilities) {
                 abilityList.push(this.f5.abilities[this.savingThrowSaveAbilities[i]].name);
             }
-            str = str.replace(':saving_throw_ability', this.$parent.$parent.createSentenceList(abilityList, false));
+            str = str.replace(':saving_throw_ability', this.createSentenceList(abilityList, false));
 
             //Spells
-            str = str.replace(':caster_level_article', this.$parent.determineIndefiniteArticle(this.$parent.casterLevel, true)); 
-            str = str.replace(':caster_level', this.$parent.ordinalNumber(this.$parent.casterLevel)); 
+            str = str.replace(':caster_level_article', this.determineIndefiniteArticle(this.$parent.casterLevel, true)); 
+            str = str.replace(':caster_level', this.ordinalNumber(this.$parent.casterLevel)); 
             str = str.replace(':spellcasting_ability', this.f5.abilities[this.value.spellcasting.ability].name);
             str = str.replace(':spell_save_dc', this.$parent.makeSavingThrowDC(this.value.spellcasting.ability));
             str = str.replace(':spell_hit', this.$parent.addPlus(this.$parent.proficiency + this.$parent.getAbilityMod(this.value.spellcasting.ability)));
@@ -956,17 +931,17 @@ export default {
                 for(let i in this.value.attack.damage) {
                     damageList.push(this.createDamageText(this.value.attack.damage[i], this.value.attack.ability));
                 }
-                str = str.replace(':feature_damage', this.$parent.$parent.createSentenceList(damageList));
+                str = str.replace(':feature_damage', this.createSentenceList(damageList));
             } else if(this.value.template == 'saving_throw') {
                 for(let i in this.value.savingThrow.damage) {
                     damageList.push(this.createDamageText(this.value.savingThrow.damage[i], this.value.savingThrow.monsterAbility));
                 }
-                str = str.replace(':feature_damage', this.$parent.$parent.createSentenceList(damageList));
+                str = str.replace(':feature_damage', this.createSentenceList(damageList));
             } else if(this.value.template == 'custom') {
                 for(let i in this.value.custom.damage) {
                     damageList.push(this.createDamageText(this.value.custom.damage[i]));
                 }
-                str = str.replace(':feature_damage', this.$parent.$parent.createSentenceList(damageList));
+                str = str.replace(':feature_damage', this.createSentenceList(damageList));
             }
 
             //Regen
@@ -977,7 +952,7 @@ export default {
                     for(let i = 0; i < this.value.regenerate.damage.length; i++) {
                         regenList.push(this.createDamageText(this.value.regenerate.damage[i]));
                     }
-                    str = str.replace(':feature_regen', this.$parent.$parent.createSentenceList(regenList));
+                    str = str.replace(':feature_regen', this.createSentenceList(regenList));
                 }
             }
 
@@ -1159,21 +1134,10 @@ export default {
         exportFeature: function() {
             let exportData = this.clone(this.value);
             console.log('----------exportFeature----------');
-            console.log(exportData);
-            console.log(this.defaultFeatureValues());
 
-            exportData = this.intersectObjectsRecursive(exportData, this.defaultFeatureValues());
-            
-            console.log('export data');
-            console.log(exportData);
-            console.log(exportData.trackingId);
-            console.log(this.trackingId);
-            console.log(this.initialData.trackingId);
-
-            
+            exportData = this.intersectObjectsRecursive(exportData, this.defaultFeatureValues());            
             exportData.trackingId = (this.hasOwnProperty('trackingId')) ? this.trackingId : (this.initialData.hasOwnProperty('trackingId')) ? this.initialData.trackingId : this.randChars(15);
 
-            console.log('Finish Export feature');
             console.log(exportData);
             return exportData;
         },
@@ -1273,6 +1237,16 @@ export default {
                                     defaultValue.value[prop]['damage'][i][damageProp] = this.initialData.value[prop]['damage'][i][damageProp];
                                 }
                             }
+                        } else if(innerProp === 'spellLevels') {
+                            for(let i in this.initialData.value[prop]['spellLevels']) {
+                                if(this.initialData.value[prop]['spellLevels'][i].hasOwnProperty('slots')) {
+                                    defaultValue.value[prop]['spellLevels'][i].slots = this.initialData.value[prop]['spellLevels'][i].slots;
+                                }
+                                if(this.initialData.value[prop]['spellLevels'][i].hasOwnProperty('spellList')) {
+                                    defaultValue.value[prop]['spellLevels'][i].spellList = this.initialData.value[prop]['spellLevels'][i].spellList;
+                                }
+                            }
+
                         } else if(defaultValue.value.hasOwnProperty(prop)) {
                             defaultValue.value[prop][innerProp] = this.initialData.value[prop][innerProp];
                         }
@@ -1283,6 +1257,6 @@ export default {
             }    
 
             return defaultValue;
-        }
+        },
     },       
 };

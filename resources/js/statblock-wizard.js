@@ -607,12 +607,12 @@ export default {
                     data: {low: this.targetCRData.hp.low, high: this.targetCRData.hp.high},
                 },
                 attack_bonus: {
-                    name:  this.f5.misc.wizard_cr_attack_bonus+' - '+this.targetCRData.attack_bonus,
+                    name: this.f5.misc.wizard_cr_attack_bonus+' - '+this.targetCRData.attack_bonus,
                     group: 'attack_bonus',
                     data: this.targetCRData.attack_bonus,
                 },
                 prof: {
-                    name:  this.f5.misc.wizard_cr_proficiency+' '+this.targetCRData.prof,
+                    name: this.f5.misc.wizard_cr_proficiency+' '+this.targetCRData.prof,
                     group: 'prof',
                     data: this.targetCRData.prof,
                 },
@@ -621,6 +621,14 @@ export default {
                     group: 'examples',
                 },
             };
+            //Multiattack
+            if(this.targetCRData.attacks >= 2) {
+                tipsAssociation.multiattack = {
+                    name: 'Typical Number of Attacks: '+this.targetCRData.attacks,
+                    group: 'features',
+                    data: 'multiattack',
+                };
+            }
 
             for(let tipType in tipsAssociation) {
                 crTips[crText].push(tipsAssociation[tipType]);
@@ -634,6 +642,9 @@ export default {
 
             let tips = Object.assign(crTips, typeTips, subtypeTips, combatTips, sizeTips, tagTips);
             
+console.log('tips');
+console.log(tips);
+
             return tips;
         },
 
@@ -1123,6 +1134,11 @@ export default {
                     cha: 10,
                 },
                 legendaryActions: 0,
+                
+                multiattackReferences: [
+                    [],
+                    []
+                ],
                 
                 features: {
                     passive: [],
