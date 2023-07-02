@@ -187,7 +187,7 @@
                 /
                 <input type="number" max="9999" v-model="value.attack.range.high" />
             </div>
-            <div v-if="value.targetType === 'line' || value.targetType === 'cone' || value.targetType === 'sphere' || value.targetType === 'cube'">
+            <div v-if="value.targetType === 'line' || value.targetType === 'cone' || value.targetType === 'sphere' || value.targetType === 'cube' || value.targetType === 'proximity'">
                 <label class="title-label">{{f5.misc.title_range_distance}}:</label>
                 <select v-model="value.aoeRange">
                     <option v-for="i in f5.areaofeffect[value.targetType].range" :value="i">{{i}}</option>
@@ -256,65 +256,78 @@
             <input type="checkbox" v-model="value.attack.savingThrow" v-if="value.template === 'attack'">
 
             <div v-if="(value.template === 'attack' && value.attack.savingThrow) || value.template === 'saving_throw'" :class="{'attack-border' : value.template === 'attack'}">
-                <label class="title-label">{{f5.misc.title_saving_throw_monster_ability}}:</label>
-                <select v-model="value.savingThrow.monsterAbility">
-                    <option v-for="(ability, i) in f5.abilities" :value="i">{{ability.name}}</option>
-                </select>
-                <br/>
+                <div>
+                    <label class="title-label">{{f5.misc.title_saving_throw_monster_ability}}:</label>
+                    <select v-model="value.savingThrow.monsterAbility">
+                        <option v-for="(ability, i) in f5.abilities" :value="i">{{ability.name}}</option>
+                    </select>
+                </div>
 
-                <label class="title-label">{{f5.misc.title_saving_throw_ability}}:</label>
-                <Multiselect class="edit-field edit-field--flex"
-                    :placeholder="f5.misc.choose_abilities"
-                    v-model="value.savingThrow.saveAbilities" 
-                    :options="f5.abilities" 
-                    mode="tags"
-                    :close-on-select="false"
-                    :searchable="true"
-                    :create-option="true"
-                >
-                    <template v-slot:tag="{ option, handleTagRemove, disabled }">
-                        <div class="multiselect-tag">
+                <div>
+                    <label class="title-label">{{f5.misc.title_saving_throw_ability}}:</label>
+                    <Multiselect class="edit-field edit-field--flex"
+                        :placeholder="f5.misc.choose_abilities"
+                        v-model="value.savingThrow.saveAbilities" 
+                        :options="f5.abilities" 
+                        mode="tags"
+                        :close-on-select="false"
+                        :searchable="true"
+                        :create-option="true"
+                    >
+                        <template v-slot:tag="{ option, handleTagRemove, disabled }">
+                            <div class="multiselect-tag">
+                                {{ option.label.name }}
+                                <span v-if="!disabled" class="multiselect-tag-remove" @mousedown.prevent="handleTagRemove(option, $event)">
+                                    <span class="multiselect-tag-remove-icon"></span>
+                                </span>
+                            </div>
+                        </template>
+
+                        <template v-slot:option="{ option }">
                             {{ option.label.name }}
-                            <span v-if="!disabled" class="multiselect-tag-remove" @mousedown.prevent="handleTagRemove(option, $event)">
-                                <span class="multiselect-tag-remove-icon"></span>
-                            </span>
-                        </div>
-                    </template>
+                        </template>
+                    </Multiselect>
+                </div>
 
-                    <template v-slot:option="{ option }">
-                        {{ option.label.name }}
-                    </template>
-                </Multiselect>
-                <br/>
+                <div>
+                    <label class="title-label">{{f5.misc.title_saving_throw_conditions}}:</label>
+                    <Multiselect class="edit-field edit-field--flex"
+                        :placeholder="f5.misc.choose_conditions"
+                        v-model="value.savingThrow.conditions" 
+                        :options="f5.conditions" 
+                        mode="tags"
+                        :close-on-select="false"
+                        :searchable="true"
+                        :create-option="true"
+                    >
+                        <template v-slot:tag="{ option, handleTagRemove, disabled }">
+                            <div class="multiselect-tag">
+                                {{ option.label.name }}
+                                <span v-if="!disabled" class="multiselect-tag-remove" @mousedown.prevent="handleTagRemove(option, $event)">
+                                    <span class="multiselect-tag-remove-icon"></span>
+                                </span>
+                            </div>
+                        </template>
 
-                <label class="title-label">{{f5.misc.title_saving_throw_conditions}}:</label>
-                <Multiselect class="edit-field edit-field--flex"
-                    :placeholder="f5.misc.choose_conditions"
-                    v-model="value.savingThrow.conditions" 
-                    :options="f5.conditions" 
-                    mode="tags"
-                    :close-on-select="false"
-                    :searchable="true"
-                    :create-option="true"
-                >
-                    <template v-slot:tag="{ option, handleTagRemove, disabled }">
-                        <div class="multiselect-tag">
+                        <template v-slot:option="{ option }">
                             {{ option.label.name }}
-                            <span v-if="!disabled" class="multiselect-tag-remove" @mousedown.prevent="handleTagRemove(option, $event)">
-                                <span class="multiselect-tag-remove-icon"></span>
-                            </span>
-                        </div>
-                    </template>
+                        </template>
+                    </Multiselect>
+                </div>
 
-                    <template v-slot:option="{ option }">
-                        {{ option.label.name }}
-                    </template>
-                </Multiselect>
-                <br/>
+                <label class="title-label">{{f5.misc.title_condition_duration}}:</label>
+                <div class="three-flex-columns">
+                    <div v-for="(duration, i) in f5.durations">
+                        <input :id="'duration_'+i+'_'+value.id" type="radio" :value="i" v-model="value.savingThrow.conditionDuration">
+                        <label :for="'duration_'+i+'_'+value.id">{{duration.name}}</label>
+                    </div>
+                </div>
 
-                <label class="title-label">{{f5.misc.title_half_on_success}}:</label>
-                <input type="checkbox" v-model="value.savingThrow.halfOnSuccess">
-                <br/>
+
+                <div v-if="value.savingThrow.damage.length >= 1">
+                    <label class="title-label">{{f5.misc.title_half_on_success}}:</label>
+                    <input type="checkbox" v-model="value.savingThrow.halfOnSuccess">
+                </div>
                 
 
                 <!-- Saving Throw Damage Options -->

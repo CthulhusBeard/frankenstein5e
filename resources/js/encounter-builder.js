@@ -284,7 +284,7 @@ export function initVue(f5data) {
                         spellSlots[i] = {slots: 0, spellList: ''};
                     } else {
                         if(spellSlots[i].slots > 0 && spellSlots[i].spellList === '') {
-                            spellSlots[i].spellList = '[Insert Spell List]';
+                            spellSlots[i].spellList = '['+this.f5.misc.insert_spell_list+']';
                         }
                     }
                 } 

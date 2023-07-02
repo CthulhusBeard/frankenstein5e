@@ -26,6 +26,7 @@ return [
     'the_target' => 'the target|the targets',
     'each_target' => 'the target|each target',
 
+    'proximity_target' => 'each creature within :target_area of the :creature_name',
     'touch_target' => 'the :creature_name touches a creature. The target|the :creature_name touches :target_count creatures. The targets',
     'range_target' => 'the :creature_name targets a creature within :target_area. The target|the :creature_name targets :target_count creatures within :target_area. Each target',
     'cone_target' => 'each creature within a :target_area cone',
@@ -110,6 +111,7 @@ return [
     'title_on_failed_save' => 'Requires Failed Save',
     'title_damage_occurance' => 'Damage Occurs',
     'title_damage_duration' => 'Duration',
+    'title_condition_duration' => 'Condition Duration',
 
 
     //Features
@@ -119,6 +121,7 @@ return [
     //'desc_spellcasting' => 'TODO',
     'name_innate_spellcasting' => 'Innate Spellcasting',
     //'desc_innate_spellcasting' => 'TODO',
+    'name_half_caster' => 'Spellcasting (Half Caster)',
     
     'name_amphibious' => 'Amphibious',
     'desc_amphibious' => 'TODO',

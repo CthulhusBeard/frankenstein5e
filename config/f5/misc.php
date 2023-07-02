@@ -56,6 +56,7 @@ return [
     'title_on_failed_save' => 'f5/features.title_on_failed_save',
     'title_damage_occurance' => 'f5/features.title_damage_occurance',
     'title_damage_duration' => 'f5/features.title_damage_duration',
+    'title_condition_duration' => 'f5/features.title_condition_duration',
     'title_repeat_save' => 'f5/durations.title_repeat_save',
 
     'desc_make_attack' => 'f5/features.desc_make_attack',
@@ -127,6 +128,7 @@ return [
     'the_target' => 'f5/features.the_target',
     'each_target' => 'f5/features.each_target',
 
+    'proximity_target' => 'f5/features.proximity_target',
     'touch_target' => 'f5/features.touch_target',
     'range_target' => 'f5/features.range_target',
     'cone_target' => 'f5/features.cone_target',
@@ -226,6 +228,7 @@ return [
     'spell_slots' => 'f5/spells.spell_slots',
     'spell_uses' => 'f5/spells.spell_uses',
     'casts_spells_before' => 'f5/spells.casts_spells_before',
+    'insert_spell_list' => 'f5/spells.insert_spell_list',
 
 
     'display_challenge_rating' => 'f5/challengerating.display_challenge_rating',

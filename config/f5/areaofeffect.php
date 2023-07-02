@@ -1,6 +1,13 @@
 <?php
 
 return [
+    'proximity' => [
+        'name' => 'f5/ranges.proximity',
+        'range' => [5, 10, 15, 20, 25, 30, 60, 120],
+        'types' => ['saving_throw'],
+        'target_type' => 'aoe',
+        'targets_at_30' => 2,
+    ],
     'melee' => [
         'name' => 'f5/ranges.melee',
         'range' => [5, 10, 15, 20, 25, 30],

@@ -30,4 +30,6 @@ return [
     'title_spell_uses' => 'Spell Uses',
     'casts_spells_before' => '*The :creature_name casts these spells on itself before combat.',
 
+    'insert_spell_list' => 'Insert Spell List',
+
 ];

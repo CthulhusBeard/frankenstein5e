@@ -2,17 +2,26 @@
 
 return [
 
-    'multiattack' => [
-        'name' => 'f5/features.name_multiattack',
-        'desc' => 'f5/features.desc_multiattack',
-        'actionType' => 'action',
-        'combine_nonpassives' => true,
-        'references' => ['spellcasting', 'action', 'bonus_action'],
-    ],
-
-    //Passive
     'spellcasting' => [
         'name' => 'f5/features.name_spellcasting',
+        'desc' => 'f5/features.desc_spellcasting',
+        'actionType' => 'spellcasting',
+        'has_spell_list' => true,
+        'template' => 'spellcasting', 
+        
+        'cr_scaling' => [
+            0 => [
+                'spellcasting' => [
+                    'spellLevels' => [
+                        0 => ['slots' => 1, 'spellList' => '[f5/spells.insert_spell_list'],
+                    ],
+                ],
+            ],
+        ],
+    ],
+
+    'half_caster' => [
+        'name' => 'f5/features.name_half_caster',
         'desc' => 'f5/features.desc_spellcasting',
         'actionType' => 'spellcasting',
         'has_spell_list' => true,
@@ -531,11 +540,38 @@ return [
         'name' => 'f5/features.name_multiattack',
         'actionType' => 'action',
         'template' => 'multiattack',
-        'multiattackReferences' => [
-            [
-                ['id' => null, 'uses' => 2]
+        
+        'cr_scaling' => [
+            0 => [
+                'multiattackReferences' => [
+                    [],
+                    []
+                ],
             ],
-            []
+            2 => [
+                'multiattackReferences' => [
+                    [
+                        ['id' => null, 'uses' => 2]
+                    ],
+                    []
+                ],
+            ],
+            4 => [
+                'multiattackReferences' => [
+                    [
+                        ['id' => null, 'uses' => 3]
+                    ],
+                    []
+                ],
+            ],
+            12 => [
+                'multiattackReferences' => [
+                    [
+                        ['id' => null, 'uses' => 4]
+                    ],
+                    []
+                ],
+            ],
         ],
     ],
 

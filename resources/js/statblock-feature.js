@@ -532,6 +532,8 @@ export default {
                     targetText = this.f5.misc.cube_target;
                 } else if(this.value.targetType == 'sphere') {
                     targetText = this.f5.misc.sphere_target;
+                } else if(this.value.targetType == 'proximity') {
+                    targetText = this.f5.misc.proximity_target;
                 } else if(this.value.targetType == 'range') {
                     targetText = this.$parent.pluralize(this.f5.misc.range_target, stTargetCount);
                     targetText = targetText.replace(':target_count', stTargetCount);
@@ -1169,6 +1171,7 @@ export default {
                     damage: [this.createDamageDie()],
                     halfOnSuccess: true,
                     conditions: [],
+                    conditionDuration: 'for_one_minute'
                 },
 
                 ongoingDamage: {

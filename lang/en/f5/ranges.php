@@ -11,4 +11,5 @@ return [
     'cone' => 'Cone',
     'cube' => 'Cube',
     'sphere' => 'Sphere',
+    'proximity' => 'Proximity',
 ];
