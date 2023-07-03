@@ -289,47 +289,52 @@
                     </Multiselect>
                 </div>
 
-                <div>
-                    <label class="title-label">{{f5.misc.title_saving_throw_conditions}}:</label>
-                    <Multiselect class="edit-field edit-field--flex"
-                        :placeholder="f5.misc.choose_conditions"
-                        v-model="value.savingThrow.conditions" 
-                        :options="f5.conditions" 
-                        mode="tags"
-                        :close-on-select="false"
-                        :searchable="true"
-                        :create-option="true"
-                    >
-                        <template v-slot:tag="{ option, handleTagRemove, disabled }">
-                            <div class="multiselect-tag">
+                <div class="feature__option-group">
+                    <div>
+                        <label class="title-label">{{f5.misc.title_saving_throw_conditions}}:</label>
+                        <Multiselect class="edit-field edit-field--flex"
+                            :placeholder="f5.misc.choose_conditions"
+                            v-model="value.savingThrow.conditions" 
+                            :options="f5.conditions" 
+                            mode="tags"
+                            :close-on-select="false"
+                            :searchable="true"
+                            :create-option="true"
+                        >
+                            <template v-slot:tag="{ option, handleTagRemove, disabled }">
+                                <div class="multiselect-tag">
+                                    {{ option.label.name }}
+                                    <span v-if="!disabled" class="multiselect-tag-remove" @mousedown.prevent="handleTagRemove(option, $event)">
+                                        <span class="multiselect-tag-remove-icon"></span>
+                                    </span>
+                                </div>
+                            </template>
+
+                            <template v-slot:option="{ option }">
                                 {{ option.label.name }}
-                                <span v-if="!disabled" class="multiselect-tag-remove" @mousedown.prevent="handleTagRemove(option, $event)">
-                                    <span class="multiselect-tag-remove-icon"></span>
-                                </span>
-                            </div>
-                        </template>
-
-                        <template v-slot:option="{ option }">
-                            {{ option.label.name }}
-                        </template>
-                    </Multiselect>
-                </div>
-
-                <label class="title-label">{{f5.misc.title_condition_duration}}:</label>
-                <div class="three-flex-columns">
-                    <div v-for="(duration, i) in f5.durations">
-                        <input :id="'duration_'+i+'_'+value.id" type="radio" :value="i" v-model="value.savingThrow.conditionDuration">
-                        <label :for="'duration_'+i+'_'+value.id">{{duration.name}}</label>
+                            </template>
+                        </Multiselect>
                     </div>
-                </div>
 
+                    <div v-if="value.savingThrow.conditions.length > 0">
+                        <label class="title-label">{{f5.misc.title_condition_duration}}:</label>
+                        <select  v-model="value.savingThrow.conditionDuration">
+                            <option v-for="(duration, i) in f5.durations" :value="i">{{duration.name}}</option>
+                        </select>
+                    </div>
+
+                    <div v-if="value.savingThrow.conditions.length > 0">
+                        <label class="title-label">{{f5.misc.title_repeat_save}}:</label>
+                        <input type="checkbox" v-model="value.savingThrow.conditionRepeatSave">
+                    </div>
+    
+                </div>
 
                 <div v-if="value.savingThrow.damage.length >= 1">
                     <label class="title-label">{{f5.misc.title_half_on_success}}:</label>
                     <input type="checkbox" v-model="value.savingThrow.halfOnSuccess">
                 </div>
                 
-
                 <!-- Saving Throw Damage Options -->
                 <label class="title-label">{{f5.misc.title_damage_dice}}:</label>
                 <div class="feature__damage" v-for="(damage, index) in value.savingThrow.damage">
@@ -376,12 +381,11 @@
                     <label :for="'ongoing-occurs_end-'+value.id">{{f5.timepoints.end_of_turn.name}}</label>
                 </div>
                 
-                <label class="title-label">{{f5.misc.title_damage_duration}}:</label>
-                <div class="three-flex-columns">
-                    <div v-for="(duration, i) in f5.durations">
-                        <input :id="'duration_'+i+'_'+value.id" type="radio" :value="i" v-model="value.ongoingDamage.duration">
-                        <label :for="'duration_'+i+'_'+value.id">{{duration.name}}</label>
-                    </div>
+                <div>
+                    <label class="title-label">{{f5.misc.title_damage_duration}}:</label>
+                    <select v-model="value.ongoingDamage.duration">
+                        <option v-for="(duration, i) in f5.durations" :value="i">{{duration.name}}</option>
+                    </select>
                 </div>
 
                 <div v-if="value.template === 'saving_throw'">

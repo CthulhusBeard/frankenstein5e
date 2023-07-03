@@ -1722,25 +1722,6 @@ export default {
             return str;
         },
 
-        findFeatureById: function(id, group = null) {
-            if(group) {
-                for(let feature of this.value.features[group]) {
-                    if(feature.trackingId === id) {
-                        return feature;
-                    }
-                }
-            } else {
-                for(let actionType in this.value.features) {
-                    for(let feature of this.value.features[actionType]) {
-                        if(feature.trackingId === id) {
-                            return feature;
-                        }
-                    }
-                }
-            }
-            return null;
-        },
-
         calcAverageCR: function(inLair = false) {
             let armorCr = this.armorCr;
             armorCr = armorCr.toString().replace('> ','');
@@ -1833,10 +1814,12 @@ export default {
             exportString += this.value.abilities['cha']+" ("+this.addPlus(this.calcAbilityMod(this.value.abilities['cha']))+")|";
             exportString += "\n___\n";
             
+            if(this.savingThrowText) exportString += "**Saving Throws** :: "+this.savingThrowText+"\n";
             if(this.skillText) exportString += "**Skills** :: "+this.skillText+"\n";
-            if(this.damageResistanceText) exportString += "**Condition Resistances** :: "+this.damageResistanceText+"\n";
-            if(this.damageImmunitiesText) exportString += "**Condition Immunities** :: "+this.damageImmunitiesText+"\n";
-            if(this.damageVulnerabilitiesText) exportString += "**Condition Vulnerabilites** :: "+this.damageVulnerabilitiesText+"\n";
+            if(this.damageResistanceText) exportString += "**Damage Resistances** :: "+this.damageResistanceText+"\n";
+            if(this.damageImmunitiesText) exportString += "**Damage Immunities** :: "+this.damageImmunitiesText+"\n";
+            if(this.damageVulnerabilitiesText) exportString += "**Damage Vulnerabilites** :: "+this.damageVulnerabilitiesText+"\n";
+            if(this.conditionImmunitiesText) exportString += "**Condition Immunities** :: "+this.conditionImmunitiesText+"\n";
             if(this.sensesText) exportString += "**Senses**               :: "+this.sensesText+"\n";
             if(this.languageText) exportString += "**Languages**            :: "+this.languageText+"\n";
             exportString += "**Challenge**            :: "+this.crDisplayText+"\n";
@@ -1938,6 +1921,117 @@ export default {
 
             return exportString;
         },
+
+        exportMonsterForFoundry: function() {
+
+            let exportString = "";
+            exportString += this.displayName+"\n";
+            exportString += this.descriptionText+"\n";
+            
+            exportString += "Armor Class "+this.acText+"\n";
+            exportString += "Hit Points "+this.hitPointsText+"\n";
+            exportString += "Speed "+this.speedText+"\n";
+            
+            exportString += "STR\nDEX\nCON\nINT\nWIS\nCHA\n";
+            exportString += this.value.abilities['str']+" ("+this.addPlus(this.calcAbilityMod(this.value.abilities['str']))+") ";
+            exportString += this.value.abilities['dex']+" ("+this.addPlus(this.calcAbilityMod(this.value.abilities['dex']))+") ";
+            exportString += this.value.abilities['con']+" ("+this.addPlus(this.calcAbilityMod(this.value.abilities['con']))+") ";
+            exportString += this.value.abilities['int']+" ("+this.addPlus(this.calcAbilityMod(this.value.abilities['int']))+") ";
+            exportString += this.value.abilities['wis']+" ("+this.addPlus(this.calcAbilityMod(this.value.abilities['wis']))+") ";
+            exportString += this.value.abilities['cha']+" ("+this.addPlus(this.calcAbilityMod(this.value.abilities['cha']))+") ";
+            exportString += "\n";
+            
+            if(this.savingThrowText) exportString += "Saving Throws "+this.savingThrowText+"\n";
+            if(this.skillText) exportString += "Skills "+this.skillText+"\n";
+            if(this.damageResistanceText) exportString += "Damage Resistances "+this.damageResistanceText+"\n";
+            if(this.damageImmunitiesText) exportString += "Damage Immunities "+this.damageImmunitiesText+"\n";
+            if(this.damageVulnerabilitiesText) exportString += "Damage Vulnerabilites "+this.damageVulnerabilitiesText+"\n";
+            if(this.conditionImmunitiesText) exportString += "Condition Immunities "+this.conditionImmunitiesText+"\n";
+            if(this.sensesText) exportString += "Senses "+this.sensesText+"\n";
+            if(this.languageText) exportString += "Languages "+this.languageText+"\n";
+            exportString += "Challenge "+this.crDisplayText+"\n";
+            exportString += "Proficiency "+this.proficiencyText+"\n";
+            
+
+            //Start features
+            if(this.value.features.mythic_action.length) {
+                exportString += this.mythicTraitTitleText+". "+this.mythicTraitDescriptionText+"\n";
+            }
+
+            for(let passive of this.value.features.passive) {
+                exportString += passive.displayName+". "+passive.desc+"\n";
+                exportString += "\n";    
+            }
+
+            if(this.value.features.spellcasting.length) {
+                //exportString += "Spellcasting\n";
+                for(let spellcasting of this.value.features.spellcasting) {
+                    exportString += spellcasting.displayName+". "+spellcasting.desc+"\n";
+                }
+            }
+            
+            if(this.value.features.action.length || this.value.features.multiattack.length) {
+                exportString += "Actions\n";
+                for(let multiattack of this.value.features.multiattack) {
+                    exportString += multiattack.displayName+". "+multiattack.desc+"\n";
+                }
+                for(let action of this.value.features.action) {
+                    exportString += action.displayName+". "+action.desc+"\n";
+                }
+            }
+
+
+            if(this.value.features.bonus_action.length) {
+                exportString += "Bonus Actions\n";
+
+                for(let bonus_action of this.value.features.bonus_action) {
+                    exportString += bonus_action.displayName+". "+bonus_action.desc+"\n";
+                }
+            }
+
+            if(this.value.features.reaction.length) {
+                exportString += "Reactions\n";
+
+                for(let reaction of this.value.features.reaction) {
+                    exportString += reaction.displayName+". "+reaction.desc+"\n";
+                }
+            }
+
+            if(this.value.features.legendary_action.length) {
+                exportString += "Legendary Actions\n";
+                exportString += this.legendaryActionText+"\n";
+
+                for(let legendary_action of this.value.features.legendary_action) {
+                    exportString += legendary_action.displayName+". "+legendary_action.desc+"\n";
+                }
+            }
+
+            if(this.value.features.mythic_action.length) {
+                exportString += "Mythic Actions\n";
+                exportString += this.mythicActionText+"\n";
+
+                for(let mythic_action of this.value.features.mythic_action) {
+                    exportString += mythic_action.displayName+". "+mythic_action.desc+"\n";
+                }
+            }
+
+            if(this.value.features.lair_action.length) {
+                exportString += "Lair Actions\n";
+                exportString += this.lairActionText+"\n";
+
+                for(let lair_action of this.value.features.lair_action) {
+                    exportString += lair_action.displayName+". "+lair_action.desc+"\n";
+                }
+            }
+
+            console.log(exportString);
+            
+            navigator.clipboard.writeText(exportString);
+            alert('Copied Foundry Statblock Importer Format of "'+this.value.name+'" to clipboard.');
+
+            return exportString;
+        },
+
 
         defaultMonsterSettings: function() {
             return {

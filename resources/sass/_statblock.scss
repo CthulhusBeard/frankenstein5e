@@ -28,15 +28,6 @@ i {
     font-style: italic;
 }
 
-.three-flex-columns {
-    display: flex;
-    flex-wrap: wrap;
-
-    div {
-        width: 33%;
-    }
-}
-
 .statblock__remove {
     @extend .x;
     right: -20px;
@@ -309,7 +300,7 @@ i {
                 //column-count: 2;
                 //column-gap: 2px;
             }
-            .feature__damage, .feature__regen {
+            .feature__damage, .feature__regen, .feature__option-group {
                 position: relative;
                 border: 1px black solid;
                 background-color: #f3efdd;

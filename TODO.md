@@ -1,7 +1,6 @@
 //TODO: 
 
 HIGH PRIORITY
-- [ ] Fix imports for new spellcasting
 - [ ] Condition duration
 - [ ] Fix saving throw desc to mention targets
 - [ ] Saving throws increase AC (3-4 +2, 5-6 +4)

@@ -579,6 +579,7 @@ export default {
                 let stConditionList = [];
                 let stNotConditionList = [];
                 for(let i in this.value.savingThrow.conditions) {
+                    let conditionDuration = ''; //TODO
                     stConditionList.push(
                         this.$parent.pluralize(this.f5.conditions[this.value.savingThrow.conditions[i]].is, stTargetCount).replace(':condition', this.f5.conditions[this.value.savingThrow.conditions[i]].name.toLowerCase()
                     ));
@@ -1171,7 +1172,8 @@ export default {
                     damage: [this.createDamageDie()],
                     halfOnSuccess: true,
                     conditions: [],
-                    conditionDuration: 'for_one_minute'
+                    conditionDuration: 'one_minute',
+                    conditionRepeatSave: true,
                 },
 
                 ongoingDamage: {

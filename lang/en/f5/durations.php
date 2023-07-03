@@ -34,5 +34,5 @@ return [
     'for_one_year' => 'for 1 year',
     'for_x_years' => 'for :duration years',
 
-    'title_repeat_save' => 'Repeat Save',
+    'title_repeat_save' => 'Repeat Saving Throw',
 ];
