@@ -120,6 +120,33 @@ export function initVue(f5data) {
                 }
                 return descText;
             },
+            
+            createConditionSentenceList: function(input, inclusive = true) {
+                let len = input.length;
+                if(isNaN(len)) {
+                    if(!isNaN(Object.keys(input).length)) {
+                        len = Object.keys(input).length;
+                    }
+                }
+                let descText = '';
+                for(let i in input) {
+                    //TODO this might need to change in other languages
+                    if(descText) {
+                        if(len > 2) {
+                            descText += this.f5.misc.sentence_list_separator+' ';
+                        }
+                        if(i == len-1) {
+                            if(inclusive) {
+                                descText += ' '+this.f5.misc.and+' ';
+                            } else {
+                                descText += ' '+this.f5.misc.or+' ';
+                            }
+                        }
+                    }
+                    descText += input[i];
+                }
+                return descText;
+            },
 
             pluralize: function(str, pluralCount = 1) {
                 let pluralBreak = str.indexOf('|');

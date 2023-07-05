@@ -338,12 +338,12 @@ export default {
                         }
 
                         if(feature.actionType === 'spellcasting') {
-                            featDesc = this.$parent.pluralize(this.f5.misc.desc_multiattack_spell, featureRef.uses);
+                            featDesc = this.pluralize(this.f5.misc.desc_multiattack_spell, featureRef.uses);
                         } else {
                             if(feature.template === 'attack') {
-                                let attackString = this.$parent.pluralize(this.f5.misc.attack, featureRef.uses);
-                                let attackSingular = this.$parent.pluralize(this.f5.misc.attack);
-                                let attackPlural = this.$parent.pluralize(this.f5.misc.attack, 2);
+                                let attackString = this.pluralize(this.f5.misc.attack, featureRef.uses);
+                                let attackSingular = this.pluralize(this.f5.misc.attack);
+                                let attackPlural = this.pluralize(this.f5.misc.attack, 2);
                                 featDesc = this.f5.misc.desc_multiattack_attack;
                                 featDesc = featDesc.replace(':ability_name', feature.name);
                                 
@@ -467,7 +467,7 @@ export default {
                     if(this.value.spellcasting.innate) {
                         spellDesc += this.f5.misc.spell_uses.replace(':slot_uses',level)+': ';
                     } else {
-                        spellDesc += this.f5.spelllevels[level].name+' ('+this.$parent.pluralize(this.f5.misc.spell_slots, sortedSpellList[level].slots).replace(':slot_quantity',sortedSpellList[level].slots)+'): ';
+                        spellDesc += this.f5.spelllevels[level].name+' ('+this.pluralize(this.f5.misc.spell_slots, sortedSpellList[level].slots).replace(':slot_quantity',sortedSpellList[level].slots)+'): ';
                     }
                 }
                 
@@ -501,9 +501,10 @@ export default {
 
         savingThrowDescription: function() {
             let savingThrowText = '';
-            if(this.value.savingThrow.damage.length >= 1 && this.value.savingThrow.conditions.length >= 2) {
-                savingThrowText = this.f5.misc.desc_attack_saving_throw_damage_condition;
-            } else if(this.value.savingThrow.damage.length >= 1 && this.value.savingThrow.conditions.length >= 1) {
+            // if(this.value.savingThrow.damage.length >= 1 && this.value.savingThrow.conditions.length >= 2) {
+            //     savingThrowText = this.f5.misc.desc_attack_saving_throw_damage_condition;
+            // } else 
+            if(this.value.savingThrow.damage.length >= 1 && this.value.savingThrow.conditions.length >= 1) {
                 savingThrowText = this.f5.misc.desc_attack_saving_throw_damage_condition;
             } else if(this.value.savingThrow.damage.length >= 1) {
                 savingThrowText = this.f5.misc.desc_attack_saving_throw_damage;
@@ -520,7 +521,7 @@ export default {
             }
 
             if(this.value.template == 'attack') {
-                savingThrowText = savingThrowText.replace(':target_text', this.$parent.pluralize(this.f5.misc.the_target, this.value.attack.targets));
+                savingThrowText = savingThrowText.replace(':target_text', this.pluralize(this.f5.misc.the_target, this.value.attack.targets));
             } else {
 
                 let targetText = '';
@@ -535,10 +536,10 @@ export default {
                 } else if(this.value.targetType == 'proximity') {
                     targetText = this.f5.misc.proximity_target;
                 } else if(this.value.targetType == 'range') {
-                    targetText = this.$parent.pluralize(this.f5.misc.range_target, stTargetCount);
+                    targetText = this.pluralize(this.f5.misc.range_target, stTargetCount);
                     targetText = targetText.replace(':target_count', stTargetCount);
                 } else if(this.value.targetType == 'touch') {
-                    targetText = this.$parent.pluralize(this.f5.misc.touch_target, stTargetCount);
+                    targetText = this.pluralize(this.f5.misc.touch_target, stTargetCount);
                     targetText = targetText.replace(':target_count', stTargetCount);
                 }
                 targetText = targetText.replace(':target_area', this.value.aoeRange+' '+this.$parent.$parent.editor.measure.measureUnit);
@@ -569,7 +570,8 @@ export default {
             if(this.value.savingThrow.damage.length) {
                 let stDamageList = [];
                 for(let i in this.value.savingThrow.damage) {
-                    stDamageList.push(this.createDamageText(this.value.savingThrow.damage[i], this.value.savingThrow.monsterAbility));
+                    let damageText = this.createDamageText(this.value.savingThrow.damage[i], this.value.savingThrow.monsterAbility);
+                    stDamageList.push(damageText);
                 }
                 savingThrowText = savingThrowText.replace(':damage', this.createSentenceList(stDamageList));
             }
@@ -579,17 +581,42 @@ export default {
                 let stConditionList = [];
                 let stNotConditionList = [];
                 for(let i in this.value.savingThrow.conditions) {
-                    let conditionDuration = ''; //TODO
+                    let conditionText = this.f5.conditions[this.value.savingThrow.conditions[i]].name.toLowerCase(); 
                     stConditionList.push(
-                        this.$parent.pluralize(this.f5.conditions[this.value.savingThrow.conditions[i]].is, stTargetCount).replace(':condition', this.f5.conditions[this.value.savingThrow.conditions[i]].name.toLowerCase()
-                    ));
+                        this.pluralize(this.f5.conditions[this.value.savingThrow.conditions[i]].is, stTargetCount).replace(':condition', conditionText)
+                    );
                     stNotConditionList.push(
-                        this.$parent.pluralize(this.f5.conditions[this.value.savingThrow.conditions[i]].not, stTargetCount).replace(':condition', this.f5.conditions[this.value.savingThrow.conditions[i]].name.toLowerCase()
-                    ));
-                    //TODO replace distance for pushed
+                        this.pluralize(this.f5.conditions[this.value.savingThrow.conditions[i]].not, stTargetCount).replace(':condition', conditionText)
+                    );
                 }
-                savingThrowText = savingThrowText.replace(':condition', this.$parent.createConditionSentenceList(stConditionList));
-                savingThrowText = savingThrowText.replace(':not_condition', this.f5.misc.and + ' ' + this.$parent.createConditionSentenceList(stNotConditionList));
+                savingThrowText = savingThrowText.replace(':condition', this.createConditionSentenceList(stConditionList));
+                savingThrowText = savingThrowText.replace(':not_condition', ' '+this.f5.misc.and + ' ' + this.createConditionSentenceList(stNotConditionList));
+            
+            
+                //Condition Durations
+                let durationData = this.f5.durations[this.value.savingThrow.conditionDuration];
+
+                let durationText = '';
+                if(this.value.savingThrow.conditionDuration === 'specified_timeframe') {
+                    durationText = ' '+durationData['desc'].replace(':duration', this.pluralize(this.f5.timeunits[this.value.savingThrow.conditionDurationUnit].desc, this.value.savingThrow.conditionDurationAmount).replace(':value', this.value.savingThrow.conditionDurationAmount));
+                } else if(durationData.hasOwnProperty('desc')) {
+                    durationText = ' '+durationData['desc'];
+                }
+                savingThrowText = savingThrowText.replace(':condition_duration', durationText);
+                
+                //Repeat Condition Save
+                let repeatSaveText = '';
+                if(durationData.force_repeat_save === true || this.value.savingThrow.conditionRepeatSave) {
+                    repeatSaveText = this.f5.misc.repeat_condition_saving_throw_text;
+
+                    let pastTenseConditionList = [];
+                    for(let i in this.value.savingThrow.conditions) {
+                        pastTenseConditionList.push(this.f5.conditions[this.value.savingThrow.conditions[i]].name.toLowerCase());
+                    }   
+                    repeatSaveText = repeatSaveText.replace(':condition', this.createConditionSentenceList(pastTenseConditionList, false));
+
+                }
+                savingThrowText = savingThrowText.replace(':repeat_condition_save', ' '+repeatSaveText);
             }
 
             return savingThrowText;
@@ -825,25 +852,24 @@ export default {
             if(damageObj.diceAmount > 0) {
                 descText += this.$parent.averageDamage(damageObj, ability);
                 descText += ' ('+this.f5.misc.die_structure.replace(':die_amount', damageObj.diceAmount).replace(':die_type', damageObj.diceType);
-
-                let additionalDamage = Number(damageObj.additional);
-                if(ability !== 0 && damageObj.abilityBonus) {
-                    additionalDamage += this.$parent.getAbilityMod(ability);
-                }
-                if(additionalDamage != 0) {
-                    descText += ' '+this.addPlus(additionalDamage, true);
-                }
-
-                descText += ')';
-            } else {
-                let additionalDamage = Number(damageObj.additional);
-                if(ability !== 0 && damageObj.abilityBonus) {
-                    additionalDamage += this.$parent.getAbilityMod(ability);
-                }
-                if(additionalDamage != 0) {
-                    descText += ' '+this.addPlus(additionalDamage, true);
-                }
             }
+
+            let additionalDamage = Number(damageObj.additional);
+            if(ability !== 0 && damageObj.abilityBonus) {
+                additionalDamage += this.$parent.getAbilityMod(ability);
+            }
+            if(additionalDamage != 0) {
+                descText += ' '+this.addPlus(additionalDamage, true);
+            }
+
+            if(damageObj.diceAmount > 0) {
+                descText += ')';
+            }
+
+            if(damageObj.diceAmount == 0 && additionalDamage === 0) {
+                descText += '0';
+            }
+
             if(damageObj.hasOwnProperty('type')) {
                 descText += ' '+this.f5.misc.damage.replace(':type', this.f5.damagetypes[damageObj.type].name.toLowerCase());
             }
@@ -857,22 +883,6 @@ export default {
         addRegenDie: function() {
             this.addDamageDie('regenerate', false);
         },
-
-        // addSpell: function(spellLevel = 0) {
-        //     this.value.spellList.push(
-        //         {
-        //             'name': this.f5.misc.title_add_spell_name,
-        //             'level': spellLevel,
-        //             'cast_before': false,
-        //             'at_will': false,
-        //             'uses': 1,
-        //         }
-        //     );
-        // },
-
-        // removeSpell: function(spellIndex) {
-        //     this.value.spellList.splice(spellIndex, 1);
-        // },
 
         unsetManualDPR: function() {
             this.value.manualDPR = -1;
@@ -911,7 +921,7 @@ export default {
                 str = str.replace(':range_distance_low', this.value.attack.range.low);
                 str = str.replace(':range_distance_high', this.value.attack.range.high+' '+this.$parent.$parent.editor.measure.measureUnit);
             }
-            str = str.replace(':targets', this.$parent.pluralize(this.f5.misc.num_of_targets, this.value.attack.targets).replace(':target_count', this.value.attack.targets));
+            str = str.replace(':targets', this.pluralize(this.f5.misc.num_of_targets, this.value.attack.targets).replace(':target_count', this.value.attack.targets));
 
             //Saving Throw
             str = str.replace(':saving_throw_dc', this.$parent.makeSavingThrowDC(this.value.savingThrow.monsterAbility));
@@ -1172,8 +1182,10 @@ export default {
                     damage: [this.createDamageDie()],
                     halfOnSuccess: true,
                     conditions: [],
-                    conditionDuration: 'one_minute',
+                    conditionDuration: 'specified_timeframe',
                     conditionRepeatSave: true,
+                    conditionDurationUnit: 'minute',
+                    conditionDurationAmount: 1,
                 },
 
                 ongoingDamage: {

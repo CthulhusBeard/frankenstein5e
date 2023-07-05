@@ -1,9 +1,22 @@
+@import 'design';
+
 .hidden {
     display: none;
 }
 
 .strong {
     font-weight: bold;
+}
+.small {
+    font-size: .9em;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.lowercase {
+    text-transform: lowercase;
 }
 
 .i {
@@ -53,4 +66,8 @@
 
 input[type=number] {
     max-width: 50px;
+}
+
+.multiselect {
+    margin: 0;
 }

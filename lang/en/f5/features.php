@@ -59,12 +59,14 @@ return [
     //Feature Modifiers
     'additionally' => 'Additionally, :addition',
     'desc_modifier_damage' => 'plus :damage_roll :damage_type damage',
-    'desc_attack_saving_throw_condition' => ':target_text must make a DC :saving_throw_dc :saving_throw_ability saving throw or :condition',
-    'desc_attack_saving_throw_damage' => ':target_text must make a DC :saving_throw_dc :saving_throw_ability saving throw, taking :damage on a failed save:half_as_much',
-    'desc_attack_saving_throw_damage_condition' => ':target_text must make a DC :saving_throw_dc :saving_throw_ability saving throw, taking :damage on a failed save and :condition:half_as_much :not_condition',
-    'desc_attack_saving_throw_damage_condition_separated' => ':target_text must make a DC :saving_throw_dc :saving_throw_ability saving throw. On a failed save, :target_text takes :damage and :condition:. half_as_much :not_condition',
+    'desc_attack_saving_throw_condition' => ':target_text must make a DC :saving_throw_dc :saving_throw_ability saving throw or :condition:condition_duration.:repeat_condition_save',
+    'desc_attack_saving_throw_damage' => ':target_text must make a DC :saving_throw_dc :saving_throw_ability saving throw, taking :damage on a failed save:half_as_much.',
+    'desc_attack_saving_throw_damage_condition' => ':target_text must make a DC :saving_throw_dc :saving_throw_ability saving throw, taking :damage on a failed save and :condition:condition_duration:half_as_much:not_condition.:repeat_condition_save',
+    'desc_attack_saving_throw_damage_condition_separated' => ':target_text must make a DC :saving_throw_dc :saving_throw_ability saving throw. On a failed save, :target_text takes :damage and :condition::condition_duration. :half_as_much:not_condition.:repeat_condition_save',
     'desc_saving_throw_half_on_success' => ', or half as much damage on a successful one',
     'desc_saving_throw_on_success_take_half' => 'On a successful save, :target_text takes half as much damage',
+
+    'repeat_condition_saving_throw_text' => 'A :condition creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success.',
 
     'desc_ongoing_damage_generic' => ':flavour_descriptionUntil :ongoing_end_condition, the target takes :damage_amount :damage_occurance.',
     'desc_ongoing_damage_flavour_onfire' => 'If the target is a creature or a flammable object, it ignites.',

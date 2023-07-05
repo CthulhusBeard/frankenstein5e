@@ -27,6 +27,7 @@ class FrankensteinController extends Controller
             $configData = [
                 'misc',
                 'timepoints',
+                'timeunits',
                 'playerlevels',
                 'encounterdifficulties',
                 'tags',

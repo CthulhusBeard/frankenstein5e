@@ -35,6 +35,8 @@ return [
 
     'title_export' => 'Export Monster',
     'title_export_for_homebrewery' => 'Export Monster For Homebrewery',
+    'title_export_for_foundry' => 'Export Monster For Foundry',
+    'title_delete_monster' => 'Delete Monster',
     'title_import' => 'Import Monster',
     'title_monster_template' => 'Monster Templates',
     'title_import_from_clipboard' => 'Import From Clipboard',

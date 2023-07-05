@@ -28,10 +28,10 @@
 
                 <!-- Nav -->
                 <nav>
-                    <div class="nav-option nav-statblocks" @click="editor.activeSection = 'statblock-display'">
+                    <div class="nav-option nav-statblocks" :class="{'active': editor.activeSection == 'statblock-display'}" @click="editor.activeSection = 'statblock-display'">
                         <div>Statblocks</div>
                     </div>
-                    <div class="nav-option nav-encounter" @click="changeActiveDisplay('encounter-display')">
+                    <div class="nav-option nav-encounter" :class="{'active': editor.activeSection == 'encounter-display'}" @click="changeActiveDisplay('encounter-display')">
                         <div>Encounter Analysis</div>
                     </div>
                     <!-- <a href="https://www.paypal.me/dmcdoogs" target="_blank" rel="nofollow noopener">

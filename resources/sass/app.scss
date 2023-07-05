@@ -1,68 +1,3 @@
-@font-face {
-    font-family: Roboto;
-    src: url(../fonts/Roboto/Roboto-Regular.ttf);
-}
-@font-face {
-    font-family: Roboto;
-    src: url(../fonts/Roboto/Roboto-Italic.ttf);
-    font-style: italic;
-}
-@font-face {
-    font-family: Roboto;
-    src: url(../fonts/Roboto/Roboto-Medium.ttf);
-    font-weight: 500;
-}
-@font-face {
-    font-family: Roboto;
-    src: url(../fonts/Roboto/Roboto-MediumItalic.ttf);
-    font-style: italic;
-    font-weight: 500;
-}
-@font-face {
-    font-family: Roboto;
-    src: url(../fonts/Roboto/Roboto-Bold.ttf);
-    font-weight: bold;
-}
-@font-face {
-    font-family: Roboto;
-    src: url(../fonts/Roboto/Roboto-BoldItalic.ttf);
-    font-weight: bold;
-    font-style: italic;
-}
-@font-face {
-    font-family: Roboto;
-    src: url(../fonts/Roboto/Roboto-Black.ttf);
-    font-weight: 900;
-}
-@font-face {
-    font-family: Roboto;
-    src: url(../fonts/Roboto/Roboto-BlackItalic.ttf);
-    font-weight: 900;
-    font-style: italic;
-}
-@font-face {
-    font-family: Roboto;
-    src: url(../fonts/Roboto/Roboto-Light.ttf);
-    font-weight: lighter;
-}
-@font-face {
-    font-family: Roboto;
-    src: url(../fonts/Roboto/Roboto-LightItalic.ttf);
-    font-weight: lighter;
-    font-style: italic;
-}
-@font-face {
-    font-family: Roboto;
-    src: url(../fonts/Roboto/Roboto-Thin.ttf);
-    font-weight: 100;
-}
-@font-face {
-    font-family: Roboto;
-    src: url(../fonts/Roboto/Roboto-ThinItalic.ttf);
-    font-weight: 100;
-    font-style: italic;
-}
-
 html, body {
     background-color: #fff;
     color: #636b6f;
@@ -78,7 +13,7 @@ html, body {
     background-color: white;
     right: 0;
     top: 0;
-    font-size: 12px;
+    font-size: .8em;
     font-weight: bold;
     position: absolute;
     padding: 0px 6px 2px 5px;

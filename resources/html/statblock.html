@@ -268,22 +268,21 @@
             <div class="statblock-data-display popup-overlay">
                 
                 <div>
-                    <strong>{{f5.misc.title_dpr}}</strong>
-                    {{f5.misc.title_dpr_average_three_rounds}}
+                    <div class="underline">
+                        <h3>{{f5.misc.title_dpr}}</h3>
+                        <div><small>{{f5.misc.title_dpr_average_three_rounds}}</small></div>
+                    </div>
+                    <div>{{f5.misc.title_average_dpr}}: {{averageDPR}}</div>
+                    <div>{{f5.misc.title_max_dpr}}: {{maxDPR}}</div>
                 </div>
                 </br>
                 <div>
-                    {{f5.misc.title_average_dpr}}: {{averageDPR}}<br/>
-                    {{f5.misc.title_max_dpr}}: {{maxDPR}}<br/>
-                </div>
-                </br>
-                <div><strong>{{f5.misc.title_cr_manager}}</strong></div>
-                <div>
+                    <h3 class="underline">{{f5.misc.title_cr_manager}}</h3>
                     <div>{{f5.misc.title_offensive_cr}}: {{damageCr}}</div>
                     <div>{{f5.misc.title_hp_cr}}: {{healthCr}}</div>
                     <div>{{f5.misc.title_ac_cr}}: {{armorCr}}</div>
                     </br>
-                    <div><strong>{{f5.misc.title_calculated_challenge_rating}}:</strong></div>
+                    <h3 class="underline">{{f5.misc.title_calculated_challenge_rating}}</h3>
                     <div>{{calculatedCrText}}</div>
                 </div>
             </div>
@@ -302,11 +301,14 @@
                 <div class="button-container">
                     <button @click="exportMonsterForHomebrewery()">{{f5.misc.title_export_for_homebrewery}}</button>
                 </div>
-                <div class="button-container btn--save">
-                    <button @click="editMode = false">{{f5.misc.title_save}}</button>
+                <div class="button-container">
+                    <button @click="exportMonsterForFoundry()">{{f5.misc.title_export_for_foundry}}</button>
                 </div>
+                <!-- <div class="button-container btn--save">
+                    <button @click="editMode = false">{{f5.misc.title_save}}</button>
+                </div> -->
                 <div class="button-container btn--delete">
-                    <button @click="deleteMonster()">{{f5.misc.title_delete}}</button>
+                    <button @click="deleteMonster()">{{f5.misc.title_delete_monster}}</button>
                 </div>
             </div>
             

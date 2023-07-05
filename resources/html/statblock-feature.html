@@ -323,7 +323,14 @@
                         </select>
                     </div>
 
-                    <div v-if="value.savingThrow.conditions.length > 0">
+                    <div class="feature__condition-duration-details" v-if="value.savingThrow.conditions.length > 0 && value.savingThrow.conditionDuration === 'specified_timeframe'">
+                        <input type="number" max="999" v-model="value.savingThrow.conditionDurationAmount" />                
+                        <select v-model="value.savingThrow.conditionDurationUnit">
+                            <option v-for="(duration, i) in f5.timeunits" :value="i">{{duration.name}}</option>
+                        </select>
+                    </div>
+
+                    <div v-if="value.savingThrow.conditions.length > 0 && f5.durations[value.savingThrow.conditionDuration].force_repeat_save === null">
                         <label class="title-label">{{f5.misc.title_repeat_save}}:</label>
                         <input type="checkbox" v-model="value.savingThrow.conditionRepeatSave">
                     </div>

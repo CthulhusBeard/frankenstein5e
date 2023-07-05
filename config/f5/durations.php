@@ -1,30 +1,28 @@
 <?php
 
 return [
-    'start_of_turn' => [
-        'name' => 'f5/durations.title_start_of_turn',
-        'repeat_save' => 'f5/durations.start_of_turn_repeat',
-        'desc' => 'f5/durations.start_of_turn_desc'
+    'end_of_creatures_turn' => [
+        'name' => 'f5/durations.title_end_of_creatures_turn',
+        'desc' => 'f5/durations.until_end_of_creatures_turn',
+        'force_repeat_save' => false,
     ],
-    'end_of_turn' =>  [
-        'name' => 'f5/durations.title_end_of_turn',
-        'repeat_save' => 'f5/durations.end_of_turn_repeat',
-        'desc' => 'f5/durations.end_of_turn_desc'
+    'end_of_targets_turn' =>  [
+        'name' => 'f5/durations.title_end_of_targets_turn',
+        'desc' => 'f5/durations.until_end_of_targets_turn',
+        'force_repeat_save' => false,
     ],
-    'one_round' =>  [
-        'name' => 'f5/durations.title_one_round',
-        'repeat_save' => 'f5/durations.one_round_repeat',
+    'until_saved_against' =>  [
+        'name' => 'f5/durations.title_until_saved',
+        'force_repeat_save' => true,
     ],
-    'one_minute' =>  [
-        'name' => 'f5/durations.title_one_minute',
+    'specified_timeframe' =>  [
+        'name' => 'f5/durations.title_specified_timeframe',
+        'desc' => 'f5/durations.for_x_duration',
+        'force_repeat_save' => null,
     ],
-    'ten_minutes' =>  [
-        'name' => 'f5/durations.title_ten_minutes',
-    ],
-    'one_hour' =>  [
-        'name' => 'f5/durations.title_one_hour',
-    ],
-    'one_day' =>  [
-        'name' => 'f5/durations.title_one_day',
+    'forever' =>  [
+        'name' => 'f5/durations.title_forever',
+        'desc' => 'f5/durations.forever_desc',
+        'force_repeat_save' => null,
     ],
 ];

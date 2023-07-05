@@ -195,6 +195,7 @@ return [
     'desc_attack_saving_throw_condition' => 'f5/features.desc_attack_saving_throw_condition',
     'desc_attack_saving_throw_damage_condition' => 'f5/features.desc_attack_saving_throw_damage_condition',
     'desc_saving_throw_half_on_success' => 'f5/features.desc_saving_throw_half_on_success',
+    'repeat_condition_saving_throw_text' => 'f5/features.repeat_condition_saving_throw_text',
 
     'name_multiattack' => 'f5/features.name_multiattack', 
     'desc_multiattack' => 'f5/features.desc_multiattack',
@@ -318,6 +319,8 @@ return [
 
     'title_export' => 'f5/builder.title_export',
     'title_export_for_homebrewery' => 'f5/builder.title_export_for_homebrewery',
+    'title_export_for_foundry' => 'f5/builder.title_export_for_foundry',
+    'title_delete_monster' => 'f5/builder.title_delete_monster',
     'title_import' => 'f5/builder.title_import',
     'title_monster_template' => 'f5/builder.title_monster_template',
     'title_import_from_clipboard' => 'f5/builder.title_import_from_clipboard',
