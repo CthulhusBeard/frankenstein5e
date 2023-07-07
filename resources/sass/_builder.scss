@@ -144,11 +144,15 @@ nav {
     border: 1px black solid;
     border-radius: 7px;
     color: black;
-    background-color: $statBlockEditorBackground;
+    background-color: $statblockEditorBackground;
     padding: 10px;
     margin: 4px;
     box-shadow: 5px 5px rgba(0, 0, 0, 0.5);
     padding: 20px;
+
+    button {
+        width: 100%;
+    }
 }
 
 .popup-overlay {

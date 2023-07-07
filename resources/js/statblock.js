@@ -363,7 +363,7 @@ export default {
                         mageArmorAc += 2;
                     }
                     if(mageArmorAc > acValue) {
-                        mageArmorText = this.f5.misc.mage_armor.replace(':mage_armor_ac', mageArmorAc);
+                        mageArmorText = this.f5.misc.mage_armor.locReplace(':mage_armor_ac', mageArmorAc);
                     }
                 }
 
@@ -531,7 +531,7 @@ export default {
                 if(displayText !== '') {
                     displayText += ', ';
                 }
-                displayText += this.f5.misc.passive_skill.replace(':skill', this.f5.skills['perception'].name)+' '+(this.calcSkillMod('perception')+10);
+                displayText += this.f5.misc.passive_skill.locReplace(':skill', this.f5.skills['perception'].name)+' '+(this.calcSkillMod('perception')+10);
             //}
             return displayText;
         },
@@ -566,7 +566,7 @@ export default {
 
             if(this.value.languages.spokenWritten.includes('all')) {
                 if(this.value.languages.cantSpeak) {
-                    displayText = this.f5.misc.understands_but_cant_speak_desc.replace(':lang_list', this.f5.languages['all'].name);
+                    displayText = this.f5.misc.understands_but_cant_speak_desc.locReplace(':lang_list', this.f5.languages['all'].name);
                 }    
                 return this.f5.languages['all'].name;
             }
@@ -579,7 +579,7 @@ export default {
             }
 
             if(displayText && this.value.languages.cantSpeak) {
-                displayText = this.f5.misc.understands_but_cant_speak_desc.replace(':lang_list', displayText);
+                displayText = this.f5.misc.understands_but_cant_speak_desc.locReplace(':lang_list', displayText);
             }
 
             if(this.value.languages.telepathy > 0) {
@@ -643,20 +643,20 @@ export default {
         crDisplayText: function() {
             let averageCR = this.displayCR;
             let averageCRKey = this.toCRFormat(averageCR);
-            let crText = this.f5.misc.display_challenge_rating.replace(':cr', averageCRKey);
+            let crText = this.f5.misc.display_challenge_rating.locReplace(':cr', averageCRKey);
             let cr = this.f5.challengerating[averageCRKey];
             if(cr && cr.xp) {
-                crText += ' '+this.f5.misc.display_challenge_rating_xp.replace(':xp', cr.xp);
+                crText += ' '+this.f5.misc.display_challenge_rating_xp.locReplace(':xp', cr.xp);
             }
             
             //Lair actions
             let averageCRInLair = this.displayCRInLair;
             let averageCRInLairKey = this.toCRFormat(averageCRInLair);
             if(averageCRInLairKey !== averageCRKey) {
-                let crLairText = this.f5.misc.display_challenge_rating_in_lair.replace(':cr', averageCRInLairKey);
+                let crLairText = this.f5.misc.display_challenge_rating_in_lair.locReplace(':cr', averageCRInLairKey);
                 let crInLair = this.f5.challengerating[averageCRInLairKey];
                 if(crInLair && crInLair.xp) {
-                    crLairText += ' '+this.f5.misc.display_challenge_rating_xp.replace(':xp', crInLair.xp);
+                    crLairText += ' '+this.f5.misc.display_challenge_rating_xp.locReplace(':xp', crInLair.xp);
                 }
                 crText += '; '+crLairText;  
             
@@ -671,20 +671,20 @@ export default {
         calculatedCrText: function() {
             let averageCR = this.averageCR;
             let averageCRKey = this.toCRFormat(averageCR);
-            let crText = this.f5.misc.display_challenge_rating.replace(':cr', averageCRKey);
+            let crText = this.f5.misc.display_challenge_rating.locReplace(':cr', averageCRKey);
             let cr = this.f5.challengerating[averageCRKey];
             if(cr && cr.xp) {
-                crText += ' '+this.f5.misc.display_challenge_rating_xp.replace(':xp', cr.xp);
+                crText += ' '+this.f5.misc.display_challenge_rating_xp.locReplace(':xp', cr.xp);
             }
 
             //Lair actions
             let averageCRInLair = this.averageCRInLair;
             let averageCRInLairKey = this.toCRFormat(averageCRInLair);
             if(averageCRInLairKey !== averageCRKey) {
-                let crLairText = this.f5.misc.display_challenge_rating_in_lair.replace(':cr', averageCRInLairKey);
+                let crLairText = this.f5.misc.display_challenge_rating_in_lair.locReplace(':cr', averageCRInLairKey);
                 let crInLair = this.f5.challengerating[averageCRInLairKey];
                 if(crInLair && crInLair.xp) {
-                    crText += ' / '+crLairText+' '+this.f5.misc.display_challenge_rating_xp.replace(':xp', crInLair.xp);
+                    crText += ' / '+crLairText+' '+this.f5.misc.display_challenge_rating_xp.locReplace(':xp', crInLair.xp);
                 }
             }
 

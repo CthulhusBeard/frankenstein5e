@@ -328,7 +328,7 @@
                         <span>{{damageResistanceText}}</span>
                         <Multiselect class="edit-field edit-field--flex"
                             v-model="monsterData.damageResistances" 
-                            :placeholder="f5.misc.choose_a.replace(':choice', 'damage type')"
+                            :placeholder="f5.misc.choose_a.locReplace(':choice', 'damage type')"
                             :options="eligableDamageTypes" 
                             mode="tags"
                             :close-on-select="false"
@@ -357,7 +357,7 @@
                         <span>{{damageImmunitiesText}}</span>
                         <Multiselect class="edit-field edit-field--flex"
                             v-model="monsterData.damageImmunities" 
-                            :placeholder="f5.misc.choose_a.replace(':choice', 'damage type')"
+                            :placeholder="f5.misc.choose_a.locReplace(':choice', 'damage type')"
                             :options="eligableDamageTypes" 
                             mode="tags"
                             :close-on-select="false"
@@ -386,7 +386,7 @@
                         <span>{{damageVulnerabilitiesText}}</span>
                         <Multiselect class="edit-field edit-field--flex"
                             v-model="monsterData.damageVulnerabilites" 
-                            :placeholder="f5.misc.choose_a.replace(':choice', 'damage type')"
+                            :placeholder="f5.misc.choose_a.locReplace(':choice', 'damage type')"
                             :options="eligableDamageTypes" 
                             mode="tags"
                             :close-on-select="false"
@@ -415,7 +415,7 @@
                         <span>{{conditionImmunitiesText}}</span>
                         <Multiselect class="edit-field edit-field--flex"
                             v-model="monsterData.conditionImmunities" 
-                            :placeholder="f5.misc.choose_a.replace(':choice', 'condition')"
+                            :placeholder="f5.misc.choose_a.locReplace(':choice', 'condition')"
                             :options="f5.conditions" 
                             mode="tags"
                             :close-on-select="false"
@@ -549,7 +549,7 @@
                 <span class="info">🛈<div class="info-hover">These recommendations are based on common trends among the selected types, subtypes, and tags. These are meant to assist you in building your creature but are certainly not hard-and-fast rules. </div></span> 
             </div>
             <div v-for="(tips, i) in getCreatureTips(pageData[this.activePage].tips)">
-                <span class="creature-title">{{ f5.tags.translations.tag_traits.replace(':creature_type', i) }}</span>
+                <span class="creature-title">{{ f5.tags.translations.tag_traits.locReplace(':creature_type', i) }}</span>
                 <ul>
                     <li v-for="(tip, j) in tips">
                         <span v-if="tip.hasOwnProperty('title')">{{ tip.title }}</span>

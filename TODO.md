@@ -1,14 +1,10 @@
 //TODO: 
 
 HIGH PRIORITY
-- [ ] Condition duration
-- [ ] Fix saving throw desc to mention targets
-- [ ] Saving throws increase AC (3-4 +2, 5-6 +4)
+- [ ] Healing effects as template
+- [ ] Factor "half on success" saves vs "save or suck" into average damage
 - [ ] Allow Custom damage dice to select an ability bonus (display ability bonus on selected attacks)
-- [ ] Fix cone desciptions
-- [ ] Spell crits? (AOE Spells can't crit. No good way to tell them apart)
 - [ ] Design UI
-- [ ] Tips and suggestions
 - [ ] Consider displaying assumed average target count for AOE attacks (to make better sense of DPR). Consider having "single target DPR" vs "total DPR"
 - [ ] Allow adding text replace codes to custom description (make this easier)
 - [ ] Figure out which dpr events are actually necessary
@@ -24,9 +20,9 @@ HIGH PRIORITY
 - [ ] Merge projections for Multiattack
 //      -> Consider Action Surge/Multiattack combo
 - [ ] Clean up feature object (only export the fields needed. There are many unused fields) "template: {type: attack, damage: etc}"
-- [ ] Import Monster validation
 
 BUG FIXES
+- [ ] Removing a Multiselect item closes the lightbox
 - [ ] Make element ids unique between different statblocks
 - [ ] Remove physical damage when B/P/S is already chosen
 
@@ -34,6 +30,10 @@ MEDIUM PRIORITY
 - [ ] Fix semantic usage on Conditions plus additional conditions
 - [ ] Clean up export to remove unneeded info
 - [ ] Move template options to it's own menu like the wizard
+- [ ] Saving throws increase AC (3-4 +2, 5-6 +4)
+- [ ] Spell crits? (AOE Spells can't crit. No good way to tell them apart)
+- [ ] Creatures immune to ____ are immune to this
+- [ ] Creature type ___ make the saving throw at advantage
 
 FINAL TOUCHES
 - [ ] Make a logo (no bolts)

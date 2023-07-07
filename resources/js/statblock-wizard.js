@@ -263,7 +263,7 @@ export default {
         },
 
         targetCRDesc: function() {
-            return this.f5.misc.wizard_cr_description.replace(':cr', this.targetCRData.cr_text)
+            return this.f5.misc.wizard_cr_description.locReplace(':cr', this.targetCRData.cr_text)
         },
 
         alignmentText: function() {
@@ -371,7 +371,7 @@ export default {
                         mageArmorAc += 2;
                     }
                     if(mageArmorAc > acValue) {
-                        mageArmorText = this.f5.misc.mage_armor.replace(':mage_armor_ac', mageArmorAc);
+                        mageArmorText = this.f5.misc.mage_armor.locReplace(':mage_armor_ac', mageArmorAc);
                     }
                 }
 
@@ -533,7 +533,7 @@ export default {
                 if(displayText !== '') {
                     displayText += ', ';
                 }
-                displayText += this.f5.misc.passive_skill.replace(':skill', this.f5.skills['perception'].name)+' '+(this.calcSkillMod('perception')+10);
+                displayText += this.f5.misc.passive_skill.locReplace(':skill', this.f5.skills['perception'].name)+' '+(this.calcSkillMod('perception')+10);
             //}
             return displayText;
         },

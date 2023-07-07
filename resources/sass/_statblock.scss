@@ -1,6 +1,6 @@
 @import "./mixins";
 
-$statBlockRed: #822000;
+$statblockRed: #822000;
 
 .editable {
     border: 1px black solid;
@@ -73,9 +73,9 @@ i {
     padding: 7px;
     margin: 5px;
     box-sizing: border-box;
-    color: $statBlockRed;
+    color: $statblockRed;
     border: 1px solid #d8d4d1;
-    background: linear-gradient(#efe2b5 0%, #f8f2d5 10%, #f8f2d5 90%, #efe2b5 100%);
+    background: $statblockBackground;
 
     &.statblock--clickable {
         cursor: pointer;
@@ -156,7 +156,7 @@ i {
         input {
             font-weight: bold;
             font-size: 1em;
-            color: $statBlockRed;
+            color: $statblockRed;
             max-width: 100%;
         }
         label.proper-noun {
@@ -170,7 +170,7 @@ i {
         .header {
             font-size: 1.2em;
             text-transform: uppercase;
-            border-bottom: 1px solid $statBlockRed;
+            border-bottom: 1px solid $statblockRed;
             width: 100%;
             margin: 20px 0 12px 0;
             padding-bottom: 5px;
@@ -296,14 +296,15 @@ i {
                 display: none;
             }
             .feature__options {
-                margin-left: 5px;
+                //margin-left: 5px;
                 //column-count: 2;
                 //column-gap: 2px;
             }
             .feature__damage, .feature__regen, .feature__option-group {
                 position: relative;
+                width: 97%;
                 border: 1px black solid;
-                background-color: $statBlockEditorBackgroundSecondary;
+                background-color: $statblockEditorBackgroundSecondary;
                 border-radius: 8px;
                 padding: 2px;
                 .feature__remove-damage, .feature__remove-regen {
@@ -374,15 +375,18 @@ i {
             .edit-feature {
                 position: absolute;
                 left: 50%;
-                transform: translateX(-50%);
                 top: 20px;
+                transform: translateX(-50%);
                 max-width: 90%;
-                background-color: $statBlockEditorBackground;
+                padding: 5px;
+                background-color: $statblockEditorBackground;
                 z-index: 100;
                 box-shadow: 0px 0px 40px #000, 0px 0px 40px #000;
                 max-height: 90vh;
                 overflow-y: scroll;
                 overflow-x: hidden;
+                border: 1px black solid;
+                border-radius: 5px;
 
                 .feature__dpr-display {
                     width: 100%;
@@ -393,7 +397,7 @@ i {
             }
             .edit-field {
                 width: 70%;
-                padding: 5px;
+                padding: 10px;
                 break-inside: avoid-column;
                 .title-label {
                     font-weight: bold;
@@ -455,14 +459,11 @@ i {
             }
 
             .edit-field {
-                .feature__description {
+                .feature__description, .feature__description-textarea {
+                    width: 97%; 
+                    padding: 3px;
                     border: 1px black solid;
-                    background-color: white;  
-                    width: 97%;
-                }
-                .feature__description-textarea {
-                    width: 97%;
-                    border: 1px black solid;
+                    background: $statblockBackground; 
                 }
             }
             

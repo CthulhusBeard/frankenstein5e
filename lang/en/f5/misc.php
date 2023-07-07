@@ -85,4 +85,7 @@ return [
     
     'title_passive_trigger' => 'Feature Trigger',
 
+    'target_hostile' => 'hostile',
+    'target_friendly' => 'friendly',
+
 ];

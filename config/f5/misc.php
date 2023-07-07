@@ -51,6 +51,9 @@ return [
     'damage' => 'f5/misc.damage',
     'attack' => 'f5/misc.attack',
 
+    'target_hostile' => 'f5/misc.target_hostile',
+    'target_friendly' => 'f5/misc.target_friendly',
+
     'languages_none' => 'f5/languages.languages_none',
 
     'title_on_failed_save' => 'f5/features.title_on_failed_save',
@@ -108,6 +111,8 @@ return [
     'title_attack_range' => 'f5/features.title_attack_range',
     'title_target_type' => 'f5/features.title_target_type',
     'title_line_width' => 'f5/features.title_line_width',
+    'title_aoe_width' => 'f5/features.title_aoe_width',
+    'title_aoe_radius' => 'f5/features.title_aoe_radius',
     'title_reach_distance' => 'f5/features.title_reach_distance',
     'title_range_distance' => 'f5/features.title_range_distance',
     'title_damage_dice' => 'f5/features.title_damage_dice',
@@ -299,6 +304,7 @@ return [
     'title_calculated_challenge_rating' => 'f5/builder.title_calculated_challenge_rating',
     'title_cr' => 'f5/builder.title_cr',
     'title_cr_manager' => 'f5/builder.title_cr_manager',
+    'title_cr_estimation' => 'f5/builder.title_cr_estimation',
     'title_offensive_cr' => 'f5/builder.title_offensive_cr',
     'title_hp_cr' => 'f5/builder.title_hp_cr',
     'title_ac_cr' => 'f5/builder.title_ac_cr',

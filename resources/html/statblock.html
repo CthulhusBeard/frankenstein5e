@@ -277,24 +277,26 @@
                 </div>
                 </br>
                 <div>
-                    <h3 class="underline">{{f5.misc.title_cr_manager}}</h3>
+                    <h3 class="underline">{{f5.misc.title_cr_estimation}}</h3>
                     <div>{{f5.misc.title_offensive_cr}}: {{damageCr}}</div>
                     <div>{{f5.misc.title_hp_cr}}: {{healthCr}}</div>
                     <div>{{f5.misc.title_ac_cr}}: {{armorCr}}</div>
-                    </br>
-                    <h3 class="underline">{{f5.misc.title_calculated_challenge_rating}}</h3>
+                    <div><strong>{{f5.misc.title_calculated_challenge_rating}}:</strong></div>
                     <div>{{calculatedCrText}}</div>
                 </div>
             </div>
 
             <div class="statblock-data-display ui-box">
-                <strong>{{f5.misc.title_controls}}</strong>
+                <h3 class="underline">{{f5.misc.title_controls}}</h3>
                 <div>
                     <label class="control-label" for="controls__columns">{{f5.misc.title_columns}}: </label>
                     <select v-model="value.display.columns">
                         <option v-for="i in 3" :value="i">{{i}}</option>
                     </select>
                 </div>
+            </div>
+                
+            <div class="statblock-data-display ui-box">
                 <div class="button-container">
                     <button @click="exportMonster()">{{f5.misc.title_export}}</button>
                 </div>
@@ -542,7 +544,7 @@
                             <span>{{damageResistanceText}}</span>
                             <Multiselect class="edit-field edit-field--flex"
                                 v-model="value.damageResistances" 
-                                :placeholder="f5.misc.choose_a.replace(':choice', 'damage type')"
+                                :placeholder="f5.misc.choose_a.locReplace(':choice', 'damage type')"
                                 :options="eligableDamageTypes" 
                                 mode="tags"
                                 :close-on-select="false"
@@ -570,7 +572,7 @@
                             <span>{{damageImmunitiesText}}</span>
                             <Multiselect class="edit-field edit-field--flex"
                                 v-model="value.damageImmunities" 
-                                :placeholder="f5.misc.choose_a.replace(':choice', 'damage type')"
+                                :placeholder="f5.misc.choose_a.locReplace(':choice', 'damage type')"
                                 :options="eligableDamageTypes" 
                                 mode="tags"
                                 :close-on-select="false"
@@ -598,7 +600,7 @@
                             <span>{{damageVulnerabilitiesText}}</span>
                             <Multiselect class="edit-field edit-field--flex"
                                 v-model="value.damageVulnerabilites" 
-                                :placeholder="f5.misc.choose_a.replace(':choice', 'damage type')"
+                                :placeholder="f5.misc.choose_a.locReplace(':choice', 'damage type')"
                                 :options="eligableDamageTypes" 
                                 mode="tags"
                                 :close-on-select="false"
@@ -626,7 +628,7 @@
                             <span>{{conditionImmunitiesText}}</span>
                             <Multiselect class="edit-field edit-field--flex"
                                 v-model="value.conditionImmunities" 
-                                :placeholder="f5.misc.choose_a.replace(':choice', 'condition')"
+                                :placeholder="f5.misc.choose_a.locReplace(':choice', 'condition')"
                                 :options="f5.conditions" 
                                 mode="tags"
                                 :close-on-select="false"

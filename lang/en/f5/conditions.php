@@ -20,8 +20,9 @@ return [
     'condition_desc_not' => 'is not :condition|are not :condition',
     'condition_desc_gains_point' => 'gains a point of :condition|gain a point of :condition',
     'condition_desc_not_gains_point' => 'does not gain a point of :condition|do not gain a point of :condition',
-    'condition_desc_knocked' => 'is knocked :condition|are knocked :condition',
-    'condition_desc_not_knocked' => 'is not knocked :condition|are not knocked :condition',
+    'condition_desc_knocked' => 'knocked :condition',
+    'condition_desc_is_knocked' => 'is knocked :condition|are knocked :condition',
+    'condition_desc_is_not_knocked' => 'is not knocked :condition|are not knocked :condition',
     'condition_desc_is_set' => 'is set :condition|are set :condition',
     'condition_desc_not_set' => 'is not set :condition|are not set :condition',
     'condition_desc_is_pushed' => 'is :condition :distance|are :condition :distance',
@@ -50,5 +51,7 @@ return [
     'swallowed_description' => '',
     'on_fire' => 'On Fire',
     'on_fire_description' => '',
+    
+    'exhausted' => 'Exhausted',
 
 ];

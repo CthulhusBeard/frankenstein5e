@@ -1,13 +1,11 @@
-$statBlockEditorBackground: #ffffff;
-$statBlockEditorBackgroundSecondary: #d8d8d8;
-
-
+$statblockBackground: linear-gradient(#efe2b5 0%, #f8f2d5 10%, #f8f2d5 90%, #efe2b5 100%);
+$statblockEditorBackground: #e9e9e9;
+$statblockEditorBackgroundSecondary: #d8d8d8;
 
 button {
     position: relative;
     border: 1px black solid;
     border-radius: 5px;
-    width: 100%;
     padding: 5px;
     font-weight: bold;
     cursor: pointer;

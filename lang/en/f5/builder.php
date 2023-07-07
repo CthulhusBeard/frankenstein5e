@@ -15,6 +15,7 @@ return [
     'title_calculated_challenge_rating' => 'Calculated Average CR',
     'title_cr' => 'CR',
     'title_cr_manager' => 'Challenge Rating Manager',
+    'title_cr_estimation' => 'Challenge Rating Estimation',
     'title_offensive_cr' => 'Offensive CR',
     'title_hp_cr' => 'Hit Points CR',
     'title_ac_cr' => 'Armor Class CR',

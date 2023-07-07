@@ -8,6 +8,7 @@
     </div>
 
     <div class="edit-feature edit-field">
+    
         <label v-if="value.template === 'spellcasting'" class="title-label">{{f5.misc.title_spellcasting_feature_name}}:</label>
         <label v-else-if="value.template === 'legendary_resistance'" class="title-label">{{f5.featuretemplates.legendary_resistance.name}}:</label>
         <label v-else class="title-label">{{f5.misc.title_feature_name}}:</label>
@@ -19,7 +20,7 @@
                 <option v-for="(template, i) in getValidTemplateTypes" v-if="i != 'spellcasting'" :value="i">{{template.name}}</option>
             </select>
         </div>
-        <!--<label v-if="value.template !== 'custom'">{{f5.misc.title_feature_options}}:</label>-->
+
         <div class="feature__description" v-if="value.template !== 'custom'" v-html="descriptionEditText"></div>
 
         <!--Legendary Resistances -->
@@ -34,7 +35,7 @@
         <!-- Custom -->
         <div class="feature__options feature__option-custom" v-if="value.template === 'custom'">
             <textarea rows="5" class="feature__description-textarea" v-model="value.custom.description"></textarea>
-            
+
             <!-- Damage Options -->
             <div>
                 <label class="title-label">{{f5.misc.title_damage_dice}}:</label>
@@ -162,36 +163,42 @@
 
         
         <div v-if="value.template === 'saving_throw' || value.template === 'attack'"">
-            <label class="title-label">{{f5.misc.title_target_type}}:</label>
-            <select v-model="value.targetType">
-                <option v-for="(aoe, i) in f5.areaofeffect" v-if="aoe.types.includes(value.template)" :value="i">{{aoe.name}}</option>
-            </select>
-            <label class="title-label" v-if="value.targetType == 'line'">{{f5.misc.title_line_width}}:</label>
-            <input type="number" min="5" max="100" v-if="value.targetType == 'line'" v-model="value.targetLineWidth" />
-            
+            <div>
+                <label class="title-label">{{f5.misc.title_target_type}}:</label>
+                <select v-model="value.targetType">
+                    <option v-for="(aoe, i) in f5.areaofeffect" v-if="aoe.types.includes(value.template)" :value="i">{{aoe.name}}</option>
+                </select>
+            </div>
+
             <div v-if="f5.areaofeffect[value.targetType].target_type === 'select'" >
                 <label class="title-label">{{f5.misc.title_targets}}:</label>
-                <select v-model="value.attack.targets">
-                    <option v-for="i in 5" :value="i">{{i}}</option>
-                </select>
+                <input type="number" max="10" v-model="value.attack.targets" />
             </div>
             <div v-if="value.targetType === 'melee' || value.targetType === 'melee_or_ranged'">
                 <label class="title-label">{{f5.misc.title_reach_distance}}:</label>
-                <select v-model="value.attack.reach">
-                    <option v-for="i in f5.areaofeffect['melee'].range" :value="i">{{i}}</option>
-                </select>
+                <input type="number" min="5" max="9999" v-model="value.attack.reach" />
+                {{$parent.$parent.editor.measure.measureUnit}}
             </div>
             <div v-if="value.targetType === 'ranged' || value.targetType === 'melee_or_ranged'">
                 <label class="title-label">{{f5.misc.title_range_distance}}:</label>
-                <input type="number" max="9999" v-model="value.attack.range.low" />
+                <input type="number" min="5" max="9999" v-model="value.attack.range.low" />
                 /
-                <input type="number" max="9999" v-model="value.attack.range.high" />
+                <input type="number" min="5" max="9999" v-model="value.attack.range.high" />
+                {{$parent.$parent.editor.measure.measureUnit}}
             </div>
-            <div v-if="value.targetType === 'line' || value.targetType === 'cone' || value.targetType === 'sphere' || value.targetType === 'cube' || value.targetType === 'proximity'">
+
+            <div v-if="value.targetType == 'line' || f5.areaofeffect[value.targetType].range">
                 <label class="title-label">{{f5.misc.title_range_distance}}:</label>
-                <select v-model="value.aoeRange">
-                    <option v-for="i in f5.areaofeffect[value.targetType].range" :value="i">{{i}}</option>
-                </select>
+                <input type="number" min="0" max="9999" v-model="value.aoeRange" />
+                {{$parent.$parent.editor.measure.measureUnit}}
+            </div>
+
+            <div>
+                <label class="title-label" v-if="value.targetType == 'cone' || value.targetType == 'cube'">{{f5.misc.title_aoe_width}}:</label>
+                <label class="title-label" v-else-if="value.targetType == 'line'">{{f5.misc.title_line_width}}:</label>
+                <label class="title-label" v-else-if="value.targetType == 'sphere' || value.targetType == 'proximity'">{{f5.misc.title_aoe_radius}}:</label>
+                <input type="number" min="5" max="100" v-if="f5.areaofeffect[value.targetType].target_type == 'aoe'" v-model="value.targetAreaWidth" />
+                {{$parent.$parent.editor.measure.measureUnit}}
             </div>
         </div>
 

@@ -124,7 +124,7 @@ export default {
                 let colorSet3 = this.randomColourSet('red');
 
                 // data.datasets.push({
-                //     label: this.f5.misc.graph_data_monster_damage.replace(':creature_name', monster.name),
+                //     label: this.f5.misc.graph_data_monster_damage.locReplace(':creature_name', monster.name),
                 //     data: monster.damageData,
                 //     backgroundColor: colorSet1.half,
                 //     borderColor: colorSet1.full,
@@ -134,7 +134,7 @@ export default {
                 //     pointHoverRadius: 10
                 // });
                 // data.datasets.push({
-                //     label: this.f5.misc.graph_data_monster_max_damage.replace(':creature_name', monster.name),
+                //     label: this.f5.misc.graph_data_monster_max_damage.locReplace(':creature_name', monster.name),
                 //     data: monster.maxDamageData,
                 //     backgroundColor: colorSet2.half,
                 //     borderColor: colorSet2.full,
@@ -144,7 +144,7 @@ export default {
                 //     pointHoverRadius: 10
                 // });
                 data.datasets.push({
-                    label: this.f5.misc.graph_data_monster_hp.replace(':creature_name', monster.name),
+                    label: this.f5.misc.graph_data_monster_hp.locReplace(':creature_name', monster.name),
                     data: monster.hpData,
                     backgroundColor: colorSet3.half,
                     borderColor: colorSet3.full,
@@ -154,7 +154,7 @@ export default {
                     pointHoverRadius: 10
                 });
                 // data.datasets.push({
-                //     label: this.f5.misc.graph_data_monster_lair_damage.replace(':creature_name', monster.name),
+                //     label: this.f5.misc.graph_data_monster_lair_damage.locReplace(':creature_name', monster.name),
                 //     data: monster.lairData,
                 //     backgroundColor: colorSet3.half,
                 //     borderColor: colorSet3.full,
@@ -197,7 +197,7 @@ export default {
                 let playerDamageThisRound = this.playerAverageDamage();
                 cumulativeMonsterDamagePerRound[roundIndex] = 0;
 
-                labelsList[roundIndex] = this.f5.misc.round_num.replace(':round_number', roundIndex + 1);
+                labelsList[roundIndex] = this.f5.misc.round_num.locReplace(':round_number', roundIndex + 1);
 
                 //Loop through all monsters in the encounter
                 for (let monsterIndex = 0; monsterIndex < this.encounterData.length; monsterIndex++) {
@@ -354,7 +354,7 @@ export default {
                         },
                         title: {
                             display: true,
-                            text: this.f5.misc.title_combat_projection.replace(':creature_name', this.name)
+                            text: this.f5.misc.title_combat_projection.locReplace(':creature_name', this.name)
                         }
                     }
                 }

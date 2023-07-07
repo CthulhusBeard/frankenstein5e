@@ -41,3 +41,19 @@ function init(f5data) {
     console.log(f5data);
     let app = EncounterBuilder.initVue(f5data);
 }
+
+//TODO: make separate locReplace functions for each lang
+String.prototype.locReplace = function (pattern, replacement) {
+    let pos = this.search(pattern);
+    let newString = this;
+    if(pos > 0 && ['a','e','i','o','u'].includes(String(replacement).charAt(0))) {
+        pos--;
+        if(this.charAt(pos) === ' ') {
+            pos--;
+        }
+        if(this.charAt(pos).toLowerCase() == 'a' && (pos === 0 || this.charAt(pos-1) == ' ')) {
+            newString = this.slice(0, pos+1) + "n" + this.slice(pos+1);
+        }
+    }
+    return newString.replace(pattern, replacement);
+};

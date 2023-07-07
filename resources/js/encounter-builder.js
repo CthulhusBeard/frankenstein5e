@@ -10,6 +10,7 @@ export function initVue(f5data) {
 
     Vue.mixin({
         methods: {
+
             generateArmorText: function (item, max) {
                 let text = item.name;
                 if(item.range && item.range.low && item.range.high) {
@@ -26,7 +27,7 @@ export function initVue(f5data) {
                     text += ')';
                 }
                 return text;
-            },      
+            },
 
             addPlus: function (number, addSpace = false) {
                 let space = addSpace ? ' ' : '';
@@ -186,7 +187,7 @@ export function initVue(f5data) {
                 if(num == 2) {
                     return this.f5.misc.twice;
                 }
-                return this.f5.misc.three_or_more_times.replace(':number_of_times', num);
+                return this.f5.misc.three_or_more_times.locReplace(':number_of_times', num);
             },
 
             numberToWord: function(num) {
