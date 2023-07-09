@@ -105,6 +105,12 @@
                             >
                             </Statblock>
                         </div>
+
+                        <div class="getting-started" v-if="statblocks.length == 0">
+                            <div>Getting started: </div>
+                            <button @click="createStatBlock()" >CREATE STATBLOCK FROM SCRATCH</button>
+                            <button @click="initStatBlockWizard()" >CREATE STATBLOCK USING WIZARD</button>
+                        </div>
                     </div>
 
                     <!-- Encounter Analysis -->

@@ -92,6 +92,7 @@ return [
                 'affinity_elemental' => 'lightning',
                 'damage_immunities' => 'lightning',
                 'alignments' => 'lawful_evil',
+                'speeds' => 'burrow',
             ],
         ],
         'green_dragon' => [

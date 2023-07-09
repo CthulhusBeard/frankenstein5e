@@ -109,6 +109,12 @@ return [
     'title_damage_duration' => 'Duration',
     'title_condition_duration' => 'Condition Duration',
 
+    'feature_section_area_of_effect' => 'Area of Effect',
+    'feature_section_ability_modifiers' => 'Ability Modifiers',
+    'feature_section_conditions' => 'Conditions',
+    'feature_section_damage' => 'Damage',
+    'feature_section_other' => 'Other',
+
 
     //Features
     'name_legendary_resistance' => 'Legendary Resistance',
