@@ -59,9 +59,17 @@
                             <div class="nav-dropdown-option" v-for="(monster, i) in sampleMonsters" :value="i" @click="importMonster(sampleMonsters[i])">{{monster.name}} (CR {{monster.cr}} {{monster.type}})</div>
                         </div>
                     </div>
-                    <div class="nav-option" @click="importMonsterFromClipboard()">
-                        {{f5.misc.title_import_from_clipboard}}
+                    
+                    <div class="nav-option">
+                        <div>
+                            Import Statblock <span>▼</span>
+                        </div>
+                        <div class="nav-dropdown">
+                            <div class="nav-dropdown-option" @click="importMonsterFromClipboard()" >From Clipboard</div>
+                            <div class="nav-dropdown-option" @click="clickFileImportButton()">From File</div>
+                        </div>
                     </div>
+
                     <div class="nav-option" @click="clearAllData()">
                         {{f5.misc.title_clear_all}}
                     </div>
@@ -107,11 +115,54 @@
                         </div>
 
                         <div class="getting-started" v-if="statblocks.length == 0">
-                            <div>Getting started: </div>
-                            <button @click="createStatBlock()" >CREATE STATBLOCK FROM SCRATCH</button>
-                            <button @click="initStatBlockWizard()" >CREATE STATBLOCK USING WIZARD</button>
+                            <div class="starting-prompts">Getting started: Create a statblock using the tools below!</div>
+                            <div class="flex-rows">
+                                <div class="starting-option">
+                                    <div>
+                                        <button @click="createStatBlock()" >CREATE STATBLOCK FROM SCRATCH</button>
+                                    </div>
+                                    <div>
+                                        Start a new creature from scratch!
+                                    </div>
+                                </div>
+                                <div class="starting-option">
+                                    <div>
+                                        <button @click="initStatBlockWizard()" >CREATE STATBLOCK USING WIZARD</button>
+                                    </div>
+                                    <div>
+                                        Using the Creature Wizard to build a new creature with helpful hints and tips.
+                                    </div>
+                                </div>
+                                <div class="starting-option">
+                                    <div>USE A CREATURE TEMPLATE</div>
+                                    <div>
+                                        Use the template in the navigation menu to select an existing create to use as a template.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="starting-prompts">Been here before? Import a creature data to continue where you left off</div>
+                            <div class="flex-rows">
+                                <div class="starting-option">
+                                    <div>
+                                        <button @click="importMonsterFromClipboard()" >IMPORT MONSTER FROM CLIPBOARD</button>
+                                    </div>
+                                    <div>
+                                        Import a set of monster data saved in your clipboard.
+                                    </div>
+                                </div>
+                                <div class="starting-option">
+                                    <div>
+                                        <button @click="clickFileImportButton()" >IMPORT MONSTER FROM FILE</button>
+                                    </div>
+                                    <div>
+                                        Import monster data saved in a file.
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <input class="hidden" type="file" name="jsonUpload" id="jsonUpload" @change="importMonsterFromFile" />
+
 
                     <!-- Encounter Analysis -->
                     <div class="display-section encounter-display" :class="{'active-display': (editor.activeSection == 'encounter-display')}">

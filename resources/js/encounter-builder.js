@@ -11,6 +11,22 @@ export function initVue(f5data) {
     Vue.mixin({
         methods: {
 
+            downloadJson: function(name, json) {
+                let data = encodeURI('data:text/json;charset=utf-8,' + json);
+                let filename = 'f5_'+name.replace(/[^a-z0-9]/gi, '_').toLowerCase()+'.json';
+
+                let link = document.createElement('a');
+                link.setAttribute('href', data);
+                link.setAttribute('download', filename);
+                link.click();
+                link.remove();
+            },
+
+            clickFileImportButton: function() {
+                let btn = document.getElementById('jsonUpload');
+                btn.click();
+            },
+
             generateArmorText: function (item, max) {
                 let text = item.name;
                 if(item.range && item.range.low && item.range.high) {
@@ -411,7 +427,6 @@ export function initVue(f5data) {
         data: {
             editor: {
                 activeSection: 'statblock-display',
-                showCreateMenu: false, 
                 editMode: true,
                 usingWizard: false,
                 playerData: {
@@ -425,6 +440,7 @@ export function initVue(f5data) {
                     measureUnitUpName: 'miles',
                 },
                 roundTracker: 7,
+                jsonUpload: null,
             },
             encounterXP: 0,
             encounterDifficulty: f5data.encounterdifficulties['easy'],
@@ -510,8 +526,6 @@ export function initVue(f5data) {
 
                 try {
                     let parsed = JSON.parse(monster);
-
-                    //TODO: Add better import validation
                     this.importMonster(parsed);
 
                 } catch(e) {
@@ -520,8 +534,25 @@ export function initVue(f5data) {
 
             },
 
+            importMonsterFromFile: async function(event) {
+
+                let reader = new FileReader();
+                reader.onload = this.importFromFileOnload;
+                reader.readAsText(event.target.files[0]);
+                 
+            },
+
+            importFromFileOnload: async function(event) {
+                try {
+                    let parsed = JSON.parse(event.target.result);
+                    this.importMonster(parsed);
+                } catch(e) {
+                    console.error(e);
+                    alert('This file does not contain a valid Frankenstein 5E monster.'); // error in the above string (in this case, yes)!
+                }
+            },
+
             createStatBlock: function() {
-                this.closeCreateMenu();
                 let i = this.statblocks.push({
                     trackingId: this.createTrackingId(), 
                     number: 1,
@@ -601,16 +632,11 @@ export function initVue(f5data) {
             },
 
             initStatBlockWizard: function () {
-                this.closeCreateMenu();
                 this.editor.usingWizard = true;
             },
 
             closeWizard: function() {
                 this.editor.usingWizard = false;
-            },
-
-            closeCreateMenu: function() {
-                this.editor.showCreateMenu = false;
             },
 
             createStatBlockFromWizardData: function(monsterData) {

@@ -94,7 +94,7 @@ return [
     'title_regeneration_dice' => 'Regeneration Dice',
     'title_saving_throw_ability' => 'Ability for Save',
     'title_saving_throw_monster_ability' => 'Ability Used For Effect',
-    'title_additional_saving_throw' => 'Additional Saving Throw',
+    'title_attack_saving_throw' => 'Attack Saving Throw',
     'title_targets' => 'Targets',
     'title_half_on_success' => 'Half Damage on Success',
     'title_damage_type' => 'Damage Type',
@@ -109,6 +109,7 @@ return [
     'title_damage_duration' => 'Duration',
     'title_condition_duration' => 'Condition Duration',
 
+    'feature_section_attack_options' => 'Attack Options',
     'feature_section_area_of_effect' => 'Area of Effect',
     'feature_section_ability_modifiers' => 'Ability Modifiers',
     'feature_section_conditions' => 'Conditions',

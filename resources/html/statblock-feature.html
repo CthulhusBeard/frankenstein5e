@@ -128,8 +128,8 @@
 
             
             <div class="feature__section">
-                <div class="feature__section-title" v-if="value.spellcasting.innate">{{f5.misc.title_spell_uses}}:</div>
-                <div class="feature__section-title" v-else>{{f5.misc.title_spell_slots}}:</div>
+                <div class="feature__section-title" v-if="value.spellcasting.innate">{{f5.misc.title_spell_uses}}</div>
+                <div class="feature__section-title" v-else>{{f5.misc.title_spell_slots}}</div>
                 <div class="feature__spell-slots">
                     <div class="feature__spell-slots__group" v-for="(group, level) in f5.spelllevels" v-if="group.display !== false">
                         <label class="title-label">{{group.name}} - </label>
@@ -164,8 +164,68 @@
             </select>
         </div>
 
+
+        <div v-if="value.template === 'attack'"">
+            <div class="feature__section">
+                <div class="feature__section-title">{{f5.misc.feature_section_attack_options}}</div>
+
+                <div>
+                    <label class="title-label">{{f5.misc.title_attack_type}}:</label>
+                    <span v-for="(attackType, i) in f5.attacktypes">
+                        <input type="radio" :id="'aoe_'+i+'_'+value.id" :value="i" v-model="value.attack.type">
+                        <label :for="'aoe_'+i+'_'+value.id">{{attackType.name}}</label>
+                    </span>
+                </div>
+    
+                <div>
+                    <label class="title-label">{{f5.misc.title_attack_ability}}:</label>
+                    <select v-model="value.attack.ability">
+                        <option v-for="(ability, i) in f5.abilities" :value="i">{{ability.name}}</option>
+                    </select>
+                </div>    
+
+                <div>
+                    <label class="title-label">{{f5.misc.title_target_type}}:</label>
+                    <select v-model="value.targetType">
+                        <option v-for="(aoe, i) in f5.areaofeffect" v-if="aoe.types.includes(value.template)" :value="i">{{aoe.name}}</option>
+                    </select>
+                </div>
+
+                <div v-if="f5.areaofeffect[value.targetType].target_type === 'select'" >
+                    <label class="title-label">{{f5.misc.title_targets}}:</label>
+                    <input type="number" max="10" v-model="value.attack.targets" />
+                </div>
+                <div v-if="value.targetType === 'melee' || value.targetType === 'melee_or_ranged'">
+                    <label class="title-label">{{f5.misc.title_reach_distance}}:</label>
+                    <input type="number" min="5" max="9999" v-model="value.attack.reach" />
+                    {{$parent.$parent.editor.measure.measureUnit}}
+                </div>
+                <div v-if="value.targetType === 'ranged' || value.targetType === 'melee_or_ranged'">
+                    <label class="title-label">{{f5.misc.title_range_distance}}:</label>
+                    <input type="number" min="5" max="9999" v-model="value.attack.range.low" />
+                    /
+                    <input type="number" min="5" max="9999" v-model="value.attack.range.high" />
+                    {{$parent.$parent.editor.measure.measureUnit}}
+                </div>
+
+                <div v-if="value.targetType == 'line' || f5.areaofeffect[value.targetType].range">
+                    <label class="title-label">{{f5.misc.title_range_distance}}:</label>
+                    <input type="number" min="0" max="9999" v-model="value.aoeRange" />
+                    {{$parent.$parent.editor.measure.measureUnit}}
+                </div>
+
+                <div v-if="f5.areaofeffect[value.targetType].target_type == 'aoe'">
+                    <label class="title-label" v-if="value.targetType == 'cone' || value.targetType == 'cube'">{{f5.misc.title_aoe_width}}:</label>
+                    <label class="title-label" v-else-if="value.targetType == 'line'">{{f5.misc.title_line_width}}:</label>
+                    <label class="title-label" v-else-if="value.targetType == 'sphere' || value.targetType == 'proximity'">{{f5.misc.title_aoe_radius}}:</label>
+                    <input type="number" min="5" max="100" v-model="value.targetAreaWidth" />
+                    {{$parent.$parent.editor.measure.measureUnit}}
+                </div>
+                
+            </div>
+        </div>
         
-        <div v-if="value.template === 'saving_throw' || value.template === 'attack'"">
+        <div v-if="value.template === 'saving_throw'">
             <div class="feature__section">
                 <div class="feature__section-title">{{f5.misc.feature_section_area_of_effect}}</div>
 
@@ -213,20 +273,10 @@
         <!-- Attack -->
         <div class="feature__options feature__options-attack" v-if="value.template === 'attack'">
 
-            <div>
-                <label class="title-label">{{f5.misc.title_attack_type}}:</label>
-                <span v-for="(attackType, i) in f5.attacktypes">
-                    <input type="radio" :id="'aoe_'+i+'_'+value.id" :value="i" v-model="value.attack.type">
-                    <label :for="'aoe_'+i+'_'+value.id">{{attackType.name}}</label>
-                </span>
-            </div>
-            <label class="title-label">{{f5.misc.title_attack_ability}}:</label>
-            <select v-model="value.attack.ability">
-                <option v-for="(ability, i) in f5.abilities" :value="i">{{ability.name}}</option>
-            </select>
-
             <!-- Damage Options -->
-            <div>
+            <div class="feature__section">
+                <div class="feature__section-title">{{f5.misc.feature_section_damage}}</div>
+
                 <label class="title-label">{{f5.misc.title_damage_dice}}:</label>
                 <div class="feature__damage indent-margin" v-for="(damage, index) in value.attack.damage">
                     <div>
@@ -265,10 +315,13 @@
 
         <!-- Saving Throw (Can also be added to "Attack") -->
         <div class="feature__options feature__options-saving-throw" v-if="value.template === 'saving_throw' || value.template === 'attack'">
-            <label class="title-label" v-if="value.template === 'attack'">{{f5.misc.title_additional_saving_throw}}</label>
+            <label class="title-label" v-if="value.template === 'attack'">{{f5.misc.title_attack_saving_throw}}</label>
             <input type="checkbox" v-model="value.attack.savingThrow" v-if="value.template === 'attack'">
 
-            <div v-if="(value.template === 'attack' && value.attack.savingThrow) || value.template === 'saving_throw'" :class="{'attack-border' : value.template === 'attack'}">
+            <div v-if="(value.template === 'attack' && value.attack.savingThrow) || value.template === 'saving_throw'" :class="{'feature__section' : value.template === 'attack'}">
+                
+                <div class="feature__section-title" >{{f5.misc.title_attack_saving_throw}}</div>
+                
                 <div>
                     <label class="title-label">{{f5.misc.title_saving_throw_monster_ability}}:</label>
                     <select v-model="value.savingThrow.monsterAbility">
@@ -349,11 +402,6 @@
                     </div>
     
                 </div>
-
-                <div v-if="value.savingThrow.damage.length >= 1">
-                    <label class="title-label">{{f5.misc.title_half_on_success}}:</label>
-                    <input type="checkbox" v-model="value.savingThrow.halfOnSuccess">
-                </div>
                 
                 <!-- Saving Throw Damage Options -->
                 <label class="title-label">{{f5.misc.title_damage_dice}}:</label>
@@ -383,8 +431,12 @@
                     <div class="feature__remove-damage" @click="removeDamageDie('savingThrow', index)">x</div>
                 </div>
                 <button @click="addDamageDie('savingThrow')">{{f5.misc.title_add_damage_die}}</button>
-                <br/>
-                <br/>
+
+                <div v-if="value.savingThrow.damage.length >= 1">
+                    <label class="title-label">{{f5.misc.title_half_on_success}}:</label>
+                    <input type="checkbox" v-model="value.savingThrow.halfOnSuccess">
+                </div>
+            
             </div>
         </div>
 
@@ -392,7 +444,7 @@
         <div class="feature__options feature__option-ongoing" v-if="value.template === 'saving_throw' || value.template === 'attack'">
             <label class="title-label">{{f5.misc.title_ongoing_damage}}</label>
             <input type="checkbox" v-model="value.ongoingDamage.active">
-            <div class="feature__ongoing-damage indent-margin attack-border" v-if="value.ongoingDamage.active">
+            <div class="feature__section feature__ongoing-damage" v-if="value.ongoingDamage.active">
                 <div>
                     <label class="title-label">{{f5.misc.title_damage_occurance}}:</label>
                     <input :id="'ongoing-occurs_start-'+value.id" type="radio" value="start" v-model="value.ongoingDamage.occurs">
@@ -456,8 +508,6 @@
                 </div>
 
                 <button @click="addDamageDie('ongoingDamage')">{{f5.misc.title_add_damage_die}}</button>
-                <br/>
-                <br/>
             </div>
         </div>
 
@@ -477,13 +527,16 @@
                 </select>
                 
 
-                <div class="indent-margin" v-if="value.regenerate.type == 'custom' || value.regenerate.type == 'automatic'">
+                <div class="feature__section indent-margin" v-if="value.regenerate.type == 'custom' || value.regenerate.type == 'automatic'">
                     <!-- Regeneration Options -->
                     
                     <div v-if="value.regenerate.type == 'custom'">
-                        <label class="title-label">{{f5.regenerate.custom.name}}:</label>
-                        </br>
-                        <textarea rows="3" class="feature__description-textarea" v-model="value.regenerate.customText"></textarea>
+                        <div>
+                            <label class="title-label">{{f5.regenerate.custom.name}}:</label>
+                        </div>
+                        <div>
+                            <textarea rows="3" class="feature__description-textarea" v-model="value.regenerate.customText"></textarea>
+                        </div>
                     </div>
                     <div>
                         <label class="title-label">{{f5.misc.title_regeneration_dice}}:</label>
@@ -509,8 +562,6 @@
                             <div class="feature__remove-regen" @click="removeDamageDie('regenerate', index)">x</div>
                         </div>
                         <button @click="addRegenDie()">{{f5.misc.title_add_regeneration_die}}</button>
-                        <br/>
-                        <br/>
                     </div>
                 </div>
             </div>

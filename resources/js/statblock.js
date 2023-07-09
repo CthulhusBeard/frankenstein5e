@@ -1757,7 +1757,13 @@ export default {
             cloneOptions = this.intersectObjectsRecursive(cloneOptions, this.defaultMonsterSettings().value);
             cloneOptions.cr = this.toCRFormat(this.displayCR);
 
-            navigator.clipboard.writeText(JSON.stringify(cloneOptions));
+            return cloneOptions;
+        },
+
+        exportMonsterToClipboard: function() {
+            let monsterData = this.exportMonster();
+
+            navigator.clipboard.writeText(JSON.stringify(monsterData));
             alert('Copied statblock data of "'+this.value.name+'" to clipboard.');
         },
 
@@ -2005,6 +2011,9 @@ export default {
             return exportString;
         },
 
+        downloadStatblock: function() {
+            this.downloadJson(this.displayName, JSON.stringify(this.exportMonster()));
+        },
 
         defaultMonsterSettings: function() {
             return {

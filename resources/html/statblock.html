@@ -298,13 +298,16 @@
                 
             <div class="statblock-data-display ui-box">
                 <div class="button-container">
-                    <button @click="exportMonster()">{{f5.misc.title_export}}</button>
+                    <button @click="exportMonsterToClipboard()">{{f5.misc.title_export}}</button>
                 </div>
                 <div class="button-container">
                     <button @click="exportMonsterForHomebrewery()">{{f5.misc.title_export_for_homebrewery}}</button>
                 </div>
                 <div class="button-container">
                     <button @click="exportMonsterForFoundry()">{{f5.misc.title_export_for_foundry}}</button>
+                </div>
+                <div class="button-container">
+                    <button @click="downloadStatblock()">{{f5.misc.title_download_statblock}}</button>
                 </div>
                 <!-- <div class="button-container btn--save">
                     <button @click="editMode = false">{{f5.misc.title_save}}</button>

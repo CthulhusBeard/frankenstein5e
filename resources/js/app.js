@@ -19,6 +19,12 @@ window.onload = function() {
 
     //Change focused edittable element
     function changeFocus(element = null) {
+
+        //Workaround for multiselect removal closing features
+        if(element.closest(".multiselect-tag-remove")) {
+            return;
+        }
+
         const editFields = document.querySelectorAll(".focus-edit.focused");
         editFields.forEach(function(el) { 
             el.classList.remove('focused');

@@ -62,6 +62,14 @@ return [
     'title_condition_duration' => 'f5/features.title_condition_duration',
     'title_repeat_save' => 'f5/durations.title_repeat_save',
 
+    'feature_section_attack_options' => 'f5/features.feature_section_attack_options',
+    'feature_section_area_of_effect' => 'f5/features.feature_section_area_of_effect',
+    'feature_section_ability_modifiers' => 'f5/features.feature_section_ability_modifiers',
+    'feature_section_conditions' => 'f5/features.feature_section_conditions',
+    'feature_section_damage' => 'f5/features.feature_section_damage',
+    'feature_section_other' => 'f5/features.feature_section_other',
+
+
     'desc_make_attack' => 'f5/features.desc_make_attack',
     'desc_uses_ability' => 'f5/features.desc_uses_ability',
 
@@ -98,7 +106,7 @@ return [
     
     'title_proficiency' => 'f5/misc.title_proficiency',
     'title_saving_throws' => 'f5/misc.title_saving_throws',
-    'title_additional_saving_throw' => 'f5/features.title_additional_saving_throw',
+    'title_attack_saving_throw' => 'f5/features.title_attack_saving_throw',
 
     'title_new_feature' => 'f5/features.title_new_feature',
     'title_mythic_feature_name' => 'f5/features.title_mythic_feature_name',
@@ -326,10 +334,12 @@ return [
     'title_export' => 'f5/builder.title_export',
     'title_export_for_homebrewery' => 'f5/builder.title_export_for_homebrewery',
     'title_export_for_foundry' => 'f5/builder.title_export_for_foundry',
+    'title_download_statblock' => 'f5/builder.title_download_statblock',
     'title_delete_monster' => 'f5/builder.title_delete_monster',
     'title_import' => 'f5/builder.title_import',
     'title_monster_template' => 'f5/builder.title_monster_template',
     'title_import_from_clipboard' => 'f5/builder.title_import_from_clipboard',
+    'title_import_from_file' => 'f5/builder.title_import_from_file',
     'title_use_automatic' => 'f5/builder.title_use_automatic',
     'title_clear_all' => 'f5/builder.title_clear_all',
     'title_new_statblock' => 'f5/builder.title_new_statblock',
