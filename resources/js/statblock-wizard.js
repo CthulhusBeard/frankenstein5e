@@ -765,6 +765,24 @@ console.log(tips);
             }
             return "";
         },
+
+
+        
+        eligableSkills: function() {
+            let list = [];
+            for(let i in this.f5.skills) {
+                if(
+                    this.monsterData.skills.includes(i) ||
+                    this.monsterData.expertise.includes(i) 
+                ) {
+                    list.push({ value: i, label: this.f5.skills[i].name, disabled: true});
+                } else {
+                    list.push({ value: i, label: this.f5.skills[i].name});
+                }
+            }
+            return list;
+        },
+    
     },
 
     methods: {      

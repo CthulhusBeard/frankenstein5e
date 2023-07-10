@@ -113,6 +113,11 @@ $lightboxPadding: 20px;
         button {
             padding: 3px;
         }
+        .next-button {
+            width: 100px;
+            padding: 10px;
+            text-transform: uppercase;
+        }
     }
 
     .section-container {
@@ -169,6 +174,9 @@ $lightboxPadding: 20px;
     .ability-priority-container {
         margin-right: 15px;
     }
+    .skill-container {
+        min-width: 250px;
+    }
 
     .ability-priority {
         display: flex;
@@ -217,6 +225,9 @@ $lightboxPadding: 20px;
         margin-bottom: 3px;
         .saves {
             margin-left: 10px;
+        }
+        select {
+            max-height: 25px;
         }
     }
 
@@ -276,5 +287,4 @@ $lightboxPadding: 20px;
         font-size: .9em;
         max-width: 600px;    
     }
-
 }

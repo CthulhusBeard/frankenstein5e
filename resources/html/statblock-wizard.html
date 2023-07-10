@@ -231,6 +231,56 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="skill-container">
+                    {{f5.misc.title_skills}}
+                    <Multiselect class="edit-field edit-field--flex"
+                        :placeholder="f5.misc.choose_skill"
+                        v-model="monsterData.skills" 
+                        :options="eligableSkills" 
+                        mode="tags"
+                        :close-on-select="false"
+                        :searchable="true"
+                        :create-option="true"
+                    >
+                            <template v-slot:tag="{ option, handleTagRemove, disabled }">
+                                <div class="multiselect-tag">
+                                    {{ option.label }}
+                                    <span v-if="!disabled" class="multiselect-tag-remove" @mousedown.prevent="handleTagRemove(option, $event)">
+                                        <span class="multiselect-tag-remove-icon"></span>
+                                    </span>
+                                </div>
+                            </template>
+
+                            <template v-slot:option="{ option }">
+                                {{ option.label }}
+                            </template>
+                    </Multiselect>
+
+                    {{f5.misc.title_expertise}}
+                    <Multiselect class="edit-field edit-field--flex"
+                        :placeholder="f5.misc.choose_expertise"
+                        v-model="monsterData.expertise" 
+                        :options="eligableSkills" 
+                        mode="tags"
+                        :close-on-select="false"
+                        :searchable="true"
+                        :create-option="true"
+                    >
+                            <template v-slot:tag="{ option, handleTagRemove, disabled }">
+                                <div class="multiselect-tag">
+                                    {{ option.label }}
+                                    <span v-if="!disabled" class="multiselect-tag-remove" @mousedown.prevent="handleTagRemove(option, $event)">
+                                        <span class="multiselect-tag-remove-icon"></span>
+                                    </span>
+                                </div>
+                            </template>
+
+                            <template v-slot:option="{ option }">
+                                {{ option.label }}
+                            </template>
+                    </Multiselect>
+                </div>
             </div>
             
             <div class="small-text"><span class="fake-link" @click="setActivePage('manualCreatureStats')">Manually Select Ability Distribution</span></div>
@@ -256,6 +306,58 @@
                         <span class="saves">Save Proficiency: <input type="checkbox" v-model="monsterData.savingThrows[key]" /></span>
                     </div>
                 </div>
+                <div class="skill-container">
+                    <div><strong>{{f5.misc.title_skills}}</strong></div>
+                    <Multiselect class="edit-field edit-field--flex"
+                        :placeholder="f5.misc.choose_skill"
+                        v-model="monsterData.skills" 
+                        :options="eligableSkills" 
+                        mode="tags"
+                        :close-on-select="false"
+                        :searchable="true"
+                        :create-option="true"
+                    >
+                            <template v-slot:tag="{ option, handleTagRemove, disabled }">
+                                <div class="multiselect-tag">
+                                    {{ option.label }}
+                                    <span v-if="!disabled" class="multiselect-tag-remove" @mousedown.prevent="handleTagRemove(option, $event)">
+                                        <span class="multiselect-tag-remove-icon"></span>
+                                    </span>
+                                </div>
+                            </template>
+
+                            <template v-slot:option="{ option }">
+                                {{ option.label }}
+                            </template>
+                    </Multiselect>
+                    
+                    <br/>
+
+                    <div><strong>{{f5.misc.title_expertise}}</strong></div>
+                    <Multiselect class="edit-field edit-field--flex"
+                        :placeholder="f5.misc.choose_expertise"
+                        v-model="monsterData.expertise" 
+                        :options="eligableSkills" 
+                        mode="tags"
+                        :close-on-select="false"
+                        :searchable="true"
+                        :create-option="true"
+                    >
+                            <template v-slot:tag="{ option, handleTagRemove, disabled }">
+                                <div class="multiselect-tag">
+                                    {{ option.label }}
+                                    <span v-if="!disabled" class="multiselect-tag-remove" @mousedown.prevent="handleTagRemove(option, $event)">
+                                        <span class="multiselect-tag-remove-icon"></span>
+                                    </span>
+                                </div>
+                            </template>
+
+                            <template v-slot:option="{ option }">
+                                {{ option.label }}
+                            </template>
+                    </Multiselect>
+                </div>
+
                 
             </div>
         </div>
@@ -574,8 +676,8 @@
 
 
         <div class="btnContainer">
-            <button v-if="activePage==='creatureFeatures'" @click="setPageKey(activePage)">Finish</button>
-            <button v-else @click="setPageKey(activePage)">Next</button>
+            <button class="next-button finish-btn" v-if="activePage==='creatureFeatures'" @click="setPageKey(activePage)">Finish</button>
+            <button class="next-button" v-else @click="setPageKey(activePage)">Next</button>
         </div>
     </div>
     

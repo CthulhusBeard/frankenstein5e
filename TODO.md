@@ -2,7 +2,6 @@
 
 HIGH PRIORITY
 - [ ] Healing effects as template
-- [ ] Skills in wizard
 - [ ] Factor "half on success" saves vs "save or suck" into average damage
 - [ ] Allow Custom damage dice to select an ability bonus (display ability bonus on selected attacks)
 - [ ] Design UI
