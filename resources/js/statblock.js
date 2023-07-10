@@ -25,7 +25,7 @@ export default {
 
     created() {
         for(let prop in this.initialStatblock) {
-            //console.log('import: '+prop);
+            // console.log('import: '+prop);
             
             if(prop === 'features') {
                 for(let actionType in this.initialStatblock.features) {

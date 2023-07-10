@@ -1135,11 +1135,6 @@ console.log(tips);
                 },
                 legendaryActions: 0,
                 
-                multiattackReferences: [
-                    [],
-                    []
-                ],
-                
                 features: {
                     passive: [],
                     spellcasting: [],
