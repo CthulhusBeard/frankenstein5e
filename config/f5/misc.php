@@ -338,6 +338,7 @@ return [
     'title_export_for_homebrewery' => 'f5/builder.title_export_for_homebrewery',
     'title_export_for_foundry' => 'f5/builder.title_export_for_foundry',
     'title_download_statblock' => 'f5/builder.title_download_statblock',
+    'title_get_shareable_link' => 'f5/builder.title_get_shareable_link',
     'title_delete_monster' => 'f5/builder.title_delete_monster',
     'title_import' => 'f5/builder.title_import',
     'title_monster_template' => 'f5/builder.title_monster_template',

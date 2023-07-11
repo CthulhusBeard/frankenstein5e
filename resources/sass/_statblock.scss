@@ -274,6 +274,7 @@ i {
     }
         
     &.edit-mode {
+        overflow-y: scroll;
         
         .no-edit {
             cursor: not-allowed;

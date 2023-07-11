@@ -1778,11 +1778,21 @@ export default {
             return cloneOptions;
         },
 
+        exportMonsterToURL:function() {
+            const json = JSON.stringify(this.exportMonster());
+            const buffer = Buffer.from(json).toString('base64');
+            const link = window.location.host+'?monster='+buffer; 
+            navigator.clipboard.writeText(link);
+            this.tempAlert('Copied shareable link for "'+this.value.name+'" to clipboard.');
+            return link;
+        },
+
         exportMonsterToClipboard: function() {
             let monsterData = this.exportMonster();
 
             navigator.clipboard.writeText(JSON.stringify(monsterData));
             this.tempAlert('Copied statblock data of "'+this.value.name+'" to clipboard.');
+            return monsterData;
         },
 
         exportMonsterForHomebrewery: function() {

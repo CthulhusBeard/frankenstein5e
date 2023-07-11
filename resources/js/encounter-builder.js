@@ -426,6 +426,12 @@ export function initVue(f5data) {
             },
 
             clone: function(obj) {
+                try {
+                    JSON.parse(JSON.stringify(obj));
+                } catch(e) {
+                    console.error(e);
+                    console.error(JSON.parse(JSON.stringify(obj)));
+                }
                 return JSON.parse(JSON.stringify(obj));
             },
     
@@ -469,7 +475,11 @@ export function initVue(f5data) {
         },
 
         mounted() {
-            //this.createStatBlock();
+            const urlParams = new URLSearchParams(window.location.search);
+            const monsterLink = urlParams.get('monster');
+            if(monsterLink) {
+                this.importFromQueryParams(monsterLink);
+            }
         },
 
         computed: {
@@ -559,6 +569,17 @@ export function initVue(f5data) {
                 } catch(e) {
                     console.error(e);
                     this.tempAlert('This file does not contain a valid Frankenstein 5E monster.'); // error in the above string (in this case, yes)!
+                }
+            },
+
+            importFromQueryParams: function(queryParam) {
+                try {
+                    const newJSON = Buffer.from(queryParam, 'base64').toString();
+                    const newMonster = JSON.parse(newJSON);
+                    this.importMonster(newMonster);
+                } catch(e) {
+                    console.error(e);
+                    this.tempAlert('This url does not contain a valid Frankenstein 5E monster.'); // error in the above string (in this case, yes)!
                 }
             },
 

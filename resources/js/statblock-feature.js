@@ -225,8 +225,6 @@ export default {
         },
 
         descriptionText: function() {
-            console.log('******* '+this.value.name+' -> descriptionText update');
-
             let descText = '';
             let prefixText = '';
             let forceEmpty = false;
@@ -492,11 +490,9 @@ export default {
         },
 
         attackDescription: function() {
-            console.log('!!!!!!!!! attack Desc changed for '+this.value.name);
             if(this.value.template !== 'attack') {
                 return '';
             }
-            console.log('!!!!!!!!! -> a');
             let attackDesc = this.f5.misc.desc_attack;
 
             //Hit
@@ -886,9 +882,13 @@ export default {
             return projectionObj
         },
 
-        addDamageDie: function(type, applyModifier = null) {
+        addDamageDie: function(type, applyModifier = null, targetObj = null) {
+            if(!targetObj) {
+                targetObj = this.value;
+            }
+
             if(applyModifier === null) {
-                if(this.value[type].damage.length > 0) {  //false for each damage set after the first
+                if(targetObj[type].damage.length > 0) {  //false for each damage set after the first
                     applyModifier = false;
                 } else {
                     applyModifier = true;
@@ -896,7 +896,7 @@ export default {
             }
 
             let damageDie = this.createDamageDie(applyModifier);
-            this.value[type].damage.push(damageDie);
+            targetObj[type].damage.push(damageDie);
         },      
 
         createDamageText: function(damageObj, ability = 0) {
@@ -1203,7 +1203,7 @@ export default {
 
         exportFeature: function() {
             let exportData = this.clone(this.value);
-            console.log('----------exportFeature----------');
+            //console.log('----------exportFeature----------');
 
             exportData = this.intersectObjectsRecursive(exportData, this.defaultFeatureValues());            
             exportData.trackingId = (this.hasOwnProperty('trackingId')) ? this.trackingId : (this.initialData.hasOwnProperty('trackingId')) ? this.initialData.trackingId : this.randChars(15);
@@ -1216,7 +1216,7 @@ export default {
                 }
             }
 
-            console.log(exportData);
+            //console.log(exportData);
             return exportData;
         },
 
@@ -1314,7 +1314,7 @@ export default {
                         if(innerProp === 'damage') {
                             for(let i in this.initialData.value[prop]['damage']) { //array of damage dice
                                 if(!defaultValue.value[prop]['damage'].hasOwnProperty(i)) {
-                                    this.addDamageDie(prop);
+                                    this.addDamageDie(prop, null, defaultValue.value);
                                 }
                                 for(let damageProp in this.initialData.value[prop]['damage'][i]) {
                                     defaultValue.value[prop]['damage'][i][damageProp] = this.initialData.value[prop]['damage'][i][damageProp];

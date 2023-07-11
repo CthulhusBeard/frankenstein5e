@@ -39,6 +39,7 @@ return [
     'title_export_for_homebrewery' => 'Export Monster For Homebrewery',
     'title_export_for_foundry' => 'Export Monster For Foundry',
     'title_download_statblock' => 'Download Statblock',
+    'title_get_shareable_link' => 'Get Shareable Link',
     'title_delete_monster' => 'Delete Monster',
     'title_import' => 'Import Monster',
     'title_monster_template' => 'Monster Templates',
