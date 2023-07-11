@@ -1,7 +1,6 @@
 //TODO: 
 
 HIGH PRIORITY
-- [ ] Is multiattack import loop fixed?
 - [ ] Force refresh on multiattack when imported
 - [ ] Fix searchable multiselect
 - [ ] Healing effects as template

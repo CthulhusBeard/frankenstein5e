@@ -1032,7 +1032,7 @@ export default {
         },
 
         updateFeatureName: function(type, id, name, displayName) {
-            console.log('updateFeatureName '+type+' '+name);
+            //console.log('updateFeatureName '+name);
             let changesMade = false;
             for(let feature of this.value.features[type]) {
                 if(feature.trackingId == id) {
@@ -1045,13 +1045,12 @@ export default {
                 }
             }
             if(changesMade && type !== 'passive' && type !== 'multiattack') {
-                console.log('set feature map: '+type+' '+name);
                 this.featureMap = this.getFeatureMap();
             }
         },
 
         updateFeatureDescription: function(type, id, desc) {
-            console.log('updateFeatureDescription '+type);
+            //console.log('updateFeatureDescription '+desc);
             for(let feature of this.value.features[type]) {
                 if(feature.trackingId == id) {
                     if(feature.desc != desc) {
@@ -1063,8 +1062,6 @@ export default {
         },
 
         updateFeatureProjections: function(type, template, id, projection) {
-            console.log('updateFeatureProjections '+type+' '+template);
-
             let changesMade = false;
             for(let feature of this.value.features[type]) {
                 if(feature.trackingId == id) {

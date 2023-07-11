@@ -101,14 +101,12 @@ i {
 
     &.column-2 {
         column-count: 2;
-        column-width: 50%;
         min-width: 675px;
         max-width: 800px;
     }
 
     &.column-3 {
         column-count: 3;
-        column-width: 33%;
         min-width: 900px;
         max-width: 1200px;
     }
@@ -275,7 +273,7 @@ i {
         
     &.edit-mode {
         overflow-y: scroll;
-        
+
         .no-edit {
             cursor: not-allowed;
         }
