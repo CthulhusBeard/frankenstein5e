@@ -233,7 +233,7 @@
                 </div>
 
                 <div class="skill-container">
-                    {{f5.misc.title_skills}}
+                    <strong>{{f5.misc.title_skills}}</strong>
                     <Multiselect class="edit-field edit-field--flex"
                         :placeholder="f5.misc.choose_skill"
                         v-model="monsterData.skills" 
@@ -257,7 +257,9 @@
                             </template>
                     </Multiselect>
 
-                    {{f5.misc.title_expertise}}
+                    <br/>
+
+                    <strong>{{f5.misc.title_expertise}}</strong>
                     <Multiselect class="edit-field edit-field--flex"
                         :placeholder="f5.misc.choose_expertise"
                         v-model="monsterData.expertise" 

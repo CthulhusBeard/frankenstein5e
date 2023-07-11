@@ -1,6 +1,9 @@
 //TODO: 
 
 HIGH PRIORITY
+- [ ] Is multiattack import loop fixed?
+- [ ] Force refresh on multiattack when imported
+- [ ] Fix searchable multiselect
 - [ ] Healing effects as template
 - [ ] Factor "half on success" saves vs "save or suck" into average damage
 - [ ] Allow Custom damage dice to select an ability bonus (display ability bonus on selected attacks)

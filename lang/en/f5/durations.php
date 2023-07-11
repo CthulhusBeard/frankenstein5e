@@ -23,4 +23,5 @@ return [
     'forever_desc' => 'forever',
 
     'title_repeat_save' => 'Repeat Saving Throw',
+    'title_immune_after_save' => 'Immune After Successful Save',
 ];

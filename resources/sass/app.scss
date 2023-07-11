@@ -32,7 +32,8 @@ html, body {
 
 .main-content {
     position: relative;
-    width: calc(100% - 4px);
+    box-sizing: border-box;
+    width: 100%;
     padding: 16px;
 }
 

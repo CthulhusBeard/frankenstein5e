@@ -183,7 +183,7 @@ i {
 
     .statblock__section {
         margin: 10px 0;
-        min-width: 350px;
+        min-width: 365px;
     }
 
     .statblock__size-alignment {
@@ -257,6 +257,10 @@ i {
             background-color: #7e7a6338;    
             border-radius: 8px;
         }
+    }
+
+    .statblock__action-subheader {
+        margin-bottom: 4px;
     }
 
     

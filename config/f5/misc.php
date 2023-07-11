@@ -61,6 +61,7 @@ return [
     'title_damage_duration' => 'f5/features.title_damage_duration',
     'title_condition_duration' => 'f5/features.title_condition_duration',
     'title_repeat_save' => 'f5/durations.title_repeat_save',
+    'title_immune_after_save' => 'f5/durations.title_immune_after_save',
 
     'feature_section_attack_options' => 'f5/features.feature_section_attack_options',
     'feature_section_area_of_effect' => 'f5/features.feature_section_area_of_effect',
@@ -209,6 +210,7 @@ return [
     'desc_attack_saving_throw_damage_condition' => 'f5/features.desc_attack_saving_throw_damage_condition',
     'desc_saving_throw_half_on_success' => 'f5/features.desc_saving_throw_half_on_success',
     'repeat_condition_saving_throw_text' => 'f5/features.repeat_condition_saving_throw_text',
+    'immune_to_condition_after_save' => 'f5/features.immune_to_condition_after_save',
 
     'name_multiattack' => 'f5/features.name_multiattack', 
     'desc_multiattack' => 'f5/features.desc_multiattack',
@@ -332,6 +334,7 @@ return [
     'title_set_ac_cr' => 'f5/builder.title_set_ac_cr',
 
     'title_export' => 'f5/builder.title_export',
+    'title_export_to_clipboard' => 'f5/builder.title_export_to_clipboard',
     'title_export_for_homebrewery' => 'f5/builder.title_export_for_homebrewery',
     'title_export_for_foundry' => 'f5/builder.title_export_for_foundry',
     'title_download_statblock' => 'f5/builder.title_download_statblock',

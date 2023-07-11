@@ -1,5 +1,16 @@
 @import 'design';
 
+.popup-alert {
+    position:fixed;
+    top:30px;
+    left:50%;
+    z-index:1000;
+    transform: translateX(-50%);
+    padding: 10px; 
+    background-color:white;
+    border:black 1px solid;
+}
+
 .hidden {
     display: none;
 }

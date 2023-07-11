@@ -7,6 +7,7 @@ return [
         'is' => 'f5/conditions.condition_desc_becomes',
         'not' => 'f5/conditions.condition_desc_not',
         'rank' => 3,
+        'has_duration' => true,
     ],
     'charmed' => [
         'name' => 'f5/conditions.charmed',
@@ -14,6 +15,7 @@ return [
         'is' => 'f5/conditions.condition_desc_becomes',
         'not' => 'f5/conditions.condition_desc_not',
         'rank' => 2,
+        'has_duration' => true,
     ],
     'deafened' => [
         'name' => 'f5/conditions.deafened',
@@ -21,6 +23,7 @@ return [
         'is' => 'f5/conditions.condition_desc_becomes',
         'not' => 'f5/conditions.condition_desc_not',
         'rank' => 1,
+        'has_duration' => true,
     ],
     'exhaustion' => [
         'name' => 'f5/conditions.exhaustion',
@@ -28,6 +31,7 @@ return [
         'is' => 'f5/conditions.condition_desc_gains_point',
         'not' => 'f5/conditions.condition_desc_not_gains_point',
         'rank' => 3,
+        'has_duration' => false,
     ],
     'frightened' => [
         'name' => 'f5/conditions.frightened',
@@ -35,6 +39,7 @@ return [
         'is' => 'f5/conditions.condition_desc_becomes',
         'not' => 'f5/conditions.condition_desc_not',
         'rank' => 2,
+        'has_duration' => true,
     ],
     'grappled' => [
         'name' => 'f5/conditions.grappled',
@@ -42,6 +47,7 @@ return [
         'is' => 'f5/conditions.condition_desc_becomes',
         'not' => 'f5/conditions.condition_desc_not',
         'rank' => 2,
+        'has_duration' => false,
     ],
     'incapacitated' => [
         'name' => 'f5/conditions.incapacitated',
@@ -49,6 +55,7 @@ return [
         'is' => 'f5/conditions.condition_desc_becomes',
         'not' => 'f5/conditions.condition_desc_not',
         'rank' => 3,
+        'has_duration' => true,
     ],
     'paralyzed' => [
         'name' => 'f5/conditions.paralyzed',
@@ -56,6 +63,7 @@ return [
         'is' => 'f5/conditions.condition_desc_becomes',
         'not' => 'f5/conditions.condition_desc_not',
         'rank' => 4,
+        'has_duration' => true,
     ],
     'petrified' => [
         'name' => 'f5/conditions.petrified',
@@ -63,6 +71,7 @@ return [
         'is' => 'f5/conditions.condition_desc_becomes',
         'not' => 'f5/conditions.condition_desc_not',
         'rank' => 5,
+        'has_duration' => true,
     ],
     'poisoned' => [
         'name' => 'f5/conditions.poisoned',
@@ -70,6 +79,7 @@ return [
         'is' => 'f5/conditions.condition_desc_becomes',
         'not' => 'f5/conditions.condition_desc_not',
         'rank' => 2,
+        'has_duration' => true,
     ],
     'prone' => [
         'name' => 'f5/conditions.prone',
@@ -78,6 +88,7 @@ return [
         'each' => 'f5/conditions.condition_desc_is_knocked',
         'not' => 'f5/conditions.condition_desc_is_not_knocked',
         'rank' => 1.5,
+        'has_duration' => false,
     ],
     'restrained' => [
         'name' => 'f5/conditions.restrained',
@@ -85,6 +96,7 @@ return [
         'is' => 'f5/conditions.condition_desc_becomes',
         'not' => 'f5/conditions.condition_desc_not',
         'rank' => 3,
+        'has_duration' => true,
     ],
     'stunned' => [
         'name' => 'f5/conditions.stunned',
@@ -92,6 +104,7 @@ return [
         'is' => 'f5/conditions.condition_desc_becomes',
         'not' => 'f5/conditions.condition_desc_not',
         'rank' => 3.5,
+        'has_duration' => true,
     ],
     'unconsious' => [
         'name' => 'f5/conditions.unconsious',
@@ -99,6 +112,7 @@ return [
         'is' => 'f5/conditions.condition_desc_becomes',
         'not' => 'f5/conditions.condition_desc_not',
         'rank' => 4.5,
+        'has_duration' => true,
     ],
     'swallowed' => [
         'name' => 'f5/conditions.swallowed',
@@ -107,6 +121,7 @@ return [
         'not' => 'f5/conditions.condition_desc_not',
         'description' => 'f5/conditions.swallowed_description',
         'rank' => 4,
+        'has_duration' => false,
     ],
     'on_fire' => [
         'name' => 'f5/conditions.on_fire',
@@ -115,6 +130,7 @@ return [
         'not' => 'f5/conditions.not_on_fire',
         'description' => 'f5/conditions.on_fire_description',
         'rank' => 3,
+        'has_duration' => false,
     ],
     'pushed' => [
         'name' => 'f5/conditions.pushed',
@@ -123,6 +139,7 @@ return [
         'not' => 'f5/conditions.condition_desc_is_not_pushed',
         'distance' => [1,2,3,4,5,6],
         'rank' => 1,
+        'has_duration' => false,
     ],
     'surprised' => [
         'name' => 'f5/conditions.surprised',
@@ -130,6 +147,7 @@ return [
         'is' => 'f5/conditions.condition_desc_becomes',
         'not' => 'f5/conditions.condition_desc_not',
         'rank' => 1,
+        'has_duration' => false,
     ],
 
 

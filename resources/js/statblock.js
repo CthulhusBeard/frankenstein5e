@@ -1032,32 +1032,50 @@ export default {
         },
 
         updateFeatureName: function(type, id, name, displayName) {
+            console.log('updateFeatureName '+type+' '+name);
+            let changesMade = false;
             for(let feature of this.value.features[type]) {
                 if(feature.trackingId == id) {
+                    if(feature.name != name || feature.displayName != displayName) {
+                        changesMade = true;
+                    }
                     feature.name = name;
                     feature.displayName = displayName;
+                    break;
                 }
             }
-            this.featureMap = this.getFeatureMap();
+            if(changesMade && type !== 'passive' && type !== 'multiattack') {
+                console.log('set feature map: '+type+' '+name);
+                this.featureMap = this.getFeatureMap();
+            }
         },
 
         updateFeatureDescription: function(type, id, desc) {
+            console.log('updateFeatureDescription '+type);
             for(let feature of this.value.features[type]) {
                 if(feature.trackingId == id) {
-                    feature.desc = desc;
+                    if(feature.desc != desc) {
+                        feature.desc = desc;
+                    }
+                    break;
                 }
             }
         },
 
         updateFeatureProjections: function(type, template, id, projection) {
+            console.log('updateFeatureProjections '+type+' '+template);
+
             let changesMade = false;
             for(let feature of this.value.features[type]) {
-                if(feature.trackingId == id && feature.damageProjection != projection) {
-                    feature.damageProjection = projection;
-                    feature.averageDPR = projection.damage; //TODO: Do we need these? probably not
-                    feature.maxDPR = projection.maxDamage;//TODO: Do we need these? probably not
-                    feature.template = template;
-                    changesMade = true;
+                if(feature.trackingId == id) {
+                    if(feature.damageProjection != projection) {
+                        feature.damageProjection = projection;
+                        feature.averageDPR = projection.damage; //TODO: Do we need these? probably not
+                        feature.maxDPR = projection.maxDamage;//TODO: Do we need these? probably not
+                        feature.template = template;
+                        changesMade = true;
+                    }
+                    break;
                 }
             }
 
@@ -1764,7 +1782,7 @@ export default {
             let monsterData = this.exportMonster();
 
             navigator.clipboard.writeText(JSON.stringify(monsterData));
-            alert('Copied statblock data of "'+this.value.name+'" to clipboard.');
+            this.tempAlert('Copied statblock data of "'+this.value.name+'" to clipboard.');
         },
 
         exportMonsterForHomebrewery: function() {
@@ -1896,7 +1914,7 @@ export default {
             console.log(exportString);
             
             navigator.clipboard.writeText(exportString);
-            alert('Copied Homebrewery Format statblock data of "'+this.value.name+'" to clipboard.');
+            this.tempAlert('Copied Homebrewery Format statblock data of "'+this.value.name+'" to clipboard.');
 
             return exportString;
         },
@@ -2006,7 +2024,7 @@ export default {
             console.log(exportString);
             
             navigator.clipboard.writeText(exportString);
-            alert('Copied Foundry Statblock Importer Format of "'+this.value.name+'" to clipboard.');
+            this.tempAlert('Copied Foundry Statblock Importer Format of "'+this.value.name+'" to clipboard.');
 
             return exportString;
         },

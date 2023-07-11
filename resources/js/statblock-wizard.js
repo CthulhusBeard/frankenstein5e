@@ -77,7 +77,7 @@ export default {
                     title: 'Ability Scores & Modifiers',
                     subtitle: 'What ability scores are most important to your creature?',
                     pageKey: 'choose-stats',
-                    tips: ['stats', 'saves', 'move_stat'],
+                    tips: ['stats', 'saves', 'move_stat', 'skills'],
                 },
                 manualCreatureStats: {
                     isSet: false,
@@ -85,7 +85,7 @@ export default {
                     title: 'Select Ability Scores',
                     subtitle: 'Select ability score distribution.',
                     pageKey: 'manual-stats',
-                    tips: ['stats', 'saves'],
+                    tips: ['stats', 'saves', 'skills'],
                 },
                 creatureArmorHP: {
                     navOrder: 5,

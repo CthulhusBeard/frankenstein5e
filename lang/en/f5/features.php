@@ -3,7 +3,7 @@
 return [
     'desc_attack_hit' => 'Hit:',
     'desc_attack_miss' => 'Miss:',
-    'desc_saving_throw' => 'Each creature :target_choice that is within :range feet of the :target_area :is_aware must succeed on a DC :save_dc :save_ability saving throw. On a failed save, :target_text :condition for :duration :takes_damage. :successful_save',
+    'desc_saving_throw' => 'Each creature :target_choice that is within :range feet of the :target_area :is_aware must succeed on a DC :save_dc :save_ability saving throw. On a failed save, :target_text :condition for :duration :takes_damage. :successful_save:immune_to_condition',
     'desc_deal_damage' => ':damage_roll :damage_type damage', //4d8 lightning damage
     'desc_successful_save' => 'On a successful save :half_damage :condition',
     'desc_can_use' => 'can use',
@@ -51,14 +51,15 @@ return [
     //Feature Modifiers
     'additionally' => 'Additionally, :addition',
     'desc_modifier_damage' => 'plus :damage_roll :damage_type damage',
-    'desc_attack_saving_throw_condition' => ':target_text must make a DC :saving_throw_dc :saving_throw_ability saving throw or :condition:condition_duration.:repeat_condition_save',
+    'desc_attack_saving_throw_condition' => ':target_text must make a DC :saving_throw_dc :saving_throw_ability saving throw or :condition:condition_duration.:repeat_condition_save:immune_to_condition',
     'desc_attack_saving_throw_damage' => ':target_text must make a DC :saving_throw_dc :saving_throw_ability saving throw, taking :damage on a failed save:half_as_much.',
-    'desc_attack_saving_throw_damage_condition' => ':target_text must make a DC :saving_throw_dc :saving_throw_ability saving throw, taking :damage on a failed save and :condition:condition_duration:half_as_much:not_condition.:repeat_condition_save',
-    'desc_attack_saving_throw_damage_condition_separated' => ':target_text must make a DC :saving_throw_dc :saving_throw_ability saving throw. On a failed save, :target_text takes :damage and :condition::condition_duration. :half_as_much:not_condition.:repeat_condition_save',
+    'desc_attack_saving_throw_damage_condition' => ':target_text must make a DC :saving_throw_dc :saving_throw_ability saving throw, taking :damage on a failed save and :condition:condition_duration:half_as_much:not_condition.:repeat_condition_save:immune_to_condition',
+    'desc_attack_saving_throw_damage_condition_separated' => ':target_text must make a DC :saving_throw_dc :saving_throw_ability saving throw. On a failed save, :target_text takes :damage and :condition::condition_duration. :half_as_much:not_condition.:repeat_condition_save:immune_to_condition',
     'desc_saving_throw_half_on_success' => ', or half as much damage on a successful one',
     'desc_saving_throw_on_success_take_half' => 'On a successful save, :target_text takes half as much damage',
 
     'repeat_condition_saving_throw_text' => 'A :condition creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success.',
+    'immune_to_condition_after_save' => 'If a creature\'s saving throw is successful or the effect ends for it, the creature is immune to the :creature_name\'s :feature_name for the next 24 hours.',
 
     'desc_ongoing_damage_generic' => ':flavour_descriptionUntil :ongoing_end_condition, the target takes :damage_amount :damage_occurance.',
     'desc_ongoing_damage_flavour_onfire' => 'If the target is a creature or a flammable object, it ignites.',

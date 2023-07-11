@@ -29,11 +29,12 @@ nav {
     
     .nav-option { 
         border-radius: 5px 5px 0 0;
-        border-bottom: none;
     }
 }
 
 .subnav {
+    position: relative;
+    top: -1px;
     width: 100%;
     display: flex;
 }
@@ -236,14 +237,40 @@ nav {
 
 .getting-started {
     margin: 30px 0;
+    gap: 10px;
+
+    h2, h3 {
+        color: black;
+    }
 
     .starting-prompts {
         margin-top: 20px;        
     }
 
     .starting-option {
-        max-width: 300px;
-        margin: 10px
+        position: relative;
+        width: 200px;
+        margin: 10px;
+        cursor: pointer;
+        border: 1px #636b6f solid;
+        border-radius: 2px;
+        padding: 8px;
+        left: 0;
+        top: 0;
+        transition: left .2s, top .2s;
+
+        img {
+            margin: 0 auto;
+        }
+        h3 {
+            padding: 2px 6px;
+            text-align: center;
+        }
+
+        &:hover {
+            left: -2px;
+            top: -2px;
+        }
     }
 
 }

@@ -206,7 +206,7 @@
                         {{f5.misc.title_legendary_action}} &nbsp;
                         <input class="statblock__feature-option" type="number" v-model="value.legendaryActions" min="1" max="10"/>
                     </div>
-                    <div>{{legendaryActionText}}</div>
+                    <div class="statblock__action-subheader">{{legendaryActionText}}</div>
                 </div>
                 <div class="statblock__feature-list">
                     <div 
@@ -223,7 +223,7 @@
             <div class="statblock__section statblock__mythic-actions">
                 <div v-if="value.features.mythic_action.length" class="statblock__subtitle">
                     <div class="header">{{f5.misc.title_mythic_action}}</div>
-                    <div>{{mythicActionText}}</div>
+                    <div class="statblock__action-subheader">{{mythicActionText}}</div>
                 </div>
                 <div class="statblock__feature-list">
                     <div 
@@ -298,7 +298,7 @@
                 
             <div class="statblock-data-display ui-box">
                 <div class="button-container">
-                    <button @click="exportMonsterToClipboard()">{{f5.misc.title_export}}</button>
+                    <button @click="exportMonsterToClipboard()">{{f5.misc.title_export_to_clipboard}}</button>
                 </div>
                 <div class="button-container">
                     <button @click="exportMonsterForHomebrewery()">{{f5.misc.title_export_for_homebrewery}}</button>
@@ -914,7 +914,7 @@
                             {{f5.misc.title_legendary_action}} &nbsp;
                             <input class="statblock__feature-option" type="number" v-model="value.legendaryActions" min="1" max="10"/>
                         </div>
-                        <div>{{legendaryActionText}}</div>
+                        <div class="statblock__action-subheader">{{legendaryActionText}}</div>
                     </div>
                     <div class="statblock__add-feature-button" @click="createFeature('legendary_action')">
                         {{f5.misc.title_add_legendary_action}}
@@ -943,7 +943,7 @@
                 <div class="statblock__section statblock__mythic-actions">
                     <div v-if="value.features.mythic_action.length" class="statblock__subtitle">
                         <div class="header">{{f5.misc.title_mythic_action}}</div>
-                        <div>{{mythicActionText}}</div>
+                        <div class="statblock__action-subheader">{{mythicActionText}}</div>
                     </div>
                     <div class="statblock__add-feature-button" @click="createFeature('mythic_action')">
                         {{f5.misc.title_add_mythic_action}}

@@ -225,6 +225,8 @@ export default {
         },
 
         descriptionText: function() {
+            console.log('******* '+this.value.name+' -> descriptionText update');
+
             let descText = '';
             let prefixText = '';
             let forceEmpty = false;
@@ -304,9 +306,10 @@ export default {
         },
 
         multiattackDescription: function() {
+            if(this.value.template !== 'multiattack') {
+                return '';
+            }
             let featureMap = this.featureMap;
-            console.log('multiattackDescription -> featureMap');
-            console.log(featureMap);
             let maDesc = this.f5.misc.desc_multiattack;
             let maAltDesc = this.f5.misc.desc_multiattack_alternative;
             let maAbilityDescs = [
@@ -394,6 +397,9 @@ export default {
         },
 
         referencedFeatureDescription: function() {
+            if(this.value.template !== 'reference') {
+                return '';
+            }
             let featureDesc = '';
             let feature = this.getReferencedFeature();
 
@@ -404,6 +410,10 @@ export default {
         },
 
         spellcastingDescription: function() {
+            if(this.value.template !== 'spellcasting') {
+                return '';
+            }
+
             let spellDesc = this.f5.misc.desc_spellcasting;
             if(this.value.spellcasting.innate) { 
                 spellDesc = this.f5.misc.desc_innate_spellcasting;
@@ -482,6 +492,11 @@ export default {
         },
 
         attackDescription: function() {
+            console.log('!!!!!!!!! attack Desc changed for '+this.value.name);
+            if(this.value.template !== 'attack') {
+                return '';
+            }
+            console.log('!!!!!!!!! -> a');
             let attackDesc = this.f5.misc.desc_attack;
 
             //Hit
@@ -500,6 +515,9 @@ export default {
         },
 
         savingThrowDescription: function() {
+            if(this.value.template !== 'saving_throw' && !(this.value.template == 'attack' && this.value.attack.savingThrow) ) {
+                return '';
+            }
             let savingThrowText = '';
             // if(this.value.savingThrow.damage.length >= 1 && this.value.savingThrow.conditions.length >= 2) {
             //     savingThrowText = this.f5.misc.desc_attack_saving_throw_damage_condition;
@@ -606,12 +624,21 @@ export default {
             
                 //Condition Durations
                 let durationData = this.f5.durations[this.value.savingThrow.conditionDuration];
+                let conditionsWithDuration = 0;
+                for(let i in this.value.savingThrow.conditions) {
+                    let conditionData = this.f5.conditions[this.value.savingThrow.conditions[i]];
+                    if(conditionData.has_duration) {
+                        conditionsWithDuration++;
+                    }
+                }   
 
                 let durationText = '';
-                if(this.value.savingThrow.conditionDuration === 'specified_timeframe') {
-                    durationText = ' '+durationData['desc'].locReplace(':duration', this.pluralize(this.f5.timeunits[this.value.savingThrow.conditionDurationUnit].desc, this.value.savingThrow.conditionDurationAmount).locReplace(':value', this.value.savingThrow.conditionDurationAmount));
-                } else if(durationData.hasOwnProperty('desc')) {
-                    durationText = ' '+durationData['desc'];
+                if(conditionsWithDuration > 0) {
+                    if(this.value.savingThrow.conditionDuration === 'specified_timeframe') {
+                        durationText = ' '+durationData['desc'].locReplace(':duration', this.pluralize(this.f5.timeunits[this.value.savingThrow.conditionDurationUnit].desc, this.value.savingThrow.conditionDurationAmount).locReplace(':value', this.value.savingThrow.conditionDurationAmount));
+                    } else if(durationData.hasOwnProperty('desc')) {
+                        durationText = ' '+durationData['desc'];
+                    }
                 }
                 savingThrowText = savingThrowText.locReplace(':condition_duration', durationText);
                 
@@ -622,18 +649,32 @@ export default {
 
                     let pastTenseConditionList = [];
                     for(let i in this.value.savingThrow.conditions) {
-                        pastTenseConditionList.push(this.f5.conditions[this.value.savingThrow.conditions[i]].past_tense.toLowerCase());
+                        let conditionData = this.f5.conditions[this.value.savingThrow.conditions[i]];
+                        if(conditionData.has_duration) {
+                            pastTenseConditionList.push(conditionData.past_tense.toLowerCase().replace(':condition', conditionData.name));
+                        }
                     }   
-                    repeatSaveText = repeatSaveText.locReplace(':condition', this.createConditionSentenceList(pastTenseConditionList, false));
+                    if(pastTenseConditionList.length > 0) {
+                        repeatSaveText = repeatSaveText.locReplace(':condition', this.createConditionSentenceList(pastTenseConditionList, false));
+                    }
 
                 }
                 savingThrowText = savingThrowText.locReplace(':repeat_condition_save', ' '+repeatSaveText);
+
+                let immuneToConditionText = '';
+                if(this.value.savingThrow.conditionImmuneAfterSave) {
+                    immuneToConditionText = this.f5.misc.immune_to_condition_after_save;
+                }
+                savingThrowText = savingThrowText.locReplace(':immune_to_condition', ' '+immuneToConditionText);
             }
 
             return savingThrowText;
         },
 
         regenerateDescription: function() {
+            if(this.value.template !== 'regenerate') {
+                return '';
+            }
             let regenObj = this.f5.regenerate[this.value.regenerate.type];
             let desc = regenObj.desc;
             let regenList = [];
@@ -915,7 +956,7 @@ export default {
             //Attacks
             str = str.locReplace(':attack_range', this.f5.areaofeffect[this.value.targetType].name);
             str = str.locReplace(':attack_type', this.f5.attacktypes[this.value.attack.type].name);
-            str = str.locReplace(':attack_bonus', this.$parent.addPlus(this.$parent.getAbilityMod(this.value.attack.ability) + this.$parent.proficiency));
+            str = str.locReplace(':attack_bonus', this.addPlus(this.$parent.getAbilityMod(this.value.attack.ability) + this.$parent.proficiency));
             if(this.value.targetType == 'melee') {
                 str = str.locReplace(':range', this.f5.misc.reach);
             } else if(this.value.targetType == 'melee_or_ranged') {
@@ -947,7 +988,7 @@ export default {
             str = str.locReplace(':caster_level', this.ordinalNumber(this.$parent.casterLevel)); 
             str = str.locReplace(':spellcasting_ability', this.f5.abilities[this.value.spellcasting.ability].name);
             str = str.locReplace(':spell_save_dc', this.$parent.makeSavingThrowDC(this.value.spellcasting.ability));
-            str = str.locReplace(':spell_hit', this.$parent.addPlus(this.$parent.proficiency + this.$parent.getAbilityMod(this.value.spellcasting.ability)));
+            str = str.locReplace(':spell_hit', this.addPlus(this.$parent.proficiency + this.$parent.getAbilityMod(this.value.spellcasting.ability)));
 
             //Damage
             let damageList = [];
@@ -979,6 +1020,10 @@ export default {
                     str = str.locReplace(':feature_regen', this.createSentenceList(regenList));
                 }
             }
+
+
+            str = str.locReplace(':feature_name', this.value.name);
+
 
             //Key word replace
             str = this.$parent.keyWordReplace(str);
@@ -1133,10 +1178,11 @@ export default {
             let actionsToCheck = ['action', 'bonus_action', 'spellcasting'];
             let feature = null;
             if(this.value.existingFeatureReferenceId !== null) {
-                for(let action of actionsToCheck) {
-                    for(let i in this.$parent.value.features[action]) {
+                actionOptionLoop: for(let action of actionsToCheck) {
+                    featureLoop: for(let i in this.$parent.value.features[action]) {
                         if(this.value.existingFeatureReferenceId == this.$parent.value.features[action][i].trackingId) {
                             feature = this.$parent.value.features[action][i];
+                            break actionOptionLoop;
                         }
                     }
                 }
@@ -1161,6 +1207,14 @@ export default {
 
             exportData = this.intersectObjectsRecursive(exportData, this.defaultFeatureValues());            
             exportData.trackingId = (this.hasOwnProperty('trackingId')) ? this.trackingId : (this.initialData.hasOwnProperty('trackingId')) ? this.initialData.trackingId : this.randChars(15);
+
+            if(exportData.hasOwnProperty('multiattackReferences')) {
+                for(let maRefArray of exportData.multiattackReferences) {
+                    for(let maRef of maRefArray) {
+                        delete maRef.feature;
+                    }
+                }
+            }
 
             console.log(exportData);
             return exportData;
@@ -1195,6 +1249,7 @@ export default {
                     conditions: [],
                     conditionDuration: 'specified_timeframe',
                     conditionRepeatSave: true,
+                    conditionImmuneAfterSave: false,
                     conditionDurationUnit: 'minute',
                     conditionDurationAmount: 1,
                 },

@@ -11,6 +11,16 @@ export function initVue(f5data) {
     Vue.mixin({
         methods: {
 
+            tempAlert: function(msg, duration=3000) {
+                var el = document.createElement("div");
+                el.setAttribute("class","popup-alert");
+                el.innerHTML = msg;
+                setTimeout(function() {
+                    el.parentNode.removeChild(el);
+                }, duration);
+                document.body.appendChild(el);
+            },
+
             downloadJson: function(name, json) {
                 let data = encodeURI('data:text/json;charset=utf-8,' + json);
                 let filename = 'f5_'+name.replace(/[^a-z0-9]/gi, '_').toLowerCase()+'.json';
@@ -529,7 +539,7 @@ export function initVue(f5data) {
                     this.importMonster(parsed);
 
                 } catch(e) {
-                    alert('Your clipboard does not contain a valid Frankenstein 5E monster.'); // error in the above string (in this case, yes)!
+                    this.tempAlert('Your clipboard does not contain a valid Frankenstein 5E monster.'); // error in the above string (in this case, yes)!
                 }
 
             },
@@ -548,7 +558,7 @@ export function initVue(f5data) {
                     this.importMonster(parsed);
                 } catch(e) {
                     console.error(e);
-                    alert('This file does not contain a valid Frankenstein 5E monster.'); // error in the above string (in this case, yes)!
+                    this.tempAlert('This file does not contain a valid Frankenstein 5E monster.'); // error in the above string (in this case, yes)!
                 }
             },
 
