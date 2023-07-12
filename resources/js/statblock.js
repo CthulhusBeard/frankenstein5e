@@ -73,6 +73,9 @@ export default {
     },
 
     mounted() {
+        setTimeout(function () { 
+            this.featureMap = this.getFeatureMap(); //Force Multiattack update after load
+        }.bind(this), 100);
     },
 
     computed: {
