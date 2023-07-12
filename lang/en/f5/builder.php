@@ -35,9 +35,9 @@ return [
     'title_set_ac_cr' => 'Set Armor Class CR',
 
     'title_export' => 'Export Monster',
-    'title_export_to_clipboard' => 'Export Monster to Clipboard',
-    'title_export_for_homebrewery' => 'Export Monster For Homebrewery',
-    'title_export_for_foundry' => 'Export Monster For Foundry',
+    'title_export_to_clipboard' => 'Export to Clipboard',
+    'title_export_for_homebrewery' => 'Export For Homebrewery',
+    'title_export_for_foundry' => 'Export For Foundry',
     'title_download_statblock' => 'Download Statblock',
     'title_get_shareable_link' => 'Get Shareable Link',
     'title_delete_monster' => 'Delete Monster',
