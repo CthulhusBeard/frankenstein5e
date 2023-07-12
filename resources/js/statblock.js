@@ -1088,7 +1088,7 @@ export default {
                             if(feature.value.existingFeatureReferenceId == id) {
                                 feature.referencedProjection = projection;
                                 //TODO: Is this happening here? Should it?
-                                console.log('referencableActions -> !!');
+                                //console.log('referencableActions -> !!');
                             }
                         }
                     }
@@ -1758,7 +1758,7 @@ export default {
         },
 
         exportMonster: function() {
-            console.log('------Export Monster------');
+            //console.log('------Export Monster------');
             let cloneOptions = this.clone(this.value);
 
             let exportFeatures = {};
@@ -1921,7 +1921,7 @@ export default {
 
             exportString += "}}";
 
-            console.log(exportString);
+            //console.log(exportString);
             
             navigator.clipboard.writeText(exportString);
             this.tempAlert('Copied Homebrewery Format statblock data of "'+this.value.name+'" to clipboard.');
@@ -1962,28 +1962,28 @@ export default {
 
             //Start features
             if(this.value.features.mythic_action.length) {
-                exportString += this.mythicTraitTitleText+". "+this.mythicTraitDescriptionText+"\n";
+                exportString += this.mythicTraitTitleText+" "+this.mythicTraitDescriptionText+"\n";
             }
 
             for(let passive of this.value.features.passive) {
-                exportString += passive.displayName+". "+passive.desc+"\n";
+                exportString += passive.displayName+" "+passive.desc+"\n";
                 exportString += "\n";    
             }
 
             if(this.value.features.spellcasting.length) {
                 //exportString += "Spellcasting\n";
                 for(let spellcasting of this.value.features.spellcasting) {
-                    exportString += spellcasting.displayName+". "+spellcasting.desc+"\n";
+                    exportString += spellcasting.displayName+" "+spellcasting.desc+"\n";
                 }
             }
             
             if(this.value.features.action.length || this.value.features.multiattack.length) {
                 exportString += "Actions\n";
                 for(let multiattack of this.value.features.multiattack) {
-                    exportString += multiattack.displayName+". "+multiattack.desc+"\n";
+                    exportString += multiattack.displayName+" "+multiattack.desc+"\n";
                 }
                 for(let action of this.value.features.action) {
-                    exportString += action.displayName+". "+action.desc+"\n";
+                    exportString += action.displayName+" "+action.desc+"\n";
                 }
             }
 
@@ -1992,7 +1992,7 @@ export default {
                 exportString += "Bonus Actions\n";
 
                 for(let bonus_action of this.value.features.bonus_action) {
-                    exportString += bonus_action.displayName+". "+bonus_action.desc+"\n";
+                    exportString += bonus_action.displayName+" "+bonus_action.desc+"\n";
                 }
             }
 
@@ -2000,7 +2000,7 @@ export default {
                 exportString += "Reactions\n";
 
                 for(let reaction of this.value.features.reaction) {
-                    exportString += reaction.displayName+". "+reaction.desc+"\n";
+                    exportString += reaction.displayName+" "+reaction.desc+"\n";
                 }
             }
 
@@ -2009,7 +2009,7 @@ export default {
                 exportString += this.legendaryActionText+"\n";
 
                 for(let legendary_action of this.value.features.legendary_action) {
-                    exportString += legendary_action.displayName+". "+legendary_action.desc+"\n";
+                    exportString += legendary_action.displayName+" "+legendary_action.desc+"\n";
                 }
             }
 
@@ -2018,7 +2018,7 @@ export default {
                 exportString += this.mythicActionText+"\n";
 
                 for(let mythic_action of this.value.features.mythic_action) {
-                    exportString += mythic_action.displayName+". "+mythic_action.desc+"\n";
+                    exportString += mythic_action.displayName+" "+mythic_action.desc+"\n";
                 }
             }
 
@@ -2027,11 +2027,11 @@ export default {
                 exportString += this.lairActionText+"\n";
 
                 for(let lair_action of this.value.features.lair_action) {
-                    exportString += lair_action.displayName+". "+lair_action.desc+"\n";
+                    exportString += lair_action.displayName+" "+lair_action.desc+"\n";
                 }
             }
 
-            console.log(exportString);
+            //console.log(exportString);
             
             navigator.clipboard.writeText(exportString);
             this.tempAlert('Copied Foundry Statblock Importer Format of "'+this.value.name+'" to clipboard.');
@@ -2098,7 +2098,7 @@ export default {
                         }
                     },
                     mythicTrait: {
-                        name: this.f5.misc.mythic_trait_name,
+                        name: this.f5.misc.title_mythic_feature_name,
                         description: this.f5.misc.mythic_trait_desc,
                         recharge: 'short_rest',
                         restoreHitPoints: true,

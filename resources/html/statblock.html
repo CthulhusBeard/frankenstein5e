@@ -1,7 +1,7 @@
 <div class="statblock-section">
 
-    <div class="statblock-container">
-        <div class="statblock statblock--clickable" :class="[statblockColumns]" @click="editMode = true">
+    <div class="statblock-container statblock-container--clickable">
+        <div class="statblock" :class="[statblockColumns]" @click="editMode = true">
             <div class="statblock__section">
                 <div class="statblock__title focus-edit">
                     <span class="display-field monster-name">{{displayName}}</span>
@@ -739,7 +739,8 @@
                             <span class="feature__title">{{ mythicTraitTitleText }}</span> 
                             <span class="feature__description" v-html="mythicTraitDescriptionText"></span>
                         </div>
-                        <div class="edit-field">
+                        <div class="edit-feature edit-field">
+                            <h3 class="underline">Feature Editor</h3>
                             <input class="title-label" type="text" v-model="value.mythicTrait.name"><br/>
                             <textarea class="edit-field" v-model="value.mythicTrait.description"></textarea>
                             

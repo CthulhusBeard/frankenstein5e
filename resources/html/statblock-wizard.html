@@ -632,7 +632,7 @@
                     <div class="bold">{{ f5.featureactiontypes[featureType].name }}</div>
                     <ul class="wizard-feature-list">
                         <li v-for="(feature, i) in featureList">
-                            {{ feature.name }} <span class="x" @click="removeFeature(featureType, i)">x</span>
+                            {{ feature.name }} <span class="close-x" @click="removeFeature(featureType, i)">x</span>
                         </li>
                     </ul>
                 </div>
