@@ -50,6 +50,8 @@ return [
     'title_new_statblock' => 'Create New Statblock',
     'title_new_statblock_from_wizard' => 'Create New Statblock Using Wizard',
     'title_clear_all' => 'Clear All Data',
+    'title_custom_description' => 'Custom Feature Description',
+    'title_insert_variables' => 'Insert Dynamic Variables into Description',
 
     //Projection Graph
     'title_combat_projection' => 'Combat Analysis',

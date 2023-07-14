@@ -79,7 +79,7 @@ export default {
     },
 
     computed: {
-
+        
         displayName: function() {
             this.$emit('update-name', this.trackingId, this.value.name);
             return this.value.name;

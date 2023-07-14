@@ -23,7 +23,7 @@
             </select>
         </div>
 
-        <div class="feature__description" v-if="value.template !== 'custom'" v-html="descriptionEditText"></div>
+        <div class="feature__description" v-html="descriptionEditText"></div>
 
         <!--Legendary Resistances -->
         <div v-if="value.template === 'legendary_resistance'">
@@ -36,7 +36,25 @@
 
         <!-- Custom -->
         <div class="feature__options feature__option-custom" v-if="value.template === 'custom'">
-            <textarea rows="5" class="feature__description-textarea" v-model="value.custom.description"></textarea>
+            <label class="title-label">{{f5.misc.title_custom_description}}:</label>
+            <textarea rows="5" :id="'feature-'+trackingId+'-custom-description'" class="feature__description-textarea" v-model="value.custom.description"></textarea>
+            
+            <div class="feature__custom-description-button">
+                <div>{{f5.misc.title_insert_variables}}</div>
+                <button @click="addTextToInput('feature-'+trackingId+'-custom-description', ':creature_name')">Add Creature Name</button>
+                <button @click="addTextToInput('feature-'+trackingId+'-custom-description', ':custom_damage_text')">Add Damage Text</button>
+                <button @click="addTextToInput('feature-'+trackingId+'-custom-description', ':proficiency')">Add Proficiency</button>
+                Add Ability Modifier: 
+                <select @change="addTextToInput('feature-'+trackingId+'-additional-description', ':ability_mod_'+$event.target.value)">
+                    <option disabled selected>-</option>
+                    <option v-for="(ability, i) in f5.abilities" :value="i">{{ability.name}}</option>
+                </select>
+                Add Saving Throw: 
+                <select @change="addTextToInput('feature-'+trackingId+'-additional-description', ':saving_throw_'+$event.target.value)">
+                    <option disabled selected>-</option>
+                    <option v-for="(ability, i) in f5.abilities" :value="i">{{ability.name}}</option>
+                </select>
+            </div>
 
             <!-- Damage Options -->
             <div class="feature__section">
@@ -53,6 +71,13 @@
                         <label class="title-label">{{f5.misc.dice_type}}:</label>
                         <select id="feature__damage__dice-type" name="feature__damage__dice-type" v-model="damage.diceType">
                             <option v-for="i in f5.dicetypes" :value="i" >{{i}}</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="title-label">{{f5.misc.title_ability_bonus}}:</label>
+                        <select>
+                            <option value="0">{{f5.misc.none}}</option>
+                            <option v-for="(ability, i) in f5.abilities" :value="i">{{ability.name}}</option>
                         </select>
                     </div>
                     <div>
@@ -578,6 +603,7 @@
                 </div>
             </div>
             
+            <!-- Recharge Options -->
             <div class="feature__recharge" v-if="f5.featuretemplates[this.value.template].can_recharge">
                 <div>
                     <label class="title-label" for="feature__recharge">{{f5.misc.title_recharge}}:</label>
@@ -608,9 +634,26 @@
             </div>
         </div>
 
-        <div v-if="value.template !== 'custom'">
+        <!-- Additional Descriptions-->
+        <div class="feature__section" v-if="value.template !== 'custom'">
             <label class="title-label">{{f5.misc.title_additional_description}}:</label>
-            <textarea rows="3" class="feature__description-textarea" v-model="value.additionalDescription"></textarea>
+            <textarea rows="3" :id="'feature-'+trackingId+'-additional-description'" class="feature__description-textarea" v-model="value.additionalDescription"></textarea>
+            
+            <div class="feature__custom-description-button">
+                <div>{{f5.misc.title_insert_variables}}</div>
+                <button @click="addTextToInput('feature-'+trackingId+'-additional-description', ':creature_name')">Add Creature Name</button>
+                <button @click="addTextToInput('feature-'+trackingId+'-additional-description', ':proficiency')">Add Proficiency</button>
+                Add Ability Modifier: 
+                <select @change="addTextToInput('feature-'+trackingId+'-additional-description', ':ability_mod_'+$event.target.value)">
+                    <option disabled selected>-</option>
+                    <option v-for="(ability, i) in f5.abilities" :value="i">{{ability.name}}</option>
+                </select>
+                Add Saving Throw: 
+                <select @change="addTextToInput('feature-'+trackingId+'-additional-description', ':saving_throw_'+$event.target.value)">
+                    <option disabled selected>-</option>
+                    <option v-for="(ability, i) in f5.abilities" :value="i">{{ability.name}}</option>
+                </select>
+            </div>
         </div>
 
         <!-- TODO: REMOVE THIS -->

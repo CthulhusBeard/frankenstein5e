@@ -5,13 +5,20 @@ import StatBlock from './statblock.js'
 import EncounterGraph from './encounter-graph.js';
 import * as SampleMonsters from './sample-monsters';
 
+const objectMap = (obj, fn) =>
+Object.fromEntries(
+  Object.entries(obj).map(
+    ([k, v], i) => [k, fn(v, k, i)]
+  )
+);
+
 export function initVue(f5data) {
     Vue.config.devtools = true;
 
     Vue.mixin({
         methods: {
 
-            tempAlert: function(msg, duration=3000) {
+            tempAlert: function(msg, duration = 3000) {
                 var el = document.createElement("div");
                 el.setAttribute("class","popup-alert");
                 el.innerHTML = msg;
@@ -19,6 +26,10 @@ export function initVue(f5data) {
                     el.parentNode.removeChild(el);
                 }, duration);
                 document.body.appendChild(el);
+            },
+
+            objectMap: function(data, prop='name') {
+                return objectMap(data, item => item[prop]);
             },
 
             downloadJson: function(name, json) {
@@ -533,11 +544,11 @@ export function initVue(f5data) {
             },
 
             importMonster: function(monster) {
-                console.log('== import monster ==');
+                //console.log('== import monster ==');
                 let importedStatBlock = this.clone(monster);
                 importedStatBlock.trackingId = this.randChars(15);
                 importedStatBlock.number = 1;
-                console.log(this.clone(importedStatBlock));
+                //console.log(this.clone(importedStatBlock));
                 this.statblocks.push(importedStatBlock);
             },
 

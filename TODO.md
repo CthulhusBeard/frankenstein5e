@@ -1,8 +1,7 @@
 //TODO: 
 
 HIGH PRIORITY
-- [ ] Force refresh on multiattack when imported
-- [ ] Fix searchable multiselect
+- [ ] Bug where custom description variable doesn't update when button is used to add variable to textarea
 - [ ] Healing effects as template
 - [ ] Factor "half on success" saves vs "save or suck" into average damage
 - [ ] Allow Custom damage dice to select an ability bonus (display ability bonus on selected attacks)

@@ -369,6 +369,8 @@ return [
     'expected_player_death' => 'f5/builder.expected_player_death',
     'expected_monster_death' => 'f5/builder.expected_monster_death',
     'expected_monster_mythic_trait' => 'f5/builder.expected_monster_mythic_trait',
+    'title_custom_description' => 'f5/builder.title_custom_description',
+    'title_insert_variables' => 'f5/builder.title_insert_variables',
 
     'warning_fatal_attack' => 'f5/builder.warning_fatal_attack',
     'warning_fatal_crit' => 'f5/builder.warning_fatal_crit',

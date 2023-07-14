@@ -233,9 +233,16 @@ export default {
                 prefixText += this.f5.durations[this.value.passiveTrigger]['desc'];
             }
 
+
             //Custom Description
             if(this.value.template == 'custom') {
                 descText += this.value.custom.description;
+
+                let damageList = [];
+                for(let i in this.value.custom.damage) {
+                    damageList.push(this.createDamageText(this.value.custom.damage[i], this.value.custom.ability));
+                }
+                descText = descText.replace(':custom_damage_text', this.createSentenceList(damageList));
 
             //Multiattack Description
             } else if(this.value.template == 'multiattack') {
@@ -1021,7 +1028,24 @@ export default {
                 }
             }
 
+            //Ability Mods
+            str = str.locReplace(':ability_mod_str', this.$parent.getAbilityMod('str'));
+            str = str.locReplace(':ability_mod_dex', this.$parent.getAbilityMod('dex'));
+            str = str.locReplace(':ability_mod_con', this.$parent.getAbilityMod('con'));
+            str = str.locReplace(':ability_mod_int', this.$parent.getAbilityMod('int'));
+            str = str.locReplace(':ability_mod_wis', this.$parent.getAbilityMod('wis'));
+            str = str.locReplace(':ability_mod_cha', this.$parent.getAbilityMod('cha'));
 
+            //Saving Throws
+            str = str.locReplace(':saving_throw_str', this.$parent.makeSavingThrowDC('str'));
+            str = str.locReplace(':saving_throw_dex', this.$parent.makeSavingThrowDC('dex'));
+            str = str.locReplace(':saving_throw_con', this.$parent.makeSavingThrowDC('con'));
+            str = str.locReplace(':saving_throw_int', this.$parent.makeSavingThrowDC('int'));
+            str = str.locReplace(':saving_throw_wis', this.$parent.makeSavingThrowDC('wis'));
+            str = str.locReplace(':saving_throw_cha', this.$parent.makeSavingThrowDC('cha'));
+
+            //Extras
+            str = str.locReplace(':proficiency', this.$parent.proficiency);
             str = str.locReplace(':feature_name', this.value.name);
 
 
@@ -1190,6 +1214,13 @@ export default {
             return feature;
         },
 
+        addTextToInput: function(id, text) {
+            let targetEl = this.$el.querySelector("#"+id);
+            let currentTextValue = targetEl.value;
+            targetEl.value = currentTextValue.substring(0, targetEl.selectionStart)+text+currentTextValue.substring(targetEl.selectionStart);
+            targetEl.focus();
+        },
+
         createDefaultSpellcastingObject: function() {
             return {
                 ability: 'int',
@@ -1280,6 +1311,7 @@ export default {
                 custom: {
                     damage: [],
                     description: '',
+                    ability: 'str',
                 },
 
                 additionalDescription: '',
