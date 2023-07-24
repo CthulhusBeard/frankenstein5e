@@ -232,7 +232,10 @@ export default {
 
             if(this.value.alignment) {
                 if(descStr != '') descStr += ', '; 
-                if(this.value.showTypicalAlignment) {
+                if(
+                    this.value.showTypicalAlignment && 
+                    !['any', 'non_good', 'non_evil', 'non_lawful', 'non_chaotic'].includes(this.value.alignment)
+                ) {
                     descStr += this.f5.misc.alignments_typically.replace(":alignment", this.getProp(this.f5.alignments[this.value.alignment]));
                 } else {
                     descStr += this.getProp(this.f5.alignments[this.value.alignment]);
@@ -379,20 +382,8 @@ export default {
         },
 
         //Hit Points
-        getHP: function() {
-            let type = this.value.hitPoints.diceType;
-            let amount = this.value.hitPoints.diceAmount;
-            let additionalHP = this.value.hitPoints.additional > 0 ? Math.floor(this.value.hitPoints.additional) : 0;
-            if(additionalHP > 9999) {
-                this.value.hitPoints.additional = additionalHP = 9999;
-            }
-            let conMod = this.getAbilityMod('con');
-            let conHP = 0;
-            if(conMod > 0) {
-                conHP = conMod * amount;
-            }
-            let hp = (Math.round((type / 2 + .5) * amount) + conHP) + additionalHP;
-            
+        creatureHP: function() {
+            let hp = this.createHP(this.value.hitPoints.diceType, this.value.hitPoints.diceAmount, this.getAbilityMod('con'), this.value.hitPoints.additional);  
             this.$emit('update-hp', this.trackingId, hp);
 
             return hp;
@@ -1109,7 +1100,7 @@ export default {
         },
 
         getHealthCr: function(multiplier = 1) {
-            let hp = this.getHP;
+            let hp = this.creatureHP;
             let approxCr = 31;
 
             //Double health for mythic encounters
@@ -2043,6 +2034,26 @@ export default {
             this.downloadJson(this.displayName, JSON.stringify(this.exportMonster()));
         },
 
+        setHPFromManual: function() {
+            let targetHP = parseInt(this.value.hitPoints.manualHP);
+            if(!Number.isInteger(targetHP)) {
+                return;
+            }
+            this.value.hitPoints.diceAmount = Math.ceil((targetHP - this.hpConMod) / Math.ceil(this.value.hitPoints.diceType/2));
+            
+            let hpAverage = this.createHP(this.value.hitPoints.diceType, this.value.hitPoints.diceAmount, this.getAbilityMod('con'));  
+
+            while(this.hitPointAverage < targetHP) {
+                this.value.hitPoints.diceAmount ++;
+                hpAverage = this.createHP(this.value.hitPoints.diceType, this.value.hitPoints.diceAmount, this.getAbilityMod('con'));  
+            }
+            while(hpAverage > targetHP && this.value.hitPoints.diceAmount > 1) {
+                this.value.hitPoints.diceAmount --;
+                hpAverage = this.createHP(this.value.hitPoints.diceType, this.value.hitPoints.diceAmount, this.getAbilityMod('con'));  
+            }
+            this.value.hitPoints.additional = targetHP - hpAverage;
+        },
+
         defaultMonsterSettings: function() {
             return {
                 mountedFeatures: 0,
@@ -2069,7 +2080,9 @@ export default {
                         mageArmor: false,
                     },
                     hitPoints: {
-                        diceType: 4,
+                        useManual: false,
+                        manualHP: 0,
+                        diceType: 6,
                         diceAmount: 1,
                         additional: 0,
                     },

@@ -21,7 +21,7 @@
         <!-- Pages -->
         <div :class="{ hidden: !(activePage==='targetCR') }">
             <div>
-                What challenge rating do your monster to be?
+                What challenge rating do you want your monster to be?
                 <select v-model="targetCR">
                     <option v-for="(crData, key) in $parent.sortedCRList" :value="crData.cr_text" >{{crData.cr_text}}</option>
                 </select>
@@ -401,7 +401,7 @@
                             <span>{{hitPointsText}}</span>
                             <div class="option options__hitpoints edit-field">
                                 <label>{{f5.misc.hit_dice_amount}}:</label>
-                                <input type="number" min="0" max="500" id="options__hitpoints-amount" name="options__hitpoints-amount" v-model="monsterData.hitPoints.diceAmount" value="1" />
+                                <input type="number" min="0" max="500" id="options__hitdice-amount" name="options__hitdice-amount" v-model="monsterData.hitPoints.diceAmount" value="1" />
                                 <div>
                                     <label>{{f5.misc.hit_dice_type}}:</label>
                                     <select id="options__hitdice-type" name="options__hitdice-type" v-model="monsterData.hitPoints.diceType">

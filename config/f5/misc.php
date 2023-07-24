@@ -91,6 +91,7 @@ return [
     'dice_amount' => 'f5/misc.dice_amount',
     'dice_type' => 'f5/misc.dice_type',
     
+    'set_hit_points' => 'f5/misc.set_hit_points',
     'hit_dice_amount' => 'f5/misc.hit_dice_amount',
     'hit_dice_type' => 'f5/misc.hit_dice_type',
     'con_hit_points' => 'f5/misc.con_hit_points',

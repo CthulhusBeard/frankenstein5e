@@ -23,11 +23,14 @@ HIGH PRIORITY
 - [ ] Clean up feature object (only export the fields needed. There are many unused fields) "template: {type: attack, damage: etc}"
 
 BUG FIXES
+- [ ] "Dragon" doesn't show up in the templates since it's default
 - [ ] Removing a Multiselect item closes the lightbox
 - [ ] Make element ids unique between different statblocks
 - [ ] Remove physical damage when B/P/S is already chosen
 
 MEDIUM PRIORITY
+- [ ] Allow user to enter HP and have hit dice calculated
+- [ ] Suggest legendary resistances on single creature encounters in encounter analysis
 - [ ] Fix semantic usage on Conditions plus additional conditions
 - [ ] Clean up export to remove unneeded info
 - [ ] Move template options to it's own menu like the wizard

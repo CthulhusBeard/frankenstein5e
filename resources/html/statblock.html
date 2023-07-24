@@ -394,7 +394,9 @@
                                 <option value="">{{f5.misc.none}}</option>
                                 <option v-for="(item, index) in f5.alignments" :value="index">{{item.name}}</option>
                             </select>
-                            {{f5.misc.title_alignments_typically}}<input type="checkbox" v-model="value.showTypicalAlignment">
+                            <div class="indent-margin">
+                                {{f5.misc.title_alignments_typically}}<input type="checkbox" v-model="value.showTypicalAlignment">
+                            </div>
                         </div>
                         <div class="statblock__line-break"></div>
                     </div>
@@ -431,9 +433,16 @@
                         <div class="statblock__attribute focus-edit">
                             <span class="title">{{f5.misc.title_hit_points}}:</span>
                             <span>{{hitPointsText}}</span>
-                            <div class="option options__hitpoints edit-field">
+                            <div v-if="value.hitPoints.useManual" class="option options__hitpoints edit-field">
+                                <label>{{f5.misc.set_hit_points}}:</label>
+                                <input type="number" min="0" max="9999" id="options__hitpoints-manual" name="options__hitpoints-manual" v-model="value.hitPoints.manualHP" @change="setHPFromManual()" value="0" />
+                                <div class="fake-link">
+                                    <small @click="value.hitPoints.useManual = false">Calculate With Hit Dice</small>
+                                </div>
+                            </div>
+                            <div v-else class="option options__hitpoints edit-field">
                                 <label>{{f5.misc.hit_dice_amount}}:</label>
-                                <input type="number" min="0" max="500" id="options__hitpoints-amount" name="options__hitpoints-amount" v-model="value.hitPoints.diceAmount" value="1" />
+                                <input type="number" min="0" max="500" id="options__hitdice-amount" name="options__hitdice-amount" v-model="value.hitPoints.diceAmount" value="1" />
                                 <div>
                                     <label>{{f5.misc.hit_dice_type}}:</label>
                                     <select id="options__hitdice-type" name="options__hitdice-type" v-model="value.hitPoints.diceType">
@@ -447,6 +456,9 @@
                                 </div>
                                 <label>{{f5.misc.additional}}:</label>
                                 <input type="number" min="0" max="9999" id="options__hitpoints-additional" name="options__hitpoints-additional" v-model="value.hitPoints.additional" value="0" />
+                                <div class="fake-link">
+                                    <small @click="value.hitPoints.useManual = true">Set Manually</small>
+                                </div>
                             </div>
                         </div>
 
@@ -477,8 +489,11 @@
                                 </div>
                                 <div :class="'edit-field options__ability option-box '+index">
                                     Score: 
-                                    <select :class="'statblock__ability-score-'+index.toLowerCase()" :name="'options__ability_'+index" v-model="value.abilities[index]">
-                                        <option v-for="i in 31" :value="i-1" >{{i-1}} ({{addPlus(calcAbilityMod(i-1))}})</option>
+                                    <select v-if="(index == 'con' && value.hitPoints.useManual)" :class="'statblock__ability-score-'+index.toLowerCase()" :name="'options__ability_'+index" v-model="value.abilities[index]" @change="setHPFromManual()">
+                                        <option v-for="i in 31" :value="i-1">{{i-1}} ({{addPlus(calcAbilityMod(i-1))}})</option>
+                                    </select>
+                                    <select v-else :class="'statblock__ability-score-'+index.toLowerCase()" :name="'options__ability_'+index" v-model="value.abilities[index]">
+                                        <option v-for="i in 31" :value="i-1">{{i-1}} ({{addPlus(calcAbilityMod(i-1))}})</option>
                                     </select>
                                     <br/>
                                     Save: <input :name="'options__saving-throws_'+index" v-model="value.savingThrows[index]" type="checkbox" />

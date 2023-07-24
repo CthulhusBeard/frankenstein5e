@@ -66,6 +66,19 @@ export function initVue(f5data) {
                 return text;
             },
 
+            createHP: function(diceType, diceAmount, conMod = 0, additionalHP = 0) {
+                if(additionalHP > 9999) {
+                    this.value.hitPoints.additional = additionalHP = 9999;
+                }
+                let conHP = 0;
+                if(conMod > 0) {
+                    conHP = conMod * diceAmount;
+                }
+                let hp = (Math.round((diceType / 2 + .5) * diceAmount) + conHP) + additionalHP;
+
+                return hp;
+            },
+
             addPlus: function (number, addSpace = false) {
                 let space = addSpace ? ' ' : '';
                 if(number > 0) {

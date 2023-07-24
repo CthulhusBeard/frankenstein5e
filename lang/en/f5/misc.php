@@ -62,6 +62,7 @@ return [
 
     'dice_amount' => 'Dice Amount',
     'dice_type' => 'Dice Type',
+    'set_hit_points' => 'Set Hit Points',
     'hit_dice_amount' => 'Hit Dice Amount',
     'hit_dice_type' => 'Hit Dice Type',
     'con_hit_points' => 'Constitution Hit Points',
