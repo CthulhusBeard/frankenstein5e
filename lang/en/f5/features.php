@@ -53,9 +53,10 @@ return [
     'desc_modifier_damage' => 'plus :damage_roll :damage_type damage',
     'desc_attack_saving_throw_condition' => ':target_text must make a DC :saving_throw_dc :saving_throw_ability saving throw or :condition:condition_duration.:repeat_condition_save:immune_to_condition',
     'desc_attack_saving_throw_damage' => ':target_text must make a DC :saving_throw_dc :saving_throw_ability saving throw, taking :damage on a failed save:half_as_much.',
-    'desc_attack_saving_throw_damage_condition' => ':target_text must make a DC :saving_throw_dc :saving_throw_ability saving throw, taking :damage on a failed save and :condition:condition_duration:half_as_much:not_condition.:repeat_condition_save:immune_to_condition',
-    'desc_attack_saving_throw_damage_condition_separated' => ':target_text must make a DC :saving_throw_dc :saving_throw_ability saving throw. On a failed save, :target_text takes :damage and :condition::condition_duration. :half_as_much:not_condition.:repeat_condition_save:immune_to_condition',
+    'desc_attack_saving_throw_damage_condition' => ':target_text must make a DC :saving_throw_dc :saving_throw_ability saving throw, taking :damage on a failed save and :conditions:condition_duration:half_as_much:not_condition.:repeat_condition_save:immune_to_condition',
+    'desc_attack_saving_throw_damage_condition_separated' => ':target_text must make a DC :saving_throw_dc :saving_throw_ability saving throw. On a failed save, they take :damage and :conditions:condition_duration. :half_as_much:not_condition.:repeat_condition_save:immune_to_condition',
     'desc_saving_throw_half_on_success' => ', or half as much damage on a successful one',
+    'desc_saving_throw_half_on_success_separated' => 'On a successful save, they take half as much damage',
     'desc_saving_throw_on_success_take_half' => 'On a successful save, :target_text takes half as much damage',
 
     'repeat_condition_saving_throw_text' => 'A :condition creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success.',
@@ -109,6 +110,7 @@ return [
     'title_damage_occurance' => 'Damage Occurs',
     'title_damage_duration' => 'Duration',
     'title_condition_duration' => 'Condition Duration',
+    'title_condition_size_limit' => 'Target Size Limit',
 
     'feature_section_attack_options' => 'Attack Options',
     'feature_section_area_of_effect' => 'Area of Effect',

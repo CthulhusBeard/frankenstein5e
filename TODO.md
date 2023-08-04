@@ -1,13 +1,12 @@
 //TODO: 
 
 HIGH PRIORITY
-- [ ] Bug where custom description variable doesn't update when button is used to add variable to textarea
 - [ ] Healing effects as template
+- [ ] Create pop up for monster templates
 - [ ] Factor "half on success" saves vs "save or suck" into average damage
 - [ ] Allow Custom damage dice to select an ability bonus (display ability bonus on selected attacks)
 - [ ] Design UI
 - [ ] Consider displaying assumed average target count for AOE attacks (to make better sense of DPR). Consider having "single target DPR" vs "total DPR"
-- [ ] Allow adding text replace codes to custom description (make this easier)
 - [ ] Figure out which dpr events are actually necessary
 - [ ] Minimum creature size for conditions (grappled, swallowed, etc)
 - [ ] hasInstantKillPotential
@@ -23,7 +22,6 @@ HIGH PRIORITY
 - [ ] Clean up feature object (only export the fields needed. There are many unused fields) "template: {type: attack, damage: etc}"
 
 BUG FIXES
-- [ ] "Dragon" doesn't show up in the templates since it's default
 - [ ] Removing a Multiselect item closes the lightbox
 - [ ] Make element ids unique between different statblocks
 - [ ] Remove physical damage when B/P/S is already chosen

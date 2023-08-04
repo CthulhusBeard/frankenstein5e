@@ -61,5 +61,5 @@ String.prototype.locReplace = function (pattern, replacement) {
             newString = this.slice(0, pos+1) + "n" + this.slice(pos+1);
         }
     }
-    return newString.replace(pattern, replacement);
+    return newString.replaceAll(pattern, replacement);
 };

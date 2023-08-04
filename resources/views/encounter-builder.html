@@ -56,7 +56,7 @@
                             {{f5.misc.title_monster_template}} <span>▼</span>
                         </div>
                         <div class="nav-dropdown">
-                            <div class="nav-dropdown-option" v-for="(monster, i) in sampleMonsters" :value="i" @click="importMonster(sampleMonsters[i])">{{monster.name}} (CR {{monster.cr}} {{monster.type}})</div>
+                            <div class="nav-dropdown-option" v-for="(monster, i) in sampleMonsters" :value="i" @click="importMonster(sampleMonsters[i])">{{monster.name}} (CR {{monster.cr}} {{(monster.type) ? monster.type : 'dragon'}})</div>
                         </div>
                     </div>
                     
@@ -120,18 +120,18 @@
                                 <div>Create a statblock using the tools below!</div>
                             </div>
                             <div class="flex-rows">
-                                <div class="starting-option">
+                                <div class="starting-option" @click="createStatBlock()" >
                                     <div class="flex-rows">
-                                        <img src="/images/scratch.png" @click="createStatBlock()" loading="lazy" alt="" />
+                                        <img src="/images/scratch.png" loading="lazy" alt="" />
                                     </div>
                                     <h3>Create Statblock From Scratch</h3>
                                     <div>
                                         Start a new creature from scratch!
                                     </div>
                                 </div>
-                                <div class="starting-option">
+                                <div class="starting-option" @click="initStatBlockWizard()">
                                     <div class="flex-rows">
-                                        <img src="/images/wand.png" @click="initStatBlockWizard()" loading="lazy" alt="" />
+                                        <img src="/images/wand.png" loading="lazy" alt="" />
                                     </div>
                                     <h3>Create Statblock Using Creature Wizard</h3>
                                     <div>
@@ -154,18 +154,18 @@
                                 <div>Import a creature data to continue where you left off!</div>
                             </div>
                             <div class="flex-rows">
-                                <div class="starting-option">
+                                <div class="starting-option" @click="importMonsterFromClipboard()">
                                     <div class="flex-rows">
-                                        <img src="/images/clipboard.png" @click="importMonsterFromClipboard()" loading="lazy" alt="" />
+                                        <img src="/images/clipboard.png" loading="lazy" alt="" />
                                     </div>
                                     <h3>Import Monster From Clipboard</h3>
                                     <div>
                                         Import a set of monster data saved in your clipboard.
                                     </div>
                                 </div>
-                                <div class="starting-option">
+                                <div class="starting-option" @click="clickFileImportButton()">
                                     <div class="flex-rows">
-                                        <img src="/images/load.png" @click="clickFileImportButton()" loading="lazy" alt="" />
+                                        <img src="/images/load.png" loading="lazy" alt="" />
                                     </div>
                                     <h3>Import Monster From File</h3>
                                     <div>

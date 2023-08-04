@@ -16,7 +16,9 @@ return [
     'condition_desc' => '',
 
     'condition_desc_becomes' => 'becomes :condition|become :condition',
+    'condition_desc_max_size_becomes' => 'becomes :condition:target_max_size|become :condition:target_max_size',
     'condition_desc_is' => 'is :condition|are :condition',
+    'condition_desc_max_size_is' => 'is :condition:target_max_size|are :condition:target_max_size',
     'condition_desc_not' => 'is not :condition|are not :condition',
     'condition_desc_gains_point' => 'gains a point of :condition|gain a point of :condition',
     'condition_desc_not_gains_point' => 'does not gain a point of :condition|do not gain a point of :condition',
@@ -28,6 +30,9 @@ return [
     'condition_desc_is_pushed' => 'is :condition :distance|are :condition :distance',
     'condition_desc_not_pushed' => 'is not :condition|are not :condition',
     'condition_desc_considered' => 'is considered :condition|are considered :condition',
+
+    'max_size_conditional' => 'if the target is :target_size or smaller|if the targets are :target_size or smaller',
+    'max_size_conditional_smallest' => 'if the target is :target_size|if the targets are :target_size',
 
     //Conditions
     'blinded' => 'Blinded',

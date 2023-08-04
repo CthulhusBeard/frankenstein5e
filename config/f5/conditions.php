@@ -44,10 +44,11 @@ return [
     'grappled' => [
         'name' => 'f5/conditions.grappled',
         'past_tense' => 'f5/conditions.grappled',
-        'is' => 'f5/conditions.condition_desc_becomes',
+        'is' => 'f5/conditions.condition_desc_min_size_becomes',
         'not' => 'f5/conditions.condition_desc_not',
         'rank' => 2,
         'has_duration' => false,
+        'max_size' => true,
     ],
     'incapacitated' => [
         'name' => 'f5/conditions.incapacitated',
@@ -93,10 +94,11 @@ return [
     'restrained' => [
         'name' => 'f5/conditions.restrained',
         'past_tense' => 'f5/conditions.restrained',
-        'is' => 'f5/conditions.condition_desc_becomes',
+        'is' => 'f5/conditions.condition_desc_min_size_becomes',
         'not' => 'f5/conditions.condition_desc_not',
         'rank' => 3,
         'has_duration' => true,
+        'max_size' => true,
     ],
     'stunned' => [
         'name' => 'f5/conditions.stunned',
@@ -117,11 +119,12 @@ return [
     'swallowed' => [
         'name' => 'f5/conditions.swallowed',
         'past_tense' => 'f5/conditions.swallowed',
-        'is' => 'f5/conditions.condition_desc_is',
+        'is' => 'f5/conditions.condition_desc_max_size_is',
         'not' => 'f5/conditions.condition_desc_not',
         'description' => 'f5/conditions.swallowed_description',
         'rank' => 4,
         'has_duration' => false,
+        'max_size' => true,
     ],
     'on_fire' => [
         'name' => 'f5/conditions.on_fire',

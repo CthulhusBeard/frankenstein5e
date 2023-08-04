@@ -60,8 +60,11 @@ return [
     'title_damage_occurance' => 'f5/features.title_damage_occurance',
     'title_damage_duration' => 'f5/features.title_damage_duration',
     'title_condition_duration' => 'f5/features.title_condition_duration',
+    'title_condition_size_limit' => 'f5/features.title_condition_size_limit',
     'title_repeat_save' => 'f5/durations.title_repeat_save',
     'title_immune_after_save' => 'f5/durations.title_immune_after_save',
+
+    'max_size_conditional' => 'f5/conditions.max_size_conditional',
 
     'feature_section_attack_options' => 'f5/features.feature_section_attack_options',
     'feature_section_area_of_effect' => 'f5/features.feature_section_area_of_effect',
@@ -209,7 +212,9 @@ return [
     'desc_attack_saving_throw_damage' => 'f5/features.desc_attack_saving_throw_damage',
     'desc_attack_saving_throw_condition' => 'f5/features.desc_attack_saving_throw_condition',
     'desc_attack_saving_throw_damage_condition' => 'f5/features.desc_attack_saving_throw_damage_condition',
+    'desc_attack_saving_throw_damage_condition_separated' => 'f5/features.desc_attack_saving_throw_damage_condition_separated',
     'desc_saving_throw_half_on_success' => 'f5/features.desc_saving_throw_half_on_success',
+    'desc_saving_throw_half_on_success_separated' => 'f5/features.desc_saving_throw_half_on_success_separated',
     'repeat_condition_saving_throw_text' => 'f5/features.repeat_condition_saving_throw_text',
     'immune_to_condition_after_save' => 'f5/features.immune_to_condition_after_save',
 

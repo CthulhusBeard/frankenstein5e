@@ -139,7 +139,7 @@
             border: 1px solid black;
             border-radius: 3px;
             background-color: $statblockEditorBackgroundSecondary;
-            margin-bottom: 10px;
+            margin: 10px 0 5px;
             padding: 4px 8px;
             position: relative;
 
@@ -179,6 +179,16 @@
     &:hover:not(:last-child) {
         .feature__move-down {
             display: block;
+        }
+    }
+
+    .feature__custom-description-button {
+        .flex-rows {
+            gap: 25px;
+            flex-wrap: wrap;
+            button {
+                margin-left: 1px;
+            }
         }
     }
 }

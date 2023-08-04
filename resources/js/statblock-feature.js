@@ -9,6 +9,7 @@ export default {
         'featureMap',
         'playerData',
         'combatRounds',
+        'measure',
         'f5',
     ],
 
@@ -141,11 +142,15 @@ export default {
                     this.value.template == 'attack' && 
                     this.value.attack.savingThrow &&
                     (this.value.savingThrow.conditions.length > 1 || this.value.attack.damage.length > 1)
+                ) || (
+                    (this.value.template == 'attack' || this.value.template == 'saving_throw') &&
+                    this.value.savingThrow.conditions.length && 
+                    this.conditionsRequireMaxSize &&
+                    this.value.savingThrow.conditionMaxSize != 'gargantuan'
                 )
             ) {
                 return true;
             }
-            // TODO make this work
             return false;
         },
 
@@ -263,10 +268,24 @@ export default {
                     //Add Regen
                     descText += this.regenerateDescription;
                 }
+                //
+                let damageList = [];
+                for(let i in this.value.attack.damage) {
+                    damageList.push(this.createDamageText(this.value.attack.damage[i], this.value.attack.ability));
+                }
+                descText = descText.replace(':custom_damage_text', this.createSentenceList(damageList));
+
 
             //Saving Throw Description
             } else if(this.value.template == 'saving_throw') {
                 descText += this.savingThrowDescription;
+
+                let damageList = [];
+                for(let i in this.value.savingThrow.damage) {
+                    damageList.push(this.createDamageText(this.value.savingThrow.damage[i], this.value.savingThrow.ability));
+                }
+                descText = descText.replace(':custom_damage_text', this.createSentenceList(damageList));
+
                 
             //Existing Feature Description
             } else if(this.value.template == 'reference') {
@@ -526,29 +545,40 @@ export default {
             //     savingThrowText = this.f5.misc.desc_attack_saving_throw_damage_condition;
             // } else 
             if(this.value.savingThrow.damage.length >= 1 && this.value.savingThrow.conditions.length >= 1) {
-                savingThrowText = this.f5.misc.desc_attack_saving_throw_damage_condition;
+                if(this.hasRunOnSentence) {
+                    console.log('yup');
+                    savingThrowText = this.f5.misc.desc_attack_saving_throw_damage_condition_separated;
+                } else {
+                    console.log('nope');
+                    savingThrowText = this.f5.misc.desc_attack_saving_throw_damage_condition;
+                }
             } else if(this.value.savingThrow.damage.length >= 1) {
                 savingThrowText = this.f5.misc.desc_attack_saving_throw_damage;
             } else if(this.value.savingThrow.conditions.length >= 1) {
                 savingThrowText = this.f5.misc.desc_attack_saving_throw_condition;
             }
+            console.log(savingThrowText);
 
-            //Targets
+            //Targets                
+            let targetData = this.f5.areaofeffect[this.value.targetType];
             let stTargetCount = 2; //or more. 
             if(this.value.template == 'attack') {
                 stTargetCount = this.value.attack.targets;
+            }
+            let countForSingularPhrasing = stTargetCount;
+            if(!targetData.limited_targets && !this.hasRunOnSentence) {
+                countForSingularPhrasing = 1;
             }
 
             if(this.value.template == 'attack') {
                 savingThrowText = savingThrowText.locReplace(':target_text', this.pluralize(this.f5.misc.the_target, this.value.attack.targets));
             } else {
 
-                let targetData = this.f5.areaofeffect[this.value.targetType];
                 let targetText = targetData['desc'];
 
                 if(targetData.target_type == 'aoe') {
                     targetText = this.pluralize(targetText, (this.value.aoeRange > 0) ? 2 : 1);
-                    targetText = targetText.locReplace(':target_area', this.value.targetAreaWidth+' '+this.$parent.$parent.editor.measure.measureUnit);
+                    targetText = targetText.locReplace(':target_area', this.value.targetAreaWidth+' '+this.measure.measureUnit);
                 } 
                 if(targetData.limited_targets) {
                     stTargetCount = this.value.attack.targets;
@@ -564,8 +594,9 @@ export default {
                     targetText = targetText.locReplace(':friendly_hostile', '');
                 }
 
-                targetText = targetText.locReplace(':target_range', this.value.aoeRange+' '+this.$parent.$parent.editor.measure.measureUnit);
+                targetText = targetText.locReplace(':target_range', this.value.aoeRange+' '+this.measure.measureUnit);
                 savingThrowText = savingThrowText.locReplace(':target_text', targetText);
+                console.log(savingThrowText);
 
             }
             
@@ -582,7 +613,11 @@ export default {
             
             //Half as much
             if(this.value.savingThrow.halfOnSuccess) {
-                savingThrowText = savingThrowText.locReplace(':half_as_much', this.f5.misc.desc_saving_throw_half_on_success);
+                if(this.hasRunOnSentence) {
+                    savingThrowText = savingThrowText.locReplace(':half_as_much', this.f5.misc.desc_saving_throw_half_on_success_separated);
+                } else {
+                    savingThrowText = savingThrowText.locReplace(':half_as_much', this.f5.misc.desc_saving_throw_half_on_success);
+                }
             } else {
                 savingThrowText = savingThrowText.locReplace(':half_as_much', '');
                 savingThrowText = savingThrowText.locReplace(':not_condition', '');
@@ -610,7 +645,7 @@ export default {
                         conditionPhrasing = this.f5.conditions[this.value.savingThrow.conditions[i]].past_tense.toLowerCase();
                     }
                     stConditionList.push(
-                        this.pluralize(conditionPhrasing, stTargetCount).locReplace(':condition', conditionText)
+                        this.pluralize(conditionPhrasing, countForSingularPhrasing).locReplace(':condition', conditionText)
                     );
 
                     let notConditionPhrasing = this.f5.conditions[this.value.savingThrow.conditions[i]].not;
@@ -618,10 +653,10 @@ export default {
                         notConditionPhrasing = this.f5.conditions[this.value.savingThrow.conditions[i]].past_tense.toLowerCase();
                     }
                     stNotConditionList.push(
-                        this.pluralize(notConditionPhrasing, stTargetCount).locReplace(':condition', conditionText)
+                        this.pluralize(notConditionPhrasing, countForSingularPhrasing).locReplace(':condition', conditionText)
                     );
                 }
-                savingThrowText = savingThrowText.locReplace(':condition', this.createConditionSentenceList(stConditionList));
+                savingThrowText = savingThrowText.locReplace(':conditions', this.createConditionSentenceList(stConditionList));
                 savingThrowText = savingThrowText.locReplace(':not_condition', ' '+this.f5.misc.and + ' ' + this.createConditionSentenceList(stNotConditionList, false));
             
             
@@ -644,10 +679,27 @@ export default {
                     }
                 }
                 savingThrowText = savingThrowText.locReplace(':condition_duration', durationText);
+
+                //Max Size Target
+                let maxSizeText = '';
+                if(this.conditionsRequireMaxSize && this.value.savingThrow.conditionMaxSize != 'gargantuan') {
+                    if(this.value.savingThrow.conditionMaxSize == 'tiny') {
+                        maxSizeText = ' '+this.pluralize(this.f5.misc.max_size_conditional_smallest.locReplace(':target_size', this.f5.creaturesizes[this.value.savingThrow.conditionMaxSize].name), countForSingularPhrasing);
+                    } else {
+                        maxSizeText = ' '+this.pluralize(this.f5.misc.max_size_conditional.locReplace(':target_size', this.f5.creaturesizes[this.value.savingThrow.conditionMaxSize].name), countForSingularPhrasing);
+                    }
+                }
+                savingThrowText = savingThrowText.locReplace(':target_max_size', maxSizeText);
                 
                 //Repeat Condition Save
                 let repeatSaveText = '';
-                if(durationData.force_repeat_save === true || this.value.savingThrow.conditionRepeatSave) {
+                if(
+                    this.conditionsRequireDuration && 
+                    (
+                        durationData.force_repeat_save === true || 
+                        this.value.savingThrow.conditionRepeatSave
+                    )
+                ) {
                     repeatSaveText = this.f5.misc.repeat_condition_saving_throw_text;
 
                     let pastTenseConditionList = [];
@@ -656,7 +708,7 @@ export default {
                         if(conditionData.has_duration) {
                             pastTenseConditionList.push(conditionData.past_tense.toLowerCase().replace(':condition', conditionData.name));
                         }
-                    }   
+                    }
                     if(pastTenseConditionList.length > 0) {
                         repeatSaveText = repeatSaveText.locReplace(':condition', this.createConditionSentenceList(pastTenseConditionList, false));
                     }
@@ -746,6 +798,27 @@ export default {
                 this.value.savingThrow.saveAbilities = ['str'];
             }
             return this.value.savingThrow.saveAbilities;
+        },
+
+        conditionsRequireDuration: function() {
+            for(let i in this.value.savingThrow.conditions) {
+                if(
+                    this.f5.conditions[this.value.savingThrow.conditions[i]].hasOwnProperty('has_duration') && 
+                    this.f5.conditions[this.value.savingThrow.conditions[i]].has_duration
+                ) {
+                    return true;
+                }
+            }
+            return false;
+        },
+
+        conditionsRequireMaxSize: function() {
+            for(let i in this.value.savingThrow.conditions) {
+                if(this.f5.conditions[this.value.savingThrow.conditions[i]].hasOwnProperty('max_size')) {
+                    return true;
+                }
+            }
+            return false;
         },
     },
 
@@ -973,12 +1046,12 @@ export default {
             } else {
                 str = str.locReplace(':range', '');
             }
-            str = str.locReplace(':reach_distance', this.value.attack.reach+' '+this.$parent.$parent.editor.measure.measureUnit);
+            str = str.locReplace(':reach_distance', this.value.attack.reach+' '+this.measure.measureUnit);
             if(this.value.attack.range.low >= this.value.attack.range.high) {
-                str = str.locReplace(':range_distance_low/:range_distance_high', this.value.attack.range.low+' '+this.$parent.$parent.editor.measure.measureUnit);
+                str = str.locReplace(':range_distance_low/:range_distance_high', this.value.attack.range.low+' '+this.measure.measureUnit);
             } else {
                 str = str.locReplace(':range_distance_low', this.value.attack.range.low);
-                str = str.locReplace(':range_distance_high', this.value.attack.range.high+' '+this.$parent.$parent.editor.measure.measureUnit);
+                str = str.locReplace(':range_distance_high', this.value.attack.range.high+' '+this.measure.measureUnit);
             }
             str = str.locReplace(':targets', this.pluralize(this.f5.misc.num_of_targets, this.value.attack.targets).locReplace(':target_count', this.value.attack.targets));
 
@@ -1214,10 +1287,17 @@ export default {
             return feature;
         },
 
-        addTextToInput: function(id, text) {
+        addTextToInput: function(id, descriptionVariable, text) {
             let targetEl = this.$el.querySelector("#"+id);
             let currentTextValue = targetEl.value;
-            targetEl.value = currentTextValue.substring(0, targetEl.selectionStart)+text+currentTextValue.substring(targetEl.selectionStart);
+            let newText = currentTextValue.substring(0, targetEl.selectionStart)+text+currentTextValue.substring(targetEl.selectionStart);
+            
+            if(this.value[descriptionVariable].hasOwnProperty('description')) {
+                this.value[descriptionVariable].description = newText;
+            } else {
+                this.value[descriptionVariable] = newText;
+            }
+
             targetEl.focus();
         },
 
@@ -1283,6 +1363,7 @@ export default {
                     conditionImmuneAfterSave: false,
                     conditionDurationUnit: 'minute',
                     conditionDurationAmount: 1,
+                    conditionMaxSize: 'medium',
                 },
 
                 ongoingDamage: {
