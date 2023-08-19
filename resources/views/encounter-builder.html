@@ -138,7 +138,7 @@
                                         Use the Creature Wizard to build a new creature with helpful hints and tips.
                                     </div>
                                 </div>
-                                <div class="starting-option">
+                                <div class="starting-option" @click="editor.showTemplateLightbox = !editor.showTemplateLightbox">
                                     <div class="flex-rows">
                                         <img src="/images/template.png" loading="lazy" alt="" />
                                     </div>
@@ -173,6 +173,18 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+
+                    <div id="monster-templates" class="lightbox-container" v-if="editor.showTemplateLightbox">
+                        <div class="popup-overlay">
+                            <h2 class="underline">Monster Templates</h2>
+                            <div class="template-options">
+                                <div class="template-option" v-for="(monster, i) in sampleMonsters" :value="i" @click="importMonster(sampleMonsters[i])">
+                                    <b>{{monster.name}}</b> (CR {{monster.cr}} {{(monster.type) ? monster.type : 'dragon'}})
+                                </div>
+                            </div>
+                            <div class="close" @click="editor.showTemplateLightbox = !editor.showTemplateLightbox">x</div>
                         </div>
                     </div>
 

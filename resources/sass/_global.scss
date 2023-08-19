@@ -17,6 +17,19 @@
     cursor: pointer;
 }
 
+.lightbox-container {
+    position: fixed;
+    z-index: 100;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: rgba(0,0,0,.75);
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    overflow-y: scroll;
+}
+
 .hidden {
     display: none;
 }

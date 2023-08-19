@@ -469,6 +469,7 @@ export function initVue(f5data) {
                 activeSection: 'statblock-display',
                 editMode: true,
                 usingWizard: false,
+                showTemplateLightbox: false,
                 playerData: {
                     number: 4,
                     level: 1,
@@ -558,6 +559,7 @@ export function initVue(f5data) {
 
             importMonster: function(monster) {
                 //console.log('== import monster ==');
+                this.editor.showTemplateLightbox = false;
                 let importedStatBlock = this.clone(monster);
                 importedStatBlock.trackingId = this.randChars(15);
                 importedStatBlock.number = 1;

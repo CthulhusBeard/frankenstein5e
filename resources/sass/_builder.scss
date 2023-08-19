@@ -85,6 +85,25 @@ nav {
     }
 }
 
+#monster-templates {
+    .template-options {
+        display: grid;
+        .template-option {
+            max-width: 300px;
+            border: 1px solid black;
+            background-color: rgb(236, 236, 236);
+            margin: 2px 0;
+            padding: 16px 8px;
+            cursor: pointer;
+            border-radius: 2px;
+
+            &:hover {
+                background-color: rgb(128, 128, 128);
+            }
+        }
+    }
+}
+
 .controls-holder {
     display: flex;
     flex-direction: row;
