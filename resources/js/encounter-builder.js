@@ -486,6 +486,7 @@ export function initVue(f5data) {
             encounterXP: 0,
             encounterDifficulty: f5data.encounterdifficulties['easy'],
             sampleMonsters: SampleMonsters.monsters,
+            priorityTarget: 0,
             statblocks: [],
             projections: [],
             f5: f5data,

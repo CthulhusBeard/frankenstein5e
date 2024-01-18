@@ -196,7 +196,7 @@
                         <div class="controls-holder">
 
                             <div class="encounter-controls ui-box">
-                                <div class="control-title col-span-2">Encounter Settings</div>
+                                <div class="control-title col-span-2">{{f5.misc.title_encounter_settings}}</div>
 
                                 <div class="encounter-controls-section">
                                     <div class="control-title">{{ f5.misc.title_player_settings }}</div>
@@ -229,12 +229,13 @@
                                 
                                 <div class="encounter-controls-section">
                                     <div class="control-title">{{f5.misc.title_monster_settings}}</div>
-                                    <div v-for="statblock in statblocks" >
+                                    <div v-for="(statblock, i) in statblocks" >
                                         <div>
                                             <label class="control-label" for="controls__player-count">{{ statblock.name }} ({{ f5.misc.title_cr }} {{ statblock.cr }}): </label>
                                             <select v-model="statblock.number">
-                                                <option v-for="i in 10" :value="i">{{i}}</option>
+                                                <option v-for="j in 10" :value="j">{{j}}</option>
                                             </select>
+                                            {{f5.misc.title_priority_target}}<input type="radio" v-model="priorityTarget" :value="i" />
                                         </div>
                                     </div>
                                 </div>

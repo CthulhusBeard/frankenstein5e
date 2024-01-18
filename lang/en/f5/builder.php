@@ -2,7 +2,9 @@
 
 return [
 
+    'title_priority_target' => 'Prioritized Target',
     'title_encounter_summary' => 'Encounter Summary',
+    'title_encounter_settings' => 'Encounter Settings',
     'title_monster_settings' => 'Monster Settings',
     'title_player_settings' => 'Player Settings',
     'title_player_characters_count' => 'Count',

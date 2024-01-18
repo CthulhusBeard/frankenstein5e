@@ -307,7 +307,9 @@ return [
 
     //--
     
+    'title_priority_target' => 'f5/builder.title_priority_target',
     'title_encounter_summary' => 'f5/builder.title_encounter_summary',
+    'title_encounter_settings' => 'f5/builder.title_encounter_settings',
     'title_monster_settings' => 'f5/builder.title_monster_settings',
     'title_player_settings' => 'f5/builder.title_player_settings',
     'title_player_characters_count' => 'f5/builder.title_player_characters_count',
